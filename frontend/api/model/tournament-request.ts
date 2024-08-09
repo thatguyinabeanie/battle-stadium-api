@@ -80,12 +80,6 @@ export interface TournamentRequest {
   late_registration: boolean;
   /**
    *
-   * @type {boolean}
-   * @memberof TournamentRequest
-   */
-  late_check_in: boolean;
-  /**
-   *
    * @type {string}
    * @memberof TournamentRequest
    */

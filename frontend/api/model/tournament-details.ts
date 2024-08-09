@@ -75,7 +75,7 @@ export interface TournamentDetails {
    * @type {string}
    * @memberof TournamentDetails
    */
-  registration_start_at: string;
+  registration_start_at: string | null;
   /**
    *
    * @type {string}
@@ -118,12 +118,6 @@ export interface TournamentDetails {
    * @memberof TournamentDetails
    */
   game: Game;
-  /**
-   *
-   * @type {boolean}
-   * @memberof TournamentDetails
-   */
-  late_check_in: boolean;
   /**
    *
    * @type {string}

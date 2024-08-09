@@ -149,14 +149,13 @@ ORGANIZATION_DETAILS_SCHEMA = {
 
 TOURNAMENT_PROPERTIES = {
   player_cap: { type: :integer, nullable: true },
-    player_count: { type: :integer },
-    end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    registration_start_at: { type: :string, format: DATE_TIME_TYPE },
-    registration_end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    late_registration: { type: :boolean },
-
+  player_count: { type: :integer },
+  end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  registration_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  registration_end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  late_registration: { type: :boolean },
 }
 
 TOURNAMENT_SCHEMA = {
@@ -183,7 +182,6 @@ TOURNAMENT_DETAILS_SCHEMA = {
     organization: { '$ref' => '#/components/schemas/Organization' },
     format: { '$ref' => '#/components/schemas/Format' },
     game: { '$ref' => '#/components/schemas/Game' },
-    late_check_in: { type: :boolean },
     check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     late_registration: { type: :boolean },
     teamlists_required: { type: :boolean },
@@ -192,7 +190,7 @@ TOURNAMENT_DETAILS_SCHEMA = {
   required: TOURNAMENT_SCHEMA[:required] + %w[
     start_at player_cap autostart
     teamlists_required open_team_sheets
-    late_check_in check_in_start_at
+    check_in_start_at
     late_registration registration_start_at registration_end_at
   ]
 }.freeze
@@ -209,12 +207,11 @@ TOURNAMENT_REQUEST = {
     registration_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     registration_end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     late_registration: { type: :boolean },
-    late_check_in: { type: :boolean },
     check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     open_team_sheets: { type: :boolean },
     teamlists_required: { type: :boolean }
   }),
-  required: %w[name game_id format_id autostart start_at player_cap registration_start_at registration_end_at late_registration late_check_in check_in_start_at open_team_sheets teamlists_required]
+  required: %w[name game_id format_id autostart start_at player_cap registration_start_at registration_end_at late_registration check_in_start_at open_team_sheets teamlists_required]
 }
 
 TOURNAMENT_POST_REQUEST = {
@@ -231,14 +228,12 @@ TOURNAMENT_POST_REQUEST = {
     registration_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     registration_end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     late_registration: { type: :boolean },
-    late_check_in: { type: :boolean },
     check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     open_team_sheets: { type: :boolean },
     teamlists_required: { type: :boolean }
   },
-  required: %w[organization_id name game_id format_id autostart player_cap registration_start_at registration_end_at late_registration late_check_in check_in_start_at open_team_sheets teamlists_required]
+  required: %w[organization_id name game_id format_id autostart player_cap registration_start_at registration_end_at late_registration check_in_start_at open_team_sheets teamlists_required]
 }
-
 
 POKEMON_SCHEMA = {
   type: :object,
