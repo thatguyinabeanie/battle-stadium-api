@@ -3,8 +3,7 @@
 import { Card, CardFooter, Image } from "@nextui-org/react";
 import clsx from "clsx";
 
-import { Organization } from "@/api";
-import { OrganizationDetails } from "@/react-query-api/requests";
+import { Organization, OrganizationDetails } from "@/api";
 
 interface OrganizationCardProps {
   organization: Organization | OrganizationDetails | null;
