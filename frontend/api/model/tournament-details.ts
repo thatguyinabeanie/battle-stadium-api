@@ -75,13 +75,13 @@ export interface TournamentDetails {
    * @type {string}
    * @memberof TournamentDetails
    */
-  registration_start_at: string;
+  registration_start_at: string | null;
   /**
    *
    * @type {string}
    * @memberof TournamentDetails
    */
-  registration_end_at: string;
+  registration_end_at: string | null;
   /**
    *
    * @type {boolean}
