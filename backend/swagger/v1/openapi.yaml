@@ -873,9 +873,11 @@ components:
         registration_start_at:
           type: string
           format: date-time
+          nullable: true
         registration_end_at:
           type: string
           format: date-time
+          nullable: true
         late_registration:
           type: boolean
       required:
@@ -918,9 +920,11 @@ components:
         registration_start_at:
           type: string
           format: date-time
+          nullable: true
         registration_end_at:
           type: string
           format: date-time
+          nullable: true
         late_registration:
           type: boolean
         autostart:

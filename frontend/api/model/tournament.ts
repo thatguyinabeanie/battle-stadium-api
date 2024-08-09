@@ -99,13 +99,13 @@ export interface Tournament {
    * @type {string}
    * @memberof Tournament
    */
-  registration_start_at: string;
+  registration_start_at: string | null;
   /**
    *
    * @type {string}
    * @memberof Tournament
    */
-  registration_end_at: string;
+  registration_end_at: string | null;
   /**
    *
    * @type {boolean}
