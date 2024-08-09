@@ -7,14 +7,13 @@ require 'dotenv'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-
 module BattleStadium
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
     config.before_configuration do
-      env_file = ".env.docker-compose"
+      env_file = '.env.docker-compose'
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
     end
 

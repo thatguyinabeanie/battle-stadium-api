@@ -5,7 +5,6 @@ require_relative '../../../support/openapi/response_helper'
 TOURNAMENT_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/TournamentDetails'.freeze
 RSpec.describe Api::V1::TournamentsController do
   path('/api/v1/tournaments') do
-
     get('List Tournaments') do
       tags 'Tournaments'
       produces OpenApi::Response::JSON_CONTENT_TYPE

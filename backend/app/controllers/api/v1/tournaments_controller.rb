@@ -7,10 +7,10 @@ module Api
 
       def index
         @tournaments = ::Tournaments::Tournament
-          .where('start_at > ?', Time.now)
-          .where('start_at <= ?', Time.now + 7.days)
-          .or(::Tournaments::Tournament.where('start_at <= ? ', Time.now).where(ended_at: nil))
-          .order(start_at: :asc)
+                       .where('start_at > ?', Time.zone.now)
+                       .where(start_at: ..7.days.from_now)
+                       .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
+                       .order(start_at: :asc)
         render json: @tournaments, each_serializer: Serializer::Tournament, status: :ok
       end
 
@@ -57,8 +57,8 @@ module Api
                           @organization ||= set_organization
                           @organization.tournaments
                         else
-                          @tournaments = ::Tournaments::Tournament.where('start_at > ?', Time.now)
-                                              .or(::Tournaments::Tournament.where('start_at <= ? ', Time.now).where(ended_at: nil))
+                          @tournaments = ::Tournaments::Tournament.where('start_at > ?', Time.zone.now)
+                                                                  .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
                         end
       end
 

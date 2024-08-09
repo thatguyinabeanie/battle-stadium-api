@@ -38,16 +38,6 @@ RSpec.describe Tournaments::Tournament do
       it { is_expected.not_to validate_presence_of(:registration_end_at) }
     end
 
-    context 'when start_at is present' do
-      before do
-        tournament.start_at = Time.current
-        # allow(tournament).to receive(:set_defaults)
-      end
-
-      # todo: uncomment and implement
-      # it { is_expected.to validate_presence_of(:check_in_start_at) }
-    end
-
     context 'when start_at is not present' do
       before { tournament.start_at = nil }
 

@@ -63,5 +63,4 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   config.hosts = ['localhost', 'www.example.com']
-
 end

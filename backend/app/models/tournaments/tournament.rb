@@ -93,13 +93,8 @@ module Tournaments
       self.late_registration ||= true
 
       self.registration_start_at ||= start_at - 1.week
-      self.registration_end_at ||= if late_registration
-                                    start_at
-                                  else
-                                    nil
-                                  end
+      self.registration_end_at ||= (start_at if late_registration)
       self.check_in_start_at ||= start_at - 1.hour
-
     end
   end
 end

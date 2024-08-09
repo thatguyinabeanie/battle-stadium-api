@@ -174,22 +174,21 @@ RSpec.describe Api::V1::OrganizationsController do
 
       parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentDetails' }
 
-
       response(201, 'created') do
         let(:game) { create(:game) }
-        let(:format) { create(:format, game: game) }
+        let(:format) { create(:format, game:) }
         let(:tournament) do
           {
             tournament: {
               name: 'New Tournament',
               start_at: Time.now.iso8601,
-              end_at: Time.now + 1.day,
+              end_at: 1.day.from_now,
               game_id: game.id,
               format_id: format.id,
               autostart: false,
               player_cap: 32,
               registration_start_at: Time.now.iso8601,
-              registration_end_at: (Time.now + 1.day).iso8601,
+              registration_end_at: 1.day.from_now.iso8601,
               late_registration: false,
               open_team_sheets: false,
               teamlists_required: false
@@ -208,8 +207,6 @@ RSpec.describe Api::V1::OrganizationsController do
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
-
     end
-
   end
 end

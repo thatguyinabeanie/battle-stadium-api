@@ -9,7 +9,7 @@ module Api
 
       self.klass = ::Organization
       self.serializer_klass = Serializer::Organization
-      self.detail_serializer_klass =Serializer::Organization
+      self.detail_serializer_klass = Serializer::Organization
 
       def staff
         # Assuming there's an association called `staff_members` you can directly use it
@@ -41,7 +41,7 @@ module Api
       end
 
       def tournaments_permitted_params
-        tour_params = params.require(:tournament).permit(
+        params.require(:tournament).permit(
           :name,
           :start_at, :end_at,
           :game_id, :format_id,
