@@ -4,7 +4,7 @@ class Organization < ApplicationRecord
   self.table_name = 'organizations'
   belongs_to :owner, class_name: 'User', optional: false
 
-  has_many :tournaments, class_name: 'Tournament::Tournament', dependent: :destroy
+  has_many :tournaments, class_name: 'Tournaments::Tournament', dependent: :destroy
 
   has_many :organization_staff_members, class_name: 'OrganizationStaffMember', dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :user

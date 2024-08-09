@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Tournament::Round do
+RSpec.describe Tournaments::Round do
   let(:phase) { create(:swiss_phase) }
   let(:round) { described_class.new(phase:, round_number: 1) }
 

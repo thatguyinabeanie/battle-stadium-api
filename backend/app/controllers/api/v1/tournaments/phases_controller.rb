@@ -2,7 +2,7 @@ require_relative '../../../../serializer/phase_serializer'
 
 module Api
   module V1
-    module Tournament
+    module Tournaments
       class PhasesController < ApplicationController
         before_action :set_tournament
         before_action :set_phases, only: %i[index create]
@@ -18,10 +18,10 @@ module Api
 
         def create
           klass = case params[:phase][:type]
-                  when Phase::Swiss.to_s
-                    Phase::Swiss
-                  when Phase::SingleElimination.to_s
-                    Phase::SingleElimination
+                  when Phases::Swiss.to_s
+                    Phases::Swiss
+                  when Phases::SingleElimination.to_s
+                    Phases::SingleElimination
                   else
                     raise ActionController::BadRequest, 'Invalid phase type'
                   end
@@ -56,7 +56,7 @@ module Api
         end
 
         def set_tournament
-          @tournament = ::Tournament::Tournament.find(params[:tournament_id])
+          @tournament = ::Tournaments::Tournament.find(params[:tournament_id])
           @tournament
         rescue ActiveRecord::RecordNotFound
           render json: { error: 'Tournament not found' }, status: :not_found

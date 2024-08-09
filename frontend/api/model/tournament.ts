@@ -54,6 +54,18 @@ export interface Tournament {
   organization: Organization;
   /**
    *
+   * @type {Format}
+   * @memberof Tournament
+   */
+  format: Format;
+  /**
+   *
+   * @type {Game}
+   * @memberof Tournament
+   */
+  game: Game;
+  /**
+   *
    * @type {number}
    * @memberof Tournament
    */
@@ -93,23 +105,11 @@ export interface Tournament {
    * @type {string}
    * @memberof Tournament
    */
-  registration_end_at: string;
+  registration_end_at: string | null;
   /**
    *
    * @type {boolean}
    * @memberof Tournament
    */
   late_registration: boolean;
-  /**
-   *
-   * @type {Format}
-   * @memberof Tournament
-   */
-  format: Format;
-  /**
-   *
-   * @type {Game}
-   * @memberof Tournament
-   */
-  game: Game;
 }

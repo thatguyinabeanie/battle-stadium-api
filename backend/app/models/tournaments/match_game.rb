@@ -1,11 +1,11 @@
-module Tournament
+module Tournaments
   class MatchGame < ApplicationRecord
     include ::MatchPlayersConcern
     self.table_name = 'match_games'
-    belongs_to :match, class_name: 'Tournament::Match', inverse_of: :match_games
+    belongs_to :match, class_name: 'Tournaments::Match', inverse_of: :match_games
 
-    belongs_to :winner, class_name: 'Tournament::Player', optional: true
-    belongs_to :loser, class_name: 'Tournament::Player', optional: true
+    belongs_to :winner, class_name: 'Tournaments::Player', optional: true
+    belongs_to :loser, class_name: 'Tournaments::Player', optional: true
     belongs_to :reporter, class_name: 'User', optional: true
 
     delegate :player_one, to: :match

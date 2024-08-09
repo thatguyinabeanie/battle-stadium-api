@@ -1,16 +1,16 @@
-module Phase
+module Phases
   class BasePhase < ApplicationRecord
     self.table_name = 'phases'
     self.inheritance_column = 'type'
     self.abstract_class = true
 
-    belongs_to :tournament, class_name: 'Tournament::Tournament'
+    belongs_to :tournament, class_name: 'Tournaments::Tournament'
     delegate :organization, to: :tournament
 
-    has_many :rounds, class_name: 'Tournament::Round', inverse_of: :phase, dependent: :destroy
+    has_many :rounds, class_name: 'Tournaments::Round', inverse_of: :phase, dependent: :destroy
 
-    has_many :phase_players, class_name: 'Tournament::PhasePlayer', inverse_of: :phase, dependent: :destroy
-    has_many :players, through: :phase_players, source: :player, class_name: 'Tournament::Player'
+    has_many :phase_players, class_name: 'Tournaments::PhasePlayer', inverse_of: :phase, dependent: :destroy
+    has_many :players, through: :phase_players, source: :player, class_name: 'Tournaments::Player'
 
     validates :name, presence: true
     validates :best_of, numericality: { greater_than: 0, only_integer: true }, presence: true

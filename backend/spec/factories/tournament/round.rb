@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :round, class: 'Tournament::Round' do
+  factory :round, class: 'Tournaments::Round' do
     phase
     matches { [] }
 

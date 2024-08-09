@@ -81,25 +81,13 @@ export interface TournamentDetails {
    * @type {string}
    * @memberof TournamentDetails
    */
-  registration_end_at: string;
+  registration_end_at: string | null;
   /**
    *
    * @type {boolean}
    * @memberof TournamentDetails
    */
   late_registration: boolean;
-  /**
-   *
-   * @type {Format}
-   * @memberof TournamentDetails
-   */
-  format: Format;
-  /**
-   *
-   * @type {Game}
-   * @memberof TournamentDetails
-   */
-  game: Game;
   /**
    *
    * @type {boolean}
@@ -118,6 +106,18 @@ export interface TournamentDetails {
    * @memberof TournamentDetails
    */
   organization: Organization;
+  /**
+   *
+   * @type {Format}
+   * @memberof TournamentDetails
+   */
+  format: Format;
+  /**
+   *
+   * @type {Game}
+   * @memberof TournamentDetails
+   */
+  game: Game;
   /**
    *
    * @type {boolean}

@@ -2,10 +2,10 @@ require 'swagger_helper'
 require_relative '../../../../support/openapi/schema_helper'
 require_relative '../../../../support/openapi/response_helper'
 
-PHASES_ENUM = %w[Phase::Swiss Phase::SingleElimination].freeze
+PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
 
-PHASE_SWISS = 'Phase::Swiss'.freeze
-RSpec.describe Api::V1::Tournament::PhasesController do
+PHASE_SWISS = 'Phases::Swiss'.freeze
+RSpec.describe Api::V1::Tournaments::PhasesController do
   let(:tournament) { create(:tournament) }
   let(:tournament_id) { tournament.id }
 

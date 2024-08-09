@@ -1,6 +1,6 @@
 # Assuming you have factories for tournament, player, and round defined elsewhere
 FactoryBot.define do
-  factory :match, class: 'Tournament::Match' do
+  factory :match, class: 'Tournaments::Match' do
     round factory: :swiss_round
     table_number { 1 }
 

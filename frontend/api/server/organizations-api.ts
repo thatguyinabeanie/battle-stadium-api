@@ -41,6 +41,10 @@ import {
 // @ts-ignore
 import type { Organization } from "../model";
 // @ts-ignore
+import type { Tournament } from "../model";
+// @ts-ignore
+import type { TournamentDetails } from "../model";
+// @ts-ignore
 import type { User } from "../model";
 /**
  * OrganizationsApi - axios parameter creator
@@ -324,6 +328,60 @@ export const OrganizationsApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
+    /**
+     * Creates a new tournament for an organization.
+     * @summary Create Tournament
+     * @param {string} id
+     * @param {TournamentDetails} [tournamentDetails]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postOrganizationTournament: async (
+      id: string,
+      tournamentDetails?: TournamentDetails,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("postOrganizationTournament", "id", id);
+      const localVarPath = `/api/v1/organizations/{id}/tournaments`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions?.headers ?? {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        tournamentDetails,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -512,6 +570,40 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
           configuration,
         )(axios, localVarOperationServerBasePath || basePath);
     },
+    /**
+     * Creates a new tournament for an organization.
+     * @summary Create Tournament
+     * @param {string} id
+     * @param {TournamentDetails} [tournamentDetails]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postOrganizationTournament(
+      id: string,
+      tournamentDetails?: TournamentDetails,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tournament>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.postOrganizationTournament(
+          id,
+          tournamentDetails,
+          options,
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["OrganizationsApi.postOrganizationTournament"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
   };
 };
 
@@ -618,6 +710,25 @@ export const OrganizationsApiFactory = function (
         .postOrganization(requestParameters.organization, options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     * Creates a new tournament for an organization.
+     * @summary Create Tournament
+     * @param {OrganizationsApiPostOrganizationTournamentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postOrganizationTournament(
+      requestParameters: OrganizationsApiPostOrganizationTournamentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Tournament> {
+      return localVarFp
+        .postOrganizationTournament(
+          requestParameters.id,
+          requestParameters.tournamentDetails,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -696,6 +807,27 @@ export interface OrganizationsApiPostOrganizationRequest {
    * @memberof OrganizationsApiPostOrganization
    */
   readonly organization?: Organization;
+}
+
+/**
+ * Request parameters for postOrganizationTournament operation in OrganizationsApi.
+ * @export
+ * @interface OrganizationsApiPostOrganizationTournamentRequest
+ */
+export interface OrganizationsApiPostOrganizationTournamentRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof OrganizationsApiPostOrganizationTournament
+   */
+  readonly id: string;
+
+  /**
+   *
+   * @type {TournamentDetails}
+   * @memberof OrganizationsApiPostOrganizationTournament
+   */
+  readonly tournamentDetails?: TournamentDetails;
 }
 
 /**
@@ -804,6 +936,27 @@ export class OrganizationsApi extends BaseAPI {
   ) {
     return OrganizationsApiFp(this.configuration)
       .postOrganization(requestParameters.organization, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Creates a new tournament for an organization.
+   * @summary Create Tournament
+   * @param {OrganizationsApiPostOrganizationTournamentRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof OrganizationsApi
+   */
+  public postOrganizationTournament(
+    requestParameters: OrganizationsApiPostOrganizationTournamentRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return OrganizationsApiFp(this.configuration)
+      .postOrganizationTournament(
+        requestParameters.id,
+        requestParameters.tournamentDetails,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath));
   }
 }

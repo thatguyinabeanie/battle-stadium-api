@@ -2,7 +2,7 @@ require_relative '../../../../serializer/player_serializer'
 
 module Api
   module V1
-    module Tournament
+    module Tournaments
       class PlayersController < ApplicationController
         before_action :set_tournament
         before_action :set_players, only: %i[index create]
@@ -62,7 +62,7 @@ module Api
         end
 
         def set_tournament
-          @tournament ||= ::Tournament::Tournament.find(params[:tournament_id])
+          @tournament ||= ::Tournaments::Tournament.find(params[:tournament_id])
           @tournament
         rescue ActiveRecord::RecordNotFound
           render json: { error: 'Tournament not found' }, status: :not_found

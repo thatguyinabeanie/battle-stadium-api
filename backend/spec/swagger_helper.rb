@@ -154,7 +154,7 @@ TOURNAMENT_PROPERTIES = {
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     registration_start_at: { type: :string, format: DATE_TIME_TYPE },
-    registration_end_at: { type: :string, format: DATE_TIME_TYPE },
+    registration_end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     late_registration: { type: :boolean },
 
 }
@@ -182,7 +182,7 @@ TOURNAMENT_DETAILS_SCHEMA = {
     end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     organization: { '$ref' => '#/components/schemas/Organization' },
     format: { '$ref' => '#/components/schemas/Format' },
-    game: { '$ref' => '#/components/schemas/Game' }
+    game: { '$ref' => '#/components/schemas/Game' },
     late_check_in: { type: :boolean },
     check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     late_registration: { type: :boolean },

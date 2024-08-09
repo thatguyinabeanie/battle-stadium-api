@@ -1,22 +1,22 @@
 FactoryBot.define do
-  factory :phase, class: 'Phase::BasePhase' do
+  factory :phase, class: 'Phases::BasePhase' do
     name { 'Epic Swiss Rounds' }
     tournament factory: :tournament
-    type { 'Phase::BasePhase' }
+    type { 'Phases::BasePhase' }
     number_of_rounds { 5 }
     criteria { 'this is a criteria' }
 
     # Define specific factories that inherit from the abstract phase
-    factory :swiss_phase, class: 'Phase::Swiss' do
+    factory :swiss_phase, class: 'Phases::Swiss' do
       name { 'Epic Swiss Rounds' }
-      type { 'Phase::Swiss' }
+      type { 'Phases::Swiss' }
       number_of_rounds { 5 }
       criteria { 'this is a criteria for swiss phase' }
     end
 
-    factory :elimination_phase, class: 'Phase::SingleEliminationBracket' do
+    factory :elimination_phase, class: 'Phases::SingleEliminationBracket' do
       name { 'Intense Single Elimination' }
-      type { 'Phase::SingleEliminationBracket' }
+      type { 'Phases::SingleEliminationBracket' }
       number_of_rounds { 3 }
       criteria { 'this is a criteria for elimination phase' }
     end

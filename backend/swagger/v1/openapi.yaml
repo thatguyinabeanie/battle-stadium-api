@@ -208,6 +208,34 @@ paths:
                   "$ref": "#/components/schemas/User"
         '404':
           description: not found
+  "/api/v1/organizations/{id}/tournaments":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Create Tournament
+      tags:
+      - Organizations
+      description: Creates a new tournament for an organization.
+      operationId: postOrganizationTournament
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Tournament"
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TournamentDetails"
   "/api/v1/tournaments/{tournament_id}/phases":
     parameters:
     - name: tournament_id
@@ -435,27 +463,6 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Tournament"
-    post:
-      summary: Create Tournament
-      tags:
-      - Tournaments
-      description: Creates a new Tournament.
-      operationId: postTournament
-      parameters: []
-      responses:
-        '201':
-          description: created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/TournamentDetails"
-        '422':
-          description: unprocessable entity
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/TournamentPostRequest"
   "/api/v1/tournaments/{id}":
     parameters:
     - name: id
@@ -477,36 +484,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/TournamentDetails"
-        '404':
-          description: not found
-    put:
-      summary: Update Tournament
-      tags:
-      - Tournaments
-      description: Updates a Tournament.
-      operationId: putTournament
-      parameters: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/TournamentDetails"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/TournamentRequest"
-    delete:
-      summary: Delete Tournament
-      tags:
-      - Tournaments
-      description: Deletes a Tournament.
-      operationId: deleteTournament
-      responses:
-        '200':
-          description: successful
         '404':
           description: not found
   "/api/v1/users":
@@ -849,6 +826,10 @@ components:
           nullable: true
         organization:
           "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
         player_cap:
           type: integer
           nullable: true
@@ -872,12 +853,9 @@ components:
         registration_end_at:
           type: string
           format: date-time
+          nullable: true
         late_registration:
           type: boolean
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
       required:
       - id
       - name
@@ -921,12 +899,9 @@ components:
         registration_end_at:
           type: string
           format: date-time
+          nullable: true
         late_registration:
           type: boolean
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
         autostart:
           type: boolean
         start_at:
@@ -935,6 +910,10 @@ components:
           nullable: true
         organization:
           "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
         late_check_in:
           type: boolean
         check_in_start_at:

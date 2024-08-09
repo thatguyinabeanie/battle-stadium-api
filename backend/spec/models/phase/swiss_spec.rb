@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Phase::Swiss do
+RSpec.describe Phases::Swiss do
   describe 'table_name' do
     it 'returns the correct table name' do
       expect(described_class.table_name).to eq('phases')
@@ -8,8 +8,8 @@ RSpec.describe Phase::Swiss do
   end
 
   describe 'inheritance' do
-    it 'inherits from Phase::BasePhase' do
-      expect(described_class.superclass).to eq(Phase::BasePhase)
+    it 'inherits from Phases::BasePhase' do
+      expect(described_class.superclass).to eq(Phases::BasePhase)
     end
   end
 
@@ -37,10 +37,10 @@ RSpec.describe Phase::Swiss do
     #   expect(subject.errors[:name]).to include("can't be blank")
     # end
 
-    it 'validates that :type is "Phase::Swiss"' do
+    it 'validates that :type is "Phases::Swiss"' do
       swiss_phase.type = 'InvalidType'
       swiss_phase.valid?
-      expect(swiss_phase.errors[:type]).to include('must be equal to Phase::Swiss')
+      expect(swiss_phase.errors[:type]).to include('must be equal to Phases::Swiss')
     end
   end
 end

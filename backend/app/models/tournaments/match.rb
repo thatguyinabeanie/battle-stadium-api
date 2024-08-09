@@ -1,19 +1,19 @@
 # app/models/match.rb
-module Tournament
+module Tournaments
   class Match < ApplicationRecord
     include ::MatchPlayersConcern
     self.table_name = 'matches'
-    belongs_to :player_one, class_name: 'Tournament::Player'
-    belongs_to :player_two, class_name: 'Tournament::Player'
+    belongs_to :player_one, class_name: 'Tournaments::Player'
+    belongs_to :player_two, class_name: 'Tournaments::Player'
 
-    belongs_to :winner, class_name: 'Tournament::Player', optional: true
-    belongs_to :loser, class_name: 'Tournament::Player', optional: true
+    belongs_to :winner, class_name: 'Tournaments::Player', optional: true
+    belongs_to :loser, class_name: 'Tournaments::Player', optional: true
 
-    belongs_to :round, class_name: 'Tournament::Round', inverse_of: :matches
+    belongs_to :round, class_name: 'Tournaments::Round', inverse_of: :matches
     delegate :phase, to: :round
     delegate :started_at, :ended_at, to: :round
 
-    has_many :match_games, class_name: 'Tournament::MatchGame', dependent: :destroy, inverse_of: :match
+    has_many :match_games, class_name: 'Tournaments::MatchGame', dependent: :destroy, inverse_of: :match
 
     validates :player_one, presence: true
     validates :player_two, presence: true

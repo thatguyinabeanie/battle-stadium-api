@@ -159,4 +159,57 @@ RSpec.describe Api::V1::OrganizationsController do
       end
     end
   end
+
+  path('/api/v1/organizations/{id}/tournaments') do
+    parameter name: :id, in: :path, type: :string, required: true
+    let(:org) { create(:organization_with_staff, staff_count: 5) }
+    let(:id) { org.id }
+
+    post('Create Tournament') do
+      tags 'Organizations'
+      consumes OpenApi::Response::JSON_CONTENT_TYPE
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      description 'Creates a new tournament for an organization.'
+      operationId 'postOrganizationTournament'
+
+      parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentDetails' }
+
+
+      response(201, 'created') do
+        let(:game) { create(:game) }
+        let(:format) { create(:format, game: game) }
+        let(:tournament) do
+          {
+            tournament: {
+              name: 'New Tournament',
+              start_at: Time.now.iso8601,
+              end_at: Time.now + 1.day,
+              game_id: game.id,
+              format_id: format.id,
+              autostart: false,
+              player_cap: 32,
+              registration_start_at: Time.now.iso8601,
+              registration_end_at: (Time.now + 1.day).iso8601,
+              late_registration: false,
+              open_team_sheets: false,
+              teamlists_required: false
+            }
+          }
+        end
+
+        schema '$ref' => '#/components/schemas/Tournament'
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
+      response(400, 'bad request') do
+        let(:tournament) { {} }
+
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
+    end
+
+  end
 end

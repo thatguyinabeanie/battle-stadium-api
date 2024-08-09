@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Tournament::MatchGame do
+RSpec.describe Tournaments::MatchGame do
   let(:match_hash) do
     user_one = create(:user)
     user_two = create(:user)
@@ -24,9 +24,9 @@ RSpec.describe Tournament::MatchGame do
   describe 'associations' do
     subject { match_game }
 
-    it { is_expected.to belong_to(:match).class_name('Tournament::Match') }
-    it { is_expected.to belong_to(:winner).class_name('Tournament::Player').optional }
-    it { is_expected.to belong_to(:loser).class_name('Tournament::Player').optional }
+    it { is_expected.to belong_to(:match).class_name('Tournaments::Match') }
+    it { is_expected.to belong_to(:winner).class_name('Tournaments::Player').optional }
+    it { is_expected.to belong_to(:loser).class_name('Tournaments::Player').optional }
     it { is_expected.to belong_to(:reporter).class_name('User').optional }
     it { is_expected.to delegate_method(:player_one).to(:match) }
     it { is_expected.to delegate_method(:player_two).to(:match) }

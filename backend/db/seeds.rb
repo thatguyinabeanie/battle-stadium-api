@@ -37,18 +37,18 @@ def create_user(username: nil)
 end
 
 def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
-  Tournament::Tournament.find_or_create_by!(name:, organization:, format:, game:) do |tournament|
+  Tournaments::Tournament.find_or_create_by!(name:, organization:, format:, game:) do |tournament|
     tournament.start_at = start_at
     tournament.check_in_start_at = start_at - 1.hour
     tournament.end_at = end_at
 
-    tournament.phases << Phase::Swiss.create!(
+    tournament.phases << Phases::Swiss.create!(
         name: "#{tournament.name} - Swiss Rounds",
         tournament:tournament,
         number_of_rounds: 5
         )
 
-    tournament.phases << Phase::SingleEliminationBracket.create!(
+    tournament.phases << Phases::SingleEliminationBracket.create!(
         name: "#{tournament.name} - Top Cut!",
         tournament: tournament,
         criteria: 'Top 8'
@@ -57,7 +57,7 @@ def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
 end
 
 def create_format(name:, game:)
-  Tournament::Format.find_or_create_by!(name:, game:)
+  Tournaments::Format.find_or_create_by!(name:, game:)
 end
 
 scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
@@ -65,7 +65,7 @@ scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
 
 (1..10).to_a.map { |series| Game.find_or_create_by!(name: "Pokemon Series #{series}") }
 
-format = Tournament::Format.find_or_create_by!(name: "Regulation H", game: scarlet_violet);
+format = Tournaments::Format.find_or_create_by!(name: "Regulation H", game: scarlet_violet);
 
 org_owners = (1..25).to_a.map {  create_user }
 

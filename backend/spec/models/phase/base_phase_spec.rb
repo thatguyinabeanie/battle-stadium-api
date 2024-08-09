@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-# Define a temporary subclass of Phase::BasePhase for testing purposes
-module Phase
-  class Test < Phase::BasePhase
+# Define a temporary subclass of Phases::BasePhase for testing purposes
+module Phases
+  class Test < Phases::BasePhase
     self.table_name = 'phases'
   end
 end
 
-RSpec.describe Phase::BasePhase do
+RSpec.describe Phases::BasePhase do
   describe 'table name' do
     it "is 'phases'" do
       expect(described_class.table_name).to eq('phases')
@@ -21,14 +21,14 @@ RSpec.describe Phase::BasePhase do
   end
 
   describe 'associations' do
-    subject { Phase::Test.new }
+    subject { Phases::Test.new }
 
-    it { is_expected.to have_many(:rounds).class_name('Tournament::Round').inverse_of(:phase).dependent(:destroy) }
-    it { is_expected.to belong_to(:tournament).class_name('Tournament::Tournament') }
+    it { is_expected.to have_many(:rounds).class_name('Tournaments::Round').inverse_of(:phase).dependent(:destroy) }
+    it { is_expected.to belong_to(:tournament).class_name('Tournaments::Tournament') }
   end
 
   describe 'validations' do
-    subject { Phase::Test.new(name: 'Test Phase', tournament: create(:tournament), number_of_rounds: 5) }
+    subject { Phases::Test.new(name: 'Test Phase', tournament: create(:tournament), number_of_rounds: 5) }
 
     # TODO: Uncomment and implement
     # it { is_expected.to validate_presence_of(:name) }
@@ -36,7 +36,7 @@ RSpec.describe Phase::BasePhase do
   end
 
   describe 'additional validation' do
-    subject(:phase) { Phase::Test.new(best_of:, tournament:, name: 'BassFace', type: 'Phase::Test') }
+    subject(:phase) { Phases::Test.new(best_of:, tournament:, name: 'BassFace', type: 'Phases::Test') }
 
     let(:tournament) { create(:tournament) }
 
