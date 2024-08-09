@@ -124,7 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/OrganizationDetails"
+                "$ref": "#/components/schemas/Organization"
       requestBody:
         content:
           application/json:
@@ -149,7 +149,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/OrganizationDetails"
+                "$ref": "#/components/schemas/Organization"
         '404':
           description: not found
     patch:
@@ -165,7 +165,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/OrganizationDetails"
+                "$ref": "#/components/schemas/Organization"
         '404':
           description: not found
       requestBody:
@@ -418,23 +418,17 @@ paths:
           description: successful
         '404':
           description: not found
-  "/api/v1/organizations/{organization_id}/tournaments":
-    parameters:
-    - name: organization_id
-      in: path
-      description: ID of the Organization
-      required: true
-      schema:
-        type: integer
+  "/api/v1/tournaments":
     get:
-      summary: List Tournaments
+      summary: List Organization Tournaments
       tags:
       - Tournaments
       description: Retrieves a list of all Tournaments
       operationId: listTournaments
+      parameters: []
       responses:
         '200':
-          description: successful
+          description: Successful
           content:
             application/json:
               schema:
@@ -461,15 +455,9 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/TournamentDetails"
-  "/api/v1/organizations/{organization_id}/tournaments/{id}":
+              "$ref": "#/components/schemas/TournamentPostRequest"
+  "/api/v1/tournaments/{id}":
     parameters:
-    - name: organization_id
-      in: path
-      description: ID of the Organization
-      required: true
-      schema:
-        type: integer
     - name: id
       in: path
       description: ID of the Tournament
@@ -509,7 +497,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/TournamentDetails"
+              "$ref": "#/components/schemas/TournamentRequest"
     delete:
       summary: Delete Tournament
       tags:
@@ -744,9 +732,6 @@ components:
       - email
       - first_name
       - last_name
-      - email
-      - first_name
-      - last_name
       - username
       - pronouns
     UserPostRequest:
@@ -822,15 +807,16 @@ components:
           type: integer
         name:
           type: string
+        owner:
+          "$ref": "#/components/schemas/User"
         description:
           type: string
           nullable: true
-        owner:
-          "$ref": "#/components/schemas/User"
       required:
       - id
       - name
       - owner
+      - description
     OrganizationDetails:
       type: object
       title: Organization Details
@@ -839,23 +825,16 @@ components:
           type: integer
         name:
           type: string
+        owner:
+          "$ref": "#/components/schemas/User"
         description:
           type: string
-        owner:
-          "$ref": "#/components/schemas/UserDetails"
-        updated_at:
-          type: string
-          format: date-time
-        created_at:
-          type: string
-          format: date-time
+          nullable: true
       required:
       - id
       - name
       - owner
       - description
-      - created_at
-      - updated_at
     Tournament:
       type: object
       title: Tournament
@@ -864,30 +843,21 @@ components:
           type: integer
         name:
           type: string
-        player_cap:
-          type: integer
-          nullable: true
-      required:
-      - id
-      - name
-      - player_cap
-    TournamentDetails:
-      type: object
-      title: Tournament Details
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        player_cap:
-          type: integer
-          nullable: true
-        autostart:
-          type: boolean
         start_at:
           type: string
           format: date-time
           nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
         end_at:
           type: string
           format: date-time
@@ -900,19 +870,72 @@ components:
           type: string
           format: date-time
           nullable: true
-        late_check_in:
-          type: boolean
-        check_in_start_at:
-          type: string
-          format: date-time
-          nullable: true
-        late_registration:
-          type: boolean
         registration_start_at:
           type: string
           format: date-time
-          nullable: true
         registration_end_at:
+          type: string
+          format: date-time
+        late_registration:
+          type: boolean
+      required:
+      - id
+      - name
+      - player_cap
+      - organization
+      - format
+      - game
+      - start_at
+      - player_count
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+    TournamentDetails:
+      type: object
+      title: Tournament Details
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+        registration_end_at:
+          type: string
+          format: date-time
+        late_registration:
+          type: boolean
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+          nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        check_in_start_at:
           type: string
           format: date-time
           nullable: true
@@ -924,12 +947,19 @@ components:
       - id
       - name
       - player_cap
+      - organization
+      - format
+      - game
+      - start_at
+      - player_count
+      - registration_start_at
+      - registration_end_at
+      - late_registration
       - start_at
       - player_cap
       - autostart
       - teamlists_required
       - open_team_sheets
-      - late_check_in
       - check_in_start_at
       - late_registration
       - registration_start_at
@@ -1166,3 +1196,105 @@ components:
       required:
       - email
       - password
+    TournamentRequest:
+      type: object
+      title: Tournament Request
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        game_id:
+          type: integer
+        format_id:
+          type: integer
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+        player_cap:
+          type: integer
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        open_team_sheets:
+          type: boolean
+        teamlists_required:
+          type: boolean
+      required:
+      - name
+      - game_id
+      - format_id
+      - autostart
+      - start_at
+      - player_cap
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+      - check_in_start_at
+      - open_team_sheets
+      - teamlists_required
+    TournamentPostRequest:
+      type: object
+      title: Tournament Post Request
+      properties:
+        organization_id:
+          type: integer
+        name:
+          type: string
+        game_id:
+          type: integer
+        format_id:
+          type: integer
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+        player_cap:
+          type: integer
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        open_team_sheets:
+          type: boolean
+        teamlists_required:
+          type: boolean
+      required:
+      - organization_id
+      - name
+      - game_id
+      - format_id
+      - autostart
+      - player_cap
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+      - check_in_start_at
+      - open_team_sheets
+      - teamlists_required

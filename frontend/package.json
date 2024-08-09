@@ -13,6 +13,7 @@
     "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-axios -o ./api --skip-validate-spec --additional-properties=useSingleRequestParameter=true,withoutPrefixEnums=true,enumNameSuffix=,withSeparateModelsAndApi=true,apiPackage=server,modelPackage=model --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-axios --enable-post-process-file"
   },
   "dependencies": {
+    "@internationalized/date": "^3.5.5",
     "@nextui-org/avatar": "^2.0.32",
     "@nextui-org/breadcrumbs": "^2.0.12",
     "@nextui-org/button": "2.0.37",

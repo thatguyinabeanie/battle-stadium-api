@@ -2,9 +2,10 @@ en:
   tournament:
     errors:
       validations:
-        unique_per_org_name_start_at: "should be unique per organization, name, and start date"
+        unique_per_org_name_start_at: "should be unique per organization, name, and start date."
     registration:
-      success: "You have successfully registered for the tournament"
-      failure: "You have already registered for the tournament"
-      registration_closed: "Registration for the tournament is closed"
-      too_many_pokemon: "You are trying to register too many Pokemon"
+      success: "You have successfully registered for the tournament."
+      failure: "You have already registered for the tournament."
+      registration_closed: "Registration for the tournament is closed."
+      too_many_pokemon: "You are trying to register too many Pokemon."
+      already_registered: "You are already registered for the tournament."

@@ -117,7 +117,7 @@ RSpec.describe Api::V1::UsersController do
         let(:id) { create(:user).id }
         let(:user) do
           {
-            username: 'updated_user',
+            username: Faker::Internet.unique.username,
             pronouns: 'they/them',
             email: 'updateduser@example.com',
             first_name: 'Updated', last_name: 'Userrrrr',

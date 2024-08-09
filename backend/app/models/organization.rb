@@ -2,9 +2,6 @@
 
 class Organization < ApplicationRecord
   self.table_name = 'organizations'
-  # extend FriendlyId
-  # friendly_id :name, use: :slugged
-
   belongs_to :owner, class_name: 'User', optional: false
 
   has_many :tournaments, class_name: 'Tournament::Tournament', dependent: :destroy

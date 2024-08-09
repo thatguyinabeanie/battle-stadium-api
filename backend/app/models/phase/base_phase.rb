@@ -24,9 +24,14 @@ module Phase
 
     def accept_players(players:)
       players = players.checked_in_and_ready
-      num_rounds = Math.log2(players.count).ceil
+      number_of_players = players.count
 
-      update!(players:, started_at: Time.current.utc, number_of_rounds: num_rounds)
+      if number_of_players <= 0
+        raise "Number of players must be greater than zero"
+      end
+
+      number_of_rounds = Math.log2(number_of_players).ceil
+      update!(players:, started_at: Time.current.utc, number_of_rounds:)
     end
 
     def players_ready

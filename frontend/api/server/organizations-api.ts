@@ -41,8 +41,6 @@ import {
 // @ts-ignore
 import type { Organization } from "../model";
 // @ts-ignore
-import type { OrganizationDetails } from "../model";
-// @ts-ignore
 import type { User } from "../model";
 /**
  * OrganizationsApi - axios parameter creator
@@ -376,10 +374,7 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
       id: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<OrganizationDetails>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getOrganization(
         id,
@@ -468,10 +463,7 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
       organization?: Organization,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<OrganizationDetails>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.patchOrganization(
@@ -503,10 +495,7 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
       organization?: Organization,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<OrganizationDetails>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.postOrganization(organization, options);
@@ -562,7 +551,7 @@ export const OrganizationsApiFactory = function (
     getOrganization(
       requestParameters: OrganizationsApiGetOrganizationRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<OrganizationDetails> {
+    ): AxiosPromise<Organization> {
       return localVarFp
         .getOrganization(requestParameters.id, options)
         .then((request) => request(axios, basePath));
@@ -605,7 +594,7 @@ export const OrganizationsApiFactory = function (
     patchOrganization(
       requestParameters: OrganizationsApiPatchOrganizationRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<OrganizationDetails> {
+    ): AxiosPromise<Organization> {
       return localVarFp
         .patchOrganization(
           requestParameters.id,
@@ -624,7 +613,7 @@ export const OrganizationsApiFactory = function (
     postOrganization(
       requestParameters: OrganizationsApiPostOrganizationRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<OrganizationDetails> {
+    ): AxiosPromise<Organization> {
       return localVarFp
         .postOrganization(requestParameters.organization, options)
         .then((request) => request(axios, basePath));

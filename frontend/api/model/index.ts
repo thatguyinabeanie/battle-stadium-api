@@ -15,6 +15,8 @@ export * from "./pokemon";
 export * from "./round";
 export * from "./tournament";
 export * from "./tournament-details";
+export * from "./tournament-post-request";
+export * from "./tournament-request";
 export * from "./user";
 export * from "./user-details";
 export * from "./user-login-request";

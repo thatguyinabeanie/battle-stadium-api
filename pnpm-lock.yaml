@@ -16,6 +16,9 @@ importers:
 
   frontend:
     dependencies:
+      '@internationalized/date':
+        specifier: ^3.5.5
+        version: 3.5.5
       '@nextui-org/avatar':
         specifier: ^2.0.32
         version: 2.0.32(@nextui-org/system@2.2.5(@nextui-org/theme@2.2.9(tailwindcss@3.4.7(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.4))))(framer-motion@11.3.21(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nextui-org/theme@2.2.9(tailwindcss@3.4.7(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.4))))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

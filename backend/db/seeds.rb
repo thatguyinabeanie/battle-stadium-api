@@ -12,6 +12,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+require 'faker'
+
 if Rails.env.production?
   Rails.logger.info('Seeding is disabled in production.')
   exit
@@ -19,17 +21,18 @@ end
 
 # require 'factory_bot'
 
-def create_user(username: nil, email: nil)
-  username ||= "regular_user_#{Faker::Internet.unique.username}"
-  email ||= "#{username}@battle-stadium-regular-users.com"
+def create_user(username: nil)
+  username ||= Faker::Internet.unique.username
+
   # Check if user already exists
-  User.find_or_create_by!(username:) do |the_user|
-    the_user.email = email
-    the_user.password = SecurePassword.generate_secure_password
-    the_user.password_confirmation = the_user.password
-    the_user.pronouns = 'they/them'
-    the_user.first_name = Faker::Name.first_name
-    the_user.last_name = Faker::Name.last_name
+  User.find_or_create_by!(username:) do |user|
+    password = SecurePassword.generate_secure_password
+    user.email = "#{user.username}@example.com"
+    user.password = password
+    user.password_confirmation = password
+    user.pronouns = 'they/them'
+    user.first_name = Faker::Name.first_name
+    user.last_name = Faker::Name.last_name
   end
 end
 
@@ -38,6 +41,18 @@ def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
     tournament.start_at = start_at
     tournament.check_in_start_at = start_at - 1.hour
     tournament.end_at = end_at
+
+    tournament.phases << Phase::Swiss.create!(
+        name: "#{tournament.name} - Swiss Rounds",
+        tournament:tournament,
+        number_of_rounds: 5
+        )
+
+    tournament.phases << Phase::SingleEliminationBracket.create!(
+        name: "#{tournament.name} - Top Cut!",
+        tournament: tournament,
+        criteria: 'Top 8'
+      )
   end
 end
 
@@ -46,70 +61,60 @@ def create_format(name:, game:)
 end
 
 scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
-sword_and_shield = Game.find_or_create_by!(name: 'Pokemon Sword & Shield')
+
 
 (1..10).to_a.map { |series| Game.find_or_create_by!(name: "Pokemon Series #{series}") }
 
-sv_formats = %w[A B C D E F G H].map { |regulation| Tournament::Format.find_or_create_by!(name: "Regulation #{regulation}", game: scarlet_violet) }
-swsh_formats = (1..13).to_a.map { |series| Tournament::Format.find_or_create_by!(name: "Series #{series}", game: sword_and_shield) }
+format = Tournament::Format.find_or_create_by!(name: "Regulation H", game: scarlet_violet);
 
-formats = sv_formats + swsh_formats
-formats = sv_formats
-
-org_owners = [
-  {
-    username: 'fuecoco_supremacy'
-  },
-  {
-    username: 'sprigatito_lover'
-  },
-  {
-    username: 'quaxly_enthusiast'
-  }
-].map { |user| create_user(username: user[:username]) }
+org_owners = (1..25).to_a.map {  create_user }
 
 orgs = org_owners.map do |owner|
-  Organization.find_by!(owner:)
-rescue ActiveRecord::RecordNotFound
-  description = 'This is an example organization.'
-  staff = (1..5).to_a.map { create_user }
-  name = "#{owner[:username].capitalize.gsub('_', ' ')}'s Organization"
-  Organization.create!(name:, owner:, description:, staff:)
-end.compact
+  Organization.find_or_create_by!(owner:) do |org|
+    org.description = 'This is an example organization.'
+    org.staff = (1..5).to_a.map { create_user }
+    org.name = "#{owner[:username].capitalize.gsub('_', ' ')}'s Organization"
+  end
+end.uniq
 
-tournaments = orgs.flat_map do |organization|
-  formats.map.with_index do |format, index|
-    name = "#{organization.name} #{format.name} Tournament #{index + 1}"
-    start_at = Time.zone.today
-    end_at = Time.zone.today + 1.week
-    game = format.game
+count = 0
+users = (1..50).to_a.map { create_user }.uniq
 
-    tour = create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
-
-    Phase::Swiss.create!(
-      name: "#{organization.name} #{format.name} Tournament #{index + 1} - Swiss Round",
-      tournament: tour,
-      number_of_rounds: 5
-    )
-
-    tour.phases << Phase::SingleEliminationBracket.create!(
-      name: "#{organization.name} #{format.name} Tournament #{index + 1} - Top Cut!",
-      tournament: tour,
-      criteria: 'Top 8'
-    )
-
-    tour.save!
+future_tournaments = orgs.flat_map do |organization|
+  (1..10).to_a.map do
+    name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
+    start_at = ((Time.current + 1.day).beginning_of_day + rand(8..20).hours) + (count % 10).weeks
+    end_at = start_at + 10.hours
+    tour = create_tournament(name:, organization:, format:, game: format.game, start_at:, end_at:)
+    count += 1
     tour
   end
 end
 
-users = (1..50).to_a.map { create_user }
-
-tournaments.flat_map do |tournament|
-  users.sample(rand(1..10)).map do |user|
-    pokemon_team = PokemonTeam.create(user:)
-    (1..6).to_a.map { Pokemon.create(pokemon_team:) }
-
-    Tournament::Player.create!(user:, tournament:, in_game_name: Faker::Games::Pokemon.name, pokemon_team:)
+player_registrations = future_tournaments.flat_map do |tournament|
+  users.map do |user|
+    unless tournament.players.exists?(user: user) || !tournament.registration_open?
+      tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
+        player.pokemon_team = PokemonTeam.create(user:).tap { |pokemon_team| pokemon_team.pokemon = (1..6).to_a.map { Pokemon.create(pokemon_team:) } }
+      end
+    end
   end
 end
+
+in_progress_tournaments = orgs.flat_map do |organization|
+    name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
+    end_at = Time.zone.today + 1.week
+    game = format.game
+    start_at = 1.hour.from_now
+    create_tournament(name:, organization:, format:, game:, start_at:, end_at:).tap do |tournament|
+      tournament.players = users.map do |user|
+        unless tournament.players.exists?(user: user)
+          tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
+            player.pokemon_team = PokemonTeam.create(user:).tap { |pokemon_team| pokemon_team.pokemon = (1..6).to_a.map { Pokemon.create(pokemon_team:) } }
+          end
+        end
+      end
+    end
+  end
+
+in_progress_tournaments.each { |tournament| tournament.start_tournament! if tournament.players.checked_in_and_ready.count > 0 }

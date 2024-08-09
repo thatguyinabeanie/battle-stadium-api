@@ -6,25 +6,20 @@ module Serializer
     extend ActiveSupport::Concern
     included do
       class_attribute :owner_serializer
-      attributes :owner
+      attribute :owner
+      attributes :description
+
       include SerializerMixin::Id
       include SerializerMixin::Name
-    end
 
-    def owner
-      owner_serializer.new(object.owner).attributes
+      def owner
+        @owner ||= owner_serializer.new(object.owner).as_json
+      end
     end
   end
 
   class Organization < ActiveModel::Serializer
     include OrganizationMixin
     self.owner_serializer = Serializer::User
-  end
-
-  class OrganizationDetails < ActiveModel::Serializer
-    include OrganizationMixin
-    include SerializerMixin::Timestamp
-    attributes :description
-    self.owner_serializer = Serializer::UserDetails
   end
 end

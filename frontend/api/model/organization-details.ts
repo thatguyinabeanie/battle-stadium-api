@@ -14,7 +14,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { UserDetails } from "./user-details";
+import type { User } from "./user";
 
 /**
  *
@@ -36,26 +36,14 @@ export interface OrganizationDetails {
   name: string;
   /**
    *
-   * @type {string}
+   * @type {User}
    * @memberof OrganizationDetails
    */
-  description: string;
-  /**
-   *
-   * @type {UserDetails}
-   * @memberof OrganizationDetails
-   */
-  owner: UserDetails;
+  owner: User;
   /**
    *
    * @type {string}
    * @memberof OrganizationDetails
    */
-  updated_at: string;
-  /**
-   *
-   * @type {string}
-   * @memberof OrganizationDetails
-   */
-  created_at: string;
+  description: string | null;
 }

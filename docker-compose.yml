@@ -49,6 +49,5 @@ services:
       - pnpm-store:/battle-stadium/.pnpm-store
 volumes:
   postgres-data:
-  node_modules:
   turbo:
   pnpm-store:

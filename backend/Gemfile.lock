@@ -160,8 +160,6 @@ GEM
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
-    friendly_id (5.5.1)
-      activerecord (>= 4.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.1.1)
@@ -543,7 +541,6 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails (~> 6)
   faker (~> 3)
-  friendly_id (~> 5.5.0)
   hirb
   importmap-rails (~> 2)
   irb

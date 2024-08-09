@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_06_043252) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_09_212518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,24 +23,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_06_043252) do
     t.index ["name", "game_id"], name: "index_formats_on_name_and_game_id", unique: true
   end
 
-  create_table "friendly_id_slugs", force: :cascade do |t|
-    t.string "slug", null: false
-    t.integer "sluggable_id", null: false
-    t.string "sluggable_type", limit: 50
-    t.string "scope"
-    t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
-    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
-  end
-
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug"
     t.index "lower((name)::text)", name: "index_games_on_lower_name", unique: true
-    t.index ["slug"], name: "index_games_on_slug", unique: true
   end
 
   create_table "match_games", force: :cascade do |t|
@@ -92,10 +79,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_06_043252) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "owner_id"
-    t.string "slug"
     t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true
-    t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
 
   create_table "phase_players", force: :cascade do |t|
@@ -199,7 +184,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_06_043252) do
     t.boolean "autostart", default: false, null: false
     t.datetime "started_at"
     t.boolean "late_registration", default: true, null: false
-    t.boolean "late_check_in", default: true, null: false
     t.boolean "teamlists_required", default: true, null: false
     t.boolean "open_team_sheets", default: true, null: false
     t.datetime "end_at"
@@ -234,13 +218,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_06_043252) do
     t.string "first_name"
     t.string "last_name"
     t.string "pronouns"
-    t.string "slug"
     t.string "jti", default: "invalid", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["slug"], name: "index_users_on_slug", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end

@@ -23,6 +23,8 @@ model/player.ts
 model/pokemon.ts
 model/round.ts
 model/tournament-details.ts
+model/tournament-post-request.ts
+model/tournament-request.ts
 model/tournament.ts
 model/user-details.ts
 model/user-login-request.ts

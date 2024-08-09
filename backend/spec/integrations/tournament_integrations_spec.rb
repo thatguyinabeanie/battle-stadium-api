@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Tournaments API', type: :request do
+  pending 'add some examples to (or delete) #{__FILE__}' do
   let(:user) { create(:user) }
   let(:organization) { create(:organization, owner: user) }
   let(:tournament) { create(:tournament, organization:) }
@@ -91,4 +92,5 @@ RSpec.describe 'Tournaments API', type: :request do
       end
     end
   end
+end
 end

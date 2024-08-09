@@ -42,6 +42,10 @@ import {
 import type { Tournament } from "../model";
 // @ts-ignore
 import type { TournamentDetails } from "../model";
+// @ts-ignore
+import type { TournamentPostRequest } from "../model";
+// @ts-ignore
+import type { TournamentRequest } from "../model";
 /**
  * TournamentsApi - axios parameter creator
  * @export
@@ -53,27 +57,20 @@ export const TournamentsApiAxiosParamCreator = function (
     /**
      * Deletes a Tournament.
      * @summary Delete Tournament
-     * @param {number} organizationId ID of the Organization
      * @param {number} id ID of the Tournament
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteTournament: async (
-      organizationId: number,
       id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'organizationId' is not null or undefined
-      assertParamExists("deleteTournament", "organizationId", organizationId);
       // verify required parameter 'id' is not null or undefined
       assertParamExists("deleteTournament", "id", id);
-      const localVarPath =
-        `/api/v1/organizations/{organization_id}/tournaments/{id}`
-          .replace(
-            `{${"organization_id"}}`,
-            encodeURIComponent(String(organizationId)),
-          )
-          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+      const localVarPath = `/api/v1/tournaments/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -105,27 +102,20 @@ export const TournamentsApiAxiosParamCreator = function (
     /**
      * Retrieves a specific Tournament.
      * @summary Show Tournament
-     * @param {number} organizationId ID of the Organization
      * @param {number} id ID of the Tournament
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getTournament: async (
-      organizationId: number,
       id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'organizationId' is not null or undefined
-      assertParamExists("getTournament", "organizationId", organizationId);
       // verify required parameter 'id' is not null or undefined
       assertParamExists("getTournament", "id", id);
-      const localVarPath =
-        `/api/v1/organizations/{organization_id}/tournaments/{id}`
-          .replace(
-            `{${"organization_id"}}`,
-            encodeURIComponent(String(organizationId)),
-          )
-          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+      const localVarPath = `/api/v1/tournaments/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -156,22 +146,14 @@ export const TournamentsApiAxiosParamCreator = function (
     },
     /**
      * Retrieves a list of all Tournaments
-     * @summary List Tournaments
-     * @param {number} organizationId ID of the Organization
+     * @summary List Organization Tournaments
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listTournaments: async (
-      organizationId: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'organizationId' is not null or undefined
-      assertParamExists("listTournaments", "organizationId", organizationId);
-      const localVarPath =
-        `/api/v1/organizations/{organization_id}/tournaments`.replace(
-          `{${"organization_id"}}`,
-          encodeURIComponent(String(organizationId)),
-        );
+      const localVarPath = `/api/v1/tournaments`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -203,23 +185,15 @@ export const TournamentsApiAxiosParamCreator = function (
     /**
      * Creates a new Tournament.
      * @summary Create Tournament
-     * @param {number} organizationId ID of the Organization
-     * @param {TournamentDetails} [tournamentDetails]
+     * @param {TournamentPostRequest} [tournamentPostRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postTournament: async (
-      organizationId: number,
-      tournamentDetails?: TournamentDetails,
+      tournamentPostRequest?: TournamentPostRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'organizationId' is not null or undefined
-      assertParamExists("postTournament", "organizationId", organizationId);
-      const localVarPath =
-        `/api/v1/organizations/{organization_id}/tournaments`.replace(
-          `{${"organization_id"}}`,
-          encodeURIComponent(String(organizationId)),
-        );
+      const localVarPath = `/api/v1/tournaments`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -245,7 +219,7 @@ export const TournamentsApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        tournamentDetails,
+        tournamentPostRequest,
         localVarRequestOptions,
         configuration,
       );
@@ -258,29 +232,22 @@ export const TournamentsApiAxiosParamCreator = function (
     /**
      * Updates a Tournament.
      * @summary Update Tournament
-     * @param {number} organizationId ID of the Organization
      * @param {number} id ID of the Tournament
-     * @param {TournamentDetails} [tournamentDetails]
+     * @param {TournamentRequest} [tournamentRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putTournament: async (
-      organizationId: number,
       id: number,
-      tournamentDetails?: TournamentDetails,
+      tournamentRequest?: TournamentRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'organizationId' is not null or undefined
-      assertParamExists("putTournament", "organizationId", organizationId);
       // verify required parameter 'id' is not null or undefined
       assertParamExists("putTournament", "id", id);
-      const localVarPath =
-        `/api/v1/organizations/{organization_id}/tournaments/{id}`
-          .replace(
-            `{${"organization_id"}}`,
-            encodeURIComponent(String(organizationId)),
-          )
-          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+      const localVarPath = `/api/v1/tournaments/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -306,7 +273,7 @@ export const TournamentsApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        tournamentDetails,
+        tournamentRequest,
         localVarRequestOptions,
         configuration,
       );
@@ -330,24 +297,18 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
     /**
      * Deletes a Tournament.
      * @summary Delete Tournament
-     * @param {number} organizationId ID of the Organization
      * @param {number} id ID of the Tournament
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async deleteTournament(
-      organizationId: number,
       id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.deleteTournament(
-          organizationId,
-          id,
-          options,
-        );
+        await localVarAxiosParamCreator.deleteTournament(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["TournamentsApi.deleteTournament"]?.[
@@ -364,13 +325,11 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
     /**
      * Retrieves a specific Tournament.
      * @summary Show Tournament
-     * @param {number} organizationId ID of the Organization
      * @param {number} id ID of the Tournament
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getTournament(
-      organizationId: number,
       id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -380,7 +339,6 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<TournamentDetails>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getTournament(
-        organizationId,
         id,
         options,
       );
@@ -399,13 +357,11 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Retrieves a list of all Tournaments
-     * @summary List Tournaments
-     * @param {number} organizationId ID of the Organization
+     * @summary List Organization Tournaments
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async listTournaments(
-      organizationId: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -413,10 +369,8 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
         basePath?: string,
       ) => AxiosPromise<Array<Tournament>>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listTournaments(
-        organizationId,
-        options,
-      );
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listTournaments(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["TournamentsApi.listTournaments"]?.[
@@ -433,14 +387,12 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
     /**
      * Creates a new Tournament.
      * @summary Create Tournament
-     * @param {number} organizationId ID of the Organization
-     * @param {TournamentDetails} [tournamentDetails]
+     * @param {TournamentPostRequest} [tournamentPostRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async postTournament(
-      organizationId: number,
-      tournamentDetails?: TournamentDetails,
+      tournamentPostRequest?: TournamentPostRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -449,8 +401,7 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<TournamentDetails>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.postTournament(
-        organizationId,
-        tournamentDetails,
+        tournamentPostRequest,
         options,
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -469,16 +420,14 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
     /**
      * Updates a Tournament.
      * @summary Update Tournament
-     * @param {number} organizationId ID of the Organization
      * @param {number} id ID of the Tournament
-     * @param {TournamentDetails} [tournamentDetails]
+     * @param {TournamentRequest} [tournamentRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async putTournament(
-      organizationId: number,
       id: number,
-      tournamentDetails?: TournamentDetails,
+      tournamentRequest?: TournamentRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -487,9 +436,8 @@ export const TournamentsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<TournamentDetails>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putTournament(
-        organizationId,
         id,
-        tournamentDetails,
+        tournamentRequest,
         options,
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -531,11 +479,7 @@ export const TournamentsApiFactory = function (
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .deleteTournament(
-          requestParameters.organizationId,
-          requestParameters.id,
-          options,
-        )
+        .deleteTournament(requestParameters.id, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -550,26 +494,20 @@ export const TournamentsApiFactory = function (
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<TournamentDetails> {
       return localVarFp
-        .getTournament(
-          requestParameters.organizationId,
-          requestParameters.id,
-          options,
-        )
+        .getTournament(requestParameters.id, options)
         .then((request) => request(axios, basePath));
     },
     /**
      * Retrieves a list of all Tournaments
-     * @summary List Tournaments
-     * @param {TournamentsApiListTournamentsRequest} requestParameters Request parameters.
+     * @summary List Organization Tournaments
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listTournaments(
-      requestParameters: TournamentsApiListTournamentsRequest,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<Tournament>> {
       return localVarFp
-        .listTournaments(requestParameters.organizationId, options)
+        .listTournaments(options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -580,15 +518,11 @@ export const TournamentsApiFactory = function (
      * @throws {RequiredError}
      */
     postTournament(
-      requestParameters: TournamentsApiPostTournamentRequest,
+      requestParameters: TournamentsApiPostTournamentRequest = {},
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<TournamentDetails> {
       return localVarFp
-        .postTournament(
-          requestParameters.organizationId,
-          requestParameters.tournamentDetails,
-          options,
-        )
+        .postTournament(requestParameters.tournamentPostRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -604,9 +538,8 @@ export const TournamentsApiFactory = function (
     ): AxiosPromise<TournamentDetails> {
       return localVarFp
         .putTournament(
-          requestParameters.organizationId,
           requestParameters.id,
-          requestParameters.tournamentDetails,
+          requestParameters.tournamentRequest,
           options,
         )
         .then((request) => request(axios, basePath));
@@ -620,13 +553,6 @@ export const TournamentsApiFactory = function (
  * @interface TournamentsApiDeleteTournamentRequest
  */
 export interface TournamentsApiDeleteTournamentRequest {
-  /**
-   * ID of the Organization
-   * @type {number}
-   * @memberof TournamentsApiDeleteTournament
-   */
-  readonly organizationId: number;
-
   /**
    * ID of the Tournament
    * @type {number}
@@ -642,32 +568,11 @@ export interface TournamentsApiDeleteTournamentRequest {
  */
 export interface TournamentsApiGetTournamentRequest {
   /**
-   * ID of the Organization
-   * @type {number}
-   * @memberof TournamentsApiGetTournament
-   */
-  readonly organizationId: number;
-
-  /**
    * ID of the Tournament
    * @type {number}
    * @memberof TournamentsApiGetTournament
    */
   readonly id: number;
-}
-
-/**
- * Request parameters for listTournaments operation in TournamentsApi.
- * @export
- * @interface TournamentsApiListTournamentsRequest
- */
-export interface TournamentsApiListTournamentsRequest {
-  /**
-   * ID of the Organization
-   * @type {number}
-   * @memberof TournamentsApiListTournaments
-   */
-  readonly organizationId: number;
 }
 
 /**
@@ -677,18 +582,11 @@ export interface TournamentsApiListTournamentsRequest {
  */
 export interface TournamentsApiPostTournamentRequest {
   /**
-   * ID of the Organization
-   * @type {number}
-   * @memberof TournamentsApiPostTournament
-   */
-  readonly organizationId: number;
-
-  /**
    *
-   * @type {TournamentDetails}
+   * @type {TournamentPostRequest}
    * @memberof TournamentsApiPostTournament
    */
-  readonly tournamentDetails?: TournamentDetails;
+  readonly tournamentPostRequest?: TournamentPostRequest;
 }
 
 /**
@@ -698,13 +596,6 @@ export interface TournamentsApiPostTournamentRequest {
  */
 export interface TournamentsApiPutTournamentRequest {
   /**
-   * ID of the Organization
-   * @type {number}
-   * @memberof TournamentsApiPutTournament
-   */
-  readonly organizationId: number;
-
-  /**
    * ID of the Tournament
    * @type {number}
    * @memberof TournamentsApiPutTournament
@@ -713,10 +604,10 @@ export interface TournamentsApiPutTournamentRequest {
 
   /**
    *
-   * @type {TournamentDetails}
+   * @type {TournamentRequest}
    * @memberof TournamentsApiPutTournament
    */
-  readonly tournamentDetails?: TournamentDetails;
+  readonly tournamentRequest?: TournamentRequest;
 }
 
 /**
@@ -739,11 +630,7 @@ export class TournamentsApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return TournamentsApiFp(this.configuration)
-      .deleteTournament(
-        requestParameters.organizationId,
-        requestParameters.id,
-        options,
-      )
+      .deleteTournament(requestParameters.id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -760,28 +647,20 @@ export class TournamentsApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return TournamentsApiFp(this.configuration)
-      .getTournament(
-        requestParameters.organizationId,
-        requestParameters.id,
-        options,
-      )
+      .getTournament(requestParameters.id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    * Retrieves a list of all Tournaments
-   * @summary List Tournaments
-   * @param {TournamentsApiListTournamentsRequest} requestParameters Request parameters.
+   * @summary List Organization Tournaments
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TournamentsApi
    */
-  public listTournaments(
-    requestParameters: TournamentsApiListTournamentsRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public listTournaments(options?: RawAxiosRequestConfig) {
     return TournamentsApiFp(this.configuration)
-      .listTournaments(requestParameters.organizationId, options)
+      .listTournaments(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -794,15 +673,11 @@ export class TournamentsApi extends BaseAPI {
    * @memberof TournamentsApi
    */
   public postTournament(
-    requestParameters: TournamentsApiPostTournamentRequest,
+    requestParameters: TournamentsApiPostTournamentRequest = {},
     options?: RawAxiosRequestConfig,
   ) {
     return TournamentsApiFp(this.configuration)
-      .postTournament(
-        requestParameters.organizationId,
-        requestParameters.tournamentDetails,
-        options,
-      )
+      .postTournament(requestParameters.tournamentPostRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -820,9 +695,8 @@ export class TournamentsApi extends BaseAPI {
   ) {
     return TournamentsApiFp(this.configuration)
       .putTournament(
-        requestParameters.organizationId,
         requestParameters.id,
-        requestParameters.tournamentDetails,
+        requestParameters.tournamentRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath));

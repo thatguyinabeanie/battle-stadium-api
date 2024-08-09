@@ -2,11 +2,15 @@ require_relative '../../../serializer/tournament_serializer'
 module Api
   module V1
     class TournamentsController < ApiController
-      before_action :set_organization
-      before_action :set_tournaments, only: %i[index show]
+      before_action :set_tournaments, only: %i[show]
       before_action :set_tournament, only: %i[show update destroy]
 
       def index
+        @tournaments = ::Tournament::Tournament
+          .where('start_at > ?', Time.now)
+          .where('start_at <= ?', Time.now + 7.days)
+          .or(::Tournament::Tournament.where('start_at <= ? ', Time.now).where(ended_at: nil))
+          .order(start_at: :asc)
         render json: @tournaments, each_serializer: Serializer::Tournament, status: :ok
       end
 
@@ -15,7 +19,7 @@ module Api
       end
 
       def create
-        @tournament = ::Tournament::Tournament.new permitted_params.merge(organization: @organization)
+        @tournament = ::Tournament::Tournament.new permitted_params
         if @tournament.save
           render json: serialize_details, status: :created
         else
@@ -38,33 +42,29 @@ module Api
         render json: { message: 'Tournament deleted' }, status: :ok
       end
 
-      # TODO: Implement the following actions
-      # GET /api/v1/tournaments/:id/players
-      # GET /api/v1/tournaments/:id/phases
-      # POST /api/v1/tournaments/:id/phases
-      # PATCH/PUT /api/v1/tournaments/:id/phases/:phase_id
-      # DELETE /api/v1/tournaments/:id/phases/:phase_id
-      # GET /api/v1/tournaments/:id/players
-
       private
 
       # Use callbacks to share common setup or constraints between actions.
       def set_tournament
-        @tournaments ||= set_tournaments
-        @tournament = @tournaments.find(params[:id])
+        @tournament = ::Tournament::Tournament.find(params[:id])
+        @tournament
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Tournament not found' }, status: :not_found
       end
 
       def set_tournaments
-        @organization ||= set_organization
-        @tournaments ||= @organization.tournaments
-        @tournaments
+        @tournaments =  if params[:organization_id].present?
+                          @organization ||= set_organization
+                          @organization.tournaments
+                        else
+                          @tournaments = ::Tournament::Tournament.where('start_at > ?', Time.now)
+                                              .or(::Tournament::Tournament.where('start_at <= ? ', Time.now).where(ended_at: nil))
+                        end
       end
 
       def set_organization
-        @organization = if params[:organization_id].present?
-                          ::Organization.find(params[:organization_id])
+        @organization = if permitted_params[:organization_id].present?
+                          ::Organization.find(permitted_params[:organization_id])
                         else
                           ::Tournament::Tournament.find(params[:id]).organization
                         end
@@ -85,8 +85,9 @@ module Api
           :game_id, :format_id,
           :autostart, :player_cap,
           :registration_start_at, :registration_end_at, :late_registration,
-          :late_check_in, :check_in_start_at, :check_in_end_at,
-          :open_team_sheets, :teamlists_required
+          :check_in_start_at, :check_in_end_at,
+          :open_team_sheets, :teamlists_required,
+          :organization_id
         )
       end
     end

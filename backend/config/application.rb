@@ -15,13 +15,7 @@ module BattleStadium
 
     config.before_configuration do
       env_file = ".env.docker-compose"
-      if File.exist?(env_file) && !Rails.env.production?
-        puts ("Loading #{env_file} environment variables")
-
-        Dotenv.load(env_file)
-
-        puts "DB_HOST: #{ENV['DB_HOST']}"
-      end
+      Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

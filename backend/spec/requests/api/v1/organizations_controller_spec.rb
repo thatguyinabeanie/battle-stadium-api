@@ -2,7 +2,7 @@ require 'swagger_helper'
 require_relative '../../../support/openapi/schema_helper'
 require_relative '../../../support/openapi/response_helper'
 
-ORGANIZATION_DETAIL_SCHEMA = '#/components/schemas/OrganizationDetails'.freeze
+ORGANIZATION_DETAIL_SCHEMA = '#/components/schemas/Organization'.freeze
 DESCRIPTION = 'the bomb dot com'.freeze
 
 RSpec.describe Api::V1::OrganizationsController do

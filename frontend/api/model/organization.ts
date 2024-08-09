@@ -36,14 +36,14 @@ export interface Organization {
   name: string;
   /**
    *
-   * @type {string}
-   * @memberof Organization
-   */
-  description?: string | null;
-  /**
-   *
    * @type {User}
    * @memberof Organization
    */
   owner: User;
+  /**
+   *
+   * @type {string}
+   * @memberof Organization
+   */
+  description: string | null;
 }
