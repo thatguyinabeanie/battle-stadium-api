@@ -39,7 +39,7 @@ module Serializer
     self.organization_serializer = Serializer::Organization
 
 
-    attributes :late_check_in, :check_in_start_at
+    attributes :check_in_start_at
 
     attributes :autostart
     # attributes :description

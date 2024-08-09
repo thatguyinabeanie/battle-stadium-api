@@ -849,6 +849,10 @@ components:
           nullable: true
         organization:
           "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
         player_cap:
           type: integer
           nullable: true
@@ -874,10 +878,6 @@ components:
           format: date-time
         late_registration:
           type: boolean
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
       required:
       - id
       - name
@@ -923,10 +923,6 @@ components:
           format: date-time
         late_registration:
           type: boolean
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
         autostart:
           type: boolean
         start_at:
@@ -935,8 +931,10 @@ components:
           nullable: true
         organization:
           "$ref": "#/components/schemas/Organization"
-        late_check_in:
-          type: boolean
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
         check_in_start_at:
           type: string
           format: date-time
@@ -962,7 +960,6 @@ components:
       - autostart
       - teamlists_required
       - open_team_sheets
-      - late_check_in
       - check_in_start_at
       - late_registration
       - registration_start_at
@@ -1229,8 +1226,6 @@ components:
           nullable: true
         late_registration:
           type: boolean
-        late_check_in:
-          type: boolean
         check_in_start_at:
           type: string
           format: date-time
@@ -1249,7 +1244,6 @@ components:
       - registration_start_at
       - registration_end_at
       - late_registration
-      - late_check_in
       - check_in_start_at
       - open_team_sheets
       - teamlists_required
@@ -1283,8 +1277,6 @@ components:
           nullable: true
         late_registration:
           type: boolean
-        late_check_in:
-          type: boolean
         check_in_start_at:
           type: string
           format: date-time
@@ -1303,7 +1295,6 @@ components:
       - registration_start_at
       - registration_end_at
       - late_registration
-      - late_check_in
       - check_in_start_at
       - open_team_sheets
       - teamlists_required

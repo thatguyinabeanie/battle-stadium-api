@@ -90,18 +90,6 @@ export interface TournamentDetails {
   late_registration: boolean;
   /**
    *
-   * @type {Format}
-   * @memberof TournamentDetails
-   */
-  format: Format;
-  /**
-   *
-   * @type {Game}
-   * @memberof TournamentDetails
-   */
-  game: Game;
-  /**
-   *
    * @type {boolean}
    * @memberof TournamentDetails
    */
@@ -120,10 +108,16 @@ export interface TournamentDetails {
   organization: Organization;
   /**
    *
-   * @type {boolean}
+   * @type {Format}
    * @memberof TournamentDetails
    */
-  late_check_in: boolean;
+  format: Format;
+  /**
+   *
+   * @type {Game}
+   * @memberof TournamentDetails
+   */
+  game: Game;
   /**
    *
    * @type {string}
