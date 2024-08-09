@@ -149,14 +149,13 @@ ORGANIZATION_DETAILS_SCHEMA = {
 
 TOURNAMENT_PROPERTIES = {
   player_cap: { type: :integer, nullable: true },
-    player_count: { type: :integer },
-    end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    registration_start_at: { type: :string, format: DATE_TIME_TYPE },
-    registration_end_at: { type: :string, format: DATE_TIME_TYPE },
-    late_registration: { type: :boolean },
-
+  player_count: { type: :integer },
+  end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  registration_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  registration_end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+  late_registration: { type: :boolean },
 }
 
 TOURNAMENT_SCHEMA = {
