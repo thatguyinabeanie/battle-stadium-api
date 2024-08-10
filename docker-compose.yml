@@ -71,5 +71,3 @@ services:
       - .zshrc:/root/.zshrcs
 volumes:
   postgres-data:
-  node_modules:
-  pnpm-store:
