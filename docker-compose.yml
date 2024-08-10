@@ -29,7 +29,7 @@ services:
       bash -c "
         rm -f tmp/pids/server.pid && \
         (bundle check || bundle install) && \
-        sleep infinity
+        tail -f /dev/null
       "
     tty: true
     ports:
@@ -58,7 +58,7 @@ services:
     command: >
       bash -c "
         pnpm install --silent && \
-        pnpm run dev
+        tail -f /dev/null
       "
     depends_on:
       - backend

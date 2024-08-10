@@ -9,8 +9,7 @@ Battle Stadium is the definitive Pokemon VGC Tournament Hosting website. This pr
 - [Quick Overview](#quick-overview)
 - [Dependencies](#dependencies)
 - [Setup](#setup)
-- [Developing Locally](#developing-locally)
-- [Developing in a Docker Container/Devcontainers](#developing-in-a-docker-container-devcontainers)
+- [Developing with Visual Studio Devcontainers](#developing-with-visual-studio-devcontainers)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
@@ -23,120 +22,134 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
 To get started with Battle Stadium, ensure you have the following dependencies installed:
 
-- [pnpm](https://pnpm.io/installation)
-- [Docker](https://docs.docker.com/get-docker/)
-- [Turbo](https://turbo.build/repo/docs/install)
-
 ## Setup
 
-### Requirements
+### Developing locally
 
-- Ruby 3.3.4 - Install directly or with your favorite flavor of ruby version management tool, rvm, asdf, frum, rbenv, etc...
-- Node v20 - Install directly or with your favorite flavor of node version management tools, nvm, asdf, fnm, etc...
-- Docker
+#### Local Requirements
 
-### Getting Started
+- [Docker](https://docs.docker.com/get-docker/)
+- [pnpm](https://pnpm.io/)
+- [openssl@3](https://formulae.brew.sh/formula/openssl@3)
+- A ruby node version manager - frum, nvm, rbenv, asdf
 
-1. Clone the repository:
+#### Local Setup Steps
 
-    ```bash
-    git clone https://github.com/thatguyinabeanie/battle-stadium.git
-    cd battle-stadium
-    ```
+1. Install docker
 
-2. Install Ruby:
-
-    Use your favorite version management tool, for example [`frum`](https://github.com/TaKO8Ki/frum), a fast Ruby version manager built in Rust.
-
-    ```bash
-    frum install
-    asdf ruby install
-    rvm install
-    rbenv install
-    ```
-
-3. Install Node:
-
-    Use your favorite version management tool, for example [`fnm`](https://github.com/Schniz/fnm), a fast and simple Node.js version manager, built in Rust.
-
-    ```bash
-    fnm install
-    asdf node install
-    nvm install
-    ```
-
-4. Install pnpm:
-
-    Npm is bloated and slow, Yarn is okay, but pnpm is both fast and disk space efficient.
+2. Install pnpm
 
     ```bash
     npm install -g pnpm
     ```
 
-5. Install Dependencies:
+3. Install openssl. Windows users you're on your own
 
     ```bash
-    pnpm install          # Install node dependencies for Next.js server in frontend directory
-    pnpm bundle:install   # Install ruby gems for Rails API server in backend directory
+        brew install openssl@3
     ```
 
-6. Setup Docker:
+4. Set up the correct ruby version with OpenSSL. Installing and setting up a ruby version manager is entirely up to you.
+
+    Use your favorite ruby version manager to set up the correct ruby version. Below are examples of some of
+    the most popular ruby version managers
 
     ```bash
-    docker-compose up -d db # starts postgres db
+    frum install  --with-openssl-dir=$(brew --prefix openssl)
+    RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl)" rbenv install
+    RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)" asdf install ruby
+    rvm install 3.3.4 --with-openssl-dir=$(brew --prefix openssl@3) && rvm use
     ```
 
-7. Start the Rails API and NextJS Server:
+### Developing with Visual Studio Devcontainers
+
+#### Devcontainer Requirements
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [devcontainer cli](https://github.com/devcontainers/cli)
+
+#### Devcontainer Setup Steps
+
+1. Install docker
+
+2. Install devcontainers cli using your favorite package manager
 
     ```bash
-    pnpm dev                # Uses turborepo to start both the Rails and Next.js servers
+    npm install -g @devcontainers/cli
+    pnpm install -g @devcontainers/cli
+    npm install -g @devcontainers/cli
+    bun add -g @devcontainers/cli
     ```
 
-## Developing in a Docker Container/Devcontainers
-
-### Requirements
-
-- Docker
-- VSCode with the Devcontainers Extension
-
-### Getting Started
-
-1. Clone the repository:
+3. Clone the repository:
 
     ```bash
     git clone https://github.com/thatguyinabeanie/battle-stadium.git
     cd battle-stadium
     ```
 
-2. Build and Start Docker Container:
+4. Build the docker container images
 
     ```bash
-    docker compose up -d  # starts Rails and Next.js servers, and postgres db
-    devcontainer open .   # opens VSCode attached to the devcontainer with Rails and Next.js servers
+    docker compose build
+    ```
+
+5. Open devcontainer instance in Visual Studio Code
+
+    ```bash
+    devcontainer open [backend|frontend]
     ```
 
 ## Testing
 
-### Rails API RSpec Tests
+### Running Tests Locally
 
-1. Backend Rails RSpec Tests:
+- Rails API RSpec Tests
 
     ```bash
     cd backend
     rspec
     ```
 
-2. Front End NextJS Jest Test:
+- Front End NextJS Jest Test
 
     ```bash
     cd frontend
     pnpm test
     ```
 
-3. Run backend and frontend tests at the same time:
+### Running Tests in devcontainers
+
+Here you have a few options
+
+#### From a VS Code devcontainer shell session
+
+- Rails API RSpec Tests
+
+    ```bash
+    rspec
+    ```
+
+- Front End NextJS Jest Test
 
     ```bash
     pnpm test
+    ```
+
+#### From a local shell session
+
+From the root of the repo, run these commands.
+
+- Rails API RSpec Tests
+
+    ```bash
+    docker compose run -rm backend bash -c "rspec"
+    ```
+
+- Front End NextJS Jest Test
+
+    ```bash
+    docker compose run -rm frontend bash -c "pnpm test"
     ```
 
 ## Contributing
