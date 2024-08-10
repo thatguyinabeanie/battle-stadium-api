@@ -12,18 +12,23 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
 
+      - name: cd into frontend
+        run: cd frontend
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "pnpm"
 
-      - name: Prepare Jest
-        run: |
-          mkdir -p frontend/test-results/jest
-
       - name: Install Dependencies
-        run: cd frontend && pnpm install --silent
+        run: pnpm install --silent
 
       - name: Run Jest tests
         env:

@@ -11,7 +11,7 @@ ENV PORT 8080
 ENV API_BASE_URL http://localhost:3000
 
 RUN apt-get update -qq && \
-    apt-get  --no-install-recommends install -y -q default-jdk curl git && \
+    apt-get  --no-install-recommends install -y -q curl default-jdk git && \
     apt-get clean && \npm install -g pnpm && \
     pnpm install
 
