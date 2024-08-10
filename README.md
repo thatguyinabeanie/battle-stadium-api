@@ -6,25 +6,22 @@ Battle Stadium is the definitive Pokemon VGC Tournament Hosting website. This pr
 
 ## Table of Contents
 
-- [Quick Overview](#quick-overview)
-- [Dependencies](#dependencies)
-- [Setup](#setup)
-- [Developing with Visual Studio Devcontainers](#developing-with-visual-studio-devcontainers)
-- [Testing](#testing)
+- [Overview](#overview)
+
+- [Development](#development)
+  - [Developing with Visual Studio Devcontainers](#visual-studio-devcontainers-development)
+  - [Testing](#testing)
+  - [Running Services](#running-services)
 - [Contributing](#contributing)
 - [License](#license)
 
-## Quick Overview
+## Overview
 
-Battle Stadium is designed to facilitate the hosting and management of Pokemon VGC tournaments. It features a robust backend built with Ruby on Rails and a dynamic frontend using React. Authentication is handled via the Devise gem.
+Battle Stadium is designed to facilitate the hosting and management of Pokemon VGC tournaments. It features a robust backend built with Ruby on Rails and a dynamic frontend using NextJS. Authentication is handled via the Devise gem.
 
-## Dependencies
+## Development
 
-To get started with Battle Stadium, ensure you have the following dependencies installed:
-
-## Setup
-
-### Developing locally
+### Local Development
 
 #### Local Requirements
 
@@ -61,7 +58,7 @@ To get started with Battle Stadium, ensure you have the following dependencies i
     rvm install 3.3.4 --with-openssl-dir=$(brew --prefix openssl@3) && rvm use
     ```
 
-### Developing with Visual Studio Devcontainers
+### Visual Studio Devcontainers Development
 
 #### Devcontainer Requirements
 
@@ -100,9 +97,9 @@ To get started with Battle Stadium, ensure you have the following dependencies i
     devcontainer open [backend|frontend]
     ```
 
-## Testing
+### Testing
 
-### Running Tests Locally
+#### Running Tests Locally
 
 - Rails API RSpec Tests
 
@@ -118,9 +115,7 @@ To get started with Battle Stadium, ensure you have the following dependencies i
     pnpm test
     ```
 
-### Running Tests in devcontainers
-
-Here you have a few options
+#### Running Tests in devcontainers
 
 #### From a VS Code devcontainer shell session
 
@@ -138,18 +133,46 @@ Here you have a few options
 
 #### From a local shell session
 
-From the root of the repo, run these commands.
-
 - Rails API RSpec Tests
 
     ```bash
+    # from the root of the repo
     docker compose run -rm backend bash -c "rspec"
     ```
 
 - Front End NextJS Jest Test
 
     ```bash
+    # from the root of the repo
     docker compose run -rm frontend bash -c "pnpm test"
+    ```
+
+### Running Services
+
+#### Running Services Locally
+
+1. Rails API Server
+
+    ```bash
+    docker compose up -d db
+    cd backend
+    bundle exec rails server -b 0.0.0.0 -p 3000
+    ```
+
+2. NextJS Server
+
+    ```bash
+    cd frontend
+    pnpm dev
+    ```
+
+#### Running Services Through Docker
+
+1. Use the helper script
+
+    ```bash
+    # from the root of the repo
+    ./start_services.sh
     ```
 
 ## Contributing
