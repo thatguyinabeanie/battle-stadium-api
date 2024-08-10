@@ -168,11 +168,22 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
 #### Running Services Through Docker
 
-1. Use the helper script
+1. Start the database container
 
     ```bash
-    # from the root of the repo
-    ./start_services.sh
+    docker compose up -d
+    ```
+
+2. Start the Rails API Server
+
+    ```bash
+    docker compose run --rm backend bash -c "bundle exec rails server -b 0.0.0.0 -p 3000"
+    ```
+
+3. Start the NextJS Server
+
+    ```bash
+    docker compose run --rm frontend bash -c "pnpm dev"
     ```
 
 ## Contributing
