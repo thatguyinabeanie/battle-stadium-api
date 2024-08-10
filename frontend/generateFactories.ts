@@ -59,19 +59,21 @@ files.forEach((file: string) => {
 export const ${interfaceName}Factory = new Factory<${interfaceName}>()
 ${properties.map((prop: Property) => {
       let value = 'undefined';
-      switch (prop.type) {
-        case 'string':
-          value = `'${prop.name}'`;
-          break;
-        case 'number':
-          value = '0';
-          break;
-        case 'boolean':
-          value = 'false';
-          break;
-        // Add more type checks as needed
+      if (prop.name === 'id') {
+        return `  .sequence('${prop.name}')`;
+      } else if (prop.type === 'string') {
+        value = `'${prop.name}'`;
+      } else if (prop.type === 'number') {
+        value = '0';
+      } else if (prop.type === 'boolean') {
+        value = 'false';
+      } else if (prop.type.endsWith('[]')) {
+        const itemType = prop.type.slice(0, -2);
+        value = `['id'], (id) => ${itemType}Factory.buildList(3, { id })`;
+      } else {
+        value = `${prop.type}Factory.build()`;
       }
-      return `  .attr('${prop.name}', () => ${value})`;
+      return `  .attr('${prop.name}', ${value})`;
     }).join('\n')}
 ;
     `.trim();
