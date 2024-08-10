@@ -5,7 +5,7 @@ require_relative '../../../serializer/tournament_serializer'
 module Api
   module V1
     class OrganizationsController < AbstractApplicationController
-      before_action :set_organization, only: %i[show update destroy staff post_tournaments] # rubocop:disable Rails/LexicallyScopedActionFilter
+      before_action :set_organization, only: %i[show update destroy staff post_tournaments patch_tournament]
 
       self.klass = ::Organization
       self.serializer_klass = Serializer::Organization
@@ -28,6 +28,17 @@ module Api
         end
       rescue ActionController::ParameterMissing => e
         render json: { error: e.message }, status: :bad_request
+      end
+
+      def patch_tournament
+        @tournament = @organization.tournaments.find(params[:tournament_id])
+        if @tournament.update! tournaments_permitted_params
+          render json: @tournament, status: :ok, serializer: Serializer::Tournament
+        else
+          render json: @tournament.errors, status: :unprocessable_entity
+        end
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Tournament not found' }, status: :not_found
       end
 
       private

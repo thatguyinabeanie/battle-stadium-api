@@ -57,12 +57,12 @@ export const OrganizationsApiAxiosParamCreator = function (
     /**
      * Deletes an organization.
      * @summary Delete Organization
-     * @param {string} id
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteOrganization: async (
-      id: string,
+      id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -102,12 +102,12 @@ export const OrganizationsApiAxiosParamCreator = function (
     /**
      * Retrieves a specific organization.
      * @summary Show Organization
-     * @param {string} id
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getOrganization: async (
-      id: string,
+      id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -147,12 +147,12 @@ export const OrganizationsApiAxiosParamCreator = function (
     /**
      * Retrieves a list of staff members for a specific organization.
      * @summary List Organization Staff
-     * @param {string} id
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getOrganizationStaff: async (
-      id: string,
+      id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -230,13 +230,13 @@ export const OrganizationsApiAxiosParamCreator = function (
     /**
      * Updates an existing organization.
      * @summary Update Organization
-     * @param {string} id
+     * @param {number} id
      * @param {Organization} [organization]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     patchOrganization: async (
-      id: string,
+      id: number,
       organization?: Organization,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -272,6 +272,71 @@ export const OrganizationsApiAxiosParamCreator = function (
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
         organization,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Updates an existing tournament for a given organization.
+     * @summary Update Tournament
+     * @param {number} id
+     * @param {number} tournamentId
+     * @param {TournamentDetails} [tournamentDetails]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    patchOrganizationTournament: async (
+      id: number,
+      tournamentId: number,
+      tournamentDetails?: TournamentDetails,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("patchOrganizationTournament", "id", id);
+      // verify required parameter 'tournamentId' is not null or undefined
+      assertParamExists(
+        "patchOrganizationTournament",
+        "tournamentId",
+        tournamentId,
+      );
+      const localVarPath =
+        `/api/v1/organizations/{id}/tournaments/{tournament_id}`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+          .replace(
+            `{${"tournament_id"}}`,
+            encodeURIComponent(String(tournamentId)),
+          );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions?.headers ?? {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        tournamentDetails,
         localVarRequestOptions,
         configuration,
       );
@@ -329,15 +394,15 @@ export const OrganizationsApiAxiosParamCreator = function (
       };
     },
     /**
-     * Creates a new tournament for an organization.
+     * Creates a new tournament for a given organization.
      * @summary Create Tournament
-     * @param {string} id
+     * @param {number} id
      * @param {TournamentDetails} [tournamentDetails]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postOrganizationTournament: async (
-      id: string,
+      id: number,
       tournamentDetails?: TournamentDetails,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -396,12 +461,12 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
     /**
      * Deletes an organization.
      * @summary Delete Organization
-     * @param {string} id
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async deleteOrganization(
-      id: string,
+      id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
@@ -424,12 +489,12 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
     /**
      * Retrieves a specific organization.
      * @summary Show Organization
-     * @param {string} id
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getOrganization(
-      id: string,
+      id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Organization>
@@ -454,12 +519,12 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
     /**
      * Retrieves a list of staff members for a specific organization.
      * @summary List Organization Staff
-     * @param {string} id
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getOrganizationStaff(
-      id: string,
+      id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<User>>
@@ -511,13 +576,13 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
     /**
      * Updates an existing organization.
      * @summary Update Organization
-     * @param {string} id
+     * @param {number} id
      * @param {Organization} [organization]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async patchOrganization(
-      id: string,
+      id: number,
       organization?: Organization,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -532,6 +597,43 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["OrganizationsApi.patchOrganization"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Updates an existing tournament for a given organization.
+     * @summary Update Tournament
+     * @param {number} id
+     * @param {number} tournamentId
+     * @param {TournamentDetails} [tournamentDetails]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async patchOrganizationTournament(
+      id: number,
+      tournamentId: number,
+      tournamentDetails?: TournamentDetails,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tournament>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.patchOrganizationTournament(
+          id,
+          tournamentId,
+          tournamentDetails,
+          options,
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["OrganizationsApi.patchOrganizationTournament"]?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -571,15 +673,15 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * Creates a new tournament for an organization.
+     * Creates a new tournament for a given organization.
      * @summary Create Tournament
-     * @param {string} id
+     * @param {number} id
      * @param {TournamentDetails} [tournamentDetails]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async postOrganizationTournament(
-      id: string,
+      id: number,
       tournamentDetails?: TournamentDetails,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -696,6 +798,26 @@ export const OrganizationsApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
+     * Updates an existing tournament for a given organization.
+     * @summary Update Tournament
+     * @param {OrganizationsApiPatchOrganizationTournamentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    patchOrganizationTournament(
+      requestParameters: OrganizationsApiPatchOrganizationTournamentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Tournament> {
+      return localVarFp
+        .patchOrganizationTournament(
+          requestParameters.id,
+          requestParameters.tournamentId,
+          requestParameters.tournamentDetails,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Creates a new organization.
      * @summary Create Organization
      * @param {OrganizationsApiPostOrganizationRequest} requestParameters Request parameters.
@@ -711,7 +833,7 @@ export const OrganizationsApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * Creates a new tournament for an organization.
+     * Creates a new tournament for a given organization.
      * @summary Create Tournament
      * @param {OrganizationsApiPostOrganizationTournamentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -740,10 +862,10 @@ export const OrganizationsApiFactory = function (
 export interface OrganizationsApiDeleteOrganizationRequest {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof OrganizationsApiDeleteOrganization
    */
-  readonly id: string;
+  readonly id: number;
 }
 
 /**
@@ -754,10 +876,10 @@ export interface OrganizationsApiDeleteOrganizationRequest {
 export interface OrganizationsApiGetOrganizationRequest {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof OrganizationsApiGetOrganization
    */
-  readonly id: string;
+  readonly id: number;
 }
 
 /**
@@ -768,10 +890,10 @@ export interface OrganizationsApiGetOrganizationRequest {
 export interface OrganizationsApiGetOrganizationStaffRequest {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof OrganizationsApiGetOrganizationStaff
    */
-  readonly id: string;
+  readonly id: number;
 }
 
 /**
@@ -782,10 +904,10 @@ export interface OrganizationsApiGetOrganizationStaffRequest {
 export interface OrganizationsApiPatchOrganizationRequest {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof OrganizationsApiPatchOrganization
    */
-  readonly id: string;
+  readonly id: number;
 
   /**
    *
@@ -793,6 +915,34 @@ export interface OrganizationsApiPatchOrganizationRequest {
    * @memberof OrganizationsApiPatchOrganization
    */
   readonly organization?: Organization;
+}
+
+/**
+ * Request parameters for patchOrganizationTournament operation in OrganizationsApi.
+ * @export
+ * @interface OrganizationsApiPatchOrganizationTournamentRequest
+ */
+export interface OrganizationsApiPatchOrganizationTournamentRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof OrganizationsApiPatchOrganizationTournament
+   */
+  readonly id: number;
+
+  /**
+   *
+   * @type {number}
+   * @memberof OrganizationsApiPatchOrganizationTournament
+   */
+  readonly tournamentId: number;
+
+  /**
+   *
+   * @type {TournamentDetails}
+   * @memberof OrganizationsApiPatchOrganizationTournament
+   */
+  readonly tournamentDetails?: TournamentDetails;
 }
 
 /**
@@ -817,10 +967,10 @@ export interface OrganizationsApiPostOrganizationRequest {
 export interface OrganizationsApiPostOrganizationTournamentRequest {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof OrganizationsApiPostOrganizationTournament
    */
-  readonly id: string;
+  readonly id: number;
 
   /**
    *
@@ -923,6 +1073,28 @@ export class OrganizationsApi extends BaseAPI {
   }
 
   /**
+   * Updates an existing tournament for a given organization.
+   * @summary Update Tournament
+   * @param {OrganizationsApiPatchOrganizationTournamentRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof OrganizationsApi
+   */
+  public patchOrganizationTournament(
+    requestParameters: OrganizationsApiPatchOrganizationTournamentRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return OrganizationsApiFp(this.configuration)
+      .patchOrganizationTournament(
+        requestParameters.id,
+        requestParameters.tournamentId,
+        requestParameters.tournamentDetails,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Creates a new organization.
    * @summary Create Organization
    * @param {OrganizationsApiPostOrganizationRequest} requestParameters Request parameters.
@@ -940,7 +1112,7 @@ export class OrganizationsApi extends BaseAPI {
   }
 
   /**
-   * Creates a new tournament for an organization.
+   * Creates a new tournament for a given organization.
    * @summary Create Tournament
    * @param {OrganizationsApiPostOrganizationTournamentRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.

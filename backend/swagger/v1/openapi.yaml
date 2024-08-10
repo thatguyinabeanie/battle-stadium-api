@@ -136,7 +136,7 @@ paths:
       in: path
       required: true
       schema:
-        type: string
+        type: integer
     get:
       summary: Show Organization
       tags:
@@ -190,7 +190,7 @@ paths:
       in: path
       required: true
       schema:
-        type: string
+        type: integer
     get:
       summary: List Organization Staff
       tags:
@@ -214,12 +214,12 @@ paths:
       in: path
       required: true
       schema:
-        type: string
+        type: integer
     post:
       summary: Create Tournament
       tags:
       - Organizations
-      description: Creates a new tournament for an organization.
+      description: Creates a new tournament for a given organization.
       operationId: postOrganizationTournament
       parameters: []
       responses:
@@ -229,6 +229,41 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Tournament"
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TournamentDetails"
+  "/api/v1/organizations/{id}/tournaments/{tournament_id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: tournament_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Update Tournament
+      tags:
+      - Organizations
+      description: Updates an existing tournament for a given organization.
+      operationId: patchOrganizationTournament
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Tournament"
+        '404':
+          description: not found
         '400':
           description: bad request
       requestBody:
