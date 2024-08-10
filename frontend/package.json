@@ -41,7 +41,7 @@
     "dotenv": "^16.4.5",
     "framer-motion": "~11.3.21",
     "intl-messageformat": "^10.5.0",
-    "lucide-react": "^0.417.0",
+    "lucide-react": "^0.427.0",
     "next": "^14.2.5",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
