@@ -1,30 +1,17 @@
 import { faker } from '@faker-js/faker';
 import { Factory } from 'rosie';
-import { Format } from '@/api/model/format';
-import { GameDetail } from '@/api/model/game-detail';
-import { GameRequest } from '@/api/model/game-request';
-import { Game } from '@/api/model/game';
-import { OrganizationDetails } from '@/api/model/organization-details';
-import { Organization } from '@/api/model/organization';
-import { PasswordRequest } from '@/api/model/password-request';
-import { PhaseDetails } from '@/api/model/phase-details';
-import { Phase } from '@/api/model/phase';
-import { PlayerDetails } from '@/api/model/player-details';
-import { PlayerRequest } from '@/api/model/player-request';
-import { Player } from '@/api/model/player';
-import { Pokemon } from '@/api/model/pokemon';
-import { Round } from '@/api/model/round';
-import { TournamentDetails } from '@/api/model/tournament-details';
-import { TournamentPostRequest } from '@/api/model/tournament-post-request';
-import { TournamentRequest } from '@/api/model/tournament-request';
-import { Tournament } from '@/api/model/tournament';
-import { UserDetails } from '@/api/model/user-details';
-import { UserLoginRequest } from '@/api/model/user-login-request';
-import { UserPostRequest } from '@/api/model/user-post-request';
-import { UserRequest } from '@/api/model/user-request';
-import { User } from '@/api/model/user';
+import { ChangePasswordRequest, Format, Game, GameDetail, GameRequest, Organization, OrganizationDetails, PasswordRequest, Phase, PhaseDetails, Player, PlayerDetails, PlayerRequest, Pokemon, Round, Tournament, TournamentDetails, TournamentPostRequest, TournamentRequest, User, UserDetails, UserLoginRequest, UserPostRequest, UserRequest, GamesApiDeleteGameRequest, GamesApiGetGameRequest, GamesApiPatchGameRequest, GamesApiPostGameRequest, OrganizationsApiDeleteOrganizationRequest, OrganizationsApiGetOrganizationRequest, OrganizationsApiGetOrganizationStaffRequest, OrganizationsApiPatchOrganizationRequest, OrganizationsApiPatchOrganizationTournamentRequest, OrganizationsApiPostOrganizationRequest, OrganizationsApiPostOrganizationTournamentRequest, PhasesApiDeleteTournamentPhaseRequest, PhasesApiListTournamentPhasesRequest, PhasesApiPostTournamentPhaseRequest, PhasesApiPutTournamentPhaseRequest, PhasesApiShowTournamentPhaseRequest, PlayersApiDeleteTournamentPlayerRequest, PlayersApiListPlayersRequest, PlayersApiPostTournamentPlayerRequest, PlayersApiPutTournamentPlayerRequest, PlayersApiShowTournamentPlayerRequest, SessionsApiLoginUserRequest, TournamentsApiGetTournamentRequest, UsersApiDeleteUserRequest, UsersApiGetUserRequest, UsersApiPatchUserRequest, UsersApiPostUserRequest } from './api';
 
+export const ChangePasswordRequestFactory = new Factory<ChangePasswordRequest>()
+  .attr('password', () => faker.lorem.word())
+  .attr('password_confirmation', () => faker.date.recent().toISOString())
+  .attr('current_password', () => faker.lorem.word())
+;
 export const FormatFactory = new Factory<Format>()
+  .sequence('id')
+  .attr('name', () => faker.lorem.word())
+;
+export const GameFactory = new Factory<Game>()
   .sequence('id')
   .attr('name', () => faker.lorem.word())
 ;
@@ -37,17 +24,13 @@ export const GameRequestFactory = new Factory<GameRequest>()
   .sequence('id')
   .attr('name', () => faker.lorem.word())
 ;
-export const GameFactory = new Factory<Game>()
-  .sequence('id')
-  .attr('name', () => faker.lorem.word())
-;
-export const OrganizationDetailsFactory = new Factory<OrganizationDetails>()
+export const OrganizationFactory = new Factory<Organization>()
   .sequence('id')
   .attr('name', () => faker.lorem.word())
   .attr('owner', () => UserFactory.build())
   .attr('description', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
 ;
-export const OrganizationFactory = new Factory<Organization>()
+export const OrganizationDetailsFactory = new Factory<OrganizationDetails>()
   .sequence('id')
   .attr('name', () => faker.lorem.word())
   .attr('owner', () => UserFactory.build())
@@ -56,6 +39,20 @@ export const OrganizationFactory = new Factory<Organization>()
 export const PasswordRequestFactory = new Factory<PasswordRequest>()
   .attr('password', () => faker.lorem.word())
   .attr('password_confirmation', () => faker.date.recent().toISOString())
+;
+export const PhaseFactory = new Factory<Phase>()
+  .sequence('id')
+  .attr('name', () => faker.lorem.word())
+  .attr('order', () => faker.number.int({min: 1, max: 100}))
+  .attr('type', () => faker.lorem.word())
+  .attr('tournament_id', () => faker.number.int({min: 1, max: 100}))
+  .attr('number_of_rounds', () => faker.number.int({min: 1, max: 100}))
+  .attr('best_of', () => faker.number.int({min: 1, max: 100}))
+  .attr('criteria', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('started_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('ended_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('created_at', () => faker.date.recent().toISOString())
+  .attr('updated_at', () => faker.date.recent().toISOString())
 ;
 export const PhaseDetailsFactory = new Factory<PhaseDetails>()
   .sequence('id')
@@ -73,19 +70,10 @@ export const PhaseDetailsFactory = new Factory<PhaseDetails>()
   .attr('players', ['id'], (id) => PlayerFactory.buildList(faker.number.int({min: 1, max: 5}), { id }))
   .attr('rounds', ['id'], (id) => RoundFactory.buildList(faker.number.int({min: 1, max: 5}), { id }))
 ;
-export const PhaseFactory = new Factory<Phase>()
+export const PlayerFactory = new Factory<Player>()
   .sequence('id')
-  .attr('name', () => faker.lorem.word())
-  .attr('order', () => faker.number.int({min: 1, max: 100}))
-  .attr('type', () => faker.lorem.word())
-  .attr('tournament_id', () => faker.number.int({min: 1, max: 100}))
-  .attr('number_of_rounds', () => faker.number.int({min: 1, max: 100}))
-  .attr('best_of', () => faker.number.int({min: 1, max: 100}))
-  .attr('criteria', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('started_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('ended_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('created_at', () => faker.date.recent().toISOString())
-  .attr('updated_at', () => faker.date.recent().toISOString())
+  .attr('user', () => UserFactory.build())
+  .attr('in_game_name', () => faker.lorem.word())
 ;
 export const PlayerDetailsFactory = new Factory<PlayerDetails>()
   .sequence('id')
@@ -94,11 +82,6 @@ export const PlayerDetailsFactory = new Factory<PlayerDetails>()
 ;
 export const PlayerRequestFactory = new Factory<PlayerRequest>()
   .attr('user_id', () => faker.number.int({min: 1, max: 100}))
-  .attr('in_game_name', () => faker.lorem.word())
-;
-export const PlayerFactory = new Factory<Player>()
-  .sequence('id')
-  .attr('user', () => UserFactory.build())
   .attr('in_game_name', () => faker.lorem.word())
 ;
 export const PokemonFactory = new Factory<Pokemon>()
@@ -120,6 +103,22 @@ export const RoundFactory = new Factory<Round>()
   .attr('round_number', () => faker.number.int({min: 1, max: 100}))
   .attr('started_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
   .attr('ended_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+;
+export const TournamentFactory = new Factory<Tournament>()
+  .sequence('id')
+  .attr('name', () => faker.lorem.word())
+  .attr('start_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('organization', () => OrganizationFactory.build())
+  .attr('format', () => FormatFactory.build())
+  .attr('game', () => GameFactory.build())
+  .attr('player_cap', () => faker.helpers.maybe(() => faker.number.int({min: 1, max: 100}), {probability: 0.8}))
+  .attr('player_count', () => faker.number.int({min: 1, max: 100}))
+  .attr('end_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('started_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('ended_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('registration_start_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('registration_end_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
+  .attr('late_registration', () => faker.datatype.boolean())
 ;
 export const TournamentDetailsFactory = new Factory<TournamentDetails>()
   .sequence('id')
@@ -171,21 +170,10 @@ export const TournamentRequestFactory = new Factory<TournamentRequest>()
   .attr('open_team_sheets', () => faker.datatype.boolean())
   .attr('teamlists_required', () => faker.datatype.boolean())
 ;
-export const TournamentFactory = new Factory<Tournament>()
+export const UserFactory = new Factory<User>()
+  .attr('username', () => faker.lorem.word())
+  .attr('pronouns', () => faker.lorem.word())
   .sequence('id')
-  .attr('name', () => faker.lorem.word())
-  .attr('start_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('organization', () => OrganizationFactory.build())
-  .attr('format', () => FormatFactory.build())
-  .attr('game', () => GameFactory.build())
-  .attr('player_cap', () => faker.helpers.maybe(() => faker.number.int({min: 1, max: 100}), {probability: 0.8}))
-  .attr('player_count', () => faker.number.int({min: 1, max: 100}))
-  .attr('end_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('started_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('ended_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('registration_start_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('registration_end_at', () => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8}))
-  .attr('late_registration', () => faker.datatype.boolean())
 ;
 export const UserDetailsFactory = new Factory<UserDetails>()
   .attr('username', () => faker.lorem.word())
@@ -218,8 +206,100 @@ export const UserRequestFactory = new Factory<UserRequest>()
   .sequence('id')
   .attr('current_password', () => faker.lorem.word())
 ;
-export const UserFactory = new Factory<User>()
-  .attr('username', () => faker.lorem.word())
-  .attr('pronouns', () => faker.lorem.word())
+export const GamesApiDeleteGameRequestFactory = new Factory<GamesApiDeleteGameRequest>()
   .sequence('id')
+;
+export const GamesApiGetGameRequestFactory = new Factory<GamesApiGetGameRequest>()
+  .sequence('id')
+;
+export const GamesApiPatchGameRequestFactory = new Factory<GamesApiPatchGameRequest>()
+  .sequence('id')
+  .attr('game', () => GameFactory.build())
+;
+export const GamesApiPostGameRequestFactory = new Factory<GamesApiPostGameRequest>()
+  .attr('game', () => GameFactory.build())
+;
+export const OrganizationsApiDeleteOrganizationRequestFactory = new Factory<OrganizationsApiDeleteOrganizationRequest>()
+  .sequence('id')
+;
+export const OrganizationsApiGetOrganizationRequestFactory = new Factory<OrganizationsApiGetOrganizationRequest>()
+  .sequence('id')
+;
+export const OrganizationsApiGetOrganizationStaffRequestFactory = new Factory<OrganizationsApiGetOrganizationStaffRequest>()
+  .sequence('id')
+;
+export const OrganizationsApiPatchOrganizationRequestFactory = new Factory<OrganizationsApiPatchOrganizationRequest>()
+  .sequence('id')
+  .attr('organization', () => OrganizationFactory.build())
+;
+export const OrganizationsApiPatchOrganizationTournamentRequestFactory = new Factory<OrganizationsApiPatchOrganizationTournamentRequest>()
+  .sequence('id')
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .attr('tournamentDetails', () => TournamentDetailsFactory.build())
+;
+export const OrganizationsApiPostOrganizationRequestFactory = new Factory<OrganizationsApiPostOrganizationRequest>()
+  .attr('organization', () => OrganizationFactory.build())
+;
+export const OrganizationsApiPostOrganizationTournamentRequestFactory = new Factory<OrganizationsApiPostOrganizationTournamentRequest>()
+  .sequence('id')
+  .attr('tournamentDetails', () => TournamentDetailsFactory.build())
+;
+export const PhasesApiDeleteTournamentPhaseRequestFactory = new Factory<PhasesApiDeleteTournamentPhaseRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .sequence('id')
+;
+export const PhasesApiListTournamentPhasesRequestFactory = new Factory<PhasesApiListTournamentPhasesRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+;
+export const PhasesApiPostTournamentPhaseRequestFactory = new Factory<PhasesApiPostTournamentPhaseRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .attr('phase', () => PhaseFactory.build())
+;
+export const PhasesApiPutTournamentPhaseRequestFactory = new Factory<PhasesApiPutTournamentPhaseRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .sequence('id')
+  .attr('phase', () => PhaseFactory.build())
+;
+export const PhasesApiShowTournamentPhaseRequestFactory = new Factory<PhasesApiShowTournamentPhaseRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .sequence('id')
+;
+export const PlayersApiDeleteTournamentPlayerRequestFactory = new Factory<PlayersApiDeleteTournamentPlayerRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .sequence('id')
+;
+export const PlayersApiListPlayersRequestFactory = new Factory<PlayersApiListPlayersRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+;
+export const PlayersApiPostTournamentPlayerRequestFactory = new Factory<PlayersApiPostTournamentPlayerRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .attr('playerRequest', () => PlayerRequestFactory.build())
+;
+export const PlayersApiPutTournamentPlayerRequestFactory = new Factory<PlayersApiPutTournamentPlayerRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .sequence('id')
+  .attr('playerRequest', () => PlayerRequestFactory.build())
+;
+export const PlayersApiShowTournamentPlayerRequestFactory = new Factory<PlayersApiShowTournamentPlayerRequest>()
+  .attr('tournamentId', () => faker.number.int({min: 1, max: 100}))
+  .sequence('id')
+;
+export const SessionsApiLoginUserRequestFactory = new Factory<SessionsApiLoginUserRequest>()
+  .attr('userLoginRequest', () => UserLoginRequestFactory.build())
+;
+export const TournamentsApiGetTournamentRequestFactory = new Factory<TournamentsApiGetTournamentRequest>()
+  .sequence('id')
+;
+export const UsersApiDeleteUserRequestFactory = new Factory<UsersApiDeleteUserRequest>()
+  .sequence('id')
+;
+export const UsersApiGetUserRequestFactory = new Factory<UsersApiGetUserRequest>()
+  .sequence('id')
+;
+export const UsersApiPatchUserRequestFactory = new Factory<UsersApiPatchUserRequest>()
+  .sequence('id')
+  .attr('userDetails', () => UserDetailsFactory.build())
+;
+export const UsersApiPostUserRequestFactory = new Factory<UsersApiPostUserRequest>()
+  .attr('userPostRequest', () => UserPostRequestFactory.build())
 ;
