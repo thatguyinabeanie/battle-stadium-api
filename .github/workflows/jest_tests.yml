@@ -22,7 +22,7 @@ jobs:
         with:
           node-version-file: ./frontend/.node-version
           cache: "pnpm"
-          cache-dependency-path: subdir/pnpm-lock.yaml
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
           check-latest: true
 
       - name: Install Dependencies
