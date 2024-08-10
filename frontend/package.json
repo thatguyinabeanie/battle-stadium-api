@@ -79,7 +79,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-unused-imports": "^3.2.0",
+    "eslint-plugin-unused-imports": "^4.1.2",
     "esm": "^3.2.25",
     "extend-expect": "link:@testing-library/jest-dom/extend-expect",
     "jest": "^29.7.0",
