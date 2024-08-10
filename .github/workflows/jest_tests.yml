@@ -10,10 +10,6 @@ jobs:
         working-directory: ./frontend
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-
-      - name: cd into frontend
-        run: cd frontend
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
