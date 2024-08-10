@@ -8,9 +8,10 @@
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
     "eslint": "pnpm run lint",
-    "jest": "jest --passWithNoTests",
-    "test": "jest --passWithNoTests",
-    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-axios -o ./api --skip-validate-spec --additional-properties=useSingleRequestParameter=true,withoutPrefixEnums=true,enumNameSuffix=,withSeparateModelsAndApi=true,apiPackage=server,modelPackage=model --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-axios --enable-post-process-file"
+    "test": "pnpm jest --passWithNoTests",
+    "test:all": "pnpm jest",
+    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-axios -o ./api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-axios --enable-post-process-file",
+    "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts"
   },
   "dependencies": {
     "@internationalized/date": "^3.5.5",
@@ -53,13 +54,18 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@faker-js/faker": "^8.4.1",
     "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
     "@types/eslint__js": "^8.42.3",
+    "@types/jest": "^29.5.12",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/rosie": "^0.0.45",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "autoprefixer": "10.4.20",
@@ -74,15 +80,22 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^3.2.0",
+    "esm": "^3.2.25",
+    "extend-expect": "link:@testing-library/jest-dom/extend-expect",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",
+    "js-yaml": "^4.1.0",
     "openapi-typescript": "^7.3.0",
     "postcss": "^8",
     "prettier": "^3.3.3",
+    "rosie": "1.1.0",
     "tailwind-variants": "^0.2",
+    "ts-morph": "^23.0.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "yaml": "^2.5.0"
   }
 }
