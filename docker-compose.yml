@@ -66,10 +66,10 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - node_modules:/battle-stadium/frontend/node_modules
+      - pnpm-store:/pnpm-store
       - .:/battle-stadium
-      - .zshrc:/root/.zshrc
-
+      - .zshrc:/root/.zshrcs
 volumes:
   postgres-data:
   node_modules:
+  pnpm-store:
