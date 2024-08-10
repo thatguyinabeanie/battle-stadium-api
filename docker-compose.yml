@@ -66,7 +66,6 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - pnpm-store:/pnpm-store
       - .:/battle-stadium
       - .zshrc:/root/.zshrcs
 volumes:
