@@ -12,9 +12,8 @@ ENV API_BASE_URL http://localhost:3000
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
-    apt-get clean && \npm install -g pnpm && \
-    mkdir -p /pnpm-store && \
-    pnpm config set store-dir /pnpm-store --global && \
+    apt-get clean && \
+    npm install -g pnpm && \
     pnpm install
 
 COPY . .
