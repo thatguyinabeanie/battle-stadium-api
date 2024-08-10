@@ -177,13 +177,13 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 2. Start the Rails API Server
 
     ```bash
-    docker compose run --rm backend bash -c "bundle exec rails server -b 0.0.0.0 -p 3000"
+    docker compose exec backend bash -c "bundle exec rails server -b 0.0.0.0 -p 3000"
     ```
 
 3. Start the NextJS Server
 
     ```bash
-    docker compose run --rm frontend bash -c "pnpm dev"
+    docker compose exec frontend bash -c "pnpm dev"
     ```
 
 ## Contributing
