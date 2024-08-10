@@ -54,6 +54,7 @@ jobs:
         if: github.ref == 'refs/heads/main' || github.event_name == 'release'
         uses: docker/build-push-action@v6
         with:
+          context: "{{defaultContext}}:backend"
           target: development
           platforms: linux/amd64,linux/arm64
           push: true

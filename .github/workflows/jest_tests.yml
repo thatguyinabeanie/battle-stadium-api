@@ -5,33 +5,34 @@ on: [pull_request]
 jobs:
   Jest-Tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
 
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: ./frontend/.node-version
           cache: "pnpm"
-
-      - name: Prepare Jest
-        run: |
-          mkdir -p frontend/test-results/jest
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
+          check-latest: true
 
       - name: Install Dependencies
         run: pnpm install --silent
+        working-directory: frontend
 
       - name: Run Jest tests
+        run: pnpm test
+        working-directory: frontend
         env:
           CI: true
-        run: pnpm jest
 
       - name: Upload Jest results
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jest-results

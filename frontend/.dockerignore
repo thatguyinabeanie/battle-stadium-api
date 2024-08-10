@@ -1,0 +1,9 @@
+node_modules/
+.swc/
+tmp/
+coverage/
+.vscode/
+.turbo/
+.devcontainer/
+__tests__/
+.env
