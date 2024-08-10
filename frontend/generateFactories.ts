@@ -53,9 +53,9 @@ files.forEach((file: string) => {
   // Add import statement
   importStatements.add(`import { ${interfaceName} } from '@/api/model/${kebabCaseFileName}';`);
 
-  // Generate Rosie factory
+  // Generate Rosie factory using the correct syntax
   const factoryCode = `
-export const ${interfaceName}Factory = Factory.define<${interfaceName}>('${interfaceName}')
+export const ${interfaceName}Factory = new Factory<${interfaceName}>()
 ${properties.map((prop: Property) => {
     let value = 'undefined';
     switch (prop.type) {
@@ -70,7 +70,7 @@ ${properties.map((prop: Property) => {
         break;
       // Add more type checks as needed
     }
-    return `.attr('${prop.name}', () => ${value})`;
+    return `  .attr('${prop.name}', () => ${value})`;
   }).join('\n')}
 ;
   `.trim();
