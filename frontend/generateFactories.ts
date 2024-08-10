@@ -40,43 +40,43 @@ const customizeSourceFile = (node: ts.Node) => {
     const factoryCode = `
 export const ${interfaceName}Factory = new Factory<${interfaceName}>()
 ${properties.map((prop: Property) => {
-      let value = 'undefined';
-      if (prop.name === 'id') {
-        return `  .sequence('${prop.name}')`;
-      } else if (prop.type === 'string') {
-        if (prop.name.includes('email')) {
-          value = `() => \`\${faker.internet.userName()}@example.com\``;
-        } else if (prop.name.includes('at') || prop.name.includes('date')) {
-          value = `() => faker.date.recent().toISOString()`;
-        } else {
-          value = `() => faker.lorem.word()`;
-        }
-      } else if (prop.type === 'number') {
-        value = `() => faker.number.int({min: 1, max: 100})`;
-      } else if (prop.type === 'boolean') {
-        value = `() => faker.datatype.boolean()`;
-      } else if (prop.type.endsWith('[]')) {
-        const itemType = prop.type.slice(0, -2);
-        value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
-      } else if (prop.type.startsWith('Array<') && prop.type.endsWith('>')) {
-        const itemType = prop.type.slice(6, -1);
-        value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
-      } else if (prop.type.includes('|')) {
-        const types = prop.type.split('|').map(t => t.trim());
-        if (types.includes('null')) {
-          if (types.includes('string')) {
-            value = `() => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8})`;
-          } else if (types.includes('number')) {
-            value = `() => faker.helpers.maybe(() => faker.number.int({min: 1, max: 100}), {probability: 0.8})`;
-          } else {
-            value = `() => faker.helpers.maybe(() => null, {probability: 0.2})`;
-          }
-        }
-      } else if (prop.type.endsWith('Factory')) {
-        value = `() => ${prop.type}.build()`;
+  let value = 'undefined';
+  if (prop.name === 'id') {
+    return `  .sequence('${prop.name}')`;
+  } else if (prop.type === 'string') {
+    if (prop.name.includes('email')) {
+      value = `() => \`\${faker.internet.userName()}@example.com\``;
+    } else if (prop.name.includes('at') || prop.name.includes('date')) {
+      value = `() => faker.date.recent().toISOString()`;
+    } else {
+      value = `() => faker.lorem.word()`;
+    }
+  } else if (prop.type === 'number') {
+    value = `() => faker.number.int({min: 1, max: 100})`;
+  } else if (prop.type === 'boolean') {
+    value = `() => faker.datatype.boolean()`;
+  } else if (prop.type.endsWith('[]')) {
+    const itemType = prop.type.slice(0, -2);
+    value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
+  } else if (prop.type.startsWith('Array<') && prop.type.endsWith('>')) {
+    const itemType = prop.type.slice(6, -1);
+    value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
+  } else if (prop.type.includes('|')) {
+    const types = prop.type.split('|').map(t => t.trim());
+    if (types.includes('null')) {
+      if (types.includes('string')) {
+        value = `() => faker.datatype.boolean() ? faker.lorem.word() : null`;
+      } else if (types.includes('number')) {
+        value = `() => faker.datatype.boolean() ? faker.number.int({min: 1, max: 100}) : null`;
       } else {
-        value = `() => ${prop.type}Factory.build()`;
+        value = `() => faker.datatype.boolean() ? null : undefined`;
       }
+    }
+  } else if (prop.type.endsWith('Factory')) {
+    value = `() => ${prop.type}.build()`;
+  } else {
+    value = `() => ${prop.type}Factory.build()`;
+  }
       return `  .attr('${prop.name}', ${value})`;
     }).join('\n')}
 ;
