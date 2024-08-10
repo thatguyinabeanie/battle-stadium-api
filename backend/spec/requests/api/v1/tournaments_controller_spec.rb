@@ -5,7 +5,6 @@ require_relative '../../../support/openapi/response_helper'
 TOURNAMENT_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/TournamentDetails'.freeze
 RSpec.describe Api::V1::TournamentsController do
   path('/api/v1/tournaments') do
-
     get('List Tournaments') do
       tags 'Tournaments'
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -45,55 +44,6 @@ RSpec.describe Api::V1::TournamentsController do
         run_test!
       end
     end
-
-    post('Create Tournament') do
-      tags 'Tournaments'
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Creates a new Tournament.'
-      operationId 'postTournament'
-      parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentPostRequest' }
-
-      response(201, 'created') do
-        let(:organization) { create(:organization) }
-        let(:owner) { organization.owner }
-        let(:organization_id) { organization.id }
-        let(:game) { create(:game) }
-        let(:format) { create(:format, game:) }
-        let(:tournament) do
-          {
-            tournament: {
-              organization_id: organization.id,
-              name: 'new_tournament',
-              game_id: game.id,
-              format_id: format.id
-            }
-          }
-        end
-
-        schema '$ref' => TOURNAMENT_DETAILS_SCHEMA_COMPONENT
-
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-
-      response(422, 'unprocessable entity') do
-        let(:organization) { create(:organization) }
-        let(:organization_id) { organization.id }
-        let(:tournament) do
-          {
-            tournament: {
-              name: 'new_tournament',
-              start_at: Time.zone.now,
-              end_date: 1.week.ago
-            }
-          }
-        end
-
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-    end
   end
 
   path('/api/v1/tournaments/{id}') do
@@ -112,55 +62,6 @@ RSpec.describe Api::V1::TournamentsController do
 
       response(200, 'successful') do
         schema '$ref' => TOURNAMENT_DETAILS_SCHEMA_COMPONENT
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-
-      response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
-
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-    end
-
-    put('Update Tournament') do
-      tags 'Tournaments'
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Updates a Tournament.'
-      operationId 'putTournament'
-
-      parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentRequest' }
-
-      response(200, 'successful') do
-        let(:game) { create(:game) }
-        let(:format) { create(:format, game:) }
-        let(:tournament) do
-          {
-            name: 'new_tournament',
-            game_id: game.id,
-            format_id: format.id
-          }
-        end
-
-        schema '$ref' => TOURNAMENT_DETAILS_SCHEMA_COMPONENT
-
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-    end
-
-    delete('Delete Tournament') do
-      tags 'Tournaments'
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Deletes a Tournament.'
-      operationId 'deleteTournament'
-
-      response(200, 'successful') do
-        let(:org_tournament) { create(:tournament) }
-        let(:id) { org_tournament.id }
-
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

@@ -1,9 +1,9 @@
-module Tournament
+module Tournaments
   class Player < ApplicationRecord
     MAX_POKEMON_SUBMISSIONS = 6
     self.table_name = 'players'
     belongs_to :user, class_name: 'User'
-    belongs_to :tournament, class_name: 'Tournament::Tournament', inverse_of: :players
+    belongs_to :tournament, class_name: 'Tournaments::Tournament', inverse_of: :players
     belongs_to :pokemon_team, class_name: 'PokemonTeam', optional: true
 
     validates :user_id, presence: true

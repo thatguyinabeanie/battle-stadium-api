@@ -33,14 +33,18 @@ Rails.application.routes.draw do
 
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
+          post 'tournaments', to: 'organizations#post_tournaments'
+          patch 'tournaments/:tournament_id', to: 'organizations#patch_tournament'
+        end
+        member do
           get 'staff', to: 'organizations#staff'
         end
       end
 
-      resources :tournaments, only: %i[index show create update destroy] do
-        resources :phases, only: %i[index show create update destroy], controller: 'tournament/phases'
+      resources :tournaments, only: %i[index show] do
+        resources :phases, only: %i[index show create update destroy], controller: 'tournaments/phases'
         resources :matches, only: %i[index create update]
-        resources :players, only: %i[index show create update destroy], controller: 'tournament/players'
+        resources :players, only: %i[index show create update destroy], controller: 'tournaments/players'
       end
 
       resources :games, only: %i[index show create update destroy]

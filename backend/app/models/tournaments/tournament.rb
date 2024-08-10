@@ -1,4 +1,4 @@
-module Tournament
+module Tournaments
   class Tournament < ApplicationRecord
     self.table_name = 'tournaments'
     MINIMUM_PLAYER_COUNT = 4
@@ -6,7 +6,7 @@ module Tournament
     # validates :name, presence: true
     belongs_to :organization, class_name: 'Organization'
     belongs_to :game, class_name: 'Game'
-    belongs_to :format, class_name: 'Tournament::Format'
+    belongs_to :format, class_name: 'Tournaments::Format'
 
     validates :name, uniqueness: { scope: :organization_id, message: I18n.t('tournament.errors.validations.unique_per_org_name_start_at') }
 
@@ -14,15 +14,15 @@ module Tournament
     validates :organization_id, uniqueness: { scope: %i[name start_at], message: I18n.t('tournament.errors.validations.unique_per_org_name_start_at') }
     validates :game, presence: true
     validates :format, presence: true, if: -> { game.present? }
-    has_many :phases, class_name: 'Phase::BasePhase', dependent: :destroy_async
+    has_many :phases, class_name: 'Phases::BasePhase', dependent: :destroy_async
 
     # Tournament Logistics Information
     validates :registration_end_at, presence: true, allow_nil: true, if: -> { late_registration == false }
-    validates :late_registration, presence: true, inclusion: { in: [true, false] }
+    validates :late_registration, inclusion: { in: [true, false] }
     validates :check_in_start_at, presence: true, if: -> { start_at.present? }
     validate :check_in_start_at_before_start_at, if: -> { check_in_start_at.present? && start_at.present? }
 
-    has_many :players, class_name: 'Tournament::Player', dependent: :destroy_async
+    has_many :players, class_name: 'Tournaments::Player', dependent: :destroy_async
     validates :player_cap, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
     before_validation :set_defaults
@@ -90,9 +90,11 @@ module Tournament
 
       return if start_at.blank?
 
-      self.registration_start_at ||= start_at - 1.week
+      self.late_registration ||= true
 
-      self.check_in_start_at ||= Time.current.utc if check_in_start_at.nil?
+      self.registration_start_at ||= start_at - 1.week
+      self.registration_end_at ||= (start_at if late_registration)
+      self.check_in_start_at ||= start_at - 1.hour
     end
   end
 end

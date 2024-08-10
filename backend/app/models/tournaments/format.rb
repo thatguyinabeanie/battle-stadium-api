@@ -1,6 +1,6 @@
 # typed: true
 
-module Tournament
+module Tournaments
   class Format < ApplicationRecord
     self.table_name = 'formats'
     belongs_to :game, class_name: 'Game'

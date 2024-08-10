@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Tournament::Match do
+RSpec.describe Tournaments::Match do
   let(:match_hash) do
     player_one = create(:player)
     player_two = create(:player)
@@ -20,9 +20,9 @@ RSpec.describe Tournament::Match do
   let(:player_two) { match_hash[:player_two] }
 
   describe 'associations' do
-    it { is_expected.to belong_to(:round).class_name('Tournament::Round') }
-    it { is_expected.to belong_to(:player_one).class_name('Tournament::Player') }
-    it { is_expected.to belong_to(:player_two).class_name('Tournament::Player') }
+    it { is_expected.to belong_to(:round).class_name('Tournaments::Round') }
+    it { is_expected.to belong_to(:player_one).class_name('Tournaments::Player') }
+    it { is_expected.to belong_to(:player_two).class_name('Tournaments::Player') }
     # Add other associations here
   end
 

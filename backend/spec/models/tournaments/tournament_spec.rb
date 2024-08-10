@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Tournament::Tournament do
+RSpec.describe Tournaments::Tournament do
   let(:organization) { create(:organization) }
   let(:game) { create(:game) }
   let(:format) { create(:format, game:) }
@@ -17,7 +17,7 @@ RSpec.describe Tournament::Tournament do
     it { is_expected.to validate_uniqueness_of(:name).scoped_to(:organization_id).with_message(I18n.t('tournament.errors.validations.unique_per_org_name_start_at')) }
     it { is_expected.to validate_presence_of(:organization) }
     it { is_expected.to validate_presence_of(:game) }
-    it { is_expected.to validate_presence_of(:late_registration) }
+
     it { is_expected.to validate_numericality_of(:player_cap).only_integer.is_greater_than(0).allow_nil }
 
     context 'when game is present' do
@@ -38,16 +38,6 @@ RSpec.describe Tournament::Tournament do
       it { is_expected.not_to validate_presence_of(:registration_end_at) }
     end
 
-    context 'when start_at is present' do
-      before do
-        tournament.start_at = Time.current
-        # allow(tournament).to receive(:set_defaults)
-      end
-
-      # todo: uncomment and implement
-      # it { is_expected.to validate_presence_of(:check_in_start_at) }
-    end
-
     context 'when start_at is not present' do
       before { tournament.start_at = nil }
 
@@ -58,9 +48,9 @@ RSpec.describe Tournament::Tournament do
   describe 'associations' do
     it { is_expected.to belong_to(:organization).class_name('Organization') }
     it { is_expected.to belong_to(:game).class_name('Game') }
-    it { is_expected.to belong_to(:format).class_name('Tournament::Format') }
-    it { is_expected.to have_many(:phases).class_name('Phase::BasePhase').dependent(:destroy_async) }
-    it { is_expected.to have_many(:players).class_name('Tournament::Player').dependent(:destroy_async) }
+    it { is_expected.to belong_to(:format).class_name('Tournaments::Format') }
+    it { is_expected.to have_many(:phases).class_name('Phases::BasePhase').dependent(:destroy_async) }
+    it { is_expected.to have_many(:players).class_name('Tournaments::Player').dependent(:destroy_async) }
   end
 
   describe '#ready_to_start?' do

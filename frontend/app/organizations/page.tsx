@@ -3,7 +3,7 @@ import { Link } from "@nextui-org/link";
 
 import { title } from "@/components/primitives";
 import { OrganizationsApi } from "@/api";
-import OrganizationCard from "@/components/organizations/OrganizationCard";
+import OrganizationCard from "@/app/organizations/OrganizationCard";
 
 export default async function OrganizationsPage() {
   const orgsApi = new OrganizationsApi();

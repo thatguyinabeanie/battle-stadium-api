@@ -1,4 +1,4 @@
-module Tournament
+module Tournaments
   class PhasePlayer < ApplicationRecord
     self.table_name = 'phase_players'
     belongs_to :player

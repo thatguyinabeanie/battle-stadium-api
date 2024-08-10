@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :tournament, class: 'Tournament::Tournament' do
+  factory :tournament, class: 'Tournaments::Tournament' do
     sequence(:name) { |n| "#{organization.name} #{game.name} #{format.name} Tournament ##{n}" }
     organization factory: :organization
     game factory: :game

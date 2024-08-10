@@ -136,7 +136,7 @@ paths:
       in: path
       required: true
       schema:
-        type: string
+        type: integer
     get:
       summary: Show Organization
       tags:
@@ -190,7 +190,7 @@ paths:
       in: path
       required: true
       schema:
-        type: string
+        type: integer
     get:
       summary: List Organization Staff
       tags:
@@ -208,6 +208,69 @@ paths:
                   "$ref": "#/components/schemas/User"
         '404':
           description: not found
+  "/api/v1/organizations/{id}/tournaments":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: Create Tournament
+      tags:
+      - Organizations
+      description: Creates a new tournament for a given organization.
+      operationId: postOrganizationTournament
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Tournament"
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TournamentDetails"
+  "/api/v1/organizations/{id}/tournaments/{tournament_id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: tournament_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Update Tournament
+      tags:
+      - Organizations
+      description: Updates an existing tournament for a given organization.
+      operationId: patchOrganizationTournament
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Tournament"
+        '404':
+          description: not found
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TournamentDetails"
   "/api/v1/tournaments/{tournament_id}/phases":
     parameters:
     - name: tournament_id
@@ -435,27 +498,6 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Tournament"
-    post:
-      summary: Create Tournament
-      tags:
-      - Tournaments
-      description: Creates a new Tournament.
-      operationId: postTournament
-      parameters: []
-      responses:
-        '201':
-          description: created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/TournamentDetails"
-        '422':
-          description: unprocessable entity
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/TournamentPostRequest"
   "/api/v1/tournaments/{id}":
     parameters:
     - name: id
@@ -477,36 +519,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/TournamentDetails"
-        '404':
-          description: not found
-    put:
-      summary: Update Tournament
-      tags:
-      - Tournaments
-      description: Updates a Tournament.
-      operationId: putTournament
-      parameters: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/TournamentDetails"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/TournamentRequest"
-    delete:
-      summary: Delete Tournament
-      tags:
-      - Tournaments
-      description: Deletes a Tournament.
-      operationId: deleteTournament
-      responses:
-        '200':
-          description: successful
         '404':
           description: not found
   "/api/v1/users":

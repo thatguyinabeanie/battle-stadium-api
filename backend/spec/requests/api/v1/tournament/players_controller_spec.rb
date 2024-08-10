@@ -2,7 +2,7 @@ require 'swagger_helper'
 require_relative '../../../../support/openapi/schema_helper'
 require_relative '../../../../support/openapi/response_helper'
 
-RSpec.describe Api::V1::Tournament::PlayersController do
+RSpec.describe Api::V1::Tournaments::PlayersController do
   let(:organization) { create(:organization) }
   let(:organization_id) { organization.id }
   let(:tournament) { create(:tournament, organization:) }

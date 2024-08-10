@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # require_relative '../../app/models/phase' # Adjust the path according to your project structure
 
-RSpec.describe Phase::SingleEliminationBracket do
+RSpec.describe Phases::SingleEliminationBracket do
   describe '#table_name' do
     it 'returns the correct table name' do
       expect(described_class.table_name).to eq('phases')
