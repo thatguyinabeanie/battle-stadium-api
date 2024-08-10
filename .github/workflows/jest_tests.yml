@@ -22,16 +22,13 @@ jobs:
           cache-dependency-path: ./frontend/pnpm-lock.yaml
           check-latest: true
 
-      - name: cd into frontend
-        run: cd frontend
-
       - name: Install Dependencies
-        run: |
-          ls -la
-          pnpm install --silent
+        run: pnpm install --silent
+        working-directory: frontend
 
       - name: Run Jest tests
         run: pnpm test
+        working-directory: frontend
         env:
           CI: true
 
