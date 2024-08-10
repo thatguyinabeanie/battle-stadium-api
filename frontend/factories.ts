@@ -1,5 +1,4 @@
 import { Factory } from 'rosie';
-import {  } from '@/api/model/';
 import { Format } from '@/api/model/format';
 import { GameDetail } from '@/api/model/game-detail';
 import { GameRequest } from '@/api/model/game-request';
@@ -24,9 +23,6 @@ import { UserPostRequest } from '@/api/model/user-post-request';
 import { UserRequest } from '@/api/model/user-request';
 import { User } from '@/api/model/user';
 
-export const Factory = new Factory<>()
-
-;
 export const FormatFactory = new Factory<Format>()
   .attr('id', () => 0)
   .attr('name', () => 'name')
@@ -43,9 +39,6 @@ export const GameRequestFactory = new Factory<GameRequest>()
 export const GameFactory = new Factory<Game>()
   .attr('id', () => 0)
   .attr('name', () => 'name')
-;
-export const Factory = new Factory<>()
-
 ;
 export const OrganizationDetailsFactory = new Factory<OrganizationDetails>()
   .attr('id', () => 0)

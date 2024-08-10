@@ -50,33 +50,35 @@ files.forEach((file: string) => {
   // Generate the kebab-case file name for import
   const kebabCaseFileName = toKebabCase(interfaceName);
 
-  // Add import statement
-  importStatements.add(`import { ${interfaceName} } from '@/api/model/${kebabCaseFileName}';`);
+  // Add import statement if interfaceName is not empty
+  if (interfaceName) {
+    importStatements.add(`import { ${interfaceName} } from '@/api/model/${kebabCaseFileName}';`);
 
-  // Generate Rosie factory using the correct syntax
-  const factoryCode = `
+    // Generate Rosie factory using the correct syntax
+    const factoryCode = `
 export const ${interfaceName}Factory = new Factory<${interfaceName}>()
 ${properties.map((prop: Property) => {
-    let value = 'undefined';
-    switch (prop.type) {
-      case 'string':
-        value = `'${prop.name}'`;
-        break;
-      case 'number':
-        value = '0';
-        break;
-      case 'boolean':
-        value = 'false';
-        break;
-      // Add more type checks as needed
-    }
-    return `  .attr('${prop.name}', () => ${value})`;
-  }).join('\n')}
+      let value = 'undefined';
+      switch (prop.type) {
+        case 'string':
+          value = `'${prop.name}'`;
+          break;
+        case 'number':
+          value = '0';
+          break;
+        case 'boolean':
+          value = 'false';
+          break;
+        // Add more type checks as needed
+      }
+      return `  .attr('${prop.name}', () => ${value})`;
+    }).join('\n')}
 ;
-  `.trim();
+    `.trim();
 
-  // Append factory code to the aggregated content
-  aggregatedFactoryCode += factoryCode + '\n';
+    // Append factory code to the aggregated content
+    aggregatedFactoryCode += factoryCode + '\n';
+  }
 });
 
 // Combine import statements and factory code
