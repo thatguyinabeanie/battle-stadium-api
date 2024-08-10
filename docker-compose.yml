@@ -12,28 +12,28 @@ services:
       - 5432:5432
 
   # BATTLE STADIUM RAILS APP CONTAINER
-  dev:
+  backend:
+    image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
       HOST_ENVIRONMENT: container
       DB_HOST: db
     build:
-      context: .
-      cache_from:
-        - thatguyinabeanie/battle-stadium:dev-latest
-      target: development
+      context: backend
       dockerfile: Dockerfile
+      target: development
       tags:
+        - thatguyinabeanie/battle-stadium:dev-latest
+      cache_from:
         - thatguyinabeanie/battle-stadium:dev-latest
     command: >
       bash -c "
         rm -f tmp/pids/server.pid && \
-        pnpm install --silent && \
+        (bundle check || bundle install) && \
         sleep infinity
       "
     tty: true
     ports:
       - 3000:3000
-      - 8080:8080
     depends_on:
       - db
     healthcheck:
@@ -43,11 +43,33 @@ services:
       retries: 3
       start_period: 120s
     volumes:
-      - .:/battle-stadium
+      - ./backend:/battle-stadium/backend
       - .zshrc:/root/.zshrc
-      - turbo:/battle-stadium/.turbo
-      - pnpm-store:/battle-stadium/.pnpm-store
+
+  frontend:
+    environment:
+      HOST_ENVIRONMENT: container
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: development
+      tags:
+        - thatguyinabeanie/battle-stadium:frontend-dev-latest
+    command: >
+      bash -c "
+        pnpm install --silent && \
+        pnpm run dev
+      "
+    depends_on:
+      - backend
+    tty: true
+    ports:
+      - 8080:8080
+    volumes:
+      - node_modules:/battle-stadium/frontend/node_modules
+      - ./frontend:/battle-stadium/frontend
+      - .zshrc:/root/.zshrc
+
 volumes:
   postgres-data:
-  turbo:
-  pnpm-store:
+  node_modules:

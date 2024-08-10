@@ -1,0 +1,96 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+  "name": "BACKEND",
+
+  // Update the 'dockerComposeFile' list if you have more compose files or use different names.
+  // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+  "dockerComposeFile": ["../../docker-compose.yml"],
+
+  // The 'service' property is the name of the service for the container that VS Code should
+  // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+  "service": "backend",
+
+  // The optional 'workspaceFolder' property is the path VS Code should open by default when
+  // connected. This is typically a file mount in .devcontainer/docker-compose.yml
+  "workspaceFolder": "/battle-stadium/backend",
+
+  "containerEnv": {
+    "RAILS_ENV": "development",
+    "HOST_ENVIRONMENT": "container",
+    "DB_HOST": "db"
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [3000],
+
+  // Uncomment the next line if you want start specific services in your Docker Compose config.
+  "runServices": ["db", "backend"],
+
+  // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+  "shutdownAction": "none",
+
+  // Uncomment the next line to run commands after the container is created.
+  "postCreateCommand": "git config --global --add safe.directory /battle-stadium",
+
+  // Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+  "remoteUser": "root",
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "installDirectlyFromGitHubRelease": true,
+      "version": "latest"
+    },
+    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:1": {}
+  },
+
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "KoichiSasada.vscode-rdbg",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-pull-request-github",
+        "github.vscode-github-actions",
+        "ms-ossdata.vscode-postgresql",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "redhat.vscode-yaml",
+        "waderyan.gitblame",
+        "DavidAnson.vscode-markdownlint",
+        "GitHub.github-vscode-theme",
+        "rubocop.vscode-rubocop",
+        "connorshea.vscode-ruby-test-adapter",
+        "mutantdino.resourcemonitor",
+        "iliazeus.vscode-ansi",
+        "vscode-icons-team.vscode-icons",
+        "streetsidesoftware.code-spell-checker",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "rangav.vscode-thunder-client",
+        "christian-kohler.path-intellisense",
+        "Gruntfuggly.todo-tree",
+        "aaron-bond.better-comments",
+      ],
+      "settings": {
+        "remote.containers.copyGitConfig": true,
+        "terminal.integrated.defaultProfile.linux": "/bin/zsh",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          },
+          "tmux": {
+            "path": "zsh",
+            "icon": "terminal-zsh"
+          }
+        }
+      }
+    }
+  }
+}

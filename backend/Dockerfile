@@ -56,25 +56,10 @@ RUN ARCH=$(dpkg --print-architecture) && \
 ## DEVELOPMENT IMAGE
 ##
 FROM base-image AS development
-ARG BATTLE_STADIUM=battle-stadium
-ARG USERNAME=vscode
-WORKDIR /$BATTLE_STADIUM/
 ENV HOST_ENVIRONMENT=container
-
-COPY backend .
-COPY frontend .
-COPY package.json .
-COPY pnpm-lock.yaml .
-COPY pnpm-workspace.yaml .
-COPY openapitools.json .
-COPY turbo.json .
-
-RUN npm install  --ignore-scripts -g pnpm --silent && \
-    pnpm install --ignore-scripts --silent && \
-    bundle install
-
+WORKDIR /battle-stadium/backend
+COPY . .
+RUN bundle check || bundle install
 EXPOSE 3000
-EXPOSE 8080
 
-WORKDIR /$BATTLE_STADIUM
-CMD ["pnpm", "dev"]
+CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0", "-p", "3000"]

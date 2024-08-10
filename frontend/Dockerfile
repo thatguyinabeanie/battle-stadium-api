@@ -1,0 +1,23 @@
+# Use the official Node.js 14.x image as the base image
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22-bookworm AS development
+
+# Set the working directory inside the container
+RUN mkdir -p /battle-stadium/frontend
+WORKDIR /battle-stadium/frontend
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+ENV PORT 8080
+ENV API_BASE_URL http://localhost:3000
+
+# Install dependencies
+RUN npm install -g pnpm && \
+    pnpm install
+
+COPY . .
+
+# Expose the default Next.js port (3000)
+EXPOSE 8080
+
+# Start the Next.js development server
+CMD ["pnpm", "run", "dev"]
