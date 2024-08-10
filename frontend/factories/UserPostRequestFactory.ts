@@ -1,5 +1,5 @@
 import { Factory } from 'rosie';
-import { UserPostRequest } from '@/api/model/userPostRequest';
+import { UserPostRequest } from '@/api/model/user-post-request';
 
 export const UserPostRequestFactory = Factory.define<UserPostRequest>('UserPostRequest')
 .attr('username', () => 'username')

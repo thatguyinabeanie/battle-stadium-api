@@ -1,5 +1,5 @@
 import { Factory } from 'rosie';
-import { PlayerRequest } from '@/api/model/playerRequest';
+import { PlayerRequest } from '@/api/model/player-request';
 
 export const PlayerRequestFactory = Factory.define<PlayerRequest>('PlayerRequest')
 .attr('user_id', () => 0)

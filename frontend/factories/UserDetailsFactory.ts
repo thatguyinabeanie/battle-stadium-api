@@ -1,5 +1,5 @@
 import { Factory } from 'rosie';
-import { UserDetails } from '@/api/model/userDetails';
+import { UserDetails } from '@/api/model/user-details';
 
 export const UserDetailsFactory = Factory.define<UserDetails>('UserDetails')
 .attr('username', () => 'username')

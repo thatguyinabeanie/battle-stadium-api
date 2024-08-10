@@ -1,5 +1,5 @@
 import { Factory } from 'rosie';
-import { OrganizationDetails } from '@/api/model/organizationDetails';
+import { OrganizationDetails } from '@/api/model/organization-details';
 
 export const OrganizationDetailsFactory = Factory.define<OrganizationDetails>('OrganizationDetails')
 .attr('id', () => 0)

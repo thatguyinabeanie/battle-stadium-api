@@ -19,6 +19,11 @@ interface Property {
   type: string;
 }
 
+// Function to convert camelCase to kebab-case
+const toKebabCase = (str: string) => {
+  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+};
+
 files.forEach((file: string) => {
   const filePath = path.join(modelDir, file);
   const sourceFile = ts.createSourceFile(
@@ -45,13 +50,13 @@ files.forEach((file: string) => {
     }
   });
 
-  // Generate the lowercase file name for import
-  const lowerCaseFileName = interfaceName.charAt(0).toLowerCase() + interfaceName.slice(1);
+  // Generate the kebab-case file name for import
+  const kebabCaseFileName = toKebabCase(interfaceName);
 
   // Generate Rosie factory
   const factoryCode = `
 import { Factory } from 'rosie';
-import { ${interfaceName} } from '@/api/model/${lowerCaseFileName}';
+import { ${interfaceName} } from '@/api/model/${kebabCaseFileName}';
 
 export const ${interfaceName}Factory = Factory.define<${interfaceName}>('${interfaceName}')
 ${properties.map((prop: Property) => {

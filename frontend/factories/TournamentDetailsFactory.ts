@@ -1,5 +1,5 @@
 import { Factory } from 'rosie';
-import { TournamentDetails } from '@/api/model/tournamentDetails';
+import { TournamentDetails } from '@/api/model/tournament-details';
 
 export const TournamentDetailsFactory = Factory.define<TournamentDetails>('TournamentDetails')
 .attr('id', () => 0)
