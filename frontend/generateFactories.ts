@@ -58,23 +58,45 @@ files.forEach((file: string) => {
     const factoryCode = `
 export const ${interfaceName}Factory = new Factory<${interfaceName}>()
 ${properties.map((prop: Property) => {
-      let value = 'undefined';
-      if (prop.name === 'id') {
-        return `  .sequence('${prop.name}')`;
-      } else if (prop.type === 'string') {
-        value = `'${prop.name}'`;
-      } else if (prop.type === 'number') {
-        value = '0';
-      } else if (prop.type === 'boolean') {
-        value = 'false';
-      } else if (prop.type.endsWith('[]')) {
-        const itemType = prop.type.slice(0, -2);
-        value = `['id'], (id) => ${itemType}Factory.buildList(3, { id })`;
+  let value = 'undefined';
+  if (prop.name === 'id') {
+    return `  .sequence('${prop.name}')`;
+  } else if (prop.type === 'string') {
+    if (prop.name.includes('email')) {
+      value = `() => \`\${faker.internet.userName()}@example.com\``;
+    } else if (prop.name.includes('at') || prop.name.includes('date')) {
+      value = `() => faker.date.recent().toISOString()`;
+    } else {
+      value = `() => faker.lorem.word()`;
+    }
+  } else if (prop.type === 'number') {
+    value = `() => faker.number.int({min: 1, max: 100})`;
+  } else if (prop.type === 'boolean') {
+    value = `() => faker.datatype.boolean()`;
+  } else if (prop.type.endsWith('[]')) {
+    const itemType = prop.type.slice(0, -2);
+    value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
+  } else if (prop.type.startsWith('Array<') && prop.type.endsWith('>')) {
+    const itemType = prop.type.slice(6, -1);
+    value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
+  } else if (prop.type.includes('|')) {
+    const types = prop.type.split('|').map(t => t.trim());
+    if (types.includes('null')) {
+      if (types.includes('string')) {
+        value = `() => faker.helpers.maybe(() => faker.lorem.word(), {probability: 0.8})`;
+      } else if (types.includes('number')) {
+        value = `() => faker.helpers.maybe(() => faker.number.int({min: 1, max: 100}), {probability: 0.8})`;
       } else {
-        value = `${prop.type}Factory.build()`;
+        value = `() => faker.helpers.maybe(() => null, {probability: 0.2})`;
       }
-      return `  .attr('${prop.name}', ${value})`;
-    }).join('\n')}
+    }
+  } else if (prop.type.endsWith('Factory')) {
+    value = `() => ${prop.type}.build()`;
+  } else {
+    value = `() => ${prop.type}Factory.build()`;
+  }
+  return `  .attr('${prop.name}', ${value})`;
+}).join('\n')}
 ;
     `.trim();
 
@@ -83,14 +105,17 @@ ${properties.map((prop: Property) => {
   }
 });
 
-// Combine import statements and factory code
+// At the top of the script, add this line:
+const fakerImport = "import { faker } from '@faker-js/faker';";
+
+// Then, modify the finalCode construction as follows:
 const finalCode = `
+${fakerImport}
 import { Factory } from 'rosie';
 ${Array.from(importStatements).join('\n')}
 
 ${aggregatedFactoryCode}
 `.trim();
-
 // Write the aggregated factory code to a single file
 fs.writeFileSync(outputFile, finalCode, 'utf-8');
 

@@ -10,7 +10,7 @@
     "eslint": "pnpm run lint",
     "test": "pnpm jest --passWithNoTests",
     "test:all": "pnpm jest",
-    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-axios -o ./api --skip-validate-spec --additional-properties=useSingleRequestParameter=true,withoutPrefixEnums=true,enumNameSuffix=,withSeparateModelsAndApi=true,apiPackage=server,modelPackage=model --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-axios --enable-post-process-file",
+    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-axios -o ./api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-axios --enable-post-process-file",
     "generate:factories": "node --loader ts-node/esm scripts/generateRosieFactories.mts"
   },
   "dependencies": {
