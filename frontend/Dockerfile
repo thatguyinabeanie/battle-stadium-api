@@ -1,5 +1,5 @@
 # Use the official Node.js 14.x image as the base image
-FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22-bookworm AS development
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22 AS development
 
 # Set the working directory inside the container
 RUN mkdir -p /battle-stadium/frontend
@@ -10,8 +10,9 @@ COPY package*.json ./
 ENV PORT 8080
 ENV API_BASE_URL http://localhost:3000
 
-# Install dependencies
-RUN npm install -g pnpm && \
+RUN apt-get update -qq && \
+    apt-get  --no-install-recommends install -y -q default-jdk curl git && \
+    apt-get clean && \npm install -g pnpm && \
     pnpm install
 
 COPY . .

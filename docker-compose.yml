@@ -68,6 +68,7 @@ services:
     volumes:
       - node_modules:/battle-stadium/frontend/node_modules
       - ./frontend:/battle-stadium/frontend
+      - ./backend:/battle-stadium/backend
       - .zshrc:/root/.zshrc
 
 volumes:
