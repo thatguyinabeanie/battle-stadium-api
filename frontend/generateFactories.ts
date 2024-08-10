@@ -1,15 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
-import { Factory } from 'rosie';
 
 const modelDir = path.join(__dirname, 'api', 'model');
-const outputDir = path.join(__dirname, 'factories');
+const outputFile = path.join(__dirname, 'factories.ts');
 
-// Ensure output directory exists
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
-}
+// Function to convert camelCase to kebab-case
+const toKebabCase = (str: string) => {
+  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+};
 
 // Read all .ts files in the model directory
 const files = fs.readdirSync(modelDir).filter((file: string) => file.endsWith('.ts'));
@@ -19,10 +18,8 @@ interface Property {
   type: string;
 }
 
-// Function to convert camelCase to kebab-case
-const toKebabCase = (str: string) => {
-  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-};
+let aggregatedFactoryCode = '';
+let importStatements = new Set<string>();
 
 files.forEach((file: string) => {
   const filePath = path.join(modelDir, file);
@@ -53,11 +50,11 @@ files.forEach((file: string) => {
   // Generate the kebab-case file name for import
   const kebabCaseFileName = toKebabCase(interfaceName);
 
+  // Add import statement
+  importStatements.add(`import { ${interfaceName} } from '@/api/model/${kebabCaseFileName}';`);
+
   // Generate Rosie factory
   const factoryCode = `
-import { Factory } from 'rosie';
-import { ${interfaceName} } from '@/api/model/${kebabCaseFileName}';
-
 export const ${interfaceName}Factory = Factory.define<${interfaceName}>('${interfaceName}')
 ${properties.map((prop: Property) => {
     let value = 'undefined';
@@ -78,9 +75,19 @@ ${properties.map((prop: Property) => {
 ;
   `.trim();
 
-  // Write factory to file
-  const outputFile = path.join(outputDir, `${interfaceName}Factory.ts`);
-  fs.writeFileSync(outputFile, factoryCode);
-
-  console.log(`Generated factory for ${interfaceName} in ${outputFile}`);
+  // Append factory code to the aggregated content
+  aggregatedFactoryCode += factoryCode + '\n';
 });
+
+// Combine import statements and factory code
+const finalCode = `
+import { Factory } from 'rosie';
+${Array.from(importStatements).join('\n')}
+
+${aggregatedFactoryCode}
+`.trim();
+
+// Write the aggregated factory code to a single file
+fs.writeFileSync(outputFile, finalCode, 'utf-8');
+
+console.log(`Aggregated factories written to ${outputFile}`);
