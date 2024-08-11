@@ -13,6 +13,7 @@ permissions:
 jobs:
   rspec:
     runs-on: ubuntu-latest
+
     env:
       RAILS_ENV: test
       DB_HOST: ${{ secrets.DB_HOST }}
@@ -21,6 +22,7 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       DEVISE_JWT_SECRET_KEY: ${{ secrets.DEVISE_JWT_SECRET_KEY }}
+      BUNDLE_GEMFILE: ${{ github.workspace }}/backend/Gemfile
 
     services:
       postgres:
@@ -43,9 +45,11 @@ jobs:
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
+
         with:
           ruby-version: 3.3.4
           bundler-cache: true
+          working-directory: ./backend
 
       - name: Install dependencies
         run: bundle check || bundle install
