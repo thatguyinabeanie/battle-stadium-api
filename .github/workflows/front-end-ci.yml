@@ -61,7 +61,7 @@ jobs:
         with:
           working-directory: frontend
           directory: ./test-results/jest
-          files: ./*.xml
+          files: ./results.xml
           token: ${{ secrets.CODECOV_TOKEN }}
 
   lint:
