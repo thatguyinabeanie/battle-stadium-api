@@ -77,8 +77,7 @@ jobs:
         if: always()
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          working-directory: backend
-          directory: ./coverage
+          directory: backend/coverage
           files: '**/*.json'
           flags: rspec
           name: codecov-umbrella

@@ -46,8 +46,7 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         if: always()
         with:
-          working-directory: frontend
-          directory: ./coverage
+          directory: frontend/coverage
           files: ./lcov.info, ./clover.xml, ./coverage-final.json
           flags: jest
           name: codecov-umbrella
