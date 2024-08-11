@@ -6,6 +6,8 @@ on:
   pull_request:
 
 permissions:
+  contents: read
+  pull-requests: write
   checks: write
 
 jobs:
@@ -124,6 +126,7 @@ jobs:
         working-directory: ./backend
 
       - name: Run RuboCop with Reviewdog
+        if: github.event_name == 'pull_request'
         uses: reviewdog/action-rubocop@v2
         with:
           workdir: backend
@@ -134,3 +137,8 @@ jobs:
           reporter: github-pr-review # Default is github-pr-check
           skip_install: true
           use_bundler: true
+
+      - name: Run RuboCop
+        if: github.event_name != 'pull_request'
+        run: bundle exec rubocop
+        working-directory: ./backend
