@@ -22,7 +22,7 @@ module Api
       def post_tournaments
         @tournament = @organization.tournaments.new tournaments_permitted_params
         if @tournament.save
-          render json: @tournament, status: :created, serializer: Serializer::TournamentDetails
+          render json: @tournament, status: :created, serializer: Serializer::TournamentDetailsx
         else
           render json: @tournament.errors, status: :unprocessable_entity
         end

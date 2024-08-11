@@ -106,12 +106,12 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
     end
 
-    put('Update Tournament Phase') do
+    patch('Update Tournament Phase') do
       tags 'Phases'
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
       description 'Updates a Tournament Phase.'
-      operationId 'putTournamentPhase'
+      operationId 'patchTournamentPhase'
 
       parameter name: :phase, in: :body, schema: { '$ref' => '#/components/schemas/Phase' }
 

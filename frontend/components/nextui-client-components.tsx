@@ -1,4 +1,11 @@
 "use client";
-import { Chip, Avatar, Button, Card, CardFooter } from "@nextui-org/react";
+import {
+  Chip,
+  Avatar,
+  Button,
+  Card,
+  CardFooter,
+  Link,
+} from "@nextui-org/react";
 
-export { Chip, Avatar, Button, Card, CardFooter };
+export { Chip, Avatar, Button, Card, CardFooter, Link };

@@ -130,6 +130,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/Organization"
+        required: true
   "/api/v1/organizations/{id}":
     parameters:
     - name: id
@@ -208,9 +209,9 @@ paths:
                   "$ref": "#/components/schemas/User"
         '404':
           description: not found
-  "/api/v1/organizations/{id}/tournaments":
+  "/api/v1/organizations/{organization_id}/tournaments":
     parameters:
-    - name: id
+    - name: organization_id
       in: path
       required: true
       schema:
@@ -228,7 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Tournament"
+                "$ref": "#/components/schemas/TournamentDetails"
         '400':
           description: bad request
       requestBody:
@@ -236,14 +237,14 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
-  "/api/v1/organizations/{id}/tournaments/{tournament_id}":
+  "/api/v1/organizations/{organization_id}/tournaments/{id}":
     parameters:
-    - name: id
+    - name: organization_id
       in: path
       required: true
       schema:
         type: integer
-    - name: tournament_id
+    - name: id
       in: path
       required: true
       schema:
@@ -261,7 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Tournament"
+                "$ref": "#/components/schemas/TournamentDetails"
         '404':
           description: not found
         '400':
@@ -346,12 +347,12 @@ paths:
                 "$ref": "#/components/schemas/PhaseDetails"
         '404':
           description: not found
-    put:
+    patch:
       summary: Update Tournament Phase
       tags:
       - Phases
       description: Updates a Tournament Phase.
-      operationId: putTournamentPhase
+      operationId: patchTournamentPhase
       parameters: []
       responses:
         '404':
@@ -881,19 +882,37 @@ components:
       type: object
       title: Tournament Details
       properties:
-        id:
-          type: integer
-        name:
+        autostart:
+          type: boolean
+        start_at:
           type: string
+          format: date-time
+          nullable: true
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        teamlists_required:
+          type: boolean
+        open_team_sheets:
+          type: boolean
         player_cap:
           type: integer
           nullable: true
         player_count:
           type: integer
-        end_at:
-          type: string
-          format: date-time
-          nullable: true
         started_at:
           type: string
           format: date-time
@@ -910,28 +929,10 @@ components:
           type: string
           format: date-time
           nullable: true
-        late_registration:
-          type: boolean
-        autostart:
-          type: boolean
-        start_at:
+        id:
+          type: integer
+        name:
           type: string
-          format: date-time
-          nullable: true
-        organization:
-          "$ref": "#/components/schemas/Organization"
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
-        check_in_start_at:
-          type: string
-          format: date-time
-          nullable: true
-        teamlists_required:
-          type: boolean
-        open_team_sheets:
-          type: boolean
       required:
       - id
       - name

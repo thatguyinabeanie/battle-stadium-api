@@ -2,7 +2,7 @@
   "name": "nextjs",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@9",
+  "packageManager": "pnpm@^9",
   "scripts": {
     "dev": "next dev --turbo --port 8080",
     "build": "next build",

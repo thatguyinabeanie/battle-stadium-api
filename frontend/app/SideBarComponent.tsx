@@ -1,24 +1,18 @@
 import React from "react";
 import { Spacer } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
-import { Link } from "@nextui-org/link";
 
 import { Avatar, Button } from "@/components/nextui-client-components";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
 import { sectionItemsWithTeams } from "@/components/sidebar-items";
 import { AcmeIcon } from "@/components/acme";
-import Header from "@/components/header";
-import Body from "@/components/body";
 import { BATTLE_STADIUM } from "@/lib/constants";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;
-  route?: string;
 }
-
-
-export default function SideBarComponent({ children, route }: SideBarComponentProps) {
+export default function SideBarComponent({ children }: SideBarComponentProps) {
   return (
     <div className="flex h-dvh w-full">
       <div
@@ -33,7 +27,9 @@ export default function SideBarComponent({ children, route }: SideBarComponentPr
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
             <AcmeIcon className="text-background" />
           </div>
-          <span className="text-small font-bold uppercase">{ BATTLE_STADIUM }</span>
+          <span className="text-small font-bold uppercase">
+            {BATTLE_STADIUM}
+          </span>
         </div>
 
         <Spacer y={8} />
@@ -80,29 +76,7 @@ export default function SideBarComponent({ children, route }: SideBarComponentPr
         </div>
       </div>
 
-      <div className="w-full flex-1 flex-col p-4">
-
-        <Header route={route} />
-
-        <main className="mt-4 h-full w-full overflow-visible">
-
-          <Body>
-            {children}
-          </Body>
-{/*
-          <footer className="w-full flex items-center justify-center py-3">
-            <Link
-              isExternal
-              className="flex items-center gap-1 text-current"
-              href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-              title="nextui.org homepage"
-            >
-              <span className="text-default-600">Powered by</span>
-              <p className="text-primary">NextUI</p>
-            </Link>
-          </footer> */}
-        </main>
-      </div>
+      { children }
     </div>
   );
 }
