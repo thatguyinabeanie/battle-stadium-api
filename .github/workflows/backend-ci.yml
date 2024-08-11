@@ -61,7 +61,8 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         if: always()
         with:
-          report_paths: 'backend/test-results/rspec/*.xml'
+          report_paths: './backend/test-results/rspec/*.xml'
+          include_passed: true
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
