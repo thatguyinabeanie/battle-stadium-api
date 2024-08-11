@@ -8,7 +8,6 @@ WORKDIR /battle-stadium/frontend
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 ENV PORT 8080
-ENV API_BASE_URL http://localhost:3000
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
