@@ -12,7 +12,7 @@ ENV PORT 8080
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
     apt-get clean && \
-    npm install -g pnpm && \
+    npm install  --ignore-scripts -g pnpm && \
     pnpm install
 
 COPY . .
