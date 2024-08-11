@@ -5,15 +5,14 @@ on:
   pull_request_target:
     types: [labeled]
 
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
 jobs:
   build-docker:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-
     steps:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
