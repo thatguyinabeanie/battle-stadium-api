@@ -3,16 +3,18 @@ require_relative '../../../serializer/user_serializer'
 module Api
   module V1
     class UsersController < AbstractApplicationController
-      before_action :set_user, only: %i[show update destroy] # rubocop:disable Rails/LexicallyScopedActionFilter
       self.klass = User
       self.serializer_klass = Serializer::User
       self.detail_serializer_klass = Serializer::UserDetails
       self.update_params_except = %i[password password_confirmation]
 
+      before_action :set_user, only: %i[patch_password]
+
       # PATCH /api/v1/users/:id/password
       # PATCH /api/v1/users/:id/password.json
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
+
         if @user.update_with_password(password_params)
           render json: { message: 'Password updated successfully' }, status: :ok
         else

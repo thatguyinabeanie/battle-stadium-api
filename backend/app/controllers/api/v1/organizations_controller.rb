@@ -5,7 +5,7 @@ require_relative '../../../serializer/tournament_serializer'
 module Api
   module V1
     class OrganizationsController < AbstractApplicationController
-      before_action :set_organization, only: %i[show update destroy staff post_tournaments patch_tournament]
+      before_action :set_organization, only: %i[staff post_tournaments patch_tournament]
 
       self.klass = ::Organization
       self.serializer_klass = Serializer::Organization
