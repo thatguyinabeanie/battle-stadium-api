@@ -40,7 +40,7 @@ jobs:
         if: always()
         with:
           include_passed: true
-          report_paths: 'frontend/test-results/jest/*.xml'
+          report_paths: 'frontend/test-results/jest/results.xml'
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
