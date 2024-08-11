@@ -15,6 +15,7 @@ const OrganizationDetailsPage = async ({
   try {
     organization = (await orgsApi.getOrganization(request)).data;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Failed to fetch organization details:", error);
 
     return <p>Failed to fetch organization</p>;

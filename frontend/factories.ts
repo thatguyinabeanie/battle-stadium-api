@@ -53,7 +53,7 @@ import {
   UsersApiGetUserRequest,
   UsersApiPatchUserRequest,
   UsersApiPostUserRequest,
-} from "./api";
+} from "@/lib/api";
 
 export const ChangePasswordRequestFactory = new Factory<ChangePasswordRequest>()
   .attr("password", () => faker.lorem.word())

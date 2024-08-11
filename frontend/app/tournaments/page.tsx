@@ -20,7 +20,6 @@ const columns = [
   },
 ];
 
-
 const Tournaments = async () => {
   const tournamentsApi = new TournamentsApi();
 
@@ -31,7 +30,7 @@ const Tournaments = async () => {
     <div>
       <h1 className={title()}>Tournaments</h1>
 
-      <TournamentsTable columns={ columns } tournaments={ tournaments } />
+      <TournamentsTable columns={columns} tournaments={tournaments} />
     </div>
   );
 };

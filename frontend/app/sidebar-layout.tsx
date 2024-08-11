@@ -76,7 +76,7 @@ export default function SideBarComponent({ children }: SideBarComponentProps) {
         </div>
       </div>
 
-      { children }
+      {children}
     </div>
   );
 }

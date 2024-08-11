@@ -18,7 +18,6 @@ This is a template for creating applications using Next.js 14 (app directory) an
 - [next-themes](https://github.com/pacocoursey/next-themes)
 - [Tanstack React Query](https://tanstack.com/query/latest/docs/framework/react/overview)
 
-
 ## How to Use
 
 ### Use the template with create-next-app

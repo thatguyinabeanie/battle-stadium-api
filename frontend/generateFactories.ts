@@ -102,7 +102,7 @@ ts.forEachChild(sourceFile, customizeSourceFile);
 
 // Add necessary imports
 const fakerImport = "import { faker } from '@faker-js/faker';";
-const modelImport = `import { ${interfaces.join(", ")} } from './api';`;
+const modelImport = `import { ${interfaces.join(", ")} } from '@/lib/api';`;
 
 // Construct the final code
 const finalCode = `

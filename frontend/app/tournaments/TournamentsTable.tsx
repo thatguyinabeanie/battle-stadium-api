@@ -8,7 +8,7 @@ import {
   TableRow,
   TableCell,
   getKeyValue,
-  Link
+  Link,
 } from "@nextui-org/react";
 import * as React from "react";
 
