@@ -4,17 +4,16 @@ import {
   Accordion,
   AccordionItem,
   ScrollShadow,
-  type ListboxProps,
-  type ListboxSectionProps,
-  type Selection,
-} from "@nextui-org/react";
-import React from "react";
-import {
   Listbox,
   Tooltip,
   ListboxItem,
   ListboxSection,
+  type ListboxProps,
+  type ListboxSectionProps,
+  type Selection,
 } from "@nextui-org/react";
+
+import React from "react";
 import { Icon } from "@iconify/react";
 
 import { cn } from "@/lib/utils";

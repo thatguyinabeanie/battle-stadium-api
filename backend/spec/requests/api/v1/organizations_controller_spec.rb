@@ -196,7 +196,7 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/Tournament'
+        schema '$ref' => '#/components/schemas/TournamentDetails'
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -251,7 +251,7 @@ RSpec.describe Api::V1::OrganizationsController do
       parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentDetails' }
 
       response(200, 'successful') do
-        schema '$ref' => '#/components/schemas/Tournament'
+        schema '$ref' => '#/components/schemas/TournamentDetails'
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

@@ -172,7 +172,7 @@ TOURNAMENT_SCHEMA = {
 TOURNAMENT_DETAILS_SCHEMA = {
   type: :object,
   title: 'Tournament Details',
-  properties: ID_NAME_PROPERTIES.merge(TOURNAMENT_PROPERTIES).merge(
+  properties: {
     autostart: { type: :boolean },
     start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
@@ -183,7 +183,7 @@ TOURNAMENT_DETAILS_SCHEMA = {
     late_registration: { type: :boolean },
     teamlists_required: { type: :boolean },
     open_team_sheets: { type: :boolean }
-  ),
+  }.merge(TOURNAMENT_PROPERTIES).merge(ID_NAME_PROPERTIES),
   required: TOURNAMENT_SCHEMA[:required] + %w[
     start_at player_cap autostart
     teamlists_required open_team_sheets
