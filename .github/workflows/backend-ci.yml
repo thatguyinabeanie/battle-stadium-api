@@ -92,9 +92,7 @@ jobs:
         run: bundle exec ruby-audit check
 
   rubocop:
-    defaults:
-      run:
-        working-directory: ./backend
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -108,11 +106,12 @@ jobs:
 
       - name: Install dependencies
         run: bundle check || bundle install
+        working-directory: ./backend
 
       - name: Run RuboCop with Reviewdog
         uses: reviewdog/action-rubocop@v2
         with:
-          workdir: ./backend
+          workdir: backend
           rubocop_version: gemfile
           rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-rspec:gemfile
           only_changed: true
