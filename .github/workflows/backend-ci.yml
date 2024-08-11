@@ -129,7 +129,6 @@ jobs:
           use_bundler: true
           rubocop_flags: --force-exclusion
 
-
       - name: Run RuboCop
         if: github.event_name != 'pull_request'
         run: bundle exec rubocop --force-exclusion
