@@ -12,7 +12,6 @@ import {
   type ListboxSectionProps,
   type Selection,
 } from "@nextui-org/react";
-
 import React from "react";
 import { Icon } from "@iconify/react";
 

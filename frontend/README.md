@@ -6,13 +6,18 @@ This is a template for creating applications using Next.js 14 (app directory) an
 
 ## Technologies Used
 
+### Front End
+
 - [Next.js 14](https://nextjs.org/docs/getting-started)
 - [NextUI v2](https://nextui.org/)
+- [NextUI PRO](https://nextui.pro/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Tailwind Variants](https://tailwind-variants.org)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [next-themes](https://github.com/pacocoursey/next-themes)
+- [Tanstack React Query](https://tanstack.com/query/latest/docs/framework/react/overview)
+
 
 ## How to Use
 
