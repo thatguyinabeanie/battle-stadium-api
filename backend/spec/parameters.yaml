@@ -1,0 +1,12 @@
+components:
+  parameters:
+    - name: organization
+      in: body
+      required: true
+      schema:
+        ref: '#/components/schemas/Organization'
+    - name: age
+      in: query
+      required: true
+      schema:
+        type: integer

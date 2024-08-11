@@ -49,6 +49,7 @@ services:
   frontend:
     environment:
       HOST_ENVIRONMENT: container
+      BACKEND_HOST: backend
     build:
       context: frontend
       dockerfile: Dockerfile
@@ -66,10 +67,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - node_modules:/battle-stadium/frontend/node_modules
       - .:/battle-stadium
-      - .zshrc:/root/.zshrc
-
+      - .zshrc:/root/.zshrcs
 volumes:
   postgres-data:
-  node_modules:

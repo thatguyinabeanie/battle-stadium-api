@@ -1,6 +1,6 @@
 // organizations/[organizationId]/page.tsx
-import { OrganizationDetails, OrganizationsApi } from "@/api";
-import OrganizationCard from "@/app/organizations/OrganizationCard";
+import { OrganizationDetails, OrganizationsApi } from "@/lib/api";
+import OrganizationCard from "@/components/organizations/OrganizationCard";
 
 const OrganizationDetailsPage = async ({
   params,
@@ -8,13 +8,14 @@ const OrganizationDetailsPage = async ({
   params: { organizationId: string };
 }) => {
   const orgsApi = new OrganizationsApi();
-  const request = { id: params.organizationId };
+  const request = { id: parseInt(params.organizationId) };
 
   let organization: OrganizationDetails | null = null;
 
   try {
     organization = (await orgsApi.getOrganization(request)).data;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Failed to fetch organization details:", error);
 
     return <p>Failed to fetch organization</p>;

@@ -3,7 +3,7 @@ import React from "react";
 import TournamentsTable from "./TournamentsTable";
 
 import { title } from "@/components/primitives";
-import { Tournament, TournamentsApi } from "@/api";
+import { Tournament, TournamentsApi } from "@/lib/api";
 
 const columns = [
   {
@@ -20,7 +20,6 @@ const columns = [
   },
 ];
 
-
 const Tournaments = async () => {
   const tournamentsApi = new TournamentsApi();
 
@@ -31,7 +30,7 @@ const Tournaments = async () => {
     <div>
       <h1 className={title()}>Tournaments</h1>
 
-      <TournamentsTable columns={ columns } tournaments={ tournaments } />
+      <TournamentsTable columns={columns} tournaments={tournaments} />
     </div>
   );
 };

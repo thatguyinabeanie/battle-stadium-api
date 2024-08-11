@@ -32,15 +32,15 @@ import {
   GamesApiPostGameRequest,
   OrganizationsApiDeleteOrganizationRequest,
   OrganizationsApiGetOrganizationRequest,
-  OrganizationsApiGetOrganizationStaffRequest,
+  OrganizationsApiListOrganizationStaffRequest,
   OrganizationsApiPatchOrganizationRequest,
   OrganizationsApiPatchOrganizationTournamentRequest,
   OrganizationsApiPostOrganizationRequest,
   OrganizationsApiPostOrganizationTournamentRequest,
   PhasesApiDeleteTournamentPhaseRequest,
   PhasesApiListTournamentPhasesRequest,
+  PhasesApiPatchTournamentPhaseRequest,
   PhasesApiPostTournamentPhaseRequest,
-  PhasesApiPutTournamentPhaseRequest,
   PhasesApiShowTournamentPhaseRequest,
   PlayersApiDeleteTournamentPlayerRequest,
   PlayersApiListPlayersRequest,
@@ -53,7 +53,7 @@ import {
   UsersApiGetUserRequest,
   UsersApiPatchUserRequest,
   UsersApiPostUserRequest,
-} from "./api";
+} from "@/lib/api";
 
 export const ChangePasswordRequestFactory = new Factory<ChangePasswordRequest>()
   .attr("password", () => faker.lorem.word())
@@ -75,19 +75,19 @@ export const GameRequestFactory = new Factory<GameRequest>()
   .sequence("id")
   .attr("name", () => faker.lorem.word());
 export const OrganizationFactory = new Factory<Organization>()
-  .sequence("id")
-  .attr("name", () => faker.lorem.word())
   .attr("owner", () => UserFactory.build())
   .attr("description", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
-  );
+  )
+  .sequence("id")
+  .attr("name", () => faker.lorem.word());
 export const OrganizationDetailsFactory = new Factory<OrganizationDetails>()
-  .sequence("id")
-  .attr("name", () => faker.lorem.word())
   .attr("owner", () => UserFactory.build())
   .attr("description", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
-  );
+  )
+  .sequence("id")
+  .attr("name", () => faker.lorem.word());
 export const PasswordRequestFactory = new Factory<PasswordRequest>()
   .attr("password", () => faker.lorem.word())
   .attr("password_confirmation", () => faker.date.recent().toISOString());
@@ -173,65 +173,47 @@ export const RoundFactory = new Factory<Round>()
     faker.datatype.boolean() ? faker.lorem.word() : null,
   );
 export const TournamentFactory = new Factory<Tournament>()
-  .sequence("id")
-  .attr("name", () => faker.lorem.word())
   .attr("start_at", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
   )
   .attr("organization", () => OrganizationFactory.build())
   .attr("format", () => FormatFactory.build())
   .attr("game", () => GameFactory.build())
-  .attr("player_cap", () =>
-    faker.datatype.boolean() ? faker.number.int({ min: 1, max: 100 }) : null,
-  )
-  .attr("player_count", () => faker.number.int({ min: 1, max: 100 }))
-  .attr("end_at", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
-  .attr("started_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("ended_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("registration_start_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("registration_end_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("late_registration", () => faker.datatype.boolean());
+  .sequence("id")
+  .attr("name", () => faker.lorem.word());
 export const TournamentDetailsFactory = new Factory<TournamentDetails>()
   .sequence("id")
   .attr("name", () => faker.lorem.word())
-  .attr("player_cap", () =>
-    faker.datatype.boolean() ? faker.number.int({ min: 1, max: 100 }) : null,
-  )
-  .attr("player_count", () => faker.number.int({ min: 1, max: 100 }))
-  .attr("end_at", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
-  .attr("started_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("ended_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("registration_start_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("registration_end_at", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .attr("late_registration", () => faker.datatype.boolean())
   .attr("autostart", () => faker.datatype.boolean())
   .attr("start_at", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
   )
+  .attr("end_at", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .attr("organization", () => OrganizationFactory.build())
   .attr("format", () => FormatFactory.build())
   .attr("game", () => GameFactory.build())
   .attr("check_in_start_at", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
   )
+  .attr("late_registration", () => faker.datatype.boolean())
   .attr("teamlists_required", () => faker.datatype.boolean())
-  .attr("open_team_sheets", () => faker.datatype.boolean());
+  .attr("open_team_sheets", () => faker.datatype.boolean())
+  .attr("player_cap", () =>
+    faker.datatype.boolean() ? faker.number.int({ min: 1, max: 100 }) : null,
+  )
+  .attr("player_count", () => faker.number.int({ min: 1, max: 100 }))
+  .attr("started_at", () =>
+    faker.datatype.boolean() ? faker.lorem.word() : null,
+  )
+  .attr("ended_at", () =>
+    faker.datatype.boolean() ? faker.lorem.word() : null,
+  )
+  .attr("registration_start_at", () =>
+    faker.datatype.boolean() ? faker.lorem.word() : null,
+  )
+  .attr("registration_end_at", () =>
+    faker.datatype.boolean() ? faker.lorem.word() : null,
+  );
 export const TournamentPostRequestFactory = new Factory<TournamentPostRequest>()
   .attr("organization_id", () => faker.number.int({ min: 1, max: 100 }))
   .attr("name", () => faker.lorem.word())
@@ -296,17 +278,17 @@ export const UserPostRequestFactory = new Factory<UserPostRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("first_name", () => faker.lorem.word())
   .attr("last_name", () => faker.lorem.word())
-  .sequence("id")
   .attr("password", () => faker.lorem.word())
-  .attr("password_confirmation", () => faker.date.recent().toISOString());
+  .attr("password_confirmation", () => faker.date.recent().toISOString())
+  .sequence("id");
 export const UserRequestFactory = new Factory<UserRequest>()
   .attr("username", () => faker.lorem.word())
   .attr("pronouns", () => faker.lorem.word())
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("first_name", () => faker.lorem.word())
   .attr("last_name", () => faker.lorem.word())
-  .sequence("id")
-  .attr("current_password", () => faker.lorem.word());
+  .attr("current_password", () => faker.lorem.word())
+  .sequence("id");
 export const GamesApiDeleteGameRequestFactory =
   new Factory<GamesApiDeleteGameRequest>().sequence("id");
 export const GamesApiGetGameRequestFactory =
@@ -323,16 +305,16 @@ export const OrganizationsApiDeleteOrganizationRequestFactory =
   new Factory<OrganizationsApiDeleteOrganizationRequest>().sequence("id");
 export const OrganizationsApiGetOrganizationRequestFactory =
   new Factory<OrganizationsApiGetOrganizationRequest>().sequence("id");
-export const OrganizationsApiGetOrganizationStaffRequestFactory =
-  new Factory<OrganizationsApiGetOrganizationStaffRequest>().sequence("id");
+export const OrganizationsApiListOrganizationStaffRequestFactory =
+  new Factory<OrganizationsApiListOrganizationStaffRequest>().sequence("id");
 export const OrganizationsApiPatchOrganizationRequestFactory =
   new Factory<OrganizationsApiPatchOrganizationRequest>()
     .sequence("id")
     .attr("organization", () => OrganizationFactory.build());
 export const OrganizationsApiPatchOrganizationTournamentRequestFactory =
   new Factory<OrganizationsApiPatchOrganizationTournamentRequest>()
+    .attr("organizationId", () => faker.number.int({ min: 1, max: 100 }))
     .sequence("id")
-    .attr("tournamentId", () => faker.number.int({ min: 1, max: 100 }))
     .attr("tournamentDetails", () => TournamentDetailsFactory.build());
 export const OrganizationsApiPostOrganizationRequestFactory =
   new Factory<OrganizationsApiPostOrganizationRequest>().attr(
@@ -341,7 +323,7 @@ export const OrganizationsApiPostOrganizationRequestFactory =
   );
 export const OrganizationsApiPostOrganizationTournamentRequestFactory =
   new Factory<OrganizationsApiPostOrganizationTournamentRequest>()
-    .sequence("id")
+    .attr("organizationId", () => faker.number.int({ min: 1, max: 100 }))
     .attr("tournamentDetails", () => TournamentDetailsFactory.build());
 export const PhasesApiDeleteTournamentPhaseRequestFactory =
   new Factory<PhasesApiDeleteTournamentPhaseRequest>()
@@ -351,14 +333,14 @@ export const PhasesApiListTournamentPhasesRequestFactory =
   new Factory<PhasesApiListTournamentPhasesRequest>().attr("tournamentId", () =>
     faker.number.int({ min: 1, max: 100 }),
   );
+export const PhasesApiPatchTournamentPhaseRequestFactory =
+  new Factory<PhasesApiPatchTournamentPhaseRequest>()
+    .attr("tournamentId", () => faker.number.int({ min: 1, max: 100 }))
+    .sequence("id")
+    .attr("phase", () => PhaseFactory.build());
 export const PhasesApiPostTournamentPhaseRequestFactory =
   new Factory<PhasesApiPostTournamentPhaseRequest>()
     .attr("tournamentId", () => faker.number.int({ min: 1, max: 100 }))
-    .attr("phase", () => PhaseFactory.build());
-export const PhasesApiPutTournamentPhaseRequestFactory =
-  new Factory<PhasesApiPutTournamentPhaseRequest>()
-    .attr("tournamentId", () => faker.number.int({ min: 1, max: 100 }))
-    .sequence("id")
     .attr("phase", () => PhaseFactory.build());
 export const PhasesApiShowTournamentPhaseRequestFactory =
   new Factory<PhasesApiShowTournamentPhaseRequest>()

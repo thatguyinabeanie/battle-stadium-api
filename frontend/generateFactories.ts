@@ -4,7 +4,7 @@ import { execSync } from "child_process";
 
 import * as ts from "typescript";
 
-const apiFilePath = path.join(__dirname, "api", "api.ts");
+const apiFilePath = path.join(__dirname, "lib/api", "api.ts");
 const outputFile = path.join(__dirname, "factories.ts");
 
 interface Property {
@@ -102,7 +102,7 @@ ts.forEachChild(sourceFile, customizeSourceFile);
 
 // Add necessary imports
 const fakerImport = "import { faker } from '@faker-js/faker';";
-const modelImport = `import { ${interfaces.join(", ")} } from './api';`;
+const modelImport = `import { ${interfaces.join(", ")} } from '@/lib/api';`;
 
 // Construct the final code
 const finalCode = `

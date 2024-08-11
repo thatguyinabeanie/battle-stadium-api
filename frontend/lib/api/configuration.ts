@@ -12,8 +12,10 @@
  * Do not edit the class manually.
  */
 
+export const backendHost = process?.env?.BACKEND_HOST || "localhost";
+
 export const API_BASE_URL_PATH: string =
-  process?.env?.API_BASE_URL ?? "http://localhost:3000";
+  process?.env?.API_BASE_URL ?? `http://${backendHost}:3000`;
 
 export interface ConfigurationParameters {
   apiKey?:

@@ -1,31 +1,22 @@
 import React from "react";
-import { Link } from "@nextui-org/link";
+import clsx from "clsx";
 
-import { title } from "@/components/primitives";
-import { OrganizationsApi } from "@/api";
-import OrganizationCard from "@/components/organizations/OrganizationCard";
+import Organizations from "./Organizations";
+
+import { BattleStadiumAPI } from "@/battle-stadium-api";
 
 export default async function OrganizationsPage() {
-  const orgsApi = new OrganizationsApi();
-
-  const organizations = (await orgsApi.listOrganizations()).data;
+  const organizations = await BattleStadiumAPI.Organizations.list();
 
   return (
-    <div>
-      <h1 className={title()}>Organizations</h1>
-      <div className="container relative flex flex-row">
-        {organizations.map((organization) => (
-          <div key={organization.id} className="m-4">
-            <Link href={`/organizations/${organization.id}`}>
-              <OrganizationCard
-                key={organization.id}
-                className="cursor-pointer"
-                organization={organization}
-              />
-            </Link>
-          </div>
-        ))}
+    <>
+      <div
+        className={clsx(
+          "container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4",
+        )}
+      >
+        <Organizations initialOrganizations={organizations} />
       </div>
-    </div>
+    </>
   );
 }
