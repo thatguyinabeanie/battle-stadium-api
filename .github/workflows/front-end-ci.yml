@@ -49,7 +49,7 @@ jobs:
           working-directory: frontend
           directory: ./coverage
           files: ./lcov.info, ./clover.xml, ./coverage-final.json
-          flags: unittests
+          flags: jest
           name: codecov-umbrella
           verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}

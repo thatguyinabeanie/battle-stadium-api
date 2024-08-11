@@ -80,7 +80,7 @@ jobs:
           working-directory: backend
           directory: ./coverage
           files: .resultset.json, .resultset.json.lock, index.html
-          flags: unittests
+          flags: rspec
           name: codecov-umbrella
           verbose: true
 
