@@ -2,11 +2,14 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
-import React from "react";
 
-import { Providers } from "./providers";
 import SideBarComponent from "./sidebar-layout";
 
+import {
+  NextUIProvider,
+  ReactQueryClientProvider,
+  NextThemeProvider,
+} from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 
@@ -28,6 +31,8 @@ export const viewport: Viewport = {
   ],
 };
 
+const initialIsOpen = process.env.NODE_ENV === "development";
+
 function RootLayout({ children }: ChildrenProps & AppProps) {
   return (
     <html suppressHydrationWarning lang="en">
@@ -37,9 +42,13 @@ function RootLayout({ children }: ChildrenProps & AppProps) {
           "min-h-screen bg-background font-sans antialiased overflow-hidden",
         )}
       >
-        <Providers>
-          <SideBarComponent>{children}</SideBarComponent>
-        </Providers>
+        <NextUIProvider>
+          <NextThemeProvider>
+            <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
+              <SideBarComponent>{children}</SideBarComponent>
+            </ReactQueryClientProvider>
+          </NextThemeProvider>
+        </NextUIProvider>
       </body>
     </html>
   );
