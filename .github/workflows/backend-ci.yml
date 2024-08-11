@@ -79,7 +79,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           working-directory: backend
           directory: ./coverage
-          files: .resultset.json, .resultset.json.lock, index.html
+          files: '**/*.json'
           flags: rspec
           name: codecov-umbrella
           verbose: true
