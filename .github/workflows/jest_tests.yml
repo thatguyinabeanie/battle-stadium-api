@@ -3,7 +3,7 @@ name: Jest Tests
 on: [pull_request]
 
 jobs:
-  Jest-Tests:
+  jest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,6 +34,68 @@ jobs:
 
       - name: Upload Jest results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: jest-results
           path: frontend/test-results/jest/results.xml
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: frontend/test-results/coverage
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./frontend/.node-version
+          cache: "pnpm"
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
+          check-latest: true
+
+      - name: Install Dependencies
+        run: pnpm install --silent
+        working-directory: frontend
+
+      - name: Run Lint
+        run: pnpm lint
+        working-directory: frontend
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./frontend/.node-version
+          cache: "pnpm"
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
+          check-latest: true
+
+      - name: Install Dependencies
+        run: pnpm install --silent
+        working-directory: frontend
+
+      - name: Run Prettier Check
+        run: pnpm prettier:check
+        working-directory: frontend
