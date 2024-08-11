@@ -27,8 +27,8 @@ SimpleCov.start 'rails' do
   add_filter '/coverage/'
 end
 
-# Ensure this is at the top of the file
-SimpleCov.start
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

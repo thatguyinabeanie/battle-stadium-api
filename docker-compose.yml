@@ -74,8 +74,6 @@ services:
         pnpm install --silent && \
         tail -f /dev/null
       "
-    depends_on:
-      - backend
     tty: true
     ports:
       - 8080:8080
