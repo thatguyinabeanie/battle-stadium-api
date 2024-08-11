@@ -1850,12 +1850,12 @@ export const OrganizationsApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getOrganizationStaff: async (
+    listOrganizationStaff: async (
       id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
-      assertParamExists("getOrganizationStaff", "id", id);
+      assertParamExists("listOrganizationStaff", "id", id);
       const localVarPath = `/api/v1/organizations/{id}/staff`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(id)),
@@ -2222,17 +2222,17 @@ export const OrganizationsApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getOrganizationStaff(
+    async listOrganizationStaff(
       id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<User>>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getOrganizationStaff(id, options);
+        await localVarAxiosParamCreator.listOrganizationStaff(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap["OrganizationsApi.getOrganizationStaff"]?.[
+        operationServerMap["OrganizationsApi.listOrganizationStaff"]?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -2452,16 +2452,16 @@ export const OrganizationsApiFactory = function (
     /**
      * Retrieves a list of staff members for a specific organization.
      * @summary List Organization Staff
-     * @param {OrganizationsApiGetOrganizationStaffRequest} requestParameters Request parameters.
+     * @param {OrganizationsApiListOrganizationStaffRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getOrganizationStaff(
-      requestParameters: OrganizationsApiGetOrganizationStaffRequest,
+    listOrganizationStaff(
+      requestParameters: OrganizationsApiListOrganizationStaffRequest,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<User>> {
       return localVarFp
-        .getOrganizationStaff(requestParameters.id, options)
+        .listOrganizationStaff(requestParameters.id, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -2582,15 +2582,15 @@ export interface OrganizationsApiGetOrganizationRequest {
 }
 
 /**
- * Request parameters for getOrganizationStaff operation in OrganizationsApi.
+ * Request parameters for listOrganizationStaff operation in OrganizationsApi.
  * @export
- * @interface OrganizationsApiGetOrganizationStaffRequest
+ * @interface OrganizationsApiListOrganizationStaffRequest
  */
-export interface OrganizationsApiGetOrganizationStaffRequest {
+export interface OrganizationsApiListOrganizationStaffRequest {
   /**
    *
    * @type {number}
-   * @memberof OrganizationsApiGetOrganizationStaff
+   * @memberof OrganizationsApiListOrganizationStaff
    */
   readonly id: number;
 }
@@ -2723,17 +2723,17 @@ export class OrganizationsApi extends BaseAPI {
   /**
    * Retrieves a list of staff members for a specific organization.
    * @summary List Organization Staff
-   * @param {OrganizationsApiGetOrganizationStaffRequest} requestParameters Request parameters.
+   * @param {OrganizationsApiListOrganizationStaffRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof OrganizationsApi
    */
-  public getOrganizationStaff(
-    requestParameters: OrganizationsApiGetOrganizationStaffRequest,
+  public listOrganizationStaff(
+    requestParameters: OrganizationsApiListOrganizationStaffRequest,
     options?: RawAxiosRequestConfig,
   ) {
     return OrganizationsApiFp(this.configuration)
-      .getOrganizationStaff(requestParameters.id, options)
+      .listOrganizationStaff(requestParameters.id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

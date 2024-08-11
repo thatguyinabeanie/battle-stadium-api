@@ -196,7 +196,7 @@ paths:
       tags:
       - Organizations
       description: Retrieves a list of staff members for a specific organization.
-      operationId: getOrganizationStaff
+      operationId: listOrganizationStaff
       responses:
         '200':
           description: successful

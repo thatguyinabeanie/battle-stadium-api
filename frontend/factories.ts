@@ -32,7 +32,7 @@ import {
   GamesApiPostGameRequest,
   OrganizationsApiDeleteOrganizationRequest,
   OrganizationsApiGetOrganizationRequest,
-  OrganizationsApiGetOrganizationStaffRequest,
+  OrganizationsApiListOrganizationStaffRequest,
   OrganizationsApiPatchOrganizationRequest,
   OrganizationsApiPatchOrganizationTournamentRequest,
   OrganizationsApiPostOrganizationRequest,
@@ -305,8 +305,8 @@ export const OrganizationsApiDeleteOrganizationRequestFactory =
   new Factory<OrganizationsApiDeleteOrganizationRequest>().sequence("id");
 export const OrganizationsApiGetOrganizationRequestFactory =
   new Factory<OrganizationsApiGetOrganizationRequest>().sequence("id");
-export const OrganizationsApiGetOrganizationStaffRequestFactory =
-  new Factory<OrganizationsApiGetOrganizationStaffRequest>().sequence("id");
+export const OrganizationsApiListOrganizationStaffRequestFactory =
+  new Factory<OrganizationsApiListOrganizationStaffRequest>().sequence("id");
 export const OrganizationsApiPatchOrganizationRequestFactory =
   new Factory<OrganizationsApiPatchOrganizationRequest>()
     .sequence("id")

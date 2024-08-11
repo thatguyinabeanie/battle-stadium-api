@@ -141,7 +141,7 @@ RSpec.describe Api::V1::OrganizationsController do
       tags 'Organizations'
       produces OpenApi::Response::JSON_CONTENT_TYPE
       description 'Retrieves a list of staff members for a specific organization.'
-      operationId 'getOrganizationStaff'
+      operationId 'listOrganizationStaff'
 
       response(200, 'successful') do
         schema type: :array, items: { '$ref' => '#/components/schemas/User' }
