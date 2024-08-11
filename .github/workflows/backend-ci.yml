@@ -72,6 +72,18 @@ jobs:
           report_paths: './backend/test-results/rspec/results.xml'
           include_passed: true
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        if: always()
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          working-directory: backend
+          directory: ./coverage
+          files: .resultset.json, .resultset.json.lock, index.html
+          flags: unittests
+          name: codecov-umbrella
+          verbose: true
+
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
