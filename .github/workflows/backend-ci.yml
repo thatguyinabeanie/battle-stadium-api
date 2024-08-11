@@ -68,7 +68,7 @@ jobs:
         if: always()
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./backend/coverage/index.html # Specify the path to your coverage report
+          file: ./backend/coverage # Specify the path to your coverage report
           flags: unittests
           name: codecov-umbrella
           verbose: true
