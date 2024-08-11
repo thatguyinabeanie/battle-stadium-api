@@ -1,13 +1,18 @@
-"use client"
+import { headers } from 'next/headers';
+import { title } from "./primitives";
 
-import { usePathname } from "next/navigation";
-export default function Header() {
-  const pathname = usePathname();
-  const currentPath = pathname.split("/")?.[1];
+export interface HeaderProps {
+  route?: string;
+}
+
+export default function Header ({route}: HeaderProps) {
+  console.log('header route', route)
+
+  if (!route) return null
 
   return (
-    <header className="flex items-center gap-3 rounded-medium border-small  border-divider p-4 sticky">
-      <h2 className="text-medium font-medium text-default-700">{currentPath}</h2>
+    <header className="flex items-center gap-3 rounded-medium border-small justify-center border-divider p-4 sticky">
+      <h1 className={ title() }>{ route || 'Home' }</h1>
     </header>
   )
 }

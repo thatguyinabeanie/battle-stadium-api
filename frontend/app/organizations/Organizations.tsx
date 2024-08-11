@@ -4,17 +4,18 @@ import { Organization } from "@/lib/api";
 import { Link } from "@nextui-org/link";
 import { useQuery } from '@tanstack/react-query'
 import { BattleStadiumAPI } from "@/battle-stadium-api";
+
 export interface OrganizationsProps {
   initialOrganizations: Organization[];
 }
 
-export default function Organizations ({ initialOrganizations }: Readonly<OrganizationsProps>) {
-
+export default function Organizations ({ initialOrganizations }: OrganizationsProps) {
 
   const { data: organizations, isLoading, error } = useQuery({
     queryKey: ['organizations'],
     queryFn: BattleStadiumAPI.Organizations.list,
-    initialData: initialOrganizations
+    initialData: initialOrganizations,
+    staleTime: 1000 * 60 * 60
   })
 
   return (
@@ -34,7 +35,6 @@ export default function Organizations ({ initialOrganizations }: Readonly<Organi
         </Link>
       ))
       }
-
     </>
   )
 }

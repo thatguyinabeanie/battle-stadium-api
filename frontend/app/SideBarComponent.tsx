@@ -10,13 +10,15 @@ import { sectionItemsWithTeams } from "@/components/sidebar-items";
 import { AcmeIcon } from "@/components/acme";
 import Header from "@/components/header";
 import Body from "@/components/body";
+import { BATTLE_STADIUM } from "@/lib/constants";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;
+  route?: string;
 }
 
 
-export default function SideBarComponent({ children }: SideBarComponentProps) {
+export default function SideBarComponent({ children, route }: SideBarComponentProps) {
   return (
     <div className="flex h-dvh w-full">
       <div
@@ -31,9 +33,11 @@ export default function SideBarComponent({ children }: SideBarComponentProps) {
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
             <AcmeIcon className="text-background" />
           </div>
-          <span className="text-small font-bold uppercase">Acme</span>
+          <span className="text-small font-bold uppercase">{ BATTLE_STADIUM }</span>
         </div>
+
         <Spacer y={8} />
+
         <div className="flex items-center gap-3 px-3">
           <Avatar />
           <div className="flex flex-col">
@@ -41,6 +45,7 @@ export default function SideBarComponent({ children }: SideBarComponentProps) {
             <p className="text-tiny text-default-400">Product Designer</p>
           </div>
         </div>
+
         <Sidebar defaultSelectedKey="home" items={sectionItemsWithTeams} />
 
         <Spacer y={8} />
@@ -77,14 +82,14 @@ export default function SideBarComponent({ children }: SideBarComponentProps) {
 
       <div className="w-full flex-1 flex-col p-4">
 
-        <Header />
+        <Header route={route} />
 
         <main className="mt-4 h-full w-full overflow-visible">
 
           <Body>
             {children}
           </Body>
-
+{/*
           <footer className="w-full flex items-center justify-center py-3">
             <Link
               isExternal
@@ -95,7 +100,7 @@ export default function SideBarComponent({ children }: SideBarComponentProps) {
               <span className="text-default-600">Powered by</span>
               <p className="text-primary">NextUI</p>
             </Link>
-          </footer>
+          </footer> */}
         </main>
       </div>
     </div>

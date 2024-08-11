@@ -7084,8 +7084,8 @@ snapshots:
       '@internationalized/date': 3.5.5
       '@internationalized/string': 3.2.3
       '@react-stately/form': 3.0.5(react@18.3.1)
-      '@react-stately/overlays': 3.6.9(react@18.3.1)
-      '@react-stately/utils': 3.10.2(react@18.3.1)
+      '@react-stately/overlays': 3.6.7(react@18.3.1)
+      '@react-stately/utils': 3.10.1(react@18.3.1)
       '@react-types/datepicker': 3.7.4(react@18.3.1)
       '@react-types/shared': 3.23.1(react@18.3.1)
       '@swc/helpers': 0.5.12

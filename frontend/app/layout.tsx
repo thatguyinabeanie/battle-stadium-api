@@ -7,6 +7,11 @@ import SideBarComponent from "./SideBarComponent";
 import { siteConfig } from "@/config/site";
 import ChildrenProps from "@/types/childrenProps";
 import clsx from "clsx";
+import { AppProps } from 'next/app';
+
+export interface RootLayoutProps extends ChildrenProps {
+  route?: string;
+}
 
 export const metadata: Metadata = {
   title: {
@@ -26,17 +31,20 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: Readonly<ChildrenProps>) {
+function RootLayout ({ children , route}: RootLayoutProps & AppProps) {
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
       <body
-        className={ clsx("min-h-screen bg-background font-sans antialiased") }
+        className={ clsx("min-h-screen bg-background font-sans antialiased overflow-hidden") }
       >
         <Providers>
-          <SideBarComponent>{children}</SideBarComponent>
+          <SideBarComponent route={route}>{children}</SideBarComponent>
         </Providers>
       </body>
     </html>
   );
 }
+
+export default RootLayout;
