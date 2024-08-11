@@ -39,6 +39,7 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         if: always()
         with:
+          include_passed: true
           report_paths: 'frontend/test-results/jest/*.xml'
 
       - name: Upload coverage reports to Codecov
