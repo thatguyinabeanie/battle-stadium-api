@@ -12,7 +12,8 @@
     "test:all": "pnpm jest",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
     "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-axios -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-axios --enable-post-process-file && pnpm generate:factories",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check ."
   },
   "dependencies": {
     "@internationalized/date": "^3.5.5",

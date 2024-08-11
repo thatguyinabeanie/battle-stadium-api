@@ -7,6 +7,8 @@ module Api
       class_attribute :detail_serializer_klass
       class_attribute :update_params_except
 
+      before_action :set_object, only: %i[show update destroy]
+
       # GET /api/v1/:klass
       # GET /api/v1/:klass.json
       def index

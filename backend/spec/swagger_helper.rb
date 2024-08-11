@@ -123,7 +123,7 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
     properties: {
       password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters'),
       password_confirmation: PASSWORD_STRING_TYPE.merge(title: 'Password Confirmation', description: 'Must match the password.')
-  }.merge(ID_PROPERTY),
+    }.merge(ID_PROPERTY),
     required: %w[password password_confirmation] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -172,18 +172,20 @@ TOURNAMENT_SCHEMA = {
 TOURNAMENT_DETAILS_SCHEMA = {
   type: :object,
   title: 'Tournament Details',
-  properties: ID_NAME_PROPERTIES.merge({
-    autostart: { type: :boolean },
-    start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    organization: { '$ref' => '#/components/schemas/Organization' },
-    format: { '$ref' => '#/components/schemas/Format' },
-    game: { '$ref' => '#/components/schemas/Game' },
-    check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    late_registration: { type: :boolean },
-    teamlists_required: { type: :boolean },
-    open_team_sheets: { type: :boolean }
-  }).merge(TOURNAMENT_PROPERTIES),
+  properties: ID_NAME_PROPERTIES.merge(
+    {
+      autostart: { type: :boolean },
+      start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+      end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+      organization: { '$ref' => '#/components/schemas/Organization' },
+      format: { '$ref' => '#/components/schemas/Format' },
+      game: { '$ref' => '#/components/schemas/Game' },
+      check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+      late_registration: { type: :boolean },
+      teamlists_required: { type: :boolean },
+      open_team_sheets: { type: :boolean }
+    }
+  ).merge(TOURNAMENT_PROPERTIES),
   required: TOURNAMENT_SCHEMA[:required] + %w[
     start_at player_cap autostart
     teamlists_required open_team_sheets

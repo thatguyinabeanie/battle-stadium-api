@@ -1,15 +1,16 @@
-name: Ruby on Rails CI
+name: Backend CI
 on:
   push:
     branches:
       - main
   pull_request:
+
+permissions:
+  checks: write
+
 jobs:
-  rspec-tests:
+  rspec:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
     env:
       RAILS_ENV: test
       DB_HOST: ${{ secrets.DB_HOST }}
@@ -46,31 +47,45 @@ jobs:
 
       - name: Install dependencies
         run: bundle check || bundle install
+        working-directory: ./backend
 
       - name: Prepare database
         run: bundle exec rake db:create db:schema:load --trace
+        working-directory: ./backend
+
       - name: Run RSpec tests
-        run: bundle exec rspec
-        # run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
+        run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
+        working-directory: ./backend
 
-    # - name: Upload RSpec results
-    #   uses: actions/upload-artifact@v4
-    #   if: always()
-    #   with:
-    #     name: rspec-results
-    #     path: test-results/rspec/results.xml
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: './backend/test-results/rspec/results.xml'
+          include_passed: true
 
-    # - name: Upload coverage reports to Codecov
-    #   uses: codecov/codecov-action@v4.0.1
-    #   if: always()
-    #   with:
-    #     token: ${{ secrets.CODECOV_TOKEN }}
-    #     file: ./coverage/index.html # Specify the path to your coverage report
-    #     flags: unittests
-    #     name: codecov-umbrella
-    #     verbose: true
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        if: always()
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          working-directory: backend
+          directory: ./coverage
+          files: .last_run.json, .resultset.json, .resultset.json.lock, index.html
+          flags: unittests
+          name: codecov-umbrella
+          verbose: true
 
-  ruby-audit:
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          working-directory: backend
+          directory: ./test-results/rspec
+          files: ./results.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  audit:
     defaults:
       run:
         working-directory: ./backend
@@ -91,10 +106,8 @@ jobs:
       - name: Run Ruby Audit
         run: bundle exec ruby-audit check
 
-  rubocop-check:
-    defaults:
-      run:
-        working-directory: ./backend
+  rubocop:
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -108,14 +121,15 @@ jobs:
 
       - name: Install dependencies
         run: bundle check || bundle install
+        working-directory: ./backend
 
       - name: Run RuboCop with Reviewdog
         uses: reviewdog/action-rubocop@v2
         with:
-          workdir: ./backend
+          workdir: backend
           rubocop_version: gemfile
           rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-rspec:gemfile
-          only_changed: true
+          only_changed: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review # Default is github-pr-check
           skip_install: true
