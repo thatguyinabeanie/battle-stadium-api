@@ -62,8 +62,8 @@ jobs:
           target: development
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=registry,ref=${{ github.repository }}:buildcache
-          cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ github.repository }}:dev-latest
+          cache-to: type=registry,ref=${{ github.repository }}:dev-latest,mode=max
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-latest
             ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MAJOR}}
