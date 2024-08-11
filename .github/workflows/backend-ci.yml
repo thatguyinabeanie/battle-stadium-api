@@ -73,6 +73,13 @@ jobs:
           name: codecov-umbrella
           verbose: true
 
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          working-directory: backend
+          token: ${{ secrets.CODECOV_TOKEN }}
+
   audit:
     defaults:
       run:

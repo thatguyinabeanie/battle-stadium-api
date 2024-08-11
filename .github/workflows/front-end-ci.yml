@@ -48,6 +48,13 @@ jobs:
           name: coverage-report
           path: frontend/coverage
 
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          working-directory: frontend
+          token: ${{ secrets.CODECOV_TOKEN }}
+
   lint:
     runs-on: ubuntu-latest
     steps:
