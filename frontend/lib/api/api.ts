@@ -644,6 +644,18 @@ export interface Tournament {
 export interface TournamentDetails {
   /**
    *
+   * @type {number}
+   * @memberof TournamentDetails
+   */
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof TournamentDetails
+   */
+  name: string;
+  /**
+   *
    * @type {boolean}
    * @memberof TournamentDetails
    */
@@ -738,18 +750,6 @@ export interface TournamentDetails {
    * @memberof TournamentDetails
    */
   registration_end_at: string | null;
-  /**
-   *
-   * @type {number}
-   * @memberof TournamentDetails
-   */
-  id: number;
-  /**
-   *
-   * @type {string}
-   * @memberof TournamentDetails
-   */
-  name: string;
 }
 /**
  *

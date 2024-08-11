@@ -182,6 +182,8 @@ export const TournamentFactory = new Factory<Tournament>()
   .sequence("id")
   .attr("name", () => faker.lorem.word());
 export const TournamentDetailsFactory = new Factory<TournamentDetails>()
+  .sequence("id")
+  .attr("name", () => faker.lorem.word())
   .attr("autostart", () => faker.datatype.boolean())
   .attr("start_at", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
@@ -211,9 +213,7 @@ export const TournamentDetailsFactory = new Factory<TournamentDetails>()
   )
   .attr("registration_end_at", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
-  .sequence("id")
-  .attr("name", () => faker.lorem.word());
+  );
 export const TournamentPostRequestFactory = new Factory<TournamentPostRequest>()
   .attr("organization_id", () => faker.number.int({ min: 1, max: 100 }))
   .attr("name", () => faker.lorem.word())

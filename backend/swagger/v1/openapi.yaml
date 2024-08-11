@@ -882,6 +882,10 @@ components:
       type: object
       title: Tournament Details
       properties:
+        id:
+          type: integer
+        name:
+          type: string
         autostart:
           type: boolean
         start_at:
@@ -929,10 +933,6 @@ components:
           type: string
           format: date-time
           nullable: true
-        id:
-          type: integer
-        name:
-          type: string
       required:
       - id
       - name
