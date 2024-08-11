@@ -58,6 +58,8 @@ jobs:
       - name: Run RSpec tests
         run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
         working-directory: ./backend
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v4
@@ -65,18 +67,6 @@ jobs:
         with:
           report_paths: './backend/test-results/rspec/results.xml'
           include_passed: true
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        if: always()
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          working-directory: backend
-          directory: ./coverage
-          files: .last_run.json, .resultset.json, .resultset.json.lock, index.html
-          flags: unittests
-          name: codecov-umbrella
-          verbose: true
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
