@@ -68,7 +68,8 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         if: always()
         with:
-          directory: ./backend/coverage
+          working-directory: backend
+          files: coverage/.resultset.json
           flags: unittests
           name: codecov-umbrella
           verbose: true
