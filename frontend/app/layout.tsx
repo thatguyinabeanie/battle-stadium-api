@@ -5,7 +5,7 @@ import { AppProps } from "next/app";
 import React from "react";
 
 import { Providers } from "./providers";
-import SideBarComponent from "./SideBarComponent";
+import SideBarComponent from "./sidebar-layout";
 
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
