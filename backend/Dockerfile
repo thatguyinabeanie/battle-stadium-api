@@ -60,7 +60,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
 ##
 ## DEVELOPMENT IMAGE
 ##
-FROM base-image AS development
+FROM thatguyinabeanie/battle-stadium:dev-latest AS development
 ENV HOST_ENVIRONMENT=container
 WORKDIR /battle-stadium/backend
 COPY . .

@@ -11,6 +11,19 @@ services:
     ports:
       - 5432:5432
 
+  dev-latest:
+    image: thatguyinabeanie/battle-stadium:dev-latest
+    build:
+      context: backend
+      dockerfile: Dockerfile
+      target: development
+      tags:
+        - thatguyinabeanie/battle-stadium:dev-latest
+      cache_from:
+        - thatguyinabeanie/battle-stadium:dev-latest
+    profiles:
+      - build-dev-latest
+
   # BATTLE STADIUM RAILS APP CONTAINER
   backend:
     image: thatguyinabeanie/battle-stadium:dev-latest
