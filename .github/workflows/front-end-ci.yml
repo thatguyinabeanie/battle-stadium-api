@@ -32,19 +32,18 @@ jobs:
         env:
           CI: true
 
-      - name: Upload Jest results
-        uses: actions/upload-artifact@v4
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
         if: always()
         with:
-          name: jest-results
-          path: frontend/test-results/jest/results.xml
+          report_paths: 'frontend/test-results/jest/*.xml'
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: coverage-report
-          path: frontend/test-results/coverage
+          path: frontend/coverage
 
   lint:
     runs-on: ubuntu-latest
