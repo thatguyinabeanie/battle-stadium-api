@@ -4,6 +4,10 @@ on:
     branches:
       - main
   pull_request:
+
+permissions:
+  checks: write
+
 jobs:
   rspec:
     runs-on: ubuntu-latest
@@ -53,12 +57,11 @@ jobs:
         run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
         working-directory: ./backend
 
-      - name: Upload RSpec results
-        uses: actions/upload-artifact@v4
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
         if: always()
         with:
-          name: rspec-results
-          path: ./backend/test-results/rspec/results.xml
+          report_paths: 'backend/test-results/rspec/*.xml'
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
