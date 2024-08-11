@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
-import { Organization } from "@/api";
+import { Organization } from "@/lib/api";
 import factories from "@/factories";
 
 describe("OrganizationCard", () => {

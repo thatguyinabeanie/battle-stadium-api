@@ -109,9 +109,9 @@ USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: 'User Request',
-    properties: ID_PROPERTY.merge(
+    properties: {
       current_password: PASSWORD_STRING_TYPE.merge(title: 'Current Password', description: 'Your current password.')
-    ),
+    }.merge(ID_PROPERTY),
     required: %w[current_password] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -120,10 +120,10 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: 'User Request',
-    properties: ID_PROPERTY.merge(
+    properties: {
       password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters'),
       password_confirmation: PASSWORD_STRING_TYPE.merge(title: 'Password Confirmation', description: 'Must match the password.')
-    ),
+  }.merge(ID_PROPERTY),
     required: %w[password password_confirmation] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -131,10 +131,10 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
 ORGANIZATION_SCHEMA = {
   type: :object,
   title: 'Organization',
-  properties: ID_NAME_PROPERTIES.merge(
+  properties: {
     owner: { '$ref' => '#/components/schemas/User' },
     description: { type: :string, nullable: true }
-  ),
+  }.merge(ID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[owner description]
 }.freeze
 
@@ -160,12 +160,12 @@ TOURNAMENT_PROPERTIES = {
 TOURNAMENT_SCHEMA = {
   type: :object,
   title: 'Tournament',
-  properties: ID_NAME_PROPERTIES.merge(
+  properties: {
     start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     organization: { '$ref' => '#/components/schemas/Organization' },
     format: { '$ref' => '#/components/schemas/Format' },
     game: { '$ref' => '#/components/schemas/Game' }
-  ).merge(TOURNAMENT_PROPERTIES),
+  }.merge(ID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[player_cap organization format game start_at player_count registration_start_at registration_end_at late_registration]
 }.freeze
 

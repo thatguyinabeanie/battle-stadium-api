@@ -6,6 +6,7 @@ import SideBarComponent from "./SideBarComponent";
 
 import { siteConfig } from "@/config/site";
 import ChildrenProps from "@/types/childrenProps";
+import clsx from "clsx";
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +30,9 @@ export default function RootLayout({ children }: Readonly<ChildrenProps>) {
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body className="overflow-y-hidden">
+      <body
+        className={ clsx("min-h-screen bg-background font-sans antialiased") }
+      >
         <Providers>
           <SideBarComponent>{children}</SideBarComponent>
         </Providers>

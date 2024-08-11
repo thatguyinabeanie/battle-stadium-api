@@ -760,8 +760,6 @@ components:
           type: string
         last_name:
           type: string
-        id:
-          type: integer
         password:
           type: string
           minLength: 8
@@ -774,6 +772,8 @@ components:
           format: password
           title: Password Confirmation
           description: Must match the password.
+        id:
+          type: integer
       required:
       - password
       - password_confirmation
@@ -796,14 +796,14 @@ components:
           type: string
         last_name:
           type: string
-        id:
-          type: integer
         current_password:
           type: string
           minLength: 8
           format: password
           title: Current Password
           description: Your current password.
+        id:
+          type: integer
       required:
       - current_password
       - email
@@ -815,15 +815,15 @@ components:
       type: object
       title: Organization
       properties:
-        id:
-          type: integer
-        name:
-          type: string
         owner:
           "$ref": "#/components/schemas/User"
         description:
           type: string
           nullable: true
+        id:
+          type: integer
+        name:
+          type: string
       required:
       - id
       - name
@@ -833,15 +833,15 @@ components:
       type: object
       title: Organization Details
       properties:
-        id:
-          type: integer
-        name:
-          type: string
         owner:
           "$ref": "#/components/schemas/User"
         description:
           type: string
           nullable: true
+        id:
+          type: integer
+        name:
+          type: string
       required:
       - id
       - name
@@ -851,10 +851,6 @@ components:
       type: object
       title: Tournament
       properties:
-        id:
-          type: integer
-        name:
-          type: string
         start_at:
           type: string
           format: date-time
@@ -865,33 +861,10 @@ components:
           "$ref": "#/components/schemas/Format"
         game:
           "$ref": "#/components/schemas/Game"
-        player_cap:
+        id:
           type: integer
-          nullable: true
-        player_count:
-          type: integer
-        end_at:
+        name:
           type: string
-          format: date-time
-          nullable: true
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-        registration_start_at:
-          type: string
-          format: date-time
-          nullable: true
-        registration_end_at:
-          type: string
-          format: date-time
-          nullable: true
-        late_registration:
-          type: boolean
       required:
       - id
       - name

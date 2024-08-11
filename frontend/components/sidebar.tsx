@@ -66,7 +66,6 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     const pathname = usePathname();
     const currentPath = pathname.split("/")?.[1];
 
-    console.log("currentPath", currentPath);
     const [selected, setSelected] = React.useState<React.Key>(
       currentPath ?? defaultSelectedKey,
     );

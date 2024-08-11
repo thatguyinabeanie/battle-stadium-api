@@ -4,7 +4,7 @@ import { execSync } from "child_process";
 
 import * as ts from "typescript";
 
-const apiFilePath = path.join(__dirname, "api", "api.ts");
+const apiFilePath = path.join(__dirname, "lib/api", "api.ts");
 const outputFile = path.join(__dirname, "factories.ts");
 
 interface Property {

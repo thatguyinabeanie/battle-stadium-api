@@ -8,24 +8,14 @@ import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
 import { sectionItemsWithTeams } from "@/components/sidebar-items";
 import { AcmeIcon } from "@/components/acme";
-// import { usePathname } from "next/navigation";
+import Header from "@/components/header";
+import Body from "@/components/body";
+
 export interface SideBarComponentProps {
   children?: React.ReactNode;
 }
 
-/**
- * 💡 TIP: You can use the usePathname hook from Next.js App Router to get the current pathname
- * and use it as the active key for the Sidebar component.
- *
- * ```tsx
- * import {usePathname} from "next/navigation";
- *
- * const pathname = usePathname();
- * const currentPath = pathname.split("/")?.[1]
- *
- * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
- * ```
- */
+
 export default function SideBarComponent({ children }: SideBarComponentProps) {
   return (
     <div className="flex h-dvh w-full">
@@ -86,14 +76,15 @@ export default function SideBarComponent({ children }: SideBarComponentProps) {
       </div>
 
       <div className="w-full flex-1 flex-col p-4">
-        <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4">
-          <h2 className="text-medium font-medium text-default-700">Overview</h2>
-        </header>
+
+        <Header />
 
         <main className="mt-4 h-full w-full overflow-visible">
-          <div className="flex h-[90%] w-full flex-col gap-4 rounded-medium border-small border-divider">
+
+          <Body>
             {children}
-          </div>
+          </Body>
+
           <footer className="w-full flex items-center justify-center py-3">
             <Link
               isExternal

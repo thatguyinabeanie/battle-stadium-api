@@ -3,7 +3,7 @@ import React from "react";
 import TournamentsTable from "./TournamentsTable";
 
 import { title } from "@/components/primitives";
-import { Tournament, TournamentsApi } from "@/api";
+import { Tournament, TournamentsApi } from "@/lib/api";
 
 const columns = [
   {

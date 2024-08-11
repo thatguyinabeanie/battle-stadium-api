@@ -1,9 +1,9 @@
 "use client";
 
-import { Card, CardFooter, Image } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import clsx from "clsx";
-
-import { Organization, OrganizationDetails } from "@/api";
+import {Card, CardFooter} from "@/components/nextui-client-components";
+import { Organization, OrganizationDetails } from "@/lib/api";
 
 interface OrganizationCardProps {
   organization: Organization | OrganizationDetails | null;
@@ -12,7 +12,8 @@ interface OrganizationCardProps {
 const OrganizationCard = ({
   organization,
   className,
-}: OrganizationCardProps) => (
+}: OrganizationCardProps) => {
+  return (
   <Card isFooterBlurred className={clsx("border-none", className)} radius="lg">
     <Image
       alt="Woman listing to music"
@@ -26,6 +27,7 @@ const OrganizationCard = ({
       <p className="text-tiny text-white/80">{organization?.name}</p>
     </CardFooter>
   </Card>
-);
+  );
+};
 
 export default OrganizationCard;
