@@ -140,5 +140,5 @@ jobs:
 
       - name: Run RuboCop
         if: github.event_name != 'pull_request'
-        run: bundle exec rubocop
+        run: bundle exec rubocop --force-exclusion
         working-directory: ./backend
