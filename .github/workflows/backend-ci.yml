@@ -7,9 +7,6 @@ on:
 jobs:
   rspec:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
     env:
       RAILS_ENV: test
       DB_HOST: ${{ secrets.DB_HOST }}
@@ -46,26 +43,29 @@ jobs:
 
       - name: Install dependencies
         run: bundle check || bundle install
+        working-directory: ./backend
 
       - name: Prepare database
         run: bundle exec rake db:create db:schema:load --trace
+        working-directory: ./backend
+
       - name: Run RSpec tests
-        # run: bundle exec rspec
         run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
+        working-directory: ./backend
 
       - name: Upload RSpec results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: rspec-results
-          path: test-results/rspec/results.xml
+          path: ./backend/test-results/rspec/results.xml
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         if: always()
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/index.html # Specify the path to your coverage report
+          file: ./backend/coverage/index.html # Specify the path to your coverage report
           flags: unittests
           name: codecov-umbrella
           verbose: true

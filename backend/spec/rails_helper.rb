@@ -9,6 +9,27 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'rspec/rails'
 require 'shoulda/matchers'
+require 'simplecov'
+
+SimpleCov.start 'rails' do
+  add_filter '/spec/'
+  add_filter '/config/'
+  add_filter '/vendor/'
+  add_filter '/lib/tasks/'
+  add_filter '/tmp/'
+  add_filter '/log/'
+  add_filter '/db/'
+  add_filter '/.devcontainer/'
+  add_filter '/.github/'
+  add_filter '/.vscode/'
+  add_filter '/.turbo/'
+  add_filter '/test-results/'
+  add_filter '/coverage/'
+end
+
+# Ensure this is at the top of the file
+SimpleCov.start
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -31,6 +52,9 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+
+
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
