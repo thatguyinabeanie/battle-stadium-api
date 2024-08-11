@@ -45,12 +45,13 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         if: always()
         with:
-          directory: ./frontend/coverage
+          working-directory: frontend
+          directory: ./coverage
+          files: ./lcov.info, ./clover.xml, ./coverage-final.json
           flags: unittests
           name: codecov-umbrella
           verbose: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
 
 
       - name: Upload test results to Codecov

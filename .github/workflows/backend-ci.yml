@@ -68,13 +68,12 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         if: always()
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           working-directory: backend
           files: coverage/.resultset.json
           flags: unittests
           name: codecov-umbrella
           verbose: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
