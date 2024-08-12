@@ -51,7 +51,7 @@ class User < ApplicationRecord
     errors.add(:password, :blank) if params[:password].blank?
     errors.add(:password_confirmation, :blank) if params[:password_confirmation].blank?
     return false if errors.any?
-    super(params)
-  end
 
+    super
+  end
 end

@@ -120,8 +120,8 @@ RSpec.describe Api::V1::UsersController do
 
       password = SecurePassword.generate_secure_password
       password_confirmation = password
-      current_password= user.password
-      patch :patch_password, params: { id: user.id, user: { password: , password_confirmation:, current_password:  } }
+      current_password = user.password
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
 
       expect(response).to be_successful
       expect(json_response[:message]).to eq('Password updated successfully')
@@ -132,9 +132,9 @@ RSpec.describe Api::V1::UsersController do
       old_password = user.password
       password = SecurePassword.generate_secure_password
       password_confirmation = password
-      current_password= user.password
+      current_password = user.password
 
-      patch :patch_password, params: { id: user.id, user: { password: , password_confirmation:, current_password:  } }
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
 
       user.reload
       expect(old_password).to eq(user.password)
@@ -145,22 +145,21 @@ RSpec.describe Api::V1::UsersController do
 
       password = SecurePassword.generate_secure_password
       password_confirmation = password
-      current_password= 'incorrect_password'
+      current_password = 'incorrect_password'
 
-      patch :patch_password, params: { id: user.id, user: { password: , password_confirmation:, current_password:  } }
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
 
       expect(json_response[:errors]).to include('Current password is invalid')
     end
 
     it 'returns an error if the password and password confirmation do not match' do
-
       user = create(:user)
 
       password = SecurePassword.generate_secure_password
       password_confirmation = 'incorrect_password'
-      current_password= user.password
+      current_password = user.password
 
-      patch :patch_password, params: { id: user.id, user: { password: , password_confirmation:, current_password:  } }
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
 
       expect(json_response[:errors]).to include("Password confirmation doesn't match Password")
     end
@@ -170,9 +169,9 @@ RSpec.describe Api::V1::UsersController do
 
       password = 'short'
       password_confirmation = password
-      current_password= user.password
+      current_password = user.password
 
-      patch :patch_password, params: { id: user.id, user: { password: , password_confirmation:, current_password:  } }
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
 
       expect(json_response[:errors]).to include('Password is too short (minimum is 6 characters)')
     end
@@ -182,9 +181,9 @@ RSpec.describe Api::V1::UsersController do
 
       password = 'a' * 129
       password_confirmation = password
-      current_password= user.password
+      current_password = user.password
 
-      patch :patch_password, params: { id: user.id, user: { password: , password_confirmation:, current_password:  } }
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
 
       expect(json_response[:errors]).to include('Password is too long (maximum is 128 characters)')
     end
@@ -194,9 +193,9 @@ RSpec.describe Api::V1::UsersController do
 
       new_password = ''
       password_confirmation = 'not_the_same'
-      current_password= user.password
+      current_password = user.password
 
-      patch :patch_password, params: { id: user.id, user: { password: new_password, password_confirmation:, current_password:  } }
+      patch :patch_password, params: { id: user.id, user: { password: new_password, password_confirmation:, current_password: } }
 
       expect(json_response[:errors]).to include("Password can't be blank")
     end
