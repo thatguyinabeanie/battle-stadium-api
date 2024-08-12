@@ -866,6 +866,33 @@ components:
           type: integer
         name:
           type: string
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
       required:
       - id
       - name

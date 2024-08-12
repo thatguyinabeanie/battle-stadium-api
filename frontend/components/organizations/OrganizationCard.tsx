@@ -1,42 +1,86 @@
-"use client";
-
-import type { CardProps } from "@nextui-org/react";
-
 import React from "react";
-import { Image } from "@nextui-org/react";
-import { Spacer } from "@nextui-org/react";
 
-import { Card, CardBody } from "@/components/nextui-client-components";
-import { Organization, OrganizationDetails } from "@/lib/api";
+import LoadingPlaceholder from "./loading-place-holder";
 
-interface OrganizationCardProps extends CardProps {
-  organization: Organization | OrganizationDetails;
-}
+import { Image } from "@/components/nextui-client-components";
+import { cn } from "@/lib/utils";
+import { OrganizationDetails } from "@/lib/api";
+import { DEFAULT_IMAGE_SRC } from "@/lib/constants";
 
-export default function OrganizationCard({
-  organization,
-  ...rest
-}: OrganizationCardProps) {
-  return (
-    <Card className="w-[420px]" {...rest}>
-      <CardBody className="px-3 pb-1">
+export type PlaceListItemProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "id"
+> & {
+  isLoading?: boolean;
+  removeWrapper?: boolean;
+  organization: OrganizationDetails;
+};
+
+const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
+  ({ organization, removeWrapper, className, isLoading, ...rest }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "relative flex w-full flex-col gap-3",
+          {
+            "rounded-none bg-background shadow-none": removeWrapper,
+          },
+          className,
+        )}
+        {...rest}
+      >
         <Image
-          alt="organization-image"
-          className="aspect-video w-full object-cover object-top"
-          src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/airpods.png"
+          isBlurred
+          isZoomed
+          alt={organization.name}
+          className="aspect-square w-full hover:scale-110"
+          isLoading={isLoading}
+          src={DEFAULT_IMAGE_SRC}
         />
 
-        <Spacer y={2} />
-
-        <div className="flex flex-col gap-2 px-2">
-          <p className="text-large font-medium text-center">
-            {organization.name}
-          </p>
-          <p className="text-small text-default-400 text-center">
-            {organization.description}
-          </p>
+        <div className="mt-1 flex flex-col gap-2 px-1">
+          {isLoading ? (
+            <LoadingPlaceholder />
+          ) : (
+            <>
+              <div className="flex items-start justify-between gap-1">
+                <h3 className="text-small font-medium text-default-700">
+                  {organization.name}
+                </h3>
+                {/* {organization?.description !== undefined ? (
+                  <div className="flex items-center gap-1">
+                    <Icon
+                      className="text-default-500"
+                      icon="solar:star-bold"
+                      width={16}
+                    />
+                    <span className="text-small text-default-500">
+                      {organization?.description}
+                    </span>
+                  </div>
+                ) : null} */}
+              </div>
+              {organization?.description ? (
+                <p className="text-small text-default-500">
+                  {organization?.description}
+                </p>
+              ) : null}
+              <p className="text-small font-medium text-default-500">$100</p>
+            </>
+          )}
         </div>
-      </CardBody>
-    </Card>
-  );
-}
+      </div>
+    );
+  },
+);
+
+OrganizationCard.displayName = "OrganizationCard";
+
+/* <Link
+  key={ organization.id }
+  aria-label={ `View details for ${organization.name}` }
+  href={ `/organizations/${organization.id}` }
+> */
+
+export default OrganizationCard;

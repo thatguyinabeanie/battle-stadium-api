@@ -1,4 +1,4 @@
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 
 import { ChildrenProps } from "@/types";
@@ -7,9 +7,9 @@ export interface ProvidersProps extends ChildrenProps {
   themeProps?: ThemeProviderProps;
 }
 
-export default function NextThemesProvider({
+export default function ThemesProvider({
   children,
   themeProps,
 }: Readonly<ProvidersProps>) {
-  return <ThemeProvider {...themeProps}>{children}</ThemeProvider>;
+  return <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>;
 }

@@ -74,7 +74,8 @@
         "wix.vscode-import-cost",
         "aaron-bond.better-comments",
         "dsznajder.es7-react-js-snippets",
-        "YoavBls.pretty-ts-errors"
+        "YoavBls.pretty-ts-errors",
+        "Orta.vscode-jest"
       ],
       "settings": {
         "remote.containers.copyGitConfig": true,
