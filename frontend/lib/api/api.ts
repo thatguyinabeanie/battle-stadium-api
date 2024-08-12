@@ -297,12 +297,6 @@ export interface Phase {
    * @type {string}
    * @memberof Phase
    */
-  criteria: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof Phase
-   */
   started_at: string | null;
   /**
    *
@@ -371,12 +365,6 @@ export interface PhaseDetails {
    * @memberof PhaseDetails
    */
   best_of: number;
-  /**
-   *
-   * @type {string}
-   * @memberof PhaseDetails
-   */
-  criteria: string | null;
   /**
    *
    * @type {string}

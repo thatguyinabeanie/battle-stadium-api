@@ -311,13 +311,12 @@ PHASE_SCHEMA = {
     tournament_id: { type: :integer },
     number_of_rounds: { type: :integer },
     best_of: { type: :integer },
-    criteria: { type: :string, nullable: true },
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     created_at: { type: :string, format: DATE_TIME_TYPE },
     updated_at: { type: :string, format: DATE_TIME_TYPE }
   ),
-  required: ID_NAME_REQUIRED + %w[order tournament_id number_of_rounds best_of criteria started_at ended_at]
+  required: ID_NAME_REQUIRED + %w[order tournament_id number_of_rounds best_of started_at ended_at]
 }.freeze
 
 PHASE_DETAILS_SCHEMA = {

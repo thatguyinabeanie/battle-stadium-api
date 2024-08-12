@@ -21,21 +21,8 @@ RSpec.describe Phases::Swiss do
     end
   end
 
-  # describe 'associations' do
-  #   it 'has_many :matches' do
-  #     expect(described_class.reflect_on_association(:matches).macro).to eq(:has_many)
-  #   end
-  # end
-
   describe 'validations' do
     subject(:swiss_phase) { described_class.new(tournament: create(:tournament), number_of_rounds: 5) }
-
-    # TODO: Uncomment and implement
-    # it 'validates presence of name' do
-    #   subject.name = nil
-    #   subject.valid?
-    #   expect(subject.errors[:name]).to include("can't be blank")
-    # end
 
     it 'validates that :type is "Phases::Swiss"' do
       swiss_phase.type = 'InvalidType'

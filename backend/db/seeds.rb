@@ -50,8 +50,7 @@ def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
 
     tournament.phases << Phases::SingleEliminationBracket.create!(
       name: "#{tournament.name} - Top Cut!",
-      tournament:,
-      criteria: 'Top 8'
+      tournament:
     )
   end
 end

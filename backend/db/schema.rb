@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_09_212518) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -96,7 +96,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_09_212518) do
   create_table "phases", force: :cascade do |t|
     t.bigint "tournament_id", null: false
     t.integer "number_of_rounds", default: 0, null: false
-    t.string "criteria"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type", null: false
