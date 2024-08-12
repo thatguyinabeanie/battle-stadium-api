@@ -1,3 +1,5 @@
+// TODO: fix generateFactories.ts to generate factories for all the types
+
 import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";

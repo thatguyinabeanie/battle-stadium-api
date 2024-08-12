@@ -12,7 +12,10 @@
  * Do not edit the class manually.
  */
 
-export const BASE_PATH = "https://127.0.0.1".replace(/\/+$/, "");
+export const backendHost = process?.env?.BACKEND_HOST || "localhost";
+export const API_BASE_URL_PATH: string =
+  process?.env?.API_BASE_URL ?? `http://${backendHost}:3000`;
+export const BASE_PATH = API_BASE_URL_PATH.replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
   basePath?: string; // override base path

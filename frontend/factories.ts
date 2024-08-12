@@ -1,3 +1,5 @@
+// TODO: fix generateFactories.ts to generate factories for all the types
+
 import { faker } from "@faker-js/faker";
 import { Factory } from "rosie";
 

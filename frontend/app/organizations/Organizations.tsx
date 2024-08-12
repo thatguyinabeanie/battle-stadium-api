@@ -3,7 +3,7 @@ import { Link } from "@nextui-org/link";
 import { useQuery } from "@tanstack/react-query";
 
 import OrganizationCard from "@/components/organizations/OrganizationCard";
-import { Organization } from "@/lib/api";
+import { Organization } from "@/lib/fetch-api";
 import { BattleStadiumAPI } from "@/battle-stadium-api";
 
 export interface OrganizationsProps {
