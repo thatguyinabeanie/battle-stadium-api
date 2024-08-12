@@ -23,6 +23,6 @@ describe("OrganizationCard", () => {
       <OrganizationCard organization={organization} />,
     );
 
-    expect(getByAltText("Woman listing to music")).toBeInTheDocument();
+    expect(getByAltText("organization-image")).toBeInTheDocument();
   });
 });

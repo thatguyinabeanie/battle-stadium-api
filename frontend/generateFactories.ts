@@ -1,10 +1,12 @@
+// TODO: fix generateFactories.ts to generate factories for all the types
+
 import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
 
 import * as ts from "typescript";
 
-const apiFilePath = path.join(__dirname, "lib/api", "api.ts");
+const apiDirPath = path.join(__dirname, "lib/fetch-api/apis");
 const outputFile = path.join(__dirname, "factories.ts");
 
 interface Property {
@@ -13,35 +15,55 @@ interface Property {
 }
 
 let aggregatedFactoryCode = "";
-let interfaces: string[] = [];
+let interfaces: Set<string> = new Set();
 
-// Read the api.ts file
-const sourceFile = ts.createSourceFile(
-  "api.ts",
-  fs.readFileSync(apiFilePath, "utf8"),
-  ts.ScriptTarget.Latest,
-  true,
-);
+const processFile = (filePath: string) => {
+  console.log(`Processing file: ${filePath}`);
+  const fileContent = fs.readFileSync(filePath, "utf8");
 
-const customizeSourceFile = (node: ts.Node) => {
-  if (ts.isInterfaceDeclaration(node)) {
-    const interfaceName = node.name.text;
+  console.log("File content length:", fileContent.length);
 
-    interfaces.push(interfaceName);
-    const properties: Property[] = [];
+  const sourceFile = ts.createSourceFile(
+    path.basename(filePath),
+    fileContent,
+    ts.ScriptTarget.Latest,
+    true,
+  );
 
-    node.members.forEach((member: ts.TypeElement) => {
-      if (ts.isPropertySignature(member) && member.type) {
-        properties.push({
-          name: (member.name as ts.Identifier).text,
-          type: member.type.getText(sourceFile),
+  const customizeSourceFile = (node: ts.Node) => {
+    if (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) {
+      console.log(`Found type: ${node.name.text}`);
+      const typeName = node.name.text;
+
+      interfaces.add(typeName);
+      const properties: Property[] = [];
+
+      if (ts.isInterfaceDeclaration(node)) {
+        node.members.forEach((member: ts.TypeElement) => {
+          if (ts.isPropertySignature(member) && member.type) {
+            properties.push({
+              name: (member.name as ts.Identifier).text,
+              type: member.type.getText(sourceFile),
+            });
+          }
+        });
+      } else if (
+        ts.isTypeAliasDeclaration(node) &&
+        ts.isTypeLiteralNode(node.type)
+      ) {
+        node.type.members.forEach((member: ts.TypeElement) => {
+          if (ts.isPropertySignature(member) && member.type) {
+            properties.push({
+              name: (member.name as ts.Identifier).text,
+              type: member.type.getText(sourceFile),
+            });
+          }
         });
       }
-    });
 
-    // Generate Rosie factory using the correct syntax
-    const factoryCode = `
-export const ${interfaceName}Factory = new Factory<${interfaceName}>()
+      // Generate Rosie factory using the correct syntax
+      const factoryCode = `
+export const ${typeName}Factory = new Factory<${typeName}>()
 ${properties
   .map((prop: Property) => {
     let value = "undefined";
@@ -63,11 +85,11 @@ ${properties
     } else if (prop.type.endsWith("[]")) {
       const itemType = prop.type.slice(0, -2);
 
-      value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
+      value = `() => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}))`;
     } else if (prop.type.startsWith("Array<") && prop.type.endsWith(">")) {
       const itemType = prop.type.slice(6, -1);
 
-      value = `['id'], (id) => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}), { id })`;
+      value = `() => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}))`;
     } else if (prop.type.includes("|")) {
       const types = prop.type.split("|").map((t) => t.trim());
 
@@ -80,8 +102,6 @@ ${properties
           value = `() => faker.datatype.boolean() ? null : undefined`;
         }
       }
-    } else if (prop.type.endsWith("Factory")) {
-      value = `() => ${prop.type}.build()`;
     } else {
       value = `() => ${prop.type}Factory.build()`;
     }
@@ -90,24 +110,51 @@ ${properties
   })
   .join("\n")}
 ;
-    `.trim();
+      `.trim();
 
-    // Append factory code to the aggregated content
-    aggregatedFactoryCode += factoryCode + "\n";
-  }
+      // Append factory code to the aggregated content
+      aggregatedFactoryCode += factoryCode + "\n\n";
+    }
+  };
+
+  // Parse the TypeScript file
+  ts.forEachChild(sourceFile, customizeSourceFile);
 };
 
-// Parse the TypeScript file
-ts.forEachChild(sourceFile, customizeSourceFile);
+// Read the index.ts file to get the list of other files
+const indexPath = path.join(apiDirPath, "index.ts");
+const indexContent = fs.readFileSync(indexPath, "utf8");
+const exportedFiles = indexContent.match(/export \* from "\.\/(.+)";/g);
+
+if (exportedFiles) {
+  exportedFiles.forEach((exportLine) => {
+    const match = exportLine.match(/"\.\/(.+)"/);
+
+    if (match && match[1]) {
+      const fileName = match[1];
+      const filePath = path.join(apiDirPath, `${fileName}.ts`);
+
+      processFile(filePath);
+    } else {
+      console.warn(`Couldn't extract file name from line: ${exportLine}`);
+    }
+  });
+}
+
+console.log("Found types:", Array.from(interfaces));
 
 // Add necessary imports
 const fakerImport = "import { faker } from '@faker-js/faker';";
-const modelImport = `import { ${interfaces.join(", ")} } from '@/lib/api';`;
+const factoryImport = "import { Factory } from 'rosie';";
+const modelImport =
+  interfaces.size > 0
+    ? `import { ${Array.from(interfaces).join(", ")} } from '@/lib/fetch-api/apis';`
+    : "";
 
 // Construct the final code
 const finalCode = `
 ${fakerImport}
-import { Factory } from 'rosie';
+${factoryImport}
 ${modelImport}
 
 ${aggregatedFactoryCode}
@@ -116,7 +163,11 @@ ${aggregatedFactoryCode}
 // Write the aggregated factory code to a single file
 fs.writeFileSync(outputFile, finalCode, "utf8");
 
-execSync(`npx prettier --write ${outputFile}`);
-execSync(`npx eslint --fix ${outputFile}`);
-// eslint-disable-next-line no-console
 console.log(`factories written to ${outputFile}`);
+console.log("Final code length:", finalCode.length);
+
+// Only run prettier and eslint if there's actual content
+if (finalCode.length > 100) {
+  execSync(`npx prettier --write ${outputFile}`);
+  execSync(`npx eslint --fix ${outputFile}`);
+}
