@@ -21,7 +21,7 @@ export default function OrganizationCard({
     <Card className="w-[420px]" {...rest}>
       <CardBody className="px-3 pb-1">
         <Image
-          alt="Card image"
+          alt="organization-image"
           className="aspect-video w-full object-cover object-top"
           src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/airpods.png"
         />
