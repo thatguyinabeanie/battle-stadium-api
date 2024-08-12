@@ -10,15 +10,14 @@ export interface OrganizationsProps {
   initialOrganizations: Organization[];
 }
 
-
 const useOrganizationsQuery = (initialOrganizations: Organization[]) => {
-   return useQuery({
+  return useQuery({
     queryKey: ["organizations"],
     queryFn: BattleStadiumAPI.Organizations.list,
     initialData: initialOrganizations,
     staleTime: 1000 * 60 * 60,
   });
-}
+};
 
 export default function Organizations({
   initialOrganizations,
