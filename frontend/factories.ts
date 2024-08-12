@@ -99,9 +99,6 @@ export const PhaseFactory = new Factory<Phase>()
   .attr("tournament_id", () => faker.number.int({ min: 1, max: 100 }))
   .attr("number_of_rounds", () => faker.number.int({ min: 1, max: 100 }))
   .attr("best_of", () => faker.number.int({ min: 1, max: 100 }))
-  .attr("criteria", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
   .attr("started_at", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
   )
@@ -118,9 +115,6 @@ export const PhaseDetailsFactory = new Factory<PhaseDetails>()
   .attr("tournament_id", () => faker.number.int({ min: 1, max: 100 }))
   .attr("number_of_rounds", () => faker.number.int({ min: 1, max: 100 }))
   .attr("best_of", () => faker.number.int({ min: 1, max: 100 }))
-  .attr("criteria", () =>
-    faker.datatype.boolean() ? faker.lorem.word() : null,
-  )
   .attr("started_at", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
   )

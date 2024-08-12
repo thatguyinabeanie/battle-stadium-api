@@ -1078,9 +1078,6 @@ components:
           type: integer
         best_of:
           type: integer
-        criteria:
-          type: string
-          nullable: true
         started_at:
           type: string
           format: date-time
@@ -1102,7 +1099,6 @@ components:
       - tournament_id
       - number_of_rounds
       - best_of
-      - criteria
       - started_at
       - ended_at
     PhaseDetails:
@@ -1123,9 +1119,6 @@ components:
           type: integer
         best_of:
           type: integer
-        criteria:
-          type: string
-          nullable: true
         started_at:
           type: string
           format: date-time
@@ -1155,7 +1148,6 @@ components:
       - tournament_id
       - number_of_rounds
       - best_of
-      - criteria
       - started_at
       - ended_at
       - players

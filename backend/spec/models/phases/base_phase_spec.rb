@@ -30,8 +30,6 @@ RSpec.describe Phases::BasePhase do
   describe 'validations' do
     subject { Phases::Test.new(name: 'Test Phase', tournament: create(:tournament), number_of_rounds: 5) }
 
-    # TODO: Uncomment and implement
-    # it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_numericality_of(:best_of).is_greater_than(0).only_integer }
   end
 
@@ -58,6 +56,30 @@ RSpec.describe Phases::BasePhase do
         phase.valid?
         expect(phase.errors[:best_of]).to include(I18n.t('errors.phase.best_of_must_be_odd'))
       end
+    end
+  end
+
+  describe 'default values' do
+    subject(:phase) { Phases::Test.new }
+
+    it 'sets the default name' do
+      phase.valid?
+      expect(phase.name).to eq('Phases::Test')
+    end
+
+    it 'sets the default best_of' do
+      phase.valid?
+      expect(phase.best_of).to eq(3)
+    end
+
+    it 'sets the default type' do
+      phase.valid?
+      expect(phase.type).to eq('Phases::Test')
+    end
+
+    it 'sets the default number_of_rounds' do
+      phase.valid?
+      expect(phase.number_of_rounds).to eq(0)
     end
   end
 

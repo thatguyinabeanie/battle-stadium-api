@@ -133,6 +133,7 @@ RSpec.describe Api::V1::UsersController do
     it 'returns an error if the current password is incorrect' do
       user = create(:user)
       password = SecurePassword.generate_secure_password
+      # deepcode ignore HardcodedPassword: not a real password. just a string in a test
       patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: 'incorrect_password' } }
       expect(json_response[:errors]).to include('Current password is invalid')
     end
@@ -140,6 +141,7 @@ RSpec.describe Api::V1::UsersController do
     it 'returns an error if the password and password confirmation do not match' do
       user = create(:user)
       password = SecurePassword.generate_secure_password
+      # deepcode ignore HardcodedPassword: not a real password. just a string in a test
       patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: 'incorrect_password', current_password: user.password } }
       expect(json_response[:errors]).to include("Password confirmation doesn't match Password")
     end
