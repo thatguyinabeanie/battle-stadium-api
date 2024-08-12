@@ -25,7 +25,7 @@ import {
   GetOrganizationRequest,
   DeleteOrganizationRequest,
   PatchOrganizationRequest,
-} from "./lib/fetch-api";
+} from "./lib/api";
 
 export const OrganizationsAPI: OrganizationsApi = new OrganizationsApi();
 export const UsersAPI: UsersApi = new UsersApi();

@@ -31,7 +31,7 @@ import {
   GetUserRequest,
   PatchUserRequest,
   PostUserRequest,
-} from "@/lib/fetch-api/apis";
+} from "@/lib/api/apis";
 
 export const DeleteGameRequestFactory =
   new Factory<DeleteGameRequest>().sequence("id");
