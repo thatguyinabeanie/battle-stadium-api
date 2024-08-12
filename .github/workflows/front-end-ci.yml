@@ -44,12 +44,10 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
-        if: always()
+        if: ${{ !cancelled() }}
         with:
-          working-directory: frontend
-          directory: ./coverage
-          files: ./lcov.info, ./clover.xml, ./coverage-final.json
-          flags: unittests
+          directory: frontend/coverage
+          flags: jest
           name: codecov-umbrella
           verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -58,9 +56,9 @@ jobs:
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
-          working-directory: frontend
-          directory: ./test-results
-          files: ./jest/results.xml
+          directory: frontend/test-results
+          files: '**/*.xml'
+          flags: jest
           token: ${{ secrets.CODECOV_TOKEN }}
 
   lint:
