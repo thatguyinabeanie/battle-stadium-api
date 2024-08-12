@@ -8,7 +8,7 @@ import SideBarComponent from "./sidebar-layout";
 import {
   NextUIProvider,
   ReactQueryClientProvider,
-  NextThemeProvider,
+  ThemesProvider,
 } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
@@ -43,11 +43,11 @@ function RootLayout({ children }: ChildrenProps & AppProps) {
         )}
       >
         <NextUIProvider>
-          <NextThemeProvider>
+          <ThemesProvider>
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
               <SideBarComponent>{children}</SideBarComponent>
             </ReactQueryClientProvider>
-          </NextThemeProvider>
+          </ThemesProvider>
         </NextUIProvider>
       </body>
     </html>

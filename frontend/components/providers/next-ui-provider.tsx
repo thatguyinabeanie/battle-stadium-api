@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { NextUIProvider as NextUIDefaultProvider } from "@nextui-org/system";
+import { NextUIProvider as NextUIDefaultProvider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 
 import { ChildrenProps } from "@/types";

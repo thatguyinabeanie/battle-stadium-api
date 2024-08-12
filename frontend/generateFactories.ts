@@ -4,9 +4,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
 
-import * as ts from "typescript";
+import ts from "typescript";
 
-const apiDirPath = path.join(__dirname, "lib/fetch-api/apis");
+const apiDirPath = path.join(__dirname, "lib/api/apis");
 const outputFile = path.join(__dirname, "factories.ts");
 
 interface Property {
@@ -148,7 +148,7 @@ const fakerImport = "import { faker } from '@faker-js/faker';";
 const factoryImport = "import { Factory } from 'rosie';";
 const modelImport =
   interfaces.size > 0
-    ? `import { ${Array.from(interfaces).join(", ")} } from '@/lib/fetch-api/apis';`
+    ? `import { ${Array.from(interfaces).join(", ")} } from '@/lib/api/apis';`
     : "";
 
 // Construct the final code

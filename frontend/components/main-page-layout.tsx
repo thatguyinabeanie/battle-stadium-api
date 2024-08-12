@@ -13,8 +13,8 @@ export default function MainPageLayout({
     <div className="w-full flex-1 flex-col p-4">
       <Header title={title} />
 
-      <main className="mt-4 h-full flex w-full flex-col gap-4 rounded-medium border-divider overflow-auto">
-        <section className="flex flex-col gap-4 py-8 md:py-10">
+      <main className="mt-4 h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
+        <section className="flex flex-col gap-4 py-8 md:py-10 h-full w-ful items-center">
           {children}
         </section>
       </main>
