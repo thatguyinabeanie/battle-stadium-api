@@ -56,7 +56,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
-          directory: frontend/test-results
+          directory: frontend/test-results/jest
           token: ${{ secrets.CODECOV_TOKEN }}
 
   lint:

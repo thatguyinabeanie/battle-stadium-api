@@ -86,7 +86,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
-          directory: backend/test-results
+          directory: backend/test-results/rspec
           token: ${{ secrets.CODECOV_TOKEN }}
 
   audit:
