@@ -10,16 +10,20 @@ export interface OrganizationsProps {
   initialOrganizations: Organization[];
 }
 
-export default function Organizations({
-  initialOrganizations,
-}: Readonly<OrganizationsProps>) {
-  const { data: organizations } = useQuery({
+
+const useOrganizationsQuery = (initialOrganizations: Organization[]) => {
+   return useQuery({
     queryKey: ["organizations"],
     queryFn: BattleStadiumAPI.Organizations.list,
     initialData: initialOrganizations,
     staleTime: 1000 * 60 * 60,
   });
+}
 
+export default function Organizations({
+  initialOrganizations,
+}: Readonly<OrganizationsProps>) {
+  const { data: organizations } = useOrganizationsQuery(initialOrganizations);
   return (
     <div
       aria-label="organizations-list"
