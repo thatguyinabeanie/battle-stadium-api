@@ -1,4 +1,3 @@
-import { de } from "@faker-js/faker";
 import {
   OrganizationsApi,
   UsersApi,

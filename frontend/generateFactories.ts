@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // TODO: fix generateFactories.ts to generate factories for all the types
 
 import * as fs from "fs";
