@@ -8,7 +8,7 @@ import {
   Link,
   CardBody,
   Skeleton,
-  Image
+  Image,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
