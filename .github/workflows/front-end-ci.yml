@@ -118,3 +118,30 @@ jobs:
       - name: Run Prettier Check
         run: pnpm prettier:check
         working-directory: frontend
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./frontend/.node-version
+          cache: "pnpm"
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
+          check-latest: true
+
+      - name: Install Dependencies
+        run: pnpm install --silent
+        working-directory: frontend
+
+      - name: Run Type Check
+        run: pnpm tsc
+        working-directory: frontend
