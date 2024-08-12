@@ -21,7 +21,10 @@ export default function Organizations({
   });
 
   return (
-    <>
+    <div
+      aria-label="organizations-list"
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-5"
+    >
       {organizations.map((organization) => (
         <Link
           key={organization.id}
@@ -29,12 +32,12 @@ export default function Organizations({
           href={`/organizations/${organization.id}`}
         >
           <OrganizationCard
-            key={organization.id}
+            aria-label={`organization-card-${organization.id}`}
             className="cursor-pointer"
             organization={organization}
           />
         </Link>
       ))}
-    </>
+    </div>
   );
 }

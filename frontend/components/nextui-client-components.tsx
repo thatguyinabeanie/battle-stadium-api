@@ -6,6 +6,7 @@ import {
   Card,
   CardFooter,
   Link,
+  CardBody,
 } from "@nextui-org/react";
 
-export { Chip, Avatar, Button, Card, CardFooter, Link };
+export { Chip, Avatar, Button, Card, CardFooter, Link, CardBody };

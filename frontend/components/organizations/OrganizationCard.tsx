@@ -1,38 +1,42 @@
 "use client";
 
-import { Image } from "@nextui-org/react";
-import clsx from "clsx";
+import type { CardProps } from "@nextui-org/react";
 
-import { Card, CardFooter } from "@/components/nextui-client-components";
+import React from "react";
+import { Image } from "@nextui-org/react";
+import { Spacer } from "@nextui-org/react";
+
+import { Card, CardBody } from "@/components/nextui-client-components";
 import { Organization, OrganizationDetails } from "@/lib/api";
 
-interface OrganizationCardProps {
-  organization: Organization | OrganizationDetails | null;
-  className?: string;
+interface OrganizationCardProps extends CardProps {
+  organization: Organization | OrganizationDetails;
 }
-const OrganizationCard = ({
-  organization,
-  className,
-}: OrganizationCardProps) => {
-  return (
-    <Card
-      isFooterBlurred
-      className={clsx("border-none", className)}
-      radius="lg"
-    >
-      <Image
-        alt="Woman listing to music"
-        className="object-cover"
-        height={200}
-        src="https://nextui.org/images/hero-card.jpeg"
-        width={200}
-      />
 
-      <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-        <p className="text-tiny text-white/80">{organization?.name}</p>
-      </CardFooter>
+export default function OrganizationCard({
+  organization,
+  ...rest
+}: OrganizationCardProps) {
+  return (
+    <Card className="w-[420px]" {...rest}>
+      <CardBody className="px-3 pb-1">
+        <Image
+          alt="Card image"
+          className="aspect-video w-full object-cover object-top"
+          src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/airpods.png"
+        />
+
+        <Spacer y={2} />
+
+        <div className="flex flex-col gap-2 px-2">
+          <p className="text-large font-medium text-center">
+            {organization.name}
+          </p>
+          <p className="text-small text-default-400 text-center">
+            {organization.description}
+          </p>
+        </div>
+      </CardBody>
     </Card>
   );
-};
-
-export default OrganizationCard;
+}
