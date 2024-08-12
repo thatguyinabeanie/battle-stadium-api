@@ -42,7 +42,6 @@
       "installDirectlyFromGitHubRelease": true,
       "version": "latest"
     },
-    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:1": {}
   },
 
   "mounts": [

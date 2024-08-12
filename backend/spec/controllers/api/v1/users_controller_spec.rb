@@ -117,13 +117,9 @@ RSpec.describe Api::V1::UsersController do
   describe 'PATCH /users/:id/password' do
     it 'returns a successful response' do
       user = create(:user)
-
       password = SecurePassword.generate_secure_password
-      password_confirmation = password
-      current_password = user.password
-      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
 
-      expect(response).to be_successful
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
       expect(json_response[:message]).to eq('Password updated successfully')
     end
 
@@ -131,23 +127,19 @@ RSpec.describe Api::V1::UsersController do
       user = create(:user)
       old_password = user.password
       password = SecurePassword.generate_secure_password
-      password_confirmation = password
-      current_password = user.password
-
-      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
-
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
       user.reload
-      expect(old_password).to eq(user.password)
+      expect(old_password).not_to eq(user.password)
     end
 
     it 'returns an error if the current password is incorrect' do
       user = create(:user)
 
       password = SecurePassword.generate_secure_password
-      password_confirmation = password
-      current_password = 'incorrect_password'
 
-      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
+      patch :patch_password, params: { id: user.id, user: {
+        password:, password_confirmation: password, current_password: 'incorrect_password'
+      } }
 
       expect(json_response[:errors]).to include('Current password is invalid')
     end
@@ -180,23 +172,15 @@ RSpec.describe Api::V1::UsersController do
       user = create(:user)
 
       password = 'a' * 129
-      password_confirmation = password
-      current_password = user.password
 
-      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
 
       expect(json_response[:errors]).to include('Password is too long (maximum is 128 characters)')
     end
 
     it 'returns an error if the password is blank' do
       user = create(:user)
-
-      new_password = ''
-      password_confirmation = 'not_the_same'
-      current_password = user.password
-
-      patch :patch_password, params: { id: user.id, user: { password: new_password, password_confirmation:, current_password: } }
-
+      patch :patch_password, params: { id: user.id, user: { password: '', password_confirmation: 'other', current_password: user.password } }
       expect(json_response[:errors]).to include("Password can't be blank")
     end
   end

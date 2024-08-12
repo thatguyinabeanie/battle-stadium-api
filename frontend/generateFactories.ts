@@ -18,7 +18,7 @@ let interfaces: string[] = [];
 // Read the api.ts file
 const sourceFile = ts.createSourceFile(
   "api.ts",
-  fs.readFileSync(apiFilePath, "utf-8"),
+  fs.readFileSync(apiFilePath, "utf8"),
   ts.ScriptTarget.Latest,
   true,
 );
@@ -114,7 +114,7 @@ ${aggregatedFactoryCode}
 `.trim();
 
 // Write the aggregated factory code to a single file
-fs.writeFileSync(outputFile, finalCode, "utf-8");
+fs.writeFileSync(outputFile, finalCode, "utf8");
 
 execSync(`npx prettier --write ${outputFile}`);
 execSync(`npx eslint --fix ${outputFile}`);
