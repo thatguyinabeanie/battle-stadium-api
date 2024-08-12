@@ -12,7 +12,7 @@ export interface OrganizationsProps {
 
 export default function Organizations({
   initialOrganizations,
-}: OrganizationsProps) {
+}: Readonly<OrganizationsProps>) {
   const { data: organizations } = useQuery({
     queryKey: ["organizations"],
     queryFn: BattleStadiumAPI.Organizations.list,
