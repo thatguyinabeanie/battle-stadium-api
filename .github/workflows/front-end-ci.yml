@@ -58,6 +58,7 @@ jobs:
         with:
           directory: frontend/test-results
           files: '**/*.xml'
+          flags: jest
           token: ${{ secrets.CODECOV_TOKEN }}
 
   lint:

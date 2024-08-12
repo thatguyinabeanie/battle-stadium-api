@@ -78,6 +78,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: backend/coverage
+          files: '**/.resultset.json'
           flags: rspec
           name: codecov-umbrella
           verbose: true
@@ -88,6 +89,7 @@ jobs:
         with:
           directory: backend/test-results
           files: '**/*.xml'
+          flags: rspec
           token: ${{ secrets.CODECOV_TOKEN }}
 
   audit:
