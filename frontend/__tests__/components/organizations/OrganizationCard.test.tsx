@@ -8,6 +8,11 @@ describe("OrganizationCard", () => {
     id: 1,
     name: "Organization Name",
     description: "Organization Description",
+    owner: {
+      id: 1,
+      username: "owner",
+      pronouns: "they/them",
+    },
   };
 
   it("renders organization name correctly", () => {

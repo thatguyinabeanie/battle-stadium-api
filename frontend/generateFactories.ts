@@ -15,6 +15,14 @@ interface Property {
 }
 
 let aggregatedFactoryCode = "";
+
+// Add DateFactory at the beginning of the aggregatedFactoryCode
+aggregatedFactoryCode =
+  `
+export const DateFactory = new Factory<string>(() => faker.date.recent().toISOString());
+
+` + aggregatedFactoryCode;
+
 let interfaces: Set<string> = new Set();
 let processedTypes: Set<string> = new Set();
 
@@ -99,6 +107,8 @@ ${properties
         value = `() => \`\${faker.internet.userName()}@example.com\``;
       } else if (prop.name.includes("at") || prop.name.includes("date")) {
         value = `() => faker.date.recent().toISOString()`;
+      } else if (prop.name.includes("password")) {
+        value = `() => faker.internet.password()`;
       } else {
         value = `() => faker.lorem.word()`;
       }
@@ -131,6 +141,11 @@ ${properties
     } else {
       value = `() => ${prop.type}Factory.build()`;
       interfaces.add(prop.type);
+    }
+
+    // Special handling for passwordConfirmation
+    if (prop.name === "passwordConfirmation") {
+      return `  .attr('${prop.name}', (f) => f.password)`;
     }
 
     return `  .attr('${prop.name}', ${value})`;

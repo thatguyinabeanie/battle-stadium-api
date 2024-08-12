@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { UsersApi } from "@/lib/api/api"; // Adjust the import based on your OpenAPI client setup
+import { UsersApi } from "@/lib/api"; // Adjust the import based on your OpenAPI client setup
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -35,10 +35,10 @@ const Register = () => {
           username: formData.username,
           pronouns: formData.pronouns,
           email: formData.email,
-          first_name: formData.firstName,
-          last_name: formData.lastName,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           password: formData.password,
-          password_confirmation: formData.passwordConfirmation,
+          passwordConfirmation: formData.passwordConfirmation,
         },
       });
 

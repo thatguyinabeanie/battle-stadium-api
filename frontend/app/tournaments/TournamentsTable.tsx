@@ -42,30 +42,37 @@ const columns = [
   },
 ];
 
-function renderRegistration(row: Tournament) {
-  const currentTime = new Date().toLocaleTimeString();
-  const registrationStart = new Date(
-    row.registration_start_at,
-  ).toLocaleTimeString();
+function renderRegistration({
+  registrationStartAt,
+  registrationEndAt,
+  playerCount,
+  playerCap,
+  lateRegistration,
+}: Tournament) {
+  const currentTime = new Date();
 
-  const registrationEnd = new Date(
-    row.registration_end_at,
-  ).toLocaleTimeString();
-
-  if (currentTime < registrationStart) {
+  if (!registrationStartAt) {
     return "Not Open";
   }
 
-  if (currentTime >= registrationStart && currentTime < registrationEnd) {
-    if (row.player_cap && row.player_count >= row.player_cap) {
+  if (currentTime < registrationStartAt) {
+    return "Not Open";
+  }
+
+  if (
+    currentTime >= registrationStartAt &&
+    registrationEndAt &&
+    currentTime < registrationEndAt
+  ) {
+    if (playerCap && playerCount >= playerCap) {
       return "Full";
     }
 
     return "Open";
   }
 
-  if (currentTime > registrationEnd) {
-    if (row.late_registration) {
+  if (registrationEndAt && currentTime > registrationEndAt) {
+    if (lateRegistration) {
       return "Open";
     }
 
@@ -74,21 +81,21 @@ function renderRegistration(row: Tournament) {
 }
 
 const renderCell: typeof getKeyValue = (row: Tournament, columnKey) => {
+  const { id, name, organization, startAt, playerCount, playerCap } = row;
+
   switch (columnKey) {
     case "organization.name":
       return (
-        <Link href={`/organizations/${row.organization.id}`}>
-          {row.organization.name}
+        <Link href={`/organizations/${organization.id}`}>
+          {organization.name}
         </Link>
       );
     case "start_at":
-      return row.start_at as string;
+      return startAt;
     case "name":
-      return <Link href={`/tournaments/${row.id}`}>{row.name}</Link>;
+      return <Link href={`/tournaments/${id}`}>{name}</Link>;
     case "players":
-      return row.player_cap
-        ? `${row.player_count}/${row.player_cap}`
-        : row.player_count;
+      return playerCap ? `${playerCount}/${playerCap}` : playerCount;
     case "registration":
       return renderRegistration(row);
     default:

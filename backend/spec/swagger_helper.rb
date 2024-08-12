@@ -165,7 +165,7 @@ TOURNAMENT_SCHEMA = {
     organization: { '$ref' => '#/components/schemas/Organization' },
     format: { '$ref' => '#/components/schemas/Format' },
     game: { '$ref' => '#/components/schemas/Game' }
-  }.merge(ID_NAME_PROPERTIES),
+  }.merge(ID_NAME_PROPERTIES).merge(TOURNAMENT_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[player_cap organization format game start_at player_count registration_start_at registration_end_at late_registration]
 }.freeze
 
