@@ -314,7 +314,7 @@ export const PokemonFactory = new Factory<Pokemon>()
   )
   .attr("ability", () => faker.lorem.word())
   .attr("teraType", () => faker.lorem.word())
-  .attr("nature", () => faker.date.recent())
+  .attr("nature", () => faker.lorem.word())
   .attr("heldItem", () =>
     faker.datatype.boolean() ? faker.lorem.word() : null,
   )

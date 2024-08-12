@@ -17,7 +17,7 @@ interface Property {
 
 const isDateField = (name: string): boolean => {
   return (
-    name.includes("at") ||
+    name.includes("At") ||
     name.includes("date") ||
     [
       "startAt",

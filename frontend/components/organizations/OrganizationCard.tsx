@@ -1,6 +1,8 @@
 import React from "react";
 
-import { Skeleton, Image } from "@/components/nextui-client-components";
+import LoadingPlaceholder from "./loading-place-holder";
+
+import { Image } from "@/components/nextui-client-components";
 import { cn } from "@/lib/utils";
 import { OrganizationDetails } from "@/lib/api";
 import { DEFAULT_IMAGE_SRC } from "@/lib/constants";
@@ -9,14 +11,13 @@ export type PlaceListItemProps = Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "id"
 > & {
-  isPopular?: boolean;
   isLoading?: boolean;
   removeWrapper?: boolean;
   organization: OrganizationDetails;
 };
 
 const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
-  ({ organization, removeWrapper, className, isLoading, ...props }, ref) => {
+  ({ organization, removeWrapper, className, isLoading, ...rest }, ref) => {
     return (
       <div
         ref={ref}
@@ -27,7 +28,7 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
           },
           className,
         )}
-        {...props}
+        {...rest}
       >
         <Image
           isBlurred
@@ -40,17 +41,7 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
 
         <div className="mt-1 flex flex-col gap-2 px-1">
           {isLoading ? (
-            <div className="my-1 flex flex-col gap-3">
-              <Skeleton className="w-3/5 rounded-lg">
-                <div className="h-3 w-3/5 rounded-lg bg-default-200" />
-              </Skeleton>
-              <Skeleton className="mt-3 w-4/5 rounded-lg">
-                <div className="h-3 w-4/5 rounded-lg bg-default-200" />
-              </Skeleton>
-              <Skeleton className="mt-4 w-2/5 rounded-lg">
-                <div className="h-3 w-2/5 rounded-lg bg-default-300" />
-              </Skeleton>
-            </div>
+            <LoadingPlaceholder />
           ) : (
             <>
               <div className="flex items-start justify-between gap-1">
@@ -86,12 +77,10 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
 
 OrganizationCard.displayName = "OrganizationCard";
 
-{
-  /* <Link
+/* <Link
   key={ organization.id }
   aria-label={ `View details for ${organization.name}` }
   href={ `/organizations/${organization.id}` }
 > */
-}
 
 export default OrganizationCard;
