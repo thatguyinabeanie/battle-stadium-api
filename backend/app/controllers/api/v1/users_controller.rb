@@ -15,7 +15,9 @@ module Api
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
 
-        if @user.update_with_password(password_params)
+        if password_params[:password].blank?
+          render json: { errors: ["Password can't be blank"] }, status: :unprocessable_entity
+        elsif @user.update_with_password(password_params)
           render json: { message: 'Password updated successfully' }, status: :ok
         else
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity

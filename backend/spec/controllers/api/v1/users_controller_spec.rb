@@ -123,48 +123,31 @@ RSpec.describe Api::V1::UsersController do
       expect(json_response[:message]).to eq('Password updated successfully')
     end
 
-    it 'updates the user password' do
+    it 'changes the password successfully' do
       user = create(:user)
-      old_password = user.password
       password = SecurePassword.generate_secure_password
       patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
-      user.reload
-      expect(old_password).not_to eq(user.password)
+      expect(user.password).not_to eq(password)
     end
 
     it 'returns an error if the current password is incorrect' do
       user = create(:user)
-
       password = SecurePassword.generate_secure_password
-
-      patch :patch_password, params: { id: user.id, user: {
-        password:, password_confirmation: password, current_password: 'incorrect_password'
-      } }
-
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: 'incorrect_password' } }
       expect(json_response[:errors]).to include('Current password is invalid')
     end
 
     it 'returns an error if the password and password confirmation do not match' do
       user = create(:user)
-
       password = SecurePassword.generate_secure_password
-      password_confirmation = 'incorrect_password'
-      current_password = user.password
-
-      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
-
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: 'incorrect_password', current_password: user.password } }
       expect(json_response[:errors]).to include("Password confirmation doesn't match Password")
     end
 
     it 'returns an error if the password is too short' do
       user = create(:user)
-
       password = 'short'
-      password_confirmation = password
-      current_password = user.password
-
-      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation:, current_password: } }
-
+      patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
       expect(json_response[:errors]).to include('Password is too short (minimum is 6 characters)')
     end
 

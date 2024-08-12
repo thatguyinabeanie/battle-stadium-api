@@ -114,14 +114,15 @@ RSpec.describe Api::V1::UsersController do
       parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserDetails' }
 
       response(200, 'successful') do
-        let(:id) { create(:user).id }
+        let(:user_object) { create(:user) }
+        let(:id) { user_object.id }
         let(:user) do
           {
             username: Faker::Internet.unique.username,
             pronouns: 'they/them',
             email: 'updateduser@example.com',
             first_name: 'Updated', last_name: 'Userrrrr',
-            password: PASSWORD, password_confirmation: PASSWORD
+            current_password: user_object.password
           }
         end
 

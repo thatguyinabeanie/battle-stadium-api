@@ -1,6 +1,10 @@
 require 'rails_helper'
 
-RSpec.xdescribe 'Tournaments API', type: :request do
+RSpec.describe 'Tournaments API', type: :request do
+  before do
+    skip 'Skipping the entire suite due to ongoing refactoring'
+  end
+
   let(:user) { create(:user) }
   let(:organization) { create(:organization, owner: user) }
   let(:tournament) { create(:tournament, organization:) }
