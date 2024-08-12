@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
+// generateFactories.ts
 import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
 
 import * as ts from "typescript";
 
-const apiDirPath = path.join(__dirname, "lib/api/apis");
-const modelsDirPath = path.join(__dirname, "lib/api/models");
+const apiDirPath = path.join(__dirname, "lib", "api", "apis");
+const modelsDirPath = path.join(__dirname, "lib", "api", "models");
 const outputFile = path.join(__dirname, "factories.ts");
 
 interface Property {
@@ -14,88 +15,101 @@ interface Property {
   type: string;
 }
 
+const isDateField = (name: string): boolean => {
+  return (
+    name.includes("at") ||
+    name.includes("date") ||
+    [
+      "startAt",
+      "endAt",
+      "registrationStartAt",
+      "registrationEndAt",
+      "checkInStartAt",
+    ].includes(name)
+  );
+};
+
 let aggregatedFactoryCode = "";
-
-// Add DateFactory at the beginning of the aggregatedFactoryCode
-aggregatedFactoryCode =
-  `
-export const DateFactory = new Factory<string>(() => faker.date.recent().toISOString());
-
-` + aggregatedFactoryCode;
-
 let interfaces: Set<string> = new Set();
 let processedTypes: Set<string> = new Set();
 
-const processDirectory = (dirPath: string) => {
-  fs.readdirSync(dirPath).forEach((file) => {
-    if (file.endsWith(".ts") && file !== "index.ts") {
-      const filePath = path.join(dirPath, file);
+const processDirectory = (dirPath: string): void => {
+  try {
+    fs.readdirSync(dirPath).forEach((file) => {
+      if (file.endsWith(".ts") && file !== "index.ts") {
+        const filePath = path.join(dirPath, file);
 
-      processFile(filePath);
-    }
-  });
-};
-
-const processFile = (filePath: string) => {
-  console.log(`Processing file: ${filePath}`);
-  const fileContent = fs.readFileSync(filePath, "utf8");
-
-  console.log("File content length:", fileContent.length);
-
-  const sourceFile = ts.createSourceFile(
-    path.basename(filePath),
-    fileContent,
-    ts.ScriptTarget.Latest,
-    true,
-  );
-
-  const processNode = (node: ts.Node) => {
-    if (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) {
-      const typeName = node.name.text;
-
-      if (!processedTypes.has(typeName)) {
-        console.log(`Processing type: ${typeName}`);
-        processedTypes.add(typeName);
-        interfaces.add(typeName);
-
-        const properties: Property[] = [];
-
-        if (ts.isInterfaceDeclaration(node)) {
-          node.members.forEach((member: ts.TypeElement) => {
-            if (ts.isPropertySignature(member) && member.type) {
-              properties.push({
-                name: (member.name as ts.Identifier).text,
-                type: member.type.getText(sourceFile),
-              });
-            }
-          });
-        } else if (
-          ts.isTypeAliasDeclaration(node) &&
-          ts.isTypeLiteralNode(node.type)
-        ) {
-          node.type.members.forEach((member: ts.TypeElement) => {
-            if (ts.isPropertySignature(member) && member.type) {
-              properties.push({
-                name: (member.name as ts.Identifier).text,
-                type: member.type.getText(sourceFile),
-              });
-            }
-          });
-        }
-
-        generateFactory(typeName, properties);
+        processFile(filePath);
       }
-    }
-
-    ts.forEachChild(node, processNode);
-  };
-
-  ts.forEachChild(sourceFile, processNode);
+    });
+  } catch (error) {
+    console.error(`Error processing directory ${dirPath}:`, error);
+  }
 };
 
-const generateFactory = (typeName: string, properties: Property[]) => {
+const processFile = (filePath: string): void => {
+  console.log(`Processing file: ${filePath}`);
+  try {
+    const fileContent = fs.readFileSync(filePath, "utf8");
+
+    console.log("File content length:", fileContent.length);
+
+    const sourceFile = ts.createSourceFile(
+      path.basename(filePath),
+      fileContent,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+
+    ts.forEachChild(sourceFile, (node) => processNode(node, sourceFile));
+  } catch (error) {
+    console.error(`Error processing file ${filePath}:`, error);
+  }
+};
+
+const processNode = (node: ts.Node, sourceFile: ts.SourceFile): void => {
+  if (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) {
+    const typeName = node.name.text;
+
+    if (!processedTypes.has(typeName)) {
+      console.log(`Processing type: ${typeName}`);
+      processedTypes.add(typeName);
+      interfaces.add(typeName);
+
+      const properties: Property[] = [];
+
+      if (ts.isInterfaceDeclaration(node)) {
+        node.members.forEach((member) => {
+          if (ts.isPropertySignature(member) && member.type) {
+            properties.push({
+              name: (member.name as ts.Identifier).text,
+              type: member.type.getText(sourceFile),
+            });
+          }
+        });
+      } else if (
+        ts.isTypeAliasDeclaration(node) &&
+        ts.isTypeLiteralNode(node.type)
+      ) {
+        node.type.members.forEach((member) => {
+          if (ts.isPropertySignature(member) && member.type) {
+            properties.push({
+              name: (member.name as ts.Identifier).text,
+              type: member.type.getText(sourceFile),
+            });
+          }
+        });
+      }
+
+      generateFactory(typeName, properties);
+    }
+  }
+};
+
+const generateFactory = (typeName: string, properties: Property[]): void => {
   const factoryCode = `
 export const ${typeName}Factory = new Factory<${typeName}>()
+
 ${properties
   .map((prop: Property) => {
     let value = "undefined";
@@ -105,8 +119,8 @@ ${properties
     } else if (prop.type === "string") {
       if (prop.name.includes("email")) {
         value = `() => \`\${faker.internet.userName()}@example.com\``;
-      } else if (prop.name.includes("at") || prop.name.includes("date")) {
-        value = `() => faker.date.recent().toISOString()`;
+      } else if (isDateField(prop.name)) {
+        value = `() => faker.date.recent()`;
       } else if (prop.name.includes("password")) {
         value = `() => faker.internet.password()`;
       } else {
@@ -134,18 +148,21 @@ ${properties
           value = `() => faker.datatype.boolean() ? faker.lorem.word() : null`;
         } else if (types.includes("number")) {
           value = `() => faker.datatype.boolean() ? faker.number.int({min: 1, max: 100}) : null`;
+        } else if (types.includes("Date")) {
+          value = `() => faker.datatype.boolean() ? faker.date.recent() : null`;
         } else {
-          value = `() => faker.datatype.boolean() ? null : undefined`;
+          value = `() => faker.datatype.boolean() ? null : null`;
         }
       }
+    } else if (prop.type === "Date") {
+      value = `() => faker.date.recent()`;
     } else {
       value = `() => ${prop.type}Factory.build()`;
       interfaces.add(prop.type);
     }
 
-    // Special handling for passwordConfirmation
     if (prop.name === "passwordConfirmation") {
-      return `  .attr('${prop.name}', (f) => f.password)`;
+      return `  .attr('${prop.name}', function(this: any) { return this.password; })`;
     }
 
     return `  .attr('${prop.name}', ${value})`;
@@ -165,7 +182,7 @@ console.log("Found types:", Array.from(interfaces));
 
 // Add necessary imports
 const fakerImport = "import { faker } from '@faker-js/faker';";
-const factoryImport = "import { Factory } from 'rosie';";
+const factoryImport = "import { Factory, IFactory } from 'rosie';";
 const modelImport =
   interfaces.size > 0
     ? `import { ${Array.from(interfaces).join(", ")} } from '@/lib/api';`
@@ -181,13 +198,16 @@ ${aggregatedFactoryCode}
 `.trim();
 
 // Write the aggregated factory code to a single file
-fs.writeFileSync(outputFile, finalCode, "utf8");
+try {
+  fs.writeFileSync(outputFile, finalCode, "utf8");
+  console.log(`Factories written to ${outputFile}`);
+  console.log("Final code length:", finalCode.length);
 
-console.log(`Factories written to ${outputFile}`);
-console.log("Final code length:", finalCode.length);
-
-// Only run prettier and eslint if there's actual content
-if (finalCode.length > 100) {
-  execSync(`npx prettier --write ${outputFile}`);
-  execSync(`npx eslint --fix ${outputFile}`);
+  // Only run prettier and eslint if there's actual content
+  if (finalCode.length > 100) {
+    execSync(`npx prettier --write ${outputFile}`);
+    execSync(`npx eslint --fix ${outputFile}`);
+  }
+} catch (error) {
+  console.error("Error writing to file or running Prettier/ESLint:", error);
 }
