@@ -1,19 +1,18 @@
-name: Build Docker Image
+name: Branch Docker Image
 
 on:
   pull_request:
   pull_request_target:
     types: [labeled]
 
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
 jobs:
-  build-docker:
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-
     steps:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
@@ -39,11 +38,11 @@ jobs:
       - name: Build & Push Docker Image
         uses: docker/build-push-action@v6
         with:
+          context: "{{defaultContext}}:backend"
           target: development
           platforms: linux/amd64
           push: true
-          cache-from: type=registry,ref=${{ github.repository }}:buildcache
-          cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ github.repository }}:dev-latest
           tags: |
             ${{ github.repository }}:${{ github.head_ref}}
             ghcr.io/${{ github.repository }}:${{ github.head_ref}}

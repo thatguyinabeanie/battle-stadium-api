@@ -73,7 +73,6 @@ export const NavbarMain = () => {
 
         <NavbarDropDownMenu />
       </NavbarContent>
-
     </NextUINavbar>
   );
 };

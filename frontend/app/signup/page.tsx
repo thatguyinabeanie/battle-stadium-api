@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { UsersApi } from "@/api/api"; // Adjust the import based on your OpenAPI client setup
+import { UsersApi } from "@/lib/api/api"; // Adjust the import based on your OpenAPI client setup
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -44,6 +44,7 @@ const Register = () => {
 
       router.push("/login");
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error creating user:", error);
     }
   };

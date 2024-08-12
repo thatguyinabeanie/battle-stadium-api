@@ -16,6 +16,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+tmp/
 /tmp/*
 !/log/.keep
 !/tmp/.keep
@@ -45,4 +46,8 @@ coverage
 test-results/
 
 .secrets
-.env
+.env*
+
+.devcontainer/
+.turbo/
+log/

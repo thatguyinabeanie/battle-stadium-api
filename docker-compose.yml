@@ -11,29 +11,42 @@ services:
     ports:
       - 5432:5432
 
+  dev-latest:
+    image: thatguyinabeanie/battle-stadium:dev-latest
+    build:
+      context: backend
+      dockerfile: Dockerfile
+      target: development
+      tags:
+        - thatguyinabeanie/battle-stadium:dev-latest
+      cache_from:
+        - thatguyinabeanie/battle-stadium:dev-latest
+    profiles:
+      - build-dev-latest
+
   # BATTLE STADIUM RAILS APP CONTAINER
-  dev:
+  backend:
+    image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
       HOST_ENVIRONMENT: container
       DB_HOST: db
     build:
-      context: .
-      cache_from:
-        - thatguyinabeanie/battle-stadium:dev-latest
-      target: development
+      context: backend
       dockerfile: Dockerfile
+      target: development
       tags:
+        - thatguyinabeanie/battle-stadium:dev-latest
+      cache_from:
         - thatguyinabeanie/battle-stadium:dev-latest
     command: >
       bash -c "
         rm -f tmp/pids/server.pid && \
-        pnpm install --silent && \
-        sleep infinity
+        (bundle check || bundle install) && \
+        tail -f /dev/null
       "
     tty: true
     ports:
       - 3000:3000
-      - 8080:8080
     depends_on:
       - db
     healthcheck:
@@ -45,9 +58,27 @@ services:
     volumes:
       - .:/battle-stadium
       - .zshrc:/root/.zshrc
-      - turbo:/battle-stadium/.turbo
-      - pnpm-store:/battle-stadium/.pnpm-store
+
+  frontend:
+    environment:
+      HOST_ENVIRONMENT: container
+      BACKEND_HOST: backend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: development
+      tags:
+        - thatguyinabeanie/battle-stadium:frontend-dev-latest
+    command: >
+      bash -c "
+        pnpm install --silent && \
+        tail -f /dev/null
+      "
+    tty: true
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/battle-stadium
+      - .zshrc:/root/.zshrcs
 volumes:
   postgres-data:
-  turbo:
-  pnpm-store:

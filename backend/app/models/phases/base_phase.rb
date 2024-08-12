@@ -59,9 +59,9 @@ module Phases
     protected
 
     def set_defaults
+      self.best_of ||= 3
       self.type = self.class.name if type.blank?
-      self.number_of_rounds ||= 5
-      self.criteria ||= 'Shrug'
+      self.number_of_rounds ||= 0
       self.name ||= self.class.name
     end
 

@@ -77,7 +77,7 @@ module Api
         end
 
         def permitted_params
-          params.require(:phase).permit(:name, :number_of_rounds, :best_of, :criteria, :type)
+          params.require(:phase).permit(:name, :number_of_rounds, :best_of, :type)
         end
       end
     end

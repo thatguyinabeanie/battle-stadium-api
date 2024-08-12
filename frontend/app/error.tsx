@@ -7,7 +7,7 @@ interface ErrorComponentProps {
   reset: () => void;
 }
 
-function ErrorComponent ({ error, reset }: Readonly<ErrorComponentProps>) {
+function ErrorComponent({ error, reset }: Readonly<ErrorComponentProps>) {
   useEffect(() => {
     // Log the error to an error reporting service
     /* eslint-disable no-console */

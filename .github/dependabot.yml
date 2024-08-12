@@ -32,6 +32,12 @@ updates:
 
   # Existing configuration for devcontainers, if still needed
   - package-ecosystem: "devcontainers"
-    directory: "/"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+
+    # Existing configuration for devcontainers, if still needed
+  - package-ecosystem: "devcontainers"
+    directory: "/frontend"
     schedule:
       interval: "weekly"

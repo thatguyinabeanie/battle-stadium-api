@@ -28,8 +28,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       get '/auth/:provider/callback', to: 'sessions#create'
 
-      resources :users, only: %i[index show create destroy update]
-      patch '/users/:id/password', to: 'users#patch_password'
+      resources :users, only: %i[index show create destroy update] do
+        member do
+          patch '/users/:id/password', to: 'users#patch_password'
+        end
+      end
 
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
