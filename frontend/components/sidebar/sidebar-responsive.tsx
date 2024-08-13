@@ -6,9 +6,9 @@ import { useMediaQuery } from "usehooks-ts";
 
 import { Avatar, Button, Tooltip } from "@/components/nextui-client-components";
 import { AcmeIcon } from "@/components/acme";
-import { sectionItemsWithTeams } from "@/components/sidebar-items";
+import { sectionItemsWithTeams } from "@/components/sidebar/sidebar-items";
 import { cn } from "@/lib/utils";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/sidebar/sidebar";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;

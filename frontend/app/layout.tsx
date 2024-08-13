@@ -3,8 +3,7 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
 
-import SidebarResponsive from "./sidebar-responsive";
-
+import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 import {
   NextUIProvider,
   ReactQueryClientProvider,
@@ -12,6 +11,7 @@ import {
 } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
+import BattleStadiumAPI from "@/battle-stadium-api";
 
 export const metadata: Metadata = {
   title: {
@@ -33,7 +33,8 @@ export const viewport: Viewport = {
 
 const initialIsOpen = process.env.NODE_ENV === "development";
 
-function RootLayout({ children }: ChildrenProps & AppProps) {
+async function RootLayout({ children }: ChildrenProps & AppProps) {
+  const currentUser = await BattleStadiumAPI.Users.get({ id: 1 });
   return (
     <html suppressHydrationWarning lang="en">
       <head />
