@@ -9,6 +9,7 @@ import {
   CardBody,
   Skeleton,
   Image,
+  Tooltip
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
@@ -23,4 +24,5 @@ export {
   Skeleton,
   Icon,
   Image,
+  Tooltip
 };
