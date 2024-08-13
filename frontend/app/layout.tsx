@@ -3,7 +3,7 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
 
-import SideBarComponent from "./sidebar-layout";
+import SidebarResponsive from "./sidebar-responsive";
 
 import {
   NextUIProvider,
@@ -42,13 +42,16 @@ function RootLayout({ children }: ChildrenProps & AppProps) {
           "min-h-screen bg-background font-sans antialiased overflow-hidden",
         )}
       >
-        <NextUIProvider>
-          <ThemesProvider>
+        <ThemesProvider>
+          <NextUIProvider>
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
-              <SideBarComponent>{children}</SideBarComponent>
+              <div className="flex h-dvh w-full">
+                <SidebarResponsive />
+                {children}
+              </div>
             </ReactQueryClientProvider>
-          </ThemesProvider>
-        </NextUIProvider>
+          </NextUIProvider>
+        </ThemesProvider>
       </body>
     </html>
   );
