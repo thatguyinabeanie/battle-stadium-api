@@ -65,12 +65,15 @@ scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
 
 format = Tournaments::Format.find_or_create_by!(name: 'Regulation H', game: scarlet_violet)
 
+fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy')
+
 org_owners = (1..25).to_a.map { create_user }
 
 orgs = org_owners.map do |owner|
   Organization.find_or_create_by!(owner:) do |org|
     org.description = 'This is an example organization.'
     org.staff = (1..5).to_a.map { create_user }
+    org.staff << fuecoco_supremacy_user
     org.name = "#{owner[:username].capitalize.gsub('_', ' ')}'s Organization"
   end
 end.uniq

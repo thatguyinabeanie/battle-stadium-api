@@ -30,7 +30,8 @@ module Serializer
 
     def organizations
       owned_organization = object.owned_organization
-      orgs = object.staff.map(&:organization) + (owned_organization ? [owned_organization] : [])
+
+      orgs = object.organization_staff_members.map(&:organization) + (owned_organization ? [owned_organization] : [])
 
       orgs.map do |org|
         {
