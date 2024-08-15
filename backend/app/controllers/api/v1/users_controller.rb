@@ -25,7 +25,8 @@ module Api
       end
 
       def me
-        @user = current_user
+        # @user = current_user
+        @user = User.find(1)
 
         render json: @user, serializer: Serializer::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
