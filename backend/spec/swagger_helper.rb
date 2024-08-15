@@ -105,6 +105,17 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   }
 ).freeze
 
+USER_ME = USER_DETAILS_SCHEMA.deep_merge(
+  {
+    type: :object,
+    title: 'User Me',
+    properties: {
+      organizations: { type: :array, items: { '$ref' => '#/components/schemas/Organization' } }
+    },
+    required: %w[organizations] + USER_DETAILS_SCHEMA[:required]
+  }
+).freeze
+
 USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
@@ -388,6 +399,7 @@ RSpec.configure do |config|
           ChangePasswordRequest: CHANGE_PASSWORD_REQUEST,
           User: USER_SCHEMA,
           UserDetails: USER_DETAILS_SCHEMA,
+          UserMe: USER_ME,
           UserPostRequest: USER_POST_REQUEST,
           UserRequest: USER_REQUEST,
           Organization: ORGANIZATION_SCHEMA,

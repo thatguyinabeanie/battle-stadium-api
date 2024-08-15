@@ -36,7 +36,7 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
           alt={organization.name}
           className="aspect-square w-full hover:scale-110"
           isLoading={isLoading}
-          src={DEFAULT_IMAGE_SRC}
+          src="/pokemon/vgc.png"
         />
 
         <div className="mt-1 flex flex-col gap-2 px-1">

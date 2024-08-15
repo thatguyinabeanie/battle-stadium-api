@@ -52,6 +52,7 @@ import {
   Tournament,
   TournamentPostRequest,
   TournamentRequest,
+  UserMe,
   UserRequest,
 } from "@/lib/api";
 
@@ -466,6 +467,18 @@ export const UserLoginRequestFactory = new Factory<UserLoginRequest>()
 
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("password", () => faker.internet.password());
+
+export const UserMeFactory = new Factory<UserMe>()
+
+  .attr("username", () => faker.lorem.word())
+  .attr("pronouns", () => faker.lorem.word())
+  .attr("email", () => `${faker.internet.userName()}@example.com`)
+  .attr("firstName", () => faker.lorem.word())
+  .attr("lastName", () => faker.lorem.word())
+  .sequence("id")
+  .attr("organizations", () =>
+    OrganizationFactory.buildList(faker.number.int({ min: 1, max: 5 })),
+  );
 
 export const UserPostRequestFactory = new Factory<UserPostRequest>()
 

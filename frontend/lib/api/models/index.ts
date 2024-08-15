@@ -22,5 +22,6 @@ export * from "./TournamentRequest";
 export * from "./User";
 export * from "./UserDetails";
 export * from "./UserLoginRequest";
+export * from "./UserMe";
 export * from "./UserPostRequest";
 export * from "./UserRequest";

@@ -24,6 +24,14 @@ module Api
         end
       end
 
+      def me
+        @user = current_user
+
+        render json: @user, serializer: Serializer::UserMe, status: :ok
+      rescue ActiveRecord::RecordNotFound
+        render json: { errors: ['User not found'] }, status: :not_found
+      end
+
       protected
 
       # Only allow a list of trusted parameters through.

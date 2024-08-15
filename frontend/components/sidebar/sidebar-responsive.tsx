@@ -9,6 +9,7 @@ import { AcmeIcon } from "@/components/acme";
 import { sectionItemsWithTeams } from "@/components/sidebar/sidebar-items";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";
+import { UserDetails } from "@/lib/api";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;
@@ -32,7 +33,15 @@ export interface SideBarComponentProps {
  * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
  * ```
  */
-export default function SidebarResponsive() {
+
+export interface SidebarResponsiveProps {
+  currentUser: UserDetails;
+}
+export default function SidebarResponsive({
+  currentUser,
+}: SidebarResponsiveProps) {
+  console.log("currentUser", currentUser);
+
   const isCompact = useMediaQuery("(max-width: 768px)");
 
   return (

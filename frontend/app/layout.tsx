@@ -35,6 +35,7 @@ const initialIsOpen = process.env.NODE_ENV === "development";
 
 async function RootLayout({ children }: ChildrenProps & AppProps) {
   const currentUser = await BattleStadiumAPI.Users.get({ id: 1 });
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
