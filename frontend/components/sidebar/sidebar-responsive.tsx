@@ -3,15 +3,11 @@ import React from "react";
 import { Spacer } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
-import { useQuery } from "@tanstack/react-query";
 
 import { Avatar, Button, Tooltip } from "@/components/nextui-client-components";
 import { AcmeIcon } from "@/components/acme";
-import { sectionItemsWithTeams } from "@/components/sidebar/sidebar-items";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";
-import { UserMe } from "@/lib/api";
-import BattleStadiumAPI from "@/battle-stadium-api";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;
@@ -36,18 +32,7 @@ export interface SideBarComponentProps {
  * ```
  */
 
-export interface SidebarResponsiveProps {
-  initCurrentUser: UserMe;
-}
-export default function SidebarResponsive(props: SidebarResponsiveProps) {
-  const { initCurrentUser } = props;
-
-  const { data: currentUser } = useQuery({
-    queryKey: ["currentUser"],
-    queryFn: BattleStadiumAPI.Users.me,
-    initialData: initCurrentUser,
-  });
-
+export default function SidebarResponsive() {
   const isCompact = useMediaQuery("(max-width: 768px)");
 
   return (
@@ -98,11 +83,7 @@ export default function SidebarResponsive(props: SidebarResponsiveProps) {
         </div>
       </div>
 
-      <Sidebar
-        defaultSelectedKey="home"
-        isCompact={isCompact}
-        items={sectionItemsWithTeams}
-      />
+      <Sidebar defaultSelectedKey="home" isCompact={isCompact} />
 
       <Spacer y={2} />
       <div

@@ -5,7 +5,6 @@ import LoadingPlaceholder from "./loading-place-holder";
 import { Image } from "@/components/nextui-client-components";
 import { cn } from "@/lib/utils";
 import { OrganizationDetails } from "@/lib/api";
-import { DEFAULT_IMAGE_SRC } from "@/lib/constants";
 
 export type PlaceListItemProps = Omit<
   React.HTMLAttributes<HTMLDivElement>,

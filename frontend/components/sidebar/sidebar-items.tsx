@@ -1,8 +1,6 @@
-import { Icon } from "@iconify/react";
-
-import { type SidebarItem, SidebarItemType } from "./sidebar";
 import TeamAvatar from "../team-avatar";
-import { Chip } from "../nextui-client-components";
+
+import { type SidebarItem } from "./sidebar";
 
 /**
  * Please check the https://nextui.org/docs/guide/routing to have a seamless router integration
@@ -40,7 +38,6 @@ export const sectionItems: SidebarItem[] = [
     ],
   },
 ];
-
 
 const yourOrganizations: SidebarItem = {
   key: "your-organizations",

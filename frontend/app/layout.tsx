@@ -50,7 +50,7 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
               <div className="flex h-dvh w-full">
                 <CurrentUserContextProvider initCurrentUser={currentUser}>
-                  <SidebarResponsive initCurrentUser={currentUser} />
+                  <SidebarResponsive />
                   {children}
                 </CurrentUserContextProvider>
               </div>
