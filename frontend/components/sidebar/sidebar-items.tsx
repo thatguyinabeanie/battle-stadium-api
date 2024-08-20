@@ -2,10 +2,6 @@ import TeamAvatar from "../team-avatar";
 
 import { type SidebarItem } from "./sidebar";
 
-/**
- * Please check the https://nextui.org/docs/guide/routing to have a seamless router integration
- */
-
 export const sectionItems: SidebarItem[] = [
   {
     key: "overview",
