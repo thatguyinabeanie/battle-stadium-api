@@ -4,11 +4,7 @@ import clsx from "clsx";
 import { AppProps } from "next/app";
 
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
-import {
-  NextUIProvider,
-  ReactQueryClientProvider,
-  ThemesProvider,
-} from "@/components/providers";
+import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
@@ -50,11 +46,7 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased overflow-hidden",
-        )}
-      >
+      <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
         <ThemesProvider>
           <NextUIProvider>
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>

@@ -7,17 +7,13 @@ describe("OrganizationCard", () => {
   const organization = OrganizationFactory.build();
 
   it("renders organization name correctly", () => {
-    const { getByText } = render(
-      <OrganizationCard organization={organization} />,
-    );
+    const { getByText } = render(<OrganizationCard organization={organization} />);
 
     expect(getByText(organization.name)).toBeInTheDocument();
   });
 
   it("renders default image", async () => {
-    const { findAllByAltText } = render(
-      <OrganizationCard organization={organization} />,
-    );
+    const { findAllByAltText } = render(<OrganizationCard organization={organization} />);
 
     const images = await findAllByAltText(organization.name);
 

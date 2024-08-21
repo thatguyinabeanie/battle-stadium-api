@@ -41,9 +41,7 @@
     "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:1": {}
   },
 
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ],
+  "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
 
   // Configure tool-specific properties.
   "customizations": {
@@ -100,16 +98,11 @@
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": "explicit"
         },
-        "eslint.validate": [
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact"
-        ],
+        "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
         "typescript.tsdk": "node_modules/typescript/lib",
         "editor.formatOnSave": false,
         "eslint.format.enable": true,
-        "jest.jestCommandLine": "pnpm jest",
+        "jest.jestCommandLine": "pnpm jest"
       }
     }
   }

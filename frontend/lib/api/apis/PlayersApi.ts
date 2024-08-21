@@ -81,14 +81,8 @@ export class PlayersApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/players/{id}`
-          .replace(
-            `{${"tournament_id"}}`,
-            encodeURIComponent(String(requestParameters["tournamentId"])),
-          )
-          .replace(
-            `{${"id"}}`,
-            encodeURIComponent(String(requestParameters["id"])),
-          ),
+          .replace(`{${"tournament_id"}}`, encodeURIComponent(String(requestParameters["tournamentId"])))
+          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
@@ -142,9 +136,7 @@ export class PlayersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(PlayerFromJSON),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PlayerFromJSON));
   }
 
   /**
@@ -155,10 +147,7 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: ListPlayersRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Player>> {
-    const response = await this.listPlayersRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.listPlayersRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -197,9 +186,7 @@ export class PlayersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PlayerDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -210,10 +197,7 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: PostTournamentPlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.postTournamentPlayerRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.postTournamentPlayerRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -248,14 +232,8 @@ export class PlayersApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/players/{id}`
-          .replace(
-            `{${"tournament_id"}}`,
-            encodeURIComponent(String(requestParameters["tournamentId"])),
-          )
-          .replace(
-            `{${"id"}}`,
-            encodeURIComponent(String(requestParameters["id"])),
-          ),
+          .replace(`{${"tournament_id"}}`, encodeURIComponent(String(requestParameters["tournamentId"])))
+          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -264,9 +242,7 @@ export class PlayersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PlayerDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -277,10 +253,7 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: PutTournamentPlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.putTournamentPlayerRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.putTournamentPlayerRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -313,14 +286,8 @@ export class PlayersApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/players/{id}`
-          .replace(
-            `{${"tournament_id"}}`,
-            encodeURIComponent(String(requestParameters["tournamentId"])),
-          )
-          .replace(
-            `{${"id"}}`,
-            encodeURIComponent(String(requestParameters["id"])),
-          ),
+          .replace(`{${"tournament_id"}}`, encodeURIComponent(String(requestParameters["tournamentId"])))
+          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -328,9 +295,7 @@ export class PlayersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PlayerDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -341,10 +306,7 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: ShowTournamentPlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.showTournamentPlayerRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.showTournamentPlayerRaw(requestParameters, initOverrides);
     return await response.value();
   }
 }

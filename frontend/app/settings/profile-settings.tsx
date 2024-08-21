@@ -12,17 +12,12 @@ interface ProfileSettingCardProps {
   className?: string;
 }
 
-const ProfileSetting = React.forwardRef<
-  HTMLDivElement,
-  ProfileSettingCardProps
->(({ className, ...props }, ref) => (
+const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-2", className)} {...props}>
     {/* Profile */}
     <div>
       <p className="text-base font-medium text-default-700">Profile</p>
-      <p className="mt-1 text-sm font-normal text-default-400">
-        This displays your public profile on the site.
-      </p>
+      <p className="mt-1 text-sm font-normal text-default-400">This displays your public profile on the site.</p>
       <Card className="mt-4 bg-default-100" shadow="none">
         <CardBody>
           <div className="flex items-center gap-4">
@@ -53,9 +48,7 @@ const ProfileSetting = React.forwardRef<
             <div>
               <p className="text-sm font-medium text-default-600">Kate Moore</p>
               <p className="text-xs text-default-400">Customer Support</p>
-              <p className="mt-1 text-xs text-default-400">
-                kate.moore@acme.com
-              </p>
+              <p className="mt-1 text-xs text-default-400">kate.moore@acme.com</p>
             </div>
           </div>
         </CardBody>
@@ -65,27 +58,21 @@ const ProfileSetting = React.forwardRef<
     {/* Title */}
     <div>
       <p className="text-base font-medium text-default-700">Title</p>
-      <p className="mt-1 text-sm font-normal text-default-400">
-        Set your current role.
-      </p>
+      <p className="mt-1 text-sm font-normal text-default-400">Set your current role.</p>
       <Input className="mt-2" placeholder="e.g Customer Support" />
     </div>
     <Spacer y={2} />
     {/* Location */}
     <div>
       <p className="text-base font-medium text-default-700">Location</p>
-      <p className="mt-1 text-sm font-normal text-default-400">
-        Set your current location.
-      </p>
+      <p className="mt-1 text-sm font-normal text-default-400">Set your current location.</p>
       <Input className="mt-2" placeholder="e.g Buenos Aires, Argentina" />
     </div>
     <Spacer y={4} />
     {/* Biography */}
     <div>
       <p className="text-base font-medium text-default-700">Biography</p>
-      <p className="mt-1 text-sm font-normal text-default-400">
-        Specify your present whereabouts.
-      </p>
+      <p className="mt-1 text-sm font-normal text-default-400">Specify your present whereabouts.</p>
       <Textarea
         className="mt-2"
         classNames={{

@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { Button, Tooltip } from "@/components/nextui-client-components";
-import BattleStadiumIcon  from "@/components/battle-stadium-icon";
+import BattleStadiumIcon from "@/components/battle-stadium-icon";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";
 import UserAvatar from "@/components/user-avatar";
@@ -38,12 +38,9 @@ export default function SidebarResponsive() {
 
   return (
     <div
-      className={cn(
-        "relative flex h-full w-90 flex-col !border-r-small border-divider p-6 transition-width",
-        {
-          "w-16 items-center px-2 py-6": isCompact,
-        },
-      )}
+      className={cn("relative flex h-full w-90 flex-col !border-r-small border-divider p-6 transition-width", {
+        "w-16 items-center px-2 py-6": isCompact,
+      })}
     >
       <div
         className={cn(
@@ -80,37 +77,22 @@ export default function SidebarResponsive() {
           "items-center": isCompact,
         })}
       >
-        <Tooltip
-          content="Help & Feedback"
-          isDisabled={!isCompact}
-          placement="right"
-        >
+        <Tooltip content="Help & Feedback" isDisabled={!isCompact} placement="right">
           <Button
             fullWidth
-            className={cn(
-              "justify-start truncate text-default-500 data-[hover=true]:text-foreground",
-              {
-                "justify-center": isCompact,
-              },
-            )}
+            className={cn("justify-start truncate text-default-500 data-[hover=true]:text-foreground", {
+              "justify-center": isCompact,
+            })}
             isIconOnly={isCompact}
             startContent={
               isCompact ? null : (
-                <Icon
-                  className="flex-none text-default-500"
-                  icon="solar:info-circle-line-duotone"
-                  width={24}
-                />
+                <Icon className="flex-none text-default-500" icon="solar:info-circle-line-duotone" width={24} />
               )
             }
             variant="light"
           >
             {isCompact ? (
-              <Icon
-                className="text-default-500"
-                icon="solar:info-circle-line-duotone"
-                width={24}
-              />
+              <Icon className="text-default-500" icon="solar:info-circle-line-duotone" width={24} />
             ) : (
               "Help & Information"
             )}
@@ -119,12 +101,9 @@ export default function SidebarResponsive() {
 
         <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
           <Button
-            className={cn(
-              "justify-start text-default-500 data-[hover=true]:text-foreground",
-              {
-                "justify-center": isCompact,
-              },
-            )}
+            className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
+              "justify-center": isCompact,
+            })}
             isIconOnly={isCompact}
             startContent={
               isCompact ? null : (
@@ -138,11 +117,7 @@ export default function SidebarResponsive() {
             variant="light"
           >
             {isCompact ? (
-              <Icon
-                className="rotate-180 text-default-500"
-                icon="solar:minus-circle-line-duotone"
-                width={24}
-              />
+              <Icon className="rotate-180 text-default-500" icon="solar:minus-circle-line-duotone" width={24} />
             ) : (
               "Log Out"
             )}

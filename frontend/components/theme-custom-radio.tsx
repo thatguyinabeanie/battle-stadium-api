@@ -54,24 +54,14 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
       </span>
       <div {...getLabelWrapperProps()}>
         {children && <span {...getLabelProps()}>{children}</span>}
-        {description && (
-          <span className="text-small text-foreground opacity-70">
-            {description}
-          </span>
-        )}
+        {description && <span className="text-small text-foreground opacity-70">{description}</span>}
       </div>
       <div
         className={cn("absolute left-[32px] top-[37px]", {
           hidden: variant === "light",
         })}
       >
-        <svg
-          fill="none"
-          height="117"
-          viewBox="0 0 240 117"
-          width="240"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg fill="none" height="117" viewBox="0 0 240 117" width="240" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M12 0.5H228C234.351 0.5 239.5 5.64873 239.5 12V116.5H0.5V12C0.5 5.64873 5.64873 0.5 12 0.5Z"
             fill="black"
@@ -133,13 +123,7 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
           hidden: variant === "dark",
         })}
       >
-        <svg
-          fill="none"
-          height="117"
-          viewBox="0 0 240 117"
-          width="240"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg fill="none" height="117" viewBox="0 0 240 117" width="240" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M12 0.5H228C234.351 0.5 239.5 5.64873 239.5 12V116.5H0.5V12C0.5 5.64873 5.64873 0.5 12 0.5Z"
             fill="white"

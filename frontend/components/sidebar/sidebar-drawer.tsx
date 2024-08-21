@@ -68,17 +68,10 @@ const SidebarDrawer = React.forwardRef<
               "!items-start !justify-start ": sidebarPlacement === "left",
               "!items-end !justify-end": sidebarPlacement === "right",
             }),
-            base: cn(
-              "w-[var(--sidebar-width)] !m-0 p-0 h-full max-h-full",
-              classNames?.base,
-              className,
-              {
-                "inset-y-0 left-0 max-h-[none] rounded-l-none !justify-start":
-                  sidebarPlacement === "left",
-                "inset-y-0 right-0 max-h-[none] rounded-r-none !justify-end":
-                  sidebarPlacement === "right",
-              },
-            ),
+            base: cn("w-[var(--sidebar-width)] !m-0 p-0 h-full max-h-full", classNames?.base, className, {
+              "inset-y-0 left-0 max-h-[none] rounded-l-none !justify-start": sidebarPlacement === "left",
+              "inset-y-0 right-0 max-h-[none] rounded-r-none !justify-end": sidebarPlacement === "right",
+            }),
             body: cn("p-0", classNames?.body),
             closeButton: cn("z-50", classNames?.closeButton),
           }}

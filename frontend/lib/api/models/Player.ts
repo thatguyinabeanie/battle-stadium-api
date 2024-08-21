@@ -48,8 +48,7 @@ export interface Player {
 export function instanceOfPlayer(value: object): value is Player {
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("user" in value) || value["user"] === undefined) return false;
-  if (!("inGameName" in value) || value["inGameName"] === undefined)
-    return false;
+  if (!("inGameName" in value) || value["inGameName"] === undefined) return false;
   return true;
 }
 
@@ -57,10 +56,7 @@ export function PlayerFromJSON(json: any): Player {
   return PlayerFromJSONTyped(json, false);
 }
 
-export function PlayerFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): Player {
+export function PlayerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Player {
   if (json == null) {
     return json;
   }

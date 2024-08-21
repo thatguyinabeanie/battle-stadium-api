@@ -14,12 +14,7 @@
 
 import * as runtime from "../runtime";
 import type { Game, GameDetail } from "../models/index";
-import {
-  GameFromJSON,
-  GameToJSON,
-  GameDetailFromJSON,
-  GameDetailToJSON,
-} from "../models/index";
+import { GameFromJSON, GameToJSON, GameDetailFromJSON, GameDetailToJSON } from "../models/index";
 
 export interface DeleteGameRequest {
   id: number;
@@ -51,10 +46,7 @@ export class GamesApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling deleteGame().',
-      );
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling deleteGame().');
     }
 
     const queryParameters: any = {};
@@ -63,10 +55,7 @@ export class GamesApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/games/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/games/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
@@ -97,10 +86,7 @@ export class GamesApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<GameDetail>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling getGame().',
-      );
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling getGame().');
     }
 
     const queryParameters: any = {};
@@ -109,10 +95,7 @@ export class GamesApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/games/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/games/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -120,9 +103,7 @@ export class GamesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GameDetailFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => GameDetailFromJSON(jsonValue));
   }
 
   /**
@@ -158,18 +139,14 @@ export class GamesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(GameFromJSON),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GameFromJSON));
   }
 
   /**
    * Retrieves a list of all games
    * List Games
    */
-  async listGames(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<Array<Game>> {
+  async listGames(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Game>> {
     const response = await this.listGamesRaw(initOverrides);
     return await response.value();
   }
@@ -183,10 +160,7 @@ export class GamesApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<GameDetail>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling patchGame().',
-      );
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling patchGame().');
     }
 
     const queryParameters: any = {};
@@ -197,10 +171,7 @@ export class GamesApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/games/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/games/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -209,9 +180,7 @@ export class GamesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GameDetailFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => GameDetailFromJSON(jsonValue));
   }
 
   /**
@@ -251,9 +220,7 @@ export class GamesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GameDetailFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => GameDetailFromJSON(jsonValue));
   }
 
   /**

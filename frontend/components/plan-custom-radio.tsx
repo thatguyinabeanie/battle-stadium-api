@@ -21,37 +21,37 @@ export const PlanCustomRadio = (props: RadioProps) => {
 
   return (
     <Component
-      { ...getBaseProps() }
-      className={ cn(
+      {...getBaseProps()}
+      className={cn(
         "group px-4 py-4",
         "max-w-[300px] cursor-pointer gap-4 rounded-lg border-2 border-transparent",
         "flex-1 bg-default-100 data-[selected=true]:border-default-foreground",
-      ) }
+      )}
     >
-      {/*header*/ }
-      <section className={ "flex flex-row-reverse justify-between hover:bg-content2" }>
+      {/*header*/}
+      <section className={"flex flex-row-reverse justify-between hover:bg-content2"}>
         <VisuallyHidden>
-          <input { ...getInputProps() } />
+          <input {...getInputProps()} />
         </VisuallyHidden>
         <span
-          { ...getWrapperProps() }
-          className={ cn(
+          {...getWrapperProps()}
+          className={cn(
             wrapperProps["className"],
             "border-2 border-default",
             "group-data-[selected=true]:border-default-foreground",
-          ) }
+          )}
         >
           <span
-            { ...getControlProps() }
-            className={ cn(
+            {...getControlProps()}
+            className={cn(
               "z-10 h-2 w-2 origin-center scale-0 rounded-full bg-default-foreground text-primary-foreground opacity-0 transition-transform-opacity group-data-[selected=true]:scale-100 group-data-[selected=true]:opacity-100 motion-reduce:transition-none",
-            ) }
+            )}
           />
         </span>
-        <div>{ description && <span { ...getLabelProps() }>{ description }</span> }</div>
+        <div>{description && <span {...getLabelProps()}>{description}</span>}</div>
       </section>
-      {/*  content*/ }
-      { children && <div>{ children }</div> }
+      {/*  content*/}
+      {children && <div>{children}</div>}
     </Component>
   );
 };

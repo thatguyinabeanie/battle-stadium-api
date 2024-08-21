@@ -94,10 +94,8 @@ export function instanceOfPhase(value: object): value is Phase {
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("order" in value) || value["order"] === undefined) return false;
-  if (!("tournamentId" in value) || value["tournamentId"] === undefined)
-    return false;
-  if (!("numberOfRounds" in value) || value["numberOfRounds"] === undefined)
-    return false;
+  if (!("tournamentId" in value) || value["tournamentId"] === undefined) return false;
+  if (!("numberOfRounds" in value) || value["numberOfRounds"] === undefined) return false;
   if (!("bestOf" in value) || value["bestOf"] === undefined) return false;
   if (!("startedAt" in value) || value["startedAt"] === undefined) return false;
   if (!("endedAt" in value) || value["endedAt"] === undefined) return false;
@@ -108,10 +106,7 @@ export function PhaseFromJSON(json: any): Phase {
   return PhaseFromJSONTyped(json, false);
 }
 
-export function PhaseFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): Phase {
+export function PhaseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Phase {
   if (json == null) {
     return json;
   }
@@ -125,10 +120,8 @@ export function PhaseFromJSONTyped(
     bestOf: json["best_of"],
     startedAt: json["started_at"] == null ? null : new Date(json["started_at"]),
     endedAt: json["ended_at"] == null ? null : new Date(json["ended_at"]),
-    createdAt:
-      json["created_at"] == null ? undefined : new Date(json["created_at"]),
-    updatedAt:
-      json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
+    createdAt: json["created_at"] == null ? undefined : new Date(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
   };
 }
 
@@ -144,15 +137,9 @@ export function PhaseToJSON(value?: Phase | null): any {
     tournament_id: value["tournamentId"],
     number_of_rounds: value["numberOfRounds"],
     best_of: value["bestOf"],
-    started_at:
-      value["startedAt"] == null
-        ? null
-        : (value["startedAt"] as any).toISOString(),
-    ended_at:
-      value["endedAt"] == null ? null : (value["endedAt"] as any).toISOString(),
-    created_at:
-      value["createdAt"] == null ? undefined : value["createdAt"].toISOString(),
-    updated_at:
-      value["updatedAt"] == null ? undefined : value["updatedAt"].toISOString(),
+    started_at: value["startedAt"] == null ? null : (value["startedAt"] as any).toISOString(),
+    ended_at: value["endedAt"] == null ? null : (value["endedAt"] as any).toISOString(),
+    created_at: value["createdAt"] == null ? undefined : value["createdAt"].toISOString(),
+    updated_at: value["updatedAt"] == null ? undefined : value["updatedAt"].toISOString(),
   };
 }

@@ -13,10 +13,7 @@ export interface ReactQueryClientProviderProps extends ChildrenProps {
 
 const queryClient = new QueryClient();
 
-export default function ReactQueryClientProvider({
-  children,
-  initialIsOpen,
-}: ReactQueryClientProviderProps) {
+export default function ReactQueryClientProvider({ children, initialIsOpen }: ReactQueryClientProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={initialIsOpen} />

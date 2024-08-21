@@ -3,11 +3,7 @@ import { OrganizationDetails } from "@/lib/api";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
-const OrganizationDetailsPage = async ({
-  params,
-}: {
-  params: { organizationId: string };
-}) => {
+const OrganizationDetailsPage = async ({ params }: { params: { organizationId: string } }) => {
   const request = { id: parseInt(params.organizationId) };
 
   let organization: OrganizationDetails | null = null;

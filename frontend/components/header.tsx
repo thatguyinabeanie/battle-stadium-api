@@ -5,10 +5,7 @@ import { title as titleClassnames } from "@/components/primitives";
 export interface HeaderProps extends PageTitleProps {
   disabled?: boolean;
 }
-export default function Header({
-  title,
-  disabled = false,
-}: Readonly<HeaderProps>) {
+export default function Header({ title, disabled = false }: Readonly<HeaderProps>) {
   if (!title || title === "" || disabled) {
     return null;
   }

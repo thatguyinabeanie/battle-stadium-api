@@ -6,40 +6,22 @@ import AccountSetting from "./account-settings";
 import BillingSetting from "./bill-settings";
 import TeamSetting from "./team-setting";
 
-import {
-  Tab,
-  Tabs,
-  useDisclosure,
-} from "@/components/nextui-client-components";
+import { Tab, Tabs, useDisclosure } from "@/components/nextui-client-components";
 import { Button, Icon } from "@/components/nextui-client-components";
 
 const Settings = () => {
-  const { isOpen, onOpenChange } = useDisclosure();
+  const { onOpenChange } = useDisclosure();
 
   return (
     <div className="w-full max-w-2xl flex-1 p-4">
       {/* Title */}
       <div className="flex items-center gap-x-3">
-        <Button
-          isIconOnly
-          className="sm:hidden"
-          size="sm"
-          variant="flat"
-          onPress={onOpenChange}
-        >
-          <Icon
-            className="text-default-500"
-            icon="solar:sidebar-minimalistic-linear"
-            width={20}
-          />
+        <Button isIconOnly className="sm:hidden" size="sm" variant="flat" onPress={onOpenChange}>
+          <Icon className="text-default-500" icon="solar:sidebar-minimalistic-linear" width={20} />
         </Button>
-        <h1 className="text-3xl font-bold leading-9 text-default-foreground">
-          Settings
-        </h1>
+        <h1 className="text-3xl font-bold leading-9 text-default-foreground">Settings</h1>
       </div>
-      <h2 className="mt-2 text-small text-default-500">
-        Customize settings, email preferences, and web appearance.
-      </h2>
+      <h2 className="mt-2 text-small text-default-500">Customize settings, email preferences, and web appearance.</h2>
       {/*  Tabs */}
       <Tabs
         fullWidth

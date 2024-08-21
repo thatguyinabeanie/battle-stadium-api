@@ -14,12 +14,7 @@
 
 import * as runtime from "../runtime";
 import type { Phase, PhaseDetails } from "../models/index";
-import {
-  PhaseFromJSON,
-  PhaseToJSON,
-  PhaseDetailsFromJSON,
-  PhaseDetailsToJSON,
-} from "../models/index";
+import { PhaseFromJSON, PhaseToJSON, PhaseDetailsFromJSON, PhaseDetailsToJSON } from "../models/index";
 
 export interface DeleteTournamentPhaseRequest {
   tournamentId: number;
@@ -79,14 +74,8 @@ export class PhasesApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/phases/{id}`
-          .replace(
-            `{${"tournament_id"}}`,
-            encodeURIComponent(String(requestParameters["tournamentId"])),
-          )
-          .replace(
-            `{${"id"}}`,
-            encodeURIComponent(String(requestParameters["id"])),
-          ),
+          .replace(`{${"tournament_id"}}`, encodeURIComponent(String(requestParameters["tournamentId"])))
+          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
@@ -140,9 +129,7 @@ export class PhasesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(PhaseFromJSON),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PhaseFromJSON));
   }
 
   /**
@@ -153,10 +140,7 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: ListTournamentPhasesRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Phase>> {
-    const response = await this.listTournamentPhasesRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.listTournamentPhasesRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -191,14 +175,8 @@ export class PhasesApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/phases/{id}`
-          .replace(
-            `{${"tournament_id"}}`,
-            encodeURIComponent(String(requestParameters["tournamentId"])),
-          )
-          .replace(
-            `{${"id"}}`,
-            encodeURIComponent(String(requestParameters["id"])),
-          ),
+          .replace(`{${"tournament_id"}}`, encodeURIComponent(String(requestParameters["tournamentId"])))
+          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -207,9 +185,7 @@ export class PhasesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PhaseDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -220,10 +196,7 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: PatchTournamentPhaseRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.patchTournamentPhaseRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.patchTournamentPhaseRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -262,9 +235,7 @@ export class PhasesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PhaseDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -275,10 +246,7 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: PostTournamentPhaseRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.postTournamentPhaseRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.postTournamentPhaseRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -311,14 +279,8 @@ export class PhasesApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/phases/{id}`
-          .replace(
-            `{${"tournament_id"}}`,
-            encodeURIComponent(String(requestParameters["tournamentId"])),
-          )
-          .replace(
-            `{${"id"}}`,
-            encodeURIComponent(String(requestParameters["id"])),
-          ),
+          .replace(`{${"tournament_id"}}`, encodeURIComponent(String(requestParameters["tournamentId"])))
+          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -326,9 +288,7 @@ export class PhasesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PhaseDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -339,10 +299,7 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: ShowTournamentPhaseRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.showTournamentPhaseRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.showTournamentPhaseRaw(requestParameters, initOverrides);
     return await response.value();
   }
 }

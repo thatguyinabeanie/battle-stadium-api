@@ -9,11 +9,11 @@
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json",
     "lint:fix": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
-    "format": "prettier --write .",
+    "prettier:write": "prettier --write .",
     "prettier:check": "prettier --check .",
     "test": "jest --passWithNoTests",
     "test:all": "jest",
-    "generate:factories": " ts-node --project ts-node.config.json lib/generateFactories.ts",
+    "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
     "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && pnpm generate:factories",
     "tsc": "tsc --noEmit"
   },

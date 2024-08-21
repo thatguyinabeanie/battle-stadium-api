@@ -1,14 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Button,
-  Input,
-  RadioGroup,
-  Select,
-  SelectItem,
-  Spacer,
-} from "@nextui-org/react";
+import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
 import { PlanCustomRadio } from "@/components/plan-custom-radio";
@@ -34,35 +27,20 @@ const countryOptions = [
   },
 ];
 
-const BillingSetting = React.forwardRef<
-  HTMLDivElement,
-  BillingSettingCardProps
->(({ className, ...props }, ref) => (
+const BillingSetting = React.forwardRef<HTMLDivElement, BillingSettingCardProps>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-2", className)} {...props}>
     {/* Payment Method */}
     <div>
       <div className="rounded-large bg-default-100">
         <div className="flex items-center justify-between gap-2 px-4 py-3">
           <div className="flex items-center gap-3">
-            <Icon
-              className="h-6 w-6 text-default-500"
-              icon="solar:card-outline"
-            />
+            <Icon className="h-6 w-6 text-default-500" icon="solar:card-outline" />
             <div>
-              <p className="text-sm font-medium text-default-600">
-                Payment method
-              </p>
-              <p className="text-xs text-default-400">
-                MasterCard credit card ending in ***3456
-              </p>
+              <p className="text-sm font-medium text-default-600">Payment method</p>
+              <p className="text-xs text-default-400">MasterCard credit card ending in ***3456</p>
             </div>
           </div>
-          <Button
-            className="bg-default-foreground text-background"
-            radius="md"
-            size="sm"
-            variant="shadow"
-          >
+          <Button className="bg-default-foreground text-background" radius="md" size="sm" variant="shadow">
             Update
           </Button>
         </div>
@@ -73,8 +51,7 @@ const BillingSetting = React.forwardRef<
     <div>
       <p className="text-base font-medium text-default-700">Current Plan</p>
       <p className="mt-1 text-sm font-normal text-default-400">
-        Your free trial ends in{" "}
-        <span className="text-default-500">8 days.</span>
+        Your free trial ends in <span className="text-default-500">8 days.</span>
       </p>
       {/* Plan radio group */}
       <RadioGroup
@@ -94,13 +71,9 @@ const BillingSetting = React.forwardRef<
         >
           <div className="mt-2">
             <p className="pt-2">
-              <span className="text-[30px] font-semibold leading-7 text-default-foreground">
-                $12
-              </span>
+              <span className="text-[30px] font-semibold leading-7 text-default-foreground">$12</span>
               &nbsp;
-              <span className="text-xs font-medium text-default-400">
-                /per month
-              </span>
+              <span className="text-xs font-medium text-default-400">/per month</span>
             </p>
             <ul className="list-inside list-disc text-xs font-normal text-default-500">
               <li>Unlimited users</li>
@@ -120,13 +93,9 @@ const BillingSetting = React.forwardRef<
         >
           <div className="mt-2">
             <p className="pt-2">
-              <span className="text-[30px] font-semibold leading-7 text-default-foreground">
-                $72
-              </span>
+              <span className="text-[30px] font-semibold leading-7 text-default-foreground">$72</span>
               &nbsp;
-              <span className="text-xs font-medium text-default-400">
-                /per year
-              </span>
+              <span className="text-xs font-medium text-default-400">/per year</span>
             </p>
             <ul className="list-inside list-disc text-xs font-normal text-default-500">
               <li>Unlimited users</li>
@@ -143,12 +112,9 @@ const BillingSetting = React.forwardRef<
     <div>
       {/*  Title */}
       <div>
-        <p className="text-base font-medium text-default-700">
-          Billing Address
-        </p>
+        <p className="text-base font-medium text-default-700">Billing Address</p>
         <p className="mt-1 text-sm font-normal text-default-400">
-          If you&apos;d like to add a postal address to every invoice, enter it
-          here.
+          If you&apos;d like to add a postal address to every invoice, enter it here.
         </p>
       </div>
     </div>

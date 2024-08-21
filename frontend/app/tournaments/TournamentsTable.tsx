@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Link,
-} from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Link } from "@nextui-org/react";
 import * as React from "react";
 
 import { Tournament } from "@/lib/api";
@@ -59,11 +50,7 @@ function renderRegistration({
     return "Not Open";
   }
 
-  if (
-    currentTime >= registrationStartAt &&
-    registrationEndAt &&
-    currentTime < registrationEndAt
-  ) {
+  if (currentTime >= registrationStartAt && registrationEndAt && currentTime < registrationEndAt) {
     if (playerCap && playerCount >= playerCap) {
       return "Full";
     }
@@ -85,11 +72,7 @@ const renderCell: typeof getKeyValue = (row: Tournament, columnKey) => {
 
   switch (columnKey) {
     case "organization.name":
-      return (
-        <Link href={`/organizations/${organization.id}`}>
-          {organization.name}
-        </Link>
-      );
+      return <Link href={`/organizations/${organization.id}`}>{organization.name}</Link>;
     case "start_at":
       return startAt;
     case "name":
@@ -122,11 +105,7 @@ const TournamentsTable = ({ tournaments }: TournamentsTableProps) => {
 
       <TableBody items={tournaments}>
         {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
+          <TableRow key={item.id}>{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}</TableRow>
         )}
       </TableBody>
     </Table>

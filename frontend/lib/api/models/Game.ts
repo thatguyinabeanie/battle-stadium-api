@@ -46,10 +46,7 @@ export function GameFromJSON(json: any): Game {
   return GameFromJSONTyped(json, false);
 }
 
-export function GameFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): Game {
+export function GameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Game {
   if (json == null) {
     return json;
   }

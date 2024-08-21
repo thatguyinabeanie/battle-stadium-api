@@ -7,9 +7,6 @@ export interface ProvidersProps extends ChildrenProps {
   themeProps?: ThemeProviderProps;
 }
 
-export default function ThemesProvider({
-  children,
-  themeProps,
-}: Readonly<ProvidersProps>) {
+export default function ThemesProvider({ children, themeProps }: Readonly<ProvidersProps>) {
   return <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>;
 }

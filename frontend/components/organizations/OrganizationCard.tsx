@@ -6,10 +6,7 @@ import { Image } from "@/components/nextui-client-components";
 import { cn } from "@/lib/utils";
 import { OrganizationDetails } from "@/lib/api";
 
-export type PlaceListItemProps = Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "id"
-> & {
+export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
   isLoading?: boolean;
   removeWrapper?: boolean;
   organization: OrganizationDetails;
@@ -44,9 +41,7 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
           ) : (
             <>
               <div className="flex items-start justify-between gap-1">
-                <h3 className="text-small font-medium text-default-700">
-                  {organization.name}
-                </h3>
+                <h3 className="text-small font-medium text-default-700">{organization.name}</h3>
                 {/* {organization?.description !== undefined ? (
                   <div className="flex items-center gap-1">
                     <Icon
@@ -61,9 +56,7 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
                 ) : null} */}
               </div>
               {organization?.description ? (
-                <p className="text-small text-default-500">
-                  {organization?.description}
-                </p>
+                <p className="text-small text-default-500">{organization?.description}</p>
               ) : null}
               <p className="text-small font-medium text-default-500">$100</p>
             </>
