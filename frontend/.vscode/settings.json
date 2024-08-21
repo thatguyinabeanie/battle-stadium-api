@@ -7,9 +7,12 @@
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.defaultFormatter": null,
-  "eslint.format.enable": true,
+  "eslint.format.enable": false,
   "jest.jestCommandLine": "pnpm jest",
   "editor.tabSize": 2,
   "editor.defaultColorDecorators": true,
-  "editor.foldingImportsByDefault": true
+  "editor.foldingImportsByDefault": true,
+  "prettier.enable": false,
+  "prettier.endOfLine": "auto",
+  "eslint.enable": false
 }

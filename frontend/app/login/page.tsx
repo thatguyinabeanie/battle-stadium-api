@@ -1,50 +1,62 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation"
+import { signIn, auth, providerMap } from "@/auth"
+import { AuthError } from "next-auth"
 
-import { SessionsApi } from "@/lib/api"; // Adjust the import based on your OpenAPI client setup
+const SIGNIN_ERROR_URL="/"
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const router = useRouter();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const sessionsApi = new SessionsApi();
-
-      await sessionsApi.loginUser({
-        userLoginRequest: {
-          email: formData.email,
-          password: formData.password,
-        },
-      });
-
-      router.push("/dashboard");
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Error logging in:", error);
-    }
-  };
-
+export default async function SignInPage () {
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
-      <button type="submit">Login</button>
-    </form>
-  );
-};
+    <div className="flex flex-col gap-2">
+      <form
+        action={ async (formData) => {
+          "use server"
+          try {
+            await signIn("credentials", formData)
+          } catch (error) {
+            if (error instanceof AuthError) {
+              return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`)
+            }
+            throw error
+          }
+        } }
+      >
+        <label htmlFor="email">
+          Email
+          <input name="email" id="email" />
+        </label>
+        <label htmlFor="password">
+          Password
+          <input name="password" id="password" />
+        </label>
+        <input type="submit" value="Sign In" />
+      </form>
+      { Object.values(providerMap).map((provider) => (
+        <form
+          action={ async () => {
+            "use server"
+            try {
+              await signIn(provider.id)
+            } catch (error) {
+              // Signin can fail for a number of reasons, such as the user
+              // not existing, or the user not having the correct role.
+              // In some cases, you may want to redirect to a custom error
+              if (error instanceof AuthError) {
+                return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`)
+              }
 
-export default Login;
+              // Otherwise if a redirects happens Next.js can handle it
+              // so you can just re-thrown the error and let Next.js handle it.
+              // Docs:
+              // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
+              throw error
+            }
+          } }
+        >
+          <button type="submit">
+            <span>Sign in with { provider.name }</span>
+          </button>
+        </form>
+      )) }
+    </div>
+  )
+}
