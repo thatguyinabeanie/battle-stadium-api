@@ -3,8 +3,6 @@ require_relative '../../../serializer/game_serializer'
 module Api
   module V1
     class GamesController < AbstractApplicationController
-      before_action :set_game, only: %i[show update destroy] # rubocop:disable Rails/LexicallyScopedActionFilter
-
       self.klass = ::Game
       self.serializer_klass = Serializer::Game
       self.detail_serializer_klass = Serializer::GameDetails

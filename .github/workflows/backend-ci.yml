@@ -1,0 +1,146 @@
+name: Backend CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    env:
+      RAILS_ENV: test
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DEVISE_JWT_SECRET_KEY: ${{ secrets.DEVISE_JWT_SECRET_KEY }}
+      BUNDLE_GEMFILE: ${{ github.workspace }}/backend/Gemfile
+
+    services:
+      postgres:
+        image: postgres:16.3
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+
+        with:
+          ruby-version: 3.3.4
+          bundler-cache: true
+          working-directory: ./backend
+
+      - name: Install dependencies
+        run: bundle check || bundle install
+        working-directory: ./backend
+
+      - name: Prepare database
+        run: bundle exec rake db:create db:schema:load --trace
+        working-directory: ./backend
+
+      - name: Run RSpec tests
+        run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
+        working-directory: ./backend
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: './backend/test-results/rspec/results.xml'
+          include_passed: true
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        if: ${{ !cancelled() }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: backend/coverage
+          files: '**/.resultset.json'
+          flags: rspec
+          name: codecov-umbrella
+          verbose: true
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          directory: backend/test-results
+          files: '**/*.xml'
+          flags: rspec
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  audit:
+    defaults:
+      run:
+        working-directory: ./backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.4
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle check || bundle install
+
+      - name: Run Ruby Audit
+        run: bundle exec ruby-audit check
+
+  rubocop:
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_ONLY: rubocop
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.4
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle check || bundle install
+        working-directory: ./backend
+
+      - name: Run RuboCop with Reviewdog
+        if: github.event_name == 'pull_request'
+        uses: reviewdog/action-rubocop@v2
+        with:
+          workdir: backend
+          rubocop_version: gemfile
+          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-rspec:gemfile
+          only_changed: true
+          github_token: ${{ github.token }}
+          reporter: github-pr-review # Default is github-pr-check
+          skip_install: true
+          use_bundler: true
+          rubocop_flags: --force-exclusion

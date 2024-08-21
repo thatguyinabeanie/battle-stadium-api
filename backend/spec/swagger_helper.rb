@@ -8,6 +8,10 @@ NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
 
+COMPONENT_SCHEMA_ORGANIZATION = '#/components/schemas/Organization'
+COMPONENT_SCHEMA_FORMAT = '#/components/schemas/Format'
+COMPONENT_SCHEMA_GAME = '#/components/schemas/Game'
+
 ID_NAME_PROPERTIES = {
   id: ID_PROPERTY[:id],
   name: NAME_PROPERTY[:name]
@@ -37,7 +41,7 @@ GAME_DETAILS_SCHEMA = {
   type: :object,
   title: 'Game Details',
   properties: GAME_SCHEMA[:properties].merge(
-    formats: { type: :array, items: { '$ref' => '#/components/schemas/Format' } }
+    formats: { type: :array, items: { '$ref' => COMPONENT_SCHEMA_FORMAT } }
   ),
   required: (GAME_SCHEMA[:required] + %w[formats])
 }.freeze
@@ -105,13 +109,24 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   }
 ).freeze
 
+USER_ME = USER_DETAILS_SCHEMA.deep_merge(
+  {
+    type: :object,
+    title: 'User Me',
+    properties: {
+      organizations: { type: :array, items: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION } }
+    },
+    required: %w[organizations] + USER_DETAILS_SCHEMA[:required]
+  }
+).freeze
+
 USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: 'User Request',
-    properties: ID_PROPERTY.merge(
+    properties: {
       current_password: PASSWORD_STRING_TYPE.merge(title: 'Current Password', description: 'Your current password.')
-    ),
+    }.merge(ID_PROPERTY),
     required: %w[current_password] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -120,10 +135,10 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: 'User Request',
-    properties: ID_PROPERTY.merge(
+    properties: {
       password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters'),
       password_confirmation: PASSWORD_STRING_TYPE.merge(title: 'Password Confirmation', description: 'Must match the password.')
-    ),
+    }.merge(ID_PROPERTY),
     required: %w[password password_confirmation] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -131,10 +146,10 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
 ORGANIZATION_SCHEMA = {
   type: :object,
   title: 'Organization',
-  properties: ID_NAME_PROPERTIES.merge(
+  properties: {
     owner: { '$ref' => '#/components/schemas/User' },
     description: { type: :string, nullable: true }
-  ),
+  }.merge(ID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[owner description]
 }.freeze
 
@@ -160,30 +175,32 @@ TOURNAMENT_PROPERTIES = {
 TOURNAMENT_SCHEMA = {
   type: :object,
   title: 'Tournament',
-  properties: ID_NAME_PROPERTIES.merge(
+  properties: {
     start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    organization: { '$ref' => '#/components/schemas/Organization' },
-    format: { '$ref' => '#/components/schemas/Format' },
-    game: { '$ref' => '#/components/schemas/Game' }
-  ).merge(TOURNAMENT_PROPERTIES),
+    organization: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION },
+    format: { '$ref' => COMPONENT_SCHEMA_FORMAT },
+    game: { '$ref' => COMPONENT_SCHEMA_GAME }
+  }.merge(ID_NAME_PROPERTIES).merge(TOURNAMENT_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[player_cap organization format game start_at player_count registration_start_at registration_end_at late_registration]
 }.freeze
 
 TOURNAMENT_DETAILS_SCHEMA = {
   type: :object,
   title: 'Tournament Details',
-  properties: ID_NAME_PROPERTIES.merge(TOURNAMENT_PROPERTIES).merge(
-    autostart: { type: :boolean },
-    start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    organization: { '$ref' => '#/components/schemas/Organization' },
-    format: { '$ref' => '#/components/schemas/Format' },
-    game: { '$ref' => '#/components/schemas/Game' },
-    check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    late_registration: { type: :boolean },
-    teamlists_required: { type: :boolean },
-    open_team_sheets: { type: :boolean }
-  ),
+  properties: ID_NAME_PROPERTIES.merge(
+    {
+      autostart: { type: :boolean },
+      start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+      end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+      organization: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION },
+      format: { '$ref' => COMPONENT_SCHEMA_FORMAT },
+      game: { '$ref' => COMPONENT_SCHEMA_GAME },
+      check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+      late_registration: { type: :boolean },
+      teamlists_required: { type: :boolean },
+      open_team_sheets: { type: :boolean }
+    }
+  ).merge(TOURNAMENT_PROPERTIES),
   required: TOURNAMENT_SCHEMA[:required] + %w[
     start_at player_cap autostart
     teamlists_required open_team_sheets
@@ -309,13 +326,12 @@ PHASE_SCHEMA = {
     tournament_id: { type: :integer },
     number_of_rounds: { type: :integer },
     best_of: { type: :integer },
-    criteria: { type: :string, nullable: true },
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     created_at: { type: :string, format: DATE_TIME_TYPE },
     updated_at: { type: :string, format: DATE_TIME_TYPE }
   ),
-  required: ID_NAME_REQUIRED + %w[order tournament_id number_of_rounds best_of criteria started_at ended_at]
+  required: ID_NAME_REQUIRED + %w[order tournament_id number_of_rounds best_of started_at ended_at]
 }.freeze
 
 PHASE_DETAILS_SCHEMA = {
@@ -387,6 +403,7 @@ RSpec.configure do |config|
           ChangePasswordRequest: CHANGE_PASSWORD_REQUEST,
           User: USER_SCHEMA,
           UserDetails: USER_DETAILS_SCHEMA,
+          UserMe: USER_ME,
           UserPostRequest: USER_POST_REQUEST,
           UserRequest: USER_REQUEST,
           Organization: ORGANIZATION_SCHEMA,

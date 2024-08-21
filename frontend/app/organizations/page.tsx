@@ -1,31 +1,28 @@
 import React from "react";
-import { Link } from "@nextui-org/link";
 
-import { title } from "@/components/primitives";
-import { OrganizationsApi } from "@/api";
+import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
+import { cn } from "@/lib/utils";
 
-export default async function OrganizationsPage() {
-  const orgsApi = new OrganizationsApi();
-
-  const organizations = (await orgsApi.listOrganizations()).data;
+const OrganizationsPage = async () => {
+  const organizations = await BattleStadiumAPI.Organizations.list();
 
   return (
-    <div>
-      <h1 className={title()}>Organizations</h1>
-      <div className="container relative flex flex-row">
-        {organizations.map((organization) => (
-          <div key={organization.id} className="m-4">
-            <Link href={`/organizations/${organization.id}`}>
-              <OrganizationCard
-                key={organization.id}
-                className="cursor-pointer"
-                organization={organization}
-              />
-            </Link>
-          </div>
-        ))}
-      </div>
+    <div
+      className={cn(
+        "h-full w-full my-auto grid grid-flow-row-dense max-w-7xl grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+      )}
+    >
+      {organizations.map((organization) => (
+        <OrganizationCard
+          key={organization.id}
+          aria-label={`organization-card-${organization.id}`}
+          className="cursor-pointer"
+          organization={organization}
+        />
+      ))}
     </div>
   );
-}
+};
+
+export default OrganizationsPage;

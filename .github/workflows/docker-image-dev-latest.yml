@@ -7,14 +7,18 @@ on:
     paths:
       - BASE_IMAGE_VERSION
 
-jobs:
-  build-docker:
-    runs-on: ubuntu-latest
+permissions:
+  contents: read
+  packages: write
+  id-token: write
 
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MAJOR: -1
+      MINOR: -1
+      PATCH: -1
 
     steps:
       - name: Setup QEMU
@@ -54,11 +58,12 @@ jobs:
         if: github.ref == 'refs/heads/main' || github.event_name == 'release'
         uses: docker/build-push-action@v6
         with:
+          context: "{{defaultContext}}:backend"
           target: development
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=registry,ref=${{ github.repository }}:buildcache
-          cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ github.repository }}:dev-latest
+          cache-to: type=registry,ref=${{ github.repository }}:dev-latest,mode=max
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-latest
             ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MAJOR}}

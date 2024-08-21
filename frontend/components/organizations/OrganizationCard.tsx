@@ -1,31 +1,78 @@
-"use client";
+import React from "react";
 
-import { Card, CardFooter, Image } from "@nextui-org/react";
-import clsx from "clsx";
+import LoadingPlaceholder from "./loading-place-holder";
 
-import { Organization, OrganizationDetails } from "@/api";
+import { Image } from "@/components/nextui-client-components";
+import { cn } from "@/lib/utils";
+import { OrganizationDetails } from "@/lib/api";
 
-interface OrganizationCardProps {
-  organization: Organization | OrganizationDetails | null;
-  className?: string;
-}
-const OrganizationCard = ({
-  organization,
-  className,
-}: OrganizationCardProps) => (
-  <Card isFooterBlurred className={clsx("border-none", className)} radius="lg">
-    <Image
-      alt="Woman listing to music"
-      className="object-cover"
-      height={200}
-      src="https://nextui.org/images/hero-card.jpeg"
-      width={200}
-    />
+export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
+  isLoading?: boolean;
+  removeWrapper?: boolean;
+  organization: OrganizationDetails;
+};
 
-    <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-      <p className="text-tiny text-white/80">{organization?.name}</p>
-    </CardFooter>
-  </Card>
+const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
+  ({ organization, removeWrapper, className, isLoading, ...rest }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "relative flex w-full flex-col gap-3",
+          {
+            "rounded-none bg-background shadow-none": removeWrapper,
+          },
+          className,
+        )}
+        {...rest}
+      >
+        <Image
+          isBlurred
+          isZoomed
+          alt={organization.name}
+          className="aspect-square w-full hover:scale-110"
+          isLoading={isLoading}
+          src="/pokemon/vgc.png"
+        />
+
+        <div className="mt-1 flex flex-col gap-2 px-1">
+          {isLoading ? (
+            <LoadingPlaceholder />
+          ) : (
+            <>
+              <div className="flex items-start justify-between gap-1">
+                <h3 className="text-small font-medium text-default-700">{organization.name}</h3>
+                {/* {organization?.description !== undefined ? (
+                  <div className="flex items-center gap-1">
+                    <Icon
+                      className="text-default-500"
+                      icon="solar:star-bold"
+                      width={16}
+                    />
+                    <span className="text-small text-default-500">
+                      {organization?.description}
+                    </span>
+                  </div>
+                ) : null} */}
+              </div>
+              {organization?.description ? (
+                <p className="text-small text-default-500">{organization?.description}</p>
+              ) : null}
+              <p className="text-small font-medium text-default-500">$100</p>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  },
 );
+
+OrganizationCard.displayName = "OrganizationCard";
+
+/* <Link
+  key={ organization.id }
+  aria-label={ `View details for ${organization.name}` }
+  href={ `/organizations/${organization.id}` }
+> */
 
 export default OrganizationCard;
