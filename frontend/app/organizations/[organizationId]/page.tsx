@@ -1,7 +1,7 @@
 // organizations/[organizationId]/page.tsx
 import { OrganizationDetails } from "@/lib/api";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
-import { BattleStadiumAPI } from "@/battle-stadium-api";
+import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 const OrganizationDetailsPage = async ({
   params,

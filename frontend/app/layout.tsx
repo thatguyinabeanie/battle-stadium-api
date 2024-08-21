@@ -11,7 +11,7 @@ import {
 } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
-import BattleStadiumAPI from "@/battle-stadium-api";
+import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { CurrentUserContextProvider } from "@/lib/context/current-user";
 
 export const metadata: Metadata = {

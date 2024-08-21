@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BattleStadiumAPI } from "@/battle-stadium-api";
+import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { cn } from "@/lib/utils";
 

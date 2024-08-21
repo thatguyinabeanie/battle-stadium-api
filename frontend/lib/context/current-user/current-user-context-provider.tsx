@@ -6,7 +6,7 @@ import { CurrentUserContext } from "./current-user-context";
 
 import { UserMe } from "@/lib/api";
 import { ChildrenProps } from "@/types";
-import BattleStadiumAPI from "@/battle-stadium-api";
+import BattleStadiumAPI from "@/lib/battle-stadium-api";
 
 export interface CurrentUserContextProviderProps extends ChildrenProps {
   initCurrentUser: UserMe | null;

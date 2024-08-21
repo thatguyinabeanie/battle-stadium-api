@@ -11,6 +11,9 @@ import {
   Skeleton,
   Image,
   Tooltip,
+  Tabs,
+  Tab,
+  useDisclosure,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
@@ -27,4 +30,7 @@ export {
   Icon,
   Image,
   Tooltip,
+  Tabs,
+  Tab,
+  useDisclosure,
 };

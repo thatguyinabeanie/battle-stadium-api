@@ -75,7 +75,8 @@
         "aaron-bond.better-comments",
         "dsznajder.es7-react-js-snippets",
         "YoavBls.pretty-ts-errors",
-        "Orta.vscode-jest"
+        "Orta.vscode-jest",
+        "esbenp.prettier-vscode"
       ],
       "settings": {
         "remote.containers.copyGitConfig": true,
