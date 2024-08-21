@@ -50,10 +50,7 @@ export class TournamentsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/tournaments/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/tournaments/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -61,9 +58,7 @@ export class TournamentsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      TournamentDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => TournamentDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -74,10 +69,7 @@ export class TournamentsApi extends runtime.BaseAPI {
     requestParameters: GetTournamentRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
-    const response = await this.getTournamentRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.getTournamentRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -102,18 +94,14 @@ export class TournamentsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(TournamentFromJSON),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TournamentFromJSON));
   }
 
   /**
    * Retrieves a list of all Tournaments
    * List Organization Tournaments
    */
-  async listTournaments(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<Array<Tournament>> {
+  async listTournaments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Tournament>> {
     const response = await this.listTournamentsRaw(initOverrides);
     return await response.value();
   }

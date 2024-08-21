@@ -18,11 +18,7 @@ import { FormatFromJSON, FormatFromJSONTyped, FormatToJSON } from "./Format";
 import type { Game } from "./Game";
 import { GameFromJSON, GameFromJSONTyped, GameToJSON } from "./Game";
 import type { Organization } from "./Organization";
-import {
-  OrganizationFromJSON,
-  OrganizationFromJSONTyped,
-  OrganizationToJSON,
-} from "./Organization";
+import { OrganizationFromJSON, OrganizationFromJSONTyped, OrganizationToJSON } from "./Organization";
 
 /**
  *
@@ -143,41 +139,22 @@ export interface TournamentDetails {
 /**
  * Check if a given object implements the TournamentDetails interface.
  */
-export function instanceOfTournamentDetails(
-  value: object,
-): value is TournamentDetails {
+export function instanceOfTournamentDetails(value: object): value is TournamentDetails {
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("autostart" in value) || value["autostart"] === undefined) return false;
   if (!("startAt" in value) || value["startAt"] === undefined) return false;
-  if (!("organization" in value) || value["organization"] === undefined)
-    return false;
+  if (!("organization" in value) || value["organization"] === undefined) return false;
   if (!("format" in value) || value["format"] === undefined) return false;
   if (!("game" in value) || value["game"] === undefined) return false;
-  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined)
-    return false;
-  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined)
-    return false;
-  if (
-    !("teamlistsRequired" in value) ||
-    value["teamlistsRequired"] === undefined
-  )
-    return false;
-  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined)
-    return false;
+  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined) return false;
+  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined) return false;
+  if (!("teamlistsRequired" in value) || value["teamlistsRequired"] === undefined) return false;
+  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined) return false;
   if (!("playerCap" in value) || value["playerCap"] === undefined) return false;
-  if (!("playerCount" in value) || value["playerCount"] === undefined)
-    return false;
-  if (
-    !("registrationStartAt" in value) ||
-    value["registrationStartAt"] === undefined
-  )
-    return false;
-  if (
-    !("registrationEndAt" in value) ||
-    value["registrationEndAt"] === undefined
-  )
-    return false;
+  if (!("playerCount" in value) || value["playerCount"] === undefined) return false;
+  if (!("registrationStartAt" in value) || value["registrationStartAt"] === undefined) return false;
+  if (!("registrationEndAt" in value) || value["registrationEndAt"] === undefined) return false;
   return true;
 }
 
@@ -185,10 +162,7 @@ export function TournamentDetailsFromJSON(json: any): TournamentDetails {
   return TournamentDetailsFromJSONTyped(json, false);
 }
 
-export function TournamentDetailsFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): TournamentDetails {
+export function TournamentDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TournamentDetails {
   if (json == null) {
     return json;
   }
@@ -201,26 +175,16 @@ export function TournamentDetailsFromJSONTyped(
     organization: OrganizationFromJSON(json["organization"]),
     format: FormatFromJSON(json["format"]),
     game: GameFromJSON(json["game"]),
-    checkInStartAt:
-      json["check_in_start_at"] == null
-        ? null
-        : new Date(json["check_in_start_at"]),
+    checkInStartAt: json["check_in_start_at"] == null ? null : new Date(json["check_in_start_at"]),
     lateRegistration: json["late_registration"],
     teamlistsRequired: json["teamlists_required"],
     openTeamSheets: json["open_team_sheets"],
     playerCap: json["player_cap"],
     playerCount: json["player_count"],
-    startedAt:
-      json["started_at"] == null ? undefined : new Date(json["started_at"]),
+    startedAt: json["started_at"] == null ? undefined : new Date(json["started_at"]),
     endedAt: json["ended_at"] == null ? undefined : new Date(json["ended_at"]),
-    registrationStartAt:
-      json["registration_start_at"] == null
-        ? null
-        : new Date(json["registration_start_at"]),
-    registrationEndAt:
-      json["registration_end_at"] == null
-        ? null
-        : new Date(json["registration_end_at"]),
+    registrationStartAt: json["registration_start_at"] == null ? null : new Date(json["registration_start_at"]),
+    registrationEndAt: json["registration_end_at"] == null ? null : new Date(json["registration_end_at"]),
   };
 }
 
@@ -232,39 +196,21 @@ export function TournamentDetailsToJSON(value?: TournamentDetails | null): any {
     id: value["id"],
     name: value["name"],
     autostart: value["autostart"],
-    start_at:
-      value["startAt"] == null ? null : (value["startAt"] as any).toISOString(),
-    end_at:
-      value["endAt"] == null
-        ? undefined
-        : (value["endAt"] as any).toISOString(),
+    start_at: value["startAt"] == null ? null : (value["startAt"] as any).toISOString(),
+    end_at: value["endAt"] == null ? undefined : (value["endAt"] as any).toISOString(),
     organization: OrganizationToJSON(value["organization"]),
     format: FormatToJSON(value["format"]),
     game: GameToJSON(value["game"]),
-    check_in_start_at:
-      value["checkInStartAt"] == null
-        ? null
-        : (value["checkInStartAt"] as any).toISOString(),
+    check_in_start_at: value["checkInStartAt"] == null ? null : (value["checkInStartAt"] as any).toISOString(),
     late_registration: value["lateRegistration"],
     teamlists_required: value["teamlistsRequired"],
     open_team_sheets: value["openTeamSheets"],
     player_cap: value["playerCap"],
     player_count: value["playerCount"],
-    started_at:
-      value["startedAt"] == null
-        ? undefined
-        : (value["startedAt"] as any).toISOString(),
-    ended_at:
-      value["endedAt"] == null
-        ? undefined
-        : (value["endedAt"] as any).toISOString(),
+    started_at: value["startedAt"] == null ? undefined : (value["startedAt"] as any).toISOString(),
+    ended_at: value["endedAt"] == null ? undefined : (value["endedAt"] as any).toISOString(),
     registration_start_at:
-      value["registrationStartAt"] == null
-        ? null
-        : (value["registrationStartAt"] as any).toISOString(),
-    registration_end_at:
-      value["registrationEndAt"] == null
-        ? null
-        : (value["registrationEndAt"] as any).toISOString(),
+      value["registrationStartAt"] == null ? null : (value["registrationStartAt"] as any).toISOString(),
+    registration_end_at: value["registrationEndAt"] == null ? null : (value["registrationEndAt"] as any).toISOString(),
   };
 }

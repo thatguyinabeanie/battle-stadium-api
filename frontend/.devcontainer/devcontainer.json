@@ -41,9 +41,7 @@
     "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:1": {}
   },
 
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ],
+  "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
 
   // Configure tool-specific properties.
   "customizations": {
@@ -75,7 +73,8 @@
         "aaron-bond.better-comments",
         "dsznajder.es7-react-js-snippets",
         "YoavBls.pretty-ts-errors",
-        "Orta.vscode-jest"
+        "Orta.vscode-jest",
+        "esbenp.prettier-vscode"
       ],
       "settings": {
         "remote.containers.copyGitConfig": true,
@@ -89,7 +88,21 @@
             "path": "zsh",
             "icon": "terminal-zsh"
           }
-        }
+        },
+        "reactSnippets.settings.prettierEnabled": true,
+        "prettier.configPath": ".prettiertc",
+        "prettier.experimentalTernaries": true,
+        "prettier.requireConfig": true,
+        "prettier.printWidth": 120,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "editor.formatOnSave": false,
+        "eslint.format.enable": true,
+        "jest.jestCommandLine": "pnpm jest"
       }
     }
   }

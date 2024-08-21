@@ -3,15 +3,12 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
 
-import SidebarResponsive from "./sidebar-responsive";
-
-import {
-  NextUIProvider,
-  ReactQueryClientProvider,
-  ThemesProvider,
-} from "@/components/providers";
+import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
+import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
+import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import { CurrentUserContextProvider } from "@/lib/context/current-user";
 
 export const metadata: Metadata = {
   title: {
@@ -33,21 +30,31 @@ export const viewport: Viewport = {
 
 const initialIsOpen = process.env.NODE_ENV === "development";
 
-function RootLayout({ children }: ChildrenProps & AppProps) {
+const useServerSideCurrentUser = async () => {
+  try {
+    const currentUser = await BattleStadiumAPI.Users.me();
+
+    return currentUser;
+  } catch (error) {
+    return null;
+  }
+};
+
+async function RootLayout({ children }: ChildrenProps & AppProps) {
+  const currentUser = await useServerSideCurrentUser();
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased overflow-hidden",
-        )}
-      >
+      <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
         <ThemesProvider>
           <NextUIProvider>
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
               <div className="flex h-dvh w-full">
-                <SidebarResponsive />
-                {children}
+                <CurrentUserContextProvider initCurrentUser={currentUser}>
+                  <SidebarResponsive />
+                  {children}
+                </CurrentUserContextProvider>
               </div>
             </ReactQueryClientProvider>
           </NextUIProvider>

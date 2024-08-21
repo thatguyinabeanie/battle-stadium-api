@@ -2,14 +2,14 @@ module SerializerMixin
   module Name
     extend ActiveSupport::Concern
     included do
-      attribute :name
+      attributes :name
     end
   end
 
   module Id
     extend ActiveSupport::Concern
     included do
-      attribute :id
+      attributes :id
     end
   end
 

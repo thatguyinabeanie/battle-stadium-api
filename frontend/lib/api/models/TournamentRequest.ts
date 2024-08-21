@@ -102,36 +102,19 @@ export interface TournamentRequest {
 /**
  * Check if a given object implements the TournamentRequest interface.
  */
-export function instanceOfTournamentRequest(
-  value: object,
-): value is TournamentRequest {
+export function instanceOfTournamentRequest(value: object): value is TournamentRequest {
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("gameId" in value) || value["gameId"] === undefined) return false;
   if (!("formatId" in value) || value["formatId"] === undefined) return false;
   if (!("autostart" in value) || value["autostart"] === undefined) return false;
   if (!("startAt" in value) || value["startAt"] === undefined) return false;
   if (!("playerCap" in value) || value["playerCap"] === undefined) return false;
-  if (
-    !("registrationStartAt" in value) ||
-    value["registrationStartAt"] === undefined
-  )
-    return false;
-  if (
-    !("registrationEndAt" in value) ||
-    value["registrationEndAt"] === undefined
-  )
-    return false;
-  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined)
-    return false;
-  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined)
-    return false;
-  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined)
-    return false;
-  if (
-    !("teamlistsRequired" in value) ||
-    value["teamlistsRequired"] === undefined
-  )
-    return false;
+  if (!("registrationStartAt" in value) || value["registrationStartAt"] === undefined) return false;
+  if (!("registrationEndAt" in value) || value["registrationEndAt"] === undefined) return false;
+  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined) return false;
+  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined) return false;
+  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined) return false;
+  if (!("teamlistsRequired" in value) || value["teamlistsRequired"] === undefined) return false;
   return true;
 }
 
@@ -139,10 +122,7 @@ export function TournamentRequestFromJSON(json: any): TournamentRequest {
   return TournamentRequestFromJSONTyped(json, false);
 }
 
-export function TournamentRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): TournamentRequest {
+export function TournamentRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): TournamentRequest {
   if (json == null) {
     return json;
   }
@@ -154,19 +134,10 @@ export function TournamentRequestFromJSONTyped(
     autostart: json["autostart"],
     startAt: new Date(json["start_at"]),
     playerCap: json["player_cap"],
-    registrationStartAt:
-      json["registration_start_at"] == null
-        ? null
-        : new Date(json["registration_start_at"]),
-    registrationEndAt:
-      json["registration_end_at"] == null
-        ? null
-        : new Date(json["registration_end_at"]),
+    registrationStartAt: json["registration_start_at"] == null ? null : new Date(json["registration_start_at"]),
+    registrationEndAt: json["registration_end_at"] == null ? null : new Date(json["registration_end_at"]),
     lateRegistration: json["late_registration"],
-    checkInStartAt:
-      json["check_in_start_at"] == null
-        ? null
-        : new Date(json["check_in_start_at"]),
+    checkInStartAt: json["check_in_start_at"] == null ? null : new Date(json["check_in_start_at"]),
     openTeamSheets: json["open_team_sheets"],
     teamlistsRequired: json["teamlists_required"],
   };
@@ -185,18 +156,10 @@ export function TournamentRequestToJSON(value?: TournamentRequest | null): any {
     start_at: value["startAt"].toISOString(),
     player_cap: value["playerCap"],
     registration_start_at:
-      value["registrationStartAt"] == null
-        ? null
-        : (value["registrationStartAt"] as any).toISOString(),
-    registration_end_at:
-      value["registrationEndAt"] == null
-        ? null
-        : (value["registrationEndAt"] as any).toISOString(),
+      value["registrationStartAt"] == null ? null : (value["registrationStartAt"] as any).toISOString(),
+    registration_end_at: value["registrationEndAt"] == null ? null : (value["registrationEndAt"] as any).toISOString(),
     late_registration: value["lateRegistration"],
-    check_in_start_at:
-      value["checkInStartAt"] == null
-        ? null
-        : (value["checkInStartAt"] as any).toISOString(),
+    check_in_start_at: value["checkInStartAt"] == null ? null : (value["checkInStartAt"] as any).toISOString(),
     open_team_sheets: value["openTeamSheets"],
     teamlists_required: value["teamlistsRequired"],
   };

@@ -55,6 +55,13 @@ def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
   end
 end
 
+def generate_organization_name
+  adjective = Faker::Company.buzzword
+  noun = Faker::Company.type
+
+  "#{adjective} #{noun}"
+end
+
 def create_format(name:, game:)
   Tournaments::Format.find_or_create_by!(name:, game:)
 end
@@ -65,13 +72,16 @@ scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
 
 format = Tournaments::Format.find_or_create_by!(name: 'Regulation H', game: scarlet_violet)
 
+fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy')
+
 org_owners = (1..25).to_a.map { create_user }
 
 orgs = org_owners.map do |owner|
   Organization.find_or_create_by!(owner:) do |org|
-    org.description = 'This is an example organization.'
+    org.description = Faker::Lorem.sentence
     org.staff = (1..5).to_a.map { create_user }
-    org.name = "#{owner[:username].capitalize.gsub('_', ' ')}'s Organization"
+    org.staff << fuecoco_supremacy_user
+    org.name = generate_organization_name
   end
 end.uniq
 
@@ -80,7 +90,7 @@ users = (1..50).to_a.map { create_user }.uniq
 
 future_tournaments = orgs.flat_map do |organization|
   (1..10).to_a.map do
-    name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
+    name = "#{organization.name} # #{organization.tournaments.count + 1}"
     start_at = (1.day.from_now.beginning_of_day + rand(8..20).hours) + (count % 10).weeks
     end_at = start_at + 10.hours
     tour = create_tournament(name:, organization:, format:, game: format.game, start_at:, end_at:)

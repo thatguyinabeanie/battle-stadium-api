@@ -13,12 +13,14 @@
  */
 
 import * as runtime from "../runtime";
-import type { User, UserDetails, UserPostRequest } from "../models/index";
+import type { User, UserDetails, UserMe, UserPostRequest } from "../models/index";
 import {
   UserFromJSON,
   UserToJSON,
   UserDetailsFromJSON,
   UserDetailsToJSON,
+  UserMeFromJSON,
+  UserMeToJSON,
   UserPostRequestFromJSON,
   UserPostRequestToJSON,
 } from "../models/index";
@@ -52,10 +54,7 @@ export class UsersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling deleteUser().',
-      );
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling deleteUser().');
     }
 
     const queryParameters: any = {};
@@ -64,10 +63,7 @@ export class UsersApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/users/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
@@ -89,6 +85,37 @@ export class UsersApi extends runtime.BaseAPI {
   }
 
   /**
+   * Retrieves the current User.
+   * Show Me
+   */
+  async getMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserMe>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/api/v1/users/me`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserMeFromJSON(jsonValue));
+  }
+
+  /**
+   * Retrieves the current User.
+   * Show Me
+   */
+  async getMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserMe> {
+    const response = await this.getMeRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
    * Retrieves a specific User by ID.
    * Show User
    */
@@ -97,10 +124,7 @@ export class UsersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<UserDetails>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling getUser().',
-      );
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling getUser().');
     }
 
     const queryParameters: any = {};
@@ -109,10 +133,7 @@ export class UsersApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/users/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -120,9 +141,7 @@ export class UsersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      UserDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -158,18 +177,14 @@ export class UsersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(UserFromJSON),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserFromJSON));
   }
 
   /**
    * Retrieves a list of all Users
    * List Users
    */
-  async listUsers(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<Array<User>> {
+  async listUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<User>> {
     const response = await this.listUsersRaw(initOverrides);
     return await response.value();
   }
@@ -183,10 +198,7 @@ export class UsersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<UserDetails>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling patchUser().',
-      );
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling patchUser().');
     }
 
     const queryParameters: any = {};
@@ -197,10 +209,7 @@ export class UsersApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/users/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -209,9 +218,7 @@ export class UsersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      UserDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -251,9 +258,7 @@ export class UsersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      UserDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
   }
 
   /**

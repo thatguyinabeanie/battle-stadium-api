@@ -15,6 +15,8 @@ import {
 import React from "react";
 import { Icon } from "@iconify/react";
 
+import useSideBarItems from "./useSideBarItems";
+
 import { cn } from "@/lib/utils";
 
 export enum SidebarItemType {
@@ -34,7 +36,6 @@ export type SidebarItem = {
 };
 
 export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
-  items: SidebarItem[];
   isCompact?: boolean;
   hideEndContent?: boolean;
   iconClassName?: string;
@@ -47,7 +48,6 @@ export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
 const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
   (
     {
-      items,
       isCompact,
       defaultSelectedKey,
       onSelect,
@@ -64,9 +64,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     const pathname = usePathname();
     const currentPath = pathname.split("/")?.[1];
 
-    const [selected, setSelected] = React.useState<React.Key>(
-      currentPath ?? defaultSelectedKey,
-    );
+    const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey);
 
     const sectionClasses = {
       ...sectionClassesProp,
@@ -88,12 +86,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
       }),
     };
 
+    const items = useSideBarItems();
+
     const renderNestItem = React.useCallback(
       (item: SidebarItem) => {
-        const isNestType =
-          item.items &&
-          item.items?.length > 0 &&
-          item?.type === SidebarItemType.Nest;
+        const isNestType = item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest;
 
         if (isNestType) {
           // Is a nest type item , so we need to remove the href
@@ -114,18 +111,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                 },
               ),
             }}
-            endContent={
-              isCompact || isNestType || hideEndContent
-                ? null
-                : (item.endContent ?? null)
-            }
+            endContent={isCompact || isNestType || hideEndContent ? null : (item.endContent ?? null)}
             startContent={
               isCompact || isNestType ? null : item.icon ? (
                 <Icon
-                  className={cn(
-                    "text-default-500 group-data-[selected=true]:text-foreground",
-                    iconClassName,
-                  )}
+                  className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
                   icon={item.icon}
                   width={24}
                 />
@@ -140,10 +130,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                 <div className="flex w-full items-center justify-center">
                   {item.icon ? (
                     <Icon
-                      className={cn(
-                        "text-default-500 group-data-[selected=true]:text-foreground",
-                        iconClassName,
-                      )}
+                      className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
                       icon={item.icon}
                       width={24}
                     />
@@ -165,14 +152,9 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                   }}
                   title={
                     item.icon ? (
-                      <div
-                        className={"flex h-11 items-center gap-2 px-2 py-1.5"}
-                      >
+                      <div className={"flex h-11 items-center gap-2 px-2 py-1.5"}>
                         <Icon
-                          className={cn(
-                            "text-default-500 group-data-[selected=true]:text-foreground",
-                            iconClassName,
-                          )}
+                          className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
                           icon={item.icon}
                           width={24}
                         />
@@ -210,10 +192,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
 
     const renderItem = React.useCallback(
       (item: SidebarItem) => {
-        const isNestType =
-          item.items &&
-          item.items?.length > 0 &&
-          item?.type === SidebarItemType.Nest;
+        const isNestType = item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest;
 
         if (isNestType) {
           return renderNestItem(item);
@@ -223,16 +202,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           <ListboxItem
             {...item}
             key={item.key}
-            endContent={
-              isCompact || hideEndContent ? null : (item.endContent ?? null)
-            }
+            endContent={isCompact || hideEndContent ? null : (item.endContent ?? null)}
             startContent={
               isCompact ? null : item.icon ? (
                 <Icon
-                  className={cn(
-                    "text-default-500 group-data-[selected=true]:text-foreground",
-                    iconClassName,
-                  )}
+                  className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
                   icon={item.icon}
                   width={24}
                 />
@@ -248,10 +222,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                 <div className="flex w-full items-center justify-center">
                   {item.icon ? (
                     <Icon
-                      className={cn(
-                        "text-default-500 group-data-[selected=true]:text-foreground",
-                        iconClassName,
-                      )}
+                      className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
                       icon={item.icon}
                       width={24}
                     />
@@ -268,7 +239,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     );
 
     return (
-      <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
+      <ScrollShadow className="-mr-6 h-full max-h-full py-6 ">
         <Listbox
           key={isCompact ? "compact" : "default"}
           ref={ref}
@@ -282,10 +253,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           color="default"
           itemClasses={{
             ...itemClasses,
-            base: cn(
-              "px-3 min-h-11 rounded-large h-[44px] data-[selected=true]:bg-default-100",
-              itemClasses?.base,
-            ),
+            base: cn("px-3 min-h-11 rounded-large h-[44px] data-[selected=true]:bg-default-100", itemClasses?.base),
             title: cn(
               "text-small font-medium text-default-500 group-data-[selected=true]:text-foreground",
               itemClasses?.title,
@@ -304,17 +272,10 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           {...props}
         >
           {(item) => {
-            return item.items &&
-              item.items?.length > 0 &&
-              item?.type === SidebarItemType.Nest ? (
+            return item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest ? (
               renderNestItem(item)
             ) : item.items && item.items?.length > 0 ? (
-              <ListboxSection
-                key={item.key}
-                classNames={sectionClasses}
-                showDivider={isCompact}
-                title={item.title}
-              >
+              <ListboxSection key={item.key} classNames={sectionClasses} showDivider={isCompact} title={item.title}>
                 {item.items.map(renderItem)}
               </ListboxSection>
             ) : (

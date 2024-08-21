@@ -108,10 +108,7 @@ export function PokemonFromJSON(json: any): Pokemon {
   return PokemonFromJSONTyped(json, false);
 }
 
-export function PokemonFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): Pokemon {
+export function PokemonFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pokemon {
   if (json == null) {
     return json;
   }

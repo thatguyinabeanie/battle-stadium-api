@@ -14,10 +14,7 @@
 
 import * as runtime from "../runtime";
 import type { UserLoginRequest } from "../models/index";
-import {
-  UserLoginRequestFromJSON,
-  UserLoginRequestToJSON,
-} from "../models/index";
+import { UserLoginRequestFromJSON, UserLoginRequestToJSON } from "../models/index";
 
 export interface LoginUserRequest {
   userLoginRequest?: UserLoginRequest;

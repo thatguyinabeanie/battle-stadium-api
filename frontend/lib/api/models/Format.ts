@@ -44,10 +44,7 @@ export function FormatFromJSON(json: any): Format {
   return FormatFromJSONTyped(json, false);
 }
 
-export function FormatFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): Format {
+export function FormatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Format {
   if (json == null) {
     return json;
   }

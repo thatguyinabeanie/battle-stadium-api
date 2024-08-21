@@ -36,15 +36,9 @@ export interface PasswordRequest {
 /**
  * Check if a given object implements the PasswordRequest interface.
  */
-export function instanceOfPasswordRequest(
-  value: object,
-): value is PasswordRequest {
+export function instanceOfPasswordRequest(value: object): value is PasswordRequest {
   if (!("password" in value) || value["password"] === undefined) return false;
-  if (
-    !("passwordConfirmation" in value) ||
-    value["passwordConfirmation"] === undefined
-  )
-    return false;
+  if (!("passwordConfirmation" in value) || value["passwordConfirmation"] === undefined) return false;
   return true;
 }
 
@@ -52,10 +46,7 @@ export function PasswordRequestFromJSON(json: any): PasswordRequest {
   return PasswordRequestFromJSONTyped(json, false);
 }
 
-export function PasswordRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): PasswordRequest {
+export function PasswordRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): PasswordRequest {
   if (json == null) {
     return json;
   }

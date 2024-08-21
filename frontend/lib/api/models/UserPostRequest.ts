@@ -72,20 +72,14 @@ export interface UserPostRequest {
 /**
  * Check if a given object implements the UserPostRequest interface.
  */
-export function instanceOfUserPostRequest(
-  value: object,
-): value is UserPostRequest {
+export function instanceOfUserPostRequest(value: object): value is UserPostRequest {
   if (!("username" in value) || value["username"] === undefined) return false;
   if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
   if (!("email" in value) || value["email"] === undefined) return false;
   if (!("firstName" in value) || value["firstName"] === undefined) return false;
   if (!("lastName" in value) || value["lastName"] === undefined) return false;
   if (!("password" in value) || value["password"] === undefined) return false;
-  if (
-    !("passwordConfirmation" in value) ||
-    value["passwordConfirmation"] === undefined
-  )
-    return false;
+  if (!("passwordConfirmation" in value) || value["passwordConfirmation"] === undefined) return false;
   return true;
 }
 
@@ -93,10 +87,7 @@ export function UserPostRequestFromJSON(json: any): UserPostRequest {
   return UserPostRequestFromJSONTyped(json, false);
 }
 
-export function UserPostRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): UserPostRequest {
+export function UserPostRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserPostRequest {
   if (json == null) {
     return json;
   }
