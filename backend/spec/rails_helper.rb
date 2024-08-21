@@ -3,6 +3,7 @@ ENV['RAILS_ENV'] = 'test'
 
 require_relative '../config/environment'
 require 'spec_helper'
+
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
@@ -50,6 +51,18 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 
+module JsonResponseHelper
+  def json_response
+    JSON.parse(response.body, symbolize_names: true)
+  end
+end
+
+module RequestHelpers
+  def json_response
+    JSON.parse(response.body)
+  end
+end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
@@ -86,6 +99,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
 
+  config.include JsonResponseHelper, type: :controller
   config.include RequestHelpers, type: :request
 end
 

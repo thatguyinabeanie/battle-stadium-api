@@ -2,11 +2,18 @@ require 'devise'
 require 'faker'
 
 class User < ApplicationRecord
+  include DeviseTokenAuth::Concerns::User
   include Devise::JWT::RevocationStrategies::JTIMatcher
+  # Include default devise modules.
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable, :omniauthable, :lockable, :timeoutable, :jwt_authenticatable, jwt_revocation_strategy: self
 
   MIN_PASSWORD_LENGTH = 8
   MAX_CHARACTER_LENGTH = 50
 
+  before_validation :set_uid_and_provider
   validate :password_complexity, if: :password_required?
   validates :username, presence: true, uniqueness: true, allow_blank: false
   validates :email, presence: true, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
@@ -40,18 +47,7 @@ class User < ApplicationRecord
     errors.add :password, 'must include at least one lowercase letter, one uppercase letter, one digit, and one special character'
   end
 
-  # Update record attributes when :current_password matches, otherwise
-  # returns error on :current_password.
-  #
-  # This method also rejects the password field if it is blank (allowing
-  # users to change relevant information like the e-mail without changing
-  # their password). In case the password field is rejected, the confirmation
-  # is also rejected as long as it is also blank.
-  def update_with_password(params)
-    errors.add(:password, :blank) if params[:password].blank?
-    errors.add(:password_confirmation, :blank) if params[:password_confirmation].blank?
-    return false if errors.any?
-
-    super
+  def set_uid_and_provider
+    self.uid ||= email if provider == 'email'
   end
 end

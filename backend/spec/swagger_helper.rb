@@ -348,7 +348,6 @@ USER_LOGIN_REQUEST = {
   type: :object,
   title: 'User Login Request',
   properties: {
-
     email: { type: :string, format: 'email' },
     password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters')
   },

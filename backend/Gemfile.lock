@@ -242,6 +242,14 @@ GEM
       rack-protection
     omniauth-discord (1.2.0)
       omniauth-oauth2 (~> 1.6)
+    omniauth-facebook (10.0.0)
+      bigdecimal
+      omniauth-oauth2 (>= 1.2, < 3)
+    omniauth-google-oauth2 (1.1.2)
+      jwt (>= 2.0)
+      oauth2 (~> 2.0)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8)
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
@@ -556,6 +564,8 @@ DEPENDENCIES
   kredis (~> 1)
   listen (~> 3.3)
   omniauth-discord (~> 1)
+  omniauth-facebook
+  omniauth-google-oauth2
   omniauth-rails_csrf_protection (~> 1)
   openssl (~> 3.2)
   pg (~> 1.5.7)

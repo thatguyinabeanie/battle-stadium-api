@@ -1,9 +1,9 @@
 require 'swagger_helper'
 # require_relative '../../support/openapi/schema_helper'
-require_relative '../../support/openapi/response_helper'
+require 'support/openapi/response_helper'
 # require_relative '../../../app/models/concerns/secure_password'
 
-RSpec.describe Users::SessionsController do
+RSpec.describe Api::V1::SessionsController do
   path('/login') do
     post('Login') do
       tags 'Sessions'

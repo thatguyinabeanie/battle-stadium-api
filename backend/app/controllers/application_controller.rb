@@ -1,13 +1,15 @@
 class ApplicationController < ActionController::API
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  include DeviseTokenAuth::Concerns::SetUserByToken
 
-  protected
+  # before_action :configure_permitted_parameters, if: :devise_controller?
 
-  DEVISE_USER_KEYS = %i[first_name last_name email username].freeze
-  def configure_permitted_parameters
-    # For sign up
-    devise_parameter_sanitizer.permit(:sign_up, keys: DEVISE_USER_KEYS)
-    # For account update
-    devise_parameter_sanitizer.permit(:account_update, keys: DEVISE_USER_KEYS)
-  end
+  # protected
+
+  # DEVISE_USER_KEYS = %i[first_name last_name email username].freeze
+  # def configure_permitted_parameters
+  #   # For sign up
+  #   devise_parameter_sanitizer.permit(:sign_up, keys: DEVISE_USER_KEYS)
+  #   # For account update
+  #   devise_parameter_sanitizer.permit(:account_update, keys: DEVISE_USER_KEYS)
+  # end
 end

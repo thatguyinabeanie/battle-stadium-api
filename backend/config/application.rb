@@ -37,11 +37,17 @@ module BattleStadium
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    # config.middleware.insert_before 0, Rack::Cors do
-    #   allow do
-    #     origins 'https://your-allowed-domain.com' # Replace with your production domain
-    #     resource '*', headers: :any, methods: %i[get post put patch delete]
-    #   end
-    # end
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: 'session.battlestadium.gg'
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*',
+                 headers: :any,
+                 expose: %w[access-token expiry token-type uid client],
+                 methods: %i[get post options delete put]
+      end
+    end
   end
 end

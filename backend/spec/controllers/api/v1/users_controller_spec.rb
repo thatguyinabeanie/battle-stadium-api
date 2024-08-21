@@ -176,11 +176,11 @@ RSpec.describe Api::V1::UsersController do
   context 'when /users/me' do
     let!(:user) { create(:user) }
 
-    before do
-      sign_in user
-    end
-
     describe 'GET' do
+      before do
+        sign_in user
+      end
+
       it 'returns a successful response' do
         get :me
         expect(response).to be_successful
