@@ -8,6 +8,10 @@ NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
 
+COMPONENT_SCHEMA_ORGANIZATION = '#/COMPONENT_SCHEMA_ORGANIZATION'
+COMPONENT_SCHEMA_FORMAT = '#/components/schemas/Format'
+COMPONENT_SCHEMA_GAME = '#/components/schemas/Game'
+
 ID_NAME_PROPERTIES = {
   id: ID_PROPERTY[:id],
   name: NAME_PROPERTY[:name]
@@ -37,7 +41,7 @@ GAME_DETAILS_SCHEMA = {
   type: :object,
   title: 'Game Details',
   properties: GAME_SCHEMA[:properties].merge(
-    formats: { type: :array, items: { '$ref' => '#/components/schemas/Format' } }
+    formats: { type: :array, items: { '$ref' => COMPONENT_SCHEMA_FORMAT } }
   ),
   required: (GAME_SCHEMA[:required] + %w[formats])
 }.freeze
@@ -110,7 +114,7 @@ USER_ME = USER_DETAILS_SCHEMA.deep_merge(
     type: :object,
     title: 'User Me',
     properties: {
-      organizations: { type: :array, items: { '$ref' => '#/components/schemas/Organization' } }
+      organizations: { type: :array, items: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION } }
     },
     required: %w[organizations] + USER_DETAILS_SCHEMA[:required]
   }
@@ -173,9 +177,9 @@ TOURNAMENT_SCHEMA = {
   title: 'Tournament',
   properties: {
     start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    organization: { '$ref' => '#/components/schemas/Organization' },
-    format: { '$ref' => '#/components/schemas/Format' },
-    game: { '$ref' => '#/components/schemas/Game' }
+    organization: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION },
+    format: { '$ref' => COMPONENT_SCHEMA_FORMAT },
+    game: { '$ref' => COMPONENT_SCHEMA_GAME }
   }.merge(ID_NAME_PROPERTIES).merge(TOURNAMENT_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[player_cap organization format game start_at player_count registration_start_at registration_end_at late_registration]
 }.freeze
@@ -188,9 +192,9 @@ TOURNAMENT_DETAILS_SCHEMA = {
       autostart: { type: :boolean },
       start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
       end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-      organization: { '$ref' => '#/components/schemas/Organization' },
-      format: { '$ref' => '#/components/schemas/Format' },
-      game: { '$ref' => '#/components/schemas/Game' },
+      organization: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION },
+      format: { '$ref' => COMPONENT_SCHEMA_FORMAT },
+      game: { '$ref' => COMPONENT_SCHEMA_GAME },
       check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
       late_registration: { type: :boolean },
       teamlists_required: { type: :boolean },
