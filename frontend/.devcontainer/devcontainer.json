@@ -90,7 +90,26 @@
             "path": "zsh",
             "icon": "terminal-zsh"
           }
-        }
+        },
+        "reactSnippets.settings.prettierEnabled": true,
+        "prettier.configPath": ".prettiertc",
+        "prettier.experimentalTernaries": true,
+        "prettier.requireConfig": true,
+        "prettier.printWidth": 120,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ],
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "editor.formatOnSave": false,
+        "eslint.format.enable": true,
+        "jest.jestCommandLine": "pnpm jest",
       }
     }
   }

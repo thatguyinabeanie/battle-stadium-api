@@ -1,5 +1,5 @@
 {
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
@@ -12,9 +12,10 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.defaultFormatter": null,
-  "editor.formatOnSave": false,
   "eslint.format.enable": true,
   "jest.jestCommandLine": "pnpm jest",
-  "files.autoSave": "onFocusChange",
-  "files.autoSaveDelay": 1000
+  "editor.tabSize": 2,
+  "editor.defaultColorDecorators": true,
+  "editor.foldingImportsByDefault": true,
 }
+

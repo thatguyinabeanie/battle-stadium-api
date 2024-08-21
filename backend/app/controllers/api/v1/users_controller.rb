@@ -25,7 +25,7 @@ module Api
       end
 
       def me
-        @user = User.find_by(username: 'fuecoco-supremacy')
+        @user = User.find_by(username: 'fuecoco-supremacy') || current_user
         render json: @user, serializer: Serializer::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
