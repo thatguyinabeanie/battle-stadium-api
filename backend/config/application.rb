@@ -40,13 +40,15 @@ module BattleStadium
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: 'session.battlestadium.gg'
 
-    config.middleware.use Rack::Cors do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*',
-                 headers: :any,
-                 expose: %w[access-token expiry token-type uid client],
-                 methods: %i[get post options delete put]
+        resource(
+          '*',
+          headers: :any,
+          expose: %w[access-token expiry token-type Authorization],
+          methods: %i[get patch put delete post options show]
+        )
       end
     end
   end

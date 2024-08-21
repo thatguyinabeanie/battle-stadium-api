@@ -30,8 +30,6 @@ Rails.application.routes.draw do
         omniauth_callbacks: 'users/omniauth_callbacks'
       }
 
-      resources :sessions, only: %i[create destroy]
-
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
           post 'tournaments', to: 'organizations#post_tournaments'

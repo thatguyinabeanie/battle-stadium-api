@@ -1,5 +1,10 @@
 require_relative 'serializer_mixin'
 module Serializer
+  class UserSerializer
+    include JSONAPI::Serializer
+    attributes :id, :email, :created_at
+  end
+
   module UserMixin
     extend ActiveSupport::Concern
     included do
