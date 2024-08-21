@@ -2,15 +2,14 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { UserMe } from "../../api";
-
 import { CurrentUserContext } from "./current-user-context";
 
+import { UserMe } from "@/lib/api";
 import { ChildrenProps } from "@/types";
 import BattleStadiumAPI from "@/battle-stadium-api";
 
 export interface CurrentUserContextProviderProps extends ChildrenProps {
-  initCurrentUser: UserMe;
+  initCurrentUser: UserMe | null;
 }
 
 export default function CurrentUserContextProvider(

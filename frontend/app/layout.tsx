@@ -34,8 +34,18 @@ export const viewport: Viewport = {
 
 const initialIsOpen = process.env.NODE_ENV === "development";
 
+const useServerSideCurrentUser = async () => {
+  try {
+    const currentUser = await BattleStadiumAPI.Users.me();
+
+    return currentUser;
+  } catch (error) {
+    return null;
+  }
+};
+
 async function RootLayout({ children }: ChildrenProps & AppProps) {
-  const currentUser = await BattleStadiumAPI.Users.me();
+  const currentUser = await useServerSideCurrentUser();
 
   return (
     <html suppressHydrationWarning lang="en">
