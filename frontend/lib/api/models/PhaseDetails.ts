@@ -111,10 +111,8 @@ export function instanceOfPhaseDetails(value: object): value is PhaseDetails {
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("order" in value) || value["order"] === undefined) return false;
-  if (!("tournamentId" in value) || value["tournamentId"] === undefined)
-    return false;
-  if (!("numberOfRounds" in value) || value["numberOfRounds"] === undefined)
-    return false;
+  if (!("tournamentId" in value) || value["tournamentId"] === undefined) return false;
+  if (!("numberOfRounds" in value) || value["numberOfRounds"] === undefined) return false;
   if (!("bestOf" in value) || value["bestOf"] === undefined) return false;
   if (!("startedAt" in value) || value["startedAt"] === undefined) return false;
   if (!("endedAt" in value) || value["endedAt"] === undefined) return false;
@@ -127,10 +125,7 @@ export function PhaseDetailsFromJSON(json: any): PhaseDetails {
   return PhaseDetailsFromJSONTyped(json, false);
 }
 
-export function PhaseDetailsFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): PhaseDetails {
+export function PhaseDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PhaseDetails {
   if (json == null) {
     return json;
   }
@@ -144,10 +139,8 @@ export function PhaseDetailsFromJSONTyped(
     bestOf: json["best_of"],
     startedAt: json["started_at"] == null ? null : new Date(json["started_at"]),
     endedAt: json["ended_at"] == null ? null : new Date(json["ended_at"]),
-    createdAt:
-      json["created_at"] == null ? undefined : new Date(json["created_at"]),
-    updatedAt:
-      json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
+    createdAt: json["created_at"] == null ? undefined : new Date(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
     players: (json["players"] as Array<any>).map(PlayerFromJSON),
     rounds: (json["rounds"] as Array<any>).map(RoundFromJSON),
   };
@@ -165,16 +158,10 @@ export function PhaseDetailsToJSON(value?: PhaseDetails | null): any {
     tournament_id: value["tournamentId"],
     number_of_rounds: value["numberOfRounds"],
     best_of: value["bestOf"],
-    started_at:
-      value["startedAt"] == null
-        ? null
-        : (value["startedAt"] as any).toISOString(),
-    ended_at:
-      value["endedAt"] == null ? null : (value["endedAt"] as any).toISOString(),
-    created_at:
-      value["createdAt"] == null ? undefined : value["createdAt"].toISOString(),
-    updated_at:
-      value["updatedAt"] == null ? undefined : value["updatedAt"].toISOString(),
+    started_at: value["startedAt"] == null ? null : (value["startedAt"] as any).toISOString(),
+    ended_at: value["endedAt"] == null ? null : (value["endedAt"] as any).toISOString(),
+    created_at: value["createdAt"] == null ? undefined : value["createdAt"].toISOString(),
+    updated_at: value["updatedAt"] == null ? undefined : value["updatedAt"].toISOString(),
     players: (value["players"] as Array<any>).map(PlayerToJSON),
     rounds: (value["rounds"] as Array<any>).map(RoundToJSON),
   };

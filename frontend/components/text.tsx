@@ -21,17 +21,8 @@ interface Props extends PropsWithChildren, VariantProps<typeof textVariants> {
   tag?: "p" | "span" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
-export const Text: React.FC<Props> = ({
-  className,
-  variant,
-  children,
-  tag = "p",
-}) => {
+export const Text: React.FC<Props> = ({ className, variant, children, tag = "p" }) => {
   const Component = tag;
 
-  return (
-    <Component className={cn(textVariants({ variant, className }))}>
-      {children}
-    </Component>
-  );
+  return <Component className={cn(textVariants({ variant, className }))}>{children}</Component>;
 };

@@ -57,8 +57,7 @@ export interface Round {
 export function instanceOfRound(value: object): value is Round {
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("phaseId" in value) || value["phaseId"] === undefined) return false;
-  if (!("roundNumber" in value) || value["roundNumber"] === undefined)
-    return false;
+  if (!("roundNumber" in value) || value["roundNumber"] === undefined) return false;
   if (!("startedAt" in value) || value["startedAt"] === undefined) return false;
   if (!("endedAt" in value) || value["endedAt"] === undefined) return false;
   return true;
@@ -68,10 +67,7 @@ export function RoundFromJSON(json: any): Round {
   return RoundFromJSONTyped(json, false);
 }
 
-export function RoundFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): Round {
+export function RoundFromJSONTyped(json: any, ignoreDiscriminator: boolean): Round {
   if (json == null) {
     return json;
   }
@@ -92,11 +88,7 @@ export function RoundToJSON(value?: Round | null): any {
     id: value["id"],
     phase_id: value["phaseId"],
     round_number: value["roundNumber"],
-    started_at:
-      value["startedAt"] == null
-        ? null
-        : (value["startedAt"] as any).toISOString(),
-    ended_at:
-      value["endedAt"] == null ? null : (value["endedAt"] as any).toISOString(),
+    started_at: value["startedAt"] == null ? null : (value["startedAt"] as any).toISOString(),
+    ended_at: value["endedAt"] == null ? null : (value["endedAt"] as any).toISOString(),
   };
 }

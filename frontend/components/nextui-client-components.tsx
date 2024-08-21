@@ -2,6 +2,7 @@
 import {
   Chip,
   Avatar,
+  AvatarIcon,
   Button,
   Card,
   CardFooter,
@@ -10,12 +11,16 @@ import {
   Skeleton,
   Image,
   Tooltip,
+  Tabs,
+  Tab,
+  useDisclosure,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
 export {
   Chip,
   Avatar,
+  AvatarIcon,
   Button,
   Card,
   CardFooter,
@@ -25,4 +30,7 @@ export {
   Icon,
   Image,
   Tooltip,
+  Tabs,
+  Tab,
+  useDisclosure,
 };

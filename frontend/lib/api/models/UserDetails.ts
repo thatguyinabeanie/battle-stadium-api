@@ -74,10 +74,7 @@ export function UserDetailsFromJSON(json: any): UserDetails {
   return UserDetailsFromJSONTyped(json, false);
 }
 
-export function UserDetailsFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): UserDetails {
+export function UserDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserDetails {
   if (json == null) {
     return json;
   }

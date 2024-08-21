@@ -72,8 +72,7 @@ export function instanceOfUserRequest(value: object): value is UserRequest {
   if (!("email" in value) || value["email"] === undefined) return false;
   if (!("firstName" in value) || value["firstName"] === undefined) return false;
   if (!("lastName" in value) || value["lastName"] === undefined) return false;
-  if (!("currentPassword" in value) || value["currentPassword"] === undefined)
-    return false;
+  if (!("currentPassword" in value) || value["currentPassword"] === undefined) return false;
   return true;
 }
 
@@ -81,10 +80,7 @@ export function UserRequestFromJSON(json: any): UserRequest {
   return UserRequestFromJSONTyped(json, false);
 }
 
-export function UserRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): UserRequest {
+export function UserRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserRequest {
   if (json == null) {
     return json;
   }

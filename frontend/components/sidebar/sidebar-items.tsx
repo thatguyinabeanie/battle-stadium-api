@@ -1,7 +1,4 @@
-import TeamAvatar from "../team-avatar";
-
 import { type SidebarItem } from "./sidebar";
-
 export const sectionItems: SidebarItem[] = [
   {
     key: "overview",
@@ -33,34 +30,4 @@ export const sectionItems: SidebarItem[] = [
       },
     ],
   },
-];
-
-const yourOrganizations: SidebarItem = {
-  key: "your-organizations",
-  title: "Your Organizations",
-  items: [
-    {
-      key: "nextui",
-      href: "#",
-      title: "NextUI",
-      startContent: <TeamAvatar name="Next UI" />,
-    },
-    {
-      key: "tailwind-variants",
-      href: "#",
-      title: "Tailwind Variants",
-      startContent: <TeamAvatar name="Tailwind Variants" />,
-    },
-    {
-      key: "nextui-pro",
-      href: "#",
-      title: "NextUI Pro",
-      startContent: <TeamAvatar name="NextUI Pro" />,
-    },
-  ],
-};
-
-export const sectionItemsWithTeams: SidebarItem[] = [
-  ...sectionItems,
-  yourOrganizations,
 ];

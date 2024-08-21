@@ -19,19 +19,13 @@ const isDateField = (name: string): boolean => {
   return (
     name.includes("At") ||
     name.includes("date") ||
-    [
-      "startAt",
-      "endAt",
-      "registrationStartAt",
-      "registrationEndAt",
-      "checkInStartAt",
-    ].includes(name)
+    ["startAt", "endAt", "registrationStartAt", "registrationEndAt", "checkInStartAt"].includes(name)
   );
 };
 
 let aggregatedFactoryCode = "";
-let interfaces: Set<string> = new Set();
-let processedTypes: Set<string> = new Set();
+const interfaces: Set<string> = new Set();
+const processedTypes: Set<string> = new Set();
 
 const processDirectory = (dirPath: string): void => {
   try {
@@ -54,12 +48,7 @@ const processFile = (filePath: string): void => {
 
     console.log("File content length:", fileContent.length);
 
-    const sourceFile = ts.createSourceFile(
-      path.basename(filePath),
-      fileContent,
-      ts.ScriptTarget.Latest,
-      true,
-    );
+    const sourceFile = ts.createSourceFile(path.basename(filePath), fileContent, ts.ScriptTarget.Latest, true);
 
     ts.forEachChild(sourceFile, (node) => processNode(node, sourceFile));
   } catch (error) {
@@ -87,10 +76,7 @@ const processNode = (node: ts.Node, sourceFile: ts.SourceFile): void => {
             });
           }
         });
-      } else if (
-        ts.isTypeAliasDeclaration(node) &&
-        ts.isTypeLiteralNode(node.type)
-      ) {
+      } else if (ts.isTypeAliasDeclaration(node) && ts.isTypeLiteralNode(node.type)) {
         node.type.members.forEach((member) => {
           if (ts.isPropertySignature(member) && member.type) {
             properties.push({
@@ -130,13 +116,8 @@ ${properties
       value = `() => faker.number.int({min: 1, max: 100})`;
     } else if (prop.type === "boolean") {
       value = `() => faker.datatype.boolean()`;
-    } else if (
-      prop.type.endsWith("[]") ||
-      (prop.type.startsWith("Array<") && prop.type.endsWith(">"))
-    ) {
-      const itemType = prop.type.endsWith("[]")
-        ? prop.type.slice(0, -2)
-        : prop.type.slice(6, -1);
+    } else if (prop.type.endsWith("[]") || (prop.type.startsWith("Array<") && prop.type.endsWith(">"))) {
+      const itemType = prop.type.endsWith("[]") ? prop.type.slice(0, -2) : prop.type.slice(6, -1);
 
       value = `() => ${itemType}Factory.buildList(faker.number.int({min: 1, max: 5}))`;
       interfaces.add(itemType);
@@ -177,19 +158,16 @@ ${properties
 // Process both APIs and Models directories
 processDirectory(apiDirPath);
 processDirectory(modelsDirPath);
-
 console.log("Found types:", Array.from(interfaces));
 
 // Add necessary imports
 const fakerImport = "import { faker } from '@faker-js/faker';";
 const factoryImport = "import { Factory, IFactory } from 'rosie';";
-const modelImport =
-  interfaces.size > 0
-    ? `import { ${Array.from(interfaces).join(", ")} } from '@/lib/api';`
-    : "";
+const modelImport = interfaces.size > 0 ? `import { ${Array.from(interfaces).join(", ")} } from '@/lib/api';` : "";
 
 // Construct the final code
 const finalCode = `
+/* eslint-disable @typescript-eslint/no-explicit-any */
 ${fakerImport}
 ${factoryImport}
 ${modelImport}
