@@ -13,13 +13,14 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch ${ASDF_VERSIO
     curl \
     git \
     libc6 \
-    libreadline-dev \
     libpq-dev \
+    libreadline-dev \
     libssl-dev \
     zlib1g-dev && \
     curl --proto "=https" --tlsv1.2 -sSf -L https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get --no-install-recommends install -y nodejs && \
-    apt-get clean &&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git && \
     asdf install
 
@@ -30,10 +31,12 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch ${ASDF_VERSIO
 
 FROM asdf-ruby AS base-image
 # INSTALL DEPENDENCIES
-RUN apt-get update -qq  && apt-get --no-install-recommends install -y -q  \
+RUN apt-get update -qq  && \
+    apt-get --no-install-recommends install -y -q  \
     default-jre \
+    l-client \
     openssl \
-    postgresq l-client \
+    postgresq  \
     ruby-dev \
     watchman \
     wget && \
