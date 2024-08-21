@@ -103,6 +103,8 @@ const BattleStadiumAPI = {
       requestParameters: DeleteUserRequest,
       initOverrides?: RequestInit | InitOverrideFunction,
     ) => UsersAPI.deleteUser(requestParameters, initOverrides),
+    me: (initOverrides?: RequestInit | InitOverrideFunction) =>
+      UsersAPI.getMe(initOverrides),
   },
 
   Games: {

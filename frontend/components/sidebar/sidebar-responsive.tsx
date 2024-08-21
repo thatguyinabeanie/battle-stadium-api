@@ -6,9 +6,8 @@ import { useMediaQuery } from "usehooks-ts";
 
 import { Avatar, Button, Tooltip } from "@/components/nextui-client-components";
 import { AcmeIcon } from "@/components/acme";
-import { sectionItemsWithTeams } from "@/components/sidebar-items";
 import { cn } from "@/lib/utils";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/sidebar/sidebar";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;
@@ -32,6 +31,7 @@ export interface SideBarComponentProps {
  * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
  * ```
  */
+
 export default function SidebarResponsive() {
   const isCompact = useMediaQuery("(max-width: 768px)");
 
@@ -83,11 +83,7 @@ export default function SidebarResponsive() {
         </div>
       </div>
 
-      <Sidebar
-        defaultSelectedKey="home"
-        isCompact={isCompact}
-        items={sectionItemsWithTeams}
-      />
+      <Sidebar defaultSelectedKey="home" isCompact={isCompact} />
 
       <Spacer y={2} />
       <div

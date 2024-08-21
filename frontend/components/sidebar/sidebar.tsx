@@ -15,6 +15,8 @@ import {
 import React from "react";
 import { Icon } from "@iconify/react";
 
+import useSideBarItems from "./useSideBarItems";
+
 import { cn } from "@/lib/utils";
 
 export enum SidebarItemType {
@@ -34,7 +36,6 @@ export type SidebarItem = {
 };
 
 export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
-  items: SidebarItem[];
   isCompact?: boolean;
   hideEndContent?: boolean;
   iconClassName?: string;
@@ -47,7 +48,6 @@ export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
 const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
   (
     {
-      items,
       isCompact,
       defaultSelectedKey,
       onSelect,
@@ -87,6 +87,8 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
         "w-11 h-11 gap-0 p-0": isCompact,
       }),
     };
+
+    const items = useSideBarItems();
 
     const renderNestItem = React.useCallback(
       (item: SidebarItem) => {

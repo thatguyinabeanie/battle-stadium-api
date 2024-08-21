@@ -13,12 +13,19 @@
  */
 
 import * as runtime from "../runtime";
-import type { User, UserDetails, UserPostRequest } from "../models/index";
+import type {
+  User,
+  UserDetails,
+  UserMe,
+  UserPostRequest,
+} from "../models/index";
 import {
   UserFromJSON,
   UserToJSON,
   UserDetailsFromJSON,
   UserDetailsToJSON,
+  UserMeFromJSON,
+  UserMeToJSON,
   UserPostRequestFromJSON,
   UserPostRequestToJSON,
 } from "../models/index";
@@ -86,6 +93,43 @@ export class UsersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
     await this.deleteUserRaw(requestParameters, initOverrides);
+  }
+
+  /**
+   * Retrieves the current User.
+   * Show Me
+   */
+  async getMeRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<UserMe>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/api/v1/users/me`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      UserMeFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Retrieves the current User.
+   * Show Me
+   */
+  async getMe(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<UserMe> {
+    const response = await this.getMeRaw(initOverrides);
+    return await response.value();
   }
 
   /**

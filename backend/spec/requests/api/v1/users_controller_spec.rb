@@ -7,6 +7,8 @@ USER_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/UserDetails'.freeze
 PASSWORD = SecurePassword.generate_secure_password
 
 RSpec.describe Api::V1::UsersController do
+  include Devise::Test::IntegrationHelpers
+
   path('/api/v1/users') do
     get('List Users') do
       tags 'Users'
@@ -70,6 +72,30 @@ RSpec.describe Api::V1::UsersController do
             }
           }
         end
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+  end
+
+  path('/api/v1/users/me') do
+    get('Show Me') do
+      tags 'Users'
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      description 'Retrieves the current User.'
+      operationId 'getMe'
+
+      parameter name: :id, in: :body, type: :integer, description: 'ID of the User'
+      before do
+        sign_in user
+      end
+
+      response(200, 'successful') do
+        let(:user) { create(:user) }
+
+        schema '$ref' => '#/components/schemas/UserMe'
 
         OpenApi::Response.set_example_response_metadata
 
