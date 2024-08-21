@@ -71,10 +71,10 @@ org_owners = (1..25).to_a.map { create_user }
 
 orgs = org_owners.map do |owner|
   Organization.find_or_create_by!(owner:) do |org|
-    org.description = 'This is an example organization.'
+    org.description = Faker::Lorem.sentence
     org.staff = (1..5).to_a.map { create_user }
     org.staff << fuecoco_supremacy_user
-    org.name = "#{owner[:username].capitalize.gsub('_', ' ')}'s Organization"
+    org.name = owner[:username].capitalize.gsub('_', ' ').to_s
   end
 end.uniq
 
@@ -83,7 +83,7 @@ users = (1..50).to_a.map { create_user }.uniq
 
 future_tournaments = orgs.flat_map do |organization|
   (1..10).to_a.map do
-    name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
+    name = "#{organization.name} #{organization.tournaments.count + 1}"
     start_at = (1.day.from_now.beginning_of_day + rand(8..20).hours) + (count % 10).weeks
     end_at = start_at + 10.hours
     tour = create_tournament(name:, organization:, format:, game: format.game, start_at:, end_at:)

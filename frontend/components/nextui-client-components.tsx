@@ -2,6 +2,7 @@
 import {
   Chip,
   Avatar,
+  AvatarIcon,
   Button,
   Card,
   CardFooter,
@@ -16,6 +17,7 @@ import { Icon } from "@iconify/react";
 export {
   Chip,
   Avatar,
+  AvatarIcon,
   Button,
   Card,
   CardFooter,

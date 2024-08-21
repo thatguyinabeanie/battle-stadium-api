@@ -2,7 +2,7 @@ import type { IconSvgProps } from "@/types";
 
 import React from "react";
 
-export const AcmeIcon: React.FC<IconSvgProps> = ({
+const BattleStadiumIcon: React.FC<IconSvgProps> = ({
   size = 32,
   width,
   height,
@@ -23,3 +23,5 @@ export const AcmeIcon: React.FC<IconSvgProps> = ({
     />
   </svg>
 );
+
+export default BattleStadiumIcon;
