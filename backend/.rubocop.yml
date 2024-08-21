@@ -17,8 +17,10 @@ AllCops:
     - "frontend/**/*"
     - "sorbet/**"
     - "sorbet/**/*"
-    - "vendir/bundle/**"
+    - "vendor/bundle/**"
     - "frontend/**"
+    - "/usr/local/rvm/gems/default/gems/**/*.rb"
+    - "~/.asdf/**/*.rb"
 Style/Documentation:
   Enabled: false
 Rails/BulkChangeTable:

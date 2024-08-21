@@ -4,10 +4,6 @@ require_relative '../../../../app/serializer/user_serializer'
 RSpec.describe Api::V1::UsersController do
   include Devise::Test::ControllerHelpers
 
-  def json_response
-    JSON.parse(response.body, symbolize_names: true)
-  end
-
   context 'when /users' do
     describe 'GET' do
       it 'returns a successful response' do
