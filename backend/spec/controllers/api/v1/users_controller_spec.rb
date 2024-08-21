@@ -178,7 +178,7 @@ RSpec.describe Api::V1::UsersController do
   end
 
   context 'when /users/me' do
-    let(:user) { create(:user) }
+    let!(:user) { create(:user) }
 
     before do
       sign_in user

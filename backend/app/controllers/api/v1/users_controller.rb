@@ -9,9 +9,8 @@ module Api
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
+      before_action :authenticate_user!, only: %i[me]
 
-      # PATCH /api/v1/users/:id/password
-      # PATCH /api/v1/users/:id/password.json
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
 
@@ -25,9 +24,7 @@ module Api
       end
 
       def me
-        # @user = current_user
-        @user = User.find_by(username: 'fuecoco-supremacy')
-
+        @user = current_user
         render json: @user, serializer: Serializer::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
