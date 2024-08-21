@@ -8,7 +8,7 @@ NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
 
-COMPONENT_SCHEMA_ORGANIZATION = '#/COMPONENT_SCHEMA_ORGANIZATION'
+COMPONENT_SCHEMA_ORGANIZATION = '#/components/schemas/organization'
 COMPONENT_SCHEMA_FORMAT = '#/components/schemas/Format'
 COMPONENT_SCHEMA_GAME = '#/components/schemas/Game'
 
