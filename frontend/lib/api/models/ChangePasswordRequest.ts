@@ -42,30 +42,18 @@ export interface ChangePasswordRequest {
 /**
  * Check if a given object implements the ChangePasswordRequest interface.
  */
-export function instanceOfChangePasswordRequest(
-  value: object,
-): value is ChangePasswordRequest {
+export function instanceOfChangePasswordRequest(value: object): value is ChangePasswordRequest {
   if (!("password" in value) || value["password"] === undefined) return false;
-  if (
-    !("passwordConfirmation" in value) ||
-    value["passwordConfirmation"] === undefined
-  )
-    return false;
-  if (!("currentPassword" in value) || value["currentPassword"] === undefined)
-    return false;
+  if (!("passwordConfirmation" in value) || value["passwordConfirmation"] === undefined) return false;
+  if (!("currentPassword" in value) || value["currentPassword"] === undefined) return false;
   return true;
 }
 
-export function ChangePasswordRequestFromJSON(
-  json: any,
-): ChangePasswordRequest {
+export function ChangePasswordRequestFromJSON(json: any): ChangePasswordRequest {
   return ChangePasswordRequestFromJSONTyped(json, false);
 }
 
-export function ChangePasswordRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): ChangePasswordRequest {
+export function ChangePasswordRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChangePasswordRequest {
   if (json == null) {
     return json;
   }
@@ -76,9 +64,7 @@ export function ChangePasswordRequestFromJSONTyped(
   };
 }
 
-export function ChangePasswordRequestToJSON(
-  value?: ChangePasswordRequest | null,
-): any {
+export function ChangePasswordRequestToJSON(value?: ChangePasswordRequest | null): any {
   if (value == null) {
     return value;
   }

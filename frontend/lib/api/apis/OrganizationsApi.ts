@@ -80,10 +80,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/organizations/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
@@ -126,10 +123,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/organizations/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -137,9 +131,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OrganizationFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationFromJSON(jsonValue));
   }
 
   /**
@@ -150,10 +142,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: GetOrganizationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Organization> {
-    const response = await this.getOrganizationRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.getOrganizationRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -189,9 +178,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(UserFromJSON),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserFromJSON));
   }
 
   /**
@@ -202,10 +189,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: ListOrganizationStaffRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<User>> {
-    const response = await this.listOrganizationStaffRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.listOrganizationStaffRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -229,17 +213,13 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(OrganizationFromJSON),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(OrganizationFromJSON));
   }
 
   /**
    * List Organizations
    */
-  async listOrganizations(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<Array<Organization>> {
+  async listOrganizations(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Organization>> {
     const response = await this.listOrganizationsRaw(initOverrides);
     return await response.value();
   }
@@ -267,10 +247,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{id}`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
-        ),
+        path: `/api/v1/organizations/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -279,9 +256,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OrganizationFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationFromJSON(jsonValue));
   }
 
   /**
@@ -292,10 +267,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: PatchOrganizationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Organization> {
-    const response = await this.patchOrganizationRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.patchOrganizationRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -330,14 +302,8 @@ export class OrganizationsApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/api/v1/organizations/{organization_id}/tournaments/{id}`
-          .replace(
-            `{${"organization_id"}}`,
-            encodeURIComponent(String(requestParameters["organizationId"])),
-          )
-          .replace(
-            `{${"id"}}`,
-            encodeURIComponent(String(requestParameters["id"])),
-          ),
+          .replace(`{${"organization_id"}}`, encodeURIComponent(String(requestParameters["organizationId"])))
+          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -346,9 +312,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      TournamentDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => TournamentDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -359,10 +323,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: PatchOrganizationTournamentRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
-    const response = await this.patchOrganizationTournamentRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.patchOrganizationTournamentRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -398,9 +359,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OrganizationFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationFromJSON(jsonValue));
   }
 
   /**
@@ -411,10 +370,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: PostOrganizationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Organization> {
-    const response = await this.postOrganizationRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.postOrganizationRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -453,9 +409,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      TournamentDetailsFromJSON(jsonValue),
-    );
+    return new runtime.JSONApiResponse(response, (jsonValue) => TournamentDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -466,10 +420,7 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: PostOrganizationTournamentRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
-    const response = await this.postOrganizationTournamentRaw(
-      requestParameters,
-      initOverrides,
-    );
+    const response = await this.postOrganizationTournamentRaw(requestParameters, initOverrides);
     return await response.value();
   }
 }

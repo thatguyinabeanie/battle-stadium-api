@@ -36,9 +36,7 @@ export interface UserLoginRequest {
 /**
  * Check if a given object implements the UserLoginRequest interface.
  */
-export function instanceOfUserLoginRequest(
-  value: object,
-): value is UserLoginRequest {
+export function instanceOfUserLoginRequest(value: object): value is UserLoginRequest {
   if (!("email" in value) || value["email"] === undefined) return false;
   if (!("password" in value) || value["password"] === undefined) return false;
   return true;
@@ -48,10 +46,7 @@ export function UserLoginRequestFromJSON(json: any): UserLoginRequest {
   return UserLoginRequestFromJSONTyped(json, false);
 }
 
-export function UserLoginRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): UserLoginRequest {
+export function UserLoginRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserLoginRequest {
   if (json == null) {
     return json;
   }

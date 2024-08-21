@@ -53,8 +53,7 @@ export interface Organization {
  */
 export function instanceOfOrganization(value: object): value is Organization {
   if (!("owner" in value) || value["owner"] === undefined) return false;
-  if (!("description" in value) || value["description"] === undefined)
-    return false;
+  if (!("description" in value) || value["description"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   return true;
@@ -64,10 +63,7 @@ export function OrganizationFromJSON(json: any): Organization {
   return OrganizationFromJSONTyped(json, false);
 }
 
-export function OrganizationFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): Organization {
+export function OrganizationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Organization {
   if (json == null) {
     return json;
   }

@@ -51,48 +51,13 @@ const Register = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        name="username"
-        placeholder="Username"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="pronouns"
-        placeholder="Pronouns"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="email"
-        placeholder="Email"
-        type="email"
-        onChange={handleChange}
-      />
-      <input
-        name="firstName"
-        placeholder="First Name"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="lastName"
-        placeholder="Last Name"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="password"
-        placeholder="Password"
-        type="password"
-        onChange={handleChange}
-      />
-      <input
-        name="passwordConfirmation"
-        placeholder="Password Confirmation"
-        type="password"
-        onChange={handleChange}
-      />
+      <input name="username" placeholder="Username" type="text" onChange={handleChange} />
+      <input name="pronouns" placeholder="Pronouns" type="text" onChange={handleChange} />
+      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
+      <input name="firstName" placeholder="First Name" type="text" onChange={handleChange} />
+      <input name="lastName" placeholder="Last Name" type="text" onChange={handleChange} />
+      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
+      <input name="passwordConfirmation" placeholder="Password Confirmation" type="password" onChange={handleChange} />
       <button type="submit">Register</button>
     </form>
   );

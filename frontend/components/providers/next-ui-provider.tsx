@@ -9,9 +9,5 @@ import { ChildrenProps } from "@/types";
 export default function NextUIProvider({ children }: Readonly<ChildrenProps>) {
   const router = useRouter();
 
-  return (
-    <NextUIDefaultProvider navigate={router.push}>
-      {children}
-    </NextUIDefaultProvider>
-  );
+  return <NextUIDefaultProvider navigate={router.push}>{children}</NextUIDefaultProvider>;
 }

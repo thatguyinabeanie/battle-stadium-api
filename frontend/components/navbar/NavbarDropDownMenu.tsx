@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Avatar,
-  Link,
-} from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Link } from "@nextui-org/react";
 import * as React from "react";
 
 import { siteConfig } from "@/config/site";
