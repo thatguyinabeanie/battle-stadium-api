@@ -1,62 +1,131 @@
+"use client";
+
+import React from "react";
+import { Button, Input, Link, Divider, ResizablePanel } from "@nextui-org/react";
+import { AnimatePresence, m, domAnimation, LazyMotion } from "framer-motion";
+import { Icon } from "@iconify/react";
+
 import { redirect } from "next/navigation"
-import { signIn, auth, providerMap } from "@/auth"
-import { AuthError } from "next-auth"
 
-const SIGNIN_ERROR_URL="/"
+import { providerMap } from "@/auth";
+import { handleSignIn } from "./auth-actions";
 
-export default async function SignInPage () {
-  return (
-    <div className="flex flex-col gap-2">
-      <form
-        action={ async (formData) => {
-          "use server"
-          try {
-            await signIn("credentials", formData)
-          } catch (error) {
-            if (error instanceof AuthError) {
-              return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`)
-            }
-            throw error
-          }
-        } }
-      >
-        <label htmlFor="email">
-          Email
-          <input name="email" id="email" />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input name="password" id="password" />
-        </label>
-        <input type="submit" value="Sign In" />
-      </form>
-      { Object.values(providerMap).map((provider) => (
-        <form
-          action={ async () => {
-            "use server"
-            try {
-              await signIn(provider.id)
-            } catch (error) {
-              // Signin can fail for a number of reasons, such as the user
-              // not existing, or the user not having the correct role.
-              // In some cases, you may want to redirect to a custom error
-              if (error instanceof AuthError) {
-                return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`)
-              }
 
-              // Otherwise if a redirects happens Next.js can handle it
-              // so you can just re-thrown the error and let Next.js handle it.
-              // Docs:
-              // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
-              throw error
-            }
-          } }
-        >
-          <button type="submit">
-            <span>Sign in with { provider.name }</span>
-          </button>
-        </form>
-      )) }
+const SIGNIN_ERROR_URL = "/"
+
+export default function Component () {
+  const [isFormVisible, setIsFormVisible] = React.useState(false);
+
+  const variants = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 10 },
+  };
+
+  const orDivider = (
+    <div className="flex items-center gap-4 py-2">
+      <Divider className="flex-1" />
+      <p className="shrink-0 text-tiny text-default-500">OR</p>
+      <Divider className="flex-1" />
     </div>
-  )
+  );
+
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-small">
+        <ResizablePanel>
+          <h1 className="mb-4 text-xl font-medium">Log In</h1>
+          <AnimatePresence initial={ false } mode="popLayout">
+            <LazyMotion features={ domAnimation }>
+              { isFormVisible ? (
+                <m.form
+                  animate="visible"
+                  className="flex flex-col gap-y-3"
+                  exit="hidden"
+                  initial="hidden"
+                  variants={ variants }
+                  onSubmit={ (e) => e.preventDefault() }
+                >
+                  <Input
+                    autoFocus
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    variant="bordered"
+                  />
+                  <Input label="Password" name="password" type="password" variant="bordered" />
+                  <Button color="primary" type="submit">
+                    Log In
+                  </Button>
+                  { orDivider }
+                  <Button
+                    fullWidth
+                    startContent={
+                      <Icon
+                        className="text-default-500"
+                        icon="solar:arrow-left-linear"
+                        width={ 18 }
+                      />
+                    }
+                    variant="flat"
+                    onPress={ () => setIsFormVisible(false) }
+                  >
+                    Other Login options
+                  </Button>
+                </m.form>
+              ) : (
+                <>
+                  <Button
+                    fullWidth
+                    color="primary"
+                    startContent={
+                      <Icon className="pointer-events-none text-2xl" icon="solar:letter-bold" />
+                    }
+                    type="button"
+                    onPress={ () => setIsFormVisible(true) }
+                  >
+                    Continue with Email
+                  </Button>
+                  { orDivider }
+                  <m.div
+                    animate="visible"
+                    className="flex flex-col gap-y-2"
+                    exit="hidden"
+                    initial="hidden"
+                    variants={ variants }
+                  >
+                    <div className="flex flex-col gap-2">
+
+                        { Object.values(providerMap).map((provider) => (
+                          <m.form
+                            key={provider.id}
+                            action= { () => handleSignIn(provider.id) }
+                          >
+                            <Button
+                              type="submit"
+                              fullWidth
+                              startContent={
+                                <Icon className="text-default-500" icon="fe:github" width={ 24 } />
+                              }
+                              variant="flat"
+                            >
+                              <span>Sign in with { provider.name }</span>
+                            </Button>
+                          </m.form>
+                        )) }
+                    </div>
+                    <p className="mt-3 text-center text-small">
+                      Need to create an account?&nbsp;
+                      <Link href="#" size="sm">
+                        Sign Up
+                      </Link>
+                    </p>
+                  </m.div>
+                </>
+              ) }
+            </LazyMotion>
+          </AnimatePresence>
+        </ResizablePanel>
+      </div>
+    </div>
+  );
 }
