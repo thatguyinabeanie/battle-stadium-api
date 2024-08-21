@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require 'support/constants'
+require 'swagger/blocks'
 
 ID_PROPERTY = { id: { type: :integer } }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
@@ -388,6 +389,13 @@ RSpec.configure do |config|
         }
       ],
       components: {
+        securitySchemes: {
+          Bearer: {
+            type: :http,
+            scheme: :bearer
+          }
+        },
+
         responses: {
           NotFound: {
             description: NOT_FOUND
@@ -424,6 +432,8 @@ RSpec.configure do |config|
       }
     }
   }
+
+  config.include Swagger::Blocks
 
   # Specify the format of the output Swagger file when running 'rswag:specs:swaggerize'.
   # The openapi_specs configuration option has the filename including format in

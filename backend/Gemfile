@@ -36,6 +36,7 @@ gem 'ruby-lsp'
 gem 'sidekiq', '~> 7'
 gem 'sprockets-rails'
 gem 'stimulus-rails', '~> 1'
+gem 'swagger-blocks'
 gem 'turbo-rails', '~> 2'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 gem 'versionist', '~> 2'
