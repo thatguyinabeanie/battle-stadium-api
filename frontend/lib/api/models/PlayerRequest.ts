@@ -38,8 +38,7 @@ export interface PlayerRequest {
  */
 export function instanceOfPlayerRequest(value: object): value is PlayerRequest {
   if (!("userId" in value) || value["userId"] === undefined) return false;
-  if (!("inGameName" in value) || value["inGameName"] === undefined)
-    return false;
+  if (!("inGameName" in value) || value["inGameName"] === undefined) return false;
   return true;
 }
 
@@ -47,10 +46,7 @@ export function PlayerRequestFromJSON(json: any): PlayerRequest {
   return PlayerRequestFromJSONTyped(json, false);
 }
 
-export function PlayerRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): PlayerRequest {
+export function PlayerRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlayerRequest {
   if (json == null) {
     return json;
   }

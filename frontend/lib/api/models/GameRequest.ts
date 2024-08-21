@@ -45,10 +45,7 @@ export function GameRequestFromJSON(json: any): GameRequest {
   return GameRequestFromJSONTyped(json, false);
 }
 
-export function GameRequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): GameRequest {
+export function GameRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): GameRequest {
   if (json == null) {
     return json;
   }

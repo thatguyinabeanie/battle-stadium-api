@@ -51,12 +51,9 @@ export interface OrganizationDetails {
 /**
  * Check if a given object implements the OrganizationDetails interface.
  */
-export function instanceOfOrganizationDetails(
-  value: object,
-): value is OrganizationDetails {
+export function instanceOfOrganizationDetails(value: object): value is OrganizationDetails {
   if (!("owner" in value) || value["owner"] === undefined) return false;
-  if (!("description" in value) || value["description"] === undefined)
-    return false;
+  if (!("description" in value) || value["description"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   return true;
@@ -66,10 +63,7 @@ export function OrganizationDetailsFromJSON(json: any): OrganizationDetails {
   return OrganizationDetailsFromJSONTyped(json, false);
 }
 
-export function OrganizationDetailsFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): OrganizationDetails {
+export function OrganizationDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrganizationDetails {
   if (json == null) {
     return json;
   }
@@ -81,9 +75,7 @@ export function OrganizationDetailsFromJSONTyped(
   };
 }
 
-export function OrganizationDetailsToJSON(
-  value?: OrganizationDetails | null,
-): any {
+export function OrganizationDetailsToJSON(value?: OrganizationDetails | null): any {
   if (value == null) {
     return value;
   }

@@ -18,27 +18,10 @@ export type NotificationItem = {
   type?: NotificationType;
 };
 
-export type NotificationItemProps = React.HTMLAttributes<HTMLDivElement> &
-  NotificationItem;
+export type NotificationItemProps = React.HTMLAttributes<HTMLDivElement> & NotificationItem;
 
-const NotificationItem = React.forwardRef<
-  HTMLDivElement,
-  NotificationItemProps
->(
-  (
-    {
-      children,
-      avatar,
-      name,
-      description,
-      type,
-      time,
-      isRead,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
+const NotificationItem = React.forwardRef<HTMLDivElement, NotificationItemProps>(
+  ({ children, avatar, name, description, type, time, isRead, className, ...props }, ref) => {
     /**
      * Defines the content for different types of notifications.
      */
@@ -56,15 +39,9 @@ const NotificationItem = React.forwardRef<
       ),
       file: (
         <div className="flex items-center gap-2">
-          <Icon
-            className="text-secondary"
-            icon="solar:figma-file-linear"
-            width={30}
-          />
+          <Icon className="text-secondary" icon="solar:figma-file-linear" width={30} />
           <div className="flex flex-col">
-            <strong className="text-small font-medium">
-              Brand_Logo_v1.2.fig
-            </strong>
+            <strong className="text-small font-medium">Brand_Logo_v1.2.fig</strong>
             <p className="text-tiny text-default-400">3.4 MB</p>
           </div>
         </div>
@@ -84,20 +61,13 @@ const NotificationItem = React.forwardRef<
         {...props}
       >
         <div className="relative flex-none">
-          <Badge
-            color="primary"
-            content=""
-            isInvisible={isRead}
-            placement="bottom-right"
-            shape="circle"
-          >
+          <Badge color="primary" content="" isInvisible={isRead} placement="bottom-right" shape="circle">
             <Avatar src={avatar} />
           </Badge>
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-small text-foreground">
-            <strong className="font-medium">{name}</strong>{" "}
-            {description || children}
+            <strong className="font-medium">{name}</strong> {description || children}
           </p>
           <time className="text-tiny text-default-400">{time}</time>
           {type && contentByType[type]}

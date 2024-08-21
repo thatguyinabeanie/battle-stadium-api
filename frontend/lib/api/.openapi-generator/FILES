@@ -29,6 +29,7 @@ models/TournamentRequest.ts
 models/User.ts
 models/UserDetails.ts
 models/UserLoginRequest.ts
+models/UserMe.ts
 models/UserPostRequest.ts
 models/UserRequest.ts
 models/index.ts

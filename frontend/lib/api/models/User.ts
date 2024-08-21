@@ -53,10 +53,7 @@ export function UserFromJSON(json: any): User {
   return UserFromJSONTyped(json, false);
 }
 
-export function UserFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): User {
+export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
   if (json == null) {
     return json;
   }

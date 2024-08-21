@@ -9,9 +9,9 @@ module Api
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
+      before_action :authenticate_user!, only: %i[me]
+      before_action :set_cache_headers, only: %i[me]
 
-      # PATCH /api/v1/users/:id/password
-      # PATCH /api/v1/users/:id/password.json
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
 
@@ -22,6 +22,13 @@ module Api
         else
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         end
+      end
+
+      def me
+        @user = User.find_by(username: 'fuecoco-supremacy') || current_user
+        render json: @user, serializer: Serializer::UserMe, status: :ok
+      rescue ActiveRecord::RecordNotFound
+        render json: { errors: ['User not found'] }, status: :not_found
       end
 
       protected
@@ -36,6 +43,10 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_user
         @user = set_object
+      end
+
+      def set_cache_headers
+        response.headers['Cache-Control'] = 'public, max-age=300'
       end
     end
   end

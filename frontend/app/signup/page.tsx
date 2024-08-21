@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { UsersApi } from "@/lib/api/api"; // Adjust the import based on your OpenAPI client setup
+import { UsersApi } from "@/lib/api"; // Adjust the import based on your OpenAPI client setup
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -35,10 +35,10 @@ const Register = () => {
           username: formData.username,
           pronouns: formData.pronouns,
           email: formData.email,
-          first_name: formData.firstName,
-          last_name: formData.lastName,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           password: formData.password,
-          password_confirmation: formData.passwordConfirmation,
+          passwordConfirmation: formData.passwordConfirmation,
         },
       });
 
@@ -51,48 +51,13 @@ const Register = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        name="username"
-        placeholder="Username"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="pronouns"
-        placeholder="Pronouns"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="email"
-        placeholder="Email"
-        type="email"
-        onChange={handleChange}
-      />
-      <input
-        name="firstName"
-        placeholder="First Name"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="lastName"
-        placeholder="Last Name"
-        type="text"
-        onChange={handleChange}
-      />
-      <input
-        name="password"
-        placeholder="Password"
-        type="password"
-        onChange={handleChange}
-      />
-      <input
-        name="passwordConfirmation"
-        placeholder="Password Confirmation"
-        type="password"
-        onChange={handleChange}
-      />
+      <input name="username" placeholder="Username" type="text" onChange={handleChange} />
+      <input name="pronouns" placeholder="Pronouns" type="text" onChange={handleChange} />
+      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
+      <input name="firstName" placeholder="First Name" type="text" onChange={handleChange} />
+      <input name="lastName" placeholder="Last Name" type="text" onChange={handleChange} />
+      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
+      <input name="passwordConfirmation" placeholder="Password Confirmation" type="password" onChange={handleChange} />
       <button type="submit">Register</button>
     </form>
   );

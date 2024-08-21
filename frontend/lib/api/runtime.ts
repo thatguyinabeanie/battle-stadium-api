@@ -13,8 +13,7 @@
  */
 
 export const backendHost = process?.env?.BACKEND_HOST || "localhost";
-export const API_BASE_URL_PATH: string =
-  process?.env?.API_BASE_URL ?? `http://${backendHost}:3000`;
+export const API_BASE_URL_PATH: string = process?.env?.API_BASE_URL ?? `http://${backendHost}:3000`;
 export const BASE_PATH = API_BASE_URL_PATH.replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
@@ -24,14 +23,8 @@ export interface ConfigurationParameters {
   queryParamsStringify?: (params: HTTPQuery) => string; // stringify function for query strings
   username?: string; // parameter for basic security
   password?: string; // parameter for basic security
-  apiKey?:
-    | string
-    | Promise<string>
-    | ((name: string) => string | Promise<string>); // parameter for apiKey security
-  accessToken?:
-    | string
-    | Promise<string>
-    | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
+  apiKey?: string | Promise<string> | ((name: string) => string | Promise<string>); // parameter for apiKey security
+  accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
   headers?: HTTPHeaders; //header params we want to use on every request
   credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
@@ -44,9 +37,7 @@ export class Configuration {
   }
 
   get basePath(): string {
-    return this.configuration.basePath != null
-      ? this.configuration.basePath
-      : BASE_PATH;
+    return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
   }
 
   get fetchApi(): FetchAPI | undefined {
@@ -77,14 +68,10 @@ export class Configuration {
     return undefined;
   }
 
-  get accessToken():
-    | ((name?: string, scopes?: string[]) => string | Promise<string>)
-    | undefined {
+  get accessToken(): ((name?: string, scopes?: string[]) => string | Promise<string>) | undefined {
     const accessToken = this.configuration.accessToken;
     if (accessToken) {
-      return typeof accessToken === "function"
-        ? accessToken
-        : async () => accessToken;
+      return typeof accessToken === "function" ? accessToken : async () => accessToken;
     }
     return undefined;
   }
@@ -120,18 +107,12 @@ export class BaseAPI {
     return next;
   }
 
-  withPreMiddleware<T extends BaseAPI>(
-    this: T,
-    ...preMiddlewares: Array<Middleware["pre"]>
-  ) {
+  withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware["pre"]>) {
     const middlewares = preMiddlewares.map((pre) => ({ pre }));
     return this.withMiddleware<T>(...middlewares);
   }
 
-  withPostMiddleware<T extends BaseAPI>(
-    this: T,
-    ...postMiddlewares: Array<Middleware["post"]>
-  ) {
+  withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware["post"]>) {
     const middlewares = postMiddlewares.map((post) => ({ post }));
     return this.withMiddleware<T>(...middlewares);
   }
@@ -153,10 +134,7 @@ export class BaseAPI {
     return BaseAPI.jsonRegex.test(mime);
   }
 
-  protected async request(
-    context: RequestOpts,
-    initOverrides?: RequestInit | InitOverrideFunction,
-  ): Promise<Response> {
+  protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction): Promise<Response> {
     const { url, init } = await this.createFetchParams(context, initOverrides);
     const response = await this.fetchApi(url, init);
     if (response && response.status >= 200 && response.status < 300) {
@@ -165,34 +143,19 @@ export class BaseAPI {
     throw new ResponseError(response, "Response returned an error code");
   }
 
-  private async createFetchParams(
-    context: RequestOpts,
-    initOverrides?: RequestInit | InitOverrideFunction,
-  ) {
+  private async createFetchParams(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction) {
     let url = this.configuration.basePath + context.path;
-    if (
-      context.query !== undefined &&
-      Object.keys(context.query).length !== 0
-    ) {
+    if (context.query !== undefined && Object.keys(context.query).length !== 0) {
       // only add the querystring to the URL if there are query parameters.
       // this is done to avoid urls ending with a "?" character which buggy webservers
       // do not handle correctly sometimes.
       url += "?" + this.configuration.queryParamsStringify(context.query);
     }
 
-    const headers = Object.assign(
-      {},
-      this.configuration.headers,
-      context.headers,
-    );
-    Object.keys(headers).forEach((key) =>
-      headers[key] === undefined ? delete headers[key] : {},
-    );
+    const headers = Object.assign({}, this.configuration.headers, context.headers);
+    Object.keys(headers).forEach((key) => (headers[key] === undefined ? delete headers[key] : {}));
 
-    const initOverrideFn =
-      typeof initOverrides === "function"
-        ? initOverrides
-        : async () => initOverrides;
+    const initOverrideFn = typeof initOverrides === "function" ? initOverrides : async () => initOverrides;
 
     const initParams = {
       method: context.method,
@@ -243,10 +206,7 @@ export class BaseAPI {
     }
     let response: Response | undefined = undefined;
     try {
-      response = await (this.configuration.fetchApi || fetch)(
-        fetchParams.url,
-        fetchParams.init,
-      );
+      response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
     } catch (e) {
       for (const middleware of this.middleware) {
         if (middleware.onError) {
@@ -262,10 +222,7 @@ export class BaseAPI {
       }
       if (response === undefined) {
         if (e instanceof Error) {
-          throw new FetchError(
-            e,
-            "The request failed and the interceptors did not return an alternative response",
-          );
+          throw new FetchError(e, "The request failed and the interceptors did not return an alternative response");
         } else {
           throw e;
         }
@@ -345,14 +302,7 @@ export const COLLECTION_FORMATS = {
 export type FetchAPI = WindowOrWorkerGlobalScope["fetch"];
 
 export type Json = any;
-export type HTTPMethod =
-  | "GET"
-  | "POST"
-  | "PUT"
-  | "PATCH"
-  | "DELETE"
-  | "OPTIONS"
-  | "HEAD";
+export type HTTPMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "HEAD";
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = {
   [key: string]:
@@ -371,11 +321,7 @@ export type HTTPRequestInit = {
   credentials?: RequestCredentials;
   body?: HTTPBody;
 };
-export type ModelPropertyNaming =
-  | "camelCase"
-  | "snake_case"
-  | "PascalCase"
-  | "original";
+export type ModelPropertyNaming = "camelCase" | "snake_case" | "PascalCase" | "original";
 
 export type InitOverrideFunction = (requestContext: {
   init: HTTPRequestInit;
@@ -436,10 +382,7 @@ function querystringSingleKey(
 }
 
 export function mapValues(data: any, fn: (item: any) => any) {
-  return Object.keys(data).reduce(
-    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
-    {},
-  );
+  return Object.keys(data).reduce((acc, key) => ({ ...acc, [key]: fn(data[key]) }), {});
 }
 
 export function canConsumeForm(consumes: Consume[]): boolean {

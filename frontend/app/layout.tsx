@@ -3,15 +3,12 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
 
-import SideBarComponent from "./sidebar-layout";
-
-import {
-  NextUIProvider,
-  ReactQueryClientProvider,
-  NextThemeProvider,
-} from "@/components/providers";
+import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
+import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
+import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import { CurrentUserContextProvider } from "@/lib/context/current-user";
 
 export const metadata: Metadata = {
   title: {
@@ -33,22 +30,35 @@ export const viewport: Viewport = {
 
 const initialIsOpen = process.env.NODE_ENV === "development";
 
-function RootLayout({ children }: ChildrenProps & AppProps) {
+const useServerSideCurrentUser = async () => {
+  try {
+    const currentUser = await BattleStadiumAPI.Users.me();
+
+    return currentUser;
+  } catch (error) {
+    return null;
+  }
+};
+
+async function RootLayout({ children }: ChildrenProps & AppProps) {
+  const currentUser = await useServerSideCurrentUser();
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased overflow-hidden",
-        )}
-      >
-        <NextUIProvider>
-          <NextThemeProvider>
+      <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
+        <ThemesProvider>
+          <NextUIProvider>
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
-              <SideBarComponent>{children}</SideBarComponent>
+              <div className="flex h-dvh w-full">
+                <CurrentUserContextProvider initCurrentUser={currentUser}>
+                  <SidebarResponsive />
+                  {children}
+                </CurrentUserContextProvider>
+              </div>
             </ReactQueryClientProvider>
-          </NextThemeProvider>
-        </NextUIProvider>
+          </NextUIProvider>
+        </ThemesProvider>
       </body>
     </html>
   );

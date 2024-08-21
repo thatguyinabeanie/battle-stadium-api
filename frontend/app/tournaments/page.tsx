@@ -3,7 +3,7 @@ import React from "react";
 import TournamentsTable from "./TournamentsTable";
 
 import { title } from "@/components/primitives";
-import { Tournament, TournamentsApi } from "@/lib/api";
+import BattleStadiumAPI from "@/lib/battle-stadium-api";
 
 const columns = [
   {
@@ -21,10 +21,7 @@ const columns = [
 ];
 
 const Tournaments = async () => {
-  const tournamentsApi = new TournamentsApi();
-
-  const tournaments: Tournament[] = (await tournamentsApi.listTournaments())
-    .data;
+  const tournaments = await BattleStadiumAPI.Tournaments.list();
 
   return (
     <div>

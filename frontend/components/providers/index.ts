@@ -1,9 +1,7 @@
-import ReactQueryClientProvider, {
-  ReactQueryClientProviderProps,
-} from "./react-query-client-provider";
+import ReactQueryClientProvider, { ReactQueryClientProviderProps } from "./react-query-client-provider";
 import NextUIProvider from "./next-ui-provider";
-import NextThemeProvider from "./next-theme-provider";
+import ThemesProvider from "./themes-provider";
 
-export { ReactQueryClientProvider, NextUIProvider, NextThemeProvider };
+export { ReactQueryClientProvider, NextUIProvider, ThemesProvider };
 
 export type { ReactQueryClientProviderProps };

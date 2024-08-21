@@ -56,10 +56,7 @@ export function GameDetailFromJSON(json: any): GameDetail {
   return GameDetailFromJSONTyped(json, false);
 }
 
-export function GameDetailFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): GameDetail {
+export function GameDetailFromJSONTyped(json: any, ignoreDiscriminator: boolean): GameDetail {
   if (json == null) {
     return json;
   }

@@ -559,6 +559,21 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/UserPostRequest"
+  "/api/v1/users/me":
+    get:
+      summary: Show Me
+      tags:
+      - Users
+      description: Retrieves the current User.
+      operationId: getMe
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserMe"
   "/api/v1/users/{id}":
     parameters:
     - name: id
@@ -747,6 +762,34 @@ components:
       - last_name
       - username
       - pronouns
+    UserMe:
+      type: object
+      title: User Me
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        id:
+          type: integer
+        organizations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Organization"
+      required:
+      - organizations
+      - id
+      - email
+      - first_name
+      - last_name
+      - username
+      - pronouns
     UserPostRequest:
       type: object
       title: User Request
@@ -866,6 +909,33 @@ components:
           type: integer
         name:
           type: string
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
       required:
       - id
       - name
