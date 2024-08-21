@@ -30,10 +30,12 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch ${ASDF_VERSIO
 
 FROM asdf-ruby AS base-image
 # INSTALL DEPENDENCIES
-RUN apt-get update -qq  && apt-get --no-install-recommends install -y -q  \
+RUN apt-get update -qq  && \
+    apt-get --no-install-recommends install -y -q  \
     default-jre \
+    l-client \
     openssl \
-    postgresq l-client \
+    postgresq  \
     ruby-dev \
     watchman \
     wget && \
