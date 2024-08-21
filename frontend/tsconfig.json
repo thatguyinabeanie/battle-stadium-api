@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",
-
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -27,6 +26,15 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "scripts/generateRosieFactories.js", "scripts/generateRosieFactories.mts"],
+  "include": [
+    "./node_modules/@types",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "scripts/generateRosieFactories.js",
+    "scripts/generateRosieFactories.mts",
+    "./types"
+  ],
   "exclude": ["node_modules"]
 }

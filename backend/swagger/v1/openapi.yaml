@@ -130,6 +130,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/Organization"
+        required: true
   "/api/v1/organizations/{id}":
     parameters:
     - name: id
@@ -196,7 +197,7 @@ paths:
       tags:
       - Organizations
       description: Retrieves a list of staff members for a specific organization.
-      operationId: getOrganizationStaff
+      operationId: listOrganizationStaff
       responses:
         '200':
           description: successful
@@ -208,9 +209,9 @@ paths:
                   "$ref": "#/components/schemas/User"
         '404':
           description: not found
-  "/api/v1/organizations/{id}/tournaments":
+  "/api/v1/organizations/{organization_id}/tournaments":
     parameters:
-    - name: id
+    - name: organization_id
       in: path
       required: true
       schema:
@@ -228,7 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Tournament"
+                "$ref": "#/components/schemas/TournamentDetails"
         '400':
           description: bad request
       requestBody:
@@ -236,14 +237,14 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
-  "/api/v1/organizations/{id}/tournaments/{tournament_id}":
+  "/api/v1/organizations/{organization_id}/tournaments/{id}":
     parameters:
-    - name: id
+    - name: organization_id
       in: path
       required: true
       schema:
         type: integer
-    - name: tournament_id
+    - name: id
       in: path
       required: true
       schema:
@@ -261,7 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Tournament"
+                "$ref": "#/components/schemas/TournamentDetails"
         '404':
           description: not found
         '400':
@@ -346,12 +347,12 @@ paths:
                 "$ref": "#/components/schemas/PhaseDetails"
         '404':
           description: not found
-    put:
+    patch:
       summary: Update Tournament Phase
       tags:
       - Phases
       description: Updates a Tournament Phase.
-      operationId: putTournamentPhase
+      operationId: patchTournamentPhase
       parameters: []
       responses:
         '404':
@@ -558,6 +559,21 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/UserPostRequest"
+  "/api/v1/users/me":
+    get:
+      summary: Show Me
+      tags:
+      - Users
+      description: Retrieves the current User.
+      operationId: getMe
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserMe"
   "/api/v1/users/{id}":
     parameters:
     - name: id
@@ -746,6 +762,34 @@ components:
       - last_name
       - username
       - pronouns
+    UserMe:
+      type: object
+      title: User Me
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        id:
+          type: integer
+        organizations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Organization"
+      required:
+      - organizations
+      - id
+      - email
+      - first_name
+      - last_name
+      - username
+      - pronouns
     UserPostRequest:
       type: object
       title: User Request
@@ -760,8 +804,6 @@ components:
           type: string
         last_name:
           type: string
-        id:
-          type: integer
         password:
           type: string
           minLength: 8
@@ -774,6 +816,8 @@ components:
           format: password
           title: Password Confirmation
           description: Must match the password.
+        id:
+          type: integer
       required:
       - password
       - password_confirmation
@@ -796,14 +840,14 @@ components:
           type: string
         last_name:
           type: string
-        id:
-          type: integer
         current_password:
           type: string
           minLength: 8
           format: password
           title: Current Password
           description: Your current password.
+        id:
+          type: integer
       required:
       - current_password
       - email
@@ -815,15 +859,15 @@ components:
       type: object
       title: Organization
       properties:
-        id:
-          type: integer
-        name:
-          type: string
         owner:
           "$ref": "#/components/schemas/User"
         description:
           type: string
           nullable: true
+        id:
+          type: integer
+        name:
+          type: string
       required:
       - id
       - name
@@ -833,15 +877,15 @@ components:
       type: object
       title: Organization Details
       properties:
-        id:
-          type: integer
-        name:
-          type: string
         owner:
           "$ref": "#/components/schemas/User"
         description:
           type: string
           nullable: true
+        id:
+          type: integer
+        name:
+          type: string
       required:
       - id
       - name
@@ -851,10 +895,6 @@ components:
       type: object
       title: Tournament
       properties:
-        id:
-          type: integer
-        name:
-          type: string
         start_at:
           type: string
           format: date-time
@@ -865,6 +905,10 @@ components:
           "$ref": "#/components/schemas/Format"
         game:
           "$ref": "#/components/schemas/Game"
+        id:
+          type: integer
+        name:
+          type: string
         player_cap:
           type: integer
           nullable: true
@@ -912,15 +956,37 @@ components:
           type: integer
         name:
           type: string
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+          nullable: true
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        teamlists_required:
+          type: boolean
+        open_team_sheets:
+          type: boolean
         player_cap:
           type: integer
           nullable: true
         player_count:
           type: integer
-        end_at:
-          type: string
-          format: date-time
-          nullable: true
         started_at:
           type: string
           format: date-time
@@ -937,28 +1003,6 @@ components:
           type: string
           format: date-time
           nullable: true
-        late_registration:
-          type: boolean
-        autostart:
-          type: boolean
-        start_at:
-          type: string
-          format: date-time
-          nullable: true
-        organization:
-          "$ref": "#/components/schemas/Organization"
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
-        check_in_start_at:
-          type: string
-          format: date-time
-          nullable: true
-        teamlists_required:
-          type: boolean
-        open_team_sheets:
-          type: boolean
       required:
       - id
       - name
@@ -1104,9 +1148,6 @@ components:
           type: integer
         best_of:
           type: integer
-        criteria:
-          type: string
-          nullable: true
         started_at:
           type: string
           format: date-time
@@ -1128,7 +1169,6 @@ components:
       - tournament_id
       - number_of_rounds
       - best_of
-      - criteria
       - started_at
       - ended_at
     PhaseDetails:
@@ -1149,9 +1189,6 @@ components:
           type: integer
         best_of:
           type: integer
-        criteria:
-          type: string
-          nullable: true
         started_at:
           type: string
           format: date-time
@@ -1181,7 +1218,6 @@ components:
       - tournament_id
       - number_of_rounds
       - best_of
-      - criteria
       - started_at
       - ended_at
       - players

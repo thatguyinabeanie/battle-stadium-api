@@ -18,9 +18,7 @@ export function NavbarSearch() {
       }
       labelPlacement="outside"
       placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
+      startContent={<SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />}
       type="search"
     />
   );

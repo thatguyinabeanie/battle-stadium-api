@@ -3,21 +3,32 @@ require_relative '../../../serializer/user_serializer'
 module Api
   module V1
     class UsersController < AbstractApplicationController
-      before_action :set_user, only: %i[show update destroy] # rubocop:disable Rails/LexicallyScopedActionFilter
       self.klass = User
       self.serializer_klass = Serializer::User
       self.detail_serializer_klass = Serializer::UserDetails
       self.update_params_except = %i[password password_confirmation]
 
-      # PATCH /api/v1/users/:id/password
-      # PATCH /api/v1/users/:id/password.json
+      before_action :set_user, only: %i[patch_password]
+      before_action :authenticate_user!, only: %i[me]
+      before_action :set_cache_headers, only: %i[me]
+
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
-        if @user.update_with_password(password_params)
+
+        if password_params[:password].blank?
+          render json: { errors: ["Password can't be blank"] }, status: :unprocessable_entity
+        elsif @user.update_with_password(password_params)
           render json: { message: 'Password updated successfully' }, status: :ok
         else
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         end
+      end
+
+      def me
+        @user = User.find_by(username: 'fuecoco-supremacy') || current_user
+        render json: @user, serializer: Serializer::UserMe, status: :ok
+      rescue ActiveRecord::RecordNotFound
+        render json: { errors: ['User not found'] }, status: :not_found
       end
 
       protected
@@ -32,6 +43,10 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_user
         @user = set_object
+      end
+
+      def set_cache_headers
+        response.headers['Cache-Control'] = 'public, max-age=300'
       end
     end
   end

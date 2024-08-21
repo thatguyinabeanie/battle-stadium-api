@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { SessionsApi } from "@/openapi/api"; // Adjust the import based on your OpenAPI client setup
+import { SessionsApi } from "@/lib/api"; // Adjust the import based on your OpenAPI client setup
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -25,30 +25,23 @@ const Login = () => {
       const sessionsApi = new SessionsApi();
 
       await sessionsApi.loginUser({
-        email: formData.email,
-        password: formData.password,
+        userLoginRequest: {
+          email: formData.email,
+          password: formData.password,
+        },
       });
 
       router.push("/dashboard");
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error logging in:", error);
     }
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <input
-        name="email"
-        placeholder="Email"
-        type="email"
-        onChange={ handleChange }
-      />
-      <input
-        name="password"
-        placeholder="Password"
-        type="password"
-        onChange={ handleChange }
-      />
+    <form onSubmit={handleSubmit}>
+      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
+      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
       <button type="submit">Login</button>
     </form>
   );

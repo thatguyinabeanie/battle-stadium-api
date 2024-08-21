@@ -1,2 +1,6 @@
-import Layout from "@/components/layout";
-export default Layout;
+import MainPageLayout from "@/components/main-page-layout";
+import { ChildrenProps } from "@/types";
+
+export default function Layout({ children }: Readonly<ChildrenProps>) {
+  return <MainPageLayout title="Organizations">{children}</MainPageLayout>;
+}

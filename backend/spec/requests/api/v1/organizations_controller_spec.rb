@@ -28,7 +28,7 @@ RSpec.describe Api::V1::OrganizationsController do
       description 'Creates a new organization.'
       operationId 'postOrganization'
 
-      parameter name: :organization, in: :body, schema: { '$ref' => '#/components/schemas/Organization' }
+      parameter name: :organization, required: true, in: :body, schema: { '$ref' => '#/components/schemas/Organization' }
 
       response(201, 'created') do
         let(:owner) { create(:user) }
@@ -141,7 +141,7 @@ RSpec.describe Api::V1::OrganizationsController do
       tags 'Organizations'
       produces OpenApi::Response::JSON_CONTENT_TYPE
       description 'Retrieves a list of staff members for a specific organization.'
-      operationId 'getOrganizationStaff'
+      operationId 'listOrganizationStaff'
 
       response(200, 'successful') do
         schema type: :array, items: { '$ref' => '#/components/schemas/User' }
@@ -160,10 +160,10 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path('/api/v1/organizations/{id}/tournaments') do
-    parameter name: :id, in: :path, type: :integer, required: true
+  path('/api/v1/organizations/{organization_id}/tournaments') do
+    parameter name: :organization_id, in: :path, type: :integer, required: true
     let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:id) { org.id }
+    let(:organization_id) { org.id }
 
     post('Create Tournament') do
       tags 'Organizations'
@@ -196,7 +196,7 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/Tournament'
+        schema '$ref' => '#/components/schemas/TournamentDetails'
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -210,14 +210,14 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path('/api/v1/organizations/{id}/tournaments/{tournament_id}') do
+  path('/api/v1/organizations/{organization_id}/tournaments/{id}') do
+    parameter name: :organization_id, in: :path, type: :integer, required: true
     parameter name: :id, in: :path, type: :integer, required: true
-    parameter name: :tournament_id, in: :path, type: :integer, required: true
 
     let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:id) { org.id }
+    let(:organization_id) { org.id }
     let(:tour) { create(:tournament, organization: org) }
-    let(:tournament_id) { tour.id }
+    let(:id) { tour.id }
 
     let(:game) { create(:game) }
     let(:format) { create(:format, game:) }
@@ -251,7 +251,7 @@ RSpec.describe Api::V1::OrganizationsController do
       parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentDetails' }
 
       response(200, 'successful') do
-        schema '$ref' => '#/components/schemas/Tournament'
+        schema '$ref' => '#/components/schemas/TournamentDetails'
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

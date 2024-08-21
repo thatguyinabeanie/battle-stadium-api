@@ -1,0 +1,30 @@
+# Ignore pnpm store
+.pnpm-store/
+
+# Ignore node_modules
+node_modules/
+
+# Ignore build output directories
+dist/
+build/
+out/
+
+# Ignore coverage directories
+coverage/
+
+# Ignore environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Ignore other common directories
+logs/
+*.log
+*.tmp
+*.cache
+.next

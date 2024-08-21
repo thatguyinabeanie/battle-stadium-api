@@ -9,7 +9,7 @@ module Serializer
       include SerializerMixin::Id
       include SerializerMixin::Name
       attributes :type
-      attributes :best_of, :number_of_rounds, :criteria, :order
+      attributes :best_of, :number_of_rounds, :order
       attributes :started_at, :ended_at, :created_at, :updated_at
       attributes :tournament_id
     end

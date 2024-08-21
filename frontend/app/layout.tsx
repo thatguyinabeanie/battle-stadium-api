@@ -1,13 +1,14 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import { Link } from "@nextui-org/link";
 import clsx from "clsx";
+import { AppProps } from "next/app";
 
-import { Providers } from "./providers";
-
+import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
+import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
 import { siteConfig } from "@/config/site";
-import { Navbar } from "@/components/navbar";
-import ChildrenProps from "@/types/childrenProps";
+import { ChildrenProps } from "@/types";
+import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import { CurrentUserContextProvider } from "@/lib/context/current-user";
 
 export const metadata: Metadata = {
   title: {
@@ -27,35 +28,40 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: Readonly<ChildrenProps>) {
+const initialIsOpen = process.env.NODE_ENV === "development";
+
+const useServerSideCurrentUser = async () => {
+  try {
+    const currentUser = await BattleStadiumAPI.Users.me();
+
+    return currentUser;
+  } catch (error) {
+    return null;
+  }
+};
+
+async function RootLayout({ children }: ChildrenProps & AppProps) {
+  const currentUser = await useServerSideCurrentUser();
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body
-        className={clsx("min-h-screen bg-background font-sans antialiased")}
-      >
-        <Providers>
-          <div className="relative flex flex-col h-screen">
-            <Navbar />
-
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-              {children}
-            </main>
-
-            <footer className="w-full flex items-center justify-center py-3">
-              <Link
-                isExternal
-                className="flex items-center gap-1 text-current"
-                href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-                title="nextui.org homepage"
-              >
-                <span className="text-default-600">Powered by</span>
-                <p className="text-primary">NextUI</p>
-              </Link>
-            </footer>
-          </div>
-        </Providers>
+      <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
+        <ThemesProvider>
+          <NextUIProvider>
+            <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
+              <div className="flex h-dvh w-full">
+                <CurrentUserContextProvider initCurrentUser={currentUser}>
+                  <SidebarResponsive />
+                  {children}
+                </CurrentUserContextProvider>
+              </div>
+            </ReactQueryClientProvider>
+          </NextUIProvider>
+        </ThemesProvider>
       </body>
     </html>
   );
 }
+
+export default RootLayout;

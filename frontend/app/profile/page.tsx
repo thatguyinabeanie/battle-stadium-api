@@ -3,7 +3,9 @@ import { Text } from "@/components/text";
 const Profile = () => {
   return (
     <div>
-      <Text variant="header" tag="h1">Profile Page here</Text>
+      <Text tag="h1" variant="header">
+        Profile Page here
+      </Text>
     </div>
   );
 };
