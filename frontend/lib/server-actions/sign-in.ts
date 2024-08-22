@@ -1,5 +1,6 @@
 // authActions.ts
 "use server";
+import "server-only";
 
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";

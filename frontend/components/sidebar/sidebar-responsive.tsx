@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 
 import Logout from "./logout";
 
-import { Button, Tooltip } from "@/components/client/nextui-components";
+import { Button, Tooltip } from "@/components/client";
 import BattleStadium from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";

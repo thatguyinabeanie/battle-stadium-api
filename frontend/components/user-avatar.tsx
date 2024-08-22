@@ -2,7 +2,7 @@ import React from "react";
 import { type AvatarProps } from "@nextui-org/react";
 import { Session } from "next-auth";
 
-import { Avatar as NextUiAvatar, AvatarIcon, Link, Avatar } from "@/components/client/nextui-components";
+import { Avatar as NextUiAvatar, AvatarIcon, Link, Avatar } from "@/components/client";
 import { cn } from "@/lib/utils";
 
 const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
