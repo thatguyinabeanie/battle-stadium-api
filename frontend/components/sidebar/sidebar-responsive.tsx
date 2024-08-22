@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { Button, Tooltip } from "@/components/nextui-client-components";
-import BattleStadiumIcon from "@/components/battle-stadium-icon";
+import BattleStadium, { BattleStadiumIcon } from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";
 import UserAvatar from "@/components/user-avatar";
@@ -51,17 +51,7 @@ export default function SidebarResponsive() {
           },
         )}
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
-          <BattleStadiumIcon className="text-background" />
-        </div>
-
-        <span
-          className={cn("text-small font-bold uppercase opacity-100", {
-            "w-0 opacity-0": isCompact,
-          })}
-        >
-          Battle Stadium
-        </span>
+        <BattleStadium isCompact={isCompact} />
       </div>
 
       <Spacer y={8} />

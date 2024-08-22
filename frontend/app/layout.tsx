@@ -32,9 +32,7 @@ const initialIsOpen = process.env.NODE_ENV === "development";
 
 const useServerSideCurrentUser = async () => {
   try {
-    const currentUser = await BattleStadiumAPI.Users.me();
-
-    return currentUser;
+    return await BattleStadiumAPI.Users.me();
   } catch (error) {
     return null;
   }

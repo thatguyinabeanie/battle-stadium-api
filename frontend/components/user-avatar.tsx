@@ -1,6 +1,6 @@
 "use client";
 
-import type { AvatarProps } from "@nextui-org/react";
+import { type AvatarProps } from "@nextui-org/react";
 
 import React from "react";
 
@@ -22,6 +22,7 @@ const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(({ name, className
     name={name}
     radius="md"
     size="sm"
+    aria-label="User Avatar"
   />
 ));
 
@@ -32,31 +33,45 @@ export interface UserAvatarProps {
 }
 
 export interface CurrentUserAvatarProps extends UserAvatarProps {
-  currentUser: UserMe;
+  currentUser: UserMe | null;
 }
 
-const LoggedInUser = ({ isCompact, currentUser }: CurrentUserAvatarProps) => {
+function UserInfo({ isCompact, currentUser }: CurrentUserAvatarProps) {
   return (
     <div className={cn("flex max-w-full flex-col", { hidden: isCompact })}>
-      <p className="truncate text-small font-medium text-default-600">{currentUser?.username}</p>
-
-      <p className="truncate text-tiny text-default-400">
-        {currentUser?.firstName} {currentUser?.lastName}
+      { currentUser && <p className="truncate text-small font-medium text-default-600">{ currentUser.username }</p> }
+      { !currentUser && (<p className="truncate text-tiny text-default-400">
+        <Link href="/login">Log in</Link>
       </p>
+      )}
+      {
+        currentUser && (
+          <p className="truncate text-tiny text-default-400">
+            { currentUser.firstName } { currentUser.lastName }
+          </p>
+        )
+      }
     </div>
   );
 };
-const UserAvatar = ({ isCompact }: UserAvatarProps) => {
+export default function UserAvatar({ isCompact }: UserAvatarProps){
   const currentUser = useCurrentUser();
+
+  if (!currentUser) {
+    return (
+      <div className="flex items-center gap-3 px-3">
+        <Link href="/login">
+          <Avatar isBordered icon={<AvatarIcon />} size="sm" />
+        </Link>
+        <UserInfo isCompact={ isCompact } currentUser={ null } />
+      </div >
+    );
+  }
 
   return (
     <div className="flex items-center gap-3 px-3">
       <Avatar isBordered icon={<AvatarIcon />} size="sm" />
-      {currentUser && <LoggedInUser currentUser={currentUser} isCompact={isCompact} />}
-
-      {!currentUser && <Link href="/login">Login</Link>}
+      <UserInfo isCompact={ isCompact } currentUser={ currentUser } />
     </div>
   );
 };
-
-export default UserAvatar;
