@@ -5,10 +5,8 @@ import { Button, Input, Link, Divider, ResizablePanel } from "@nextui-org/react"
 import { AnimatePresence, m, domAnimation, LazyMotion } from "framer-motion";
 import { Icon } from "@iconify/react";
 
-
 import { providerMap } from "@/auth";
-import { handleSignIn } from "./auth-actions";
-
+import { handleSignIn } from "@/lib/server-actions/handle-sign-in";
 
 const SIGNIN_ERROR_URL = "/"
 

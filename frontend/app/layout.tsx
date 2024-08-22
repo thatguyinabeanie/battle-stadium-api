@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
+import { SessionProvider } from 'next-auth/react';
 
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
@@ -9,6 +10,7 @@ import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { CurrentUserContextProvider } from "@/lib/context/current-user";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -50,8 +52,10 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
               <div className="flex h-dvh w-full">
                 <CurrentUserContextProvider initCurrentUser={currentUser}>
-                  <SidebarResponsive />
-                  {children}
+                  <SessionProvider >
+                    <SidebarResponsive />
+                    {children}
+                  </SessionProvider>
                 </CurrentUserContextProvider>
               </div>
             </ReactQueryClientProvider>

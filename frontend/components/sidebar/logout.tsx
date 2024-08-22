@@ -1,8 +1,7 @@
-
 import { cn } from "@/lib";
 import { Button, Icon, Tooltip } from "../nextui-client-components";
-import { signOut } from "@/auth";
 import { m } from "framer-motion";
+import { handleSignOut } from "@/lib/server-actions/handle-sign-out";
 
 export interface LogoutProps {
   isCompact: boolean;
@@ -12,10 +11,7 @@ export default function Logout ({ isCompact }: LogoutProps) {
   return (
     <Tooltip content="Log Out" isDisabled={ !isCompact } placement="right">
       <m.form
-        action={async () =>{
-          "use server";
-          await signOut()
-        }}
+        action={handleSignOut}
       >
         <Button
           type="submit"
