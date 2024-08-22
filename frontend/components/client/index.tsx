@@ -14,7 +14,11 @@ import {
   Tabs,
   Tab,
   useDisclosure,
+  ResizablePanel
 } from "@nextui-org/react";
+
+export * from "framer-motion";
+
 import { Icon } from "@iconify/react";
 
 export {
@@ -33,4 +37,5 @@ export {
   Tabs,
   Tab,
   useDisclosure,
+  ResizablePanel
 };
