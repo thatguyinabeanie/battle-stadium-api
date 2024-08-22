@@ -2,7 +2,7 @@ import React from "react";
 
 import LoadingPlaceholder from "./loading-place-holder";
 
-import { Image, Link } from "@/components/nextui-client-components";
+import { Image, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
 import { OrganizationDetails } from "@/lib/api";
 

@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Chip,
   Avatar,
@@ -14,8 +15,11 @@ import {
   Tabs,
   Tab,
   useDisclosure,
+  ResizablePanel,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
+
+export * from "framer-motion";
 
 export {
   Chip,
@@ -33,4 +37,5 @@ export {
   Tabs,
   Tab,
   useDisclosure,
+  ResizablePanel,
 };
