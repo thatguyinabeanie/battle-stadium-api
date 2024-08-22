@@ -1,6 +1,6 @@
 import { Link } from "@nextui-org/react";
 
-export default function SignUp(){
+export default function SignUp() {
   return (
     <p className="mt-3 text-center text-small">
       Need to create an account?&nbsp;
@@ -9,4 +9,4 @@ export default function SignUp(){
       </Link>
     </p>
   );
-};
+}

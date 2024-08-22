@@ -1,17 +1,19 @@
 import { Button, Input } from "@nextui-org/react";
-import { LoginFormProps, orDivider, variants } from "./common";
 import { m } from "framer-motion";
+
 import { Icon } from "../client";
 
-export default function EmailLoginForm ({ setIsFormVisible }: LoginFormProps){
+import { LoginFormProps, orDivider, variants } from "./common";
+
+export default function EmailLoginForm({ setIsFormVisible }: LoginFormProps) {
   return (
     <m.form
       animate="visible"
       className="flex flex-col gap-y-3"
       exit="hidden"
       initial="hidden"
-      variants={ variants }
-      onSubmit={ (e) => e.preventDefault() }
+      variants={variants}
+      onSubmit={(e) => e.preventDefault()}
     >
       <Input label="Email Address" name="email" type="email" variant="bordered" />
       <Input label="Password" name="password" type="password" variant="bordered" />
@@ -20,15 +22,15 @@ export default function EmailLoginForm ({ setIsFormVisible }: LoginFormProps){
         Log In
       </Button>
 
-      { orDivider }
+      {orDivider}
       <Button
         fullWidth
-        startContent={ <Icon className="text-default-500" icon="solar:arrow-left-linear" width={ 18 } /> }
+        startContent={<Icon className="text-default-500" icon="solar:arrow-left-linear" width={18} />}
         variant="flat"
-        onPress={ () => setIsFormVisible(false) }
+        onPress={() => setIsFormVisible(false)}
       >
         Other Login options
       </Button>
     </m.form>
   );
-};
+}
