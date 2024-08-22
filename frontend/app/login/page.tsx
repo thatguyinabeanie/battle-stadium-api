@@ -1,50 +1,106 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-import { SessionsApi } from "@/lib/api"; // Adjust the import based on your OpenAPI client setup
+import React from "react";
+import { Button, Input, Link, Divider, ResizablePanel } from "@nextui-org/react";
+import { AnimatePresence, m, domAnimation, LazyMotion } from "framer-motion";
+import { Icon } from "@iconify/react";
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+import { providerMap } from "@/auth";
+import { handleSignIn } from "@/lib/server-actions/handle-sign-in";
 
-  const router = useRouter();
+export default function Component() {
+  const [isFormVisible, setIsFormVisible] = React.useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const variants = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 10 },
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const sessionsApi = new SessionsApi();
-
-      await sessionsApi.loginUser({
-        userLoginRequest: {
-          email: formData.email,
-          password: formData.password,
-        },
-      });
-
-      router.push("/dashboard");
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Error logging in:", error);
-    }
-  };
+  const orDivider = (
+    <div className="flex items-center gap-4 py-2">
+      <Divider className="flex-1" />
+      <p className="shrink-0 text-tiny text-default-500">OR</p>
+      <Divider className="flex-1" />
+    </div>
+  );
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
-      <button type="submit">Login</button>
-    </form>
+    <div className="flex h-full w-full items-center justify-center">
+      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-small">
+        <ResizablePanel>
+          <h1 className="mb-4 text-xl font-medium">Log In</h1>
+          <AnimatePresence initial={false} mode="popLayout">
+            <LazyMotion features={domAnimation}>
+              {isFormVisible ? (
+                <m.form
+                  animate="visible"
+                  className="flex flex-col gap-y-3"
+                  exit="hidden"
+                  initial="hidden"
+                  variants={variants}
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <Input label="Email Address" name="email" type="email" variant="bordered" />
+                  <Input label="Password" name="password" type="password" variant="bordered" />
+                  <Button color="primary" type="submit">
+                    Log In
+                  </Button>
+                  {orDivider}
+                  <Button
+                    fullWidth
+                    startContent={<Icon className="text-default-500" icon="solar:arrow-left-linear" width={18} />}
+                    variant="flat"
+                    onPress={() => setIsFormVisible(false)}
+                  >
+                    Other Login options
+                  </Button>
+                </m.form>
+              ) : (
+                <>
+                  <Button
+                    fullWidth
+                    color="primary"
+                    startContent={<Icon className="pointer-events-none text-2xl" icon="solar:letter-bold" />}
+                    type="button"
+                    onPress={() => setIsFormVisible(true)}
+                  >
+                    Continue with Email
+                  </Button>
+                  {orDivider}
+                  <m.div
+                    animate="visible"
+                    className="flex flex-col gap-y-2"
+                    exit="hidden"
+                    initial="hidden"
+                    variants={variants}
+                  >
+                    <div className="flex flex-col gap-2">
+                      {Object.values(providerMap).map((provider) => (
+                        <m.form key={provider.id} action={() => handleSignIn(provider.id)}>
+                          <Button
+                            fullWidth
+                            startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}
+                            type="submit"
+                            variant="flat"
+                          >
+                            <span>Sign in with {provider.name}</span>
+                          </Button>
+                        </m.form>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-center text-small">
+                      Need to create an account?&nbsp;
+                      <Link href="#" size="sm">
+                        Sign Up
+                      </Link>
+                    </p>
+                  </m.div>
+                </>
+              )}
+            </LazyMotion>
+          </AnimatePresence>
+        </ResizablePanel>
+      </div>
+    </div>
   );
-};
-
-export default Login;
+}

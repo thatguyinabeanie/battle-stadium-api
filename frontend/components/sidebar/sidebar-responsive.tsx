@@ -3,13 +3,15 @@ import React from "react";
 import { Spacer } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
+import { useSession } from "next-auth/react";
+
+import Logout from "./logout";
 
 import { Button, Tooltip } from "@/components/nextui-client-components";
-import BattleStadiumIcon from "@/components/battle-stadium-icon";
+import BattleStadium from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";
 import UserAvatar from "@/components/user-avatar";
-
 export interface SideBarComponentProps {
   children?: React.ReactNode;
 }
@@ -35,6 +37,7 @@ export interface SideBarComponentProps {
 
 export default function SidebarResponsive() {
   const isCompact = useMediaQuery("(max-width: 768px)");
+  const { data: session } = useSession();
 
   return (
     <div
@@ -51,22 +54,12 @@ export default function SidebarResponsive() {
           },
         )}
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
-          <BattleStadiumIcon className="text-background" />
-        </div>
-
-        <span
-          className={cn("text-small font-bold uppercase opacity-100", {
-            "w-0 opacity-0": isCompact,
-          })}
-        >
-          Battle Stadium
-        </span>
+        <BattleStadium isCompact={isCompact} />
       </div>
 
       <Spacer y={8} />
 
-      <UserAvatar isCompact={isCompact} />
+      <UserAvatar isCompact={isCompact} session={session} />
 
       <Sidebar defaultSelectedKey="home" isCompact={isCompact} />
 
@@ -99,30 +92,7 @@ export default function SidebarResponsive() {
           </Button>
         </Tooltip>
 
-        <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
-          <Button
-            className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
-              "justify-center": isCompact,
-            })}
-            isIconOnly={isCompact}
-            startContent={
-              isCompact ? null : (
-                <Icon
-                  className="flex-none rotate-180 text-default-500"
-                  icon="solar:minus-circle-line-duotone"
-                  width={24}
-                />
-              )
-            }
-            variant="light"
-          >
-            {isCompact ? (
-              <Icon className="rotate-180 text-default-500" icon="solar:minus-circle-line-duotone" width={24} />
-            ) : (
-              "Log Out"
-            )}
-          </Button>
-        </Tooltip>
+        <Logout isCompact={isCompact} />
       </div>
     </div>
   );

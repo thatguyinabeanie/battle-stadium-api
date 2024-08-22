@@ -239,7 +239,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     );
 
     return (
-      <ScrollShadow className="-mr-6 h-full max-h-full py-6 ">
+      <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
         <Listbox
           key={isCompact ? "compact" : "default"}
           ref={ref}

@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
 
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
@@ -32,9 +33,7 @@ const initialIsOpen = process.env.NODE_ENV === "development";
 
 const useServerSideCurrentUser = async () => {
   try {
-    const currentUser = await BattleStadiumAPI.Users.me();
-
-    return currentUser;
+    return await BattleStadiumAPI.Users.me();
   } catch (error) {
     return null;
   }
@@ -52,8 +51,10 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
             <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
               <div className="flex h-dvh w-full">
                 <CurrentUserContextProvider initCurrentUser={currentUser}>
-                  <SidebarResponsive />
-                  {children}
+                  <SessionProvider>
+                    <SidebarResponsive />
+                    {children}
+                  </SessionProvider>
                 </CurrentUserContextProvider>
               </div>
             </ReactQueryClientProvider>
