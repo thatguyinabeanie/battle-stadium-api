@@ -1,14 +1,11 @@
 import { Button } from "@nextui-org/react";
 import React from "react";
 import { Icon } from "@iconify/react";
-import { orDivider, variants } from "./common";
+import { LoginFormProps, orDivider, variants } from "./common";
 import AuthProviders from "./auth-providers";
 import SignUp from "./sign-up";
 import { m } from "framer-motion";
 
-interface LoginFormProps {
-  setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const LoginOptions = React.forwardRef<HTMLDivElement, LoginFormProps>(({ setIsFormVisible }, ref) => {
   return (
