@@ -8,6 +8,15 @@ const nextConfig = {
   env: {
     API_BASE_URL: `http://${process.env.BACKEND_HOST || "localhost"}:3000`,
   },
+  experimental: {
+    turbo: {
+      resolve: {
+        fallback: {
+          crypto: false,
+        },
+      },
+    },
+  },
 };
 
 module.exports = nextConfig;
