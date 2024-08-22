@@ -1,6 +1,5 @@
-import "server-only";
 import React from "react";
-import LoginForm from "./login-form";
+import LoginForm from "@/components/auth/login-form";
 
 export default function Component() {
   return (
