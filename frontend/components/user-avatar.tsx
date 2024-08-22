@@ -1,9 +1,9 @@
-import React from "react"
-import { type AvatarProps } from "@nextui-org/react"
-import { Session } from "next-auth"
+import React from "react";
+import { type AvatarProps } from "@nextui-org/react";
+import { Session } from "next-auth";
 
-import { Avatar as NextUiAvatar, AvatarIcon, Link, Avatar } from "@/components/nextui-client-components"
-import { cn } from "@/lib/utils"
+import { Avatar as NextUiAvatar, AvatarIcon, Link, Avatar } from "@/components/nextui-client-components";
+import { cn } from "@/lib/utils";
 
 const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   ({ name, className, classNames = {}, ...props }, ref) => (
@@ -22,13 +22,13 @@ const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
       size="sm"
     />
   ),
-)
+);
 
-DefaultAvatar.displayName = "DefaultAvatar"
+DefaultAvatar.displayName = "DefaultAvatar";
 
 export interface UserAvatarProps {
-  isCompact?: boolean
-  session: Session | null
+  isCompact?: boolean;
+  session: Session | null;
 }
 
 // TODO: update the UserInfo component to display the user's username primarily and their name as a secondary option
@@ -55,11 +55,11 @@ function UserInfo({ isCompact, session }: UserAvatarProps) {
         </>
       )}
     </div>
-  )
+  );
 }
 
 export default function UserAvatar(props: UserAvatarProps) {
-  const { session } = props
+  const { session } = props;
 
   if (!session) {
     return (
@@ -69,7 +69,7 @@ export default function UserAvatar(props: UserAvatarProps) {
         </Link>
         <UserInfo {...props} />
       </div>
-    )
+    );
   }
 
   return (
@@ -79,5 +79,5 @@ export default function UserAvatar(props: UserAvatarProps) {
       </Link>
       <UserInfo {...props} />
     </div>
-  )
+  );
 }

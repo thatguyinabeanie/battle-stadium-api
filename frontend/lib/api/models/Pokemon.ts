@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
+import { mapValues } from "../runtime";
 /**
  *
  * @export
@@ -24,93 +24,93 @@ export interface Pokemon {
    * @type {number}
    * @memberof Pokemon
    */
-  id: number
+  id: number;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  name: string
+  name: string;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  nickname?: string | null
+  nickname?: string | null;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  ability: string
+  ability: string;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  teraType: string
+  teraType: string;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  nature: string
+  nature: string;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  heldItem: string | null
+  heldItem: string | null;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  move1: string | null
+  move1: string | null;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  move2: string | null
+  move2: string | null;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  move3: string | null
+  move3: string | null;
   /**
    *
    * @type {string}
    * @memberof Pokemon
    */
-  move4: string | null
+  move4: string | null;
 }
 
 /**
  * Check if a given object implements the Pokemon interface.
  */
 export function instanceOfPokemon(value: object): value is Pokemon {
-  if (!("id" in value) || value["id"] === undefined) return false
-  if (!("name" in value) || value["name"] === undefined) return false
-  if (!("ability" in value) || value["ability"] === undefined) return false
-  if (!("teraType" in value) || value["teraType"] === undefined) return false
-  if (!("nature" in value) || value["nature"] === undefined) return false
-  if (!("heldItem" in value) || value["heldItem"] === undefined) return false
-  if (!("move1" in value) || value["move1"] === undefined) return false
-  if (!("move2" in value) || value["move2"] === undefined) return false
-  if (!("move3" in value) || value["move3"] === undefined) return false
-  if (!("move4" in value) || value["move4"] === undefined) return false
-  return true
+  if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("name" in value) || value["name"] === undefined) return false;
+  if (!("ability" in value) || value["ability"] === undefined) return false;
+  if (!("teraType" in value) || value["teraType"] === undefined) return false;
+  if (!("nature" in value) || value["nature"] === undefined) return false;
+  if (!("heldItem" in value) || value["heldItem"] === undefined) return false;
+  if (!("move1" in value) || value["move1"] === undefined) return false;
+  if (!("move2" in value) || value["move2"] === undefined) return false;
+  if (!("move3" in value) || value["move3"] === undefined) return false;
+  if (!("move4" in value) || value["move4"] === undefined) return false;
+  return true;
 }
 
 export function PokemonFromJSON(json: any): Pokemon {
-  return PokemonFromJSONTyped(json, false)
+  return PokemonFromJSONTyped(json, false);
 }
 
 export function PokemonFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pokemon {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     id: json["id"],
@@ -124,12 +124,12 @@ export function PokemonFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
     move2: json["move2"],
     move3: json["move3"],
     move4: json["move4"],
-  }
+  };
 }
 
 export function PokemonToJSON(value?: Pokemon | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     id: value["id"],
@@ -143,5 +143,5 @@ export function PokemonToJSON(value?: Pokemon | null): any {
     move2: value["move2"],
     move3: value["move3"],
     move4: value["move4"],
-  }
+  };
 }

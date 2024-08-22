@@ -12,11 +12,11 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
-import type { Player } from "./Player"
-import { PlayerFromJSON, PlayerFromJSONTyped, PlayerToJSON } from "./Player"
-import type { Round } from "./Round"
-import { RoundFromJSON, RoundFromJSONTyped, RoundToJSON } from "./Round"
+import { mapValues } from "../runtime";
+import type { Player } from "./Player";
+import { PlayerFromJSON, PlayerFromJSONTyped, PlayerToJSON } from "./Player";
+import type { Round } from "./Round";
+import { RoundFromJSON, RoundFromJSONTyped, RoundToJSON } from "./Round";
 
 /**
  *
@@ -29,105 +29,105 @@ export interface PhaseDetails {
    * @type {number}
    * @memberof PhaseDetails
    */
-  id: number
+  id: number;
   /**
    *
    * @type {string}
    * @memberof PhaseDetails
    */
-  name: string
+  name: string;
   /**
    *
    * @type {number}
    * @memberof PhaseDetails
    */
-  order: number
+  order: number;
   /**
    *
    * @type {string}
    * @memberof PhaseDetails
    */
-  type?: string
+  type?: string;
   /**
    *
    * @type {number}
    * @memberof PhaseDetails
    */
-  tournamentId: number
+  tournamentId: number;
   /**
    *
    * @type {number}
    * @memberof PhaseDetails
    */
-  numberOfRounds: number
+  numberOfRounds: number;
   /**
    *
    * @type {number}
    * @memberof PhaseDetails
    */
-  bestOf: number
+  bestOf: number;
   /**
    *
    * @type {Date}
    * @memberof PhaseDetails
    */
-  startedAt: Date | null
+  startedAt: Date | null;
   /**
    *
    * @type {Date}
    * @memberof PhaseDetails
    */
-  endedAt: Date | null
+  endedAt: Date | null;
   /**
    *
    * @type {Date}
    * @memberof PhaseDetails
    */
-  createdAt?: Date
+  createdAt?: Date;
   /**
    *
    * @type {Date}
    * @memberof PhaseDetails
    */
-  updatedAt?: Date
+  updatedAt?: Date;
   /**
    *
    * @type {Array<Player>}
    * @memberof PhaseDetails
    */
-  players: Array<Player>
+  players: Array<Player>;
   /**
    *
    * @type {Array<Round>}
    * @memberof PhaseDetails
    */
-  rounds: Array<Round>
+  rounds: Array<Round>;
 }
 
 /**
  * Check if a given object implements the PhaseDetails interface.
  */
 export function instanceOfPhaseDetails(value: object): value is PhaseDetails {
-  if (!("id" in value) || value["id"] === undefined) return false
-  if (!("name" in value) || value["name"] === undefined) return false
-  if (!("order" in value) || value["order"] === undefined) return false
-  if (!("tournamentId" in value) || value["tournamentId"] === undefined) return false
-  if (!("numberOfRounds" in value) || value["numberOfRounds"] === undefined) return false
-  if (!("bestOf" in value) || value["bestOf"] === undefined) return false
-  if (!("startedAt" in value) || value["startedAt"] === undefined) return false
-  if (!("endedAt" in value) || value["endedAt"] === undefined) return false
-  if (!("players" in value) || value["players"] === undefined) return false
-  if (!("rounds" in value) || value["rounds"] === undefined) return false
-  return true
+  if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("name" in value) || value["name"] === undefined) return false;
+  if (!("order" in value) || value["order"] === undefined) return false;
+  if (!("tournamentId" in value) || value["tournamentId"] === undefined) return false;
+  if (!("numberOfRounds" in value) || value["numberOfRounds"] === undefined) return false;
+  if (!("bestOf" in value) || value["bestOf"] === undefined) return false;
+  if (!("startedAt" in value) || value["startedAt"] === undefined) return false;
+  if (!("endedAt" in value) || value["endedAt"] === undefined) return false;
+  if (!("players" in value) || value["players"] === undefined) return false;
+  if (!("rounds" in value) || value["rounds"] === undefined) return false;
+  return true;
 }
 
 export function PhaseDetailsFromJSON(json: any): PhaseDetails {
-  return PhaseDetailsFromJSONTyped(json, false)
+  return PhaseDetailsFromJSONTyped(json, false);
 }
 
 export function PhaseDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PhaseDetails {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     id: json["id"],
@@ -143,12 +143,12 @@ export function PhaseDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolea
     updatedAt: json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
     players: (json["players"] as Array<any>).map(PlayerFromJSON),
     rounds: (json["rounds"] as Array<any>).map(RoundFromJSON),
-  }
+  };
 }
 
 export function PhaseDetailsToJSON(value?: PhaseDetails | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     id: value["id"],
@@ -164,5 +164,5 @@ export function PhaseDetailsToJSON(value?: PhaseDetails | null): any {
     updated_at: value["updatedAt"] == null ? undefined : value["updatedAt"].toISOString(),
     players: (value["players"] as Array<any>).map(PlayerToJSON),
     rounds: (value["rounds"] as Array<any>).map(RoundToJSON),
-  }
+  };
 }

@@ -12,33 +12,33 @@
  * Do not edit the class manually.
  */
 
-import * as runtime from "../runtime"
-import type { Phase, PhaseDetails } from "../models/index"
-import { PhaseFromJSON, PhaseToJSON, PhaseDetailsFromJSON, PhaseDetailsToJSON } from "../models/index"
+import * as runtime from "../runtime";
+import type { Phase, PhaseDetails } from "../models/index";
+import { PhaseFromJSON, PhaseToJSON, PhaseDetailsFromJSON, PhaseDetailsToJSON } from "../models/index";
 
 export interface DeleteTournamentPhaseRequest {
-  tournamentId: number
-  id: number
+  tournamentId: number;
+  id: number;
 }
 
 export interface ListTournamentPhasesRequest {
-  tournamentId: number
+  tournamentId: number;
 }
 
 export interface PatchTournamentPhaseRequest {
-  tournamentId: number
-  id: number
-  phase?: Phase
+  tournamentId: number;
+  id: number;
+  phase?: Phase;
 }
 
 export interface PostTournamentPhaseRequest {
-  tournamentId: number
-  phase?: Phase
+  tournamentId: number;
+  phase?: Phase;
 }
 
 export interface ShowTournamentPhaseRequest {
-  tournamentId: number
-  id: number
+  tournamentId: number;
+  id: number;
 }
 
 /**
@@ -57,19 +57,19 @@ export class PhasesApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling deleteTournamentPhase().',
-      )
+      );
     }
 
     if (requestParameters["id"] == null) {
       throw new runtime.RequiredError(
         "id",
         'Required parameter "id" was null or undefined when calling deleteTournamentPhase().',
-      )
+      );
     }
 
-    const queryParameters: any = {}
+    const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {}
+    const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request(
       {
@@ -81,9 +81,9 @@ export class PhasesApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    )
+    );
 
-    return new runtime.VoidApiResponse(response)
+    return new runtime.VoidApiResponse(response);
   }
 
   /**
@@ -94,7 +94,7 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: DeleteTournamentPhaseRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
-    await this.deleteTournamentPhaseRaw(requestParameters, initOverrides)
+    await this.deleteTournamentPhaseRaw(requestParameters, initOverrides);
   }
 
   /**
@@ -109,12 +109,12 @@ export class PhasesApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling listTournamentPhases().',
-      )
+      );
     }
 
-    const queryParameters: any = {}
+    const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {}
+    const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request(
       {
@@ -127,9 +127,9 @@ export class PhasesApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    )
+    );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PhaseFromJSON))
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PhaseFromJSON));
   }
 
   /**
@@ -140,8 +140,8 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: ListTournamentPhasesRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Phase>> {
-    const response = await this.listTournamentPhasesRaw(requestParameters, initOverrides)
-    return await response.value()
+    const response = await this.listTournamentPhasesRaw(requestParameters, initOverrides);
+    return await response.value();
   }
 
   /**
@@ -156,21 +156,21 @@ export class PhasesApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling patchTournamentPhase().',
-      )
+      );
     }
 
     if (requestParameters["id"] == null) {
       throw new runtime.RequiredError(
         "id",
         'Required parameter "id" was null or undefined when calling patchTournamentPhase().',
-      )
+      );
     }
 
-    const queryParameters: any = {}
+    const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {}
+    const headerParameters: runtime.HTTPHeaders = {};
 
-    headerParameters["Content-Type"] = "application/json"
+    headerParameters["Content-Type"] = "application/json";
 
     const response = await this.request(
       {
@@ -183,9 +183,9 @@ export class PhasesApi extends runtime.BaseAPI {
         body: PhaseToJSON(requestParameters["phase"]),
       },
       initOverrides,
-    )
+    );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue))
+    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -196,8 +196,8 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: PatchTournamentPhaseRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.patchTournamentPhaseRaw(requestParameters, initOverrides)
-    return await response.value()
+    const response = await this.patchTournamentPhaseRaw(requestParameters, initOverrides);
+    return await response.value();
   }
 
   /**
@@ -212,14 +212,14 @@ export class PhasesApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling postTournamentPhase().',
-      )
+      );
     }
 
-    const queryParameters: any = {}
+    const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {}
+    const headerParameters: runtime.HTTPHeaders = {};
 
-    headerParameters["Content-Type"] = "application/json"
+    headerParameters["Content-Type"] = "application/json";
 
     const response = await this.request(
       {
@@ -233,9 +233,9 @@ export class PhasesApi extends runtime.BaseAPI {
         body: PhaseToJSON(requestParameters["phase"]),
       },
       initOverrides,
-    )
+    );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue))
+    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -246,8 +246,8 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: PostTournamentPhaseRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.postTournamentPhaseRaw(requestParameters, initOverrides)
-    return await response.value()
+    const response = await this.postTournamentPhaseRaw(requestParameters, initOverrides);
+    return await response.value();
   }
 
   /**
@@ -262,19 +262,19 @@ export class PhasesApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling showTournamentPhase().',
-      )
+      );
     }
 
     if (requestParameters["id"] == null) {
       throw new runtime.RequiredError(
         "id",
         'Required parameter "id" was null or undefined when calling showTournamentPhase().',
-      )
+      );
     }
 
-    const queryParameters: any = {}
+    const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {}
+    const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request(
       {
@@ -286,9 +286,9 @@ export class PhasesApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    )
+    );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue))
+    return new runtime.JSONApiResponse(response, (jsonValue) => PhaseDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -299,7 +299,7 @@ export class PhasesApi extends runtime.BaseAPI {
     requestParameters: ShowTournamentPhaseRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.showTournamentPhaseRaw(requestParameters, initOverrides)
-    return await response.value()
+    const response = await this.showTournamentPhaseRaw(requestParameters, initOverrides);
+    return await response.value();
   }
 }

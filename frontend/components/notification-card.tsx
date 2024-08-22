@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import type { CardProps } from "@nextui-org/react"
+import type { CardProps } from "@nextui-org/react";
 
-import React from "react"
-import { Button, Card, CardBody, CardHeader, Chip, Tabs, Tab, ScrollShadow, CardFooter } from "@nextui-org/react"
-import { Icon } from "@iconify/react"
+import React from "react";
+import { Button, Card, CardBody, CardHeader, Chip, Tabs, Tab, ScrollShadow, CardFooter } from "@nextui-org/react";
+import { Icon } from "@iconify/react";
 
-import NotificationItem from "@/components/notification-items"
+import NotificationItem from "@/components/notification-items";
 
 type Notification = {
-  id: string
-  isRead?: boolean
-  avatar: string
-  description: string
-  name: string
-  time: string
-  type?: "default" | "request" | "file"
-}
+  id: string;
+  isRead?: boolean;
+  avatar: string;
+  description: string;
+  name: string;
+  time: string;
+  type?: "default" | "request" | "file";
+};
 
 enum NotificationTabs {
   All = "all",
@@ -106,12 +106,12 @@ const notifications: Record<NotificationTabs, Notification[]> = {
     },
   ],
   archive: [],
-}
+};
 
 export default function Component(props: CardProps) {
-  const [activeTab, setActiveTab] = React.useState<NotificationTabs>(NotificationTabs.All)
+  const [activeTab, setActiveTab] = React.useState<NotificationTabs>(NotificationTabs.All);
 
-  const activeNotifications = notifications[activeTab]
+  const activeNotifications = notifications[activeTab];
 
   return (
     <Card className="w-full max-w-[420px]" {...props}>
@@ -182,5 +182,5 @@ export default function Component(props: CardProps) {
         {activeTab !== NotificationTabs.Archive && <Button variant="flat">Archive All</Button>}
       </CardFooter>
     </Card>
-  )
+  );
 }

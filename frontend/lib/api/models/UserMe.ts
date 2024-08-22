@@ -12,9 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
-import type { Organization } from "./Organization"
-import { OrganizationFromJSON, OrganizationFromJSONTyped, OrganizationToJSON } from "./Organization"
+import { mapValues } from "../runtime";
+import type { Organization } from "./Organization";
+import { OrganizationFromJSON, OrganizationFromJSONTyped, OrganizationToJSON } from "./Organization";
 
 /**
  *
@@ -27,66 +27,66 @@ export interface UserMe {
    * @type {string}
    * @memberof UserMe
    */
-  username: string
+  username: string;
   /**
    *
    * @type {string}
    * @memberof UserMe
    */
-  pronouns: string
+  pronouns: string;
   /**
    *
    * @type {string}
    * @memberof UserMe
    */
-  email: string
+  email: string;
   /**
    *
    * @type {string}
    * @memberof UserMe
    */
-  firstName: string
+  firstName: string;
   /**
    *
    * @type {string}
    * @memberof UserMe
    */
-  lastName: string
+  lastName: string;
   /**
    *
    * @type {number}
    * @memberof UserMe
    */
-  id: number
+  id: number;
   /**
    *
    * @type {Array<Organization>}
    * @memberof UserMe
    */
-  organizations: Array<Organization>
+  organizations: Array<Organization>;
 }
 
 /**
  * Check if a given object implements the UserMe interface.
  */
 export function instanceOfUserMe(value: object): value is UserMe {
-  if (!("username" in value) || value["username"] === undefined) return false
-  if (!("pronouns" in value) || value["pronouns"] === undefined) return false
-  if (!("email" in value) || value["email"] === undefined) return false
-  if (!("firstName" in value) || value["firstName"] === undefined) return false
-  if (!("lastName" in value) || value["lastName"] === undefined) return false
-  if (!("id" in value) || value["id"] === undefined) return false
-  if (!("organizations" in value) || value["organizations"] === undefined) return false
-  return true
+  if (!("username" in value) || value["username"] === undefined) return false;
+  if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
+  if (!("email" in value) || value["email"] === undefined) return false;
+  if (!("firstName" in value) || value["firstName"] === undefined) return false;
+  if (!("lastName" in value) || value["lastName"] === undefined) return false;
+  if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("organizations" in value) || value["organizations"] === undefined) return false;
+  return true;
 }
 
 export function UserMeFromJSON(json: any): UserMe {
-  return UserMeFromJSONTyped(json, false)
+  return UserMeFromJSONTyped(json, false);
 }
 
 export function UserMeFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserMe {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     username: json["username"],
@@ -96,12 +96,12 @@ export function UserMeFromJSONTyped(json: any, ignoreDiscriminator: boolean): Us
     lastName: json["last_name"],
     id: json["id"],
     organizations: (json["organizations"] as Array<any>).map(OrganizationFromJSON),
-  }
+  };
 }
 
 export function UserMeToJSON(value?: UserMe | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     username: value["username"],
@@ -111,5 +111,5 @@ export function UserMeToJSON(value?: UserMe | null): any {
     last_name: value["lastName"],
     id: value["id"],
     organizations: (value["organizations"] as Array<any>).map(OrganizationToJSON),
-  }
+  };
 }

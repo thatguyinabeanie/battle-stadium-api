@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Link } from "@nextui-org/react"
-import * as React from "react"
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Link } from "@nextui-org/react";
+import * as React from "react";
 
-import { siteConfig } from "@/config/site"
+import { siteConfig } from "@/config/site";
 
-const avatarSrc = "/images/avatars/avatar-1.jpg"
+const avatarSrc = "/images/avatars/avatar-1.jpg";
 
 const signedInMenuItems = () => {
   return [
@@ -21,8 +21,8 @@ const signedInMenuItems = () => {
     <DropdownItem key="logout" color="danger">
       Log Out
     </DropdownItem>,
-  ]
-}
+  ];
+};
 
 const notSignedInMenuItems = () => {
   return [
@@ -32,13 +32,13 @@ const notSignedInMenuItems = () => {
     <DropdownItem key="login">
       <Link href="/login">Log In</Link>
     </DropdownItem>,
-  ]
-}
+  ];
+};
 
 const NavbarDropDownMenu = () => {
-  const isSignedIn = false
+  const isSignedIn = false;
 
-  const menuItems = isSignedIn ? signedInMenuItems : notSignedInMenuItems
+  const menuItems = isSignedIn ? signedInMenuItems : notSignedInMenuItems;
 
   return (
     <Dropdown placement="bottom-end">
@@ -58,7 +58,7 @@ const NavbarDropDownMenu = () => {
         {menuItems()}
       </DropdownMenu>
     </Dropdown>
-  )
-}
+  );
+};
 
-export default NavbarDropDownMenu
+export default NavbarDropDownMenu;

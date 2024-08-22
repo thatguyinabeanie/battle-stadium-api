@@ -1,9 +1,9 @@
-import type { RadioProps } from "@nextui-org/react"
+import type { RadioProps } from "@nextui-org/react";
 
-import React from "react"
-import { useRadio, VisuallyHidden } from "@nextui-org/react"
+import React from "react";
+import { useRadio, VisuallyHidden } from "@nextui-org/react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export const PlanCustomRadio = (props: RadioProps) => {
   const {
@@ -15,9 +15,9 @@ export const PlanCustomRadio = (props: RadioProps) => {
     getInputProps,
     getLabelProps,
     getControlProps,
-  } = useRadio(props)
+  } = useRadio(props);
 
-  const wrapperProps = getWrapperProps()
+  const wrapperProps = getWrapperProps();
 
   return (
     <Component
@@ -53,5 +53,5 @@ export const PlanCustomRadio = (props: RadioProps) => {
       {/*  content*/}
       {children && <div>{children}</div>}
     </Component>
-  )
-}
+  );
+};

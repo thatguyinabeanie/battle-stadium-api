@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Button, Input, Select, SelectItem, Spacer } from "@nextui-org/react"
+import * as React from "react";
+import { Button, Input, Select, SelectItem, Spacer } from "@nextui-org/react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface AccountSettingCardProps {
-  className?: string
+  className?: string;
 }
 
 const timeZoneOptions = [
@@ -25,7 +25,7 @@ const timeZoneOptions = [
     value: "utc-5",
     description: "Coordinated Universal Time (UTC-5)",
   },
-]
+];
 
 const AccountSetting = React.forwardRef<HTMLDivElement, AccountSettingCardProps>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-2", className)} {...props}>
@@ -69,8 +69,8 @@ const AccountSetting = React.forwardRef<HTMLDivElement, AccountSettingCardProps>
       Update Account
     </Button>
   </div>
-))
+));
 
-AccountSetting.displayName = "AccountSetting"
+AccountSetting.displayName = "AccountSetting";
 
-export default AccountSetting
+export default AccountSetting;

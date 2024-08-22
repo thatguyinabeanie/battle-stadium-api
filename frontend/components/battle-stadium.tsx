@@ -1,10 +1,10 @@
-import type { IconSvgProps } from "@/types"
+import type { IconSvgProps } from "@/types";
 
-import React from "react"
+import React from "react";
 
-import { cn } from "@/lib"
+import { cn } from "@/lib";
 export interface BattleStadiumProps {
-  isCompact?: boolean
+  isCompact?: boolean;
 }
 
 export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, height, ...props }) => (
@@ -16,7 +16,7 @@ export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, he
       fillRule="evenodd"
     />
   </svg>
-)
+);
 
 export default function BattleStadium({ isCompact }: BattleStadiumProps) {
   return (
@@ -33,5 +33,5 @@ export default function BattleStadium({ isCompact }: BattleStadiumProps) {
         Battle Stadium
       </span>
     </>
-  )
+  );
 }

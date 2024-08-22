@@ -12,9 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
-import type { User } from "./User"
-import { UserFromJSON, UserFromJSONTyped, UserToJSON } from "./User"
+import { mapValues } from "../runtime";
+import type { User } from "./User";
+import { UserFromJSON, UserFromJSONTyped, UserToJSON } from "./User";
 
 /**
  *
@@ -27,62 +27,62 @@ export interface OrganizationDetails {
    * @type {User}
    * @memberof OrganizationDetails
    */
-  owner: User
+  owner: User;
   /**
    *
    * @type {string}
    * @memberof OrganizationDetails
    */
-  description: string | null
+  description: string | null;
   /**
    *
    * @type {number}
    * @memberof OrganizationDetails
    */
-  id: number
+  id: number;
   /**
    *
    * @type {string}
    * @memberof OrganizationDetails
    */
-  name: string
+  name: string;
 }
 
 /**
  * Check if a given object implements the OrganizationDetails interface.
  */
 export function instanceOfOrganizationDetails(value: object): value is OrganizationDetails {
-  if (!("owner" in value) || value["owner"] === undefined) return false
-  if (!("description" in value) || value["description"] === undefined) return false
-  if (!("id" in value) || value["id"] === undefined) return false
-  if (!("name" in value) || value["name"] === undefined) return false
-  return true
+  if (!("owner" in value) || value["owner"] === undefined) return false;
+  if (!("description" in value) || value["description"] === undefined) return false;
+  if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("name" in value) || value["name"] === undefined) return false;
+  return true;
 }
 
 export function OrganizationDetailsFromJSON(json: any): OrganizationDetails {
-  return OrganizationDetailsFromJSONTyped(json, false)
+  return OrganizationDetailsFromJSONTyped(json, false);
 }
 
 export function OrganizationDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrganizationDetails {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     owner: UserFromJSON(json["owner"]),
     description: json["description"],
     id: json["id"],
     name: json["name"],
-  }
+  };
 }
 
 export function OrganizationDetailsToJSON(value?: OrganizationDetails | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     owner: UserToJSON(value["owner"]),
     description: value["description"],
     id: value["id"],
     name: value["name"],
-  }
+  };
 }

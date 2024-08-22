@@ -12,9 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
-import type { User } from "./User"
-import { UserFromJSON, UserFromJSONTyped, UserToJSON } from "./User"
+import { mapValues } from "../runtime";
+import type { User } from "./User";
+import { UserFromJSON, UserFromJSONTyped, UserToJSON } from "./User";
 
 /**
  *
@@ -27,53 +27,53 @@ export interface PlayerDetails {
    * @type {number}
    * @memberof PlayerDetails
    */
-  id: number
+  id: number;
   /**
    *
    * @type {User}
    * @memberof PlayerDetails
    */
-  user: User
+  user: User;
   /**
    *
    * @type {string}
    * @memberof PlayerDetails
    */
-  inGameName: string
+  inGameName: string;
 }
 
 /**
  * Check if a given object implements the PlayerDetails interface.
  */
 export function instanceOfPlayerDetails(value: object): value is PlayerDetails {
-  if (!("id" in value) || value["id"] === undefined) return false
-  if (!("user" in value) || value["user"] === undefined) return false
-  if (!("inGameName" in value) || value["inGameName"] === undefined) return false
-  return true
+  if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("user" in value) || value["user"] === undefined) return false;
+  if (!("inGameName" in value) || value["inGameName"] === undefined) return false;
+  return true;
 }
 
 export function PlayerDetailsFromJSON(json: any): PlayerDetails {
-  return PlayerDetailsFromJSONTyped(json, false)
+  return PlayerDetailsFromJSONTyped(json, false);
 }
 
 export function PlayerDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlayerDetails {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     id: json["id"],
     user: UserFromJSON(json["user"]),
     inGameName: json["in_game_name"],
-  }
+  };
 }
 
 export function PlayerDetailsToJSON(value?: PlayerDetails | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     id: value["id"],
     user: UserToJSON(value["user"]),
     in_game_name: value["inGameName"],
-  }
+  };
 }

@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Button, Input, Link, Divider, ResizablePanel } from "@nextui-org/react"
-import { AnimatePresence, m, domAnimation, LazyMotion } from "framer-motion"
-import { Icon } from "@iconify/react"
+import React from "react";
+import { Button, Input, Link, Divider, ResizablePanel } from "@nextui-org/react";
+import { AnimatePresence, m, domAnimation, LazyMotion } from "framer-motion";
+import { Icon } from "@iconify/react";
 
-import { providerMap } from "@/auth"
-import { handleSignIn } from "@/lib/server-actions/handle-sign-in"
+import { providerMap } from "@/auth";
+import { handleSignIn } from "@/lib/server-actions/handle-sign-in";
 
 export default function Component() {
-  const [isFormVisible, setIsFormVisible] = React.useState(false)
+  const [isFormVisible, setIsFormVisible] = React.useState(false);
 
   const variants = {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: 10 },
-  }
+  };
 
   const orDivider = (
     <div className="flex items-center gap-4 py-2">
@@ -22,7 +22,7 @@ export default function Component() {
       <p className="shrink-0 text-tiny text-default-500">OR</p>
       <Divider className="flex-1" />
     </div>
-  )
+  );
 
   return (
     <div className="flex h-full w-full items-center justify-center">
@@ -102,5 +102,5 @@ export default function Component() {
         </ResizablePanel>
       </div>
     </div>
-  )
+  );
 }

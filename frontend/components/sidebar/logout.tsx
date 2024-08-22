@@ -1,12 +1,12 @@
-import { m } from "framer-motion"
+import { m } from "framer-motion";
 
-import { Button, Icon, Tooltip } from "../nextui-client-components"
+import { Button, Icon, Tooltip } from "../nextui-client-components";
 
-import { cn } from "@/lib"
-import { handleSignOut } from "@/lib/server-actions/handle-sign-out"
+import { cn } from "@/lib";
+import { handleSignOut } from "@/lib/server-actions/handle-sign-out";
 
 export interface LogoutProps {
-  isCompact: boolean
+  isCompact: boolean;
 }
 export default function Logout({ isCompact }: LogoutProps) {
   return (
@@ -37,5 +37,5 @@ export default function Logout({ isCompact }: LogoutProps) {
         </Button>
       </m.form>
     </Tooltip>
-  )
+  );
 }

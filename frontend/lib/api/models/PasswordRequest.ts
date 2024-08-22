@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
+import { mapValues } from "../runtime";
 /**
  *
  * @export
@@ -24,44 +24,44 @@ export interface PasswordRequest {
    * @type {string}
    * @memberof PasswordRequest
    */
-  password: string
+  password: string;
   /**
    * Must match the password.
    * @type {string}
    * @memberof PasswordRequest
    */
-  passwordConfirmation: string
+  passwordConfirmation: string;
 }
 
 /**
  * Check if a given object implements the PasswordRequest interface.
  */
 export function instanceOfPasswordRequest(value: object): value is PasswordRequest {
-  if (!("password" in value) || value["password"] === undefined) return false
-  if (!("passwordConfirmation" in value) || value["passwordConfirmation"] === undefined) return false
-  return true
+  if (!("password" in value) || value["password"] === undefined) return false;
+  if (!("passwordConfirmation" in value) || value["passwordConfirmation"] === undefined) return false;
+  return true;
 }
 
 export function PasswordRequestFromJSON(json: any): PasswordRequest {
-  return PasswordRequestFromJSONTyped(json, false)
+  return PasswordRequestFromJSONTyped(json, false);
 }
 
 export function PasswordRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): PasswordRequest {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     password: json["password"],
     passwordConfirmation: json["password_confirmation"],
-  }
+  };
 }
 
 export function PasswordRequestToJSON(value?: PasswordRequest | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     password: value["password"],
     password_confirmation: value["passwordConfirmation"],
-  }
+  };
 }

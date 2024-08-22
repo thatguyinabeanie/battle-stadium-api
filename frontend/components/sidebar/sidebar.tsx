@@ -1,5 +1,5 @@
-"use client"
-import { usePathname } from "next/navigation"
+"use client";
+import { usePathname } from "next/navigation";
 import {
   Accordion,
   AccordionItem,
@@ -11,39 +11,39 @@ import {
   type ListboxProps,
   type ListboxSectionProps,
   type Selection,
-} from "@nextui-org/react"
-import React from "react"
-import { Icon } from "@iconify/react"
+} from "@nextui-org/react";
+import React from "react";
+import { Icon } from "@iconify/react";
 
-import useSideBarItems from "./useSideBarItems"
+import useSideBarItems from "./useSideBarItems";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export enum SidebarItemType {
   Nest = "nest",
 }
 
 export type SidebarItem = {
-  key: string
-  title: string
-  icon?: string
-  href?: string
-  type?: SidebarItemType.Nest
-  startContent?: React.ReactNode
-  endContent?: React.ReactNode
-  items?: SidebarItem[]
-  className?: string
-}
+  key: string;
+  title: string;
+  icon?: string;
+  href?: string;
+  type?: SidebarItemType.Nest;
+  startContent?: React.ReactNode;
+  endContent?: React.ReactNode;
+  items?: SidebarItem[];
+  className?: string;
+};
 
 export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
-  isCompact?: boolean
-  hideEndContent?: boolean
-  iconClassName?: string
-  sectionClasses?: ListboxSectionProps["classNames"]
-  classNames?: ListboxProps["classNames"]
-  defaultSelectedKey: string
-  onSelect?: (key: string) => void
-}
+  isCompact?: boolean;
+  hideEndContent?: boolean;
+  iconClassName?: string;
+  sectionClasses?: ListboxSectionProps["classNames"];
+  classNames?: ListboxProps["classNames"];
+  defaultSelectedKey: string;
+  onSelect?: (key: string) => void;
+};
 
 const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
   (
@@ -61,10 +61,10 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     },
     ref,
   ) => {
-    const pathname = usePathname()
-    const currentPath = pathname.split("/")?.[1]
+    const pathname = usePathname();
+    const currentPath = pathname.split("/")?.[1];
 
-    const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey)
+    const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey);
 
     const sectionClasses = {
       ...sectionClassesProp,
@@ -77,24 +77,24 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
       heading: cn(sectionClassesProp?.heading, {
         hidden: isCompact,
       }),
-    }
+    };
 
     const itemClasses = {
       ...itemClassesProp,
       base: cn(itemClassesProp?.base, {
         "w-11 h-11 gap-0 p-0": isCompact,
       }),
-    }
+    };
 
-    const items = useSideBarItems()
+    const items = useSideBarItems();
 
     const renderNestItem = React.useCallback(
       (item: SidebarItem) => {
-        const isNestType = item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest
+        const isNestType = item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest;
 
         if (isNestType) {
           // Is a nest type item , so we need to remove the href
-          delete item.href
+          delete item.href;
         }
 
         return (
@@ -185,17 +185,17 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
               </Accordion>
             ) : null}
           </ListboxItem>
-        )
+        );
       },
       [isCompact, hideEndContent, iconClassName, items],
-    )
+    );
 
     const renderItem = React.useCallback(
       (item: SidebarItem) => {
-        const isNestType = item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest
+        const isNestType = item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest;
 
         if (isNestType) {
-          return renderNestItem(item)
+          return renderNestItem(item);
         }
 
         return (
@@ -233,10 +233,10 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
               </Tooltip>
             ) : null}
           </ListboxItem>
-        )
+        );
       },
       [isCompact, hideEndContent, iconClassName, itemClasses?.base],
-    )
+    );
 
     return (
       <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
@@ -264,10 +264,10 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           selectionMode="single"
           variant="flat"
           onSelectionChange={(keys) => {
-            const key = Array.from(keys)[0]
+            const key = Array.from(keys)[0];
 
-            setSelected(key as React.Key)
-            onSelect?.(key as string)
+            setSelected(key as React.Key);
+            onSelect?.(key as string);
           }}
           {...props}
         >
@@ -280,14 +280,14 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
               </ListboxSection>
             ) : (
               renderItem(item)
-            )
+            );
           }}
         </Listbox>
       </ScrollShadow>
-    )
+    );
   },
-)
+);
 
-Sidebar.displayName = "Sidebar"
+Sidebar.displayName = "Sidebar";
 
-export default Sidebar
+export default Sidebar;

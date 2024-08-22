@@ -1,9 +1,9 @@
-import { ChildrenProps } from "@/types"
-import Header from "@/components/header"
+import { ChildrenProps } from "@/types";
+import Header from "@/components/header";
 
 export interface MainPageLayoutProps extends ChildrenProps {
-  title: string
-  disableHeader?: boolean
+  title: string;
+  disableHeader?: boolean;
 }
 
 export default function MainPageLayout({ children, title, disableHeader = false }: Readonly<MainPageLayoutProps>) {
@@ -15,5 +15,5 @@ export default function MainPageLayout({ children, title, disableHeader = false 
         <section className="flex flex-col gap-4 py-8 md:py-10 h-full w-ful items-center">{children}</section>
       </main>
     </div>
-  )
+  );
 }

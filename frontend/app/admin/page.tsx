@@ -1,4 +1,4 @@
-import { Text } from "@/components/text"
+import { Text } from "@/components/text";
 
 const Admin = () => {
   return (
@@ -7,7 +7,7 @@ const Admin = () => {
         Admin Pages here
       </Text>
     </div>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;

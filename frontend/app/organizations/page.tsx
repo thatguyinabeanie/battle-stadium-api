@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api"
-import OrganizationCard from "@/components/organizations/OrganizationCard"
-import { cn } from "@/lib/utils"
+import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
+import OrganizationCard from "@/components/organizations/OrganizationCard";
+import { cn } from "@/lib/utils";
 
 const OrganizationsPage = async () => {
-  const organizations = await BattleStadiumAPI.Organizations.list()
+  const organizations = await BattleStadiumAPI.Organizations.list();
 
   return (
     <div
@@ -22,7 +22,7 @@ const OrganizationsPage = async () => {
         />
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default OrganizationsPage
+export default OrganizationsPage;

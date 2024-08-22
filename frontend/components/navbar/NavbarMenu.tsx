@@ -1,19 +1,19 @@
-import { NavbarMenu, NavbarMenuItem } from "@nextui-org/navbar"
-import { Link } from "@nextui-org/link"
+import { NavbarMenu, NavbarMenuItem } from "@nextui-org/navbar";
+import { Link } from "@nextui-org/link";
 
-import { NavbarSearch } from "./NavbarSearch"
+import { NavbarSearch } from "./NavbarSearch";
 
-import { siteConfig } from "@/config/site"
+import { siteConfig } from "@/config/site";
 
 interface NavbarMenuItemProps {
   item: {
-    label: string
-    href: string
-  }
-  index: number
+    label: string;
+    href: string;
+  };
+  index: number;
 }
 
-const secondaryColor = (index: number) => (index === siteConfig.navMenuItems.length - 1 ? "danger" : "foreground")
+const secondaryColor = (index: number) => (index === siteConfig.navMenuItems.length - 1 ? "danger" : "foreground");
 
 function NavbarMenuItemComponent({ item, index }: Readonly<NavbarMenuItemProps>) {
   return (
@@ -22,7 +22,7 @@ function NavbarMenuItemComponent({ item, index }: Readonly<NavbarMenuItemProps>)
         {item.label}
       </Link>
     </NavbarMenuItem>
-  )
+  );
 }
 
 function NavbarMenuComponent() {
@@ -35,7 +35,7 @@ function NavbarMenuComponent() {
         ))}
       </div>
     </NavbarMenu>
-  )
+  );
 }
 
-export { NavbarMenuComponent as NavbarMenu }
+export { NavbarMenuComponent as NavbarMenu };

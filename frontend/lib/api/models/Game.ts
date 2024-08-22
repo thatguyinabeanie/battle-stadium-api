@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
+import { mapValues } from "../runtime";
 /**
  *
  * @export
@@ -24,44 +24,44 @@ export interface Game {
    * @type {number}
    * @memberof Game
    */
-  id: number
+  id: number;
   /**
    *
    * @type {string}
    * @memberof Game
    */
-  name: string
+  name: string;
 }
 
 /**
  * Check if a given object implements the Game interface.
  */
 export function instanceOfGame(value: object): value is Game {
-  if (!("id" in value) || value["id"] === undefined) return false
-  if (!("name" in value) || value["name"] === undefined) return false
-  return true
+  if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("name" in value) || value["name"] === undefined) return false;
+  return true;
 }
 
 export function GameFromJSON(json: any): Game {
-  return GameFromJSONTyped(json, false)
+  return GameFromJSONTyped(json, false);
 }
 
 export function GameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Game {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     id: json["id"],
     name: json["name"],
-  }
+  };
 }
 
 export function GameToJSON(value?: Game | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     id: value["id"],
     name: value["name"],
-  }
+  };
 }

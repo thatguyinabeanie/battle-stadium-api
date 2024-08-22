@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import type { ChipProps, Selection } from "@nextui-org/react"
+import type { ChipProps, Selection } from "@nextui-org/react";
 
-import * as React from "react"
+import * as React from "react";
 import {
   Button,
   Input,
@@ -22,49 +22,49 @@ import {
   Tab,
   Card,
   CardBody,
-} from "@nextui-org/react"
-import { ChevronDownIcon, SearchIcon } from "@nextui-org/shared-icons"
-import { capitalize } from "@nextui-org/shared-utils"
-import { Icon } from "@iconify/react"
+} from "@nextui-org/react";
+import { ChevronDownIcon, SearchIcon } from "@nextui-org/shared-icons";
+import { capitalize } from "@nextui-org/shared-utils";
+import { Icon } from "@iconify/react";
 
-import { columns, rolesOptions, statusOptions, users } from "@/components/team-data"
+import { columns, rolesOptions, statusOptions, users } from "@/components/team-data";
 
 interface TeamManageTableProps {
-  className?: string
+  className?: string;
 }
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
   pending: "danger",
   vacation: "warning",
-}
+};
 
-type User = (typeof users)[0]
+type User = (typeof users)[0];
 const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>(() => {
-  const [filterValue, setFilterValue] = React.useState("")
-  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]))
-  const [rolesFilter, setRolesFilter] = React.useState<Selection>("all")
-  const [statusFilter, setStatusFilter] = React.useState<Selection>("all")
+  const [filterValue, setFilterValue] = React.useState("");
+  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
+  const [rolesFilter, setRolesFilter] = React.useState<Selection>("all");
+  const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
 
-  const hasSearchFilter = Boolean(filterValue)
+  const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users]
+    let filteredUsers = [...users];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(filterValue.toLowerCase()))
+      filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(filterValue.toLowerCase()));
     }
     if (rolesFilter !== "all" && Array.from(rolesFilter).length !== rolesOptions.length) {
-      filteredUsers = filteredUsers.filter((user) => Array.from(rolesFilter).includes(user.role.toLowerCase()))
+      filteredUsers = filteredUsers.filter((user) => Array.from(rolesFilter).includes(user.role.toLowerCase()));
     }
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredUsers = filteredUsers.filter((user) => Array.from(statusFilter).includes(user.status.toLowerCase()))
+      filteredUsers = filteredUsers.filter((user) => Array.from(statusFilter).includes(user.status.toLowerCase()));
     }
 
-    return filteredUsers
-  }, [filterValue, rolesFilter, statusFilter, hasSearchFilter])
+    return filteredUsers;
+  }, [filterValue, rolesFilter, statusFilter, hasSearchFilter]);
 
   const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof User]
+    const cellValue = user[columnKey as keyof User];
 
     switch (columnKey) {
       case "name":
@@ -72,19 +72,19 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
           <User avatarProps={{ radius: "lg", src: user.avatar }} description={user.email} name={cellValue}>
             {user.email}
           </User>
-        )
+        );
       case "role":
         return (
           <div className="flex flex-col">
             <p className="text-bold  text-small capitalize text-default-500">{cellValue}</p>
           </div>
-        )
+        );
       case "status":
         return (
           <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
             {cellValue}
           </Chip>
-        )
+        );
       case "actions":
         return (
           <div className="relative flex items-center justify-end gap-2">
@@ -101,23 +101,23 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
               </DropdownMenu>
             </Dropdown>
           </div>
-        )
+        );
       default:
-        return cellValue
+        return cellValue;
     }
-  }, [])
+  }, []);
 
   const onSearchChange = React.useCallback((value?: string) => {
     if (value) {
-      setFilterValue(value)
+      setFilterValue(value);
     } else {
-      setFilterValue("")
+      setFilterValue("");
     }
-  }, [])
+  }, []);
 
   const onClear = React.useCallback(() => {
-    setFilterValue("")
-  }, [])
+    setFilterValue("");
+  }, []);
 
   const topContent = React.useMemo(() => {
     return (
@@ -166,9 +166,9 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
           variant={"underlined"}
           onSelectionChange={(key) => {
             if (key === "pending-invitations") {
-              setStatusFilter(new Set(["pending"]))
+              setStatusFilter(new Set(["pending"]));
             } else {
-              setStatusFilter("all")
+              setStatusFilter("all");
             }
           }}
         >
@@ -176,8 +176,8 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
           <Tab key="pending-invitations" title="Pending Invitations" />
         </Tabs>
       </div>
-    )
-  }, [filterValue, rolesFilter, onSearchChange, onClear])
+    );
+  }, [filterValue, rolesFilter, onSearchChange, onClear]);
 
   return (
     <Card className={"border border-default-200 bg-transparent"} shadow="none">
@@ -219,9 +219,9 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
         </Table>
       </CardBody>
     </Card>
-  )
-})
+  );
+});
 
-TeamManageTable.displayName = "TeamManageTable"
+TeamManageTable.displayName = "TeamManageTable";
 
-export default TeamManageTable
+export default TeamManageTable;

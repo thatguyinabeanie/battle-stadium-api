@@ -12,17 +12,17 @@
  * Do not edit the class manually.
  */
 
-import * as runtime from "../runtime"
-import type { Tournament, TournamentDetails } from "../models/index"
+import * as runtime from "../runtime";
+import type { Tournament, TournamentDetails } from "../models/index";
 import {
   TournamentFromJSON,
   TournamentToJSON,
   TournamentDetailsFromJSON,
   TournamentDetailsToJSON,
-} from "../models/index"
+} from "../models/index";
 
 export interface GetTournamentRequest {
-  id: number
+  id: number;
 }
 
 /**
@@ -41,12 +41,12 @@ export class TournamentsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "id",
         'Required parameter "id" was null or undefined when calling getTournament().',
-      )
+      );
     }
 
-    const queryParameters: any = {}
+    const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {}
+    const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request(
       {
@@ -56,9 +56,9 @@ export class TournamentsApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    )
+    );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => TournamentDetailsFromJSON(jsonValue))
+    return new runtime.JSONApiResponse(response, (jsonValue) => TournamentDetailsFromJSON(jsonValue));
   }
 
   /**
@@ -69,8 +69,8 @@ export class TournamentsApi extends runtime.BaseAPI {
     requestParameters: GetTournamentRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
-    const response = await this.getTournamentRaw(requestParameters, initOverrides)
-    return await response.value()
+    const response = await this.getTournamentRaw(requestParameters, initOverrides);
+    return await response.value();
   }
 
   /**
@@ -80,9 +80,9 @@ export class TournamentsApi extends runtime.BaseAPI {
   async listTournamentsRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<Tournament>>> {
-    const queryParameters: any = {}
+    const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {}
+    const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request(
       {
@@ -92,9 +92,9 @@ export class TournamentsApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    )
+    );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TournamentFromJSON))
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TournamentFromJSON));
   }
 
   /**
@@ -102,7 +102,7 @@ export class TournamentsApi extends runtime.BaseAPI {
    * List Organization Tournaments
    */
   async listTournaments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Tournament>> {
-    const response = await this.listTournamentsRaw(initOverrides)
-    return await response.value()
+    const response = await this.listTournamentsRaw(initOverrides);
+    return await response.value();
   }
 }

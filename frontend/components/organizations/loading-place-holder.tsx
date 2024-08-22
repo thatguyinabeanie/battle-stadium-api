@@ -1,4 +1,4 @@
-import { Skeleton } from "../nextui-client-components"
+import { Skeleton } from "../nextui-client-components";
 
 export default function LoadingPlaceholder() {
   return (
@@ -13,5 +13,5 @@ export default function LoadingPlaceholder() {
         <div className="h-3 w-2/5 rounded-lg bg-default-300" />
       </Skeleton>
     </div>
-  )
+  );
 }

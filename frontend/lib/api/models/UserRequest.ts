@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
+import { mapValues } from "../runtime";
 /**
  *
  * @export
@@ -24,65 +24,65 @@ export interface UserRequest {
    * @type {string}
    * @memberof UserRequest
    */
-  username: string
+  username: string;
   /**
    *
    * @type {string}
    * @memberof UserRequest
    */
-  pronouns: string
+  pronouns: string;
   /**
    *
    * @type {string}
    * @memberof UserRequest
    */
-  email: string
+  email: string;
   /**
    *
    * @type {string}
    * @memberof UserRequest
    */
-  firstName: string
+  firstName: string;
   /**
    *
    * @type {string}
    * @memberof UserRequest
    */
-  lastName: string
+  lastName: string;
   /**
    * Your current password.
    * @type {string}
    * @memberof UserRequest
    */
-  currentPassword: string
+  currentPassword: string;
   /**
    *
    * @type {number}
    * @memberof UserRequest
    */
-  id?: number
+  id?: number;
 }
 
 /**
  * Check if a given object implements the UserRequest interface.
  */
 export function instanceOfUserRequest(value: object): value is UserRequest {
-  if (!("username" in value) || value["username"] === undefined) return false
-  if (!("pronouns" in value) || value["pronouns"] === undefined) return false
-  if (!("email" in value) || value["email"] === undefined) return false
-  if (!("firstName" in value) || value["firstName"] === undefined) return false
-  if (!("lastName" in value) || value["lastName"] === undefined) return false
-  if (!("currentPassword" in value) || value["currentPassword"] === undefined) return false
-  return true
+  if (!("username" in value) || value["username"] === undefined) return false;
+  if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
+  if (!("email" in value) || value["email"] === undefined) return false;
+  if (!("firstName" in value) || value["firstName"] === undefined) return false;
+  if (!("lastName" in value) || value["lastName"] === undefined) return false;
+  if (!("currentPassword" in value) || value["currentPassword"] === undefined) return false;
+  return true;
 }
 
 export function UserRequestFromJSON(json: any): UserRequest {
-  return UserRequestFromJSONTyped(json, false)
+  return UserRequestFromJSONTyped(json, false);
 }
 
 export function UserRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserRequest {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     username: json["username"],
@@ -92,12 +92,12 @@ export function UserRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean
     lastName: json["last_name"],
     currentPassword: json["current_password"],
     id: json["id"] == null ? undefined : json["id"],
-  }
+  };
 }
 
 export function UserRequestToJSON(value?: UserRequest | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     username: value["username"],
@@ -107,5 +107,5 @@ export function UserRequestToJSON(value?: UserRequest | null): any {
     last_name: value["lastName"],
     current_password: value["currentPassword"],
     id: value["id"],
-  }
+  };
 }

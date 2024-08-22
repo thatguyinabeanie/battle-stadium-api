@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Avatar, Badge, Button } from "@nextui-org/react"
-import { Icon } from "@iconify/react"
+import React from "react";
+import { Avatar, Badge, Button } from "@nextui-org/react";
+import { Icon } from "@iconify/react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-export type NotificationType = "default" | "request" | "file"
+export type NotificationType = "default" | "request" | "file";
 
 export type NotificationItem = {
-  id: string
-  isRead?: boolean
-  avatar: string
-  description: string
-  name: string
-  time: string
-  type?: NotificationType
-}
+  id: string;
+  isRead?: boolean;
+  avatar: string;
+  description: string;
+  name: string;
+  time: string;
+  type?: NotificationType;
+};
 
-export type NotificationItemProps = React.HTMLAttributes<HTMLDivElement> & NotificationItem
+export type NotificationItemProps = React.HTMLAttributes<HTMLDivElement> & NotificationItem;
 
 const NotificationItem = React.forwardRef<HTMLDivElement, NotificationItemProps>(
   ({ children, avatar, name, description, type, time, isRead, className, ...props }, ref) => {
@@ -46,7 +46,7 @@ const NotificationItem = React.forwardRef<HTMLDivElement, NotificationItemProps>
           </div>
         </div>
       ),
-    }
+    };
 
     return (
       <div
@@ -73,10 +73,10 @@ const NotificationItem = React.forwardRef<HTMLDivElement, NotificationItemProps>
           {type && contentByType[type]}
         </div>
       </div>
-    )
+    );
   },
-)
+);
 
-NotificationItem.displayName = "NotificationItem"
+NotificationItem.displayName = "NotificationItem";
 
-export default NotificationItem
+export default NotificationItem;

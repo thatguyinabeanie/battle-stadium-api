@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
+import { useEffect } from "react";
 
 interface ErrorComponentProps {
-  error: Error
-  reset: () => void
+  error: Error;
+  reset: () => void;
 }
 
 function ErrorComponent({ error, reset }: Readonly<ErrorComponentProps>) {
   useEffect(() => {
     // Log the error to an error reporting service
     /* eslint-disable no-console */
-    console.error(error)
-  }, [error])
+    console.error(error);
+  }, [error]);
 
   return (
     <div>
@@ -26,7 +26,7 @@ function ErrorComponent({ error, reset }: Readonly<ErrorComponentProps>) {
         Try again
       </button>
     </div>
-  )
+  );
 }
 
-export default ErrorComponent
+export default ErrorComponent;

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-import { UsersApi } from "@/lib/api" // Adjust the import based on your OpenAPI client setup
+import { UsersApi } from "@/lib/api"; // Adjust the import based on your OpenAPI client setup
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -14,21 +14,21 @@ const Register = () => {
     lastName: "",
     password: "",
     passwordConfirmation: "",
-  })
+  });
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const userApi = new UsersApi()
+      const userApi = new UsersApi();
 
       await userApi.postUser({
         userPostRequest: {
@@ -40,14 +40,14 @@ const Register = () => {
           password: formData.password,
           passwordConfirmation: formData.passwordConfirmation,
         },
-      })
+      });
 
-      router.push("/login")
+      router.push("/login");
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error creating user:", error)
+      console.error("Error creating user:", error);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -60,7 +60,7 @@ const Register = () => {
       <input name="passwordConfirmation" placeholder="Password Confirmation" type="password" onChange={handleChange} />
       <button type="submit">Register</button>
     </form>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

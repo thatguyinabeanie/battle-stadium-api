@@ -1,7 +1,7 @@
-import { NavbarBrand } from "@nextui-org/navbar"
-import NextLink from "next/link"
+import { NavbarBrand } from "@nextui-org/navbar";
+import NextLink from "next/link";
 
-import { Logo } from "@/components/icons"
+import { Logo } from "@/components/icons";
 
 export function NavbarBrandComponent() {
   return (
@@ -11,5 +11,5 @@ export function NavbarBrandComponent() {
         <p className="font-bold text-inherit">Battle Stadium</p>
       </NextLink>
     </NavbarBrand>
-  )
+  );
 }

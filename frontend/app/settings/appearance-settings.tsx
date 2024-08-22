@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react"
+import * as React from "react";
+import { RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react";
 
-import SwitchCell from "@/components/switch-cell"
-import { ThemeCustomRadio } from "@/components/theme-custom-radio"
-import { cn } from "@/lib/utils"
+import SwitchCell from "@/components/switch-cell";
+import { ThemeCustomRadio } from "@/components/theme-custom-radio";
+import { cn } from "@/lib/utils";
 
 interface AppearanceSettingCardProps {
-  className?: string
+  className?: string;
 }
 
 const fontSizeOptions = [
   { label: "Small", value: "small", description: "font size 14px" },
   { label: "Medium", value: "medium", description: "font size 16px" },
   { label: "Large", value: "large", description: "font size 18px" },
-]
+];
 
 const AppearanceSetting = React.forwardRef<HTMLDivElement, AppearanceSettingCardProps>(
   ({ className, ...props }, ref) => (
@@ -72,8 +72,8 @@ const AppearanceSetting = React.forwardRef<HTMLDivElement, AppearanceSettingCard
       />
     </div>
   ),
-)
+);
 
-AppearanceSetting.displayName = "AppearanceSetting"
+AppearanceSetting.displayName = "AppearanceSetting";
 
-export default AppearanceSetting
+export default AppearanceSetting;

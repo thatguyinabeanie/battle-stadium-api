@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime"
+import { mapValues } from "../runtime";
 /**
  *
  * @export
@@ -24,53 +24,53 @@ export interface User {
    * @type {string}
    * @memberof User
    */
-  username: string
+  username: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  pronouns: string
+  pronouns: string;
   /**
    *
    * @type {number}
    * @memberof User
    */
-  id: number
+  id: number;
 }
 
 /**
  * Check if a given object implements the User interface.
  */
 export function instanceOfUser(value: object): value is User {
-  if (!("username" in value) || value["username"] === undefined) return false
-  if (!("pronouns" in value) || value["pronouns"] === undefined) return false
-  if (!("id" in value) || value["id"] === undefined) return false
-  return true
+  if (!("username" in value) || value["username"] === undefined) return false;
+  if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
+  if (!("id" in value) || value["id"] === undefined) return false;
+  return true;
 }
 
 export function UserFromJSON(json: any): User {
-  return UserFromJSONTyped(json, false)
+  return UserFromJSONTyped(json, false);
 }
 
 export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
   if (json == null) {
-    return json
+    return json;
   }
   return {
     username: json["username"],
     pronouns: json["pronouns"],
     id: json["id"],
-  }
+  };
 }
 
 export function UserToJSON(value?: User | null): any {
   if (value == null) {
-    return value
+    return value;
   }
   return {
     username: value["username"],
     pronouns: value["pronouns"],
     id: value["id"],
-  }
+  };
 }

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import type { SwitchProps } from "@nextui-org/react"
+import type { SwitchProps } from "@nextui-org/react";
 
-import React from "react"
-import { extendVariants, Switch } from "@nextui-org/react"
+import React from "react";
+import { extendVariants, Switch } from "@nextui-org/react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const CustomSwitch = extendVariants(Switch, {
   variants: {
@@ -15,16 +15,16 @@ const CustomSwitch = extendVariants(Switch, {
       },
     },
   },
-})
+});
 
 export type SwitchCellProps = Omit<SwitchProps, "color"> & {
-  label: string
-  description: string
-  color?: SwitchProps["color"] | "foreground"
+  label: string;
+  description: string;
+  color?: SwitchProps["color"] | "foreground";
   classNames?: SwitchProps["classNames"] & {
-    description?: string | string[]
-  }
-}
+    description?: string | string[];
+  };
+};
 
 const SwitchCell = React.forwardRef<HTMLInputElement, SwitchCellProps>(
   ({ label, description, classNames, ...props }, ref) => (
@@ -46,8 +46,8 @@ const SwitchCell = React.forwardRef<HTMLInputElement, SwitchCellProps>(
       </div>
     </CustomSwitch>
   ),
-)
+);
 
-SwitchCell.displayName = "SwitchCell"
+SwitchCell.displayName = "SwitchCell";
 
-export default SwitchCell
+export default SwitchCell;

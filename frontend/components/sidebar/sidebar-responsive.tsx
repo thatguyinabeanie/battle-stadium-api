@@ -1,19 +1,19 @@
-"use client"
-import React from "react"
-import { Spacer } from "@nextui-org/react"
-import { Icon } from "@iconify/react"
-import { useMediaQuery } from "usehooks-ts"
-import { useSession } from "next-auth/react"
+"use client";
+import React from "react";
+import { Spacer } from "@nextui-org/react";
+import { Icon } from "@iconify/react";
+import { useMediaQuery } from "usehooks-ts";
+import { useSession } from "next-auth/react";
 
-import Logout from "./logout"
+import Logout from "./logout";
 
-import { Button, Tooltip } from "@/components/nextui-client-components"
-import BattleStadium from "@/components/battle-stadium"
-import { cn } from "@/lib/utils"
-import Sidebar from "@/components/sidebar/sidebar"
-import UserAvatar from "@/components/user-avatar"
+import { Button, Tooltip } from "@/components/nextui-client-components";
+import BattleStadium from "@/components/battle-stadium";
+import { cn } from "@/lib/utils";
+import Sidebar from "@/components/sidebar/sidebar";
+import UserAvatar from "@/components/user-avatar";
 export interface SideBarComponentProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 /**
@@ -36,8 +36,8 @@ export interface SideBarComponentProps {
  */
 
 export default function SidebarResponsive() {
-  const isCompact = useMediaQuery("(max-width: 768px)")
-  const { data: session } = useSession()
+  const isCompact = useMediaQuery("(max-width: 768px)");
+  const { data: session } = useSession();
 
   return (
     <div
@@ -95,5 +95,5 @@ export default function SidebarResponsive() {
         <Logout isCompact={isCompact} />
       </div>
     </div>
-  )
+  );
 }
