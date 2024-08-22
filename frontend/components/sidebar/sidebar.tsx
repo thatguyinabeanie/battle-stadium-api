@@ -99,6 +99,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
 
         return (
           <ListboxItem
+            aria-label="Sidebar Nested ListboxItem"
             {...item}
             key={item.key}
             classNames={{
@@ -169,6 +170,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                 >
                   {item.items && item.items?.length > 0 ? (
                     <Listbox
+                      aria-label="Sidebar Listbox"
                       className={"mt-0.5"}
                       classNames={{
                         list: cn("border-l border-default-200 pl-4"),
@@ -200,6 +202,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
 
         return (
           <ListboxItem
+            aria-label="Sidebar ListboxItem"
             {...item}
             key={item.key}
             endContent={isCompact || hideEndContent ? null : (item.endContent ?? null)}
@@ -244,6 +247,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           key={isCompact ? "compact" : "default"}
           ref={ref}
           hideSelectedIcon
+          aria-label="Sidebar Listbox"
           as="nav"
           className={cn("list-none", className)}
           classNames={{

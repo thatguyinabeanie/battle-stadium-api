@@ -26,6 +26,7 @@ export default function BattleStadium({ isCompact }: BattleStadiumProps) {
       </div>
 
       <span
+        aria-label="Battle Stadium Name"
         className={cn("text-small font-bold uppercase opacity-100", {
           "w-0 opacity-0": isCompact,
         })}

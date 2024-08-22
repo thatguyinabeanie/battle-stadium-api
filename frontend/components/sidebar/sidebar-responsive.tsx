@@ -54,7 +54,7 @@ export default function SidebarResponsive() {
           },
         )}
       >
-        <BattleStadium isCompact={isCompact} />
+        <BattleStadium aria-label="Battle Stadium Logo" isCompact={isCompact} />
       </div>
 
       <Spacer y={8} />
