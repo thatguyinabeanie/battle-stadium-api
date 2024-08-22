@@ -5,7 +5,6 @@ import { Button, Input, Link, Divider, ResizablePanel } from "@nextui-org/react"
 import { AnimatePresence, m, domAnimation, LazyMotion } from "framer-motion";
 import { Icon } from "@iconify/react";
 
-import { redirect } from "next/navigation"
 
 import { providerMap } from "@/auth";
 import { handleSignIn } from "./auth-actions";

@@ -32,7 +32,7 @@ export const providerMap = providers
   })
   .filter((provider) => provider.id !== "credentials");
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, signIn, signOut, auth } =  NextAuth({
   providers,
   pages: {
     signIn: "/login",

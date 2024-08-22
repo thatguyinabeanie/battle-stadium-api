@@ -9,7 +9,7 @@ const SIGNIN_ERROR_URL = "/";
 
 export async function handleSignIn (providerId: string) {
   try {
-    await signIn(providerId);
+    await signIn(providerId, {redirectTo: "/dashboard"});
   } catch (error) {
     if (error instanceof AuthError) {
       return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);
