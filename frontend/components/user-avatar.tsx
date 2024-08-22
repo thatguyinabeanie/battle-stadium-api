@@ -37,19 +37,19 @@ function UserInfo({ isCompact, session }: UserAvatarProps) {
     <div className={cn("flex max-w-full flex-col", { hidden: isCompact })}>
       {!session && (
         <p className="truncate text-tiny text-default-400">
-          <Link href="/login">Log in</Link>
+          <Link href="/login" aria-label="Log In">Log in</Link>
         </p>
       )}
 
       {session && (
         <>
           <p className="text-small font-medium text-default-600">
-            <Link href="/profile">{session.user?.name}</Link>
+            <Link href="/profile" aria-label="Profile Link" >{session.user?.name}</Link>
           </p>
 
           {session.user?.id && (
             <p className="truncate text-tiny text-default-400">
-              <Link href="/profile">{session.user?.id}</Link>
+              <Link href="/profile" aria-label="session-user-id">{session.user?.id}</Link>
             </p>
           )}
         </>
@@ -65,7 +65,7 @@ export default function UserAvatar(props: UserAvatarProps) {
     return (
       <div className="flex items-center gap-3 px-3">
         <Link href="/login">
-          <DefaultAvatar isBordered icon={<AvatarIcon />} size="sm" />
+          <DefaultAvatar isBordered icon={<AvatarIcon />} size="sm" aria-label="User Avatar Not Signed In"/>
         </Link>
         <UserInfo {...props} />
       </div>
@@ -75,7 +75,7 @@ export default function UserAvatar(props: UserAvatarProps) {
   return (
     <div className="flex items-center gap-3 px-3">
       <Link href="/profile">
-        <Avatar isBordered icon={<AvatarIcon />} size="sm" src={session.user?.image ?? undefined} />
+        <Avatar isBordered icon={<AvatarIcon />} size="sm" src={session.user?.image ?? undefined} aria-label="User Avatar Signed In"/>
       </Link>
       <UserInfo {...props} />
     </div>

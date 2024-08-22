@@ -52,7 +52,7 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
               <div className="flex h-dvh w-full">
                 <CurrentUserContextProvider initCurrentUser={currentUser}>
                   <SessionProvider>
-                    <SidebarResponsive />
+                    <SidebarResponsive aria-label="Responsive Sidebar"/>
                     {children}
                   </SessionProvider>
                 </CurrentUserContextProvider>

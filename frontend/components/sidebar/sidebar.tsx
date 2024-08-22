@@ -99,6 +99,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
 
         return (
           <ListboxItem
+            aria-label="Sidebar Nested ListboxItem"
             {...item}
             key={item.key}
             classNames={{
@@ -169,6 +170,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                 >
                   {item.items && item.items?.length > 0 ? (
                     <Listbox
+                      aria-label="Sidebar Listbox"
                       className={"mt-0.5"}
                       classNames={{
                         list: cn("border-l border-default-200 pl-4"),
@@ -200,6 +202,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
 
         return (
           <ListboxItem
+            aria-label="Sidebar ListboxItem"
             {...item}
             key={item.key}
             endContent={isCompact || hideEndContent ? null : (item.endContent ?? null)}
@@ -241,6 +244,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     return (
       <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
         <Listbox
+          aria-label="Sidebar Listbox"
           key={isCompact ? "compact" : "default"}
           ref={ref}
           hideSelectedIcon
@@ -271,17 +275,19 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           }}
           {...props}
         >
-          {(item) => {
-            return item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest ? (
-              renderNestItem(item)
-            ) : item.items && item.items?.length > 0 ? (
-              <ListboxSection key={item.key} classNames={sectionClasses} showDivider={isCompact} title={item.title}>
-                {item.items.map(renderItem)}
-              </ListboxSection>
-            ) : (
-              renderItem(item)
-            );
-          }}
+          {
+            (item) => {
+              return item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest ? (
+                renderNestItem(item)
+              ) : item.items && item.items?.length > 0 ? (
+                <ListboxSection key={item.key} classNames={sectionClasses} showDivider={isCompact} title={item.title}>
+                  {item.items.map(renderItem)}
+                </ListboxSection>
+              ) : (
+                renderItem(item)
+              );
+            }
+          }
         </Listbox>
       </ScrollShadow>
     );
