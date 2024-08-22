@@ -3,7 +3,7 @@ import { ChildrenProps } from "@/types"
 
 export default function Layout({ children }: Readonly<ChildrenProps>) {
   return (
-    <MainPageLayout title="Organizations" disableHeader>
+    <MainPageLayout disableHeader title="Organizations">
       {children}
     </MainPageLayout>
   )

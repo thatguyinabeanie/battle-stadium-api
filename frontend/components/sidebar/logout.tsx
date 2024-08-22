@@ -1,6 +1,8 @@
-import { cn } from "@/lib"
-import { Button, Icon, Tooltip } from "../nextui-client-components"
 import { m } from "framer-motion"
+
+import { Button, Icon, Tooltip } from "../nextui-client-components"
+
+import { cn } from "@/lib"
 import { handleSignOut } from "@/lib/server-actions/handle-sign-out"
 
 export interface LogoutProps {
@@ -11,7 +13,6 @@ export default function Logout({ isCompact }: LogoutProps) {
     <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
       <m.form action={handleSignOut}>
         <Button
-          type="submit"
           className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
             "justify-center": isCompact,
           })}
@@ -25,6 +26,7 @@ export default function Logout({ isCompact }: LogoutProps) {
               />
             )
           }
+          type="submit"
           variant="light"
         >
           {isCompact ? (

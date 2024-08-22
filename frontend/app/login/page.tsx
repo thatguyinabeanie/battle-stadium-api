@@ -8,8 +8,6 @@ import { Icon } from "@iconify/react"
 import { providerMap } from "@/auth"
 import { handleSignIn } from "@/lib/server-actions/handle-sign-in"
 
-const SIGNIN_ERROR_URL = "/"
-
 export default function Component() {
   const [isFormVisible, setIsFormVisible] = React.useState(false)
 
@@ -42,7 +40,7 @@ export default function Component() {
                   variants={variants}
                   onSubmit={(e) => e.preventDefault()}
                 >
-                  <Input autoFocus label="Email Address" name="email" type="email" variant="bordered" />
+                  <Input label="Email Address" name="email" type="email" variant="bordered" />
                   <Input label="Password" name="password" type="password" variant="bordered" />
                   <Button color="primary" type="submit">
                     Log In
@@ -80,9 +78,9 @@ export default function Component() {
                       {Object.values(providerMap).map((provider) => (
                         <m.form key={provider.id} action={() => handleSignIn(provider.id)}>
                           <Button
-                            type="submit"
                             fullWidth
                             startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}
+                            type="submit"
                             variant="flat"
                           >
                             <span>Sign in with {provider.name}</span>

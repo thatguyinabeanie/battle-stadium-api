@@ -1,14 +1,16 @@
 import React from "react"
 import { type AvatarProps } from "@nextui-org/react"
-import { Avatar as NextUiAvatar, AvatarIcon, Link, Avatar } from "@/components/nextui-client-components"
-import { cn } from "@/lib/utils"
 import { Session } from "next-auth"
 
+import { Avatar as NextUiAvatar, AvatarIcon, Link, Avatar } from "@/components/nextui-client-components"
+import { cn } from "@/lib/utils"
+
 const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
-  ({ name, className, classNames = {}, src, ...props }, ref) => (
+  ({ name, className, classNames = {}, ...props }, ref) => (
     <NextUiAvatar
       {...props}
       ref={ref}
+      aria-label="User Avatar"
       classNames={{
         ...classNames,
         base: cn("bg-transparent border border-divider", classNames?.base, className),
@@ -18,7 +20,6 @@ const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
       name={name}
       radius="md"
       size="sm"
-      aria-label="User Avatar"
     />
   ),
 )
@@ -59,6 +60,7 @@ function UserInfo({ isCompact, session }: UserAvatarProps) {
 
 export default function UserAvatar(props: UserAvatarProps) {
   const { session } = props
+
   if (!session) {
     return (
       <div className="flex items-center gap-3 px-3">

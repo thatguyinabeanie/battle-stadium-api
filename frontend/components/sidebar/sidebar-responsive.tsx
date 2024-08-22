@@ -3,14 +3,15 @@ import React from "react"
 import { Spacer } from "@nextui-org/react"
 import { Icon } from "@iconify/react"
 import { useMediaQuery } from "usehooks-ts"
+import { useSession } from "next-auth/react"
+
+import Logout from "./logout"
 
 import { Button, Tooltip } from "@/components/nextui-client-components"
-import BattleStadium, { BattleStadiumIcon } from "@/components/battle-stadium"
+import BattleStadium from "@/components/battle-stadium"
 import { cn } from "@/lib/utils"
 import Sidebar from "@/components/sidebar/sidebar"
 import UserAvatar from "@/components/user-avatar"
-import { useSession } from "next-auth/react"
-import Logout from "./logout"
 export interface SideBarComponentProps {
   children?: React.ReactNode
 }

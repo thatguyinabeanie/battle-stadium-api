@@ -2,8 +2,9 @@
 "use server"
 
 import { AuthError } from "next-auth"
-import { signIn } from "@/auth"
 import { redirect } from "next/navigation"
+
+import { signIn } from "@/auth"
 
 const SIGNIN_ERROR_URL = "/"
 

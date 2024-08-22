@@ -1,7 +1,8 @@
-import { cn } from "@/lib"
 import type { IconSvgProps } from "@/types"
 
 import React from "react"
+
+import { cn } from "@/lib"
 export interface BattleStadiumProps {
   isCompact?: boolean
 }
@@ -21,7 +22,7 @@ export default function BattleStadium({ isCompact }: BattleStadiumProps) {
   return (
     <>
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
-        <BattleStadiumIcon className="text-background" aria-label="Battle Stadium Logo" />
+        <BattleStadiumIcon aria-label="Battle Stadium Logo" className="text-background" />
       </div>
 
       <span

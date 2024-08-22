@@ -10,7 +10,6 @@ import { siteConfig } from "@/config/site"
 import { ChildrenProps } from "@/types"
 import BattleStadiumAPI from "@/lib/battle-stadium-api"
 import { CurrentUserContextProvider } from "@/lib/context/current-user"
-import { auth } from "@/auth"
 
 export const metadata: Metadata = {
   title: {

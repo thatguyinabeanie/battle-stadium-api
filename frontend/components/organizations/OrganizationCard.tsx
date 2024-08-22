@@ -32,10 +32,10 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
           href={`/organizations/${organization.id}`}
         >
           <Image
-            aria-label={organization.name}
             isBlurred
             isZoomed
             alt={organization.name}
+            aria-label={organization.name}
             className="aspect-square w-full hover:scale-110"
             isLoading={isLoading}
             src="/pokemon/vgc.png"
