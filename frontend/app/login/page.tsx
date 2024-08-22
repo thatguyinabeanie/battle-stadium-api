@@ -6,7 +6,7 @@ import { AnimatePresence, m, domAnimation, LazyMotion } from "framer-motion";
 import { Icon } from "@iconify/react";
 
 import { providerMap } from "@/auth";
-import { handleSignIn } from "@/lib/server-actions/handle-sign-in";
+import { signIn } from "@/lib/server-actions/sign-in";
 
 export default function Component() {
   const [isFormVisible, setIsFormVisible] = React.useState(false);
@@ -76,7 +76,7 @@ export default function Component() {
                   >
                     <div className="flex flex-col gap-2">
                       {Object.values(providerMap).map((provider) => (
-                        <m.form key={provider.id} action={() => handleSignIn(provider.id)}>
+                        <m.form key={ provider.id } action={ () => signIn(provider.id)}>
                           <Button
                             fullWidth
                             startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}

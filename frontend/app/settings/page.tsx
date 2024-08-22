@@ -6,8 +6,8 @@ import AccountSetting from "./account-settings";
 import BillingSetting from "./bill-settings";
 import TeamSetting from "./team-setting";
 
-import { Tab, Tabs, useDisclosure } from "@/components/nextui-client-components";
-import { Button, Icon } from "@/components/nextui-client-components";
+import { Tab, Tabs, useDisclosure } from "@/components/client/nextui-components";
+import { Button, Icon } from "@/components/client/nextui-components";
 
 const Settings = () => {
   const { onOpenChange } = useDisclosure();
