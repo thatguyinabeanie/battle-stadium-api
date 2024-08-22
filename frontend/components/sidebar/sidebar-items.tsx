@@ -1,4 +1,4 @@
-import { type SidebarItem } from "./sidebar";
+import { type SidebarItem } from "./sidebar"
 export const sectionItems: SidebarItem[] = [
   {
     key: "overview",
@@ -30,4 +30,4 @@ export const sectionItems: SidebarItem[] = [
       },
     ],
   },
-];
+]

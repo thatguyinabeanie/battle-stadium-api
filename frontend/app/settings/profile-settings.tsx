@@ -1,15 +1,15 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Card, CardBody } from "@nextui-org/react";
-import { Avatar } from "@nextui-org/avatar";
-import { Icon } from "@iconify/react";
-import { Button, Badge, Input, Spacer, Textarea } from "@nextui-org/react";
+import * as React from "react"
+import { Card, CardBody } from "@nextui-org/react"
+import { Avatar } from "@nextui-org/avatar"
+import { Icon } from "@iconify/react"
+import { Button, Badge, Input, Spacer, Textarea } from "@nextui-org/react"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 interface ProfileSettingCardProps {
-  className?: string;
+  className?: string
 }
 
 const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(({ className, ...props }, ref) => (
@@ -85,8 +85,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
       Update Profile
     </Button>
   </div>
-));
+))
 
-ProfileSetting.displayName = "ProfileSetting";
+ProfileSetting.displayName = "ProfileSetting"
 
-export default ProfileSetting;
+export default ProfileSetting

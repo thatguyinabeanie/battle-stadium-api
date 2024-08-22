@@ -1,16 +1,16 @@
-import React from "react";
+import React from "react"
 
-import LoadingPlaceholder from "./loading-place-holder";
+import LoadingPlaceholder from "./loading-place-holder"
 
-import { Image, Link } from "@/components/nextui-client-components";
-import { cn } from "@/lib/utils";
-import { OrganizationDetails } from "@/lib/api";
+import { Image, Link } from "@/components/nextui-client-components"
+import { cn } from "@/lib/utils"
+import { OrganizationDetails } from "@/lib/api"
 
 export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
-  isLoading?: boolean;
-  removeWrapper?: boolean;
-  organization: OrganizationDetails;
-};
+  isLoading?: boolean
+  removeWrapper?: boolean
+  organization: OrganizationDetails
+}
 
 const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
   ({ organization, removeWrapper, className, isLoading, ...rest }, ref) => {
@@ -27,9 +27,9 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
         {...rest}
       >
         <Link
-          key={ organization.id }
-          aria-label={ `View details for ${organization.name}` }
-          href={ `/organizations/${organization.id}` }
+          key={organization.id}
+          aria-label={`View details for ${organization.name}`}
+          href={`/organizations/${organization.id}`}
         >
           <Image
             aria-label={organization.name}
@@ -58,10 +58,10 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
           )}
         </div>
       </div>
-    );
+    )
   },
-);
+)
 
-OrganizationCard.displayName = "OrganizationCard";
+OrganizationCard.displayName = "OrganizationCard"
 
-export default OrganizationCard;
+export default OrganizationCard

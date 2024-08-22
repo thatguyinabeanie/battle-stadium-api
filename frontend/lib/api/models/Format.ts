@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
+import { mapValues } from "../runtime"
 /**
  *
  * @export
@@ -24,42 +24,42 @@ export interface Format {
    * @type {number}
    * @memberof Format
    */
-  id?: number;
+  id?: number
   /**
    *
    * @type {string}
    * @memberof Format
    */
-  name?: string;
+  name?: string
 }
 
 /**
  * Check if a given object implements the Format interface.
  */
 export function instanceOfFormat(value: object): value is Format {
-  return true;
+  return true
 }
 
 export function FormatFromJSON(json: any): Format {
-  return FormatFromJSONTyped(json, false);
+  return FormatFromJSONTyped(json, false)
 }
 
 export function FormatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Format {
   if (json == null) {
-    return json;
+    return json
   }
   return {
     id: json["id"] == null ? undefined : json["id"],
     name: json["name"] == null ? undefined : json["name"],
-  };
+  }
 }
 
 export function FormatToJSON(value?: Format | null): any {
   if (value == null) {
-    return value;
+    return value
   }
   return {
     id: value["id"],
     name: value["name"],
-  };
+  }
 }

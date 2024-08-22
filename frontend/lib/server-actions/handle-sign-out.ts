@@ -1,10 +1,10 @@
 // auth/signOutAction.ts
-"use server";
+"use server"
 
-import { signOut } from "@/auth";
-import { redirect } from "next/navigation";
+import { signOut } from "@/auth"
+import { redirect } from "next/navigation"
 
-export async function handleSignOut () {
-  await signOut();
-  redirect("/");
+export async function handleSignOut() {
+  await signOut()
+  redirect("/")
 }

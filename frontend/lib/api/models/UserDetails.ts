@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
+import { mapValues } from "../runtime"
 /**
  *
  * @export
@@ -24,59 +24,59 @@ export interface UserDetails {
    * @type {string}
    * @memberof UserDetails
    */
-  username: string;
+  username: string
   /**
    *
    * @type {string}
    * @memberof UserDetails
    */
-  pronouns: string;
+  pronouns: string
   /**
    *
    * @type {string}
    * @memberof UserDetails
    */
-  email: string;
+  email: string
   /**
    *
    * @type {string}
    * @memberof UserDetails
    */
-  firstName: string;
+  firstName: string
   /**
    *
    * @type {string}
    * @memberof UserDetails
    */
-  lastName: string;
+  lastName: string
   /**
    *
    * @type {number}
    * @memberof UserDetails
    */
-  id: number;
+  id: number
 }
 
 /**
  * Check if a given object implements the UserDetails interface.
  */
 export function instanceOfUserDetails(value: object): value is UserDetails {
-  if (!("username" in value) || value["username"] === undefined) return false;
-  if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
-  if (!("email" in value) || value["email"] === undefined) return false;
-  if (!("firstName" in value) || value["firstName"] === undefined) return false;
-  if (!("lastName" in value) || value["lastName"] === undefined) return false;
-  if (!("id" in value) || value["id"] === undefined) return false;
-  return true;
+  if (!("username" in value) || value["username"] === undefined) return false
+  if (!("pronouns" in value) || value["pronouns"] === undefined) return false
+  if (!("email" in value) || value["email"] === undefined) return false
+  if (!("firstName" in value) || value["firstName"] === undefined) return false
+  if (!("lastName" in value) || value["lastName"] === undefined) return false
+  if (!("id" in value) || value["id"] === undefined) return false
+  return true
 }
 
 export function UserDetailsFromJSON(json: any): UserDetails {
-  return UserDetailsFromJSONTyped(json, false);
+  return UserDetailsFromJSONTyped(json, false)
 }
 
 export function UserDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserDetails {
   if (json == null) {
-    return json;
+    return json
   }
   return {
     username: json["username"],
@@ -85,12 +85,12 @@ export function UserDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean
     firstName: json["first_name"],
     lastName: json["last_name"],
     id: json["id"],
-  };
+  }
 }
 
 export function UserDetailsToJSON(value?: UserDetails | null): any {
   if (value == null) {
-    return value;
+    return value
   }
   return {
     username: value["username"],
@@ -99,5 +99,5 @@ export function UserDetailsToJSON(value?: UserDetails | null): any {
     first_name: value["firstName"],
     last_name: value["lastName"],
     id: value["id"],
-  };
+  }
 }

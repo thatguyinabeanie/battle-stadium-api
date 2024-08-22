@@ -12,8 +12,8 @@
  * Do not edit the class manually.
  */
 
-import * as runtime from "../runtime";
-import type { User, UserDetails, UserMe, UserPostRequest } from "../models/index";
+import * as runtime from "../runtime"
+import type { User, UserDetails, UserMe, UserPostRequest } from "../models/index"
 import {
   UserFromJSON,
   UserToJSON,
@@ -23,23 +23,23 @@ import {
   UserMeToJSON,
   UserPostRequestFromJSON,
   UserPostRequestToJSON,
-} from "../models/index";
+} from "../models/index"
 
 export interface DeleteUserRequest {
-  id: number;
+  id: number
 }
 
 export interface GetUserRequest {
-  id: number;
+  id: number
 }
 
 export interface PatchUserRequest {
-  id: number;
-  userDetails?: UserDetails;
+  id: number
+  userDetails?: UserDetails
 }
 
 export interface PostUserRequest {
-  userPostRequest?: UserPostRequest;
+  userPostRequest?: UserPostRequest
 }
 
 /**
@@ -54,12 +54,12 @@ export class UsersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling deleteUser().');
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling deleteUser().')
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
     const response = await this.request(
       {
@@ -69,9 +69,9 @@ export class UsersApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.VoidApiResponse(response)
   }
 
   /**
@@ -81,7 +81,7 @@ export class UsersApi extends runtime.BaseAPI {
     requestParameters: DeleteUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
-    await this.deleteUserRaw(requestParameters, initOverrides);
+    await this.deleteUserRaw(requestParameters, initOverrides)
   }
 
   /**
@@ -89,9 +89,9 @@ export class UsersApi extends runtime.BaseAPI {
    * Show Me
    */
   async getMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserMe>> {
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
     const response = await this.request(
       {
@@ -101,9 +101,9 @@ export class UsersApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => UserMeFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserMeFromJSON(jsonValue))
   }
 
   /**
@@ -111,8 +111,8 @@ export class UsersApi extends runtime.BaseAPI {
    * Show Me
    */
   async getMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserMe> {
-    const response = await this.getMeRaw(initOverrides);
-    return await response.value();
+    const response = await this.getMeRaw(initOverrides)
+    return await response.value()
   }
 
   /**
@@ -124,12 +124,12 @@ export class UsersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<UserDetails>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling getUser().');
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling getUser().')
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
     const response = await this.request(
       {
@@ -139,9 +139,9 @@ export class UsersApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue))
   }
 
   /**
@@ -152,8 +152,8 @@ export class UsersApi extends runtime.BaseAPI {
     requestParameters: GetUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UserDetails> {
-    const response = await this.getUserRaw(requestParameters, initOverrides);
-    return await response.value();
+    const response = await this.getUserRaw(requestParameters, initOverrides)
+    return await response.value()
   }
 
   /**
@@ -163,9 +163,9 @@ export class UsersApi extends runtime.BaseAPI {
   async listUsersRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<User>>> {
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
     const response = await this.request(
       {
@@ -175,9 +175,9 @@ export class UsersApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserFromJSON));
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserFromJSON))
   }
 
   /**
@@ -185,8 +185,8 @@ export class UsersApi extends runtime.BaseAPI {
    * List Users
    */
   async listUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<User>> {
-    const response = await this.listUsersRaw(initOverrides);
-    return await response.value();
+    const response = await this.listUsersRaw(initOverrides)
+    return await response.value()
   }
 
   /**
@@ -198,14 +198,14 @@ export class UsersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<UserDetails>> {
     if (requestParameters["id"] == null) {
-      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling patchUser().');
+      throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling patchUser().')
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
-    headerParameters["Content-Type"] = "application/json";
+    headerParameters["Content-Type"] = "application/json"
 
     const response = await this.request(
       {
@@ -216,9 +216,9 @@ export class UsersApi extends runtime.BaseAPI {
         body: UserDetailsToJSON(requestParameters["userDetails"]),
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue))
   }
 
   /**
@@ -229,8 +229,8 @@ export class UsersApi extends runtime.BaseAPI {
     requestParameters: PatchUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UserDetails> {
-    const response = await this.patchUserRaw(requestParameters, initOverrides);
-    return await response.value();
+    const response = await this.patchUserRaw(requestParameters, initOverrides)
+    return await response.value()
   }
 
   /**
@@ -241,11 +241,11 @@ export class UsersApi extends runtime.BaseAPI {
     requestParameters: PostUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<UserDetails>> {
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
-    headerParameters["Content-Type"] = "application/json";
+    headerParameters["Content-Type"] = "application/json"
 
     const response = await this.request(
       {
@@ -256,9 +256,9 @@ export class UsersApi extends runtime.BaseAPI {
         body: UserPostRequestToJSON(requestParameters["userPostRequest"]),
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue))
   }
 
   /**
@@ -269,7 +269,7 @@ export class UsersApi extends runtime.BaseAPI {
     requestParameters: PostUserRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UserDetails> {
-    const response = await this.postUserRaw(requestParameters, initOverrides);
-    return await response.value();
+    const response = await this.postUserRaw(requestParameters, initOverrides)
+    return await response.value()
   }
 }

@@ -1,12 +1,12 @@
-import { Code } from "@nextui-org/code";
-import { Snippet } from "@nextui-org/snippet";
-import { Link } from "@nextui-org/link";
-import { button as buttonStyles } from "@nextui-org/theme";
+import { Code } from "@nextui-org/code"
+import { Snippet } from "@nextui-org/snippet"
+import { Link } from "@nextui-org/link"
+import { button as buttonStyles } from "@nextui-org/theme"
 
-import { GithubIcon } from "./icons";
+import { GithubIcon } from "./icons"
 
-import { title, subtitle } from "@/components/primitives";
-import { siteConfig } from "@/config/site";
+import { title, subtitle } from "@/components/primitives"
+import { siteConfig } from "@/config/site"
 
 export default function NextJSHome() {
   return (
@@ -49,5 +49,5 @@ export default function NextJSHome() {
         </Snippet>
       </div>
     </>
-  );
+  )
 }

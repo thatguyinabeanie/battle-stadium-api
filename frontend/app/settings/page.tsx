@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import ProfileSetting from "./profile-settings";
-import AppearanceSetting from "./appearance-settings";
-import AccountSetting from "./account-settings";
-import BillingSetting from "./bill-settings";
-import TeamSetting from "./team-setting";
+import ProfileSetting from "./profile-settings"
+import AppearanceSetting from "./appearance-settings"
+import AccountSetting from "./account-settings"
+import BillingSetting from "./bill-settings"
+import TeamSetting from "./team-setting"
 
-import { Tab, Tabs, useDisclosure } from "@/components/nextui-client-components";
-import { Button, Icon } from "@/components/nextui-client-components";
+import { Tab, Tabs, useDisclosure } from "@/components/nextui-client-components"
+import { Button, Icon } from "@/components/nextui-client-components"
 
 const Settings = () => {
-  const { onOpenChange } = useDisclosure();
+  const { onOpenChange } = useDisclosure()
 
   return (
     <div className="w-full max-w-2xl flex-1 p-4">
@@ -48,7 +48,7 @@ const Settings = () => {
         </Tab>
       </Tabs>
     </div>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

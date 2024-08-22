@@ -1,3 +1,3 @@
-import { NavbarMain as Navbar } from "./NavbarMain";
+import { NavbarMain as Navbar } from "./NavbarMain"
 
-export { Navbar };
+export { Navbar }

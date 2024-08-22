@@ -1,11 +1,11 @@
-import { isEqual, uniqWith } from "lodash";
+import { isEqual, uniqWith } from "lodash"
 
 const columns = [
   { name: "NAME", uid: "name", sortable: true },
   { name: "ROLE", uid: "role", sortable: true },
   { name: "STATUS", uid: "status", sortable: true },
   { name: "ACTIONS", uid: "actions" },
-];
+]
 
 const users = [
   {
@@ -28,7 +28,7 @@ const users = [
     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
     email: "zoey.lang@acme.com",
   },
-];
+]
 
 /**
  * To use this function you need to install lodash in your project
@@ -41,10 +41,10 @@ const rolesOptions = uniqWith(
     return {
       name: user.role,
       uid: user.role.toLowerCase(),
-    };
+    }
   }),
   isEqual,
-);
+)
 
 /**
  * To use this function you need to install lodash in your project
@@ -57,9 +57,9 @@ const statusOptions = uniqWith(
     return {
       name: user.status,
       uid: user.status.toLowerCase(),
-    };
+    }
   }),
   isEqual,
-);
+)
 
-export { columns, users, rolesOptions, statusOptions };
+export { columns, users, rolesOptions, statusOptions }

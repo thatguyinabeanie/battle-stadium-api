@@ -1,17 +1,17 @@
-"use client";
-import type { ModalProps } from "@nextui-org/react";
+"use client"
+import type { ModalProps } from "@nextui-org/react"
 
-import React from "react";
-import { TRANSITION_EASINGS } from "@nextui-org/framer-utils";
-import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
+import React from "react"
+import { TRANSITION_EASINGS } from "@nextui-org/framer-utils"
+import { Modal, ModalBody, ModalContent } from "@nextui-org/react"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 const SidebarDrawer = React.forwardRef<
   HTMLDivElement,
   ModalProps & {
-    sidebarWidth?: number;
-    sidebarPlacement?: "left" | "right";
+    sidebarWidth?: number
+    sidebarPlacement?: "left" | "right"
   }
 >(
   (
@@ -30,7 +30,7 @@ const SidebarDrawer = React.forwardRef<
   ) => {
     const motionProps = React.useMemo(() => {
       if (!!drawerMotionProps && typeof drawerMotionProps === "object") {
-        return drawerMotionProps;
+        return drawerMotionProps
       }
 
       return {
@@ -54,8 +54,8 @@ const SidebarDrawer = React.forwardRef<
             },
           },
         },
-      };
-    }, [sidebarWidth, sidebarPlacement, drawerMotionProps]);
+      }
+    }, [sidebarWidth, sidebarPlacement, drawerMotionProps])
 
     return (
       <>
@@ -98,10 +98,10 @@ const SidebarDrawer = React.forwardRef<
           {children}
         </div>
       </>
-    );
+    )
   },
-);
+)
 
-SidebarDrawer.displayName = "SidebarDrawer";
+SidebarDrawer.displayName = "SidebarDrawer"
 
-export default SidebarDrawer;
+export default SidebarDrawer

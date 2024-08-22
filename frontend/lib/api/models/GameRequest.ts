@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
+import { mapValues } from "../runtime"
 /**
  *
  * @export
@@ -24,43 +24,43 @@ export interface GameRequest {
    * @type {number}
    * @memberof GameRequest
    */
-  id?: number;
+  id?: number
   /**
    *
    * @type {string}
    * @memberof GameRequest
    */
-  name: string;
+  name: string
 }
 
 /**
  * Check if a given object implements the GameRequest interface.
  */
 export function instanceOfGameRequest(value: object): value is GameRequest {
-  if (!("name" in value) || value["name"] === undefined) return false;
-  return true;
+  if (!("name" in value) || value["name"] === undefined) return false
+  return true
 }
 
 export function GameRequestFromJSON(json: any): GameRequest {
-  return GameRequestFromJSONTyped(json, false);
+  return GameRequestFromJSONTyped(json, false)
 }
 
 export function GameRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): GameRequest {
   if (json == null) {
-    return json;
+    return json
   }
   return {
     id: json["id"] == null ? undefined : json["id"],
     name: json["name"],
-  };
+  }
 }
 
 export function GameRequestToJSON(value?: GameRequest | null): any {
   if (value == null) {
-    return value;
+    return value
   }
   return {
     id: value["id"],
     name: value["name"],
-  };
+  }
 }

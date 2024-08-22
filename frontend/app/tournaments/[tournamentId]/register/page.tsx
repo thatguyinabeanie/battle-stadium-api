@@ -3,7 +3,7 @@ const Register = () => {
     <div>
       <h1>Register for tournament here</h1>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

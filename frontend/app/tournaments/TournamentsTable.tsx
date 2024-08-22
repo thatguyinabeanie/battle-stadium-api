@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Link } from "@nextui-org/react";
-import * as React from "react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Link } from "@nextui-org/react"
+import * as React from "react"
 
-import { Tournament } from "@/lib/api";
+import { Tournament } from "@/lib/api"
 
 export interface TournamentsTableProps {
-  tournaments: Tournament[];
-  columns: { key: string; label: string }[];
+  tournaments: Tournament[]
+  columns: { key: string; label: string }[]
 }
 
 const columns = [
@@ -31,7 +31,7 @@ const columns = [
     key: "registration",
     label: "REGISTRATION",
   },
-];
+]
 
 function renderRegistration({
   registrationStartAt,
@@ -40,61 +40,61 @@ function renderRegistration({
   playerCap,
   lateRegistration,
 }: Tournament) {
-  const currentTime = new Date();
+  const currentTime = new Date()
 
   if (!registrationStartAt) {
-    return "Not Open";
+    return "Not Open"
   }
 
   if (currentTime < registrationStartAt) {
-    return "Not Open";
+    return "Not Open"
   }
 
   if (currentTime >= registrationStartAt && registrationEndAt && currentTime < registrationEndAt) {
     if (playerCap && playerCount >= playerCap) {
-      return "Full";
+      return "Full"
     }
 
-    return "Open";
+    return "Open"
   }
 
   if (registrationEndAt && currentTime > registrationEndAt) {
     if (lateRegistration) {
-      return "Open";
+      return "Open"
     }
 
-    return "Closed";
+    return "Closed"
   }
 }
 
 const renderCell: typeof getKeyValue = (row: Tournament, columnKey) => {
-  const { id, name, organization, startAt, playerCount, playerCap } = row;
+  const { id, name, organization, startAt, playerCount, playerCap } = row
 
   switch (columnKey) {
     case "organization.name":
-      return <Link href={`/organizations/${organization.id}`}>{organization.name}</Link>;
+      return <Link href={`/organizations/${organization.id}`}>{organization.name}</Link>
     case "start_at":
-      return startAt;
+      return startAt
     case "name":
-      return <Link href={`/tournaments/${id}`}>{name}</Link>;
+      return <Link href={`/tournaments/${id}`}>{name}</Link>
     case "players":
-      return playerCap ? `${playerCount}/${playerCap}` : playerCount;
+      return playerCap ? `${playerCount}/${playerCap}` : playerCount
     case "registration":
-      return renderRegistration(row);
+      return renderRegistration(row)
     default:
-      return getKeyValue(row, columnKey);
+      return getKeyValue(row, columnKey)
   }
-};
+}
 
 const TournamentsTable = ({ tournaments }: TournamentsTableProps) => {
-  const [hydrated, setHydrated] = React.useState(false);
+  const [hydrated, setHydrated] = React.useState(false)
 
   React.useEffect(() => {
-    setHydrated(true);
-  }, []);
+    setHydrated(true)
+  }, [])
 
   if (!hydrated) {
-    return null; // or a loading spinner
+    return null // or a loading spinner
   }
 
   return (
@@ -109,7 +109,7 @@ const TournamentsTable = ({ tournaments }: TournamentsTableProps) => {
         )}
       </TableBody>
     </Table>
-  );
-};
+  )
+}
 
-export default TournamentsTable;
+export default TournamentsTable

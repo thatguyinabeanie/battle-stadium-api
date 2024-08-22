@@ -1,4 +1,4 @@
-import { Text } from "@/components/text";
+import { Text } from "@/components/text"
 
 const Profile = () => {
   return (
@@ -7,7 +7,7 @@ const Profile = () => {
         Profile Page here
       </Text>
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

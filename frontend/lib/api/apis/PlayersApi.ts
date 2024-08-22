@@ -12,8 +12,8 @@
  * Do not edit the class manually.
  */
 
-import * as runtime from "../runtime";
-import type { Player, PlayerDetails, PlayerRequest } from "../models/index";
+import * as runtime from "../runtime"
+import type { Player, PlayerDetails, PlayerRequest } from "../models/index"
 import {
   PlayerFromJSON,
   PlayerToJSON,
@@ -21,31 +21,31 @@ import {
   PlayerDetailsToJSON,
   PlayerRequestFromJSON,
   PlayerRequestToJSON,
-} from "../models/index";
+} from "../models/index"
 
 export interface DeleteTournamentPlayerRequest {
-  tournamentId: number;
-  id: number;
+  tournamentId: number
+  id: number
 }
 
 export interface ListPlayersRequest {
-  tournamentId: number;
+  tournamentId: number
 }
 
 export interface PostTournamentPlayerRequest {
-  tournamentId: number;
-  playerRequest?: PlayerRequest;
+  tournamentId: number
+  playerRequest?: PlayerRequest
 }
 
 export interface PutTournamentPlayerRequest {
-  tournamentId: number;
-  id: number;
-  playerRequest?: PlayerRequest;
+  tournamentId: number
+  id: number
+  playerRequest?: PlayerRequest
 }
 
 export interface ShowTournamentPlayerRequest {
-  tournamentId: number;
-  id: number;
+  tournamentId: number
+  id: number
 }
 
 /**
@@ -64,19 +64,19 @@ export class PlayersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling deleteTournamentPlayer().',
-      );
+      )
     }
 
     if (requestParameters["id"] == null) {
       throw new runtime.RequiredError(
         "id",
         'Required parameter "id" was null or undefined when calling deleteTournamentPlayer().',
-      );
+      )
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
     const response = await this.request(
       {
@@ -88,9 +88,9 @@ export class PlayersApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.VoidApiResponse(response)
   }
 
   /**
@@ -101,7 +101,7 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: DeleteTournamentPlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
-    await this.deleteTournamentPlayerRaw(requestParameters, initOverrides);
+    await this.deleteTournamentPlayerRaw(requestParameters, initOverrides)
   }
 
   /**
@@ -116,12 +116,12 @@ export class PlayersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling listPlayers().',
-      );
+      )
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
     const response = await this.request(
       {
@@ -134,9 +134,9 @@ export class PlayersApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PlayerFromJSON));
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PlayerFromJSON))
   }
 
   /**
@@ -147,8 +147,8 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: ListPlayersRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Player>> {
-    const response = await this.listPlayersRaw(requestParameters, initOverrides);
-    return await response.value();
+    const response = await this.listPlayersRaw(requestParameters, initOverrides)
+    return await response.value()
   }
 
   /**
@@ -163,14 +163,14 @@ export class PlayersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling postTournamentPlayer().',
-      );
+      )
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
-    headerParameters["Content-Type"] = "application/json";
+    headerParameters["Content-Type"] = "application/json"
 
     const response = await this.request(
       {
@@ -184,9 +184,9 @@ export class PlayersApi extends runtime.BaseAPI {
         body: PlayerRequestToJSON(requestParameters["playerRequest"]),
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue))
   }
 
   /**
@@ -197,8 +197,8 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: PostTournamentPlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.postTournamentPlayerRaw(requestParameters, initOverrides);
-    return await response.value();
+    const response = await this.postTournamentPlayerRaw(requestParameters, initOverrides)
+    return await response.value()
   }
 
   /**
@@ -213,21 +213,21 @@ export class PlayersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling putTournamentPlayer().',
-      );
+      )
     }
 
     if (requestParameters["id"] == null) {
       throw new runtime.RequiredError(
         "id",
         'Required parameter "id" was null or undefined when calling putTournamentPlayer().',
-      );
+      )
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
-    headerParameters["Content-Type"] = "application/json";
+    headerParameters["Content-Type"] = "application/json"
 
     const response = await this.request(
       {
@@ -240,9 +240,9 @@ export class PlayersApi extends runtime.BaseAPI {
         body: PlayerRequestToJSON(requestParameters["playerRequest"]),
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue))
   }
 
   /**
@@ -253,8 +253,8 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: PutTournamentPlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.putTournamentPlayerRaw(requestParameters, initOverrides);
-    return await response.value();
+    const response = await this.putTournamentPlayerRaw(requestParameters, initOverrides)
+    return await response.value()
   }
 
   /**
@@ -269,19 +269,19 @@ export class PlayersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "tournamentId",
         'Required parameter "tournamentId" was null or undefined when calling showTournamentPlayer().',
-      );
+      )
     }
 
     if (requestParameters["id"] == null) {
       throw new runtime.RequiredError(
         "id",
         'Required parameter "id" was null or undefined when calling showTournamentPlayer().',
-      );
+      )
     }
 
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
     const response = await this.request(
       {
@@ -293,9 +293,9 @@ export class PlayersApi extends runtime.BaseAPI {
         query: queryParameters,
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => PlayerDetailsFromJSON(jsonValue))
   }
 
   /**
@@ -306,7 +306,7 @@ export class PlayersApi extends runtime.BaseAPI {
     requestParameters: ShowTournamentPlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.showTournamentPlayerRaw(requestParameters, initOverrides);
-    return await response.value();
+    const response = await this.showTournamentPlayerRaw(requestParameters, initOverrides)
+    return await response.value()
   }
 }

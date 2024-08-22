@@ -1,5 +1,5 @@
-import * as CurrentUser from "./context/current-user";
+import * as CurrentUser from "./context/current-user"
 
-export * from "./utils";
-export * from "./constants";
-export { CurrentUser };
+export * from "./utils"
+export * from "./constants"
+export { CurrentUser }

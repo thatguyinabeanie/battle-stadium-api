@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import React from "react";
+import React from "react"
 
-import { UserMe } from "@/lib/api";
+import { UserMe } from "@/lib/api"
 
-export const CurrentUserContext = React.createContext<UserMe | null>(null);
+export const CurrentUserContext = React.createContext<UserMe | null>(null)

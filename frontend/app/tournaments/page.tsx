@@ -1,9 +1,9 @@
-import React from "react";
+import React from "react"
 
-import TournamentsTable from "./TournamentsTable";
+import TournamentsTable from "./TournamentsTable"
 
-import { title } from "@/components/primitives";
-import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import { title } from "@/components/primitives"
+import BattleStadiumAPI from "@/lib/battle-stadium-api"
 
 const columns = [
   {
@@ -18,10 +18,10 @@ const columns = [
     key: "organization.name",
     label: "Organization",
   },
-];
+]
 
 const Tournaments = async () => {
-  const tournaments = await BattleStadiumAPI.Tournaments.list();
+  const tournaments = await BattleStadiumAPI.Tournaments.list()
 
   return (
     <div>
@@ -29,7 +29,7 @@ const Tournaments = async () => {
 
       <TournamentsTable columns={columns} tournaments={tournaments} />
     </div>
-  );
-};
+  )
+}
 
-export default Tournaments;
+export default Tournaments

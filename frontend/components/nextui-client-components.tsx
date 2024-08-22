@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   Chip,
   Avatar,
@@ -14,8 +14,8 @@ import {
   Tabs,
   Tab,
   useDisclosure,
-} from "@nextui-org/react";
-import { Icon } from "@iconify/react";
+} from "@nextui-org/react"
+import { Icon } from "@iconify/react"
 
 export {
   Chip,
@@ -33,4 +33,4 @@ export {
   Tabs,
   Tab,
   useDisclosure,
-};
+}

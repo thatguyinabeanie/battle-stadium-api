@@ -1,16 +1,16 @@
-import type { RadioProps } from "@nextui-org/react";
+import type { RadioProps } from "@nextui-org/react"
 
-import React from "react";
-import { useRadio, VisuallyHidden } from "@nextui-org/react";
+import React from "react"
+import { useRadio, VisuallyHidden } from "@nextui-org/react"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 interface ThemeCustomRadioProps extends RadioProps {
-  variant: "light" | "dark";
+  variant: "light" | "dark"
 }
 
 export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
-  const { variant } = props;
+  const { variant } = props
   const {
     Component,
     children,
@@ -22,8 +22,8 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
     getLabelProps,
     getLabelWrapperProps,
     getControlProps,
-  } = useRadio(props);
-  const wrapperProps = getWrapperProps();
+  } = useRadio(props)
+  const wrapperProps = getWrapperProps()
 
   return (
     <Component
@@ -180,5 +180,5 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
         </svg>
       </div>
     </Component>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
-import { Kbd } from "@nextui-org/kbd";
-import { Input } from "@nextui-org/input";
+import { Kbd } from "@nextui-org/kbd"
+import { Input } from "@nextui-org/input"
 
-import { SearchIcon } from "@/components/icons";
+import { SearchIcon } from "@/components/icons"
 
 export function NavbarSearch() {
   return (
@@ -21,5 +21,5 @@ export function NavbarSearch() {
       startContent={<SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />}
       type="search"
     />
-  );
+  )
 }

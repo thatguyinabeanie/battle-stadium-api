@@ -12,13 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
-import type { Format } from "./Format";
-import { FormatFromJSON, FormatFromJSONTyped, FormatToJSON } from "./Format";
-import type { Game } from "./Game";
-import { GameFromJSON, GameFromJSONTyped, GameToJSON } from "./Game";
-import type { Organization } from "./Organization";
-import { OrganizationFromJSON, OrganizationFromJSONTyped, OrganizationToJSON } from "./Organization";
+import { mapValues } from "../runtime"
+import type { Format } from "./Format"
+import { FormatFromJSON, FormatFromJSONTyped, FormatToJSON } from "./Format"
+import type { Game } from "./Game"
+import { GameFromJSON, GameFromJSONTyped, GameToJSON } from "./Game"
+import type { Organization } from "./Organization"
+import { OrganizationFromJSON, OrganizationFromJSONTyped, OrganizationToJSON } from "./Organization"
 
 /**
  *
@@ -31,140 +31,140 @@ export interface TournamentDetails {
    * @type {number}
    * @memberof TournamentDetails
    */
-  id: number;
+  id: number
   /**
    *
    * @type {string}
    * @memberof TournamentDetails
    */
-  name: string;
+  name: string
   /**
    *
    * @type {boolean}
    * @memberof TournamentDetails
    */
-  autostart: boolean;
+  autostart: boolean
   /**
    *
    * @type {Date}
    * @memberof TournamentDetails
    */
-  startAt: Date | null;
+  startAt: Date | null
   /**
    *
    * @type {Date}
    * @memberof TournamentDetails
    */
-  endAt?: Date | null;
+  endAt?: Date | null
   /**
    *
    * @type {Organization}
    * @memberof TournamentDetails
    */
-  organization: Organization;
+  organization: Organization
   /**
    *
    * @type {Format}
    * @memberof TournamentDetails
    */
-  format: Format;
+  format: Format
   /**
    *
    * @type {Game}
    * @memberof TournamentDetails
    */
-  game: Game;
+  game: Game
   /**
    *
    * @type {Date}
    * @memberof TournamentDetails
    */
-  checkInStartAt: Date | null;
+  checkInStartAt: Date | null
   /**
    *
    * @type {boolean}
    * @memberof TournamentDetails
    */
-  lateRegistration: boolean;
+  lateRegistration: boolean
   /**
    *
    * @type {boolean}
    * @memberof TournamentDetails
    */
-  teamlistsRequired: boolean;
+  teamlistsRequired: boolean
   /**
    *
    * @type {boolean}
    * @memberof TournamentDetails
    */
-  openTeamSheets: boolean;
+  openTeamSheets: boolean
   /**
    *
    * @type {number}
    * @memberof TournamentDetails
    */
-  playerCap: number | null;
+  playerCap: number | null
   /**
    *
    * @type {number}
    * @memberof TournamentDetails
    */
-  playerCount: number;
+  playerCount: number
   /**
    *
    * @type {Date}
    * @memberof TournamentDetails
    */
-  startedAt?: Date | null;
+  startedAt?: Date | null
   /**
    *
    * @type {Date}
    * @memberof TournamentDetails
    */
-  endedAt?: Date | null;
+  endedAt?: Date | null
   /**
    *
    * @type {Date}
    * @memberof TournamentDetails
    */
-  registrationStartAt: Date | null;
+  registrationStartAt: Date | null
   /**
    *
    * @type {Date}
    * @memberof TournamentDetails
    */
-  registrationEndAt: Date | null;
+  registrationEndAt: Date | null
 }
 
 /**
  * Check if a given object implements the TournamentDetails interface.
  */
 export function instanceOfTournamentDetails(value: object): value is TournamentDetails {
-  if (!("id" in value) || value["id"] === undefined) return false;
-  if (!("name" in value) || value["name"] === undefined) return false;
-  if (!("autostart" in value) || value["autostart"] === undefined) return false;
-  if (!("startAt" in value) || value["startAt"] === undefined) return false;
-  if (!("organization" in value) || value["organization"] === undefined) return false;
-  if (!("format" in value) || value["format"] === undefined) return false;
-  if (!("game" in value) || value["game"] === undefined) return false;
-  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined) return false;
-  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined) return false;
-  if (!("teamlistsRequired" in value) || value["teamlistsRequired"] === undefined) return false;
-  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined) return false;
-  if (!("playerCap" in value) || value["playerCap"] === undefined) return false;
-  if (!("playerCount" in value) || value["playerCount"] === undefined) return false;
-  if (!("registrationStartAt" in value) || value["registrationStartAt"] === undefined) return false;
-  if (!("registrationEndAt" in value) || value["registrationEndAt"] === undefined) return false;
-  return true;
+  if (!("id" in value) || value["id"] === undefined) return false
+  if (!("name" in value) || value["name"] === undefined) return false
+  if (!("autostart" in value) || value["autostart"] === undefined) return false
+  if (!("startAt" in value) || value["startAt"] === undefined) return false
+  if (!("organization" in value) || value["organization"] === undefined) return false
+  if (!("format" in value) || value["format"] === undefined) return false
+  if (!("game" in value) || value["game"] === undefined) return false
+  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined) return false
+  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined) return false
+  if (!("teamlistsRequired" in value) || value["teamlistsRequired"] === undefined) return false
+  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined) return false
+  if (!("playerCap" in value) || value["playerCap"] === undefined) return false
+  if (!("playerCount" in value) || value["playerCount"] === undefined) return false
+  if (!("registrationStartAt" in value) || value["registrationStartAt"] === undefined) return false
+  if (!("registrationEndAt" in value) || value["registrationEndAt"] === undefined) return false
+  return true
 }
 
 export function TournamentDetailsFromJSON(json: any): TournamentDetails {
-  return TournamentDetailsFromJSONTyped(json, false);
+  return TournamentDetailsFromJSONTyped(json, false)
 }
 
 export function TournamentDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TournamentDetails {
   if (json == null) {
-    return json;
+    return json
   }
   return {
     id: json["id"],
@@ -185,12 +185,12 @@ export function TournamentDetailsFromJSONTyped(json: any, ignoreDiscriminator: b
     endedAt: json["ended_at"] == null ? undefined : new Date(json["ended_at"]),
     registrationStartAt: json["registration_start_at"] == null ? null : new Date(json["registration_start_at"]),
     registrationEndAt: json["registration_end_at"] == null ? null : new Date(json["registration_end_at"]),
-  };
+  }
 }
 
 export function TournamentDetailsToJSON(value?: TournamentDetails | null): any {
   if (value == null) {
-    return value;
+    return value
   }
   return {
     id: value["id"],
@@ -212,5 +212,5 @@ export function TournamentDetailsToJSON(value?: TournamentDetails | null): any {
     registration_start_at:
       value["registrationStartAt"] == null ? null : (value["registrationStartAt"] as any).toISOString(),
     registration_end_at: value["registrationEndAt"] == null ? null : (value["registrationEndAt"] as any).toISOString(),
-  };
+  }
 }

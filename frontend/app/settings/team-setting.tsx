@@ -1,21 +1,21 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Button, Card, CardBody, Divider, Input, Select, SelectItem, Spacer } from "@nextui-org/react";
-import { Icon } from "@iconify/react";
+import * as React from "react"
+import { Button, Card, CardBody, Divider, Input, Select, SelectItem, Spacer } from "@nextui-org/react"
+import { Icon } from "@iconify/react"
 
-import TeamManageTable from "@/components/team-manage-table";
-import { cn } from "@/lib/utils";
+import TeamManageTable from "@/components/team-manage-table"
+import { cn } from "@/lib/utils"
 
 interface TeamSettingCardProps {
-  className?: string;
+  className?: string
 }
 
 const roleOptions = [
   { label: "Member", value: "member", description: "team member" },
   { label: "Admin", value: "admin", description: "team admin" },
   { label: "Owner", value: "owner", description: "team owner" },
-];
+]
 
 const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(({ className, ...rest }, ref) => (
   <div {...rest} ref={ref} className={cn("p-2", className)}>
@@ -101,8 +101,8 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(({ cl
     {/* Team management table */}
     <TeamManageTable />
   </div>
-));
+))
 
-TeamSetting.displayName = "TeamSetting";
+TeamSetting.displayName = "TeamSetting"
 
-export default TeamSetting;
+export default TeamSetting

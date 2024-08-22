@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react";
-import { Icon } from "@iconify/react";
+import * as React from "react"
+import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react"
+import { Icon } from "@iconify/react"
 
-import { PlanCustomRadio } from "@/components/plan-custom-radio";
-import { cn } from "@/lib/utils";
+import { PlanCustomRadio } from "@/components/plan-custom-radio"
+import { cn } from "@/lib/utils"
 
 interface BillingSettingCardProps {
-  className?: string;
+  className?: string
 }
 
 const addressOptions = [
@@ -17,7 +17,7 @@ const addressOptions = [
     value: "buenos-aires",
     description: "Buenos Aires",
   },
-];
+]
 
 const countryOptions = [
   {
@@ -25,7 +25,7 @@ const countryOptions = [
     value: "ar",
     description: "Argentina",
   },
-];
+]
 
 const BillingSetting = React.forwardRef<HTMLDivElement, BillingSettingCardProps>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-2", className)} {...props}>
@@ -144,8 +144,8 @@ const BillingSetting = React.forwardRef<HTMLDivElement, BillingSettingCardProps>
       Save
     </Button>
   </div>
-));
+))
 
-BillingSetting.displayName = "BillingSetting";
+BillingSetting.displayName = "BillingSetting"
 
-export default BillingSetting;
+export default BillingSetting

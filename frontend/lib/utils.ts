@@ -1,7 +1,7 @@
-import { type ClassValue, clsx } from "clsx";
-import { extendTailwindMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx"
+import { extendTailwindMerge } from "tailwind-merge"
 
-const COMMON_UNITS = ["small", "medium", "large"];
+const COMMON_UNITS = ["small", "medium", "large"]
 
 /**
  * We need to extend the tailwind merge to include NextUI's custom classes.
@@ -22,8 +22,8 @@ const twMerge = extendTailwindMerge({
       "bg-image": ["bg-stripe-gradient"],
     },
   },
-});
+})
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs))
 }

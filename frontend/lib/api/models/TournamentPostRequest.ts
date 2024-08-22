@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
+import { mapValues } from "../runtime"
 /**
  *
  * @export
@@ -24,107 +24,107 @@ export interface TournamentPostRequest {
    * @type {number}
    * @memberof TournamentPostRequest
    */
-  organizationId: number;
+  organizationId: number
   /**
    *
    * @type {string}
    * @memberof TournamentPostRequest
    */
-  name: string;
+  name: string
   /**
    *
    * @type {number}
    * @memberof TournamentPostRequest
    */
-  gameId: number;
+  gameId: number
   /**
    *
    * @type {number}
    * @memberof TournamentPostRequest
    */
-  formatId: number;
+  formatId: number
   /**
    *
    * @type {boolean}
    * @memberof TournamentPostRequest
    */
-  autostart: boolean;
+  autostart: boolean
   /**
    *
    * @type {Date}
    * @memberof TournamentPostRequest
    */
-  startAt?: Date;
+  startAt?: Date
   /**
    *
    * @type {number}
    * @memberof TournamentPostRequest
    */
-  playerCap: number | null;
+  playerCap: number | null
   /**
    *
    * @type {Date}
    * @memberof TournamentPostRequest
    */
-  registrationStartAt: Date | null;
+  registrationStartAt: Date | null
   /**
    *
    * @type {Date}
    * @memberof TournamentPostRequest
    */
-  registrationEndAt: Date | null;
+  registrationEndAt: Date | null
   /**
    *
    * @type {boolean}
    * @memberof TournamentPostRequest
    */
-  lateRegistration: boolean;
+  lateRegistration: boolean
   /**
    *
    * @type {Date}
    * @memberof TournamentPostRequest
    */
-  checkInStartAt: Date | null;
+  checkInStartAt: Date | null
   /**
    *
    * @type {boolean}
    * @memberof TournamentPostRequest
    */
-  openTeamSheets: boolean;
+  openTeamSheets: boolean
   /**
    *
    * @type {boolean}
    * @memberof TournamentPostRequest
    */
-  teamlistsRequired: boolean;
+  teamlistsRequired: boolean
 }
 
 /**
  * Check if a given object implements the TournamentPostRequest interface.
  */
 export function instanceOfTournamentPostRequest(value: object): value is TournamentPostRequest {
-  if (!("organizationId" in value) || value["organizationId"] === undefined) return false;
-  if (!("name" in value) || value["name"] === undefined) return false;
-  if (!("gameId" in value) || value["gameId"] === undefined) return false;
-  if (!("formatId" in value) || value["formatId"] === undefined) return false;
-  if (!("autostart" in value) || value["autostart"] === undefined) return false;
-  if (!("playerCap" in value) || value["playerCap"] === undefined) return false;
-  if (!("registrationStartAt" in value) || value["registrationStartAt"] === undefined) return false;
-  if (!("registrationEndAt" in value) || value["registrationEndAt"] === undefined) return false;
-  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined) return false;
-  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined) return false;
-  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined) return false;
-  if (!("teamlistsRequired" in value) || value["teamlistsRequired"] === undefined) return false;
-  return true;
+  if (!("organizationId" in value) || value["organizationId"] === undefined) return false
+  if (!("name" in value) || value["name"] === undefined) return false
+  if (!("gameId" in value) || value["gameId"] === undefined) return false
+  if (!("formatId" in value) || value["formatId"] === undefined) return false
+  if (!("autostart" in value) || value["autostart"] === undefined) return false
+  if (!("playerCap" in value) || value["playerCap"] === undefined) return false
+  if (!("registrationStartAt" in value) || value["registrationStartAt"] === undefined) return false
+  if (!("registrationEndAt" in value) || value["registrationEndAt"] === undefined) return false
+  if (!("lateRegistration" in value) || value["lateRegistration"] === undefined) return false
+  if (!("checkInStartAt" in value) || value["checkInStartAt"] === undefined) return false
+  if (!("openTeamSheets" in value) || value["openTeamSheets"] === undefined) return false
+  if (!("teamlistsRequired" in value) || value["teamlistsRequired"] === undefined) return false
+  return true
 }
 
 export function TournamentPostRequestFromJSON(json: any): TournamentPostRequest {
-  return TournamentPostRequestFromJSONTyped(json, false);
+  return TournamentPostRequestFromJSONTyped(json, false)
 }
 
 export function TournamentPostRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): TournamentPostRequest {
   if (json == null) {
-    return json;
+    return json
   }
   return {
     organizationId: json["organization_id"],
@@ -140,12 +140,12 @@ export function TournamentPostRequestFromJSONTyped(json: any, ignoreDiscriminato
     checkInStartAt: json["check_in_start_at"] == null ? null : new Date(json["check_in_start_at"]),
     openTeamSheets: json["open_team_sheets"],
     teamlistsRequired: json["teamlists_required"],
-  };
+  }
 }
 
 export function TournamentPostRequestToJSON(value?: TournamentPostRequest | null): any {
   if (value == null) {
-    return value;
+    return value
   }
   return {
     organization_id: value["organizationId"],
@@ -162,5 +162,5 @@ export function TournamentPostRequestToJSON(value?: TournamentPostRequest | null
     check_in_start_at: value["checkInStartAt"] == null ? null : (value["checkInStartAt"] as any).toISOString(),
     open_team_sheets: value["openTeamSheets"],
     teamlists_required: value["teamlistsRequired"],
-  };
+  }
 }

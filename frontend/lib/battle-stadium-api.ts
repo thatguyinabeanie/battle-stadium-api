@@ -24,13 +24,13 @@ import {
   GetOrganizationRequest,
   DeleteOrganizationRequest,
   PatchOrganizationRequest,
-} from "@/lib/api";
+} from "@/lib/api"
 
-export const OrganizationsAPI: OrganizationsApi = new OrganizationsApi();
-export const UsersAPI: UsersApi = new UsersApi();
-export const GamesAPI: GamesApi = new GamesApi();
-export const PhasesAPI: PhasesApi = new PhasesApi();
-export const TournamentsAPI: TournamentsApi = new TournamentsApi();
+export const OrganizationsAPI: OrganizationsApi = new OrganizationsApi()
+export const UsersAPI: UsersApi = new UsersApi()
+export const GamesAPI: GamesApi = new GamesApi()
+export const PhasesAPI: PhasesApi = new PhasesApi()
+export const TournamentsAPI: TournamentsApi = new TournamentsApi()
 
 const BattleStadiumAPI = {
   Organizations: {
@@ -99,7 +99,7 @@ const BattleStadiumAPI = {
         PhasesAPI.listTournamentPhases(requestParameters, initOverrides),
     },
   },
-};
+}
 
-export { BattleStadiumAPI };
-export default BattleStadiumAPI;
+export { BattleStadiumAPI }
+export default BattleStadiumAPI

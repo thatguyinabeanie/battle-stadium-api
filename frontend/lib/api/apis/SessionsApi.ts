@@ -12,12 +12,12 @@
  * Do not edit the class manually.
  */
 
-import * as runtime from "../runtime";
-import type { UserLoginRequest } from "../models/index";
-import { UserLoginRequestFromJSON, UserLoginRequestToJSON } from "../models/index";
+import * as runtime from "../runtime"
+import type { UserLoginRequest } from "../models/index"
+import { UserLoginRequestFromJSON, UserLoginRequestToJSON } from "../models/index"
 
 export interface LoginUserRequest {
-  userLoginRequest?: UserLoginRequest;
+  userLoginRequest?: UserLoginRequest
 }
 
 /**
@@ -32,11 +32,11 @@ export class SessionsApi extends runtime.BaseAPI {
     requestParameters: LoginUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<void>> {
-    const queryParameters: any = {};
+    const queryParameters: any = {}
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    const headerParameters: runtime.HTTPHeaders = {}
 
-    headerParameters["Content-Type"] = "application/json";
+    headerParameters["Content-Type"] = "application/json"
 
     const response = await this.request(
       {
@@ -47,9 +47,9 @@ export class SessionsApi extends runtime.BaseAPI {
         body: UserLoginRequestToJSON(requestParameters["userLoginRequest"]),
       },
       initOverrides,
-    );
+    )
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.VoidApiResponse(response)
   }
 
   /**
@@ -60,6 +60,6 @@ export class SessionsApi extends runtime.BaseAPI {
     requestParameters: LoginUserRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
-    await this.loginUserRaw(requestParameters, initOverrides);
+    await this.loginUserRaw(requestParameters, initOverrides)
   }
 }
