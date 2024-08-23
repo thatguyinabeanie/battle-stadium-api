@@ -9,6 +9,7 @@ import Logout from "./logout";
 
 import BattleStadium from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
+import { ScrollShadow } from "@/components/client";
 import Sidebar from "@/components/sidebar/sidebar";
 import UserAvatar from "@/components/user-avatar";
 
@@ -51,8 +52,9 @@ export default function SidebarResponsive() {
 
       <UserAvatar isCompact={isCompact} session={session} />
 
-      <Sidebar defaultSelectedKey="home" isCompact={isCompact} />
-
+      <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
+        <Sidebar defaultSelectedKey="home" isCompact={isCompact} />
+      </ScrollShadow>
       <Spacer y={2} />
 
       <Logout isCompact={isCompact} />

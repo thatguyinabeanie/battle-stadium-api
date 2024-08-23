@@ -16,6 +16,7 @@ import {
   Tab,
   useDisclosure,
   ResizablePanel,
+  ScrollShadow,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
@@ -32,6 +33,7 @@ export {
   CardBody,
   Skeleton,
   Icon,
+  ScrollShadow,
   Image,
   Tooltip,
   Tabs,
