@@ -51,7 +51,8 @@ export const providers: Provider[] = [
         // Add other properties as needed
       };
 
-      console.log('User:', user);
+      console.log("User:", user);
+
       return user;
     },
   }),

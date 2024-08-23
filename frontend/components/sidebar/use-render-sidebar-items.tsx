@@ -2,6 +2,7 @@
 
 import { ListboxItem, Tooltip, Accordion, AccordionItem, Listbox, SlotsToClasses } from "@nextui-org/react";
 import React from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { Icon } from "../client";
 
@@ -9,7 +10,6 @@ import { SidebarItem, SidebarItemType } from "./sidebar";
 import useSideBarItems from "./useSideBarItems";
 
 import { cn } from "@/lib/utils";
-import { useMediaQuery } from "usehooks-ts";
 
 export type ItemClassesType =
   | SlotsToClasses<"base" | "title" | "description" | "wrapper" | "selectedIcon" | "shortcut">
@@ -24,10 +24,7 @@ export interface RenderSideBarItemsProps {
   itemClasses?: ItemClassesType;
 }
 
-export function sidebarClasses(
-  sectionClassesProp: SectionClassesType,
-  itemClassesProp: ItemClassesType,
-) {
+export function sidebarClasses(sectionClassesProp: SectionClassesType, itemClassesProp: ItemClassesType) {
   const isCompact = useMediaQuery("(max-width: 768px)");
 
   const sectionClasses = {

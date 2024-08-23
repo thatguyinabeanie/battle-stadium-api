@@ -12,7 +12,7 @@ export interface LogoutProps {
 export default function Logout({ isCompact }: LogoutProps) {
   const { status } = useSession();
 
-  if (status === "unauthenticated" ) return null;
+  if (status === "unauthenticated") return null;
 
   return (
     <div

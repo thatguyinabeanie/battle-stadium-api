@@ -1,16 +1,9 @@
 "use client";
 import React from "react";
-import { Spacer } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";
-import { useSession } from "next-auth/react";
 
-import Logout from "./logout";
-
-import BattleStadium from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
-import { ScrollShadow } from "@/components/client";
 import Sidebar from "@/components/sidebar/sidebar";
-import UserAvatar from "@/components/user-avatar";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;
@@ -37,7 +30,6 @@ export interface SideBarComponentProps {
 
 export default function SidebarResponsive() {
   const isCompact = useMediaQuery("(max-width: 768px)");
-
 
   return (
     <div

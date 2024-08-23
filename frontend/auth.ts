@@ -4,7 +4,7 @@ import { providers } from "@/auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth(async (req) => {
   if (req) {
-    console.log(req) // do something with the request
+    console.log(req); // do something with the request
   }
   // const { Pool } = await import("pg");
   // const PostgresAdapter = await import("@auth/pg-adapter");

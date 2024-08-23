@@ -1,11 +1,10 @@
 import React from "react";
-import { Session } from "next-auth";
 import { AvatarProps } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
-import { useMediaQuery } from "usehooks-ts";
 
 const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   ({ name, className, classNames = {}, ...props }, ref) => (
@@ -25,7 +24,6 @@ const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
 );
 
 DefaultAvatar.displayName = "DefaultAvatar";
-
 
 // TODO: update the UserInfo component to display the user's username primarily and their name as a secondary option
 function UserInfo() {
@@ -72,7 +70,7 @@ export default function UserAvatar() {
         <Link href="/login">
           <DefaultAvatar isBordered aria-label="User Avatar Not Signed In" icon={<AvatarIcon />} size="sm" />
         </Link>
-        <UserInfo  />
+        <UserInfo />
       </div>
     );
   }
@@ -88,7 +86,7 @@ export default function UserAvatar() {
           src={session.user?.image ?? undefined}
         />
       </Link>
-      <UserInfo  />
+      <UserInfo />
     </div>
   );
 }

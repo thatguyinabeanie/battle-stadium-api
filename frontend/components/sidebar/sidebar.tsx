@@ -10,15 +10,15 @@ import {
   type Selection,
 } from "@nextui-org/react";
 import React from "react";
+import { useMediaQuery } from "usehooks-ts";
 
-import useRenderSideBarItems from "./use-render-sidebar-items";
-
-import { cn } from "@/lib/utils";
-import Logout from "./logout";
 import BattleStadium from "../battle-stadium";
 import UserAvatar from "../user-avatar";
-import { useSession } from "next-auth/react";
-import { useMediaQuery } from "usehooks-ts";
+
+import useRenderSideBarItems from "./use-render-sidebar-items";
+import Logout from "./logout";
+
+import { cn } from "@/lib/utils";
 
 export enum SidebarItemType {
   Nest = "nest",
@@ -45,7 +45,7 @@ export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
   onSelect?: (key: string) => void;
 };
 
-export default function Sidebar (props: SidebarProps) {
+export default function Sidebar(props: SidebarProps) {
   const {
     defaultSelectedKey,
     onSelect,
@@ -75,7 +75,7 @@ export default function Sidebar (props: SidebarProps) {
     <>
       <BattleStadium aria-label="Battle Stadium Logo" />
 
-      <Spacer y={ 8 } />
+      <Spacer y={8} />
 
       <UserAvatar />
 
@@ -125,9 +125,9 @@ export default function Sidebar (props: SidebarProps) {
         </Listbox>
       </ScrollShadow>
 
-      <Spacer y={ 2 } />
+      <Spacer y={2} />
 
-      <Logout isCompact={ isCompact } />
+      <Logout isCompact={isCompact} />
     </>
   );
 }
