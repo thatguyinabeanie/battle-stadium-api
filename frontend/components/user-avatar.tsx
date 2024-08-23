@@ -1,13 +1,13 @@
 import React from "react";
-import { type AvatarProps } from "@nextui-org/react";
 import { Session } from "next-auth";
+import { AvatarProps } from "@nextui-org/react";
 
-import { Avatar as NextUiAvatar, AvatarIcon, Link, Avatar } from "@/components/client";
+import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
 
 const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   ({ name, className, classNames = {}, ...props }, ref) => (
-    <NextUiAvatar
+    <Avatar
       {...props}
       ref={ref}
       aria-label="User Avatar"
@@ -18,8 +18,6 @@ const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
       }}
       getInitials={(name) => (name[0] || "") + (name[name.lastIndexOf(" ") + 1] || "").toUpperCase()}
       name={name}
-      radius="md"
-      size="sm"
     />
   ),
 );

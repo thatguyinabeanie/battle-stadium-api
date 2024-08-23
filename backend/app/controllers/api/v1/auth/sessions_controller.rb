@@ -7,13 +7,16 @@ module Api
         respond_to :json
 
         before_action :configure_sign_in_params, only: [:create]
+        skip_before_action :verify_authenticity_token, only: [:create]
 
         # POST /api/v1/auth/sign_in
         def create
-          user = User.find_for_database_authentication(email: params[:user][:email])
-          user ||= User.find_for_database_authentication(username: params[:user][:username])
-
-          if user&.valid_password?(params[:user][:password])
+          email = params[:email]
+          # username = params[:username]
+          password = params[:password]
+          user = User.find_for_database_authentication(email:)
+          # user ||= User.find_for_database_authentication(username:)
+          if user&.valid_password?(password)
             sign_in(user)
             render json: {
               id: user.id,

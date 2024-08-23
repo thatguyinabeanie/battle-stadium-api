@@ -4,7 +4,7 @@ import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
 
-import { railsSignIn } from "./lib/server-actions/rails-sign-in";
+import { railsSignIn } from "./lib/server-actions/sign-in";
 
 export const providers: Provider[] = [
   GitHub,

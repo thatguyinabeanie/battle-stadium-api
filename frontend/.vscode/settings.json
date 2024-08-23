@@ -11,8 +11,9 @@
   "jest.jestCommandLine": "bun jest",
   "editor.tabSize": 2,
   "editor.defaultColorDecorators": true,
-  "editor.foldingImportsByDefault": true,
+  "editor.foldingImportsByDefault": false,
   "prettier.enable": false,
   "prettier.endOfLine": "auto",
-  "eslint.enable": false
+  "eslint.enable": false,
+  "editor.folding": false
 }

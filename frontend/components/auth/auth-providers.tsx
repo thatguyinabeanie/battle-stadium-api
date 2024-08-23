@@ -2,7 +2,7 @@ import { Button } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 
-import { signIn } from "@/lib/server-actions/sign-in";
+import { providerSignIn } from "@/lib/server-actions/sign-in";
 import { useAuthProviders } from "@/components/auth/providers-context";
 
 export default function AuthProviders() {
@@ -11,7 +11,7 @@ export default function AuthProviders() {
   return (
     <div className="flex flex-col gap-2">
       {Object.values(providers).map((provider) => (
-        <m.form key={provider.id} action={() => signIn(provider.id)}>
+        <m.form key={provider.id} action={() => providerSignIn(provider.id)}>
           <Button
             fullWidth
             startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}
