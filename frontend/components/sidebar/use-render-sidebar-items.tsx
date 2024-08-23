@@ -1,3 +1,5 @@
+"use client";
+
 import { ListboxItem, Tooltip, Accordion, AccordionItem, Listbox } from "@nextui-org/react";
 import React from "react";
 
