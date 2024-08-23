@@ -4,7 +4,7 @@ require_relative '../../../../support/openapi/response_helper'
 # require_relative '../../../app/models/concerns/secure_password'
 
 RSpec.describe Api::V1::Auth::SessionsController do
-  path('/login') do
+  path('/api/v1/auth/sign_in') do
     post('Login') do
       tags 'Sessions'
       produces 'application/json'
@@ -47,7 +47,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
     end
   end
 
-  path('/logout') do
+  path('/api/v1/auth/sign_out') do
     delete('Logout') do
       tags 'Sessions'
       produces 'application/json'
