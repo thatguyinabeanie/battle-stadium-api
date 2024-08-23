@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the Next.js development server
-CMD ["pnpm", "run", "dev"]
+CMD ["bun", "dev"]

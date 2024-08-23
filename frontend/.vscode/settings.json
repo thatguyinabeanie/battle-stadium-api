@@ -8,7 +8,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.defaultFormatter": null,
   "eslint.format.enable": false,
-  "jest.jestCommandLine": "pnpm jest",
+  "jest.jestCommandLine": "bun jest",
   "editor.tabSize": 2,
   "editor.defaultColorDecorators": true,
   "editor.foldingImportsByDefault": true,

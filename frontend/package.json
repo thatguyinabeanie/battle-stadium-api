@@ -2,7 +2,7 @@
   "name": "nextjs",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@^9",
+  "packageManager": "bun@^1",
   "scripts": {
     "dev": "next dev --port 8080",
     "build": "next build",
@@ -11,10 +11,10 @@
     "lint:fix": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
     "prettier:write": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --config jest.config.ts",
     "test:all": "jest",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
-    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && pnpm generate:factories",
+    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && bun generate:factories",
     "tsc": "tsc --noEmit"
   },
   "dependencies": {

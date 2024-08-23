@@ -71,7 +71,7 @@ services:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
     command: >
       bash -c "
-        pnpm install --silent && \
+        bun install --silent && \
         tail -f /dev/null
       "
     tty: true
