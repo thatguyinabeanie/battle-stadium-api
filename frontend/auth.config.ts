@@ -1,9 +1,7 @@
 import GitHub from "next-auth/providers/github";
-import type { NextAuthConfig, User } from "next-auth";
+import type { NextAuthConfig} from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import BattleStadiumAPI from "./lib/battle-stadium-api";
-import { signInSchema } from "./lib/zod";
-import { UserMe } from "./lib/api";
+import { railsSignIn } from "./lib/server-actions/rails-sign-in";
 
 const providers = [
   GitHub,
@@ -16,17 +14,7 @@ const providers = [
       password: {},
     },
     authorize: async (credentials, request) => {
-      const { email, password } = await signInSchema.parseAsync(credentials);
-
-      // logic to salt and hash password
-      // const pwHash = saltAndHashPassword(credentials.password)
-
-      const loggedInUser = await BattleStadiumAPI.Authentication.login({
-        userLoginRequest: {
-          email,
-          password,
-        },
-      });
+      const loggedInUser = await railsSignIn(credentials, request);
 
       if (!loggedInUser) {
         // No user found, so this is their first attempt to login
