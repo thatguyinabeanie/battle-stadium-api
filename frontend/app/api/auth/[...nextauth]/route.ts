@@ -1,7 +1,6 @@
+import NextAuth from "next-auth";
 
 import authConfig from "@/auth.config";
-
-import NextAuth from "next-auth";
 
 export const runtime = "edge";
 export const { handlers, signIn, signOut, auth } = NextAuth(async () => {
@@ -18,7 +17,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async () => {
     connectionTimeoutMillis: 2000,
   });
 
-
   return {
     adapter: PostgresAdapter.default(pool),
     pages: {
@@ -26,7 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async () => {
       signOut: "/",
     },
     ...authConfig,
-  }
+  };
 });
 
 export const { GET, POST } = handlers;

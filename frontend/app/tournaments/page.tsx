@@ -2,7 +2,6 @@ import React from "react";
 
 import TournamentsTable from "./TournamentsTable";
 
-import { title } from "@/components/primitives";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
 
 const Tournaments = async () => {

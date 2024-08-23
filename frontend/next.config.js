@@ -9,7 +9,7 @@ const nextConfig = {
     API_BASE_URL: `http://${process.env.BACKEND_HOST || "localhost"}:3000`,
   },
   experimental: {
-    serverComponentsExternalPackages: ['pg'],
+    serverComponentsExternalPackages: ["pg"],
 
     turbo: {
       resolve: {

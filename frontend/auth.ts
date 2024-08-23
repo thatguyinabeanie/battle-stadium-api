@@ -1,4 +1,5 @@
 import type { Provider } from "next-auth/providers";
+
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 
@@ -29,5 +30,3 @@ export const providerMap = providers
     }
   })
   .filter((provider) => provider.id !== "credentials");
-
-

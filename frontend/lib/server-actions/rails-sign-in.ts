@@ -2,7 +2,10 @@
 import { signInSchema } from "@/lib/zod";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
-export async function railsSignIn<T extends string | number | symbol>(credentials: Partial<Record<T, unknown>>, _request: Request) {
+export async function railsSignIn<T extends string | number | symbol>(
+  credentials: Partial<Record<T, unknown>>,
+  _request: Request,
+) {
   // Logic to sign in a user
 
   const { email, password } = await signInSchema.parseAsync(credentials);

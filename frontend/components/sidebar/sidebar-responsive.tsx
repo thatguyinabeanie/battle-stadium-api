@@ -4,7 +4,9 @@ import React from "react";
 import { Spacer } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useSession } from "next-auth/react";
+
 import Logout from "./logout";
+
 import BattleStadium from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";

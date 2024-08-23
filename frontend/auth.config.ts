@@ -1,6 +1,8 @@
+import type { NextAuthConfig } from "next-auth";
+
 import GitHub from "next-auth/providers/github";
-import type { NextAuthConfig} from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+
 import { railsSignIn } from "./lib/server-actions/rails-sign-in";
 
 const providers = [
