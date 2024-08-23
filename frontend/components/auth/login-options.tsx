@@ -7,9 +7,9 @@ import { LoginFormProps, orDivider, variants } from "./common";
 import AuthProviders from "./auth-providers";
 import SignUp from "./sign-up";
 
-const LoginOptions = React.forwardRef<HTMLDivElement, LoginFormProps>(({ setIsFormVisible }, ref) => {
+const LoginOptions = ({ setIsFormVisible }: LoginFormProps) => {
   return (
-    <div ref={ref}>
+    <>
       <Button
         fullWidth
         color="primary"
@@ -26,9 +26,9 @@ const LoginOptions = React.forwardRef<HTMLDivElement, LoginFormProps>(({ setIsFo
         <AuthProviders />
         <SignUp />
       </m.div>
-    </div>
+    </>
   );
-});
+};
 
 LoginOptions.displayName = "LoginOptions";
 

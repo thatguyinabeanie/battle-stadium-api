@@ -1,16 +1,9 @@
 "use client";
-
 import React from "react";
-import { Spacer } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";
-import { useSession } from "next-auth/react";
 
-import Logout from "./logout";
-
-import BattleStadium from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";
-import UserAvatar from "@/components/user-avatar";
 
 export interface SideBarComponentProps {
   children?: React.ReactNode;
@@ -37,7 +30,6 @@ export interface SideBarComponentProps {
 
 export default function SidebarResponsive() {
   const isCompact = useMediaQuery("(max-width: 768px)");
-  const { data: session } = useSession();
 
   return (
     <div
@@ -45,17 +37,7 @@ export default function SidebarResponsive() {
         "w-16 items-center px-2 py-6": isCompact,
       })}
     >
-      <BattleStadium aria-label="Battle Stadium Logo" isCompact={isCompact} />
-
-      <Spacer y={8} />
-
-      <UserAvatar isCompact={isCompact} session={session} />
-
-      <Sidebar defaultSelectedKey="home" isCompact={isCompact} />
-
-      <Spacer y={2} />
-
-      <Logout isCompact={isCompact} />
+      <Sidebar defaultSelectedKey="home" />
     </div>
   );
 }

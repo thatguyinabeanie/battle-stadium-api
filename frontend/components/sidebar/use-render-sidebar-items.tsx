@@ -1,29 +1,65 @@
 "use client";
 
-import { ListboxItem, Tooltip, Accordion, AccordionItem, Listbox } from "@nextui-org/react";
+import { ListboxItem, Tooltip, Accordion, AccordionItem, Listbox, SlotsToClasses } from "@nextui-org/react";
 import React from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { Icon } from "../client";
 
-import { ItemClassesType, SidebarItem, SidebarItemType } from "./sidebar";
+import { SidebarItem, SidebarItemType } from "./sidebar";
 import useSideBarItems from "./useSideBarItems";
 
 import { cn } from "@/lib/utils";
 
+export type ItemClassesType =
+  | SlotsToClasses<"base" | "title" | "description" | "wrapper" | "selectedIcon" | "shortcut">
+  | undefined;
+export type SectionClassesType = SlotsToClasses<"base" | "group" | "heading" | "divider">;
+
 export interface RenderSideBarItemsProps {
-  isCompact?: boolean;
   hideEndContent?: boolean;
   iconClassName?: string;
+  itemClassesProp?: ItemClassesType;
+  sectionClassesProp: SectionClassesType;
   itemClasses?: ItemClassesType;
 }
 
+export function useSidebarClasses(sectionClassesProp: SectionClassesType, itemClassesProp: ItemClassesType) {
+  const isCompact = useMediaQuery("(max-width: 768px)");
+
+  const sectionClasses = {
+    ...sectionClassesProp,
+    base: cn(sectionClassesProp?.base, "w-full", {
+      "p-0 max-w-[44px]": isCompact,
+    }),
+    group: cn(sectionClassesProp?.group, {
+      "flex flex-col gap-1": isCompact,
+    }),
+    heading: cn(sectionClassesProp?.heading, {
+      hidden: isCompact,
+    }),
+  };
+
+  const itemClasses: ItemClassesType = {
+    ...itemClassesProp,
+    base: cn(itemClassesProp?.base, {
+      "w-11 h-11 gap-0 p-0": isCompact,
+    }),
+  };
+
+  return { sectionClasses, itemClasses };
+}
+
 export default function useRenderSideBarItems({
-  isCompact,
   hideEndContent,
   iconClassName,
-  itemClasses,
+  itemClassesProp,
+  sectionClassesProp,
 }: RenderSideBarItemsProps) {
   const items = useSideBarItems();
+  const isCompact = useMediaQuery("(max-width: 768px)");
+
+  const { sectionClasses, itemClasses } = useSidebarClasses(sectionClassesProp, itemClassesProp);
 
   const renderNestItem = React.useCallback(
     (item: SidebarItem) => {
@@ -178,5 +214,5 @@ export default function useRenderSideBarItems({
     [isCompact, hideEndContent, iconClassName, itemClasses?.base],
   );
 
-  return { renderItem, renderNestItem, items };
+  return { renderItem, renderNestItem, items, sectionClasses, itemClasses };
 }

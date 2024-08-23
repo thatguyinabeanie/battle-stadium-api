@@ -10,12 +10,9 @@ export interface LogoutProps {
   isCompact: boolean;
 }
 export default function Logout({ isCompact }: LogoutProps) {
-  const { data: session } = useSession();
+  const { status } = useSession();
 
-  const expiresDate = session?.expires ? new Date(session.expires) : null;
-  const isExpired = expiresDate ? expiresDate < new Date() : false;
-
-  if (!session?.user || isExpired) return null;
+  if (status === "unauthenticated") return null;
 
   return (
     <div

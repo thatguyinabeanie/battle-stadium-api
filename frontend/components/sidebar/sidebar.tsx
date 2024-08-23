@@ -1,17 +1,22 @@
 "use client";
 import { usePathname } from "next/navigation";
 import {
-  ScrollShadow,
   Listbox,
   ListboxSection,
+  ScrollShadow,
+  Spacer,
   type ListboxProps,
   type ListboxSectionProps,
   type Selection,
-  SlotsToClasses,
 } from "@nextui-org/react";
 import React from "react";
+import { useMediaQuery } from "usehooks-ts";
+
+import BattleStadium from "../battle-stadium";
+import UserAvatar from "../user-avatar";
 
 import useRenderSideBarItems from "./use-render-sidebar-items";
+import Logout from "./logout";
 
 import { cn } from "@/lib/utils";
 
@@ -32,7 +37,6 @@ export type SidebarItem = {
 };
 
 export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
-  isCompact?: boolean;
   hideEndContent?: boolean;
   iconClassName?: string;
   sectionClasses?: ListboxSectionProps["classNames"];
@@ -41,63 +45,43 @@ export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
   onSelect?: (key: string) => void;
 };
 
-export type ItemClassesType =
-  | SlotsToClasses<"base" | "title" | "description" | "wrapper" | "selectedIcon" | "shortcut">
-  | undefined;
+export default function Sidebar(props: SidebarProps) {
+  const {
+    defaultSelectedKey,
+    onSelect,
+    hideEndContent,
+    sectionClasses: sectionClassesProp = {},
+    itemClasses: itemClassesProp = {},
+    iconClassName,
+    classNames,
+    className,
+    ...rest
+  } = props;
 
-const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
-  (
-    {
-      isCompact,
-      defaultSelectedKey,
-      onSelect,
-      hideEndContent,
-      sectionClasses: sectionClassesProp = {},
-      itemClasses: itemClassesProp = {},
-      iconClassName,
-      classNames,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
-    const pathname = usePathname();
-    const currentPath = pathname.split("/")?.[1];
+  const pathname = usePathname();
+  const currentPath = pathname.split("/")?.[1];
+  const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey);
 
-    const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey);
+  const { renderItem, renderNestItem, items, itemClasses, sectionClasses } = useRenderSideBarItems({
+    hideEndContent,
+    iconClassName,
+    sectionClassesProp,
+    itemClassesProp,
+  });
 
-    const sectionClasses = {
-      ...sectionClassesProp,
-      base: cn(sectionClassesProp?.base, "w-full", {
-        "p-0 max-w-[44px]": isCompact,
-      }),
-      group: cn(sectionClassesProp?.group, {
-        "flex flex-col gap-1": isCompact,
-      }),
-      heading: cn(sectionClassesProp?.heading, {
-        hidden: isCompact,
-      }),
-    };
+  const isCompact = useMediaQuery("(max-width: 768px)");
 
-    const itemClasses: ItemClassesType = {
-      ...itemClassesProp,
-      base: cn(itemClassesProp?.base, {
-        "w-11 h-11 gap-0 p-0": isCompact,
-      }),
-    };
+  return (
+    <>
+      <BattleStadium aria-label="Battle Stadium Logo" />
 
-    const { renderItem, renderNestItem, items } = useRenderSideBarItems({
-      isCompact,
-      hideEndContent,
-      iconClassName,
-      itemClasses,
-    });
+      <Spacer y={8} />
 
-    return (
+      <UserAvatar />
+
       <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
         <Listbox
           key={isCompact ? "compact" : "default"}
-          ref={ref}
           hideSelectedIcon
           aria-label="Sidebar Listbox"
           as="nav"
@@ -125,7 +109,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
             setSelected(key as React.Key);
             onSelect?.(key as string);
           }}
-          {...props}
+          {...rest}
         >
           {(item) => {
             return item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest ? (
@@ -140,10 +124,10 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           }}
         </Listbox>
       </ScrollShadow>
-    );
-  },
-);
 
-Sidebar.displayName = "Sidebar";
+      <Spacer y={2} />
 
-export default Sidebar;
+      <Logout isCompact={isCompact} />
+    </>
+  );
+}
