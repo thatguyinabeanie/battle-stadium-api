@@ -31,7 +31,7 @@ jobs:
         working-directory: frontend
 
       - name: Run Jest tests
-        run: bun test
+        run: bun jest
         working-directory: frontend
         env:
           CI: true

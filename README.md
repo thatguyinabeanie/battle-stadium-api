@@ -109,7 +109,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
     ```bash
     cd frontend
-    bun test
+    bun jest
     ```
 
 #### Running Tests in devcontainers
@@ -125,7 +125,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 - Front End NextJS Jest Test
 
     ```bash
-    bun test
+    bun jest
     ```
 
 #### From a local shell session
@@ -141,7 +141,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
     ```bash
     # from the root of the repo
-    docker compose run -rm frontend bash -c "bun test"
+    docker compose run -rm frontend bash -c "bun jest"
     ```
 
 ### Running Services
