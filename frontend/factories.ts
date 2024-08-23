@@ -297,7 +297,7 @@ export const RegistrationResponseFactory = new Factory<RegistrationResponse>()
   .attr("pronouns", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .attr("jti", () => faker.lorem.word())
   .attr("name", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
-  .attr("emailVerified", () => (faker.datatype.boolean() ? null : null))
+  .attr("emailVerified", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("image", () => (faker.datatype.boolean() ? faker.lorem.word() : null));
 
 export const RoundFactory = new Factory<Round>()

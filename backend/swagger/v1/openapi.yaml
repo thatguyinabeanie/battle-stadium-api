@@ -989,7 +989,8 @@ components:
           type: string
           nullable: true
         emailVerified:
-          type: boolean
+          type: string
+          format: date-time
           nullable: true
         image:
           type: string

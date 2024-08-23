@@ -16,8 +16,6 @@ module Api
 
           build_resource(parms)
           if resource.save
-
-            binding.break
             render json: resource, status: :created
           else
             render json: resource.errors, status: :unprocessable_entity

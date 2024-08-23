@@ -183,7 +183,7 @@ REGISTRATION_RESPONSE = {
     pronouns: { type: :string, nullable: true },
     jti: { type: :string, format: 'jwt' },
     name: { type: :string, nullable: true },
-    emailVerified: { type: :boolean, nullable: true },
+    emailVerified: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     image: { type: :string, nullable: true }
   },
   required: %w[id email username first_name last_name created_at updated_at pronouns jti name emailVerified image]

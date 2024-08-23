@@ -81,10 +81,10 @@ export interface RegistrationResponse {
   name: string | null;
   /**
    *
-   * @type {boolean}
+   * @type {Date}
    * @memberof RegistrationResponse
    */
-  emailVerified: boolean | null;
+  emailVerified: Date | null;
   /**
    *
    * @type {string}
@@ -131,7 +131,7 @@ export function RegistrationResponseFromJSONTyped(json: any, ignoreDiscriminator
     pronouns: json["pronouns"],
     jti: json["jti"],
     name: json["name"],
-    emailVerified: json["emailVerified"],
+    emailVerified: json["emailVerified"] == null ? null : new Date(json["emailVerified"]),
     image: json["image"],
   };
 }
@@ -151,7 +151,7 @@ export function RegistrationResponseToJSON(value?: RegistrationResponse | null):
     pronouns: value["pronouns"],
     jti: value["jti"],
     name: value["name"],
-    emailVerified: value["emailVerified"],
+    emailVerified: value["emailVerified"] == null ? null : (value["emailVerified"] as any).toISOString(),
     image: value["image"],
   };
 }
