@@ -15,7 +15,16 @@ module Api
 
           if user&.valid_password?(params[:user][:password])
             sign_in(user)
-            render json: { message: 'Logged in successfully.', user:, token: current_token }, status: :created
+            render json: {
+              id: user.id,
+              message: 'Logged in successfully.',
+              username: user.username,
+              email: user.email,
+              pronouns: user.pronouns,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              token: current_token
+            }, status: :created
 
           else
             render json: { error: 'Invalid email or password.' }, status: :unauthorized

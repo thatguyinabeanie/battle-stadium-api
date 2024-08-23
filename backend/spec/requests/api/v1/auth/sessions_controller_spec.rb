@@ -25,6 +25,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
           }
         end
 
+        schema '$ref' => '#/components/schemas/UserLoginResponse'
         OpenApi::Response.set_example_response_metadata
 
         run_test!

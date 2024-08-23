@@ -1,11 +1,15 @@
 require 'swagger_helper'
+require_relative '../../../../support/openapi/response_helper'
 
 RSpec.describe Api::V1::Auth::RegistrationsController do
   path('/api/v1/auth') do
     post 'Registers a new user' do
-      tags 'Authentication'
+      tags 'Registration'
       consumes 'application/json'
       produces 'application/json'
+      description 'Registers a new user'
+      operationId 'registerUser'
+
       parameter name: :user, in: :body, schema: {
         type: :object,
         properties: {
@@ -27,6 +31,10 @@ RSpec.describe Api::V1::Auth::RegistrationsController do
             username: 'gods_gift', first_name: 'Godwin', last_name: 'Oge'
           } }
         end
+
+        schema '$ref' => '#/components/schemas/RegistrationResponse'
+
+        OpenApi::Response.set_example_response_metadata
 
         run_test!
       end

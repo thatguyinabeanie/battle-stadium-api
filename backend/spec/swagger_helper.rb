@@ -143,6 +143,52 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   }
 ).freeze
 
+USER_LOGIN_RESPONSE = {
+  type: :object,
+  title: 'User Login Response',
+  properties: {
+    id: { type: :integer },
+    message: { type: :string },
+    username: { type: :string },
+    pronouns: { type: :string },
+    email: { type: :string, format: 'email' },
+    first_name: { type: :string },
+    last_name: { type: :string },
+    token: { type: :string, format: 'jwt' }
+  },
+  required: %w[id username pronouns email token message first_name last_name]
+}.freeze
+
+USER_LOGIN_REQUEST = {
+  type: :object,
+  title: 'User Login Request',
+  properties: {
+    email: { type: :string, format: 'email' },
+    password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters')
+  },
+  required: %w[email password]
+}.freeze
+
+REGISTRATION_RESPONSE = {
+  type: :object,
+  title: 'Registration Response',
+  properties: {
+    id: { type: :integer },
+    email: { type: :string, format: 'email' },
+    username: { type: :string },
+    first_name: { type: :string },
+    last_name: { type: :string },
+    created_at: { type: :string, format: DATE_TIME_TYPE },
+    updated_at: { type: :string, format: DATE_TIME_TYPE },
+    pronouns: { type: :string, nullable: true },
+    jti: { type: :string, format: 'jwt' },
+    name: { type: :string, nullable: true },
+    emailVerified: { type: :boolean, nullable: true },
+    image: { type: :string, nullable: true }
+  },
+  required: %w[id email username first_name last_name created_at updated_at pronouns jti name emailVerified image]
+}.freeze
+
 ORGANIZATION_SCHEMA = {
   type: :object,
   title: 'Organization',
@@ -344,17 +390,6 @@ PHASE_DETAILS_SCHEMA = {
   required: PHASE_SCHEMA[:required] + %w[players rounds]
 }.freeze
 
-USER_LOGIN_REQUEST = {
-  type: :object,
-  title: 'User Login Request',
-  properties: {
-
-    email: { type: :string, format: 'email' },
-    password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters')
-  },
-  required: %w[email password]
-}.freeze
-
 RSpec.configure do |config|
   # config.include SwaggerHelper
   # Specify a root folder where Swagger JSON files are generated
@@ -406,6 +441,9 @@ RSpec.configure do |config|
           UserMe: USER_ME,
           UserPostRequest: USER_POST_REQUEST,
           UserRequest: USER_REQUEST,
+          UserLoginResponse: USER_LOGIN_RESPONSE,
+          UserLoginRequest: USER_LOGIN_REQUEST,
+          RegistrationResponse: REGISTRATION_RESPONSE,
           Organization: ORGANIZATION_SCHEMA,
           OrganizationDetails: ORGANIZATION_DETAILS_SCHEMA,
           Tournament: TOURNAMENT_SCHEMA,
@@ -418,7 +456,6 @@ RSpec.configure do |config|
           Phase: PHASE_SCHEMA,
           PhaseDetails: PHASE_DETAILS_SCHEMA,
           GameRequest: GAME_REQUEST,
-          UserLoginRequest: USER_LOGIN_REQUEST,
           TournamentRequest: TOURNAMENT_REQUEST,
           TournamentPostRequest: TOURNAMENT_POST_REQUEST
         }

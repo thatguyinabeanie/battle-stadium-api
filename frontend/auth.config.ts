@@ -21,9 +21,14 @@ const providers = [
       // logic to salt and hash password
       // const pwHash = saltAndHashPassword(credentials.password)
 
-      const userMe: UserMe = await BattleStadiumAPI.Users.me();
+      const loggedInUser = await BattleStadiumAPI.Authentication.login({
+        userLoginRequest: {
+          email,
+          password,
+        },
+      });
 
-      if (!userMe) {
+      if (!loggedInUser) {
         // No user found, so this is their first attempt to login
         // meaning this is also the place you could do registration
         throw new Error("User not found.");
@@ -31,9 +36,9 @@ const providers = [
 
       // Transform UserMe to User if necessary
       const user: User = {
-        id: `${userMe.id}`,
-        name: `${userMe.firstName} ${userMe.lastName}`,
-        email: userMe.email,
+        id: `${loggedInUser.id}`,
+        name: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
+        email: loggedInUser.email,
         // Add other properties as needed
       };
 
