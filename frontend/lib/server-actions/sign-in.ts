@@ -4,7 +4,7 @@
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
-import { signIn as handleSignIn } from "@/auth";
+import { signIn as handleSignIn } from "@/app/api/auth/[...nextauth]/route";
 
 const SIGNIN_ERROR_URL = "/";
 

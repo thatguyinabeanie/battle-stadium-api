@@ -7,7 +7,6 @@ import { Tournament } from "@/lib/api";
 
 export interface TournamentsTableProps {
   tournaments: Tournament[];
-  columns: { key: string; label: string }[];
 }
 
 const columns = [
@@ -74,15 +73,17 @@ const renderCell: typeof getKeyValue = (row: Tournament, columnKey) => {
     case "organization.name":
       return <Link href={`/organizations/${organization.id}`}>{organization.name}</Link>;
     case "start_at":
-      return startAt;
+      const date = startAt?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric'});
+      const time = startAt?.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+      return `${date} ${time}`;
     case "name":
-      return <Link href={`/tournaments/${id}`}>{name}</Link>;
+      return (<Link href={`/tournaments/${id}`}>{name}</Link>);
     case "players":
       return playerCap ? `${playerCount}/${playerCap}` : playerCount;
     case "registration":
       return renderRegistration(row);
     default:
-      return getKeyValue(row, columnKey);
+      return null;
   }
 };
 
@@ -105,7 +106,15 @@ const TournamentsTable = ({ tournaments }: TournamentsTableProps) => {
 
       <TableBody items={tournaments}>
         {(item) => (
-          <TableRow key={item.id}>{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}</TableRow>
+          <TableRow key={item.id}>
+            {
+              (columnKey) => (
+              <TableCell>
+                {renderCell(item, columnKey)}
+              </TableCell>
+              )
+            }
+          </TableRow>
         )}
       </TableBody>
     </Table>
