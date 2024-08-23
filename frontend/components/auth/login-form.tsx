@@ -17,7 +17,12 @@ export default function LoginForm() {
       <h1 className="mb-4 text-xl font-medium">Log In</h1>
       <AnimatePresence initial={false} mode="popLayout">
         <LazyMotion features={domAnimation}>
-          <LoginFormComponent setIsFormVisible={setIsFormVisible} />
+          {
+            isFormVisible ?
+            <EmailLoginForm setIsFormVisible = { setIsFormVisible } /> :
+            <LoginOptions setIsFormVisible={ setIsFormVisible } />
+          }
+
         </LazyMotion>
       </AnimatePresence>
     </ResizablePanel>
