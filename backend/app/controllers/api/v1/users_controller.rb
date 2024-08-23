@@ -3,7 +3,6 @@ require_relative '../../../serializer/user_serializer'
 module Api
   module V1
     class UsersController < AbstractApplicationController
-      include Devise::Controllers::Helpers
       self.klass = User
       self.serializer_klass = Serializer::User
       self.detail_serializer_klass = Serializer::UserDetails

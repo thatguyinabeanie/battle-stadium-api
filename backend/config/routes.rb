@@ -10,14 +10,15 @@ Rails.application.routes.draw do
 
   # get '*path', to: 'static#index', constraints: ->(req) { !req.xhr? && req.format.html? }
 
+  devise_for :users,
+             path: 'api/v1/auth',
+             controllers: {
+               sessions: 'api/v1/auth/sessions',
+               registrations: 'api/v1/auth/registrations'
+             }
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      devise_for :users, path: 'auth',
-                         controllers: {
-                           sessions: 'api/v1/auth/sessions',
-                           registrations: 'api/v1/auth/registrations'
-                         }
-
       get 'users/me', to: 'users#me'
       resources :users, only: %i[index show create destroy update] do
         member do
