@@ -45,17 +45,7 @@ export default function SidebarResponsive() {
         "w-16 items-center px-2 py-6": isCompact,
       })}
     >
-      <div
-        className={cn(
-          "flex items-center gap-3 px-3",
-
-          {
-            "justify-center gap-0": isCompact,
-          },
-        )}
-      >
-        <BattleStadium aria-label="Battle Stadium Logo" isCompact={isCompact} />
-      </div>
+      <BattleStadium aria-label="Battle Stadium Logo" isCompact={isCompact} />
 
       <Spacer y={8} />
 
@@ -65,13 +55,7 @@ export default function SidebarResponsive() {
 
       <Spacer y={2} />
 
-      <div
-        className={cn("mt-auto flex flex-col", {
-          "items-center": isCompact,
-        })}
-      >
-        <Logout isCompact={isCompact} />
-      </div>
+      <Logout isCompact={isCompact} />
     </div>
   );
 }

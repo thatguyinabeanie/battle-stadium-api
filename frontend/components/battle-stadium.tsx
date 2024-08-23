@@ -20,7 +20,7 @@ export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, he
 
 export default function BattleStadium({ isCompact }: BattleStadiumProps) {
   return (
-    <>
+    <div className={cn("flex items-center gap-3 px-3", { "justify-center gap-0": isCompact })}>
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
         <BattleStadiumIcon aria-label="Battle Stadium Logo" className="text-background" />
       </div>
@@ -33,6 +33,6 @@ export default function BattleStadium({ isCompact }: BattleStadiumProps) {
       >
         Battle Stadium
       </span>
-    </>
+    </div>
   );
 }
