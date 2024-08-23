@@ -73,9 +73,11 @@
         "dsznajder.es7-react-js-snippets",
         "YoavBls.pretty-ts-errors",
         "Orta.vscode-jest",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "oven.bun-vscode"
       ],
       "settings": {
+        "bun.runtime": "/root/.bun/bin",
         "remote.containers.copyGitConfig": true,
         "terminal.integrated.defaultProfile.linux": "/bin/zsh",
         "terminal.integrated.profiles.linux": {

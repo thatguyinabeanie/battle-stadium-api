@@ -3,9 +3,8 @@
 
 import { redirect } from "next/navigation";
 
-import { signOut as handleSignOut } from "@/app/api/auth/[...nextauth]/route";
+import { signOut as handleSignOut } from "@/auth";
 
 export async function signOut() {
-  await handleSignOut();
-  redirect("/");
+  await handleSignOut({ redirectTo: "/" });
 }

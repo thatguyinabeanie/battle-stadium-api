@@ -46,11 +46,11 @@ services:
       "
     tty: true
     ports:
-      - 3008:3008
+      - 3000:3000
     depends_on:
       - db
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3008/up" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/up" ]
       interval: 60s
       timeout: 10s
       retries: 3

@@ -4,7 +4,7 @@ import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
 
-import { railsSignIn } from "./lib/server-actions/rails-sign-in";
+import { railsSignIn } from "./lib/server-actions/sign-in";
 
 export const providers: Provider[] = [
   GitHub,
@@ -17,6 +17,7 @@ export const providers: Provider[] = [
       password: { label: "Password", type: "password" },
     },
     authorize: async (credentials, request) => {
+
       const loggedInUser = await railsSignIn(credentials, request);
 
       if (!loggedInUser) {

@@ -21,7 +21,7 @@ if [ "${SEED_DB}" = "true" ]; then
 fi
 
 if [ "${START_RAILS_SERVER}" = "true" ]; then
-  bundle exec rails server -b 0.0.0.0 -p 3008 &
+  bundle exec rails server -b 0.0.0.0 -p 3000 &
 fi
 
 if [ "${SLEEP_INFINITY}" = "true" ]; then

@@ -105,7 +105,7 @@ export LANG=en_US.UTF-8
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
-alias rs="rails server -b 0.0.0.0 -p 3008"
+alias rs="rails server -b 0.0.0.0 -p 3000"
 alias rc="rails console"
 alias rg="rails generate"
 alias rdb="rails db"
