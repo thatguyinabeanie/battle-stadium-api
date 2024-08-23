@@ -14,7 +14,7 @@ ENV BUN_INSTALL "/root/.bun"
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
     apt-get clean && \
-    curl -fsSL https://bun.sh/install | bash && \
+    curl --proto "=https" --tlsv1.2 -sSf -L https://bun.sh/install | bash && \
     export BUN_INSTALL="/root/.bun" && \
     export PATH="$BUN_INSTALL/bin:$PATH" && \
     bun install
