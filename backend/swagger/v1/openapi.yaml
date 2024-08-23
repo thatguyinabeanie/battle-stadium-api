@@ -4,6 +4,70 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/auth":
+    post:
+      summary: Registers a new user
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                password_confirmation:
+                  type: string
+                  format: password
+              required:
+              - email
+              - password
+              - password_confirmation
+  "/api/v1/auth/sign_in":
+    post:
+      summary: Login
+      tags:
+      - Sessions
+      description: Logs in a User.
+      operationId: loginUser
+      parameters: []
+      responses:
+        '201':
+          description: created
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserLoginRequest"
+  "/api/v1/auth/sign_out":
+    delete:
+      summary: Logout
+      tags:
+      - Sessions
+      description: Logs out a User.
+      operationId: logoutUser
+      responses:
+        '204':
+          description: no content
   "/api/v1/games":
     get:
       summary: List Games
@@ -628,24 +692,6 @@ paths:
           description: successful
         '404':
           description: not found
-  "/login":
-    post:
-      summary: Login
-      tags:
-      - Sessions
-      description: Logs in a User.
-      operationId: loginUser
-      parameters: []
-      responses:
-        '201':
-          description: created
-        '401':
-          description: unauthorized
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/UserLoginRequest"
 servers:
 - url: https://{defaultHost}
   variables:

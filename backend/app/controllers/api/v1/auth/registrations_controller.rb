@@ -13,8 +13,11 @@ module Api
           parms = params.require(:user).permit(:username, :password, :password_confirmation, :email, :first_name, :last_name)
 
           build_resource(parms)
-          resource.save
-          render_resource(resource)
+          if resource.save
+            render json: resource, status: :created
+          else
+            render json: resource.errors, status: :unprocessable_entity
+          end
         end
 
         # PUT /resource
