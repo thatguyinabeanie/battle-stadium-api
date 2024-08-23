@@ -1,2 +1,10 @@
-import Layout from "@/components/main-page-layout";
-export default Layout;
+
+import MainPageLayout from "@/components/main-page-layout";
+import { ChildrenProps } from "@/types";
+export default function DashboardLayout ({ children }: ChildrenProps ) {
+  return (
+    <MainPageLayout disableHeader title="Home">
+      {children}
+    </MainPageLayout>
+  );
+}
