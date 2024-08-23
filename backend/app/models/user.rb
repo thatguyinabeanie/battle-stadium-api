@@ -20,7 +20,7 @@ class User < ApplicationRecord
   has_one :owned_organization, class_name: 'Organization', foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :organization_staff_members, class_name: 'OrganizationStaffMember', dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :user
-  has_one :accounts, inverse_of: :user, dependent: :destroy
+  has_one :accounts, inverse_of: :user, dependent: :destroy, class_name: 'Account'
   has_many :sessions, inverse_of: :user, dependent: :destroy
 
   before_create :generate_jti

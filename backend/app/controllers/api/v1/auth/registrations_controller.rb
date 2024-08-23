@@ -5,6 +5,8 @@ module Api
     module Auth
       class RegistrationsController < Devise::RegistrationsController
         before_action :configure_permitted_parameters, if: :devise_controller?
+        skip_before_action :verify_authenticity_token, only: %i[create update destroy]
+
         DEVISE_USER_KEYS = %i[first_name last_name email username password password_confirmation].freeze
         respond_to :json
 
@@ -14,6 +16,8 @@ module Api
 
           build_resource(parms)
           if resource.save
+
+            binding.break
             render json: resource, status: :created
           else
             render json: resource.errors, status: :unprocessable_entity
