@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_22_230459) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_23_030542) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -257,7 +257,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_22_230459) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "verification_tokens", id: false, force: :cascade do |t|
+  create_table "verification_tokens", primary_key: "[:identifier, :token]", force: :cascade do |t|
     t.text "identifier", null: false
     t.datetime "expires", null: false
     t.text "token", null: false

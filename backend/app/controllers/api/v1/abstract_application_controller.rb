@@ -1,6 +1,8 @@
 module Api
   module V1
     class AbstractApplicationController < ApiController
+      include Devise::Controllers::Helpers
+
       class_attribute :klass
       class_attribute :serializer_klass
       class_attribute :index_serializer_klass

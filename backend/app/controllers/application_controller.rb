@@ -1,4 +1,6 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
+  include Devise::Controllers::Helpers
+
   # include Response
   # include ExceptionHandler
   # include ActionController::MimeResponds

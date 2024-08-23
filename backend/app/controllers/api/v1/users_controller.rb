@@ -3,6 +3,7 @@ require_relative '../../../serializer/user_serializer'
 module Api
   module V1
     class UsersController < AbstractApplicationController
+      include Devise::Controllers::Helpers
       self.klass = User
       self.serializer_klass = Serializer::User
       self.detail_serializer_klass = Serializer::UserDetails
@@ -25,7 +26,7 @@ module Api
       end
 
       def me
-        @user = User.find_by(username: 'fuecoco-supremacy') || current_user
+        @user = current_user
         render json: @user, serializer: Serializer::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
