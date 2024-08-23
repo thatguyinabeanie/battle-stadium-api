@@ -15,7 +15,8 @@ module Api
 
           if user&.valid_password?(params[:user][:password])
             sign_in(user)
-            render json: { message: 'Logged in successfully.', user: }, status: :ok
+            render json: { message: 'Logged in successfully.', user:, token: current_token }, status: :ok
+
           else
             render json: { error: 'Invalid email or password.' }, status: :unauthorized
           end
@@ -29,6 +30,10 @@ module Api
 
         def respond_to_on_destroy
           head :no_content
+        end
+
+        def current_token
+          request.env['warden-jwt_auth.token']
         end
 
         # If you have extra params to permit, append them to the sanitizer.
