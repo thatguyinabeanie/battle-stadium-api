@@ -15,16 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ./frontend/.node-version
           cache-dependency-path: ./frontend/bun.lockb
           check-latest: true
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Install Dependencies
         run: bun install --silent
@@ -91,16 +91,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ./frontend/.node-version
           cache-dependency-path: ./frontend/bun.lockb
           check-latest: true
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Install Dependencies
         run: bun install --silent
@@ -115,16 +115,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ./frontend/.node-version
           cache-dependency-path: ./frontend/bun.lockb
           check-latest: true
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Install Dependencies
         run: bun install --silent
