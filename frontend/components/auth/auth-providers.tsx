@@ -3,12 +3,13 @@ import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 
 import { signIn } from "@/lib/server-actions/sign-in";
-import { providerMap } from "@/auth";
+import { useAuthProviders } from "@/components/auth/providers-context";
 
 export default function AuthProviders() {
+  const providers = useAuthProviders();
   return (
     <div className="flex flex-col gap-2">
-      {Object.values(providerMap).map((provider) => (
+      { Object.values(providers).map((provider) => (
         <m.form key={provider.id} action={() => signIn(provider.id)}>
           <Button
             fullWidth
