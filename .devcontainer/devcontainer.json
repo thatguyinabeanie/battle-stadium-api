@@ -1,0 +1,21 @@
+{
+    "name": "Project Router",
+    "remoteUser": "vscode",
+    "customizations": {
+      "codespaces": {
+        "openFiles": [
+          "README.md"
+        ]
+      },
+      "vscode": {
+        "settings": {},
+        "extensions": [
+          "ms-vscode-remote.remote-containers"
+        ]
+      }
+    },
+    "updateContentCommand": "echo 'Choose a project to open: backend or frontend'",
+    "postAttachCommand": {
+      "server": "bash -c 'echo Select a project to open: && echo 1. Backend && echo 2. Frontend && read -p \"Enter your choice (1 or 2): \" choice && if [ \"$choice\" = \"1\" ]; then cd backend && devcontainer open .; elif [ \"$choice\" = \"2\" ]; then cd frontend && devcontainer open .; else echo Invalid choice; fi'"
+    }
+  }
