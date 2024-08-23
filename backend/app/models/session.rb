@@ -1,3 +1,3 @@
 class Session < ApplicationRecord
-  belongs_to :auth_user, foreign_key: 'userId'
+  belongs_to :user, foreign_key: 'userId', inverse_of: :sessions
 end
