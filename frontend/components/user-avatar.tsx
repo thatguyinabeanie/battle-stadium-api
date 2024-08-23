@@ -4,6 +4,8 @@ import { AvatarProps } from "@nextui-org/react";
 
 import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import { useMediaQuery } from "usehooks-ts";
 
 const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   ({ name, className, classNames = {}, ...props }, ref) => (
@@ -24,13 +26,12 @@ const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
 
 DefaultAvatar.displayName = "DefaultAvatar";
 
-export interface UserAvatarProps {
-  isCompact?: boolean;
-  session: Session | null;
-}
 
 // TODO: update the UserInfo component to display the user's username primarily and their name as a secondary option
-function UserInfo({ isCompact, session }: UserAvatarProps) {
+function UserInfo() {
+  const { data: session } = useSession();
+  const isCompact = useMediaQuery("(max-width: 768px)");
+
   return (
     <div className={cn("flex max-w-full flex-col", { hidden: isCompact })}>
       {!session && (
@@ -62,8 +63,8 @@ function UserInfo({ isCompact, session }: UserAvatarProps) {
   );
 }
 
-export default function UserAvatar(props: UserAvatarProps) {
-  const { session } = props;
+export default function UserAvatar() {
+  const { data: session } = useSession();
 
   if (!session) {
     return (
@@ -71,7 +72,7 @@ export default function UserAvatar(props: UserAvatarProps) {
         <Link href="/login">
           <DefaultAvatar isBordered aria-label="User Avatar Not Signed In" icon={<AvatarIcon />} size="sm" />
         </Link>
-        <UserInfo {...props} />
+        <UserInfo  />
       </div>
     );
   }
@@ -87,7 +88,7 @@ export default function UserAvatar(props: UserAvatarProps) {
           src={session.user?.image ?? undefined}
         />
       </Link>
-      <UserInfo {...props} />
+      <UserInfo  />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { SidebarItem, SidebarItemType } from "./sidebar";
 import useSideBarItems from "./useSideBarItems";
 
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "usehooks-ts";
 
 export type ItemClassesType =
   | SlotsToClasses<"base" | "title" | "description" | "wrapper" | "selectedIcon" | "shortcut">
@@ -16,7 +17,6 @@ export type ItemClassesType =
 export type SectionClassesType = SlotsToClasses<"base" | "group" | "heading" | "divider">;
 
 export interface RenderSideBarItemsProps {
-  isCompact?: boolean;
   hideEndContent?: boolean;
   iconClassName?: string;
   itemClassesProp?: ItemClassesType;
@@ -25,10 +25,11 @@ export interface RenderSideBarItemsProps {
 }
 
 export function sidebarClasses(
-  isCompact: boolean | undefined,
   sectionClassesProp: SectionClassesType,
   itemClassesProp: ItemClassesType,
 ) {
+  const isCompact = useMediaQuery("(max-width: 768px)");
+
   const sectionClasses = {
     ...sectionClassesProp,
     base: cn(sectionClassesProp?.base, "w-full", {
@@ -53,15 +54,15 @@ export function sidebarClasses(
 }
 
 export default function useRenderSideBarItems({
-  isCompact,
   hideEndContent,
   iconClassName,
   itemClassesProp,
   sectionClassesProp,
 }: RenderSideBarItemsProps) {
   const items = useSideBarItems();
+  const isCompact = useMediaQuery("(max-width: 768px)");
 
-  const { sectionClasses, itemClasses } = sidebarClasses(isCompact, sectionClassesProp, itemClassesProp);
+  const { sectionClasses, itemClasses } = sidebarClasses(sectionClassesProp, itemClassesProp);
 
   const renderNestItem = React.useCallback(
     (item: SidebarItem) => {

@@ -3,9 +3,7 @@ import type { IconSvgProps } from "@/types";
 import React from "react";
 
 import { cn } from "@/lib";
-export interface BattleStadiumProps {
-  isCompact?: boolean;
-}
+import { useMediaQuery } from "usehooks-ts";
 
 export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, height, ...props }) => (
   <svg fill="none" height={size || height} viewBox="0 0 32 32" width={size || width} {...props}>
@@ -18,7 +16,9 @@ export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, he
   </svg>
 );
 
-export default function BattleStadium({ isCompact }: BattleStadiumProps) {
+export default function BattleStadium() {
+  const isCompact = useMediaQuery("(max-width: 768px)");
+
   return (
     <div className={cn("flex items-center gap-3 px-3", { "justify-center gap-0": isCompact })}>
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">

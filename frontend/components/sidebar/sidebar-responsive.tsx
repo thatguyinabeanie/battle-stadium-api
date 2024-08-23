@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { Spacer } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";
@@ -38,7 +37,7 @@ export interface SideBarComponentProps {
 
 export default function SidebarResponsive() {
   const isCompact = useMediaQuery("(max-width: 768px)");
-  const { data: session } = useSession();
+
 
   return (
     <div
@@ -46,18 +45,7 @@ export default function SidebarResponsive() {
         "w-16 items-center px-2 py-6": isCompact,
       })}
     >
-      <BattleStadium aria-label="Battle Stadium Logo" isCompact={isCompact} />
-
-      <Spacer y={8} />
-
-      <UserAvatar isCompact={isCompact} session={session} />
-
-      <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
-        <Sidebar defaultSelectedKey="home" isCompact={isCompact} />
-      </ScrollShadow>
-      <Spacer y={2} />
-
-      <Logout isCompact={isCompact} />
+      <Sidebar defaultSelectedKey="home" />
     </div>
   );
 }
