@@ -6,20 +6,21 @@ RUN mkdir -p /battle-stadium/frontend
 WORKDIR /battle-stadium/frontend
 
 # Copy package.json and package-lock.json to the working directory
-COPY package.json ./
-COPY bun.lockb ./
 ENV PORT 8080
-ENV BUN_INSTALL "/root/.bun"
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
     apt-get clean && \
-    curl --proto "=https" --tlsv1.2 -sSf -L https://bun.sh/install | bash && \
-    export BUN_INSTALL="/root/.bun" && \
-    export PATH="$BUN_INSTALL/bin:$PATH" && \
-    bun install
+    curl --proto "=https" --tlsv1.2 -sSf -L https://bun.sh/install | bash || \
+    (echo "Retrying download..." && sleep 5 && curl --proto "=https" --tlsv1.2 -sSf -L https://bun.sh/install | bash)
 
+
+ENV BUN_INSTALL "/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
+COPY package.json ./
+COPY bun.lockb ./
+
+RUN bun install
 
 COPY . .
 
