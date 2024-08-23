@@ -100,7 +100,6 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-unused-imports": "^3.2.0",
     "esm": "^3.2.25",
-    "extend-expect": "link:@testing-library/jest-dom/extend-expect",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",
@@ -116,5 +115,9 @@
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.2.0",
     "yaml": "^2.5.0"
-  }
+  },
+  "trustedDependencies": [
+    "@nestjs/core",
+    "@openapitools/openapi-generator-cli"
+  ]
 }

@@ -6,7 +6,7 @@ dotenv.config();
 
 const nextConfig = {
   env: {
-    API_BASE_URL: `http://${process.env.BACKEND_HOST || "localhost"}:3000`,
+    API_BASE_URL: `http://${process.env.BACKEND_HOST || "localhost"}:3008`,
   },
   experimental: {
     serverComponentsExternalPackages: ["pg"],

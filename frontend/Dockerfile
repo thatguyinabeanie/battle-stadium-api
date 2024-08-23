@@ -1,4 +1,4 @@
-cd # Use the official Node.js 14.x image as the base image
+# Use the official Node.js 14.x image as the base image
 FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22 AS development
 
 # Set the working directory inside the container
@@ -6,21 +6,23 @@ RUN mkdir -p /battle-stadium/frontend
 WORKDIR /battle-stadium/frontend
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY package.json ./
+COPY bun.lockb ./
 ENV PORT 8080
-ENV PNPM_HOME=/battle-stadium/frontend/.pnpm-store
-RUN mkdir -p $PNPM_HOME
+ENV BUN_INSTALL "/root/.bun"
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
     apt-get clean && \
-    npm install  --ignore-scripts -g pnpm && \
-    pnpm config set store-dir $PNPM_HOME && \
-    pnpm install
+    curl -fsSL https://bun.sh/install | bash && \
+    export BUN_INSTALL="/root/.bun" && \
+    export PATH="$BUN_INSTALL/bin:$PATH" && \
+    bun install
+
+ENV PATH="$BUN_INSTALL/bin:$PATH"
 
 COPY . .
 
-# Expose the default Next.js port (3000)
 EXPOSE 8080
 
 # Start the Next.js development server
