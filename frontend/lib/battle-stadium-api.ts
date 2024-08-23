@@ -41,9 +41,11 @@ export const RegistrationAPI = new RegistrationApi();
 
 const BattleStadiumAPI = {
   Authentication: {
-    login: (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) => SessionsAPI.loginUser(requestParameters, initOverrides),
+    login: (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      SessionsAPI.loginUser(requestParameters, initOverrides),
     logout: (initOverrides?: RequestInit | InitOverrideFunction) => SessionsAPI.logoutUser(initOverrides),
-    register: (requestParameters?: RegisterUserOperationRequest, initOverrides?: RequestInit | InitOverrideFunction) => RegistrationAPI.registerUser(requestParameters, initOverrides),
+    register: (requestParameters?: RegisterUserOperationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      RegistrationAPI.registerUser(requestParameters, initOverrides),
   },
   Organizations: {
     list: (initOverrides?: RequestInit | InitOverrideFunction) => OrganizationsAPI.listOrganizations(initOverrides),

@@ -1,4 +1,4 @@
-import GitHub from "next-auth/providers/github"
+import GitHub from "next-auth/providers/github";
 import type { NextAuthConfig, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import BattleStadiumAPI from "./lib/battle-stadium-api";
@@ -35,19 +35,20 @@ const providers = [
       }
 
       // Transform UserMe to User if necessary
-      const user: User = {
+      const user = {
         id: `${loggedInUser.id}`,
         name: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
         email: loggedInUser.email,
+        pronouns: loggedInUser.pronouns,
+        token: loggedInUser.token,
         // Add other properties as needed
       };
 
       return user;
     },
-  })
-]
+  }),
+];
 
 export default {
-  providers
-} satisfies NextAuthConfig
-
+  providers,
+} satisfies NextAuthConfig;

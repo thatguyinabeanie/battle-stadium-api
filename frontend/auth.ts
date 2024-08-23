@@ -1,11 +1,11 @@
 import type { Provider } from "next-auth/providers";
-import PostgresAdapter from "@auth/pg-adapter"
+import PostgresAdapter from "@auth/pg-adapter";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { Pool } from "pg";
 
-import authConfig from "./auth.config"
+import authConfig from "./auth.config";
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,
@@ -15,7 +15,7 @@ const pool = new Pool({
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
-})
+});
 
 const providers: Provider[] = [
   Credentials({

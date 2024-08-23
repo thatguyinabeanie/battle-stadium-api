@@ -6,28 +6,28 @@ export interface HelpAndInformationProps {
   isCompact: boolean;
 }
 
-export default function HelpAndInformation ({ isCompact }: HelpAndInformationProps) {
+export default function HelpAndInformation({ isCompact }: HelpAndInformationProps) {
   return (
-    <Tooltip content="Help & Feedback" isDisabled={ !isCompact } placement="right">
+    <Tooltip content="Help & Feedback" isDisabled={!isCompact} placement="right">
       <Button
         fullWidth
-        className={ cn("justify-start truncate text-default-500 data-[hover=true]:text-foreground", {
+        className={cn("justify-start truncate text-default-500 data-[hover=true]:text-foreground", {
           "justify-center": isCompact,
-        }) }
-        isIconOnly={ isCompact }
+        })}
+        isIconOnly={isCompact}
         startContent={
           isCompact ? null : (
-            <Icon className="flex-none text-default-500" icon="solar:info-circle-line-duotone" width={ 24 } />
+            <Icon className="flex-none text-default-500" icon="solar:info-circle-line-duotone" width={24} />
           )
         }
         variant="light"
       >
-        { isCompact ? (
-          <Icon className="text-default-500" icon="solar:info-circle-line-duotone" width={ 24 } />
+        {isCompact ? (
+          <Icon className="text-default-500" icon="solar:info-circle-line-duotone" width={24} />
         ) : (
           "Help & Information"
-        ) }
+        )}
       </Button>
     </Tooltip>
-  )
+  );
 }
