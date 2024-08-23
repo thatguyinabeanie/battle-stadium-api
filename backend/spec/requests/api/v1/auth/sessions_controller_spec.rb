@@ -18,10 +18,8 @@ RSpec.describe Api::V1::Auth::SessionsController do
         let(:existing_user) { create(:user) }
         let(:user) do
           {
-            user: {
-              email: existing_user.email,
-              password: existing_user.password
-            }
+            email: existing_user.email,
+            password: existing_user.password
           }
         end
 
