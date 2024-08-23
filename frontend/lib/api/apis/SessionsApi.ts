@@ -13,8 +13,13 @@
  */
 
 import * as runtime from "../runtime";
-import type { UserLoginRequest } from "../models/index";
-import { UserLoginRequestFromJSON, UserLoginRequestToJSON } from "../models/index";
+import type { UserLoginRequest, UserLoginResponse } from "../models/index";
+import {
+  UserLoginRequestFromJSON,
+  UserLoginRequestToJSON,
+  UserLoginResponseFromJSON,
+  UserLoginResponseToJSON,
+} from "../models/index";
 
 export interface LoginUserRequest {
   userLoginRequest?: UserLoginRequest;
@@ -31,7 +36,7 @@ export class SessionsApi extends runtime.BaseAPI {
   async loginUserRaw(
     requestParameters: LoginUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<UserLoginResponse>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -40,7 +45,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/login`,
+        path: `/api/v1/auth/sign_in`,
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
@@ -49,7 +54,7 @@ export class SessionsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserLoginResponseFromJSON(jsonValue));
   }
 
   /**
@@ -59,7 +64,38 @@ export class SessionsApi extends runtime.BaseAPI {
   async loginUser(
     requestParameters: LoginUserRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<void> {
-    await this.loginUserRaw(requestParameters, initOverrides);
+  ): Promise<UserLoginResponse> {
+    const response = await this.loginUserRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Logs out a User.
+   * Logout
+   */
+  async logoutUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/api/v1/auth/sign_out`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * Logs out a User.
+   * Logout
+   */
+  async logoutUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    await this.logoutUserRaw(initOverrides);
   }
 }

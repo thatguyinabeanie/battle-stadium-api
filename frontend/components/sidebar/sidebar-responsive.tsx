@@ -1,17 +1,17 @@
 "use client";
+
 import React from "react";
 import { Spacer } from "@nextui-org/react";
-import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 
 import Logout from "./logout";
 
-import { Button, Tooltip } from "@/components/client";
 import BattleStadium from "@/components/battle-stadium";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar/sidebar";
 import UserAvatar from "@/components/user-avatar";
+
 export interface SideBarComponentProps {
   children?: React.ReactNode;
 }
@@ -70,28 +70,6 @@ export default function SidebarResponsive() {
           "items-center": isCompact,
         })}
       >
-        <Tooltip content="Help & Feedback" isDisabled={!isCompact} placement="right">
-          <Button
-            fullWidth
-            className={cn("justify-start truncate text-default-500 data-[hover=true]:text-foreground", {
-              "justify-center": isCompact,
-            })}
-            isIconOnly={isCompact}
-            startContent={
-              isCompact ? null : (
-                <Icon className="flex-none text-default-500" icon="solar:info-circle-line-duotone" width={24} />
-              )
-            }
-            variant="light"
-          >
-            {isCompact ? (
-              <Icon className="text-default-500" icon="solar:info-circle-line-duotone" width={24} />
-            ) : (
-              "Help & Information"
-            )}
-          </Button>
-        </Tooltip>
-
         <Logout isCompact={isCompact} />
       </div>
     </div>

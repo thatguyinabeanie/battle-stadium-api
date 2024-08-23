@@ -29,6 +29,8 @@ import {
   PlayerRequest,
   PutTournamentPlayerRequest,
   ShowTournamentPlayerRequest,
+  RegisterUserOperationRequest,
+  RegisterUserRequest,
   LoginUserRequest,
   UserLoginRequest,
   GetTournamentRequest,
@@ -50,9 +52,11 @@ import {
   Round,
   PlayerDetails,
   Pokemon,
+  RegistrationResponse,
   Tournament,
   TournamentPostRequest,
   TournamentRequest,
+  UserLoginResponse,
   UserMe,
   UserRequest,
 } from "@/lib/api";
@@ -143,6 +147,11 @@ export const ShowTournamentPlayerRequestFactory = new Factory<ShowTournamentPlay
 
   .attr("tournamentId", () => faker.number.int({ min: 1, max: 100 }))
   .sequence("id");
+
+export const RegisterUserOperationRequestFactory = new Factory<RegisterUserOperationRequest>().attr(
+  "registerUserRequest",
+  () => RegisterUserRequestFactory.build(),
+);
 
 export const LoginUserRequestFactory = new Factory<LoginUserRequest>().attr("userLoginRequest", () =>
   UserLoginRequestFactory.build(),
@@ -265,6 +274,32 @@ export const PokemonFactory = new Factory<Pokemon>()
   .attr("move3", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .attr("move4", () => (faker.datatype.boolean() ? faker.lorem.word() : null));
 
+export const RegisterUserRequestFactory = new Factory<RegisterUserRequest>()
+
+  .attr("username", () => faker.lorem.word())
+  .attr("firstName", () => faker.lorem.word())
+  .attr("lastName", () => faker.lorem.word())
+  .attr("email", () => `${faker.internet.userName()}@example.com`)
+  .attr("password", () => faker.internet.password())
+  .attr("passwordConfirmation", function (this: any) {
+    return this.password;
+  });
+
+export const RegistrationResponseFactory = new Factory<RegistrationResponse>()
+
+  .sequence("id")
+  .attr("email", () => `${faker.internet.userName()}@example.com`)
+  .attr("username", () => faker.lorem.word())
+  .attr("firstName", () => faker.lorem.word())
+  .attr("lastName", () => faker.lorem.word())
+  .attr("createdAt", () => faker.date.recent())
+  .attr("updatedAt", () => faker.date.recent())
+  .attr("pronouns", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
+  .attr("jti", () => faker.lorem.word())
+  .attr("name", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
+  .attr("emailVerified", () => (faker.datatype.boolean() ? faker.date.recent() : null))
+  .attr("image", () => (faker.datatype.boolean() ? faker.lorem.word() : null));
+
 export const RoundFactory = new Factory<Round>()
 
   .sequence("id")
@@ -362,6 +397,17 @@ export const UserLoginRequestFactory = new Factory<UserLoginRequest>()
 
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("password", () => faker.internet.password());
+
+export const UserLoginResponseFactory = new Factory<UserLoginResponse>()
+
+  .sequence("id")
+  .attr("message", () => faker.lorem.word())
+  .attr("username", () => faker.lorem.word())
+  .attr("pronouns", () => faker.lorem.word())
+  .attr("email", () => `${faker.internet.userName()}@example.com`)
+  .attr("firstName", () => faker.lorem.word())
+  .attr("lastName", () => faker.lorem.word())
+  .attr("token", () => faker.lorem.word());
 
 export const UserMeFactory = new Factory<UserMe>()
 

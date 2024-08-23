@@ -1,10 +1,10 @@
 require 'swagger_helper'
 # require_relative '../../support/openapi/schema_helper'
-require_relative '../../support/openapi/response_helper'
+require_relative '../../../../support/openapi/response_helper'
 # require_relative '../../../app/models/concerns/secure_password'
 
-RSpec.describe Users::SessionsController do
-  path('/login') do
+RSpec.describe Api::V1::Auth::SessionsController do
+  path('/api/v1/auth/sign_in') do
     post('Login') do
       tags 'Sessions'
       produces 'application/json'
@@ -25,6 +25,7 @@ RSpec.describe Users::SessionsController do
           }
         end
 
+        schema '$ref' => '#/components/schemas/UserLoginResponse'
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -40,6 +41,21 @@ RSpec.describe Users::SessionsController do
           }
         end
 
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+  end
+
+  path('/api/v1/auth/sign_out') do
+    delete('Logout') do
+      tags 'Sessions'
+      produces 'application/json'
+      description 'Logs out a User.'
+      operationId 'logoutUser'
+
+      response(204, 'no content') do
         OpenApi::Response.set_example_response_metadata
 
         run_test!

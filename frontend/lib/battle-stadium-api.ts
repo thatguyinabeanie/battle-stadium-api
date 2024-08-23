@@ -24,6 +24,10 @@ import {
   GetOrganizationRequest,
   DeleteOrganizationRequest,
   PatchOrganizationRequest,
+  SessionsApi,
+  LoginUserRequest,
+  RegistrationApi,
+  RegisterUserOperationRequest,
 } from "@/lib/api";
 
 export const OrganizationsAPI: OrganizationsApi = new OrganizationsApi();
@@ -31,8 +35,18 @@ export const UsersAPI: UsersApi = new UsersApi();
 export const GamesAPI: GamesApi = new GamesApi();
 export const PhasesAPI: PhasesApi = new PhasesApi();
 export const TournamentsAPI: TournamentsApi = new TournamentsApi();
+export const SessionsAPI: SessionsApi = new SessionsApi();
+
+export const RegistrationAPI = new RegistrationApi();
 
 const BattleStadiumAPI = {
+  Authentication: {
+    login: (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      SessionsAPI.loginUser(requestParameters, initOverrides),
+    logout: (initOverrides?: RequestInit | InitOverrideFunction) => SessionsAPI.logoutUser(initOverrides),
+    register: (requestParameters?: RegisterUserOperationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      RegistrationAPI.registerUser(requestParameters, initOverrides),
+  },
   Organizations: {
     list: (initOverrides?: RequestInit | InitOverrideFunction) => OrganizationsAPI.listOrganizations(initOverrides),
     post: (requestParameters: PostOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>

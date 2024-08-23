@@ -20,7 +20,7 @@ export const sectionItems: SidebarItem[] = [
         key: "tournaments",
         href: "/tournaments",
         icon: "solar:users-group-two-rounded-outline",
-        title: "Team",
+        title: "Tournaments",
       },
       {
         key: "settings",

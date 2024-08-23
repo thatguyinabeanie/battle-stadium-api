@@ -3,6 +3,10 @@ require 'faker'
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         #  :confirmable, :lockable, :timeoutable, :trackable, :omniauthable,
+         :jwt_authenticatable, jwt_revocation_strategy: self
 
   MIN_PASSWORD_LENGTH = 8
   MAX_CHARACTER_LENGTH = 50
@@ -13,18 +17,13 @@ class User < ApplicationRecord
   validates :pronouns, length: { maximum: MAX_CHARACTER_LENGTH }, allow_blank: true
   validates :first_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
   validates :last_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
-
-  # Include default devise modules. Others available are:
-  #
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         #  :confirmable, :lockable, :timeoutable, :trackable, :omniauthable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
-
   has_one :owned_organization, class_name: 'Organization', foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
-
   has_many :organization_staff_members, class_name: 'OrganizationStaffMember', dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :user
+  has_one :accounts, inverse_of: :user, dependent: :destroy, class_name: 'Account'
+  has_many :sessions, inverse_of: :user, dependent: :destroy
+
+  before_create :generate_jti
 
   def staff_member_of?(organization)
     organization.staff.exists?(id:)
@@ -53,5 +52,11 @@ class User < ApplicationRecord
     return false if errors.any?
 
     super
+  end
+
+  private
+
+  def generate_jti
+    self.jti = SecureRandom.uuid
   end
 end

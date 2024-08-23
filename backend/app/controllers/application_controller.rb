@@ -1,13 +1,13 @@
-class ApplicationController < ActionController::API
-  before_action :configure_permitted_parameters, if: :devise_controller?
+class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+  include Devise::Controllers::Helpers
+  # include Response
+  # include ExceptionHandler
+  # include ActionController::MimeResponds
 
-  protected
+  # before_action :set_locale
 
-  DEVISE_USER_KEYS = %i[first_name last_name email username].freeze
-  def configure_permitted_parameters
-    # For sign up
-    devise_parameter_sanitizer.permit(:sign_up, keys: DEVISE_USER_KEYS)
-    # For account update
-    devise_parameter_sanitizer.permit(:account_update, keys: DEVISE_USER_KEYS)
-  end
+  # def set_locale
+  #   I18n.locale = params[:locale] || I18n.default_locale
+  # end
 end

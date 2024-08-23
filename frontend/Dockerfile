@@ -1,4 +1,4 @@
-# Use the official Node.js 14.x image as the base image
+cd # Use the official Node.js 14.x image as the base image
 FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22 AS development
 
 # Set the working directory inside the container
@@ -8,11 +8,14 @@ WORKDIR /battle-stadium/frontend
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 ENV PORT 8080
+ENV PNPM_HOME=/battle-stadium/frontend/.pnpm-store
+RUN mkdir -p $PNPM_HOME
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
     apt-get clean && \
     npm install  --ignore-scripts -g pnpm && \
+    pnpm config set store-dir $PNPM_HOME && \
     pnpm install
 
 COPY . .

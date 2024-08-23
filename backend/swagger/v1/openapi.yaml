@@ -4,6 +4,80 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/auth":
+    post:
+      summary: Registers a new user
+      tags:
+      - Registration
+      description: Registers a new user
+      operationId: registerUser
+      parameters: []
+      responses:
+        '201':
+          description: user created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RegistrationResponse"
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                password_confirmation:
+                  type: string
+                  format: password
+              required:
+              - email
+              - password
+              - password_confirmation
+  "/api/v1/auth/sign_in":
+    post:
+      summary: Login
+      tags:
+      - Sessions
+      description: Logs in a User.
+      operationId: loginUser
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserLoginResponse"
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserLoginRequest"
+  "/api/v1/auth/sign_out":
+    delete:
+      summary: Logout
+      tags:
+      - Sessions
+      description: Logs out a User.
+      operationId: logoutUser
+      responses:
+        '204':
+          description: no content
   "/api/v1/games":
     get:
       summary: List Games
@@ -628,24 +702,6 @@ paths:
           description: successful
         '404':
           description: not found
-  "/login":
-    post:
-      summary: Login
-      tags:
-      - Sessions
-      description: Logs in a User.
-      operationId: loginUser
-      parameters: []
-      responses:
-        '201':
-          description: created
-        '401':
-          description: unauthorized
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/UserLoginRequest"
 servers:
 - url: https://{defaultHost}
   variables:
@@ -855,6 +911,103 @@ components:
       - last_name
       - username
       - pronouns
+    UserLoginResponse:
+      type: object
+      title: User Login Response
+      properties:
+        id:
+          type: integer
+        message:
+          type: string
+        username:
+          type: string
+        pronouns:
+          type: string
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+        token:
+          type: string
+          format: jwt
+      required:
+      - id
+      - username
+      - pronouns
+      - email
+      - token
+      - message
+      - first_name
+      - last_name
+    UserLoginRequest:
+      type: object
+      title: User Login Request
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+          format: password
+          title: Password
+          description: Must be at least 8 characters
+      required:
+      - email
+      - password
+    RegistrationResponse:
+      type: object
+      title: Registration Response
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        pronouns:
+          type: string
+          nullable: true
+        jti:
+          type: string
+          format: jwt
+        name:
+          type: string
+          nullable: true
+        emailVerified:
+          type: string
+          format: date-time
+          nullable: true
+        image:
+          type: string
+          nullable: true
+      required:
+      - id
+      - email
+      - username
+      - first_name
+      - last_name
+      - created_at
+      - updated_at
+      - pronouns
+      - jti
+      - name
+      - emailVerified
+      - image
     Organization:
       type: object
       title: Organization
@@ -1232,22 +1385,6 @@ components:
           type: string
       required:
       - name
-    UserLoginRequest:
-      type: object
-      title: User Login Request
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-          minLength: 8
-          format: password
-          title: Password
-          description: Must be at least 8 characters
-      required:
-      - email
-      - password
     TournamentRequest:
       type: object
       title: Tournament Request
