@@ -24,7 +24,7 @@ export interface RenderSideBarItemsProps {
   itemClasses?: ItemClassesType;
 }
 
-export function sidebarClasses(sectionClassesProp: SectionClassesType, itemClassesProp: ItemClassesType) {
+export function useSidebarClasses(sectionClassesProp: SectionClassesType, itemClassesProp: ItemClassesType) {
   const isCompact = useMediaQuery("(max-width: 768px)");
 
   const sectionClasses = {
@@ -59,7 +59,7 @@ export default function useRenderSideBarItems({
   const items = useSideBarItems();
   const isCompact = useMediaQuery("(max-width: 768px)");
 
-  const { sectionClasses, itemClasses } = sidebarClasses(sectionClassesProp, itemClassesProp);
+  const { sectionClasses, itemClasses } = useSidebarClasses(sectionClassesProp, itemClassesProp);
 
   const renderNestItem = React.useCallback(
     (item: SidebarItem) => {
