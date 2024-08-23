@@ -64,7 +64,6 @@
         "vscode-icons-team.vscode-icons",
         "streetsidesoftware.code-spell-checker",
         "VisualStudioExptTeam.vscodeintellicode",
-        "Jacano.vscode-pnpm",
         "bradlc.vscode-tailwindcss",
         "rangav.vscode-thunder-client",
         "christian-kohler.path-intellisense",
@@ -102,7 +101,7 @@
         "typescript.tsdk": "node_modules/typescript/lib",
         "editor.formatOnSave": false,
         "eslint.format.enable": true,
-        "jest.jestCommandLine": "pnpm jest"
+        "jest.jestCommandLine": "bun jest"
       }
     }
   }

@@ -26,7 +26,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 #### Local Requirements
 
 - [Docker](https://docs.docker.com/get-docker/)
-- [pnpm](https://pnpm.io/)
+- [bun](https://bun.sh/)
 - [openssl@3](https://formulae.brew.sh/formula/openssl@3)
 - A ruby node version manager - frum, nvm, rbenv, asdf
 
@@ -34,10 +34,10 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
 1. Install docker
 
-2. Install pnpm
+2. Install bun
 
     ```bash
-    npm install -g pnpm
+    curl -fsSL https://bun.sh/install | bash
     ```
 
 3. Install openssl. Windows users you're on your own
@@ -72,9 +72,6 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 2. Install devcontainers cli using your favorite package manager
 
     ```bash
-    npm install -g @devcontainers/cli
-    pnpm install -g @devcontainers/cli
-    npm install -g @devcontainers/cli
     bun add -g @devcontainers/cli
     ```
 
@@ -112,7 +109,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
     ```bash
     cd frontend
-    pnpm test
+    bun jest
     ```
 
 #### Running Tests in devcontainers
@@ -128,7 +125,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 - Front End NextJS Jest Test
 
     ```bash
-    pnpm test
+    bun jest
     ```
 
 #### From a local shell session
@@ -144,7 +141,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
     ```bash
     # from the root of the repo
-    docker compose run -rm frontend bash -c "pnpm test"
+    docker compose run -rm frontend bash -c "bun jest"
     ```
 
 ### Running Services
@@ -156,14 +153,14 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
     ```bash
     docker compose up -d db
     cd backend
-    bundle exec rails server -b 0.0.0.0 -p 3000
+    bundle exec rails server -b 0.0.0.0 -p 3008
     ```
 
 2. NextJS Server
 
     ```bash
     cd frontend
-    pnpm dev
+    bun dev
     ```
 
 #### Running Services Through Docker
@@ -177,13 +174,13 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 2. Start the Rails API Server
 
     ```bash
-    docker compose exec backend bash -c "bundle exec rails server -b 0.0.0.0 -p 3000"
+    docker compose exec backend bash -c "bundle exec rails server -b 0.0.0.0 -p 3008"
     ```
 
 3. Start the NextJS Server
 
     ```bash
-    docker compose exec frontend bash -c "pnpm dev"
+    docker compose exec frontend bash -c "bun dev"
     ```
 
 ## Contributing

@@ -96,7 +96,7 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3008 }
 
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 end

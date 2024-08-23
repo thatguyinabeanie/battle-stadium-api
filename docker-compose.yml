@@ -46,11 +46,11 @@ services:
       "
     tty: true
     ports:
-      - 3000:3000
+      - 3008:3008
     depends_on:
       - db
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000/up" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:3008/up" ]
       interval: 60s
       timeout: 10s
       retries: 3
@@ -71,7 +71,7 @@ services:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
     command: >
       bash -c "
-        pnpm install --silent && \
+        bun install --silent && \
         tail -f /dev/null
       "
     tty: true

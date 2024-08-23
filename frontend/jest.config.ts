@@ -173,6 +173,8 @@ const config: Config = {
   //   "**/?(*.)+(spec|test).[tj]s?(x)"
   // ],
 
+  testMatch: ["<rootDir>/__tests__/**/*.test.tsx"],
+
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
   //   "/node_modules/"
