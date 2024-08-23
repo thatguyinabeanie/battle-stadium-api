@@ -1,5 +1,6 @@
-import authConfig, {providers } from "@/auth.config";
 import NextAuth from "next-auth";
+
+import { providers } from "@/auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth(async () => {
   // const { Pool } = await import("pg");

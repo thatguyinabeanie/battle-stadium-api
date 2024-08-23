@@ -3,9 +3,10 @@
 
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
+
 import { signInSchema } from "@/lib/zod";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
-import { signIn  } from "@/auth";
+import { signIn } from "@/auth";
 
 const SIGNIN_ERROR_URL = "/";
 
@@ -21,25 +22,26 @@ export async function providerSignIn(providerId: string) {
   }
 }
 
-function formDataToObject (formData: FormData): Record<string, any> {
-  const obj: Record<string, any> = {};
+function formDataToObject(formData: FormData): Record<string, string> {
+  const obj: Record<string, string> = {};
+
   formData.forEach((value, key) => {
-    obj[key] = value;
+    obj[key] = String(value);
   });
+
   return obj;
 }
 
-export async function credentialsSignIn (formData: FormData) {
+export async function credentialsSignIn(formData: FormData) {
   "use server";
   try {
     const formDataObj = formDataToObject(formData);
+
     await signIn("credentials", {
       ...formDataObj,
       redirectTo: "/dashboard",
     });
   } catch (error) {
-    console.error("Credentials sign-in error:", error);
-
     if (error instanceof AuthError) {
       return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);
     }
@@ -47,11 +49,12 @@ export async function credentialsSignIn (formData: FormData) {
   }
 }
 
-export async function railsSignIn<T extends string | number | symbol> (
+export async function railsSignIn<T extends string | number | symbol>(
   credentials: Partial<Record<T, unknown>>,
   _request: Request,
 ) {
   const { email, password } = await signInSchema.parseAsync(credentials);
+
   try {
     return await BattleStadiumAPI.Authentication.login({
       userLoginRequest: {
@@ -60,7 +63,6 @@ export async function railsSignIn<T extends string | number | symbol> (
       },
     });
   } catch (error) {
-    console.error("Error logging in:", error);
     return null;
   }
 }

@@ -17,7 +17,6 @@ export const providers: Provider[] = [
       password: { label: "Password", type: "password" },
     },
     authorize: async (credentials, request) => {
-
       const loggedInUser = await railsSignIn(credentials, request);
 
       if (!loggedInUser) {

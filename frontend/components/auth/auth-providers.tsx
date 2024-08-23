@@ -11,7 +11,7 @@ export default function AuthProviders() {
   return (
     <div className="flex flex-col gap-2">
       {Object.values(providers).map((provider) => (
-        <m.form key={ provider.id } action={ () => providerSignIn(provider.id)}>
+        <m.form key={provider.id} action={() => providerSignIn(provider.id)}>
           <Button
             fullWidth
             startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}

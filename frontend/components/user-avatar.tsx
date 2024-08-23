@@ -1,22 +1,23 @@
 import React from "react";
 import { Session } from "next-auth";
+import { AvatarProps } from "@nextui-org/react";
+
 import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
-import { AvatarProps } from "@nextui-org/react";
 
 const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   ({ name, className, classNames = {}, ...props }, ref) => (
     <Avatar
-      { ...props }
-      ref={ ref }
+      {...props}
+      ref={ref}
       aria-label="User Avatar"
-      classNames={ {
+      classNames={{
         ...classNames,
         base: cn("bg-transparent border border-divider", classNames?.base, className),
         name: cn("text-default-500 text-[0.6rem] font-semibold", classNames?.name),
-      } }
-      getInitials={ (name) => (name[0] || "") + (name[name.lastIndexOf(" ") + 1] || "").toUpperCase() }
-      name={ name }
+      }}
+      getInitials={(name) => (name[0] || "") + (name[name.lastIndexOf(" ") + 1] || "").toUpperCase()}
+      name={name}
     />
   ),
 );
@@ -68,7 +69,7 @@ export default function UserAvatar(props: UserAvatarProps) {
     return (
       <div className="flex items-center gap-3 px-3">
         <Link href="/login">
-          <DefaultAvatar isBordered aria-label="User Avatar Not Signed In" icon={ <AvatarIcon /> } size="sm" />
+          <DefaultAvatar isBordered aria-label="User Avatar Not Signed In" icon={<AvatarIcon />} size="sm" />
         </Link>
         <UserInfo {...props} />
       </div>

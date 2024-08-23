@@ -4,18 +4,18 @@ import { m } from "framer-motion";
 import { Icon } from "../client";
 
 import { LoginFormProps, orDivider, variants } from "./common";
-import { credentialsSignIn } from "@/lib/server-actions/sign-in";
 
+import { credentialsSignIn } from "@/lib/server-actions/sign-in";
 
 export default function EmailLoginForm({ setIsFormVisible }: LoginFormProps) {
   return (
     <m.form
+      action={credentialsSignIn}
       animate="visible"
       className="flex flex-col gap-y-3"
       exit="hidden"
       initial="hidden"
       variants={variants}
-      action={ credentialsSignIn }
     >
       <Input label="Email Address" name="email" type="email" variant="bordered" />
       <Input label="Password" name="password" type="password" variant="bordered" />
