@@ -543,7 +543,7 @@ DEPENDENCIES
   cancancan (~> 3)
   debug (~> 1)
   devise (~> 4.9)
-  devise-jwt (~> 0)
+  devise-jwt
   devise_token_auth (~> 1)
   dotenv-rails
   factory_bot_rails (~> 6)

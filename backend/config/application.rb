@@ -43,5 +43,8 @@ module BattleStadium
     #     resource '*', headers: :any, methods: %i[get post put patch delete]
     #   end
     # end
+    config.session_store :cookie_store, key: 'sessions.battlestadium.gg'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: 'sessions.battlestadium.gg'
   end
 end

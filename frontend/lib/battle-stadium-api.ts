@@ -24,6 +24,7 @@ import {
   GetOrganizationRequest,
   DeleteOrganizationRequest,
   PatchOrganizationRequest,
+  SessionsApi,
 } from "@/lib/api";
 
 export const OrganizationsAPI: OrganizationsApi = new OrganizationsApi();
@@ -31,6 +32,7 @@ export const UsersAPI: UsersApi = new UsersApi();
 export const GamesAPI: GamesApi = new GamesApi();
 export const PhasesAPI: PhasesApi = new PhasesApi();
 export const TournamentsAPI: TournamentsApi = new TournamentsApi();
+export const SessionsAPI: SessionsApi = new SessionsApi();
 
 const BattleStadiumAPI = {
   Organizations: {

@@ -46,4 +46,19 @@ RSpec.describe Users::SessionsController do
       end
     end
   end
+
+  path('/logout') do
+    delete('Logout') do
+      tags 'Sessions'
+      produces 'application/json'
+      description 'Logs out a User.'
+      operationId 'logoutUser'
+
+      response(204, 'no content') do
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+  end
 end
