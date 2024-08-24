@@ -1,12 +1,17 @@
 import { render, screen } from "@testing-library/react";
 
 import OrganizationPage from "@/app/organizations/page";
-
+import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import { OrganizationFactory } from "@/factories";
 describe("Organizations Page", () => {
-  it.skip("renders the correct text", async () => {
-    render(await OrganizationPage());
-    const text = screen.getByText(/Organizations/i);
+  it("renders the correct text", async () => {
+    const org = OrganizationFactory.build();
 
-    expect(text).toBeInTheDocument();
+    spyOn(BattleStadiumAPI.Organizations, "list").mockResolvedValue([org]);
+
+    render(await OrganizationPage());
+    const text = screen.getByText(org.name);
+
+    expect(text).toBeDefined();
   });
 });
