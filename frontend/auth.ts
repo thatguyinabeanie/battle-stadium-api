@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import type { NextAuthConfig, User } from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 
 import NextAuth from "next-auth";
 import Discord from "next-auth/providers/discord";
@@ -8,11 +8,8 @@ import GitHub from "next-auth/providers/github";
 import Twitter from "next-auth/providers/twitter";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
-import * as jose from 'jose'
-import { railsSignIn } from "./lib/server-actions/sign-in";
-import { Awaitable } from "@auth/core/types";
-import { BaseAPI } from "./lib/api";
 
+import { railsSignIn } from "./lib/server-actions/sign-in";
 
 export const providers: Provider[] = [
   // GitHub({
@@ -147,6 +144,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
 
         return session;
       },
+
       async jwt({ token, user, account, profile, trigger, session }) {
         // console.log("callbacks/jwt - session", session);
         // console.log("callbacks/jwt - token", token);

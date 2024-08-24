@@ -12,7 +12,6 @@ import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { CurrentUserContextProvider } from "@/lib/context/current-user";
 import { auth } from "@/auth";
 
-
 // export async function customFetch (input: RequestInfo, init?: RequestInit): Promise<Response> {
 //   console.log('Fetch request:', {
 //     url: input,
