@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-
 import Page from "@/app/page";
+import { describe, expect, test } from 'bun:test';
 
 describe("Page", () => {
-  it("renders the correct text", () => {
+  test("renders the correct text", () => {
     render(<Page />);
     const text = screen.getByText(/Beautiful, fast and modern React UI library./i);
 
-    expect(text).toBeInTheDocument();
+    expect(text).toBeDefined();
   });
 });

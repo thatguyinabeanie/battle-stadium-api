@@ -24,7 +24,14 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": [
+      "bun-types", // add Bun global
+      "@testing-library/react", // if with react
+      "@testing-library/jest-dom",
+      "web"
+    ],
+    "allowImportingTsExtensions": true
   },
   "include": [
     "./node_modules/@types",

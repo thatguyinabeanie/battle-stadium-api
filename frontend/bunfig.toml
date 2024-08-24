@@ -1,2 +1,2 @@
 [test]
-runner = "jest"
+preload = "./happydom.ts"
