@@ -28,7 +28,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 - [Docker](https://docs.docker.com/get-docker/)
 - [bun](https://bun.sh/)
 - [openssl@3](https://formulae.brew.sh/formula/openssl@3)
-- A ruby node version manager - frum, nvm, rbenv, asdf
+- A ruby version manager - frum, nvm, rbenv, asdf
 
 #### Local Setup Steps
 

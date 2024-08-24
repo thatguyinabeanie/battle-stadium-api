@@ -1,2 +1,8 @@
 [test]
-runner = "jest"
+preload = [
+  "./test-setup.ts",
+  "./api-mock-setup.ts"
+]
+coverage = true
+coverageReporter  = ["text", "lcov"]
+coverageDir = "coverage"

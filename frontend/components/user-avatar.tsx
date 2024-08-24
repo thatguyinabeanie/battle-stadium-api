@@ -6,11 +6,10 @@ import { useMediaQuery } from "usehooks-ts";
 import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
 
-const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
-  ({ name, className, classNames = {}, ...props }, ref) => (
+function DefaultAvatar({ classNames, className, name, ...props }: AvatarProps) {
+  return (
     <Avatar
       {...props}
-      ref={ref}
       aria-label="User Avatar"
       classNames={{
         ...classNames,
@@ -20,10 +19,8 @@ const DefaultAvatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
       getInitials={(name) => (name[0] || "") + (name[name.lastIndexOf(" ") + 1] || "").toUpperCase()}
       name={name}
     />
-  ),
-);
-
-DefaultAvatar.displayName = "DefaultAvatar";
+  );
+}
 
 // TODO: update the UserInfo component to display the user's username primarily and their name as a secondary option
 function UserInfo() {

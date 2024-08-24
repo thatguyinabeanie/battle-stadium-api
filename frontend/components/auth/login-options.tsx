@@ -7,7 +7,7 @@ import { LoginFormProps, orDivider, variants } from "./common";
 import AuthProviders from "./auth-providers";
 import SignUp from "./sign-up";
 
-const LoginOptions = ({ setIsFormVisible }: LoginFormProps) => {
+export default function LoginOptions({ setIsFormVisible }: LoginFormProps) {
   return (
     <>
       <Button
@@ -28,8 +28,4 @@ const LoginOptions = ({ setIsFormVisible }: LoginFormProps) => {
       </m.div>
     </>
   );
-};
-
-LoginOptions.displayName = "LoginOptions";
-
-export default LoginOptions;
+}

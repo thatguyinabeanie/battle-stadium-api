@@ -1,4 +1,5 @@
 require_relative '../../../serializer/user_serializer'
+require 'jwt'
 
 module Api
   module V1
@@ -9,7 +10,7 @@ module Api
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
-      before_action :authenticate_user!, only: %i[me]
+      before_action :authenticate_user, only: %i[me]
       before_action :set_cache_headers, only: %i[me]
 
       def patch_password
@@ -39,6 +40,17 @@ module Api
       end
 
       private
+
+      def authenticate_user
+        token = request.headers['Authorization']&.split&.last
+        begin
+          jwt_secret_key = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+          decoded_token = JWT.decode(token, jwt_secret_key, true, { algorithm: 'HS256' })
+          @current_user = User.find_by(id: decoded_token.first['sub'])
+        rescue JWT::DecodeError
+          render json: { error: 'Invalid token' }, status: :unauthorized
+        end
+      end
 
       # Use callbacks to share common setup or constraints between actions.
       def set_user
