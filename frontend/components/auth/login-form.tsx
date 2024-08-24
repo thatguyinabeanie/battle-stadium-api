@@ -13,7 +13,7 @@ export default function LoginForm() {
   return (
     <ResizablePanel aria-label={"LoginForm"}>
       <h1 className="mb-4 text-xl font-medium">Log In</h1>
-      <AnimatePresence initial={false} mode="popLayout">
+      <AnimatePresence initial={true}>
         <LazyMotion features={domAnimation}>
           {isFormVisible ? (
             <EmailLoginForm setIsFormVisible={setIsFormVisible} />
