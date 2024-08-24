@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthConfig, User } from "next-auth";
 
 import NextAuth from "next-auth";
 import Discord from "next-auth/providers/discord";
@@ -8,14 +8,62 @@ import GitHub from "next-auth/providers/github";
 import Twitter from "next-auth/providers/twitter";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
-
+import * as jose from 'jose'
 import { railsSignIn } from "./lib/server-actions/sign-in";
+import { Awaitable } from "@auth/core/types";
+import { BaseAPI } from "./lib/api";
+
 
 export const providers: Provider[] = [
+  // GitHub({
+  //   clientId: process.env.AUTH_GITHUB_ID,
+  //   clientSecret: process.env.AUTH_GITHUB_SECRET,
+
+  //   profile(profile) {
+
+  //     const awaitableUser :Awaitable<User> = {
+  //       id: profile.id.toString(),
+  //       name: profile.name,
+  //       email: profile.email,
+  //       image: profile.avatar_url,
+  //     }
+  //     return awaitableUser;
+  //   },
+  // }),
+  // Discord({
+  //   clientId: process.env.AUTH_DISCORD_ID,
+  //   clientSecret: process.env.AUTH_DISCORD_SECRET,
+  //   profile(profile) {
+  //     const awaitableUser :Awaitable<User> = {
+  //       id: profile.id,
+  //       name: profile.username,
+  //       email: profile.email,
+  //       image: profile.avatar,
+  //     }
+  //     return awaitableUser;
+  //   }
+  // }),
+  // Twitter({
+  //   clientId: process.env.AUTH_TWITTER_ID,
+  //   clientSecret: process.env.AUTH_TWITTER_SECRET,
+  //   profile(profile) {
+  //     const awaitableUser :Awaitable<User> = {
+  //       id: profile.id as string,
+  //       name: profile.name as string,
+  //       email: profile.email as string,
+  //       // image: profile.profile_image_url_https,
+  //     }
+  //     return awaitableUser;
+  //   },
+  //   // @ts-expect-error - Twitter v2.0 is not yet supported by the NextAuth library. EXCEPT IT IS!
+  //   version: "2.0"
+  // }),
   GitHub,
   Discord,
-  // @ts-expect-error - Twitter v2.0 is not yet supported by the NextAuth library. EXCEPT IT IS!
-  Twitter({ version: "2.0" }),
+  Twitter({
+    // @ts-expect-error - Twitter v2.0 is not yet supported by the NextAuth library. EXCEPT IT IS!
+    version: "2.0",
+  }),
   Credentials({
     // You can specify which fields should be submitted, by adding keys to the `credentials` object.
     // e.g. domain, username, password, 2FA token, etc.
@@ -88,29 +136,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
     // adapter: PostgresAdapter.default(pool),
     callbacks: {
       async session({ session, token, user, trigger, newSession }) {
-        console.log("callbacks/session - session", session);
-        console.log("callbacks/session - token", token);
-        console.log("callbacks/session - user", user);
-        console.log("callbacks/session - trigger", trigger);
-        console.log("callbacks/session - newSession", newSession);
+        // console.log("callbacks/session - session", session);
+        // console.log("callbacks/session - token", token);
+        // console.log("callbacks/session - user", user);
+        // console.log("callbacks/session - trigger", trigger);
+        // console.log("callbacks/session - newSession", newSession);
 
-        // @ts-expect-error TODO: fix session type
-        session.accessToken = token;
+        // // @ts-expect-error TODO: fix session type
+        // session.accessToken = token;
 
         return session;
       },
       async jwt({ token, user, account, profile, trigger, session }) {
-        console.log("callbacks/jwt - session", session);
-        console.log("callbacks/jwt - token", token);
-        console.log("callbacks/jwt - user", user);
-        console.log("callbacks/jwt - trigger", trigger);
-        console.log("callbacks/jwt - account", account);
-        console.log("callbacks/jwt - profile", profile);
+        // console.log("callbacks/jwt - session", session);
+        // console.log("callbacks/jwt - token", token);
+        // console.log("callbacks/jwt - user", user);
+        // console.log("callbacks/jwt - trigger", trigger);
+        // console.log("callbacks/jwt - account", account);
+        // console.log("callbacks/jwt - profile", profile);
 
-        if (user) {
-          // @ts-expect-error TODO: fix token type
-          token.accessToken = user.accessToken;
-        }
+        // if (session.user) {
+        //   const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
+        //   console.log('session.user', session.user);
+        //   const jwt = await new jose.SignJWT({ user: session.user })
+        //     .setProtectedHeader({ alg: 'HS256' })
+        //     .setIssuedAt()
+        //     .setIssuer('nextjs-auth-service')
+        //     .setAudience('rails-api-service')
+        //     .setExpirationTime('8h')
+        //     .sign(secret)
+
+        //   // console.log(jwt)
+
+        //   token.accessToken = jwt;
+        // }
 
         return token;
       },

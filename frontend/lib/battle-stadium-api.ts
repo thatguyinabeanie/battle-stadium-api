@@ -1,5 +1,5 @@
-import { getSession } from "next-auth/react";
-
+import {auth} from "@/auth";
+import * as jose from 'jose'
 import {
   OrganizationsApi,
   UsersApi,
@@ -31,114 +31,156 @@ import {
   RegistrationApi,
   RegisterUserOperationRequest,
   Configuration,
+  ConfigurationParameters,
+  HTTPHeaders,
 } from "@/lib/api";
 
-const config = () => {
-  return new Configuration({
+const config = async () => {
+
+  const getCorrectSession = async () => {
+    return await auth();
+  }
+
+  const session = await getCorrectSession();
+
+  // TODO: move this out of here
+  const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
+  const jwt = await new jose.SignJWT({ user: session?.user })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setIssuer('nextjs-auth-service')
+      .setAudience('rails-api-service')
+      .setExpirationTime('8h')
+      .sign(secret)
+
+  const headers: HTTPHeaders = await getCorrectSession() ?
+    {
+      Authorization: `Bearer ${jwt}`,
+    }: {};
+
+  const params: ConfigurationParameters = {
     accessToken: async () => {
-      const session = await getSession();
-
-      console.log("config session", session); // eslint-disable-line no-console
-
       // @ts-expect-error TODO: fix session type
       return session?.accessToken ?? "";
     },
-  });
+    headers,
+  };
+
+  return new Configuration(params);
 };
 
 const Authentication = () => {
-  const SessionsAPI: SessionsApi = new SessionsApi(config());
-  const RegistrationAPI = new RegistrationApi(config());
+  const SessionAPI = async () => new SessionsApi(await config());
+  const RegistrationAPI = async () => new RegistrationApi(await config());
 
   return {
-    login: (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      SessionsAPI.loginUser(requestParameters, initOverrides),
-    logout: (initOverrides?: RequestInit | InitOverrideFunction) => SessionsAPI.logoutUser(initOverrides),
-    register: (requestParameters?: RegisterUserOperationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      RegistrationAPI.registerUser(requestParameters, initOverrides),
+    login: async (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await SessionAPI()).loginUser(requestParameters, initOverrides),
+
+    logout: async (initOverrides?: RequestInit | InitOverrideFunction) => (await SessionAPI()).logoutUser(initOverrides),
+
+    register: async (requestParameters?: RegisterUserOperationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await RegistrationAPI()).registerUser(requestParameters, initOverrides),
   };
 };
 
 const Organizations = () => {
-  const OrganizationsAPI: OrganizationsApi = new OrganizationsApi(config());
+  const OrganizationsAPI = async () => new OrganizationsApi(await config());
 
   return {
-    list: (initOverrides?: RequestInit | InitOverrideFunction) => OrganizationsAPI.listOrganizations(initOverrides),
-    post: (requestParameters: PostOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      OrganizationsAPI.postOrganization(requestParameters, initOverrides),
-    get: (requestParameters: GetOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      OrganizationsAPI.getOrganization(requestParameters, initOverrides),
+    list: async (initOverrides?: RequestInit | InitOverrideFunction) => (await OrganizationsAPI()).listOrganizations(initOverrides),
 
-    patch: (requestParameters: PatchOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      OrganizationsAPI.patchOrganization(requestParameters, initOverrides),
-    delete: (requestParameters: DeleteOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      OrganizationsAPI.deleteOrganization(requestParameters, initOverrides),
+    post: async (requestParameters: PostOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await OrganizationsAPI()).postOrganization(requestParameters, initOverrides),
+
+    get: async(requestParameters: GetOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await OrganizationsAPI()).getOrganization(requestParameters, initOverrides),
+
+    patch: async (requestParameters: PatchOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await OrganizationsAPI()).patchOrganization(requestParameters, initOverrides),
+
+    delete: async (requestParameters: DeleteOrganizationRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await OrganizationsAPI()).deleteOrganization(requestParameters, initOverrides),
 
     Tournaments: {
-      post: (
+      post: async (
         requestParameters: PostOrganizationTournamentRequest,
         initOverrides?: RequestInit | InitOverrideFunction,
-      ) => OrganizationsAPI.postOrganizationTournament(requestParameters, initOverrides),
-      patch: (
+      ) => (await OrganizationsAPI()).postOrganizationTournament(requestParameters, initOverrides),
+
+      patch: async (
         requestParameters: PatchOrganizationTournamentRequest,
         initOverrides?: RequestInit | InitOverrideFunction,
-      ) => OrganizationsAPI.patchOrganizationTournament(requestParameters, initOverrides),
+      ) => (await OrganizationsAPI()).patchOrganizationTournament(requestParameters, initOverrides),
     },
+
     Staff: {
-      list: (requestParameters: ListOrganizationStaffRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-        OrganizationsAPI.listOrganizationStaff(requestParameters, initOverrides),
+      list: async (requestParameters: ListOrganizationStaffRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+        (await OrganizationsAPI()).listOrganizationStaff(requestParameters, initOverrides),
     },
   };
 };
 
 const Users = () => {
-  const UsersAPI: UsersApi = new UsersApi(config());
+  const UsersAPI = async () => new UsersApi(await config());
 
   return {
-    list: (initOverrides?: RequestInit | InitOverrideFunction) => UsersAPI.listUsers(initOverrides),
-    post: (requestParameters?: PostUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      UsersAPI.postUser(requestParameters, initOverrides),
-    get: (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      UsersAPI.getUser(requestParameters, initOverrides),
-    patch: (requestParameters: PatchUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      UsersAPI.patchUser(requestParameters, initOverrides),
-    delete: (requestParameters: DeleteUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      UsersAPI.deleteUser(requestParameters, initOverrides),
-    me: (initOverrides?: RequestInit | InitOverrideFunction) => UsersAPI.getMe(initOverrides),
+    list: async (initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).listUsers(initOverrides),
+
+    post: async (requestParameters?: PostUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await UsersAPI()).postUser(requestParameters, initOverrides),
+
+    get: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await UsersAPI()).getUser(requestParameters, initOverrides),
+
+    patch: async (requestParameters: PatchUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await UsersAPI()).patchUser(requestParameters, initOverrides),
+
+    delete: async (requestParameters: DeleteUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await UsersAPI()).deleteUser(requestParameters, initOverrides),
+
+    me: async(initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).getMe(initOverrides),
   };
 };
 
 const Games = () => {
-  const GamesAPI: GamesApi = new GamesApi(config());
+  const GamesAPI = async () => new GamesApi(await config());
 
   return {
-    listGames: (initOverrides?: RequestInit | InitOverrideFunction) => GamesAPI.listGames(initOverrides),
-    postGame: (requestParameters?: PostGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      GamesAPI.postGame(requestParameters, initOverrides),
-    getGame: (requestParameters: GetGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      GamesAPI.getGame(requestParameters, initOverrides),
-    patchGame: (requestParameters: PatchGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      GamesAPI.patchGame(requestParameters, initOverrides),
-    deleteGame: (requestParameters: DeleteGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      GamesAPI.deleteGame(requestParameters, initOverrides),
+    listGames: async (initOverrides?: RequestInit | InitOverrideFunction) => (await GamesAPI()).listGames(initOverrides),
+    postGame: async (requestParameters?: PostGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await GamesAPI()).postGame(requestParameters, initOverrides),
+
+    getGame: async (requestParameters: GetGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await GamesAPI()).getGame(requestParameters, initOverrides),
+
+    patchGame: async (requestParameters: PatchGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await GamesAPI()).patchGame(requestParameters, initOverrides),
+
+    deleteGame: async (requestParameters: DeleteGameRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await GamesAPI()).deleteGame(requestParameters, initOverrides),
   };
 };
 
 const Tournaments = () => {
-  const PhasesAPI: PhasesApi = new PhasesApi(config());
-  const TournamentsAPI: TournamentsApi = new TournamentsApi(config());
+  const PhasesAPI = async() => new PhasesApi(await config());
+  const TournamentsAPI = async() => new TournamentsApi(await config());
 
   return {
-    list: (initOverrides?: RequestInit | InitOverrideFunction) => TournamentsAPI.listTournaments(initOverrides),
-    get: (requestParameters: GetTournamentRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      TournamentsAPI.getTournament(requestParameters, initOverrides),
-    post: (requestParameters: PostTournamentPhaseRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      PhasesAPI.postTournamentPhase(requestParameters, initOverrides),
-    patch: (requestParameters: PatchTournamentPhaseRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      PhasesAPI.patchTournamentPhase(requestParameters, initOverrides),
+    list: async (initOverrides?: RequestInit | InitOverrideFunction) => (await TournamentsAPI()).listTournaments(initOverrides),
+
+    get: async (requestParameters: GetTournamentRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await TournamentsAPI()).getTournament(requestParameters, initOverrides),
+
+    post: async (requestParameters: PostTournamentPhaseRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await PhasesAPI()).postTournamentPhase(requestParameters, initOverrides),
+
+    patch: async (requestParameters: PatchTournamentPhaseRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await PhasesAPI()).patchTournamentPhase(requestParameters, initOverrides),
+
     Phases: {
-      list: (requestParameters: ListTournamentPhasesRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-        PhasesAPI.listTournamentPhases(requestParameters, initOverrides),
+      list: async (requestParameters: ListTournamentPhasesRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+        (await PhasesAPI()).listTournamentPhases(requestParameters, initOverrides),
     },
   };
 };
