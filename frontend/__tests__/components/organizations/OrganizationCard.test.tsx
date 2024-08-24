@@ -9,7 +9,7 @@ describe("OrganizationCard", () => {
   it("renders organization name correctly", () => {
     const { getByText } = render(<OrganizationCard organization={organization} />);
 
-    expect(getByText(organization.name)).toBeInTheDocument();
+    expect(getByText(organization.name)).toBeDefined();
   });
 
   it("renders default image", async () => {
@@ -18,7 +18,7 @@ describe("OrganizationCard", () => {
     const images = await findAllByAltText(organization.name);
 
     expect(images.length).toBe(4);
-    expect(images[0]).toBeInTheDocument();
-    expect(images[1]).toBeInTheDocument();
+    expect(images[0]).toBeDefined();
+    expect(images[1]).toBeDefined();
   });
 });

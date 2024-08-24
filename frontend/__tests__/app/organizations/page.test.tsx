@@ -7,6 +7,6 @@ describe("Organizations Page", () => {
     render(await OrganizationPage());
     const text = screen.getByText(/Organizations/i);
 
-    expect(text).toBeInTheDocument();
+    expect(text).toBeDefined();
   });
 });

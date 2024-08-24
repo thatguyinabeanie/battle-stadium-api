@@ -27,6 +27,7 @@ export const providers: Provider[] = [
   // }),
   GitHub,
   Discord,
+  // @ts-expect-error - Twitter v2.0 is not yet supported by the NextAuth library. EXCEPT IT IS!
   Twitter({ version: "2.0" }),
   Credentials({
     // You can specify which fields should be submitted, by adding keys to the `credentials` object.
