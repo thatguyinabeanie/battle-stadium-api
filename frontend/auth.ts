@@ -132,7 +132,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
     providers,
     // adapter: PostgresAdapter.default(pool),
     callbacks: {
-      async session({ session, token, user, trigger, newSession }) {
+      async session({ session }) {
+        // async session({ session, token, user, trigger, newSession }) {
         // console.log("callbacks/session - session", session);
         // console.log("callbacks/session - token", token);
         // console.log("callbacks/session - user", user);
@@ -145,7 +146,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
         return session;
       },
 
-      async jwt({ token, user, account, profile, trigger, session }) {
+      // async jwt ({ token, user, account, profile, trigger, session }) {
+      async jwt({ token }) {
         // console.log("callbacks/jwt - session", session);
         // console.log("callbacks/jwt - token", token);
         // console.log("callbacks/jwt - user", user);

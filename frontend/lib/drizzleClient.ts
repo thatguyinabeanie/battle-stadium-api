@@ -1,6 +1,6 @@
 // lib/drizzleClient.ts
-import { Pool } from 'pg';
-import { drizzle } from 'drizzle-orm';
+import { Pool } from "pg";
+import { drizzle } from "drizzle-orm";
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,

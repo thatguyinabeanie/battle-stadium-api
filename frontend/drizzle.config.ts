@@ -1,5 +1,5 @@
 import { defineConfig } from "drizzle-kit";
-import { config } from 'dotenv';
+import { config } from "dotenv";
 config();
 
 export default defineConfig({
@@ -10,5 +10,5 @@ export default defineConfig({
   strict: true,
   dbCredentials: {
     url: "postgres://postgres:postgres@db:5432/fuecoco-db-dev",
-  }
+  },
 });
