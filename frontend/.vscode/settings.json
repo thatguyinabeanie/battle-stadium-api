@@ -16,7 +16,7 @@
   "prettier.endOfLine": "auto",
   "eslint.enable": false,
   "editor.folding": false,
-    // The path to the `bun` executable.
+  // The path to the `bun` executable.
   "bun.runtime": "/path/to/bun",
 
   // If support for Bun should be added to the default "JavaScript Debug Terminal".
@@ -47,5 +47,5 @@
       "username": "postgres",
       "password": "postgres"
     }
-  ],
+  ]
 }

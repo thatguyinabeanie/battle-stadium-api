@@ -1,11 +1,4 @@
-import {
-  describe as bunDescribe,
-  it as bunIt,
-  expect as bunExpect,
-  test as bunTest
-} from "bun:test";
-
-import * as bun from "bun:test";
+import { describe as bunDescribe, it as bunIt, expect as bunExpect, test as bunTest } from "bun:test";
 
 declare global {
   const describe: typeof bunDescribe;
@@ -20,4 +13,4 @@ declare global {
   const bun: typeof bun;
 }
 
-export { };
+export {};

@@ -16,7 +16,8 @@ describe("OrganizationCard", () => {
     const { findAllByAltText } = render(<OrganizationCard organization={organization} />);
 
     const images = await findAllByAltText(organization.name);
-    expect(images.length).toBe(4)
+
+    expect(images.length).toBe(4);
     expect(images[0]).toBeInTheDocument();
     expect(images[1]).toBeInTheDocument();
   });

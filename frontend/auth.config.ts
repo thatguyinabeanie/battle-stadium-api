@@ -2,8 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 
 import Discord from "next-auth/providers/discord";
 import GitHub from "next-auth/providers/github";
-import Twitter from "next-auth/providers/twitter"
-
+import Twitter from "next-auth/providers/twitter";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
 
@@ -28,7 +27,7 @@ export const providers: Provider[] = [
   // }),
   GitHub,
   Discord,
-  Twitter({ version: "2.0", }),
+  Twitter({ version: "2.0" }),
   Credentials({
     // You can specify which fields should be submitted, by adding keys to the `credentials` object.
     // e.g. domain, username, password, 2FA token, etc.

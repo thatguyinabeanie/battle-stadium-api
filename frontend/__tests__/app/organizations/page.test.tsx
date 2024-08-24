@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import OrganizationPage from "@/app/organizations/page";
 
 describe("Organizations Page", () => {

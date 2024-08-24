@@ -6,10 +6,10 @@ import { providerSignIn } from "@/lib/server-actions/sign-in";
 import { useAuthProviders } from "@/components/auth/providers-context";
 
 const ProvidersIconMap: Record<string, string> = {
-  github: 'logos:github',
-  discord: 'logos:discord',
-  twitter: 'logos:twitter',
-}
+  github: "logos:github",
+  discord: "logos:discord",
+  twitter: "logos:twitter",
+};
 
 export default function AuthProviders() {
   const providers = useAuthProviders();
@@ -20,7 +20,13 @@ export default function AuthProviders() {
         <m.form key={provider.id} action={() => providerSignIn(provider.id)}>
           <Button
             fullWidth
-            startContent={ <Icon className="text-default-500" icon={ ProvidersIconMap[provider.name.toLowerCase()] ?? 'logos:shrug' } width={ 24 } /> }
+            startContent={
+              <Icon
+                className="text-default-500"
+                icon={ProvidersIconMap[provider.name.toLowerCase()] ?? "logos:shrug"}
+                width={24}
+              />
+            }
             type="submit"
             variant="flat"
           >
