@@ -9,6 +9,11 @@ export default defineConfig({
   verbose: true,
   strict: true,
   dbCredentials: {
-    url: "postgres://postgres:postgres@db:5432/fuecoco-db-dev",
+    user: "postgres",
+    password: process.env.DATABASE_PASSWORD ?? "postgres",
+    host: "db",
+    port: 5432,
+    database: "fuecoco-db-dev",
+    ssl: false,
   },
 });
