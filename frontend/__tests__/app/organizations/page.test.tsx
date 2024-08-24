@@ -5,7 +5,6 @@ import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { OrganizationFactory } from "@/factories";
 describe("Organizations Page", () => {
   it("renders the correct text", async () => {
-
     const org = OrganizationFactory.build();
 
     spyOn(BattleStadiumAPI.Organizations, "list").mockResolvedValue([org]);
