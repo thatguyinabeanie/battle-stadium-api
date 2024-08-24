@@ -179,9 +179,10 @@ RSpec.describe Api::V1::UsersController do
 
   context 'when /users/me' do
     let!(:user) { create(:user) }
+    let(:token) { user.jwt }
 
     before do
-      sign_in user
+      request.headers['Authorization'] = "Bearer #{token}"
     end
 
     describe 'GET' do

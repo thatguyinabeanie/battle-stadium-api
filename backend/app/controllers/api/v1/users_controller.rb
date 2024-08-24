@@ -44,7 +44,8 @@ module Api
       def authenticate_user
         token = request.headers['Authorization']&.split&.last
         begin
-          decoded_token = JWT.decode(token, ENV.fetch('JWT_SECRET', nil), true, { algorithm: 'HS256' })
+          jwt_secret_key = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+          decoded_token = JWT.decode(token, jwt_secret_key, true, { algorithm: 'HS256' })
           @current_user = User.find_by(id: decoded_token.first['sub'])
         rescue JWT::DecodeError
           render json: { error: 'Invalid token' }, status: :unauthorized

@@ -430,6 +430,15 @@ RSpec.configure do |config|
           }
         },
 
+        securitySchemes: {
+          Bearer: {
+            description: 'JWT key necessary to use API calls',
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header
+          }
+        },
+
         schemas: {
           Format: FORMAT_SCHEMA,
           Game: GAME_SCHEMA,

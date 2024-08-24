@@ -54,6 +54,16 @@ class User < ApplicationRecord
     super
   end
 
+  def jwt
+    jwt_secret_key = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+    payload = {
+      sub: id,
+      iat: Time.now.to_i,
+      jti:
+    }
+    JWT.encode(payload, jwt_secret_key, 'HS256')
+  end
+
   private
 
   def generate_jti
