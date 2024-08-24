@@ -35,17 +35,16 @@ const initialIsOpen = process.env.NODE_ENV === "development";
 const getCurrentUser = async () => {
   const session = await auth();
 
-  console.log('session', session);
   if (!session) {
     return null;
   }
 
   try {
     const me = await BattleStadiumAPI.Users.me();
-    console.log('me', me);
+
     return me;
   } catch (error) {
-    console.error('error', error);
+    // TODO: log error to external service like sumologic, splunk, etc.
     return null;
   }
 };

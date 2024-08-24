@@ -1,3 +1,5 @@
+import { getSession } from "next-auth/react";
+
 import {
   OrganizationsApi,
   UsersApi,
@@ -30,22 +32,22 @@ import {
   RegisterUserOperationRequest,
   Configuration,
 } from "@/lib/api";
-import { getSession } from "next-auth/react";
 
 const config = new Configuration({
   accessToken: async () => {
     const session = await getSession();
+
     return session?.accessToken;
   },
 });
 
-export const OrganizationsAPI: OrganizationsApi = new OrganizationsApi();
-export const UsersAPI: UsersApi = new UsersApi();
-export const GamesAPI: GamesApi = new GamesApi();
-export const PhasesAPI: PhasesApi = new PhasesApi();
-export const TournamentsAPI: TournamentsApi = new TournamentsApi();
-export const SessionsAPI: SessionsApi = new SessionsApi();
-export const RegistrationAPI = new RegistrationApi();
+export const OrganizationsAPI: OrganizationsApi = new OrganizationsApi(config);
+export const UsersAPI: UsersApi = new UsersApi(config);
+export const GamesAPI: GamesApi = new GamesApi(config);
+export const PhasesAPI: PhasesApi = new PhasesApi(config);
+export const TournamentsAPI: TournamentsApi = new TournamentsApi(config);
+export const SessionsAPI: SessionsApi = new SessionsApi(config);
+export const RegistrationAPI = new RegistrationApi(config);
 
 const BattleStadiumAPI = {
   Authentication: {
