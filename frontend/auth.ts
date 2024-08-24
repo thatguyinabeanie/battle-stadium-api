@@ -25,12 +25,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
     // adapter: PostgresAdapter.default(pool),
     callbacks: {
       async session({ session, token }) {
+        // TODO: fix session type
+        // @ts-expect-error
         session.accessToken = token.accessToken;
 
         return session;
       },
       async jwt({ token, user }) {
         if (user) {
+          // TODO: fix token type
+          // @ts-expect-error
           token.accessToken = user.accessToken;
         }
 

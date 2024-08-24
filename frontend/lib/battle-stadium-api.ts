@@ -37,7 +37,8 @@ const config = new Configuration({
   accessToken: async () => {
     const session = await getSession();
 
-    return session?.accessToken;
+    // @ts-expect-error
+    return session?.accessToken ?? "";
   },
 });
 
