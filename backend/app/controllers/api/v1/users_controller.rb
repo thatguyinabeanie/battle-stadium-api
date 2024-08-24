@@ -43,6 +43,7 @@ module Api
 
       def authenticate_user
         token = request.headers['Authorization']&.split&.last
+        Rails.logger.info("Token: #{token}")
         begin
           jwt_secret_key = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
           decoded_token = JWT.decode(token, jwt_secret_key, true, { algorithm: 'HS256' })
