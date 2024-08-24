@@ -31,7 +31,7 @@ jobs:
         working-directory: frontend
 
       - name: Run Jest tests
-        run: bun jest
+        run: bun test
         working-directory: frontend
         env:
           CI: true
@@ -48,9 +48,8 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           directory: frontend/coverage
-          flags: jest
+          flags: bun
           name: codecov-umbrella
-          verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results to Codecov
@@ -59,7 +58,7 @@ jobs:
         with:
           directory: frontend/test-results
           files: '**/*.xml'
-          flags: jest
+          flags: bun
           token: ${{ secrets.CODECOV_TOKEN }}
 
   lint:
