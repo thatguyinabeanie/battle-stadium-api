@@ -38,9 +38,11 @@ const getCurrentUser = async () => {
   if (!session) {
     return null;
   }
-
+  console.log("app/layout - session", session); // eslint-disable-line no-console
   try {
     const me = await BattleStadiumAPI.Users.me();
+
+    console.log("me", me); // eslint-disable-line no-console
 
     return me;
   } catch (error) {

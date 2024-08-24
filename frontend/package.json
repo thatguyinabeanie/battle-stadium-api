@@ -12,7 +12,7 @@
     "prettier:write": "prettier --write .",
     "prettier:check": "prettier --check .",
     "tsc": "tsc --noEmit",
-    "fix": "bun lint:fix && bun prettier:write",
+    "fix": "bun prettier:write && bun lint:fix",
     "jest": "jest --passWithNoTests --config jest.config.ts",
     "test:all": "jest",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",

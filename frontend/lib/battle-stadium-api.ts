@@ -38,7 +38,7 @@ const config = () => {
     accessToken: async () => {
       const session = await getSession();
 
-      // console.log("config session", session);
+      console.log("config session", session); // eslint-disable-line no-console
 
       // @ts-expect-error TODO: fix session type
       return session?.accessToken ?? "";

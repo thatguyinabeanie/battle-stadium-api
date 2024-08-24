@@ -18,6 +18,8 @@ export default function CurrentUserContextProvider(props: CurrentUserContextProv
 
   const { data: session } = useSession();
 
+  console.log("CurrentUserContextProvider", session); // eslint-disable-line no-console
+
   const queryResult = useQuery({
     queryKey: ["currentUser"],
     queryFn: session ? BattleStadiumAPI.Users.me : () => Promise.resolve(initCurrentUser),
