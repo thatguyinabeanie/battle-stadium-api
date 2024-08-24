@@ -93,6 +93,10 @@ export class UsersApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
+
     const response = await this.request(
       {
         path: `/api/v1/users/me`,

@@ -23,6 +23,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
   return {
     providers,
     // adapter: PostgresAdapter.default(pool),
+    callbacks: {
+      async session ({ session, token }) {
+        session.accessToken = token.accessToken;
+        return session;
+      },
+      async jwt ({ token, user }) {
+        if (,user) {
+          token.accessToken = user.accessToken;
+        }
+        return token;
+      },
+    },
     pages: {
       signIn: "/login",
       signOut: "/",

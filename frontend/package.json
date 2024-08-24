@@ -21,6 +21,7 @@
     "@auth/core": "^0.34.2",
     "@auth/pg-adapter": "^1.4.2",
     "@internationalized/date": "^3.5.5",
+    "@next/third-parties": "^14.2.6",
     "@nextui-org/framer-utils": "^2.0.24",
     "@nextui-org/react": "^2.4.6",
     "@nextui-org/shared-icons": "^2.0.9",

@@ -641,6 +641,8 @@ paths:
       description: Retrieves the current User.
       operationId: getMe
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -711,6 +713,12 @@ components:
   responses:
     NotFound:
       description: not found
+  securitySchemes:
+    Bearer:
+      description: JWT key necessary to use API calls
+      type: apiKey
+      name: Authorization
+      in: header
   schemas:
     Format:
       type: object

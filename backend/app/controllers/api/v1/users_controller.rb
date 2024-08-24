@@ -43,6 +43,8 @@ module Api
 
       def authenticate_user
         token = request.headers['Authorization']&.split&.last
+
+        Rails.logger.info("Token: #{token}")
         begin
           decoded_token = JWT.decode(token, ENV.fetch('JWT_SECRET', nil), true, { algorithm: 'HS256' })
           @current_user = User.find_by(id: decoded_token.first['sub'])
