@@ -1,4 +1,14 @@
-import { describe as bunDescribe, it as bunIt, expect as bunExpect, test as bunTest } from "bun:test";
+import {
+  describe as bunDescribe,
+  it as bunIt,
+  expect as bunExpect,
+  test as bunTest,
+  beforeAll as bunBeforeAll,
+  afterAll as bunAfterAll,
+  beforeEach as bunBeforeEach,
+  afterEach as bunAfterEach,
+  mock as bunMock,
+} from "bun:test";
 
 declare global {
   const describe: typeof bunDescribe;
@@ -6,11 +16,11 @@ declare global {
   const test: typeof bunTest;
   const expect: typeof bunExpect;
   // Add other globals as needed
-  const beforeAll: typeof globalThis.beforeAll;
-  const afterAll: typeof globalThis.afterAll;
-  const beforeEach: typeof globalThis.beforeEach;
-  const afterEach: typeof globalThis.afterEach;
-  const bun: typeof bun;
+  const beforeAll: typeof bunBeforeAll;
+  const afterAll: typeof bunAfterAll;
+  const beforeEach: typeof bunBeforeEach;
+  const afterEach: typeof bunAfterEach;
+  const bun: typeof bunMock;
 }
 
 export {};

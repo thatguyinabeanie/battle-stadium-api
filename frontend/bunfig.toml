@@ -1,5 +1,8 @@
 [test]
-preload = "./test-setup.ts"
+preload = [
+  "./test-setup.ts",
+  "./api-mock-setup.ts"
+]
 coverage = true
 coverageReporter  = ["text", "lcov"]
 coverageDir = "coverage"

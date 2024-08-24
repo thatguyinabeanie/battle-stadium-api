@@ -17,7 +17,7 @@ describe("OrganizationCard", () => {
 
     const images = await findAllByAltText(organization.name);
 
-    expect(images.length).toBe(4);
+    expect(images.length).toBe(2);
     expect(images[0]).toBeDefined();
     expect(images[1]).toBeDefined();
   });
