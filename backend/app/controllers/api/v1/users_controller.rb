@@ -1,5 +1,6 @@
 require_relative '../../../serializer/user_serializer'
 require 'jwt'
+require_relative '../../../helpers/jwt/token_handler'
 
 module Api
   module V1
@@ -44,22 +45,8 @@ module Api
       def authenticate_user
         token = request.headers['Authorization']&.split&.last
 
-        Rails.logger.info("headers: #{request.headers}")
-        Rails.logger.info("Authorization: #{request.headers['Authorization']}")
-        Rails.logger.info("Token: #{token}")
-
-        # Get the current Rails environment
-        current_env = Rails.env
-
-        # Fetch the credentials for the current environment
-        credentials = Rails.application.credentials[current_env.to_sym]
-
-        # Access the secret_key_base and jwt_secret_key
-        jwt_secret_key = credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
-
         begin
-          decoded_token = JWT.decode(token, jwt_secret_key, true, { algorithm: 'HS256' })
-
+          decoded_token = Helpers::JWT::TokenHandler.new.decode!(token)
           @current_user = User.find_by(id: decoded_token.first['sub'])
         rescue JWT::DecodeError => e
           Rails.logger.error("JWT::DecodeError: #{e}")
