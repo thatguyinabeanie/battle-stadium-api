@@ -9,6 +9,7 @@ echo "DEVISE_JWT_SECRET_KEY='$SECRET'" > ./.env
 # Output to frontend/.env
 echo "AUTH_SECRET='$SECRET'" > ../frontend/.env
 
+
 echo "Secrets generated and saved to backend/.env and frontend/.env"
 
 cp .env.postgres.sample .env.postgres
