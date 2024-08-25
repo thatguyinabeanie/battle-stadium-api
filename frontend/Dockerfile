@@ -10,17 +10,16 @@ ENV PORT 8080
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
-    apt-get clean && \
-    curl --proto "=https" --tlsv1.2 -sSf -L https://bun.sh/install | bash || \
-    (echo "Retrying download..." && sleep 5 && curl --proto "=https" --tlsv1.2 -sSf -L https://bun.sh/install | bash)
+    apt-get clean
 
+ADD https://bun.sh/install /tmp/bun-install.sh
+RUN bash /tmp/bun-install.sh && rm /tmp/bun-install.sh
 
 ENV BUN_INSTALL "/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
 COPY package.json bun.lockb ./
 RUN bun install
 COPY . .
-
 
 FROM base-image AS development
 EXPOSE 8080

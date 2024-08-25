@@ -31,7 +31,8 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch ${ASDF_VERSIO
 
 FROM asdf-ruby AS base-image
 # INSTALL DEPENDENCIES
-RUN apt-get update -qq  && \
+RUN export ARCH=$(dpkg --print-architecture) && \
+    apt-get update -qq  && \
     apt-get --no-install-recommends install -y -q  \
     default-jre \
     l-client \
@@ -41,10 +42,12 @@ RUN apt-get update -qq  && \
     watchman \
     wget && \
     apt-get clean && \
-    # Determine architecture and download the appropriate 1Password CLI
-    export ARCH=$(dpkg --print-architecture) && \
-    curl -sS https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_${ARCH}_v1.12.3.zip -o /tmp/op_linux_${ARCH}_v1.12.3.zip; \
-    unzip /tmp/op_linux_${ARCH}_v1.12.3.zip -d /tmp/op-extract && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Determine architecture and download the appropriate 1Password CLI
+ADD https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_${ARCH}_v1.12.3.zip /tmp/
+
+RUN unzip /tmp/op_linux_${ARCH}_v1.12.3.zip -d /tmp/op-extract && \
     mv /tmp/op-extract/op /usr/local/bin/op && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
