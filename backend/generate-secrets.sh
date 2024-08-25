@@ -1,4 +1,8 @@
 #!/bin/bash
+# Function to generate a 32-character secret
+generate_secret() {
+  openssl rand -hex 16
+}
 
 # Ensure the script is run from the root of a Rails project
 if [ ! -f "config/application.rb" ]; then
@@ -6,9 +10,17 @@ if [ ! -f "config/application.rb" ]; then
   exit 1
 fi
 
+rm -f config/master.key
+rm -f config/credentials.yml.enc
+
+# Generate secrets
+dev_jwt_secret=$(generate_secret)
+test_jwt_secret=$(generate_secret)
+prod_jwt_secret=$(generate_secret)
+
 # Generate the master key
 echo "Generating master key..."
-MASTER_KEY=$(openssl rand -hex 16) # 16 bytes = 32 hex characters
+MASTER_KEY=$(generate_secret) # 16 bytes = 32 hex characters
 echo $MASTER_KEY > config/master.key
 
 # Ensure the master key is added to .gitignore
@@ -29,21 +41,21 @@ dev_jwt_secret_key=$(rails secret)
 
 # Add some default content to the credentials file
 echo "Adding default content to credentials file..."
+# Create the credentials file content
+
 cat <<EOL > tmp_credentials.yml
-development:
-  secret_key_base: $(rails secret)
-  devise:
-    jwt_secret_key: ${dev_jwt_secret_key}
-
 test:
-  secret_key_base: $(rails secret)
+  secret_key_base: $(generate_secret)
   devise:
-    jwt_secret_key: $(rails secret)
-
+    jwt_secret_key: $test_jwt_secret
+development:
+  secret_key_base: $(generate_secret)
+  devise:
+    jwt_secret_key: $dev_jwt_secret
 production:
-  secret_key_base: $(rails secret)
+  secret_key_base: $(generate_secret)
   devise:
-    jwt_secret_key: $(rails secret)
+    jwt_secret_key: $prod_jwt_secret
 EOL
 
 # Create a temporary script to copy the content
