@@ -1,6 +1,6 @@
 require 'devise'
 require 'faker'
-require_relative '../../../lib/helpers/JWT/token_handler'
+require_relative '../../lib/helpers/JWT/token_handler'
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
