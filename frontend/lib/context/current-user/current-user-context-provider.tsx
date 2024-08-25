@@ -1,8 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import React from "react";
 
-import { CurrentUserContext } from "./current-user-context";
+import { CurrentUserContext, CurrentUserContextValue } from "./current-user-context";
 
 import { UserMe } from "@/lib/api";
 import { ChildrenProps } from "@/types";
@@ -15,11 +17,22 @@ export interface CurrentUserContextProviderProps extends ChildrenProps {
 export default function CurrentUserContextProvider(props: CurrentUserContextProviderProps) {
   const { initCurrentUser, children } = props;
 
-  const { data: currentUser } = useQuery({
+  const { data: session } = useSession();
+
+  // console.log("CurrentUserContextProvider", session); // eslint-disable-line no-console
+
+  const queryResult = useQuery({
     queryKey: ["currentUser"],
-    queryFn: BattleStadiumAPI.Users.me,
+    queryFn: session ? BattleStadiumAPI.Users.me : () => Promise.resolve(initCurrentUser),
     initialData: initCurrentUser,
   });
 
-  return <CurrentUserContext.Provider value={currentUser}>{children}</CurrentUserContext.Provider>;
+  const value: CurrentUserContextValue = {
+    currentUser: queryResult.data,
+    query: queryResult,
+  };
+
+  // console.log('current user context value', value);
+
+  return <CurrentUserContext.Provider value={value}>{children}</CurrentUserContext.Provider>;
 }

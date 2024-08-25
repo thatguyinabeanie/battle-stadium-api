@@ -10,6 +10,37 @@ import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { CurrentUserContextProvider } from "@/lib/context/current-user";
+import { auth } from "@/auth";
+
+// export async function customFetch (input: RequestInfo, init?: RequestInit): Promise<Response> {
+//   console.log('Fetch request:', {
+//     url: input,
+//     method: init?.method || 'GET',
+//     headers: init?.headers,
+//     body: init?.body,
+//   });
+
+//   const response = await fetch(input, init);
+
+//   const clonedResponse = response.clone();
+//   const responseBody = await clonedResponse.text();
+
+//   console.log('Fetch response:', {
+//     status: response.status,
+//     headers: response.headers,
+//     body: responseBody,
+//   });
+
+//   return response;
+// }
+
+// if (typeof window !== 'undefined') {
+//   // @ts-ignore
+//   window.fetch = customFetch;
+// } else {
+//   // @ts-ignore
+//   global.fetch = customFetch;
+// }
 
 export const metadata: Metadata = {
   title: {
@@ -31,16 +62,27 @@ export const viewport: Viewport = {
 
 const initialIsOpen = process.env.NODE_ENV === "development";
 
-const useServerSideCurrentUser = async () => {
+const getCurrentUser = async () => {
+  const session = await auth();
+
+  if (!session) {
+    return null;
+  }
+
   try {
-    return await BattleStadiumAPI.Users.me();
+    const me = await BattleStadiumAPI.Users.me();
+
+    // console.log("me", me); // eslint-disable-line no-console
+
+    return me;
   } catch (error) {
+    // TODO: log error to external service like sumologic, splunk, etc.
     return null;
   }
 };
 
 async function RootLayout({ children }: ChildrenProps & AppProps) {
-  const currentUser = await useServerSideCurrentUser();
+  const currentUser = await getCurrentUser();
 
   return (
     <html suppressHydrationWarning lang="en">
@@ -48,16 +90,16 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
       <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
         <ThemesProvider>
           <NextUIProvider>
-            <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
-              <div className="flex h-dvh w-full">
-                <CurrentUserContextProvider initCurrentUser={currentUser}>
-                  <SessionProvider>
+            <SessionProvider>
+              <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
+                <div className="flex h-dvh w-full">
+                  <CurrentUserContextProvider initCurrentUser={currentUser}>
                     <SidebarResponsive aria-label="Responsive Sidebar" />
                     {children}
-                  </SessionProvider>
-                </CurrentUserContextProvider>
-              </div>
-            </ReactQueryClientProvider>
+                  </CurrentUserContextProvider>
+                </div>
+              </ReactQueryClientProvider>
+            </SessionProvider>
           </NextUIProvider>
         </ThemesProvider>
       </body>

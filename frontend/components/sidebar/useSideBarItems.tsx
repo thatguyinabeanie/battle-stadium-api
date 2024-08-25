@@ -19,7 +19,9 @@ const getYourOrganizations = (currentUser: UserMe) => {
 };
 
 export default function useSideBarItems() {
-  const currentUser = useCurrentUser();
+  const contextValue = useCurrentUser();
+
+  const currentUser = contextValue?.currentUser;
 
   if (currentUser && currentUser?.organizations?.length > 0) {
     return [...sectionItems, getYourOrganizations(currentUser)];

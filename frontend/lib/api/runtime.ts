@@ -12,10 +12,6 @@
  * Do not edit the class manually.
  */
 
-export const backendHost = process?.env?.BACKEND_HOST || "localhost";
-export const API_BASE_URL_PATH: string = process?.env?.API_BASE_URL ?? `http://${backendHost}:3000`;
-export const BASE_PATH = API_BASE_URL_PATH.replace(/\/+$/, "");
-
 export interface ConfigurationParameters {
   basePath?: string; // override base path
   fetchApi?: FetchAPI; // override for fetch implementation
@@ -37,6 +33,11 @@ export class Configuration {
   }
 
   get basePath(): string {
+    // TODO: do if environment is dev, testing, prod
+    const componentType = typeof window === "undefined" ? "server" : "client";
+    const backendHost = componentType === "server" ? process?.env?.BACKEND_HOST : "localhost";
+    const API_BASE_URL_PATH: string = `http://${backendHost}:3000`;
+    const BASE_PATH = API_BASE_URL_PATH.replace(/\/+$/, "");
     return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
   }
 
