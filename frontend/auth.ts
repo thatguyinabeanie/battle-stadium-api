@@ -6,6 +6,7 @@ import NextAuth from "next-auth";
 import Discord from "next-auth/providers/discord";
 import GitHub from "next-auth/providers/github";
 import Twitter from "next-auth/providers/twitter";
+import Twitch from "next-auth/providers/Twitch";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
 
@@ -57,6 +58,7 @@ export const providers: Provider[] = [
   // }),
   GitHub,
   Discord,
+  Twitch,
   Twitter({
     // @ts-expect-error - Twitter v2.0 is not yet supported by the NextAuth library. EXCEPT IT IS!
     version: "2.0",
