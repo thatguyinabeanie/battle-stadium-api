@@ -8,6 +8,8 @@
 #
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+require_relative '../../lib/helpers/JWT/token_handler'
+
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -313,13 +315,16 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+    jwt.secret = Helpers::JWT::TokenHandler.new.jwt_secret_key
+
     jwt.dispatch_requests = [
       ['POST', %r{^/api/v1/auth/sign_in$}]
     ]
+
     jwt.revocation_requests = [
       ['DELETE', %r{^/api/v1/auth/sign_out$}]
     ]
+
     jwt.expiration_time = 1.day.to_i
   end
 end

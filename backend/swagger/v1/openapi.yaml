@@ -640,7 +640,6 @@ paths:
       - Users
       description: Retrieves the current User.
       operationId: getMe
-      parameters: []
       security:
       - Bearer: []
       responses:

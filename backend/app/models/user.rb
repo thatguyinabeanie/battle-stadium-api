@@ -1,5 +1,6 @@
 require 'devise'
 require 'faker'
+require_relative '../../lib/helpers/JWT/token_handler'
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
@@ -55,13 +56,12 @@ class User < ApplicationRecord
   end
 
   def jwt
-    jwt_secret_key = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
     payload = {
       sub: id,
       iat: Time.now.to_i,
       jti:
     }
-    JWT.encode(payload, jwt_secret_key, 'HS256')
+    JWT.encode(payload, Helpers::JWT::TokenHandler.new.jwt_secret_key, 'HS256')
   end
 
   private

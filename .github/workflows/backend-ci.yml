@@ -55,6 +55,9 @@ jobs:
         run: bundle check || bundle install
         working-directory: ./backend
 
+      - name: Set up config/master.key
+        run: echo "${{ secrets.RAILS_MASTER_KEY }}" > ./backend/config/master.key
+
       - name: Prepare database
         run: bundle exec rake db:create db:schema:load --trace
         working-directory: ./backend
