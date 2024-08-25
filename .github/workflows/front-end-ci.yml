@@ -10,7 +10,7 @@ permissions:
   checks: write
 
 jobs:
-  jest:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
         run: bun install --silent
         working-directory: frontend
 
-      - name: Run Jest tests
+      - name: Run Tests
         run: bun test
         working-directory: frontend
         env:

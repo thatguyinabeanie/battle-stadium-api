@@ -13,8 +13,6 @@
     "prettier:check": "prettier --check .",
     "tsc": "tsc --noEmit",
     "fix": "bun prettier:write && bun lint:fix",
-    "jest": "jest --passWithNoTests --config jest.config.ts",
-    "test:all": "jest",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
     "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && bun generate:factories",
     "generate": "drizzle-kit generate",
