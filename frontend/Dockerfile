@@ -19,6 +19,7 @@ ENV BUN_INSTALL "/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
 COPY package.json bun.lockb ./
 RUN bun add -g drizzle-kit && \
+    bun add -g pg postgres @neondatabase/serverless && \
     bun install
 
 COPY . .

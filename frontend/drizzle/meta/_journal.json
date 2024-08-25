@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1724538002206,
-      "tag": "0000_big_beast",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1724623432294,
-      "tag": "0001_large_payback",
+      "when": 1724625653803,
+      "tag": "0000_damp_kat_farrell",
       "breakpoints": true
     }
   ]
