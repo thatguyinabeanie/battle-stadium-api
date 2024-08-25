@@ -19,8 +19,8 @@ module Helpers
 
       def decode!(token)
         # Get the current Rails environment
-        JWT.decode(token, jwt_secret_key, true, { algorithm: 'HS256' })
-      rescue JWT::DecodeError => e
+        ::JWT.decode(token, jwt_secret_key, true, { algorithm: 'HS256' })
+      rescue ::JWT::DecodeError => e
         Rails.logger.error "JWT::DecodeError: #{e.message}"
         raise
       end

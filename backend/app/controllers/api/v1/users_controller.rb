@@ -1,6 +1,6 @@
 require_relative '../../../serializer/user_serializer'
 require 'jwt'
-require_relative '../../../helpers/jwt/token_handler'
+require_relative '../../../../lib/helpers/JWT/token_handler'
 
 module Api
   module V1
