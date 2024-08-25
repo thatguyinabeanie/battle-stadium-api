@@ -12,6 +12,13 @@ import { Provider } from "next-auth/providers";
 
 import { railsSignIn } from "./lib/server-actions/sign-in";
 
+const ProvidersIconMap: Record<string, string> = {
+  github: "logos:github-icon",
+  discord: "logos:discord-icon",
+  twitter: "logos:twitter",
+  twitch: "logos:twitch",
+};
+
 export const providers: Provider[] = [
   GitHub,
   Discord,
@@ -57,9 +64,17 @@ export const providersMap = providers
     if (typeof provider === "function") {
       const providerData = provider();
 
-      return { id: providerData.id, name: providerData.name };
+      return {
+        id: providerData.id,
+        name: providerData.name,
+        icon: ProvidersIconMap[providerData.name.toLowerCase()]
+       };
     } else {
-      return { id: provider.id, name: provider.name };
+      return {
+        id: provider.id,
+        name: provider.name,
+        icon: ProvidersIconMap[provider.name.toLowerCase()]
+      };
     }
   })
   .filter((provider) => provider.id !== "credentials");

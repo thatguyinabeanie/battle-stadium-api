@@ -5,6 +5,7 @@ import * as React from "react";
 export interface ProvidersMetaData {
   id: string;
   name: string;
+  icon: string;
 }
 
 const AuthProvidersContext = React.createContext<ProvidersMetaData[]>([]);
