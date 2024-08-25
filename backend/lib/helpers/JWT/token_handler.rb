@@ -9,11 +9,7 @@ module Helpers
 
       def jwt_secret_key
         # Access the secret_key_base and jwt_secret_key
-        if Rails.env.production?
-          ENV.fetch('DEVISE_JWT_SECRET_KEY')
-        else
-          ENV.fetch('DEVISE_JWT_SECRET_KEY', 'abcd1234abcd1234abcd1234abcd1234')
-        end
+        ENV.fetch('DEVISE_JWT_SECRET_KEY')
       end
 
       def decode!(token)

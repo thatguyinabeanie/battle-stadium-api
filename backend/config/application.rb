@@ -13,7 +13,7 @@ module BattleStadium
     config.load_defaults 7.1
 
     config.before_configuration do
-      env_file = '.env.docker-compose'
+      env_file = '.env'
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
     end
 
