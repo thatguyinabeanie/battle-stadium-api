@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
 
 import type { NextAuthConfig } from "next-auth";
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
+import { db } from "@/src/schema"
+
 
 import NextAuth from "next-auth";
 import Discord from "next-auth/providers/discord";
@@ -72,7 +75,7 @@ export default {
 export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
   return {
     providers,
-    // adapter: PostgresAdapter.default(pool),
+    adapter: DrizzleAdapter(db),
     callbacks: {
       async session({ session }) {
         return session;

@@ -22,6 +22,7 @@ const dbCredentials = () => {
     host: process.env.HOST_ENVIRONMENT === "container" ? "db" : "localhost",
     database: process.env.POSTGRES_DB ?? "fuecoco-db-dev",
     port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
+    ssl: false,
   };
 };
 
