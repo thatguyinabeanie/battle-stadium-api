@@ -87,12 +87,12 @@ RSpec.describe Api::V1::UsersController do
       description 'Retrieves the current User.'
       operationId 'getMe'
 
-      parameter name: :id, in: :body, type: :integer, description: 'ID of the User'
       security [Bearer: []]
 
       response(200, 'successful') do
         let(:user) { create(:user) }
-        let(:Authorization) { "Bearer #{user.jwt}" } # rubocop:disable RSpec/VariableName
+        let(:token) { user.jwt }
+        let(:Authorization) { "Bearer #{token}" } # rubocop:disable RSpec/VariableName
 
         schema '$ref' => '#/components/schemas/UserMe'
 

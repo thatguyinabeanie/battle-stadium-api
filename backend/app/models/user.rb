@@ -55,7 +55,15 @@ class User < ApplicationRecord
   end
 
   def jwt
-    jwt_secret_key = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+    # Get the current Rails environment
+    current_env = Rails.env
+
+    # Fetch the credentials for the current environment
+    credentials = Rails.application.credentials[current_env.to_sym]
+
+    # Access the secret_key_base and jwt_secret_key
+    jwt_secret_key = credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+
     payload = {
       sub: id,
       iat: Time.now.to_i,
