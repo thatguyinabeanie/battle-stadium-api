@@ -31,7 +31,8 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch ${ASDF_VERSIO
 
 FROM asdf-ruby AS base-image
 # INSTALL DEPENDENCIES
-RUN apt-get update -qq  && \
+RUN export ARCH=$(dpkg --print-architecture) && \
+    apt-get update -qq  && \
     apt-get --no-install-recommends install -y -q  \
     default-jre \
     l-client \
@@ -44,21 +45,11 @@ RUN apt-get update -qq  && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Determine architecture and download the appropriate 1Password CLI
-RUN ARCH=$(dpkg --print-architecture) && \
-    if [ "$ARCH" = "amd64" ]; then \
-    curl -sS https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_amd64_v1.12.3.zip -o op_linux_amd64_v1.12.3.zip && \
-    unzip op_linux_amd64_v1.12.3.zip -d op-extract && \
-    mv op-extract/op /usr/local/bin/op && \
-    rm -rf op_linux_amd64_v1.12.3.zip op-extract; \
-    elif [ "$ARCH" = "arm64" ]; then \
-    curl -sS https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_arm64_v1.12.3.zip -o op_linux_arm64_v1.12.3.zip && \
-    unzip op_linux_arm64_v1.12.3.zip -d op-extract && \
-    mv op-extract/op /usr/local/bin/op && \
-    rm -rf op_linux_arm64_v1.12.3.zip op-extract; \
-    else \
-    echo "Unsupported architecture: $ARCH"; \
-    exit 1; \
-    fi
+ADD https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_${ARCH}_v1.12.3.zip /tmp/
+
+RUN unzip /tmp/op_linux_${ARCH}_v1.12.3.zip -d /tmp/op-extract && \
+    mv /tmp/op-extract/op /usr/local/bin/op && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ##
 ## DEVELOPMENT IMAGE

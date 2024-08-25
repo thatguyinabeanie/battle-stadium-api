@@ -72,7 +72,6 @@
         "aaron-bond.better-comments",
         "dsznajder.es7-react-js-snippets",
         "YoavBls.pretty-ts-errors",
-        "Orta.vscode-jest",
         "esbenp.prettier-vscode",
         "oven.bun-vscode"
       ],
@@ -102,8 +101,7 @@
         "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
         "typescript.tsdk": "node_modules/typescript/lib",
         "editor.formatOnSave": false,
-        "eslint.format.enable": true,
-        "jest.jestCommandLine": "bun jest"
+        "eslint.format.enable": true
       }
     }
   }

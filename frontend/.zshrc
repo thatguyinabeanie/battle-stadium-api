@@ -1,3 +1,4 @@
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -70,7 +71,7 @@ ZSH_THEME="devcontainers"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(rails git textmate ruby lighthouse)
+plugins=(rails git ruby)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,11 +106,26 @@ export LANG=en_US.UTF-8
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
-alias rs="rails server -b 0.0.0.0 -p 3000"
-alias rc="rails console"
-alias rg="rails generate"
-alias rdb="rails db"
-alias rdbm="rails db:migrate"
-alias rdbd="rails db:drop"
-alias rdbc="rails db:create"
+# Function to kill Rails server running on port 3000
+kill_server() {
+  # Find the PID of the Next.js server running on port 3000
+  NEXT_PID=$(lsof -i :8080 -t)
 
+  # Check if the PID exists
+  if [ -n "$NEXT_PID" ]; then
+    echo "Killing Next.js server with PID: $NEXT_PID"
+    kill -9 $NEXT_PID
+    echo "Next.js server killed."
+  else
+    echo "No Next.js server running on port 3000."
+  fi
+}
+
+# Function to start Rails server
+start_server_bg() {
+  echo "Starting NextJS server..."
+  rm -f tmp/pids/server.pid && \
+  bun install --silent && \
+  bun dev >/dev/null 2>&1 &
+  echo "NextJS server started."
+}

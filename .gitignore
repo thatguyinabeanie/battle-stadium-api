@@ -13,6 +13,8 @@
 .secret*
 !/.env*.erb
 
+
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
