@@ -1,5 +1,5 @@
 # Use the official Node.js 14.x image as the base image
-FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22 AS development
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22 AS base-image
 
 # Set the working directory inside the container
 RUN mkdir -p /battle-stadium/frontend
@@ -17,14 +17,12 @@ RUN apt-get update -qq && \
 
 ENV BUN_INSTALL "/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
-COPY package.json ./
-COPY bun.lockb ./
-
+COPY package.json bun.lockb ./
 RUN bun install
-
 COPY . .
 
-EXPOSE 8080
 
+FROM base-image AS development
+EXPOSE 8080
 # Start the Next.js development server
 CMD ["bun", "dev"]

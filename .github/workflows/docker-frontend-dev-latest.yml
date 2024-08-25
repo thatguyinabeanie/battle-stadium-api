@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - backend/BASE_IMAGE_VERSION
+      - frontend/BASE_IMAGE_VERSION
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-frontend-dev:
     runs-on: ubuntu-latest
     env:
       MAJOR: -1
@@ -45,7 +45,7 @@ jobs:
       - name: Extract version from file
         id: extract_version
         run: |
-          VERSION=$(cat BASE_IMAGE_VERSION)
+          VERSION=$(cat frontend/BASE_IMAGE_VERSION)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           MAJOR=$(echo $VERSION | cut -d'.' -f1)
           MINOR=$(echo $VERSION | cut -d'.' -f2)
@@ -58,7 +58,7 @@ jobs:
         if: github.ref == 'refs/heads/main' || github.event_name == 'release'
         uses: docker/build-push-action@v6
         with:
-          context: "{{defaultContext}}:backend"
+          context: "{{defaultContext}}:frontend"
           target: development
           platforms: linux/amd64,linux/arm64
           push: true
@@ -73,3 +73,4 @@ jobs:
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MAJOR}}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MINOR}}
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.PATCH}}
+

@@ -15,6 +15,9 @@ module BattleStadium
     config.before_configuration do
       env_file = '.env'
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
+
+      env_postgres_file = '../.env.postgres'
+      Dotenv.load(env_postgres_file) if File.exist?(env_file) && !Rails.env.production?
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
