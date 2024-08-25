@@ -88,10 +88,23 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
     docker compose build
     ```
 
-5. Open devcontainer instance in Visual Studio Code
+5. Initialize containers
 
     ```bash
-    devcontainer open [backend|frontend]
+    docker compose up -d
+    ```
+
+6. Initialize secrets
+
+    ```bash
+    docker compose exec backend bash -c "/battle-stadium/backend/generate-secrets.sh"
+    ```
+
+7. Open devcontainer instances in Visual Studio Code
+
+    ```bash
+    devcontainer open backend
+    devcontainer open frontend
     ```
 
 ### Testing
