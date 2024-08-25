@@ -1,9 +1,6 @@
 import { pgTable, uniqueIndex, index, bigserial, integer, varchar, text, bigint, timestamp, foreignKey, boolean } from "drizzle-orm/pg-core"
   import { sql } from "drizzle-orm"
 
-
-
-
 export const accounts = pgTable("accounts", {
 	id: bigserial("id", { mode: "bigint" }).primaryKey().notNull(),
 	userId: integer("userId").notNull(),

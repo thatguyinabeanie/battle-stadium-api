@@ -20,7 +20,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT", 5000) %>
 
-  host: <%= ENV.fetch("DB_HOST") %>
+  host: <%= ENV.fetch("DB_HOST", 'localhost') %>
   port: <%= ENV.fetch("DB_PORT", '5432') %>
 
   username: <%= ENV.fetch("POSTGRES_USER") %>

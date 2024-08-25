@@ -1,7 +1,7 @@
 import React from "react";
 
 import LoginForm from "@/components/auth/login-form";
-import { providersMap } from "@/auth";
+import { providersMap } from "@/auth.config";
 import { AuthProvidersContextProvider } from "@/components/auth/providers-context";
 
 export default function Component() {

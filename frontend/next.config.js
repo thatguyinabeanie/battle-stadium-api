@@ -12,6 +12,7 @@ const nextConfig = {
       resolve: {
         fallback: {
           crypto: false,
+          net: false,
         },
       },
     },
