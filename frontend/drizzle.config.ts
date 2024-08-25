@@ -1,5 +1,4 @@
 import { defineConfig } from "drizzle-kit";
-
 import { config } from "dotenv";
 
 const dbCredentials = () => {
@@ -9,8 +8,8 @@ const dbCredentials = () => {
       password: process.env.POSTGRES_PASSWORD as string,
       host: process.env.POSTGRES_HOST as string,
       database: process.env.POSTGRES_DB as string,
-      port: parseInt((process.env.POSTGRES_PORT as string)),
-    }
+      port: parseInt(process.env.POSTGRES_PORT as string),
+    };
   }
 
   config({ path: "../.env.postgres" });
@@ -23,8 +22,8 @@ const dbCredentials = () => {
     host: process.env.HOST_ENVIRONMENT === "container" ? "db" : "localhost",
     database: process.env.POSTGRES_DB ?? "fuecoco-db-dev",
     port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
-  }
-}
+  };
+};
 
 export default defineConfig({
   dialect: "postgresql",
