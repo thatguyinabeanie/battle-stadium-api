@@ -48,11 +48,14 @@ module Api
         Rails.logger.info("Authorization: #{request.headers['Authorization']}")
         Rails.logger.info("Token: #{token}")
 
-        # binding.break
+        # Get the current Rails environment
+        current_env = Rails.env
 
-        jwt_secret_key = Rails.application.credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+        # Fetch the credentials for the current environment
+        credentials = Rails.application.credentials[current_env.to_sym]
 
-        Rails.logger.info("jwt_secret_key: #{jwt_secret_key}")
+        # Access the secret_key_base and jwt_secret_key
+        jwt_secret_key = credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
 
         begin
           decoded_token = JWT.decode(token, jwt_secret_key, true, { algorithm: 'HS256' })
