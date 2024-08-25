@@ -14,7 +14,7 @@ module Helpers
         credentials = Rails.application.credentials[current_env.to_sym]
 
         # Access the secret_key_base and jwt_secret_key
-        credentials.dig(:devise, :jwt_secret_key) || ENV.fetch('DEVISE_JWT_SECRET_KEY', nil)
+        ENV.fetch('DEVISE_JWT_SECRET_KEY', nil) || credentials.dig(:devise, :jwt_secret_key)
       end
 
       def decode!(token)
