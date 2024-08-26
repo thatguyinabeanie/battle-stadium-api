@@ -14,13 +14,7 @@ export default function AuthProviders() {
         <m.form key={provider.id} action={() => providerSignIn(provider.id)}>
           <Button
             fullWidth
-            startContent={
-              <Icon
-                className="text-default-500"
-                icon={ provider.icon}
-                width={20}
-              />
-            }
+            startContent={<Icon className="text-default-500" icon={provider.icon} width={20} />}
             type="submit"
             variant="flat"
           >

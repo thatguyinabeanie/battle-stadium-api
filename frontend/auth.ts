@@ -67,13 +67,13 @@ export const providersMap = providers
       return {
         id: providerData.id,
         name: providerData.name,
-        icon: ProvidersIconMap[providerData.name.toLowerCase()]
-       };
+        icon: ProvidersIconMap[providerData.name.toLowerCase()],
+      };
     } else {
       return {
         id: provider.id,
         name: provider.name,
-        icon: ProvidersIconMap[provider.name.toLowerCase()]
+        icon: ProvidersIconMap[provider.name.toLowerCase()],
       };
     }
   })
