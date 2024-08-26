@@ -53,6 +53,8 @@ export async function railsSignIn<T extends string | number | symbol>(
   credentials: Partial<Record<T, unknown>>,
   _request: Request,
 ) {
+  "use server";
+
   const { email, password } = await signInSchema.parseAsync(credentials);
 
   try {

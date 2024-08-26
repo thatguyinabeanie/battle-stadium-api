@@ -73,7 +73,7 @@ ZSH_THEME="devcontainers"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(rails git ruby)
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -117,15 +117,15 @@ kill_server() {
     kill -9 $NEXT_PID
     echo "Next.js server killed."
   else
-    echo "No Next.js server running on port 3000."
+    echo "No Next.js server running on port 8080."
   fi
 }
 
 # Function to start Rails server
-start_server_bg() {
+start_server() {
   echo "Starting NextJS server..."
-  rm -f tmp/pids/server.pid && \
-  bun install --silent && \
-  bun dev >/dev/null 2>&1 &
+  rm -f tmp/pids/server.pid
+  bun install
+  bun dev
   echo "NextJS server started."
 }

@@ -51,6 +51,7 @@ services:
     volumes:
       - .:/battle-stadium
       - ./backend/.zshrc:/root/.zshenv
+      - ./backend/.zshrc:/root/.zshrc
 
   frontend:
     environment:
@@ -65,7 +66,7 @@ services:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
     command: >
       zsh -c "
-        start_server_bg && \
+        start_server && \
         tail -f /dev/null
       "
     tty: true
@@ -74,5 +75,6 @@ services:
     volumes:
       - .:/battle-stadium
       - ./frontend/.zshrc:/root/.zshenv
+      - ./frontend/.zshrc:/root/.zshrc
 volumes:
   postgres-data:

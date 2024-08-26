@@ -73,7 +73,8 @@
         "dsznajder.es7-react-js-snippets",
         "YoavBls.pretty-ts-errors",
         "esbenp.prettier-vscode",
-        "oven.bun-vscode"
+        "oven.bun-vscode",
+        "Prisma.prisma"
       ],
       "settings": {
         "bun.runtime": "/root/.bun/bin",
