@@ -188,7 +188,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_180752) do
     t.datetime "expires", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id"
+    t.uuid "user_id", default: -> { "uuid_generate_v4()" }, null: false
   end
 
   create_table "tournament_formats", force: :cascade do |t|
