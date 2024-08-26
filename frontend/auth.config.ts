@@ -55,13 +55,16 @@ const ProvidersIconMap: Record<string, string> = {
   twitter: "logos:twitter",
 };
 
-
 export const providersMap = providers
   .map((provider) => {
     if (typeof provider === "function") {
       const providerData = provider();
 
-      return { id: providerData.id, name: providerData.name, icon: ProvidersIconMap[providerData.name.toLowerCase()] as string};
+      return {
+        id: providerData.id,
+        name: providerData.name,
+        icon: ProvidersIconMap[providerData.name.toLowerCase()] as string,
+      };
     } else {
       return { id: provider.id, name: provider.name, icon: ProvidersIconMap[provider.name.toLowerCase()] as string };
     }
