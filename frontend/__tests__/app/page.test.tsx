@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import Page from "@/app/page";
+import Page from "@/app/(dynamic)/page";
 
 describe("Page", () => {
   test("renders the correct text", () => {
