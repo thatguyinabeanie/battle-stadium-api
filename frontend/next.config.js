@@ -16,20 +16,14 @@ const nextConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback,
       };
-
-      config.plugins.push(
-        new webpack.IgnorePlugin({
-          resourceRegExp: /^cloudflare:sockets$/,
-        }),
-      );
     }
-    // else {
-    //   config.externals = [
-    //     nodeExternals({
-    //       allowlist: [/^node:/],
-    //     }),
-    //   ];
-    // }
+
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
+      }),
+    );
+
     return config;
   },
 };
