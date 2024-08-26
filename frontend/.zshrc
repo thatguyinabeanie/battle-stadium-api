@@ -122,10 +122,10 @@ kill_server() {
 }
 
 # Function to start Rails server
-start_server_bg() {
+start_server() {
   echo "Starting NextJS server..."
   rm -f tmp/pids/server.pid
-  bun install --silent
-  bun dev >/dev/null 2>&1
+  bun install
+  bun dev
   echo "NextJS server started."
 }

@@ -41,6 +41,7 @@ const getCurrentUser = async () => {
 
   try {
     const me = await BattleStadiumAPI.Users.me();
+
     return me;
   } catch (error) {
     // TODO: log error to external service like sumologic, splunk, etc.

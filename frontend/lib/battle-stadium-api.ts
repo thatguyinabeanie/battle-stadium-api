@@ -1,6 +1,3 @@
-import * as jose from "jose";
-
-import { auth } from "@/auth";
 import {
   OrganizationsApi,
   UsersApi,
@@ -33,38 +30,37 @@ import {
   RegisterUserOperationRequest,
   Configuration,
   ConfigurationParameters,
-  HTTPHeaders,
 } from "@/lib/api";
 
 const config = async () => {
-  const getCorrectSession = async () => {
-    return await auth();
-  };
+  // const getCorrectSession = async () => {
+  //   return await auth();
+  // };
 
-  const session = await getCorrectSession();
+  // const session = await getCorrectSession();
 
   // TODO: move this out of here
-  const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
-  const jwt = await new jose.SignJWT({ user: session?.user })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setIssuer("nextjs-auth-service")
-    .setAudience("rails-api-service")
-    .setExpirationTime("8h")
-    .sign(secret);
+  // const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
+  // const jwt = await new jose.SignJWT({ user: session?.user })
+  //   .setProtectedHeader({ alg: "HS256" })
+  //   .setIssuedAt()
+  //   .setIssuer("nextjs-auth-service")
+  //   .setAudience("rails-api-service")
+  //   .setExpirationTime("8h")
+  //   .sign(secret);
 
-  const headers: HTTPHeaders = (await getCorrectSession())
-    ? {
-        Authorization: `Bearer ${jwt}`,
-      }
-    : {};
+  // const headers: HTTPHeaders = (await getCorrectSession())
+  //   ? {
+  //       Authorization: `Bearer ${jwt}`,
+  //     }
+  //   : {};
 
   const params: ConfigurationParameters = {
-    accessToken: async () => {
-      // @ts-expect-error TODO: fix session type
-      return session?.accessToken ?? "";
-    },
-    headers,
+    // accessToken: async () => {
+    //   // @ts-expect-error TODO: fix session type
+    //   return session?.accessToken ?? "";
+    // },
+    // headers,
   };
 
   return new Configuration(params);

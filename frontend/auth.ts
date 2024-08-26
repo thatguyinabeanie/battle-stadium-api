@@ -1,22 +1,14 @@
-/* eslint-disable no-console */
-import NextAuth, { NextAuthConfig } from "next-auth";
-import { providers } from "./auth.config";
-import { Awaitable } from "@auth/core/types";
+import NextAuth from "next-auth";
 
-export const { handlers, signIn, signOut, auth } = NextAuth(async (_req) => {
-  const config: Awaitable<NextAuthConfig> = {
+import { providers } from "./auth.config";
+
+export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
+  return {
     providers,
-    callbacks: {
-      async session ({ session }) {
-        return session;
-      },
-      async jwt ({ token }) {
-        return token;
-      },
-    },
     pages: {
       signIn: "/login",
+      signOut: "/logout",
+      error: "/",
     },
   };
-  return config;
 });
