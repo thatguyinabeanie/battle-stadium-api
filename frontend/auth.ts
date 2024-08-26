@@ -24,18 +24,6 @@ const InitDrizzleAdapter = async () => {
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
-
-  if (typeof window === "undefined") {
-    return {
-      providers,
-      pages: {
-        signIn: "/login",
-        signOut: "/logout",
-        error: "/",
-      },
-    };
-  }
-
   return {
     providers,
     adapter: await InitDrizzleAdapter(),
