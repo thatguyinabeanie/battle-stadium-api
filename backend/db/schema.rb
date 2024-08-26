@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_26_175059) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_26_180752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -185,11 +185,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_175059) do
   end
 
   create_table "session", primary_key: "sessionToken", id: :text, force: :cascade do |t|
-    t.integer "userId", null: false
     t.datetime "expires", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["userId"], name: "index_session_on_userId"
+    t.uuid "user_id"
   end
 
   create_table "tournament_formats", force: :cascade do |t|
