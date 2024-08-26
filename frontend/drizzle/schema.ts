@@ -337,7 +337,7 @@ export const organizations = pgTable("organizations", {
 export const verificationToken = pgTable("verification_token", {
 	"[:identifier, :token]": bigserial("[:identifier, :token]", { mode: "bigint" }).primaryKey().notNull(),
 	identifier: text("identifier").notNull(),
-	expires: timestamp("expires", { precision: 6, mode: 'string' }).notNull(),
+	expires: timestamp("expires", { precision: 6, mode: 'date' }).notNull(),
 	token: text("token").notNull(),
 	createdAt: timestamp("created_at", { precision: 6, mode: 'string' }).notNull(),
 	updatedAt: timestamp("updated_at", { precision: 6, mode: 'string' }).notNull(),
@@ -401,9 +401,8 @@ export const users = pgTable(
 	},
 );
 
-
 export const authenticators = pgTable("authenticators", {
-	credentialId: text("credentialID").notNull(),
+	credentialID: text("credentialID").notNull().unique(),
 	providerAccountId: text("providerAccountId").notNull(),
 	credentialPublicKey: text("credentialPublicKey").notNull(),
 	counter: integer("counter").notNull(),
@@ -412,7 +411,9 @@ export const authenticators = pgTable("authenticators", {
 	transports: text("transports"),
 	createdAt: timestamp("created_at", { precision: 6, mode: 'string' }).notNull(),
 	updatedAt: timestamp("updated_at", { precision: 6, mode: 'string' }).notNull(),
-	userId: uuid("userId"),
+	userId: text("userId")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
 },
 (table) => {
 	return {

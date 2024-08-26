@@ -6,7 +6,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 
 import { providers } from "./auth.config";
 
-import { account, session, users } from "@/drizzle/schema";
+import { account, session, users, verificationToken, authenticators } from "@/drizzle/schema";
 
 const InitDrizzleAdapter = () => {
   const connectionString = `postgres://postgres:postgres@${process?.env?.BACKEND_HOST ?? "localhost"}:5432/fuecoco-db-dev`;
@@ -17,8 +17,8 @@ const InitDrizzleAdapter = () => {
     usersTable: users,
     accountsTable: account,
     sessionsTable: session,
-    // verificationTokensTable: verificationToken,
-    // authenticatorsTable: authenticators,
+    verificationTokensTable: verificationToken,
+    authenticatorsTable: authenticators,
   });
 };
 
