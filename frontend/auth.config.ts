@@ -49,14 +49,24 @@ export const providers: Provider[] = [
   }),
 ];
 
+const ProvidersIconMap: Record<string, string> = {
+  github: "logos:github",
+  discord: "logos:discord",
+  twitter: "logos:twitter",
+};
+
 export const providersMap = providers
   .map((provider) => {
     if (typeof provider === "function") {
       const providerData = provider();
 
-      return { id: providerData.id, name: providerData.name };
+      return {
+        id: providerData.id,
+        name: providerData.name,
+        icon: ProvidersIconMap[providerData.name.toLowerCase()] as string,
+      };
     } else {
-      return { id: provider.id, name: provider.name };
+      return { id: provider.id, name: provider.name, icon: ProvidersIconMap[provider.name.toLowerCase()] as string };
     }
   })
   .filter((provider) => provider.id !== "credentials");
