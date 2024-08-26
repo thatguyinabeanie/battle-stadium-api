@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_26_180752) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_26_183047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -110,6 +110,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_180752) do
     t.datetime "updated_at", null: false
     t.uuid "owner_id"
     t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true
   end
 
   create_table "phase_players", force: :cascade do |t|
@@ -148,6 +149,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_180752) do
     t.uuid "user_id"
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
+    t.index ["user_id", "tournament_id"], name: "index_players_on_user_id_and_tournament_id", unique: true
   end
 
   create_table "pokemon", force: :cascade do |t|

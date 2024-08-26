@@ -19,7 +19,7 @@ class ChangeUserIdToUuidInSession < ActiveRecord::Migration[7.1]
 
   def down
     # Add the old column back with not null constraint
-    add_column :session, :userId, :integer, null: false
+    add_column :session, :userId, :integer, null: false # rubocop:disable Rails/NotNullColumn
 
     # Copy data from the new column to the old column
     execute <<-SQL.squish

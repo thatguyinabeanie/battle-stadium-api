@@ -301,6 +301,11 @@ export const players = pgTable(
         "btree",
         table.tournamentId.asc().nullsLast(),
       ),
+      indexPlayersOnUserIdAndTournamentId: uniqueIndex("index_players_on_user_id_and_tournament_id").using(
+        "btree",
+        table.userId.asc().nullsLast(),
+        table.tournamentId.asc().nullsLast(),
+      ),
       fkRailsAeec102047: foreignKey({
         columns: [table.pokemonTeamId],
         foreignColumns: [pokemonTeams.id],
@@ -396,7 +401,6 @@ export const pokemon = pgTable(
     };
   },
 );
-
 export const session = pgTable("session", {
   expires: timestamp("expires", { precision: 6, mode: "date" }).notNull(),
   createdAt: timestamp("created_at", { precision: 6, mode: "string" }).notNull(),
@@ -420,6 +424,10 @@ export const organizations = pgTable(
   (table) => {
     return {
       indexOrganizationsOnName: uniqueIndex("index_organizations_on_name").using("btree", table.name.asc().nullsLast()),
+      indexOrganizationsOnOwnerId: uniqueIndex("index_organizations_on_owner_id").using(
+        "btree",
+        table.ownerId.asc().nullsLast(),
+      ),
       fkRailsAb574863F6: foreignKey({
         columns: [table.ownerId],
         foreignColumns: [users.id],
@@ -523,7 +531,7 @@ export const authenticators = pgTable(
     return {
       indexAuthenticatorsOnCredentialId: uniqueIndex("index_authenticators_on_credentialID").using(
         "btree",
-        table.credentialId.asc().nullsLast(),
+        table.credentialID.asc().nullsLast(),
       ),
       fkRails17Aeb5Cb67: foreignKey({
         columns: [table.userId],
@@ -633,7 +641,6 @@ export const arInternalMetadata = pgTable("ar_internal_metadata", {
   createdAt: timestamp("created_at", { precision: 6, mode: "string" }).notNull(),
   updatedAt: timestamp("updated_at", { precision: 6, mode: "string" }).notNull(),
 });
-
 export const account = pgTable(
   "account",
   {

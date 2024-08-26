@@ -23,7 +23,7 @@ class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
     add_column :pokemon_teams, :user_uuid, :uuid
 
     # Copy data from bigint columns to UUID columns
-    execute <<-SQL
+    execute <<-SQL.squish
       UPDATE authenticators SET user_uuid = uuid_generate_v4();
       UPDATE match_games SET reporter_uuid = uuid_generate_v4();
       UPDATE organization_staff_members SET user_uuid = uuid_generate_v4();
@@ -68,7 +68,7 @@ class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
 
   def down
     # Add the old primary key column back
-    add_column :users, :id, :bigint, null: false, auto_increment: true
+    add_column :users, :id, :bigint, null: false, auto_increment: true # rubocop:disable Rails/DangerousColumnNames,Rails/NotNullColumn
 
     # Drop dependent foreign key constraints
     remove_foreign_key :authenticators, column: :userId
@@ -87,7 +87,7 @@ class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
     add_column :pokemon_teams, :user_bigint, :bigint
 
     # Copy data from UUID columns to bigint columns
-    execute <<-SQL
+    execute <<-SQL.squish
       UPDATE authenticators SET user_bigint = CAST(userId AS bigint);
       UPDATE match_games SET reporter_bigint = CAST(reporter_id AS bigint);
       UPDATE organization_staff_members SET user_bigint = CAST(user_id AS bigint);

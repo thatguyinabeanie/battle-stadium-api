@@ -33,7 +33,7 @@ def create_battlestadium_bot
   end
 end
 
-create_battlestadium_bot()
+create_battlestadium_bot
 
 def create_user(username: nil)
   username ||= Faker::Internet.unique.username

@@ -7,11 +7,11 @@ class CreateAuthenticators < ActiveRecord::Migration[7.1]
       t.text :credentialPublicKey, null: false
       t.integer :counter, null: false
       t.text :credentialDeviceType, null: false
-      t.boolean :credentialBackedUp, null: false
+      t.boolean :credentialBackedUp, null: false, default: false
       t.text :transports
 
       t.index :credentialID, unique: true
-      t.index [:userId, :credentialID], unique: true
+      t.index %i[userId credentialID], unique: true
 
       t.foreign_key :users, column: :userId, on_delete: :cascade
       t.timestamps
