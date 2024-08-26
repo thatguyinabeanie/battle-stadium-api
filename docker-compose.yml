@@ -26,7 +26,7 @@ services:
         - thatguyinabeanie/battle-stadium:dev-latest
     command: >
       zsh -c "
-        start_server_bg && \
+        start_server && \
         tail -f /dev/null
       "
     tty: true

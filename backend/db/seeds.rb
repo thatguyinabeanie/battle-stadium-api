@@ -21,6 +21,20 @@ end
 
 # require 'factory_bot'
 
+def create_battlestadium_bot
+  User.find_or_create_by!(username: 'battlestadiumbot') do |user|
+    password = SecurePassword.generate_secure_password
+    user.email = 'battlestadium@beanie.gg'
+    user.password = password
+    user.password_confirmation = password
+    user.pronouns = 'they/them'
+    user.first_name = 'Battle'
+    user.last_name = 'Stadium'
+  end
+end
+
+create_battlestadium_bot()
+
 def create_user(username: nil)
   username ||= Faker::Internet.unique.username
 

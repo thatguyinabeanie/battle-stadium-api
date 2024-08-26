@@ -19,7 +19,6 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import { SessionProvider } from "next-auth/react";
-
 import { Icon } from "@iconify/react";
 
 export * from "framer-motion";
@@ -42,5 +41,5 @@ export {
   Tab,
   useDisclosure,
   ResizablePanel,
-  SessionProvider
+  SessionProvider,
 };

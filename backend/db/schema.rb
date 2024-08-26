@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_23_030542) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_26_135712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accounts", force: :cascade do |t|
+  create_table "account", force: :cascade do |t|
     t.integer "userId", null: false
     t.string "type", null: false
     t.string "provider", null: false
@@ -28,8 +28,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_030542) do
     t.text "token_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["provider", "providerAccountId"], name: "index_accounts_on_provider_and_providerAccountId", unique: true
-    t.index ["userId"], name: "index_accounts_on_userId"
+    t.index ["provider", "providerAccountId"], name: "index_account_on_provider_and_providerAccountId", unique: true
+    t.index ["userId"], name: "index_account_on_userId"
   end
 
   create_table "formats", force: :cascade do |t|
@@ -176,14 +176,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_030542) do
     t.index ["phase_id"], name: "index_rounds_on_phase_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "session", force: :cascade do |t|
     t.integer "userId", null: false
     t.datetime "expires", null: false
     t.string "sessionToken", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sessionToken"], name: "index_sessions_on_sessionToken", unique: true
-    t.index ["userId"], name: "index_sessions_on_userId"
+    t.index ["sessionToken"], name: "index_session_on_sessionToken", unique: true
+    t.index ["userId"], name: "index_session_on_userId"
   end
 
   create_table "tournament_formats", force: :cascade do |t|
@@ -257,13 +257,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_030542) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "verification_tokens", primary_key: "[:identifier, :token]", force: :cascade do |t|
+  create_table "verification_token", primary_key: "[:identifier, :token]", force: :cascade do |t|
     t.text "identifier", null: false
     t.datetime "expires", null: false
     t.text "token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["identifier", "token"], name: "index_verification_tokens_on_identifier_and_token", unique: true
+    t.index ["identifier", "token"], name: "index_verification_token_on_identifier_and_token", unique: true
   end
 
   add_foreign_key "formats", "games"

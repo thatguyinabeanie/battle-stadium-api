@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import OrganizationPage from "@/app/(dynamic)/organizations/page";
+import OrganizationPage from "@/app/organizations/page";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { OrganizationFactory } from "@/factories";
 describe("Organizations Page", () => {
