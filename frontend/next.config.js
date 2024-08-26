@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
-
 const dotenv = require("dotenv");
-const nodeExternals = require("webpack-node-externals");
 
 dotenv.config();
 

@@ -1,5 +1,6 @@
 module Auth
   class Session < ApplicationRecord
-    belongs_to :user, foreign_key: 'userId', inverse_of: :sessions, class_name: 'User'
+    self.table_name = 'session'
+    belongs_to :user, foreign_key: 'user_id', inverse_of: :session, class_name: 'User'
   end
 end

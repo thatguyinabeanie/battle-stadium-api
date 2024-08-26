@@ -5,7 +5,7 @@ import { m } from "framer-motion";
 
 import { LoginFormProps, orDivider, variants } from "./common";
 import AuthProviders from "./auth-providers";
-import SignUp from "./sign-up";
+import SignUp from "../../lib/server-actions/sign-up";
 
 export default function LoginOptions({ setIsFormVisible }: LoginFormProps) {
   return (

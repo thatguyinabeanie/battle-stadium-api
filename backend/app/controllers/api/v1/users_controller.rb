@@ -50,7 +50,7 @@ module Api
           decoded_token.first['sub']
           Rails.logger.info("Decoded token: #{decoded_token}")
 
-          @current_user = User.find_by(id: decoded_token.first['sub'])
+          @current_user = User.find_by!(id: decoded_token.first['sub'])
 
           Rails.logger.info("current_user: #{@current_user}")
         rescue JWT::DecodeError => e
