@@ -12,36 +12,6 @@ import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { CurrentUserContextProvider } from "@/lib/context/current-user";
 import { auth } from "@/auth";
 
-// export async function customFetch (input: RequestInfo, init?: RequestInit): Promise<Response> {
-//   console.log('Fetch request:', {
-//     url: input,
-//     method: init?.method || 'GET',
-//     headers: init?.headers,
-//     body: init?.body,
-//   });
-
-//   const response = await fetch(input, init);
-
-//   const clonedResponse = response.clone();
-//   const responseBody = await clonedResponse.text();
-
-//   console.log('Fetch response:', {
-//     status: response.status,
-//     headers: response.headers,
-//     body: responseBody,
-//   });
-
-//   return response;
-// }
-
-// if (typeof window !== 'undefined') {
-//   // @ts-ignore
-//   window.fetch = customFetch;
-// } else {
-//   // @ts-ignore
-//   global.fetch = customFetch;
-// }
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -71,8 +41,6 @@ const getCurrentUser = async () => {
 
   try {
     const me = await BattleStadiumAPI.Users.me();
-
-    // console.log("me", me); // eslint-disable-line no-console
 
     return me;
   } catch (error) {

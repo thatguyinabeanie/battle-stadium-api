@@ -59,7 +59,7 @@ def generate_organization_name
   adjective = Faker::Company.buzzword
   noun = Faker::Company.type
 
-  "#{adjective} #{noun}"
+  "#{adjective} #{noun} #{rand(1..100)}"
 end
 
 def create_format(name:, game:)
