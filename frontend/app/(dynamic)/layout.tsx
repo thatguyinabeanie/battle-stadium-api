@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from "@/components/client";
 
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
