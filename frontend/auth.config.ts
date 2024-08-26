@@ -8,6 +8,7 @@ import { Provider } from "next-auth/providers";
 import type { NextAuthConfig } from "next-auth";
 
 import { railsSignIn } from "./lib/server-actions/sign-in";
+
 export const providers: Provider[] = [
   GitHub,
   Discord,

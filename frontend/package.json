@@ -14,14 +14,10 @@
     "tsc": "tsc --noEmit",
     "fix": "bun prettier:write && bun lint:fix",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
-    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && bun generate:factories",
-    "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit migrate"
+    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && bun generate:factories"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
-    "@auth/drizzle-adapter": "^1.4.2",
-    "@auth/pg-adapter": "^1.4.2",
     "@internationalized/date": "^3.5.5",
     "@next/third-parties": "^14.2.6",
     "@nextui-org/framer-utils": "^2.0.24",
@@ -42,7 +38,6 @@
     "clsx": "^2.1.1",
     "crypto-browserify": "^3.12.0",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.33.0",
     "framer-motion": "~11.3.30",
     "install": "^0.13.0",
     "intl-messageformat": "^10.5.14",
@@ -88,7 +83,6 @@
     "@typescript-eslint/parser": "7.18.0",
     "autoprefixer": "10.4.20",
     "bun-types": "^1.1.26",
-    "drizzle-kit": "^0.24.1",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.6",
     "eslint-config-prettier": "^8.10.0",
