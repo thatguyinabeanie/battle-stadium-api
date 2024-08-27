@@ -8,13 +8,22 @@ RSpec.describe Tournaments::Player do
   end
 
   describe 'validations' do
-    subject { create(:tournament_player) }
+    subject { create(:player) }
 
     it { is_expected.to validate_presence_of(:user_id) }
 
     it { is_expected.to validate_presence_of(:tournament_id) }
 
-    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:tournament_id).with_message(I18n.t('tournament.registration.already_registered')) }
+    describe 'custom validations' do
+      it 'validates case-sensitive uniqueness of user_id within the scope of tournament_id' do
+        user = create(:user)
+        existing_player = create(:player, user: user)
+        new_player = build(:player, user_id: user.id.upcase, tournament: existing_player.tournament)
+        expect(new_player).not_to be_valid
+        expect(new_player.errors[:user_id]).to include(I18n.t('tournament.registration.already_registered'))
+      end
+    end
+
   end
 
   describe 'nested attributes' do

@@ -3,7 +3,8 @@
 require 'rails_helper'
 require 'support/constants'
 
-ID_PROPERTY = { id: { type: :string, format: 'uuid' } }.freeze
+ID_PROPERTY = { id: { type: :integer } }.freeze
+UUID_PROPERTY = { id: { type: :string, format: 'uuid' } }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
@@ -14,6 +15,11 @@ COMPONENT_SCHEMA_GAME = '#/components/schemas/Game'
 
 ID_NAME_PROPERTIES = {
   id: ID_PROPERTY[:id],
+  name: NAME_PROPERTY[:name]
+}.freeze
+
+UUID_NAME_PROPERTIES = {
+  id: UUID_PROPERTY[:id],
   name: NAME_PROPERTY[:name]
 }.freeze
 
@@ -82,7 +88,7 @@ SIMPLE_USER_SCHEMA = {
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
     title: 'User',
-    properties: ID_PROPERTY,
+    properties: UUID_NAME_PROPERTIES,
     required: %w[username pronouns id] + SIMPLE_USER_SCHEMA[:required]
   }
 )
@@ -104,7 +110,7 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: 'User Details',
-    properties: ID_PROPERTY,
+    properties: UUID_PROPERTY,
     required: %w[id] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -126,7 +132,7 @@ USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
     title: 'User Request',
     properties: {
       current_password: PASSWORD_STRING_TYPE.merge(title: 'Current Password', description: 'Your current password.')
-    }.merge(ID_PROPERTY),
+    }.merge(UUID_PROPERTY),
     required: %w[current_password] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -138,7 +144,7 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
     properties: {
       password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters'),
       password_confirmation: PASSWORD_STRING_TYPE.merge(title: 'Password Confirmation', description: 'Must match the password.')
-    }.merge(ID_PROPERTY),
+    }.merge(UUID_PROPERTY),
     required: %w[password password_confirmation] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -195,7 +201,7 @@ ORGANIZATION_SCHEMA = {
   properties: {
     owner: { '$ref' => '#/components/schemas/User' },
     description: { type: :string, nullable: true }
-  }.merge(ID_NAME_PROPERTIES),
+  }.merge(UUID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[owner description]
 }.freeze
 
