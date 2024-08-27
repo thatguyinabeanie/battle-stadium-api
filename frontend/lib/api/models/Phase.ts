@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface Phase {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof Phase
    */
-  id: number;
+  id: string;
   /**
    *
    * @type {string}

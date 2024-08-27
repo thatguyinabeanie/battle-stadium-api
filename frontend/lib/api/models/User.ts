@@ -33,10 +33,10 @@ export interface User {
   pronouns: string;
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof User
    */
-  id: number;
+  id: string;
 }
 
 /**

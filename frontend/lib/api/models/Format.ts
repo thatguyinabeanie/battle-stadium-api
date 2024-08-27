@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface Format {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof Format
    */
-  id?: number;
+  id?: string;
   /**
    *
    * @type {string}

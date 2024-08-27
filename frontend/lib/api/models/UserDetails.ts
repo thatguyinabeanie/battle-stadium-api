@@ -51,10 +51,10 @@ export interface UserDetails {
   lastName: string;
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof UserDetails
    */
-  id: number;
+  id: string;
 }
 
 /**

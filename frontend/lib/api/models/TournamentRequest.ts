@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface TournamentRequest {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof TournamentRequest
    */
-  id?: number;
+  id?: string;
   /**
    *
    * @type {string}

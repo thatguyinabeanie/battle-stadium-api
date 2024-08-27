@@ -724,7 +724,8 @@ components:
       title: Format
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
     Game:
@@ -732,7 +733,8 @@ components:
       title: Game
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
       required:
@@ -743,7 +745,8 @@ components:
       title: Game Details
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
         formats:
@@ -795,7 +798,8 @@ components:
         pronouns:
           type: string
         id:
-          type: uuid
+          type: string
+          format: uuid
       required:
       - username
       - pronouns
@@ -817,7 +821,8 @@ components:
         last_name:
           type: string
         id:
-          type: uuid
+          type: string
+          format: uuid
       required:
       - id
       - email
@@ -840,7 +845,8 @@ components:
         last_name:
           type: string
         id:
-          type: uuid
+          type: string
+          format: uuid
         organizations:
           type: array
           items:
@@ -880,7 +886,8 @@ components:
           title: Password Confirmation
           description: Must match the password.
         id:
-          type: uuid
+          type: string
+          format: uuid
       required:
       - password
       - password_confirmation
@@ -910,7 +917,8 @@ components:
           title: Current Password
           description: Your current password.
         id:
-          type: uuid
+          type: string
+          format: uuid
       required:
       - current_password
       - email
@@ -1025,7 +1033,8 @@ components:
           type: string
           nullable: true
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
       required:
@@ -1043,7 +1052,8 @@ components:
           type: string
           nullable: true
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
       required:
@@ -1066,7 +1076,8 @@ components:
         game:
           "$ref": "#/components/schemas/Game"
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
         player_cap:
@@ -1113,7 +1124,8 @@ components:
       title: Tournament Details
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
         autostart:
@@ -1189,7 +1201,8 @@ components:
       title: Pokemon
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
         nickname:
@@ -1271,7 +1284,8 @@ components:
       title: Round
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         phase_id:
           type: integer
         round_number:
@@ -1295,7 +1309,8 @@ components:
       title: Phase
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
         order:
@@ -1336,7 +1351,8 @@ components:
       title: Phase Details
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
         order:
@@ -1387,7 +1403,8 @@ components:
       title: GameRequest
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
       required:
@@ -1397,7 +1414,8 @@ components:
       title: Tournament Request
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
         game_id:

@@ -28,10 +28,10 @@ import { OrganizationFromJSON, OrganizationFromJSONTyped, OrganizationToJSON } f
 export interface TournamentDetails {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof TournamentDetails
    */
-  id: number;
+  id: string;
   /**
    *
    * @type {string}

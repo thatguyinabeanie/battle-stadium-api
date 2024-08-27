@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface GameRequest {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof GameRequest
    */
-  id?: number;
+  id?: string;
   /**
    *
    * @type {string}

@@ -24,10 +24,10 @@ import { FormatFromJSON, FormatFromJSONTyped, FormatToJSON } from "./Format";
 export interface GameDetail {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof GameDetail
    */
-  id: number;
+  id: string;
   /**
    *
    * @type {string}
