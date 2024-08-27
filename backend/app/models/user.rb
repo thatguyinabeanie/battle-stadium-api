@@ -23,7 +23,6 @@ class User < ApplicationRecord
   has_many :staff, through: :organization_staff_members, source: :user
   has_many :account, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Account'
   has_many :session, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Session'
-  # has_many :verification_token, inverse_of: :user, dependent: :destroy, class_name: 'Auth::VerificationToken'
 
   before_create :generate_jti
 

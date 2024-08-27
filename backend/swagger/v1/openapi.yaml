@@ -797,8 +797,6 @@ components:
         id:
           type: string
           format: uuid
-        name:
-          type: string
       required:
       - username
       - pronouns
@@ -1032,8 +1030,7 @@ components:
           type: string
           nullable: true
         id:
-          type: string
-          format: uuid
+          type: integer
         name:
           type: string
       required:
@@ -1051,8 +1048,7 @@ components:
           type: string
           nullable: true
         id:
-          type: string
-          format: uuid
+          type: integer
         name:
           type: string
       required:

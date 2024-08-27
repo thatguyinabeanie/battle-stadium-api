@@ -88,7 +88,7 @@ SIMPLE_USER_SCHEMA = {
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
     title: 'User',
-    properties: UUID_NAME_PROPERTIES,
+    properties: UUID_PROPERTY,
     required: %w[username pronouns id] + SIMPLE_USER_SCHEMA[:required]
   }
 )
@@ -201,7 +201,7 @@ ORGANIZATION_SCHEMA = {
   properties: {
     owner: { '$ref' => '#/components/schemas/User' },
     description: { type: :string, nullable: true }
-  }.merge(UUID_NAME_PROPERTIES),
+  }.merge(ID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[owner description]
 }.freeze
 
