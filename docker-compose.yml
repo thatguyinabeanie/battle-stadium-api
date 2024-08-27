@@ -15,6 +15,7 @@ services:
 
   # BATTLE STADIUM RAILS APP CONTAINER
   backend:
+    hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     build:
       context: backend
@@ -54,6 +55,7 @@ services:
       - ./backend/.zshrc:/root/.zshrc
 
   frontend:
+    hostname: nextjs-container
     environment:
       HOST_ENVIRONMENT: container
       BACKEND_HOST: backend
