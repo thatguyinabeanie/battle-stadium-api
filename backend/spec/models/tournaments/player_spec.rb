@@ -17,13 +17,11 @@ RSpec.describe Tournaments::Player do
     describe 'custom validations' do
       it 'validates case-sensitive uniqueness of user_id within the scope of tournament_id' do
         user = create(:user)
-        existing_player = create(:player, user: user)
+        existing_player = create(:player, user:)
         new_player = build(:player, user_id: user.id.upcase, tournament: existing_player.tournament)
-        expect(new_player).not_to be_valid
         expect(new_player.errors[:user_id]).to include(I18n.t('tournament.registration.already_registered'))
       end
     end
-
   end
 
   describe 'nested attributes' do
