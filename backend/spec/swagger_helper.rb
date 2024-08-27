@@ -153,7 +153,7 @@ USER_LOGIN_RESPONSE = {
   type: :object,
   title: 'User Login Response',
   properties: {
-    id: { type: :integer },
+    id: UUID_PROPERTY,
     message: { type: :string },
     username: { type: :string },
     pronouns: { type: :string },
@@ -179,7 +179,7 @@ REGISTRATION_RESPONSE = {
   type: :object,
   title: 'Registration Response',
   properties: {
-    id: { type: :integer },
+    id: UUID_PROPERTY,
     email: { type: :string, format: 'email' },
     username: { type: :string },
     first_name: { type: :string },
