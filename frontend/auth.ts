@@ -3,13 +3,11 @@ import NextAuth from "next-auth";
 import { providers } from "./auth.config";
 
 const InitDrizzleAdapter = async () => {
-  const connectionString = `postgres://postgres:postgres@${process?.env?.BACKEND_HOST ?? "localhost"}:5432/fuecoco-db-dev`;
-
   const { neon } = await import("@neondatabase/serverless");
 
   const { DrizzleAdapter } = await import("@auth/drizzle-adapter");
   const { drizzle } = await import("drizzle-orm/neon-http");
-  const pool = neon(connectionString);
+  const pool = neon(process.env.POSTGRES_CONNECTION_STRING as string);
   const db = drizzle(pool);
 
   const { account, session, users, verificationToken, authenticators } = await import("@/drizzle/schema");

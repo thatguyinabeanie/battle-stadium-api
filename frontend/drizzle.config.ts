@@ -1,10 +1,23 @@
 import { defineConfig } from "drizzle-kit";
+import dotenv from "dotenv";
+import { join } from "path";
+
+dotenv.config();
+dotenv.config({ path: join(process.cwd(), "..", ".env.postgres") });
+
+const {
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_DB,
+  POSTGRES_PORT,
+  POSTGRES_HOST,
+} = process.env;
 
 export default defineConfig({
   schema: "./src/schema/*",
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    url: `postgres://postgres:postgres@${process?.env?.BACKEND_HOST ?? "localhost"}:5432/fuecoco-db-dev`,
+    url: `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST ?? "localhost"}:${POSTGRES_PORT}/${POSTGRES_DB}`
   },
 });
