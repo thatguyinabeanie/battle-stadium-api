@@ -19,6 +19,7 @@ RSpec.describe Tournaments::Player do
         user = create(:user)
         existing_player = create(:player, user:)
         new_player = build(:player, user_id: user.id.upcase, tournament: existing_player.tournament)
+        new_player.valid?
         expect(new_player.errors[:user_id]).to include(I18n.t('tournament.registration.already_registered'))
       end
     end
