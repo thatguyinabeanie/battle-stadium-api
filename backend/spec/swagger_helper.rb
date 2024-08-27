@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'support/constants'
 
-ID_PROPERTY = { id: { type: :integer } }.freeze
+ID_PROPERTY = { id: { type: :uuid } }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
