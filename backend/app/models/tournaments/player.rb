@@ -8,7 +8,7 @@ module Tournaments
 
     validates :user_id, presence: true
     validates :tournament_id, presence: true
-    validates_uniqueness_of :user_id, scope: :tournament_id, case_sensitive: true, message: I18n.t('tournament.registration.already_registered')
+    validates :user_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t('tournament.registration.already_registered') }
 
     accepts_nested_attributes_for :pokemon_team
 
