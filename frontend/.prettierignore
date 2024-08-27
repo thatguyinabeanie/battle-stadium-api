@@ -14,8 +14,6 @@ coverage/
 
 # Ignore environment files
 .env
-.env.local
-.env.*.local
 
 # Ignore lock files
 package-lock.json

@@ -130,10 +130,11 @@ kill_server() {
 }
 
 # Function to start Rails server
-start_server_bg() {
+start_server() {
   echo "Starting Rails server..."
   rm -f tmp/pids/server.pid && \
-  bundle check || bundle install && \
-  rails server -b 0.0.0.0 -p 3000 >/dev/null 2>&1 &
+  (bundle check || bundle install) && \
+  bin/setup && \
+  rails server -b 0.0.0.0 -p 3000
   echo "Rails server started."
 }

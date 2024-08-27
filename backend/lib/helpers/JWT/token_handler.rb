@@ -9,7 +9,7 @@ module Helpers
 
       def jwt_secret_key
         # Access the secret_key_base and jwt_secret_key
-        ENV.fetch('DEVISE_JWT_SECRET_KEY')
+        ENV.fetch('AUTH_SECRET')
       end
 
       def decode!(token)
