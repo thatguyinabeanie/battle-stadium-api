@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface UserLoginResponse {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof UserLoginResponse
    */
-  id: number;
+  id: string;
   /**
    *
    * @type {string}

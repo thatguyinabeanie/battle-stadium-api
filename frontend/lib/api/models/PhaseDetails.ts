@@ -26,10 +26,10 @@ import { RoundFromJSON, RoundFromJSONTyped, RoundToJSON } from "./Round";
 export interface PhaseDetails {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof PhaseDetails
    */
-  id: string;
+  id: number;
   /**
    *
    * @type {string}

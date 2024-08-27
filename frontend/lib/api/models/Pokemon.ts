@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface Pokemon {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof Pokemon
    */
-  id: string;
+  id: number;
   /**
    *
    * @type {string}

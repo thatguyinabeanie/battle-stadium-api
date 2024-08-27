@@ -36,10 +36,10 @@ export interface OrganizationDetails {
   description: string | null;
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof OrganizationDetails
    */
-  id: string;
+  id: number;
   /**
    *
    * @type {string}

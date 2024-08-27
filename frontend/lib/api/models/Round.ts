@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface Round {
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof Round
    */
-  id: string;
+  id: number;
   /**
    *
    * @type {number}

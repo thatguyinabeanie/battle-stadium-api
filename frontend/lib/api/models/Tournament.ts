@@ -52,10 +52,10 @@ export interface Tournament {
   game: Game;
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof Tournament
    */
-  id: string;
+  id: number;
   /**
    *
    * @type {string}

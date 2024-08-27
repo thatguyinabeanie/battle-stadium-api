@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface RegistrationResponse {
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof RegistrationResponse
    */
-  id: number;
+  id: string;
   /**
    *
    * @type {string}

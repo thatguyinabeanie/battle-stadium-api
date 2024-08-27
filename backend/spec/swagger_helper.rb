@@ -152,8 +152,7 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
 USER_LOGIN_RESPONSE = {
   type: :object,
   title: 'User Login Response',
-  properties: {
-    id: UUID_PROPERTY,
+  properties: UUID_PROPERTY.merge(
     message: { type: :string },
     username: { type: :string },
     pronouns: { type: :string },
@@ -161,7 +160,7 @@ USER_LOGIN_RESPONSE = {
     first_name: { type: :string },
     last_name: { type: :string },
     token: { type: :string, format: 'jwt' }
-  },
+  ),
   required: %w[id username pronouns email token message first_name last_name]
 }.freeze
 
@@ -178,8 +177,7 @@ USER_LOGIN_REQUEST = {
 REGISTRATION_RESPONSE = {
   type: :object,
   title: 'Registration Response',
-  properties: {
-    id: UUID_PROPERTY,
+  properties: UUID_PROPERTY.merge(
     email: { type: :string, format: 'email' },
     username: { type: :string },
     first_name: { type: :string },
@@ -191,7 +189,7 @@ REGISTRATION_RESPONSE = {
     name: { type: :string, nullable: true },
     emailVerified: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     image: { type: :string, nullable: true }
-  },
+  ),
   required: %w[id email username first_name last_name created_at updated_at pronouns jti name emailVerified image]
 }.freeze
 
