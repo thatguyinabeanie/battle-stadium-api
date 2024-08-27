@@ -8,10 +8,6 @@
 /.bundle
 
 # Ignore all environment files (except templates).
-/.env*
-**.env*
-.secret*
-!/.env*.erb
 
 
 
@@ -73,3 +69,8 @@ rails_api/tmp/*
 .turbo/
 frontend/junit.xml
 .pnpm-store
+
+.env.postgres
+backend/.env
+frontend/.env
+frontend/.env.local
