@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import BattleStadiumAPI from "@/lib/battle-stadium-api";
 
 export default async function Dashboard() {
   const session = await auth();

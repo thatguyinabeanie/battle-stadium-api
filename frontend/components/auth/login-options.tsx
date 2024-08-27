@@ -3,9 +3,10 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 
+import SignUp from "../../lib/server-actions/sign-up";
+
 import { LoginFormProps, orDivider, variants } from "./common";
 import AuthProviders from "./auth-providers";
-import SignUp from "../../lib/server-actions/sign-up";
 
 export default function LoginOptions({ setIsFormVisible }: LoginFormProps) {
   return (
