@@ -50,6 +50,7 @@ services:
     environment:
       HOST_ENVIRONMENT: container
       BACKEND_HOST: backend
+      POSTGRES_HOST: postgres
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     build:
       context: frontend
