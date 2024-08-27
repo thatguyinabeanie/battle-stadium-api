@@ -5,10 +5,10 @@ SECRET=$(openssl rand -base64 16)
 
 # Exit with nonzero status if no arguments are passed in
 if [ $# -eq 0 ]; then
-  echo "No arguments provided. Using default values..."
+  echo "No arguments provided. Using default values...\n"
   postgres_user="postgres"
-  postgres_password="password"
-  postgres_db="postgres"
+  postgres_password="postgres"
+  postgres_db="fuecoco-db-dev"
   postgres_port="5432"
 else
   postgres_user=$1
@@ -24,22 +24,22 @@ echo "POSTGRES_PORT=$postgres_port\n"
 
 # POSTGRES ENV FILE SETUP
 if [ -f .env.postgres ]; then
-  echo ".env.postgres exists. skipping..."
+  echo ".env.postgres exists. skipping...\n"
 else
-  echo ".env.postgres does not exist. Creating .env.postgres"
+  echo ".Creating .env.postgres ..."
   touch .env.postgres
   echo "POSTGRES_USER=$postgres_user" >> .env.postgres
   echo "POSTGRES_PASSWORD=$postgres_password" >> .env.postgres
   echo "POSTGRES_DB=$postgres_db" >> .env.postgres
   echo "POSTGRES_PORT=5432" >> .env.postgres
-  echo "done creating .env.postgres"
+  echo "done creating .env.postgres\n"
 fi
 
 # FRONTEND ENV FILE SETUP
 if [ -f frontend/.env ]; then
-  echo "frontend/.env.postgres exists. skipping..."
+  echo "frontend/.env.postgres exists. skipping...\n"
 else
-  echo "frontend/.env does not exist. Creating .env"
+  echo "Creating frontend/.env ..."
   touch frontend/.env
   echo "AUTH_TWITTER_ID=" >> frontend/.env
   echo "AUTH_TWITTER_SECRET=" >> frontend/.env
@@ -53,15 +53,17 @@ else
   echo "AUTH_TWITCH_ID=" >> frontend/.env
   echo "AUTH_TWITCH_SECRET=" >> frontend/.env
   echo "AUTH_SECRET='$SECRET'" >> frontend/.env
-  echo "done creating frontend/.env"
+  echo "done creating frontend/.env\n"
 fi
 
 # BACKEND ENV FILE SETUP
 if [ -f backend/.env ]; then
-  echo "backend/.env exists. skipping..."
+  echo "backend/.env exists. skipping...\n"
 else
-  echo "backend/.env does not exist. Creating backend/.env"
+  echo "Creating backend/.env ..."
   touch backend/.env
   echo "AUTH_SECRET='$SECRET'" >> backend/.env
   echo "done creating backend/.env"
 fi
+
+

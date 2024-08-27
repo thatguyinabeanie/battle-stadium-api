@@ -13,11 +13,22 @@ module BattleStadium
     config.load_defaults 7.1
 
     config.before_configuration do
+      # puts "Rails.env: #{Rails.env}"
+      # puts 'Loading .env file'
       env_file = '.env'
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
 
+      # puts 'Loading .env.postgres file'
       env_postgres_file = '../.env.postgres'
       Dotenv.load(env_postgres_file) if File.exist?(env_file) && !Rails.env.production?
+
+      unless Rails.env.production?
+        require 'socket'
+        hostname = Socket.gethostname
+        # puts "Hostname: #{hostname}"
+        ENV['POSTGRES_HOST'] = hostname == 'rails-api-container' ? 'postgres' : 'localhost'
+        # puts "Postgres Host: #{ENV['POSTGRES_HOST']}"
+      end
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

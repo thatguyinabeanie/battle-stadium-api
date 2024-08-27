@@ -63,10 +63,10 @@ export interface UserPostRequest {
   passwordConfirmation: string;
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof UserPostRequest
    */
-  id?: number;
+  id?: string;
 }
 
 /**

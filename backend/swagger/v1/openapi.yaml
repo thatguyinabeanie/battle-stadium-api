@@ -795,7 +795,8 @@ components:
         pronouns:
           type: string
         id:
-          type: integer
+          type: string
+          format: uuid
       required:
       - username
       - pronouns
@@ -817,7 +818,8 @@ components:
         last_name:
           type: string
         id:
-          type: integer
+          type: string
+          format: uuid
       required:
       - id
       - email
@@ -840,7 +842,8 @@ components:
         last_name:
           type: string
         id:
-          type: integer
+          type: string
+          format: uuid
         organizations:
           type: array
           items:
@@ -880,7 +883,8 @@ components:
           title: Password Confirmation
           description: Must match the password.
         id:
-          type: integer
+          type: string
+          format: uuid
       required:
       - password
       - password_confirmation
@@ -910,7 +914,8 @@ components:
           title: Current Password
           description: Your current password.
         id:
-          type: integer
+          type: string
+          format: uuid
       required:
       - current_password
       - email
@@ -923,7 +928,8 @@ components:
       title: User Login Response
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         message:
           type: string
         username:
@@ -970,7 +976,8 @@ components:
       title: Registration Response
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         email:
           type: string
           format: email

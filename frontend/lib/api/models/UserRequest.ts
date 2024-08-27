@@ -57,10 +57,10 @@ export interface UserRequest {
   currentPassword: string;
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof UserRequest
    */
-  id?: number;
+  id?: string;
 }
 
 /**

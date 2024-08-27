@@ -54,10 +54,10 @@ export interface UserMe {
   lastName: string;
   /**
    *
-   * @type {number}
+   * @type {string}
    * @memberof UserMe
    */
-  id: number;
+  id: string;
   /**
    *
    * @type {Array<Organization>}

@@ -2,15 +2,15 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
-import { SessionProvider } from "next-auth/react";
 
+import { SessionProvider } from "@/components/client";
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { CurrentUserContextProvider } from "@/lib/context/current-user";
-import { auth } from "@/auth";
+// import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -33,11 +33,11 @@ export const viewport: Viewport = {
 const initialIsOpen = process.env.NODE_ENV === "development";
 
 const getCurrentUser = async () => {
-  const session = await auth();
+  // const session = await auth();
 
-  if (!session) {
-    return null;
-  }
+  // if (!session) {
+  //   return null;
+  // }
 
   try {
     const me = await BattleStadiumAPI.Users.me();

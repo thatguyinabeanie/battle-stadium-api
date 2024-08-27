@@ -47,7 +47,12 @@ module Api
 
         begin
           decoded_token = Helpers::JWT::TokenHandler.new.decode!(token)
-          @current_user = User.find_by(id: decoded_token.first['sub'])
+          decoded_token.first['sub']
+          Rails.logger.info("Decoded token: #{decoded_token}")
+
+          @current_user = User.find_by!(id: decoded_token.first['sub'])
+
+          Rails.logger.info("current_user: #{@current_user}")
         rescue JWT::DecodeError => e
           Rails.logger.error("JWT::DecodeError: #{e}")
           render json: { error: e.message }, status: :bad_request

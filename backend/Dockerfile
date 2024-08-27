@@ -55,7 +55,6 @@ RUN unzip /tmp/op_linux_${ARCH}_v1.12.3.zip -d /tmp/op-extract && \
 ## DEVELOPMENT IMAGE
 ##
 FROM thatguyinabeanie/battle-stadium:dev-latest AS development
-ENV HOST_ENVIRONMENT=container
 WORKDIR /battle-stadium/backend
 COPY . .
 RUN bundle check || bundle install
