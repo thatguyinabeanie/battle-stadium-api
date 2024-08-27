@@ -10,7 +10,7 @@ RSpec.describe Organization do
     it { is_expected.to validate_presence_of(:name) }
 
     it 'validates uniqueness of owner_id' do
-      expect(organization).to validate_uniqueness_of(:owner_id)
+      expect(organization).to validate_uniqueness_of(:owner_id).case_insensitive
     end
   end
 
