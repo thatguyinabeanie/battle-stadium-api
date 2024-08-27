@@ -1,5 +1,5 @@
 services:
-  db:
+  postgres:
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -13,6 +13,9 @@ services:
   backend:
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
+    environment:
+      RAILS_ENV: development
+      POSTGRES_HOST: postgres
     build:
       context: backend
       dockerfile: Dockerfile
@@ -30,21 +33,13 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - db
+      - postgres
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000/up" ]
       interval: 60s
       timeout: 10s
       retries: 3
       start_period: 120s
-    environment:
-      HOST_ENVIRONMENT: container
-      DB_HOST: db
-      POSTGRES_USER:
-      POSTGRES_PASSWORD:
-      POSTGRES_DB:
-    env_file:
-      - .env.postgres
     volumes:
       - .:/battle-stadium
       - ./backend/.zshrc:/root/.zshenv
@@ -68,6 +63,8 @@ services:
         tail -f /dev/null
       "
     tty: true
+    depends_on:
+      - postgres
     ports:
       - 8080:8080
     volumes:

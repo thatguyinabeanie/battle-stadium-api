@@ -26,10 +26,10 @@
   "sqltools.connections": [
     {
       "previewLimit": 50,
-      "server": "db",
+      "server": "postgres",
       "port": 5432,
       "driver": "PostgreSQL",
-      "name": "db",
+      "name": "postgres",
       "database": "fuecoco-db-dev",
       "username": "postgres",
       "group": "fuecoco-db-dev",

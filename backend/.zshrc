@@ -106,13 +106,6 @@ export LANG=en_US.UTF-8
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
-alias rs="rails server -b 0.0.0.0 -p 3000"
-alias rc="rails console"
-alias rg="rails generate"
-alias rdb="rails db"
-alias rdbm="rails db:migrate"
-alias rdbd="rails db:drop"
-alias rdbc="rails db:create"
 
 # Function to kill Rails server running on port 3000
 kill_server() {
@@ -129,12 +122,31 @@ kill_server() {
   fi
 }
 
+get_postgres_host() {
+  host_name=$(hostname)
+  if [ "$host_name" = "rails-api-container" ]; then
+    return 'postgres'
+  else
+    return 'localhost'
+  fi
+}
+
+
 # Function to start Rails server
 start_server() {
   echo "Starting Rails server..."
-  rm -f tmp/pids/server.pid && \
-  (bundle check || bundle install) && \
-  bin/setup && \
+  rm -f tmp/pids/server.pid
+  export POSTGRES_HOST=$(get_postgres_host)
+  (bundle check || bundle install)
+  bin/setup
   rails server -b 0.0.0.0 -p 3000
   echo "Rails server started."
 }
+
+alias rs="rails server -b 0.0.0.0 -p 3000"
+alias rc="rails console"
+alias rg="rails generate"
+alias rdb="rails db"
+alias rdbm="rails db:migrate"
+alias rdbd="rails db:drop"
+alias rdbc="rails db:create"

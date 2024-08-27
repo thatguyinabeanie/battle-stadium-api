@@ -18,6 +18,12 @@ module BattleStadium
 
       env_postgres_file = '../.env.postgres'
       Dotenv.load(env_postgres_file) if File.exist?(env_file) && !Rails.env.production?
+
+      unless Rails.env.production?
+        require 'socket'
+        hostname = Socket.gethostname
+        ENV['POSTGRES_HOST'] ||= hostname == 'rails-api-container' ? 'postgres' : 'localhost'
+      end
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
