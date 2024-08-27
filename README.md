@@ -43,7 +43,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 3. Install openssl. Windows users you're on your own
 
     ```bash
-        brew install openssl@3
+    brew install openssl@3
     ```
 
 4. Set up the correct ruby version with OpenSSL. Installing and setting up a ruby version manager is entirely up to you.
@@ -56,6 +56,16 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
     RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl)" rbenv install
     RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)" asdf install ruby
     rvm install 3.3.4 --with-openssl-dir=$(brew --prefix openssl@3) && rvm use
+    ```
+
+5. Initialize .env files
+
+    ```bash
+    # from the root of the repo.
+    ./init.sh     # Uses default values for postgres username, password, db name, and port
+
+    # optional custom values
+    ./init.sh p_username p_password p_db p_port
     ```
 
 ### Visual Studio Devcontainers Development
@@ -82,22 +92,26 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
     cd battle-stadium
     ```
 
-4. Build the docker container images
+4. Initialize .env files
+
+    ```bash
+    # from the root of the repo.
+    ./init.sh     # Uses default values for postgres username, password, db name, and port
+
+    # optional custom values
+    ./init.sh p_username p_password p_db p_port
+    ```
+
+5. Build the docker container images
 
     ```bash
     docker compose build
     ```
 
-5. Initialize containers
+6. Initialize containers
 
     ```bash
     docker compose up -d
-    ```
-
-6. Initialize secrets
-
-    ```bash
-    docker compose exec backend bash -c "/battle-stadium/backend/generate-secrets.sh"
     ```
 
 7. Open devcontainer instances in Visual Studio Code
