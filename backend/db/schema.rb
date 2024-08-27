@@ -154,7 +154,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_030542) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "nickname"
-    t.bigint "pokemon_team_id", null: false
+    t.bigint "pokemon_team_id", default: 0, null: false
     t.index ["pokemon_team_id"], name: "index_pokemon_on_pokemon_team_id"
   end
 
