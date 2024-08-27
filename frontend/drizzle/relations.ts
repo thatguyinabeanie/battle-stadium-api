@@ -6,16 +6,16 @@ import {
   rounds,
   matchGames,
   users,
+  authenticators,
   organizations,
   organizationStaffMembers,
-  phasePlayers,
   tournaments,
   phases,
   formats,
   tournamentFormats,
   pokemonTeams,
   pokemon,
-  authenticators,
+  phasePlayers,
   games,
 } from "./schema";
 
@@ -66,7 +66,6 @@ export const playersRelations = relations(players, ({ one, many }) => ({
   matchGames_winnerId: many(matchGames, {
     relationName: "matchGames_winnerId_players_id",
   }),
-  phasePlayers: many(phasePlayers),
   pokemonTeam: one(pokemonTeams, {
     fields: [players.pokemonTeamId],
     references: [pokemonTeams.id],
@@ -79,6 +78,7 @@ export const playersRelations = relations(players, ({ one, many }) => ({
     fields: [players.userId],
     references: [users.id],
   }),
+  phasePlayers: many(phasePlayers),
 }));
 
 export const roundsRelations = relations(rounds, ({ many }) => ({
@@ -108,11 +108,18 @@ export const matchGamesRelations = relations(matchGames, ({ one }) => ({
 
 export const usersRelations = relations(users, ({ many }) => ({
   matchGames: many(matchGames),
+  authenticators: many(authenticators),
   organizationStaffMembers: many(organizationStaffMembers),
+  organizations: many(organizations),
   players: many(players),
   pokemonTeams: many(pokemonTeams),
-  organizations: many(organizations),
-  authenticators: many(authenticators),
+}));
+
+export const authenticatorsRelations = relations(authenticators, ({ one }) => ({
+  user: one(users, {
+    fields: [authenticators.userId],
+    references: [users.id],
+  }),
 }));
 
 export const organizationStaffMembersRelations = relations(organizationStaffMembers, ({ one }) => ({
@@ -133,13 +140,6 @@ export const organizationsRelations = relations(organizations, ({ one, many }) =
     references: [users.id],
   }),
   tournaments: many(tournaments),
-}));
-
-export const phasePlayersRelations = relations(phasePlayers, ({ one }) => ({
-  player: one(players, {
-    fields: [phasePlayers.playerId],
-    references: [players.id],
-  }),
 }));
 
 export const phasesRelations = relations(phases, ({ one }) => ({
@@ -198,10 +198,10 @@ export const pokemonRelations = relations(pokemon, ({ one }) => ({
   }),
 }));
 
-export const authenticatorsRelations = relations(authenticators, ({ one }) => ({
-  user: one(users, {
-    fields: [authenticators.userId],
-    references: [users.id],
+export const phasePlayersRelations = relations(phasePlayers, ({ one }) => ({
+  player: one(players, {
+    fields: [phasePlayers.playerId],
+    references: [players.id],
   }),
 }));
 

@@ -385,7 +385,7 @@ export const pokemon = pgTable(
     updatedAt: timestamp("updated_at", { precision: 6, mode: "string" }).notNull(),
     nickname: varchar("nickname"),
     // You can use { mode: "bigint" } if numbers are exceeding js number limitations
-    pokemonTeamId: bigint("pokemon_team_id", { mode: "number" }).notNull(),
+    pokemonTeamId: bigint("pokemon_team_id", { mode: "number" }).default(0).notNull(),
   },
   (table) => {
     return {
@@ -666,7 +666,7 @@ export const account = pgTable(
       indexAccountOnProviderAndProviderAccountId: uniqueIndex(
         "index_account_on_provider_and_provider_account_id",
       ).using("btree", table.provider.asc().nullsLast(), table.providerAccountId.asc().nullsLast()),
-      compoundKey: primaryKey({ columns: [table.provider, table.providerAccountId], name: "account_pkey" }),
+      accountPkey: primaryKey({ columns: [table.provider, table.providerAccountId], name: "account_pkey" }),
     };
   },
 );
