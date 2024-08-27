@@ -27,6 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
   return {
     providers,
     adapter: await InitDrizzleAdapter(),
+    secret: process.env.AUTH_SECRET,
     pages: {
       signIn: "/login",
       signOut: "/logout",
