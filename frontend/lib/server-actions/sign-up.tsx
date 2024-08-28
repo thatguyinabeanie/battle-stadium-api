@@ -7,9 +7,9 @@ import { credentialsSignIn } from "@/lib/server-actions/sign-in";
 
 export default function SignUp() {
   return (
-    <p className="mt-3 text-center text-small">
-      Need to create an account?&nbsp;
-      <m.form action={credentialsSignIn}>
+    <m.form action={credentialsSignIn}>
+      <p className="mt-3 text-center text-small">
+        Need to create an account?&nbsp;
         <Button
           fullWidth
           startContent={<Icon className="text-default-500" icon={"logos:people"} width={20} />}
@@ -18,7 +18,7 @@ export default function SignUp() {
         >
           <span>Sign Up</span>
         </Button>
-      </m.form>
-    </p>
+      </p>
+    </m.form>
   );
 }

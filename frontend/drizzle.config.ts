@@ -13,6 +13,10 @@ export default defineConfig({
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    url: `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST ?? "localhost"}:${POSTGRES_PORT}/${POSTGRES_DB}`,
+    database: POSTGRES_DB as string,
+    password: POSTGRES_PASSWORD as string,
+    host: POSTGRES_HOST as string,
+    user: POSTGRES_USER as string,
+    port: parseInt(POSTGRES_PORT as string),
   },
 });
