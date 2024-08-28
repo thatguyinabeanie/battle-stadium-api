@@ -4,8 +4,10 @@ services:
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    env_file:
-      - .env.postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fuecoco-db-dev
     ports:
       - 5432:5432
 
@@ -15,7 +17,6 @@ services:
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
       RAILS_ENV: development
-      POSTGRES_HOST: postgres
     build:
       context: backend
       dockerfile: Dockerfile
@@ -47,11 +48,10 @@ services:
 
   frontend:
     hostname: nextjs-container
-    environment:
-      HOST_ENVIRONMENT: container
-      BACKEND_HOST: backend
-      POSTGRES_HOST: postgres
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
+    environment:
+      - BACKEND_HOST=backend
+      - POSTGRES_HOST=postgres
     build:
       context: frontend
       dockerfile: Dockerfile

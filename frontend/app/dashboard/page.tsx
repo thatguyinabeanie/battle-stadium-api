@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { getSession } from "next-auth/react";
 
 export default async function Dashboard() {
   const session = await auth();

@@ -13,10 +13,10 @@ export default defineConfig({
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    database: POSTGRES_DB as string,
-    password: POSTGRES_PASSWORD as string,
-    host: POSTGRES_HOST as string,
-    user: POSTGRES_USER as string,
-    port: parseInt(POSTGRES_PORT as string),
+    database: 'fuecoco-db-dev',
+    password: 'postgres',
+    host: 'postgres',
+    user: 'postgres',
+    port: 5432,
   },
 });
