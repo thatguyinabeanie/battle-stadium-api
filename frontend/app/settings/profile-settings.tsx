@@ -20,7 +20,6 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
         <CardBody>
           <div className="flex items-center gap-4">
             <Badge
-              disableOutline
               classNames={{
                 badge: "w-5 h-5",
               }}
