@@ -3,13 +3,11 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
 
-import { SessionProvider } from "@/components/client";
-import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
-import { NextUIProvider, ReactQueryClientProvider, ThemesProvider } from "@/components/providers";
+import Providers from "./providers";
+
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
-import BattleStadiumAPI from "@/lib/battle-stadium-api";
-import { CurrentUserContextProvider } from "@/lib/context/current-user";
+import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 // import { auth } from "@/auth";
 
 export const metadata: Metadata = {
@@ -30,46 +28,17 @@ export const viewport: Viewport = {
   ],
 };
 
-const initialIsOpen = process.env.NODE_ENV === "development";
-
-const getCurrentUser = async () => {
-  // const session = await auth();
-
-  // if (!session) {
-  //   return null;
-  // }
-
-  try {
-    const me = await BattleStadiumAPI.Users.me();
-
-    return me;
-  } catch (error) {
-    // TODO: log error to external service like sumologic, splunk, etc.
-    return null;
-  }
-};
-
 async function RootLayout({ children }: ChildrenProps & AppProps) {
-  const currentUser = await getCurrentUser();
-
   return (
     <html suppressHydrationWarning lang="en">
       <head />
       <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
-        <ThemesProvider>
-          <NextUIProvider>
-            <SessionProvider>
-              <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
-                <div className="flex h-dvh w-full">
-                  <CurrentUserContextProvider initCurrentUser={currentUser}>
-                    <SidebarResponsive aria-label="Responsive Sidebar" />
-                    {children}
-                  </CurrentUserContextProvider>
-                </div>
-              </ReactQueryClientProvider>
-            </SessionProvider>
-          </NextUIProvider>
-        </ThemesProvider>
+        <Providers>
+          <main className="flex h-full w-full">
+            <SidebarResponsive aria-label="Responsive Sidebar" />
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );
