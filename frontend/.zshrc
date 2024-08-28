@@ -106,6 +106,8 @@ export LANG=en_US.UTF-8
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
+
+
 # Function to kill Rails server running on port 3000
 kill_server() {
   # Find the PID of the Next.js server running on port 3000
@@ -123,9 +125,17 @@ kill_server() {
 
 # Function to start Rails server
 start_server() {
-  echo "Starting NextJS server..."
+
   rm -f tmp/pids/server.pid
   bun install
+
+  host_name=$(hostname)
+  if [ "$host_name" -eq "nextjs-container" ]; then
+    export POSTGRES_HOST='postgres'
+  else
+    export POSTGRES_HOST='localhost'
+  fi
+
   bun dev
   echo "NextJS server started."
 }

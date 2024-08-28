@@ -122,24 +122,24 @@ kill_server() {
   fi
 }
 
-get_postgres_host() {
-  host_name=$(hostname)
-  if [ "$host_name" = "rails-api-container" ]; then
-    return 'postgres'
-  else
-    return 'localhost'
-  fi
-}
-
-
 # Function to start Rails server
 start_server() {
   echo "Starting Rails server..."
   rm -f tmp/pids/server.pid
-  export POSTGRES_HOST=$(get_postgres_host)
   (bundle check || bundle install)
+
+  host_name=$(hostname)
+
+  if [ "$host_name" = "rails-api-container" ]; then
+    export POSTGRES_HOST='postgres'
+  else
+    export POSTGRES_HOST='localhost'
+  fi
+
+
   bin/setup
   rails server -b 0.0.0.0 -p 3000
+
   echo "Rails server started."
 }
 

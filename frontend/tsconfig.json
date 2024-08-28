@@ -42,7 +42,8 @@
     "scripts/generateRosieFactories.js",
     "scripts/generateRosieFactories.mts",
     "./types",
-    "global.d.ts"
+    "global.d.ts",
+    "./auth.ts"
   ],
   "exclude": ["node_modules", ".next"]
 }

@@ -12,25 +12,6 @@ const nextConfig = {
     POSTGRES_CONNECTION_STRING: `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST ?? "localhost"}:${POSTGRES_PORT}/${POSTGRES_DB}`,
   },
   reactStrictMode: true,
-  experimental: {
-    serverComponentsExternalPackages: ["pg"],
-  },
-  webpack: (config, { isServer, webpack }) => {
-    if (!isServer) {
-      config.externals = ["pg", ...config.externals];
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-      };
-    }
-
-    config.plugins.push(
-      new webpack.IgnorePlugin({
-        resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
-      }),
-    );
-
-    return config;
-  },
 };
 
 export default nextConfig;

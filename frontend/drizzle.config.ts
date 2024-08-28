@@ -17,6 +17,6 @@ export default defineConfig({
     password: POSTGRES_PASSWORD as string,
     host: POSTGRES_HOST as string,
     user: POSTGRES_USER as string,
-    port: parseInt(POSTGRES_PORT as string),
+    port: parseInt(POSTGRES_PORT as string, 10),
   },
 });
