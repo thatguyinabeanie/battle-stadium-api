@@ -1,11 +1,7 @@
 // eslint-disable-file no-console
 import NextAuth, { type DefaultSession } from "next-auth";
-import { neon } from "@neondatabase/serverless";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { drizzle } from "drizzle-orm/neon-http";
-import { providers } from "./auth.config";
 
-import { account, session, users, verificationToken, authenticators } from "@/drizzle/schema";
+import { providers } from "./auth.config";
 
 declare module "next-auth" {
   /**
@@ -25,28 +21,26 @@ declare module "next-auth" {
     token: string;
   }
 }
-const connectionString = "postgres://postgres:postgres@postgres:5432/fuecoco-db-dev";
-
-const pool = neon(connectionString);
-
-// const drizzleAdapter = DrizzleAdapter(drizzle(pool));
-const drizzleAdapter = DrizzleAdapter(drizzle(pool), {
-  usersTable: users,
-  accountsTable: account,
-  sessionsTable: session,
-  verificationTokensTable: verificationToken,
-  authenticatorsTable: authenticators,
-});
-
-
 
 export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
+  // const connectionString = "postgres://postgres:postgres@postgres:5432/fuecoco-db-dev?sslmode=disable";
+
+  // const pool = neon(connectionString);
+
+  // // const drizzleAdapter = DrizzleAdapter(drizzle(pool));
+  // const drizzleAdapter = DrizzleAdapter(drizzle(pool), {
+  //   usersTable: users,
+  //   accountsTable: account,
+  //   sessionsTable: session,
+  //   verificationTokensTable: verificationToken,
+  //   authenticatorsTable: authenticators,
+  // });
+
   try {
     return {
       providers,
-      adapter: drizzleAdapter,
-      // adapter: PrismaAdapter(prisma),
-      strategy: "database",
+      // adapter: drizzleAdapter,
+      // strategy: "database",
       secret: process.env.AUTH_SECRET,
       pages: {
         signIn: "/login",
@@ -54,30 +48,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
         error: "/",
       },
       callbacks: {
-        async jwt({ token, user, account, profile, trigger, ...rest }) {
-          console.log("jwt", token);
-          console.log("jwt user", user);
-          console.log("jwt account", account);
-          console.log("jwt profile", profile);
-          console.log("jwt trigger", trigger);
-          console.log("jwt rest", rest);
+        async jwt({ token }) {
+          // console.log("jwt", token);
+          // console.log("jwt user", user);
+          // console.log("jwt account", account);
+          // console.log("jwt profile", profile);
+          // console.log("jwt trigger", trigger);
+          // console.log("jwt rest", rest);
 
           return token;
         },
-        async session({ session, user, token, trigger, ...rest }) {
-          console.log("session", session);
-          console.log("session user", user);
-          console.log("session token", token);
-          console.log("session trigger", trigger);
-          console.log("session rest", rest);
+        async session({ session }) {
+          // console.log("session", session);
+          // console.log("session user", user);
+          // console.log("session token", token);
+          // console.log("session trigger", trigger);
+          // console.log("session rest", rest);
 
-          return session
+          return session;
         },
       },
     };
   } catch (error) {
-
-    console.error("Error initializing NextAuth adapter:", error);
+    // console.error("Error initializing NextAuth adapter:", error);
     throw error;
   }
 });
