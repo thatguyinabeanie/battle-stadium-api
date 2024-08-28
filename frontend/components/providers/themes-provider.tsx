@@ -1,12 +1,14 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 
-import { ChildrenProps } from "@/types";
-
-export interface ProvidersProps extends ChildrenProps {
-  themeProps?: ThemeProviderProps;
+export interface ProvidersProps extends ThemeProviderProps {
+  children: React.ReactNode;
 }
 
-export default function ThemesProvider({ children, themeProps }: Readonly<ProvidersProps>) {
-  return <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>;
+export default function ThemesProvider({ children, ...rest }: Readonly<ProvidersProps>) {
+  return (
+    <NextThemesProvider attribute="class" defaultTheme="dark" {...rest}>
+      {children}
+    </NextThemesProvider>
+  );
 }
