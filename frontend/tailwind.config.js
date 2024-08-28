@@ -8,6 +8,13 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/components/(avatar|breadcrumbs|button|checkbox|code|date-picker|input|kbd|link|listbox|navbar|select|snippet|toggle|table|ripple|spinner|calendar|date-input|popover|divider|scroll-shadow|spacer).js",
   ],
+
+  theme: {
+    extend: {},
+  },
+
+  darkMode: "class",
+
   plugins: [
     nextui({
       themes: {
