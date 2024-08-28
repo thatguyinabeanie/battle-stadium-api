@@ -57,12 +57,12 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
         {description && <span className="text-small text-foreground opacity-70">{description}</span>}
       </div>
 
-          {/* DARK THEME */}
+      {/* DARK THEME */}
       <div
+        aria-label="Dark theme"
         className={cn("absolute left-[32px] top-[37px]", {
           hidden: variant !== "dark",
         })}
-        aria-label="Dark theme"
       >
         <svg fill="none" height="117" viewBox="0 0 240 117" width="240" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -123,10 +123,10 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
 
       {/* LIGHT THEME */}
       <div
+        aria-label="Light Purple theme"
         className={cn("absolute left-[32px] top-[37px]", {
           hidden: variant !== "light",
         })}
-        aria-label="Light Purple theme"
       >
         <svg fill="none" height="117" viewBox="0 0 240 117" width="240" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -186,10 +186,10 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
       </div>
 
       <div
-        className={ cn("absolute left-[32px] top-[37px]", {
-          hidden: variant !== "purple-dark",
-        }) }
         aria-label="Dark Purple theme"
+        className={cn("absolute left-[32px] top-[37px]", {
+          hidden: variant !== "purple-dark",
+        })}
       >
         <svg fill="none" height="117" viewBox="0 0 240 117" width="240" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -247,7 +247,6 @@ export const ThemeCustomRadio = (props: ThemeCustomRadioProps) => {
           <circle cx="22.5" cy="25.5" fill="#3F3F46" r="5.5" />
         </svg>
       </div>
-
     </Component>
   );
 };

@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { AppProps } from "next/app";
 
 import Providers from "./providers";
+
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";

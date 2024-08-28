@@ -19,7 +19,8 @@ const getCurrentUser = async () => {
 
     return me;
   } catch (error) {
-    console.error("(providers) Error fetching current user:", error);
+    console.error("(providers) Error fetching current user:", error); // eslint-disable-line no-console
+
     return null;
   }
 };
