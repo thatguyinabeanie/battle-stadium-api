@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_30_222455) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_30_225201) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "account", primary_key: ["provider", "provider_account_id"], force: :cascade do |t|
+  create_table "accounts", primary_key: ["provider", "provider_account_id"], force: :cascade do |t|
     t.string "type", null: false
     t.string "provider", null: false
     t.string "provider_account_id", null: false
@@ -29,22 +29,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_30_222455) do
     t.text "token_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "userId", default: -> { "gen_random_uuid()" }, null: false
-    t.index ["provider", "provider_account_id"], name: "index_account_on_provider_and_provider_account_id", unique: true
+    t.uuid "user_id", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["provider", "provider_account_id"], name: "index_accounts_on_provider_and_provider_account_id", unique: true
   end
 
-  create_table "authenticators", id: false, force: :cascade do |t|
-    t.text "credentialID", null: false
-    t.text "providerAccountId", null: false
-    t.text "credentialPublicKey", null: false
+  create_table "authenticators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "credential_id", null: false
+    t.text "provider_account_id", null: false
+    t.text "credential_public_key", null: false
     t.integer "counter", null: false
-    t.text "credentialDeviceType", null: false
-    t.boolean "credentialBackedUp", null: false
+    t.text "credential_device_type", null: false
+    t.boolean "credential_backed_up", null: false
     t.text "transports"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "userId"
-    t.index ["credentialID"], name: "index_authenticators_on_credentialID", unique: true
+    t.uuid "user_id", null: false
+    t.index ["credential_id"], name: "index_authenticators_on_credential_id", unique: true
   end
 
   create_table "formats", force: :cascade do |t|
@@ -266,16 +266,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_30_222455) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "verification_token", primary_key: "[:identifier, :token]", force: :cascade do |t|
+  create_table "verification_tokens", force: :cascade do |t|
     t.text "identifier", null: false
-    t.datetime "expires", null: false
+    t.datetime "expires_at", null: false
     t.text "token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["identifier", "token"], name: "index_verification_token_on_identifier_and_token", unique: true
   end
 
-  add_foreign_key "authenticators", "users", column: "userId"
+  add_foreign_key "authenticators", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
   add_foreign_key "match_games", "players", column: "loser_id"
