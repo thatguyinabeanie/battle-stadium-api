@@ -1,0 +1,27 @@
+{
+  "folders": [
+    // Both parts of the project (client and server) are inside sub-directories. But since the top level might contain
+    // some documentation or build files, we still want it to show up
+    {
+      "name": "battle-stadium",
+      "path": "."
+    },
+    // Inside the client directory, we have the client part of the project
+    {
+      "name": "rails-api",
+      "path": "backend"
+    },
+    // Inside the server directory, we have the server part of the project
+    {
+      "name": "nextjs",
+      "path": "frontend"
+    }
+  ],
+  "settings": {
+    // We don't want to show duplicates, so we hide the directories that are already showing up as workspaces
+    "files.exclude": {
+      "rails-api": true,
+      "nextjs": true
+    }
+  }
+}
