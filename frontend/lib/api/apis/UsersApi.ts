@@ -26,15 +26,15 @@ import {
 } from "../models/index";
 
 export interface DeleteUserRequest {
-  id: number;
+  id: string;
 }
 
 export interface GetUserRequest {
-  id: number;
+  id: string;
 }
 
 export interface PatchUserRequest {
-  id: number;
+  id: string;
   userDetails?: UserDetails;
 }
 

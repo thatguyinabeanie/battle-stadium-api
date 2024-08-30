@@ -553,6 +553,7 @@ DEPENDENCIES
   irb
   jbuilder (~> 2)
   jsonapi-serializer (~> 2)
+  jwt
   kredis (~> 1)
   listen (~> 3.3)
   omniauth-discord (~> 1)

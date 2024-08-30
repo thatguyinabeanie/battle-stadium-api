@@ -54,6 +54,12 @@ export interface UserMe {
   lastName: string;
   /**
    *
+   * @type {Date}
+   * @memberof UserMe
+   */
+  emailVerified?: Date | null;
+  /**
+   *
    * @type {string}
    * @memberof UserMe
    */
@@ -94,6 +100,7 @@ export function UserMeFromJSONTyped(json: any, ignoreDiscriminator: boolean): Us
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
+    emailVerified: json["email_verified"] == null ? undefined : new Date(json["email_verified"]),
     id: json["id"],
     organizations: (json["organizations"] as Array<any>).map(OrganizationFromJSON),
   };
@@ -109,6 +116,7 @@ export function UserMeToJSON(value?: UserMe | null): any {
     email: value["email"],
     first_name: value["firstName"],
     last_name: value["lastName"],
+    email_verified: value["emailVerified"] == null ? undefined : (value["emailVerified"] as any).toISOString(),
     id: value["id"],
     organizations: (value["organizations"] as Array<any>).map(OrganizationToJSON),
   };

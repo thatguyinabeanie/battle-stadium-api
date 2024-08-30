@@ -15,7 +15,7 @@ const getCurrentUser = async () => {
   }
 
   try {
-    const me = await BattleStadiumAPI.Users.me();
+    const me = await BattleStadiumAPI().Users.me();
 
     return me;
   } catch (error) {

@@ -7,7 +7,7 @@ describe("Organizations Page", () => {
   it("renders the correct text", async () => {
     const org = OrganizationFactory.build();
 
-    spyOn(BattleStadiumAPI.Organizations, "list").mockResolvedValue([org]);
+    spyOn(BattleStadiumAPI().Organizations, "list").mockResolvedValue([org]);
 
     render(await OrganizationPage());
     const text = screen.getByText(org.name);

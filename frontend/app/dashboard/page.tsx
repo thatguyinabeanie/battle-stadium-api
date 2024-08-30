@@ -8,7 +8,6 @@ export default async function Dashboard() {
   }
 
   try {
-    // const me = await BattleStadiumAPI.Users.me();
 
     return (
       <div>

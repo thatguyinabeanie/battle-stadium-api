@@ -29,6 +29,21 @@ RSpec.describe Api::V1::Auth::SessionsController do
         run_test!
       end
 
+      response(201, 'created') do
+        let(:existing_user) { create(:user) }
+        let(:user) do
+          {
+            username: existing_user.username,
+            password: existing_user.password
+          }
+        end
+
+        schema '$ref' => '#/components/schemas/UserLoginResponse'
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
       response(401, 'unauthorized') do
         let(:user) do
           {

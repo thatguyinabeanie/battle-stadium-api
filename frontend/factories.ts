@@ -391,11 +391,13 @@ export const UserDetailsFactory = new Factory<UserDetails>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
+  .attr("emailVerified", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .sequence("id");
 
 export const UserLoginRequestFactory = new Factory<UserLoginRequest>()
 
-  .attr("email", () => `${faker.internet.userName()}@example.com`)
+  .attr("username", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
+  .attr("email", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .attr("password", () => faker.internet.password());
 
 export const UserLoginResponseFactory = new Factory<UserLoginResponse>()
@@ -416,6 +418,7 @@ export const UserMeFactory = new Factory<UserMe>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
+  .attr("emailVerified", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .sequence("id")
   .attr("organizations", () => OrganizationFactory.buildList(faker.number.int({ min: 1, max: 5 })));
 
@@ -426,6 +429,7 @@ export const UserPostRequestFactory = new Factory<UserPostRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
+  .attr("emailVerified", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("password", () => faker.internet.password())
   .attr("passwordConfirmation", function (this: any) {
     return this.password;
@@ -439,5 +443,6 @@ export const UserRequestFactory = new Factory<UserRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
+  .attr("emailVerified", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("currentPassword", () => faker.lorem.word())
   .sequence("id");

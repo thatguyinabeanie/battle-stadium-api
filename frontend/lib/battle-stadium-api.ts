@@ -1,12 +1,10 @@
 import * as jose from "jose";
 
 import {
-  OrganizationsApi,
   UsersApi,
   GamesApi,
   PhasesApi,
   TournamentsApi,
-  InitOverrideFunction,
   PostOrganizationTournamentRequest,
   PatchOrganizationTournamentRequest,
   ListOrganizationStaffRequest,
@@ -30,13 +28,14 @@ import {
   LoginUserRequest,
   RegistrationApi,
   RegisterUserOperationRequest,
-  Configuration,
-  ConfigurationParameters,
-  HTTPHeaders,
-} from "@/lib/api";
-import { auth } from "@/auth";
 
-const config = async () => {
+  OrganizationsApi,
+} from "@/lib/api/apis";
+import { auth } from "@/auth";
+import { Configuration, ConfigurationParameters, HTTPHeaders, InitOverrideFunction } from "./api/runtime";
+import { UserDetails } from "./api/models";
+
+const defaultConfig = async () => {
   const session = await auth();
   const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
   const jwt = await new jose.SignJWT({ user: session?.user })
@@ -64,17 +63,24 @@ const config = async () => {
   return new Configuration(params);
 };
 
-const Authentication = () => {
-  const SessionAPI = async () => new SessionsApi(await config());
-  const RegistrationAPI = async () => new RegistrationApi(await config());
+const Session = (configOverride?: Configuration) => {
+  const SessionAPI = async () => new SessionsApi( configOverride ?? await defaultConfig());
 
   return {
-    login: async (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+    create: async (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await SessionAPI()).loginUser(requestParameters, initOverrides),
-
-    logout: async (initOverrides?: RequestInit | InitOverrideFunction) =>
+    getSessionAndUser: async (sessionToken: string, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({}) as any,
+    update: async (initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({}) as any,
+    delete: async (initOverrides?: RequestInit | InitOverrideFunction) =>
       (await SessionAPI()).logoutUser(initOverrides),
+  };
+};
 
+
+const Registration = (configOverride?: Configuration) => {
+  const RegistrationAPI = async () => new RegistrationApi(configOverride ?? await defaultConfig());
+
+  return {
     register: async (
       requestParameters?: RegisterUserOperationRequest,
       initOverrides?: RequestInit | InitOverrideFunction,
@@ -82,8 +88,8 @@ const Authentication = () => {
   };
 };
 
-const Organizations = () => {
-  const OrganizationsAPI = async () => new OrganizationsApi(await config());
+const Organizations = (configOverride?: Configuration) => {
+  const OrganizationsAPI = async () => new OrganizationsApi(configOverride ?? await defaultConfig());
 
   return {
     list: async (initOverrides?: RequestInit | InitOverrideFunction) =>
@@ -122,8 +128,8 @@ const Organizations = () => {
   };
 };
 
-const Users = () => {
-  const UsersAPI = async () => new UsersApi(await config());
+const Users = (configOverride?: Configuration) => {
+  const UsersAPI = async () => new UsersApi(configOverride ?? await defaultConfig());
 
   return {
     list: async (initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).listUsers(initOverrides),
@@ -133,6 +139,14 @@ const Users = () => {
 
     get: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await UsersAPI()).getUser(requestParameters, initOverrides),
+
+    getByEmail: (email: string, initOverrides?: RequestInit | InitOverrideFunction): Promise<UserDetails> => Promise.resolve({} as UserDetails),
+
+    linkAccount: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({} as UserDetails),
+
+    unlinkAccount: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({} as UserDetails),
+
+    getUserByProvider: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({} as UserDetails),
 
     patch: async (requestParameters: PatchUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await UsersAPI()).patchUser(requestParameters, initOverrides),
@@ -144,8 +158,8 @@ const Users = () => {
   };
 };
 
-const Games = () => {
-  const GamesAPI = async () => new GamesApi(await config());
+const Games = (configOverride?: Configuration) => {
+  const GamesAPI = async () => new GamesApi(configOverride ?? await defaultConfig());
 
   return {
     listGames: async (initOverrides?: RequestInit | InitOverrideFunction) =>
@@ -164,9 +178,9 @@ const Games = () => {
   };
 };
 
-const Tournaments = () => {
-  const PhasesAPI = async () => new PhasesApi(await config());
-  const TournamentsAPI = async () => new TournamentsApi(await config());
+const Tournaments = (configOverride?: Configuration) => {
+  const PhasesAPI = async () => new PhasesApi(configOverride ?? await defaultConfig());
+  const TournamentsAPI = async () => new TournamentsApi(configOverride ?? await defaultConfig());
 
   return {
     list: async (initOverrides?: RequestInit | InitOverrideFunction) =>
@@ -190,13 +204,16 @@ const Tournaments = () => {
   };
 };
 
-const BattleStadiumAPI = {
-  Authentication: Authentication(),
-  Organizations: Organizations(),
-  Users: Users(),
-  Games: Games(),
-  Tournaments: Tournaments(),
-};
+const BattleStadiumAPI = (configOverride?: Configuration) => ({
+  Session: Session(configOverride),
+  Registration: Registration(configOverride),
+  Organizations: Organizations(configOverride),
+  Users: Users(configOverride),
+  Games: Games(configOverride),
+  Tournaments: Tournaments(configOverride),
+});
+
+export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
 
 export { BattleStadiumAPI };
 export default BattleStadiumAPI;

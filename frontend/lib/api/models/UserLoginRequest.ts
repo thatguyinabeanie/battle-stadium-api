@@ -24,7 +24,13 @@ export interface UserLoginRequest {
    * @type {string}
    * @memberof UserLoginRequest
    */
-  email: string;
+  username?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UserLoginRequest
+   */
+  email: string | null;
   /**
    * Must be at least 8 characters
    * @type {string}
@@ -51,6 +57,7 @@ export function UserLoginRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
     return json;
   }
   return {
+    username: json["username"] == null ? undefined : json["username"],
     email: json["email"],
     password: json["password"],
   };
@@ -61,6 +68,7 @@ export function UserLoginRequestToJSON(value?: UserLoginRequest | null): any {
     return value;
   }
   return {
+    username: value["username"],
     email: value["email"],
     password: value["password"],
   };

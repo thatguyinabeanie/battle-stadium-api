@@ -100,7 +100,8 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
     properties: {
       email: { type: :string },
       first_name: { type: :string },
-      last_name: { type: :string }
+      last_name: { type: :string },
+      email_verified: { type: :string, format: DATE_TIME_TYPE , nullable: true },
     },
     required: %w[email first_name last_name] + SIMPLE_USER_SCHEMA[:required]
   }
@@ -168,7 +169,8 @@ USER_LOGIN_REQUEST = {
   type: :object,
   title: 'User Login Request',
   properties: {
-    email: { type: :string, format: 'email' },
+    username: { type: :string, nullable: true},
+    email: { type: :string, format: 'email', nullable: true},
     password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters')
   },
   required: %w[email password]
@@ -187,10 +189,10 @@ REGISTRATION_RESPONSE = {
     pronouns: { type: :string, nullable: true },
     jti: { type: :string, format: 'jwt' },
     name: { type: :string, nullable: true },
-    emailVerified: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    email_verified: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     image: { type: :string, nullable: true }
   ),
-  required: %w[id email username first_name last_name created_at updated_at pronouns jti name emailVerified image]
+  required: %w[id email username first_name last_name created_at updated_at pronouns jti name email_verified image]
 }.freeze
 
 ORGANIZATION_SCHEMA = {

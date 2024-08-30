@@ -50,6 +50,12 @@ export interface UserPostRequest {
    */
   lastName: string;
   /**
+   *
+   * @type {Date}
+   * @memberof UserPostRequest
+   */
+  emailVerified?: Date | null;
+  /**
    * Must be at least 8 characters
    * @type {string}
    * @memberof UserPostRequest
@@ -97,6 +103,7 @@ export function UserPostRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
+    emailVerified: json["email_verified"] == null ? undefined : new Date(json["email_verified"]),
     password: json["password"],
     passwordConfirmation: json["password_confirmation"],
     id: json["id"] == null ? undefined : json["id"],
@@ -113,6 +120,7 @@ export function UserPostRequestToJSON(value?: UserPostRequest | null): any {
     email: value["email"],
     first_name: value["firstName"],
     last_name: value["lastName"],
+    email_verified: value["emailVerified"] == null ? undefined : (value["emailVerified"] as any).toISOString(),
     password: value["password"],
     password_confirmation: value["passwordConfirmation"],
     id: value["id"],

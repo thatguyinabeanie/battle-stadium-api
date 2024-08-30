@@ -26,12 +26,13 @@ export const providers: Provider[] = [
       password: { label: "Password", type: "password" },
     },
     authorize: async (credentials, request) => {
+      console.log('authorize', credentials, request);
       const loggedInUser = await railsSignIn(credentials, request);
 
       if (!loggedInUser) {
         // No user found, so this is their first attempt to login
         // meaning this is also the place you could do registration
-        throw new Error("User not found.");
+        throw new Error("authorize - User not found.");
       }
 
       // Transform UserMe to User if necessary

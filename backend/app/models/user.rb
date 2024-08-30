@@ -22,7 +22,7 @@ class User < ApplicationRecord
   has_many :organization_staff_members, class_name: 'OrganizationStaffMember', dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :user
   has_many :account, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Account'
-  has_many :session, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Session'
+  has_many :sessions, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Session'
 
   before_create :generate_jti
 

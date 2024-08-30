@@ -5,7 +5,7 @@ import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { cn } from "@/lib/utils";
 
 const OrganizationsPage = async () => {
-  const organizations = await BattleStadiumAPI.Organizations.list();
+  const organizations = await BattleStadiumAPI().Organizations.list();
 
   return (
     <div

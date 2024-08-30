@@ -656,7 +656,7 @@ paths:
       description: ID of the User
       required: true
       schema:
-        type: integer
+        type: string
     get:
       summary: Show User
       tags:
@@ -817,6 +817,10 @@ components:
           type: string
         last_name:
           type: string
+        email_verified:
+          type: string
+          format: date-time
+          nullable: true
         id:
           type: string
           format: uuid
@@ -841,6 +845,10 @@ components:
           type: string
         last_name:
           type: string
+        email_verified:
+          type: string
+          format: date-time
+          nullable: true
         id:
           type: string
           format: uuid
@@ -870,6 +878,10 @@ components:
           type: string
         last_name:
           type: string
+        email_verified:
+          type: string
+          format: date-time
+          nullable: true
         password:
           type: string
           minLength: 8
@@ -907,6 +919,10 @@ components:
           type: string
         last_name:
           type: string
+        email_verified:
+          type: string
+          format: date-time
+          nullable: true
         current_password:
           type: string
           minLength: 8
@@ -959,9 +975,13 @@ components:
       type: object
       title: User Login Request
       properties:
+        username:
+          type: string
+          nullable: true
         email:
           type: string
           format: email
+          nullable: true
         password:
           type: string
           minLength: 8
@@ -1002,7 +1022,7 @@ components:
         name:
           type: string
           nullable: true
-        emailVerified:
+        email_verified:
           type: string
           format: date-time
           nullable: true
@@ -1020,7 +1040,7 @@ components:
       - pronouns
       - jti
       - name
-      - emailVerified
+      - email_verified
       - image
     Organization:
       type: object

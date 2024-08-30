@@ -131,7 +131,7 @@ export function RegistrationResponseFromJSONTyped(json: any, ignoreDiscriminator
     pronouns: json["pronouns"],
     jti: json["jti"],
     name: json["name"],
-    emailVerified: json["emailVerified"] == null ? null : new Date(json["emailVerified"]),
+    emailVerified: json["email_verified"] == null ? null : new Date(json["email_verified"]),
     image: json["image"],
   };
 }
@@ -151,7 +151,7 @@ export function RegistrationResponseToJSON(value?: RegistrationResponse | null):
     pronouns: value["pronouns"],
     jti: value["jti"],
     name: value["name"],
-    emailVerified: value["emailVerified"] == null ? null : (value["emailVerified"] as any).toISOString(),
+    email_verified: value["emailVerified"] == null ? null : (value["emailVerified"] as any).toISOString(),
     image: value["image"],
   };
 }

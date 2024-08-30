@@ -9,7 +9,7 @@ const OrganizationDetailsPage = async ({ params }: { params: { organizationId: s
   let organization: OrganizationDetails | null = null;
 
   try {
-    organization = await BattleStadiumAPI.Organizations.get(request);
+    organization = await BattleStadiumAPI().Organizations.get(request);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error("Failed to fetch organization details:", error);
