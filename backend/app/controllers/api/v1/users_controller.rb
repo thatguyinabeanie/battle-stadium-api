@@ -52,10 +52,7 @@ module Api
           @current_user = User.find(decoded_token)
 
           Rails.logger.info("current_user: #{@current_user}")
-        rescue JWT::DecodeError => e
-          Rails.logger.error("JWT::DecodeError: #{e}")
-          render json: { error: e.message }, status: :bad_request
-        rescue ActiveRecord::RecordNotFound
+        rescue StandardError
           render json: { error: 'User not found' }, status: :not_found
         end
       end
