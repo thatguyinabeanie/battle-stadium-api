@@ -130,7 +130,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
         let(:session) { create(:session, user: existing_user) }
         let(:Authorization) { "Bearer #{session.encrypt}" } # rubocop:disable RSpec/VariableName
 
-        schema '$ref' => '#/components/schemas/Session'
+        schema '$ref' => '#/components/schemas/SessionAndUser'
         OpenApi::Response.set_example_response_metadata
 
         run_test!
