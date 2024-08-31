@@ -53,7 +53,6 @@ const defaultConfig = async () => {
 
   const params: ConfigurationParameters = {
     accessToken: async () => {
-      // @ts-expect-error TODO: fix session type
       return session?.accessToken ?? "";
     },
     headers,

@@ -51,13 +51,16 @@ declare module "next-auth" {
   /**
    * Returned by `useSession`, `auth`, contains information about the active session.
    */
-  interface Session { }
+  interface Session {
+    accessToken: string;
+  }
 }
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
     /** OpenID ID Token */
-    idToken?: string
+    idToken?: string;
+    accessToken?: string;
   }
 }

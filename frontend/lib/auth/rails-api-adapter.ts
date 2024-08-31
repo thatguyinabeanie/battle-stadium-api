@@ -1,8 +1,7 @@
 import type { Adapter, AdapterUser, AdapterAccount, AdapterSession } from "next-auth/adapters";
 
 import { BattleStadiumAPIClient } from "@/lib/battle-stadium-api";
-import { GetUserRequest, PatchUserRequest, RegisterUserRequest, ResponseError, UserDetails } from "@/lib/api";
-import { auth } from "@/auth";
+import { GetUserRequest, RegisterUserRequest, ResponseError, UserDetails } from "@/lib/api";
 
 function userAdapter(user: UserDetails): AdapterUser {
   const adapterUser: AdapterUser = {
@@ -24,7 +23,7 @@ function authorizationHeader(sessionToken: string) {
     headers: {
       Authorization: `Bearer ${sessionToken}`,
     },
-  }
+  };
 }
 
 export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
@@ -39,7 +38,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       };
 
       try {
-        const createdUser = await apiClient.Registration.register( registerUserRequest );
+        const createdUser = await apiClient.Registration.register(registerUserRequest);
 
         return {
           id: createdUser.id,
@@ -59,7 +58,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
     async getUser(id) {
       try {
-        const user = await apiClient.Users.get( id );
+        const user = await apiClient.Users.get(id);
 
         return userAdapter(user);
       } catch (error) {
@@ -97,7 +96,6 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
     },
 
     async updateUser(user) {
-
       const userDetails: UserDetails = {
         id: user.id,
         email: user.email ?? "",
@@ -129,7 +127,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
     async deleteUser(id) {
       try {
-        await apiClient.Users.delete( id );
+        await apiClient.Users.delete(id);
       } catch (error) {
         console.error("deleteUser error", error);
         throw error;
@@ -220,8 +218,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
     async updateSession({ sessionToken, expires, userId }) {
       console.log("updateSession", sessionToken, expires, userId);
       try {
-
-        const { session }= await apiClient.Session.update(authorizationHeader(sessionToken));
+        const { session } = await apiClient.Session.update(authorizationHeader(sessionToken));
 
         return {
           sessionToken: session.token,
