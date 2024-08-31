@@ -85,6 +85,8 @@ paths:
       - Sessions
       description: Shows the current session.
       operationId: getSession
+      security:
+      - Bearer: []
       responses:
         '200':
           description: ok
@@ -95,18 +97,20 @@ paths:
         '401':
           description: unauthorized
     put:
-      summary: Refresh Session
+      summary: Update Session
       tags:
       - Sessions
       description: Updates the current session.
       operationId: update
+      security:
+      - Bearer: []
       responses:
-        '201':
-          description: created
+        '200':
+          description: updates
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Session"
+                "$ref": "#/components/schemas/SessionAndUser"
         '401':
           description: unauthorized
   "/api/v1/games":
@@ -680,6 +684,8 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/UserMe"
+        '404':
+          description: not found
   "/api/v1/users/{id}":
     parameters:
     - name: id
@@ -860,6 +866,7 @@ components:
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserMe:
@@ -893,6 +900,7 @@ components:
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserPostRequest:
@@ -934,6 +942,7 @@ components:
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserRequest:
@@ -968,6 +977,7 @@ components:
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserLoginResponse:
