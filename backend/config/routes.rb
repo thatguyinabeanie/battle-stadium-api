@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'api/v1/auth/session', to: 'api/v1/auth/sessions#show'
+    put 'api/v1/auth/session', to: 'api/v1/auth/sessions#refresh'
   end
 
   namespace :api, defaults: { format: :json } do
@@ -29,10 +30,6 @@ Rails.application.routes.draw do
           patch 'password', to: 'users#patch_password'
         end
       end
-      # namespace :auth do
-      #   get 'session', to: 'sessions#show'
-      # end
-
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
           post 'tournaments', to: 'organizations#post_tournaments'

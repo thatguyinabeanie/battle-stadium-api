@@ -77,11 +77,8 @@ export class UsersApi extends runtime.BaseAPI {
   /**
    * Delete User
    */
-  async deleteUser(
-    requestParameters: DeleteUserRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<void> {
-    await this.deleteUserRaw(requestParameters, initOverrides);
+  async deleteUser(id: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    await this.deleteUserRaw({ id: id }, initOverrides);
   }
 
   /**
@@ -152,11 +149,8 @@ export class UsersApi extends runtime.BaseAPI {
    * Retrieves a specific User by ID.
    * Show User
    */
-  async getUser(
-    requestParameters: GetUserRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<UserDetails> {
-    const response = await this.getUserRaw(requestParameters, initOverrides);
+  async getUser(id: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDetails> {
+    const response = await this.getUserRaw({ id: id }, initOverrides);
     return await response.value();
   }
 
@@ -230,10 +224,11 @@ export class UsersApi extends runtime.BaseAPI {
    * Update User
    */
   async patchUser(
-    requestParameters: PatchUserRequest,
+    id: string,
+    userDetails?: UserDetails,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UserDetails> {
-    const response = await this.patchUserRaw(requestParameters, initOverrides);
+    const response = await this.patchUserRaw({ id: id, userDetails: userDetails }, initOverrides);
     return await response.value();
   }
 
@@ -270,10 +265,10 @@ export class UsersApi extends runtime.BaseAPI {
    * Create User
    */
   async postUser(
-    requestParameters: PostUserRequest = {},
+    userPostRequest?: UserPostRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UserDetails> {
-    const response = await this.postUserRaw(requestParameters, initOverrides);
+    const response = await this.postUserRaw({ userPostRequest: userPostRequest }, initOverrides);
     return await response.value();
   }
 }

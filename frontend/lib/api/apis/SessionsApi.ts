@@ -13,10 +13,12 @@
  */
 
 import * as runtime from "../runtime";
-import type { SessionResponse, UserLoginRequest, UserLoginResponse } from "../models/index";
+import type { Session, SessionAndUser, UserLoginRequest, UserLoginResponse } from "../models/index";
 import {
-  SessionResponseFromJSON,
-  SessionResponseToJSON,
+  SessionFromJSON,
+  SessionToJSON,
+  SessionAndUserFromJSON,
+  SessionAndUserToJSON,
   UserLoginRequestFromJSON,
   UserLoginRequestToJSON,
   UserLoginResponseFromJSON,
@@ -33,11 +35,11 @@ export interface LoginUserRequest {
 export class SessionsApi extends runtime.BaseAPI {
   /**
    * Shows the current session.
-   * Get Session
+   * Get Session and User
    */
   async getSessionRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<SessionResponse>> {
+  ): Promise<runtime.ApiResponse<SessionAndUser>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -52,14 +54,14 @@ export class SessionsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => SessionResponseFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => SessionAndUserFromJSON(jsonValue));
   }
 
   /**
    * Shows the current session.
-   * Get Session
+   * Get Session and User
    */
-  async getSession(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionResponse> {
+  async getSession(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionAndUser> {
     const response = await this.getSessionRaw(initOverrides);
     return await response.value();
   }
@@ -97,10 +99,10 @@ export class SessionsApi extends runtime.BaseAPI {
    * Login
    */
   async loginUser(
-    requestParameters: LoginUserRequest = {},
+    userLoginRequest?: UserLoginRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UserLoginResponse> {
-    const response = await this.loginUserRaw(requestParameters, initOverrides);
+    const response = await this.loginUserRaw({ userLoginRequest: userLoginRequest }, initOverrides);
     return await response.value();
   }
 
@@ -132,5 +134,36 @@ export class SessionsApi extends runtime.BaseAPI {
    */
   async logoutUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
     await this.logoutUserRaw(initOverrides);
+  }
+
+  /**
+   * Updates the current session.
+   * Refresh Session
+   */
+  async updateRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Session>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/api/v1/auth/session`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => SessionFromJSON(jsonValue));
+  }
+
+  /**
+   * Updates the current session.
+   * Refresh Session
+   */
+  async update(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Session> {
+    const response = await this.updateRaw(initOverrides);
+    return await response.value();
   }
 }

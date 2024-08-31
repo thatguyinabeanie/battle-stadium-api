@@ -98,10 +98,11 @@ export class PlayersApi extends runtime.BaseAPI {
    * Delete Tournament Player
    */
   async deleteTournamentPlayer(
-    requestParameters: DeleteTournamentPlayerRequest,
+    tournamentId: number,
+    id: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
-    await this.deleteTournamentPlayerRaw(requestParameters, initOverrides);
+    await this.deleteTournamentPlayerRaw({ tournamentId: tournamentId, id: id }, initOverrides);
   }
 
   /**
@@ -144,10 +145,10 @@ export class PlayersApi extends runtime.BaseAPI {
    * List Tournament Players
    */
   async listPlayers(
-    requestParameters: ListPlayersRequest,
+    tournamentId: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Player>> {
-    const response = await this.listPlayersRaw(requestParameters, initOverrides);
+    const response = await this.listPlayersRaw({ tournamentId: tournamentId }, initOverrides);
     return await response.value();
   }
 
@@ -194,10 +195,14 @@ export class PlayersApi extends runtime.BaseAPI {
    * Create Tournament Player
    */
   async postTournamentPlayer(
-    requestParameters: PostTournamentPlayerRequest,
+    tournamentId: number,
+    playerRequest?: PlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.postTournamentPlayerRaw(requestParameters, initOverrides);
+    const response = await this.postTournamentPlayerRaw(
+      { tournamentId: tournamentId, playerRequest: playerRequest },
+      initOverrides,
+    );
     return await response.value();
   }
 
@@ -250,10 +255,15 @@ export class PlayersApi extends runtime.BaseAPI {
    * Update Tournament Player
    */
   async putTournamentPlayer(
-    requestParameters: PutTournamentPlayerRequest,
+    tournamentId: number,
+    id: number,
+    playerRequest?: PlayerRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.putTournamentPlayerRaw(requestParameters, initOverrides);
+    const response = await this.putTournamentPlayerRaw(
+      { tournamentId: tournamentId, id: id, playerRequest: playerRequest },
+      initOverrides,
+    );
     return await response.value();
   }
 
@@ -303,10 +313,11 @@ export class PlayersApi extends runtime.BaseAPI {
    * Show Tournament Player
    */
   async showTournamentPlayer(
-    requestParameters: ShowTournamentPlayerRequest,
+    tournamentId: number,
+    id: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PlayerDetails> {
-    const response = await this.showTournamentPlayerRaw(requestParameters, initOverrides);
+    const response = await this.showTournamentPlayerRaw({ tournamentId: tournamentId, id: id }, initOverrides);
     return await response.value();
   }
 }

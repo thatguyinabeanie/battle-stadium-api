@@ -26,7 +26,7 @@ module BattleStadium
         require 'socket'
         hostname = Socket.gethostname
 
-        ENV['POSTGRES_HOST'] = (hostname == 'rails-api-container') ? 'postgres' : 'localhost'
+        ENV['POSTGRES_HOST'] = hostname == 'rails-api-container' ? 'postgres' : 'localhost'
       end
     end
 

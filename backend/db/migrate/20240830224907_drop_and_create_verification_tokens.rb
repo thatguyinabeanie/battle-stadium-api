@@ -9,21 +9,21 @@ class DropAndCreateVerificationTokens < ActiveRecord::Migration[7.1]
       t.datetime :created_at, null: false
       t.datetime :updated_at, null: false
 
-      t.index [:identifier, :token], name: "index_verification_token_on_identifier_and_token", unique: true
+      t.index %i[identifier token], name: 'index_verification_token_on_identifier_and_token', unique: true
     end
   end
 
   def down
     drop_table :verification_tokens
 
-    create_table :verification_token, primary_key: [:identifier, :token], force: :cascade do |t|
+    create_table :verification_token, primary_key: %i[identifier token], force: :cascade do |t|
       t.text :identifier, null: false
       t.datetime :expires, null: false
       t.text :token, null: false
       t.datetime :created_at, null: false
       t.datetime :updated_at, null: false
 
-      t.index [:identifier, :token], name: "index_verification_token_on_identifier_and_token", unique: true
+      t.index %i[identifier token], name: 'index_verification_token_on_identifier_and_token', unique: true
     end
   end
 end

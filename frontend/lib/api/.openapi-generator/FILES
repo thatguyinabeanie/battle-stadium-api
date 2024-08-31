@@ -26,8 +26,8 @@ models/Pokemon.ts
 models/RegisterUserRequest.ts
 models/RegistrationResponse.ts
 models/Round.ts
-models/SessionResponse.ts
-models/SessionResponseSession.ts
+models/Session.ts
+models/SessionAndUser.ts
 models/Tournament.ts
 models/TournamentDetails.ts
 models/TournamentPostRequest.ts

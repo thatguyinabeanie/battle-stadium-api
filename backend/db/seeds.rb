@@ -50,7 +50,6 @@ def create_user(username: nil)
   end
 end
 
-
 def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
   Tournaments::Tournament.find_or_create_by!(name:, organization:, format:, game:) do |tournament|
     tournament.start_at = start_at

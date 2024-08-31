@@ -102,7 +102,7 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
       email: { type: :string },
       first_name: { type: :string },
       last_name: { type: :string },
-      email_verified: { type: :string, format: DATE_TIME_TYPE , nullable: true },
+      email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
     },
     required: %w[email first_name last_name] + SIMPLE_USER_SCHEMA[:required]
   }
@@ -170,11 +170,11 @@ USER_LOGIN_REQUEST = {
   type: :object,
   title: 'User Login Request',
   properties: {
-    username: { type: :string, nullable: true},
-    email: { type: :string, format: 'email', nullable: true},
+    username: { type: :string, nullable: true },
+    email: { type: :string, format: 'email', nullable: true },
     password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters')
   },
-  required: %w[email password]
+  required: %w[password]
 }.freeze
 
 REGISTRATION_RESPONSE = {
@@ -190,10 +190,10 @@ REGISTRATION_RESPONSE = {
     pronouns: { type: :string, nullable: true },
     jti: { type: :string, format: 'jwt' },
     name: { type: :string, nullable: true },
-    email_verified: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     image: { type: :string, nullable: true }
   ),
-  required: %w[id email username first_name last_name created_at updated_at pronouns jti name email_verified image]
+  required: %w[id email username first_name last_name created_at updated_at pronouns jti name email_verified_at image]
 }.freeze
 
 ORGANIZATION_SCHEMA = {
@@ -401,28 +401,31 @@ GET_SESSION_REQUEST = {
   type: :object,
   title: 'Get Session Params',
   properties: {
-    token: { type: :string, format: 'jwt' },
+    token: { type: :string, format: 'jwt' }
   },
   required: %w[token]
-}
+}.freeze
 
-SESSION_RESPONSE = {
+SESSION = {
   type: :object,
-  title: 'Session Response',
+  title: 'Session',
   properties: {
-    session: {
-      type: :object,
-      properties: {
-        token: { type: :string, format: 'jwt' },
-        user_id: UUID_TYPE,
-        expires_at: { type: :string, format: DATE_TIME_TYPE }
-      },
-      required: %w[token user_id expires_at]
-    },
+    token: { type: :string, format: 'jwt' },
+    user_id: UUID_TYPE,
+    expires_at: { type: :string, format: DATE_TIME_TYPE }
+  },
+  required: %w[token user_id expires_at]
+}.freeze
+
+SESSION_AND_USER = {
+  type: :object,
+  title: 'Session And User',
+  properties: {
+    session: { '$ref' => '#/components/schemas/Session' },
     user: { '$ref' => '#/components/schemas/UserDetails' }
   },
   required: %w[session user]
-}
+}.freeze
 
 RSpec.configure do |config|
   # config.include SwaggerHelper
@@ -502,7 +505,8 @@ RSpec.configure do |config|
           TournamentRequest: TOURNAMENT_REQUEST,
           TournamentPostRequest: TOURNAMENT_POST_REQUEST,
           GetSessionRequest: GET_SESSION_REQUEST,
-          SessionResponse: SESSION_RESPONSE
+          Session: SESSION,
+          SessionAndUser: SESSION_AND_USER
         }
       }
     }

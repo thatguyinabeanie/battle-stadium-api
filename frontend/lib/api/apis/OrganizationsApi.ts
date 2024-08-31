@@ -95,11 +95,8 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Deletes an organization.
    * Delete Organization
    */
-  async deleteOrganization(
-    requestParameters: DeleteOrganizationRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<void> {
-    await this.deleteOrganizationRaw(requestParameters, initOverrides);
+  async deleteOrganization(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    await this.deleteOrganizationRaw({ id: id }, initOverrides);
   }
 
   /**
@@ -138,11 +135,8 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Retrieves a specific organization.
    * Show Organization
    */
-  async getOrganization(
-    requestParameters: GetOrganizationRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<Organization> {
-    const response = await this.getOrganizationRaw(requestParameters, initOverrides);
+  async getOrganization(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Organization> {
+    const response = await this.getOrganizationRaw({ id: id }, initOverrides);
     return await response.value();
   }
 
@@ -186,10 +180,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * List Organization Staff
    */
   async listOrganizationStaff(
-    requestParameters: ListOrganizationStaffRequest,
+    id: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<User>> {
-    const response = await this.listOrganizationStaffRaw(requestParameters, initOverrides);
+    const response = await this.listOrganizationStaffRaw({ id: id }, initOverrides);
     return await response.value();
   }
 
@@ -264,10 +258,11 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Update Organization
    */
   async patchOrganization(
-    requestParameters: PatchOrganizationRequest,
+    id: number,
+    organization?: Organization,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Organization> {
-    const response = await this.patchOrganizationRaw(requestParameters, initOverrides);
+    const response = await this.patchOrganizationRaw({ id: id, organization: organization }, initOverrides);
     return await response.value();
   }
 
@@ -320,10 +315,15 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Update Tournament
    */
   async patchOrganizationTournament(
-    requestParameters: PatchOrganizationTournamentRequest,
+    organizationId: number,
+    id: number,
+    tournamentDetails?: TournamentDetails,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
-    const response = await this.patchOrganizationTournamentRaw(requestParameters, initOverrides);
+    const response = await this.patchOrganizationTournamentRaw(
+      { organizationId: organizationId, id: id, tournamentDetails: tournamentDetails },
+      initOverrides,
+    );
     return await response.value();
   }
 
@@ -367,10 +367,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Create Organization
    */
   async postOrganization(
-    requestParameters: PostOrganizationRequest,
+    organization: Organization,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Organization> {
-    const response = await this.postOrganizationRaw(requestParameters, initOverrides);
+    const response = await this.postOrganizationRaw({ organization: organization }, initOverrides);
     return await response.value();
   }
 
@@ -417,10 +417,14 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Create Tournament
    */
   async postOrganizationTournament(
-    requestParameters: PostOrganizationTournamentRequest,
+    organizationId: number,
+    tournamentDetails?: TournamentDetails,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
-    const response = await this.postOrganizationTournamentRaw(requestParameters, initOverrides);
+    const response = await this.postOrganizationTournamentRaw(
+      { organizationId: organizationId, tournamentDetails: tournamentDetails },
+      initOverrides,
+    );
     return await response.value();
   }
 }

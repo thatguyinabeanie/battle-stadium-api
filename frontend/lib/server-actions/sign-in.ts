@@ -59,10 +59,8 @@ export async function railsSignIn<T extends string | number | symbol>(
 
   try {
     return await BattleStadiumAPI().Session.create({
-      userLoginRequest: {
         email,
         password,
-      },
     });
   } catch (error) {
     return null;

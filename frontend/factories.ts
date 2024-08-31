@@ -54,8 +54,11 @@ import {
   PlayerDetails,
   Pokemon,
   RegistrationResponse,
+  Session,
+  SessionAndUser,
   SessionResponse,
   SessionResponseSession,
+  SessionSession,
   Tournament,
   TournamentPostRequest,
   TournamentRequest,
@@ -313,12 +316,29 @@ export const RoundFactory = new Factory<Round>()
   .attr("startedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("endedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null));
 
+export const SessionFactory = new Factory<Session>()
+
+  .attr("token", () => faker.lorem.word())
+  .attr("userId", () => faker.lorem.word())
+  .attr("expiresAt", () => faker.date.recent());
+
+export const SessionAndUserFactory = new Factory<SessionAndUser>()
+
+  .attr("session", () => SessionFactory.build())
+  .attr("user", () => UserDetailsFactory.build());
+
 export const SessionResponseFactory = new Factory<SessionResponse>()
 
   .attr("session", () => SessionResponseSessionFactory.build())
   .attr("user", () => UserDetailsFactory.build());
 
 export const SessionResponseSessionFactory = new Factory<SessionResponseSession>()
+
+  .attr("token", () => faker.lorem.word())
+  .attr("userId", () => faker.lorem.word())
+  .attr("expiresAt", () => faker.date.recent());
+
+export const SessionSessionFactory = new Factory<SessionSession>()
 
   .attr("token", () => faker.lorem.word())
   .attr("userId", () => faker.lorem.word())

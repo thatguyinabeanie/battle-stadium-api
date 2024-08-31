@@ -62,10 +62,10 @@ export class RegistrationApi extends runtime.BaseAPI {
    * Registers a new user
    */
   async registerUser(
-    requestParameters: RegisterUserOperationRequest = {},
+    registerUserRequest?: RegisterUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<RegistrationResponse> {
-    const response = await this.registerUserRaw(requestParameters, initOverrides);
+    const response = await this.registerUserRaw({ registerUserRequest: registerUserRequest }, initOverrides);
     return await response.value();
   }
 }

@@ -14,7 +14,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
 
       parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserLoginRequest' }
 
-      response(201, 'created') do
+      response(201, 'Created with Email') do
         let(:existing_user) { create(:user) }
         let(:user) do
           {
@@ -29,7 +29,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
         run_test!
       end
 
-      response(201, 'created') do
+      response(201, 'Created with Username') do
         let(:existing_user) { create(:user) }
         let(:user) do
           {
@@ -44,7 +44,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
         run_test!
       end
 
-      response(401, 'unauthorized') do
+      response(401, 'Unauthorized with Email') do
         let(:user) do
           {
             user: {
@@ -59,7 +59,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
         run_test!
       end
 
-      response(401, 'unauthorized') do
+      response(401, 'Unauthorized with no email or password.') do
         let(:user) do
           {
             user: {
@@ -91,7 +91,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
   end
 
   path('/api/v1/auth/session') do
-    get('Get Session') do
+    get('Get Session and User') do
       tags 'Sessions'
       produces 'application/json'
       description 'Shows the current session.'
@@ -100,9 +100,33 @@ RSpec.describe Api::V1::Auth::SessionsController do
       response(200, 'ok') do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
-        let(:Authorization) { "Bearer #{session.token}" }
+        let(:Authorization) { "Bearer #{session.token}" } # rubocop:disable RSpec/VariableName
 
-        schema '$ref' => '#/components/schemas/SessionResponse'
+        schema '$ref' => '#/components/schemas/SessionAndUser'
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(401, 'unauthorized') do
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+
+    put('Refresh Session') do
+      tags 'Sessions'
+      produces 'application/json'
+      description 'Updates the current session.'
+      operationId 'update'
+
+      response(201, 'created') do
+        let(:existing_user) { create(:user) }
+        let(:session) { create(:session, user: existing_user) }
+        let(:Authorization) { "Bearer #{session.token}" } # rubocop:disable RSpec/VariableName
+
+        schema '$ref' => '#/components/schemas/Session'
         OpenApi::Response.set_example_response_metadata
 
         run_test!

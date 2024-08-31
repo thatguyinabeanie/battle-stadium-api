@@ -91,10 +91,11 @@ export class PhasesApi extends runtime.BaseAPI {
    * Delete Tournament Phase
    */
   async deleteTournamentPhase(
-    requestParameters: DeleteTournamentPhaseRequest,
+    tournamentId: number,
+    id: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
-    await this.deleteTournamentPhaseRaw(requestParameters, initOverrides);
+    await this.deleteTournamentPhaseRaw({ tournamentId: tournamentId, id: id }, initOverrides);
   }
 
   /**
@@ -137,10 +138,10 @@ export class PhasesApi extends runtime.BaseAPI {
    * List Tournament Phases
    */
   async listTournamentPhases(
-    requestParameters: ListTournamentPhasesRequest,
+    tournamentId: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Phase>> {
-    const response = await this.listTournamentPhasesRaw(requestParameters, initOverrides);
+    const response = await this.listTournamentPhasesRaw({ tournamentId: tournamentId }, initOverrides);
     return await response.value();
   }
 
@@ -193,10 +194,15 @@ export class PhasesApi extends runtime.BaseAPI {
    * Update Tournament Phase
    */
   async patchTournamentPhase(
-    requestParameters: PatchTournamentPhaseRequest,
+    tournamentId: number,
+    id: number,
+    phase?: Phase,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.patchTournamentPhaseRaw(requestParameters, initOverrides);
+    const response = await this.patchTournamentPhaseRaw(
+      { tournamentId: tournamentId, id: id, phase: phase },
+      initOverrides,
+    );
     return await response.value();
   }
 
@@ -243,10 +249,11 @@ export class PhasesApi extends runtime.BaseAPI {
    * Create Tournament Phase
    */
   async postTournamentPhase(
-    requestParameters: PostTournamentPhaseRequest,
+    tournamentId: number,
+    phase?: Phase,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.postTournamentPhaseRaw(requestParameters, initOverrides);
+    const response = await this.postTournamentPhaseRaw({ tournamentId: tournamentId, phase: phase }, initOverrides);
     return await response.value();
   }
 
@@ -296,10 +303,11 @@ export class PhasesApi extends runtime.BaseAPI {
    * Show Tournament Phase
    */
   async showTournamentPhase(
-    requestParameters: ShowTournamentPhaseRequest,
+    tournamentId: number,
+    id: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<PhaseDetails> {
-    const response = await this.showTournamentPhaseRaw(requestParameters, initOverrides);
+    const response = await this.showTournamentPhaseRaw({ tournamentId: tournamentId, id: id }, initOverrides);
     return await response.value();
   }
 }

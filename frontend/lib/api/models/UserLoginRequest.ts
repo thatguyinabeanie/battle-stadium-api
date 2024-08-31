@@ -30,7 +30,7 @@ export interface UserLoginRequest {
    * @type {string}
    * @memberof UserLoginRequest
    */
-  email: string | null;
+  email?: string | null;
   /**
    * Must be at least 8 characters
    * @type {string}
@@ -43,7 +43,6 @@ export interface UserLoginRequest {
  * Check if a given object implements the UserLoginRequest interface.
  */
 export function instanceOfUserLoginRequest(value: object): value is UserLoginRequest {
-  if (!("email" in value) || value["email"] === undefined) return false;
   if (!("password" in value) || value["password"] === undefined) return false;
   return true;
 }
@@ -58,7 +57,7 @@ export function UserLoginRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
   }
   return {
     username: json["username"] == null ? undefined : json["username"],
-    email: json["email"],
+    email: json["email"] == null ? undefined : json["email"],
     password: json["password"],
   };
 }

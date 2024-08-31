@@ -66,10 +66,10 @@ export class TournamentsApi extends runtime.BaseAPI {
    * Show Tournament
    */
   async getTournament(
-    requestParameters: GetTournamentRequest,
+    id: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
-    const response = await this.getTournamentRaw(requestParameters, initOverrides);
+    const response = await this.getTournamentRaw({ id: id }, initOverrides);
     return await response.value();
   }
 

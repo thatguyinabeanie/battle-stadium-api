@@ -70,11 +70,8 @@ export class GamesApi extends runtime.BaseAPI {
    * Deletes a game by ID.
    * Delete Game
    */
-  async deleteGame(
-    requestParameters: DeleteGameRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<void> {
-    await this.deleteGameRaw(requestParameters, initOverrides);
+  async deleteGame(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    await this.deleteGameRaw({ id: id }, initOverrides);
   }
 
   /**
@@ -110,11 +107,8 @@ export class GamesApi extends runtime.BaseAPI {
    * Retrieves a specific game by ID.
    * Show Game
    */
-  async getGame(
-    requestParameters: GetGameRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<GameDetail> {
-    const response = await this.getGameRaw(requestParameters, initOverrides);
+  async getGame(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GameDetail> {
+    const response = await this.getGameRaw({ id: id }, initOverrides);
     return await response.value();
   }
 
@@ -188,10 +182,11 @@ export class GamesApi extends runtime.BaseAPI {
    * Update Game
    */
   async patchGame(
-    requestParameters: PatchGameRequest,
+    id: number,
+    game?: Game,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<GameDetail> {
-    const response = await this.patchGameRaw(requestParameters, initOverrides);
+    const response = await this.patchGameRaw({ id: id, game: game }, initOverrides);
     return await response.value();
   }
 
@@ -227,11 +222,8 @@ export class GamesApi extends runtime.BaseAPI {
    * Creates a new game.
    * Create Game
    */
-  async postGame(
-    requestParameters: PostGameRequest = {},
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<GameDetail> {
-    const response = await this.postGameRaw(requestParameters, initOverrides);
+  async postGame(game?: Game, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GameDetail> {
+    const response = await this.postGameRaw({ game: game }, initOverrides);
     return await response.value();
   }
 }

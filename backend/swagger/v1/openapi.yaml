@@ -56,13 +56,13 @@ paths:
       parameters: []
       responses:
         '201':
-          description: created
+          description: Created with Username
           content:
             application/json:
               schema:
                 "$ref": "#/components/schemas/UserLoginResponse"
         '401':
-          description: unauthorized
+          description: Unauthorized with no email or password.
       requestBody:
         content:
           application/json:
@@ -80,7 +80,7 @@ paths:
           description: no content
   "/api/v1/auth/session":
     get:
-      summary: Get Session
+      summary: Get Session and User
       tags:
       - Sessions
       description: Shows the current session.
@@ -91,7 +91,22 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SessionResponse"
+                "$ref": "#/components/schemas/SessionAndUser"
+        '401':
+          description: unauthorized
+    put:
+      summary: Refresh Session
+      tags:
+      - Sessions
+      description: Updates the current session.
+      operationId: update
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Session"
         '401':
           description: unauthorized
   "/api/v1/games":
@@ -1005,7 +1020,6 @@ components:
           title: Password
           description: Must be at least 8 characters
       required:
-      - email
       - password
     RegistrationResponse:
       type: object
@@ -1547,26 +1561,29 @@ components:
           format: jwt
       required:
       - token
-    SessionResponse:
+    Session:
       type: object
-      title: Session Response
+      title: Session
+      properties:
+        token:
+          type: string
+          format: jwt
+        user_id:
+          type: string
+          format: uuid
+        expires_at:
+          type: string
+          format: date-time
+      required:
+      - token
+      - user_id
+      - expires_at
+    SessionAndUser:
+      type: object
+      title: Session And User
       properties:
         session:
-          type: object
-          properties:
-            token:
-              type: string
-              format: jwt
-            user_id:
-              type: string
-              format: uuid
-            expires_at:
-              type: string
-              format: date-time
-          required:
-          - token
-          - user_id
-          - expires_at
+          "$ref": "#/components/schemas/Session"
         user:
           "$ref": "#/components/schemas/UserDetails"
       required:

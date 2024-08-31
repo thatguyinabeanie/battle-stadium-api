@@ -5,13 +5,24 @@ module Auth
     validates :token, presence: true, uniqueness: true
     validates :expires_at, presence: true
 
-    EXPIRES_AT=3.days.from_now
+    SESSION_DURATOIN = 1.day
 
     before_validation :generate_token, on: :create
     before_validation :set_expires_at, on: :create
 
     def active?
-      self.expires_at > Time.now
+      expires_at > Time.now.utc
+    end
+
+    def refresh
+      self.expires_at = Time.now.utc + SESSION_DURATOIN
+
+      save!
+    end
+
+    def revoke
+      self.expires_at = Time.now.utc
+      destroy
     end
 
     private
@@ -21,11 +32,7 @@ module Auth
     end
 
     def set_expires_at
-      self.expires_at ||= EXPIRES_AT
-    end
-
-    def revoke_session
-      self.expires_at = Time.now
+      self.expires_at ||= Time.now.utc + SESSION_DURATOIN
     end
   end
 end
