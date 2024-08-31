@@ -104,7 +104,7 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
       last_name: { type: :string },
       email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
     },
-    required: %w[email first_name last_name] + SIMPLE_USER_SCHEMA[:required]
+    required: %w[email first_name last_name email_verified_at] + SIMPLE_USER_SCHEMA[:required]
   }
 ).freeze
 

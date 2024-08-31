@@ -1,3 +1,5 @@
+require_relative '../../../lib/token_encryptor'
+
 module Auth
   class Session < ApplicationRecord
     belongs_to :user, inverse_of: :sessions, class_name: 'User'
@@ -14,7 +16,7 @@ module Auth
       expires_at > Time.now.utc
     end
 
-    def refresh
+    def update
       self.expires_at = Time.now.utc + SESSION_DURATOIN
 
       save!
@@ -25,10 +27,24 @@ module Auth
       destroy
     end
 
+    def encrypt
+      TokenEncryptor.encrypt(
+        {
+          token:,
+          user_id: user.id,
+          expires: expires_at
+        }
+      )
+    end
+
+    def self.generate_token
+      SecureRandom.hex(48)
+    end
+
     private
 
     def generate_token
-      self.token ||= SecureRandom.hex(32)
+      self.token ||= self.class.generate_token
     end
 
     def set_expires_at

@@ -1,7 +1,5 @@
 require 'swagger_helper'
-# require_relative '../../support/openapi/schema_helper'
 require_relative '../../../../support/openapi/response_helper'
-# require_relative '../../../app/models/concerns/secure_password'
 
 RSpec.describe Api::V1::Auth::SessionsController do
   path('/api/v1/auth/sign_in') do
@@ -97,10 +95,12 @@ RSpec.describe Api::V1::Auth::SessionsController do
       description 'Shows the current session.'
       operationId 'getSession'
 
+      security [Bearer: []]
+
       response(200, 'ok') do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
-        let(:Authorization) { "Bearer #{session.token}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { "Bearer #{session.encrypt}" } # rubocop:disable RSpec/VariableName
 
         schema '$ref' => '#/components/schemas/SessionAndUser'
         OpenApi::Response.set_example_response_metadata
@@ -115,16 +115,20 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
     end
 
-    put('Refresh Session') do
+    put('Update Session') do
       tags 'Sessions'
       produces 'application/json'
       description 'Updates the current session.'
       operationId 'update'
 
-      response(201, 'created') do
+      parameter name: :Authorization, in: :header, type: :string, required: true, description: 'Authorization token'
+
+      security [Bearer: []]
+
+      response(200, 'updates') do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
-        let(:Authorization) { "Bearer #{session.token}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { "Bearer #{session.encrypt}" } # rubocop:disable RSpec/VariableName
 
         schema '$ref' => '#/components/schemas/Session'
         OpenApi::Response.set_example_response_metadata

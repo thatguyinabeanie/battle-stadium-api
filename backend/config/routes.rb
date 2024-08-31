@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'api/v1/auth/session', to: 'api/v1/auth/sessions#show'
-    put 'api/v1/auth/session', to: 'api/v1/auth/sessions#refresh'
+    put 'api/v1/auth/session', to: 'api/v1/auth/sessions#update'
   end
 
   namespace :api, defaults: { format: :json } do

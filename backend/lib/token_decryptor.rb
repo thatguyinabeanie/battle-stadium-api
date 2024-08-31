@@ -3,10 +3,9 @@ require 'json/jwt'
 
 class TokenDecryptor
   def self.decrypt(token, secret = ENV.fetch('AUTH_SECRET', nil))
-    jwt = JSON::JWT.decode(token, secret)
-    jwt.plain_text
+    JSON::JWT.decode(token, secret, :HS512)
   rescue StandardError => e
     Rails.logger.error "Failed to decrypt token: #{e.message}"
-    nil
+    throw e
   end
 end

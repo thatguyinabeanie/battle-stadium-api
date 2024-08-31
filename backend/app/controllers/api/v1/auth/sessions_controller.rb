@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'jwt'
-require_relative '../../../../../lib/helpers/JWT/token_handler'
+require_relative '../../../../../lib/token_decryptor'
 
 module Api
   module V1
@@ -16,8 +16,7 @@ module Api
         def show
           encrypted_token = request.headers['Authorization']&.split&.last
           decrypted_payload = TokenDecryptor.decrypt(encrypted_token)
-
-          token = JSON.parse(decrypted_payload)['token']
+          token = decrypted_payload['token']
           session = ::Auth::Session.find_by(token:)
 
           return invalid_token_or_expired_session unless session&.active?
@@ -33,16 +32,16 @@ module Api
             user: {
               id: user.id,
               email: user.email,
-              email_verified: user.email_verified_at,
+              email_verified_at: user.email_verified_at,
               first_name: user.first_name,
               last_name: user.last_name,
               username: user.username,
-              pronouns: user.pronouns,
-              created_at: user.created_at
+              pronouns: user.pronouns
             }
           }, status: :ok
-        rescue StandardError
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+        rescue StandardError => e
+          Rails.logger.error e.message
+          render json: { error: "Invalid token or expired session #{e.message}" }, status: :unauthorized
         end
 
         # POST /api/v1/auth/sign_in
@@ -74,14 +73,13 @@ module Api
 
         def update
           encrypted_token = request.headers['Authorization']&.split&.last
-          decrypted_payload = TokenDecryptor.decrypt(encrypted_token)
-          token = JSON.parse(decrypted_payload)['token']
-
-          session = ::Auth::Session.find_by(token:)
+          token = TokenDecryptor.decrypt(encrypted_token)
+          session_token = token['token']
+          session = ::Auth::Session.find_by(token: session_token)
 
           return invalid_token_or_expired_session unless session&.active?
 
-          session.refresh
+          session.update
           user = session.user
 
           render json: { session: {
@@ -91,15 +89,14 @@ module Api
           }, user: {
             id: user.id,
             email: user.email,
-            email_verified: user.email_verified_at,
+            email_verified_at: user.email_verified_at,
             first_name: user.first_name,
             last_name: user.last_name,
             username: user.username,
-            pronouns: user.pronouns,
-            created_at: user.created_at
+            pronouns: user.pronouns
           } }, status: :ok
-        rescue StandardError
-          invalid_token_or_expired_session
+        rescue StandardError => e
+          render json: { error: "Invalid token or expired session#{e.message}" }, status: :unauthorized
         end
 
         # DELETE /api/v1/auth/sign_out

@@ -100,6 +100,15 @@ RSpec.describe Api::V1::UsersController do
 
         run_test!
       end
+
+      response(404, NOT_FOUND) do
+        let(:token) { 'invalid' }
+        let(:Authorization) { "Bearer #{token}" } # rubocop:disable RSpec/VariableName
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
     end
   end
 

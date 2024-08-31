@@ -13,7 +13,7 @@ function userAdapter(user: UserDetails): AdapterUser {
     pronouns: user.pronouns,
     username: user.username,
     name: `${user.firstName} ${user.lastName}`,
-    emailVerified: user.emailVerified ?? null,
+    emailVerified: user.emailVerifiedAt ?? null,
   };
 
   return adapterUser;
@@ -44,7 +44,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         return {
           id: createdUser.id,
           email: createdUser.email,
-          emailVerified: createdUser.emailVerified ?? null,
+          emailVerified: createdUser.emailVerifiedAt ?? null,
           name: createdUser.name,
           firstName: createdUser.firstName,
           lastName: createdUser.lastName,
@@ -205,7 +205,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
             firstName: user.firstName,
             lastName: user.lastName,
             pronouns: user.pronouns,
-            emailVerified: user.emailVerified ?? null,
+            emailVerified: user.emailVerifiedAt ?? null,
           },
         };
       } catch (error) {

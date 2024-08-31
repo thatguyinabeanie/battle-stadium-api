@@ -1,6 +1,6 @@
 require_relative '../../../serializer/user_serializer'
 require 'jwt'
-require_relative '../../../../lib/helpers/JWT/token_handler'
+require_relative '../../../../lib/token_decryptor'
 
 module Api
   module V1
@@ -46,11 +46,10 @@ module Api
         token = request.headers['Authorization']&.split&.last
 
         begin
-          decoded_token = Helpers::JWT::TokenHandler.new.decode!(token)
-          decoded_token.first['sub']
+          decoded_token = TokenDecryptor.decrypt(token)['sub']
           Rails.logger.info("Decoded token: #{decoded_token}")
 
-          @current_user = User.find(decoded_token.first['sub'])
+          @current_user = User.find(decoded_token)
 
           Rails.logger.info("current_user: #{@current_user}")
         rescue JWT::DecodeError => e

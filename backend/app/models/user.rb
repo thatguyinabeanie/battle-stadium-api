@@ -1,6 +1,6 @@
 require 'devise'
 require 'faker'
-require_relative '../../lib/helpers/JWT/token_handler'
+require_relative '../../lib/token_encryptor'
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
@@ -23,8 +23,6 @@ class User < ApplicationRecord
   has_many :staff, through: :organization_staff_members, source: :user
   has_many :account, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Account'
   has_many :sessions, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Session'
-
-  before_create :generate_jti
 
   def staff_member_of?(organization)
     organization.staff.exists?(id:)
@@ -56,17 +54,13 @@ class User < ApplicationRecord
   end
 
   def jwt
+    update!(jti: SecureRandom.uuid) if jti.blank?
+
     payload = {
       sub: id,
       iat: Time.now.to_i,
       jti:
     }
-    JWT.encode(payload, Helpers::JWT::TokenHandler.new.jwt_secret_key, 'HS256')
-  end
-
-  private
-
-  def generate_jti
-    self.jti = SecureRandom.uuid
+    TokenEncryptor.encrypt(payload)
   end
 end

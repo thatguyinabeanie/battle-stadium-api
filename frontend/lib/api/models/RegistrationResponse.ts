@@ -84,7 +84,7 @@ export interface RegistrationResponse {
    * @type {Date}
    * @memberof RegistrationResponse
    */
-  emailVerified: Date | null;
+  emailVerifiedAt: Date | null;
   /**
    *
    * @type {string}
@@ -107,7 +107,7 @@ export function instanceOfRegistrationResponse(value: object): value is Registra
   if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
   if (!("jti" in value) || value["jti"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
-  if (!("emailVerified" in value) || value["emailVerified"] === undefined) return false;
+  if (!("emailVerifiedAt" in value) || value["emailVerifiedAt"] === undefined) return false;
   if (!("image" in value) || value["image"] === undefined) return false;
   return true;
 }
@@ -131,7 +131,7 @@ export function RegistrationResponseFromJSONTyped(json: any, ignoreDiscriminator
     pronouns: json["pronouns"],
     jti: json["jti"],
     name: json["name"],
-    emailVerified: json["email_verified"] == null ? null : new Date(json["email_verified"]),
+    emailVerifiedAt: json["email_verified_at"] == null ? null : new Date(json["email_verified_at"]),
     image: json["image"],
   };
 }
@@ -151,7 +151,7 @@ export function RegistrationResponseToJSON(value?: RegistrationResponse | null):
     pronouns: value["pronouns"],
     jti: value["jti"],
     name: value["name"],
-    email_verified: value["emailVerified"] == null ? null : (value["emailVerified"] as any).toISOString(),
+    email_verified_at: value["emailVerifiedAt"] == null ? null : (value["emailVerifiedAt"] as any).toISOString(),
     image: value["image"],
   };
 }

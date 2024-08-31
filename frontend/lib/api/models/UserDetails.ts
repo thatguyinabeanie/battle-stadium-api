@@ -54,7 +54,7 @@ export interface UserDetails {
    * @type {Date}
    * @memberof UserDetails
    */
-  emailVerified?: Date | null;
+  emailVerifiedAt?: Date | null;
   /**
    *
    * @type {string}
@@ -90,7 +90,7 @@ export function UserDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
-    emailVerified: json["email_verified"] == null ? undefined : new Date(json["email_verified"]),
+    emailVerifiedAt: json["email_verified_at"] == null ? undefined : new Date(json["email_verified_at"]),
     id: json["id"],
   };
 }
@@ -105,7 +105,7 @@ export function UserDetailsToJSON(value?: UserDetails | null): any {
     email: value["email"],
     first_name: value["firstName"],
     last_name: value["lastName"],
-    email_verified: value["emailVerified"] == null ? undefined : (value["emailVerified"] as any).toISOString(),
+    email_verified_at: value["emailVerifiedAt"] == null ? undefined : (value["emailVerifiedAt"] as any).toISOString(),
     id: value["id"],
   };
 }
