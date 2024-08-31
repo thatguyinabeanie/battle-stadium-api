@@ -854,13 +854,13 @@ components:
           type: string
         last_name:
           type: string
+        id:
+          type: string
+          format: uuid
         email_verified_at:
           type: string
           format: date-time
           nullable: true
-        id:
-          type: string
-          format: uuid
       required:
       - id
       - email
@@ -883,13 +883,13 @@ components:
           type: string
         last_name:
           type: string
+        id:
+          type: string
+          format: uuid
         email_verified_at:
           type: string
           format: date-time
           nullable: true
-        id:
-          type: string
-          format: uuid
         organizations:
           type: array
           items:
@@ -917,10 +917,6 @@ components:
           type: string
         last_name:
           type: string
-        email_verified_at:
-          type: string
-          format: date-time
-          nullable: true
         password:
           type: string
           minLength: 8
@@ -959,10 +955,6 @@ components:
           type: string
         last_name:
           type: string
-        email_verified_at:
-          type: string
-          format: date-time
-          nullable: true
         current_password:
           type: string
           minLength: 8

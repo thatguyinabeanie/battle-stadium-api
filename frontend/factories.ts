@@ -427,8 +427,8 @@ export const UserDetailsFactory = new Factory<UserDetails>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
-  .sequence("id");
+  .sequence("id")
+  .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null));
 
 export const UserLoginRequestFactory = new Factory<UserLoginRequest>()
 
@@ -454,8 +454,8 @@ export const UserMeFactory = new Factory<UserMe>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .sequence("id")
+  .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("organizations", () => OrganizationFactory.buildList(faker.number.int({ min: 1, max: 5 })));
 
 export const UserPostRequestFactory = new Factory<UserPostRequest>()
@@ -465,7 +465,6 @@ export const UserPostRequestFactory = new Factory<UserPostRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("password", () => faker.internet.password())
   .attr("passwordConfirmation", function (this: any) {
     return this.password;
@@ -479,6 +478,5 @@ export const UserRequestFactory = new Factory<UserRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("currentPassword", () => faker.lorem.word())
   .sequence("id");

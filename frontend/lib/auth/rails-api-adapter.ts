@@ -105,6 +105,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         lastName: user.lastName ?? "",
         pronouns: user.pronouns ?? "",
         username: user.username ?? "",
+        emailVerifiedAt: user.emailVerified ?? null,
       };
 
       try {
@@ -220,7 +221,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       console.log("updateSession", sessionToken, expires, userId);
       try {
 
-        const session= await apiClient.Session.update(authorizationHeader(sessionToken));
+        const { session }= await apiClient.Session.update(authorizationHeader(sessionToken));
 
         return {
           sessionToken: session.token,

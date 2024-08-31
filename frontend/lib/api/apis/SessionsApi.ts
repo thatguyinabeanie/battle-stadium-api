@@ -13,10 +13,8 @@
  */
 
 import * as runtime from "../runtime";
-import type { Session, SessionAndUser, UserLoginRequest, UserLoginResponse } from "../models/index";
+import type { SessionAndUser, UserLoginRequest, UserLoginResponse } from "../models/index";
 import {
-  SessionFromJSON,
-  SessionToJSON,
   SessionAndUserFromJSON,
   SessionAndUserToJSON,
   UserLoginRequestFromJSON,
@@ -43,6 +41,10 @@ export class SessionsApi extends runtime.BaseAPI {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
 
     const response = await this.request(
       {
@@ -138,12 +140,18 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Updates the current session.
-   * Refresh Session
+   * Update Session
    */
-  async updateRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Session>> {
+  async updateRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<SessionAndUser>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
 
     const response = await this.request(
       {
@@ -155,14 +163,14 @@ export class SessionsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => SessionFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => SessionAndUserFromJSON(jsonValue));
   }
 
   /**
    * Updates the current session.
-   * Refresh Session
+   * Update Session
    */
-  async update(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Session> {
+  async update(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionAndUser> {
     const response = await this.updateRaw(initOverrides);
     return await response.value();
   }

@@ -101,8 +101,7 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
     properties: {
       email: { type: :string },
       first_name: { type: :string },
-      last_name: { type: :string },
-      email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
+      last_name: { type: :string }
     },
     required: %w[email first_name last_name email_verified_at] + SIMPLE_USER_SCHEMA[:required]
   }
@@ -112,7 +111,7 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: 'User Details',
-    properties: UUID_PROPERTY,
+    properties: UUID_PROPERTY.merge(email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }),
     required: %w[id] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze

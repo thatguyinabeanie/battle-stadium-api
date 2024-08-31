@@ -50,12 +50,6 @@ export interface UserRequest {
    */
   lastName: string;
   /**
-   *
-   * @type {Date}
-   * @memberof UserRequest
-   */
-  emailVerifiedAt?: Date | null;
-  /**
    * Your current password.
    * @type {string}
    * @memberof UserRequest
@@ -96,7 +90,6 @@ export function UserRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
-    emailVerifiedAt: json["email_verified_at"] == null ? undefined : new Date(json["email_verified_at"]),
     currentPassword: json["current_password"],
     id: json["id"] == null ? undefined : json["id"],
   };
@@ -112,7 +105,6 @@ export function UserRequestToJSON(value?: UserRequest | null): any {
     email: value["email"],
     first_name: value["firstName"],
     last_name: value["lastName"],
-    email_verified_at: value["emailVerifiedAt"] == null ? undefined : (value["emailVerifiedAt"] as any).toISOString(),
     current_password: value["currentPassword"],
     id: value["id"],
   };
