@@ -9,8 +9,6 @@ declare module "next-auth" {
   interface Session {
     user: {
       name?: string;
-      /** The user's postal address. */
-      address: string;
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
@@ -18,7 +16,7 @@ declare module "next-auth" {
        * you need to add them back into the newly declared interface.
        */
     } & DefaultSession["user"];
-    token: string;
+    token: JWT;
   }
   /**
  * The shape of the user object returned in the OAuth providers' `profile` callback,
@@ -31,11 +29,13 @@ declare module "next-auth" {
     lastName?: string | null;
     pronouns?: string | null;
     name?: string | null;
+    token?: string;
   }
 
   interface User extends UserBase{
     password?: string;
     passwordConfirmation?: string;
+
   }
 
   interface AdapterUser extends UserBase {

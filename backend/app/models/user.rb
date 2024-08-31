@@ -54,19 +54,4 @@ class User < ApplicationRecord
 
     super
   end
-
-  def jwt
-    payload = {
-      sub: id,
-      iat: Time.now.to_i,
-      jti:
-    }
-    JWT.encode(payload, Helpers::JWT::TokenHandler.new.jwt_secret_key, 'HS256')
-  end
-
-  private
-
-  def generate_jti
-    self.jti = SecureRandom.uuid
-  end
 end

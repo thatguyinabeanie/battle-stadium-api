@@ -4,7 +4,8 @@ require 'rails_helper'
 require 'support/constants'
 
 ID_PROPERTY = { id: { type: :integer } }.freeze
-UUID_PROPERTY = { id: { type: :string, format: 'uuid' } }.freeze
+UUID_TYPE = { type: :string, format: 'uuid' }.freeze
+UUID_PROPERTY = { id: UUID_TYPE }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
@@ -322,7 +323,7 @@ PLAYER_REQUEST = {
   type: :object,
   title: 'Player Request',
   properties: {
-    user_id: { type: :integer },
+    user_id: UUID_TYPE,
     in_game_name: { type: :string }
   },
   required: %w[user_id in_game_name]
@@ -395,6 +396,33 @@ PHASE_DETAILS_SCHEMA = {
   ),
   required: PHASE_SCHEMA[:required] + %w[players rounds]
 }.freeze
+
+GET_SESSION_REQUEST = {
+  type: :object,
+  title: 'Get Session Params',
+  properties: {
+    token: { type: :string, format: 'jwt' },
+  },
+  required: %w[token]
+}
+
+SESSION_RESPONSE = {
+  type: :object,
+  title: 'Session Response',
+  properties: {
+    session: {
+      type: :object,
+      properties: {
+        token: { type: :string, format: 'jwt' },
+        user_id: UUID_TYPE,
+        expires_at: { type: :string, format: DATE_TIME_TYPE }
+      },
+      required: %w[token user_id expires_at]
+    },
+    user: { '$ref' => '#/components/schemas/UserDetails' }
+  },
+  required: %w[session user]
+}
 
 RSpec.configure do |config|
   # config.include SwaggerHelper
@@ -472,7 +500,9 @@ RSpec.configure do |config|
           PhaseDetails: PHASE_DETAILS_SCHEMA,
           GameRequest: GAME_REQUEST,
           TournamentRequest: TOURNAMENT_REQUEST,
-          TournamentPostRequest: TOURNAMENT_POST_REQUEST
+          TournamentPostRequest: TOURNAMENT_POST_REQUEST,
+          GetSessionRequest: GET_SESSION_REQUEST,
+          SessionResponse: SESSION_RESPONSE
         }
       }
     }

@@ -13,6 +13,7 @@ models/Format.ts
 models/Game.ts
 models/GameDetail.ts
 models/GameRequest.ts
+models/GetSessionRequest.ts
 models/Organization.ts
 models/OrganizationDetails.ts
 models/PasswordRequest.ts
@@ -25,6 +26,8 @@ models/Pokemon.ts
 models/RegisterUserRequest.ts
 models/RegistrationResponse.ts
 models/Round.ts
+models/SessionResponse.ts
+models/SessionResponseSession.ts
 models/Tournament.ts
 models/TournamentDetails.ts
 models/TournamentPostRequest.ts

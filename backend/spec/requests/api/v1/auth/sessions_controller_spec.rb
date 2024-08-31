@@ -58,6 +58,20 @@ RSpec.describe Api::V1::Auth::SessionsController do
 
         run_test!
       end
+
+      response(401, 'unauthorized') do
+        let(:user) do
+          {
+            user: {
+              password: SecurePassword.generate_secure_password
+            }
+          }
+        end
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
     end
   end
 
@@ -69,6 +83,32 @@ RSpec.describe Api::V1::Auth::SessionsController do
       operationId 'logoutUser'
 
       response(204, 'no content') do
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+  end
+
+  path('/api/v1/auth/session') do
+    get('Get Session') do
+      tags 'Sessions'
+      produces 'application/json'
+      description 'Shows the current session.'
+      operationId 'getSession'
+
+      response(200, 'ok') do
+        let(:existing_user) { create(:user) }
+        let(:session) { create(:session, user: existing_user) }
+        let(:Authorization) { "Bearer #{session.token}" }
+
+        schema '$ref' => '#/components/schemas/SessionResponse'
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(401, 'unauthorized') do
         OpenApi::Response.set_example_response_metadata
 
         run_test!

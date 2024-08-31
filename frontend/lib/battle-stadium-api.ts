@@ -28,7 +28,6 @@ import {
   LoginUserRequest,
   RegistrationApi,
   RegisterUserOperationRequest,
-
   OrganizationsApi,
 } from "@/lib/api/apis";
 import { auth } from "@/auth";
@@ -65,11 +64,10 @@ const defaultConfig = async () => {
 
 const Session = (configOverride?: Configuration) => {
   const SessionAPI = async () => new SessionsApi( configOverride ?? await defaultConfig());
-
   return {
     create: async (requestParameters?: LoginUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await SessionAPI()).loginUser(requestParameters, initOverrides),
-    getSessionAndUser: async (sessionToken: string, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({}) as any,
+    get: async (initOverrides?: RequestInit | InitOverrideFunction) => (await SessionAPI()).getSession(initOverrides),
     update: async (initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({}) as any,
     delete: async (initOverrides?: RequestInit | InitOverrideFunction) =>
       (await SessionAPI()).logoutUser(initOverrides),

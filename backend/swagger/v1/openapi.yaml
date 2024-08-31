@@ -78,6 +78,22 @@ paths:
       responses:
         '204':
           description: no content
+  "/api/v1/auth/session":
+    get:
+      summary: Get Session
+      tags:
+      - Sessions
+      description: Shows the current session.
+      operationId: getSession
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SessionResponse"
+        '401':
+          description: unauthorized
   "/api/v1/games":
     get:
       summary: List Games
@@ -1259,7 +1275,8 @@ components:
       title: Player Request
       properties:
         user_id:
-          type: integer
+          type: string
+          format: uuid
         in_game_name:
           type: string
       required:
@@ -1521,3 +1538,37 @@ components:
       - check_in_start_at
       - open_team_sheets
       - teamlists_required
+    GetSessionRequest:
+      type: object
+      title: Get Session Params
+      properties:
+        token:
+          type: string
+          format: jwt
+      required:
+      - token
+    SessionResponse:
+      type: object
+      title: Session Response
+      properties:
+        session:
+          type: object
+          properties:
+            token:
+              type: string
+              format: jwt
+            user_id:
+              type: string
+              format: uuid
+            expires_at:
+              type: string
+              format: date-time
+          required:
+          - token
+          - user_id
+          - expires_at
+        user:
+          "$ref": "#/components/schemas/UserDetails"
+      required:
+      - session
+      - user

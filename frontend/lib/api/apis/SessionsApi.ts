@@ -13,8 +13,10 @@
  */
 
 import * as runtime from "../runtime";
-import type { UserLoginRequest, UserLoginResponse } from "../models/index";
+import type { SessionResponse, UserLoginRequest, UserLoginResponse } from "../models/index";
 import {
+  SessionResponseFromJSON,
+  SessionResponseToJSON,
   UserLoginRequestFromJSON,
   UserLoginRequestToJSON,
   UserLoginResponseFromJSON,
@@ -29,6 +31,39 @@ export interface LoginUserRequest {
  *
  */
 export class SessionsApi extends runtime.BaseAPI {
+  /**
+   * Shows the current session.
+   * Get Session
+   */
+  async getSessionRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<SessionResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/api/v1/auth/session`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => SessionResponseFromJSON(jsonValue));
+  }
+
+  /**
+   * Shows the current session.
+   * Get Session
+   */
+  async getSession(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionResponse> {
+    const response = await this.getSessionRaw(initOverrides);
+    return await response.value();
+  }
+
   /**
    * Logs in a User.
    * Login

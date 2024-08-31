@@ -1,33 +1,39 @@
 // eslint-disable-file no-console
 import * as jose from "jose";
-import NextAuth from "next-auth";
-
+import NextAuth, { NextAuthConfig } from "next-auth";
+import { EncryptJWT, jwtDecrypt } from 'jose'
 import { providers } from "./auth.config";
 import { RailsAdapter } from "@/lib/auth/rails-api-adapter";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
 import { Configuration } from "./lib/api/runtime";
+import { JWTEncodeParams } from "@auth/core/jwt";
 
+const config = async (): Promise<Configuration> => {
+  const jwt = new jose.SignJWT({ username: 'battlestadiumbot' })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setIssuer("nextjs-auth-service")
+    .setAudience("rails-api-service")
+    .setExpirationTime("8h")
+    .sign(new TextEncoder().encode(process.env.AUTH_SECRET));
 
+  return new Configuration({
+    headers: {
+      Authorization: `Bearer ${await jwt}`,
+    }
+  });
+};
+
+const decrypt = async (token: string, secret:string ) => {
+  const encoder = new TextEncoder()
+  return (await jwtDecrypt(token, encoder.encode(secret), {
+    clockTolerance: 15
+  })).payload;
+}
 export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
-  const config = (): Configuration => {
-    const jwt = new jose.SignJWT({ username: 'battlestadiumbot' })
-      .setProtectedHeader({ alg: "HS256" })
-      .setIssuedAt()
-      .setIssuer("nextjs-auth-service")
-      .setAudience("rails-api-service")
-      .setExpirationTime("8h")
-      .sign(new TextEncoder().encode(process.env.AUTH_SECRET));
-
-    return new Configuration({
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      }
-    });
-  };
-
-  const apiClient = await BattleStadiumAPI(config());
+  const apiClient = BattleStadiumAPI(await config());
   try {
-    return {
+    const config: NextAuthConfig = {
       providers,
       adapter: RailsAdapter(apiClient),
       secret: process.env.AUTH_SECRET,
@@ -36,20 +42,81 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
         signOut: "/logout",
         error: "/",
       },
-      callbacks: {
-        async jwt({ token }) {
-          console.log('jwt callback', token);
+      jwt: {
+        encode: async ({ secret, token }: JWTEncodeParams) => {
 
-          return token;
+          console.log('jwt encode', 'secret', secret, 'token', token);
+          const encoder = new TextEncoder()
+
+          if(typeof secret === 'string') {
+            return await new EncryptJWT(token)
+              .setProtectedHeader({ alg: 'dir', enc: 'A256CBC-HS512' })
+              .encrypt(encoder.encode(secret));
+          }
+          else if(secret instanceof Array && secret.length > 0) {
+            return await new EncryptJWT(token)
+              .setProtectedHeader({ alg: 'dir', enc: 'A256CBC-HS512' })
+              .encrypt(encoder.encode(secret[0]));
+          }
+
+          throw new Error('Invalid secret provided');
         },
-        async session({ session }) {
+        decode: async ({ secret, token }) => {
+          console.log('jwt decode', 'secret', secret, 'token', token);
+
+          if(!token)  {
+            throw new Error('No token provided');
+          }
+
+          if(typeof secret === 'string') {
+            return await decrypt(token, secret);
+          }
+          else if(secret instanceof Array && secret.length > 0 && secret[0]) {
+            return await decrypt(token, secret[0]);
+          }
+
+          throw new Error('Invalid secret provided');
+
+        }
+      },
+      callbacks: {
+        async jwt ({ token, user, account, profile, session}) {
+          console.log('jwt callback', token);
+          console.log('jwt callback user', user);
+          console.log('jwt callback account', account);
+          console.log('jwt callback profile', profile);
+          console.log('jwt callback session', session);
+
+          if (user) {
+            token = {
+              ...token,
+              ...user,
+              accessToken: user.token
+            }
+          }
+
+          return token
+        },
+        async session ({ session, token, user, trigger, newSession }) {
           console.log('session callback', session);
-          return session;
-        },
+          console.log('session callback token', token);
+          console.log('session callback user', user);
+          console.log('session callback trigger', trigger);
+          console.log('session callback newSession', newSession);
+
+          // You might need to customize this based on your token structure
+          session.user = {
+            ...user,
+            name: `${user.firstName} ${user.lastName}`,
+          };
+          return session
+        }
       },
     };
+
+    return config;
   } catch (error) {
-    // console.error("Error initializing NextAuth adapter:", error);
+    console.error("Error initializing NextAuth adapter:", error);
     throw error;
   }
 });

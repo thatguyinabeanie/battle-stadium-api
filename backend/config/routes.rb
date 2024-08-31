@@ -17,6 +17,10 @@ Rails.application.routes.draw do
                registrations: 'api/v1/auth/registrations'
              }
 
+  devise_scope :user do
+    get 'api/v1/auth/session', to: 'api/v1/auth/sessions#show'
+  end
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'users/me', to: 'users#me'
@@ -25,6 +29,9 @@ Rails.application.routes.draw do
           patch 'password', to: 'users#patch_password'
         end
       end
+      # namespace :auth do
+      #   get 'session', to: 'sessions#show'
+      # end
 
       resources :organizations, only: %i[index show create update destroy staff] do
         member do

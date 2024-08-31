@@ -44,6 +44,7 @@ import {
   Format,
   GameDetail,
   GameRequest,
+  GetSessionRequest,
   User,
   OrganizationDetails,
   PasswordRequest,
@@ -53,6 +54,8 @@ import {
   PlayerDetails,
   Pokemon,
   RegistrationResponse,
+  SessionResponse,
+  SessionResponseSession,
   Tournament,
   TournamentPostRequest,
   TournamentRequest,
@@ -192,6 +195,8 @@ export const GameDetailFactory = new Factory<GameDetail>()
 
 export const GameRequestFactory = new Factory<GameRequest>().sequence("id").attr("name", () => faker.lorem.word());
 
+export const GetSessionRequestFactory = new Factory<GetSessionRequest>().attr("token", () => faker.lorem.word());
+
 export const OrganizationFactory = new Factory<Organization>()
 
   .attr("owner", () => UserFactory.build())
@@ -257,7 +262,7 @@ export const PlayerDetailsFactory = new Factory<PlayerDetails>()
 
 export const PlayerRequestFactory = new Factory<PlayerRequest>()
 
-  .attr("userId", () => faker.number.int({ min: 1, max: 100 }))
+  .attr("userId", () => faker.lorem.word())
   .attr("inGameName", () => faker.lorem.word());
 
 export const PokemonFactory = new Factory<Pokemon>()
@@ -307,6 +312,17 @@ export const RoundFactory = new Factory<Round>()
   .attr("roundNumber", () => faker.number.int({ min: 1, max: 100 }))
   .attr("startedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
   .attr("endedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null));
+
+export const SessionResponseFactory = new Factory<SessionResponse>()
+
+  .attr("session", () => SessionResponseSessionFactory.build())
+  .attr("user", () => UserDetailsFactory.build());
+
+export const SessionResponseSessionFactory = new Factory<SessionResponseSession>()
+
+  .attr("token", () => faker.lorem.word())
+  .attr("userId", () => faker.lorem.word())
+  .attr("expiresAt", () => faker.date.recent());
 
 export const TournamentFactory = new Factory<Tournament>()
 

@@ -5,13 +5,6 @@ import { BattleStadiumAPIClient } from "@/lib/battle-stadium-api";
 import { GetUserRequest, PatchUserRequest, RegisterUserRequest, ResponseError, UserDetails } from '@/lib/api';
 
 
-function catchError(error: unknown): null {
-  if ((error as ResponseError).response.status === 404) {
-    return null;
-  }
-  throw error
-}
-
 function userAdapter(user: UserDetails): AdapterUser {
   const adapterUser: AdapterUser = {
     id: user.id,
@@ -23,10 +16,8 @@ function userAdapter(user: UserDetails): AdapterUser {
     name: `${user.firstName} ${user.lastName}`,
     emailVerified: user.emailVerified ?? null,
   };
-
   return adapterUser;
 }
-
 
 export function RailsAdapter (apiClient: BattleStadiumAPIClient): Adapter {
   return {
@@ -46,11 +37,15 @@ export function RailsAdapter (apiClient: BattleStadiumAPIClient): Adapter {
         return {
           id: createdUser.id,
           email: createdUser.email,
-          emailVerified: null,
+          emailVerified: createdUser.emailVerified ?? null,
           name: createdUser.name,
+          firstName: createdUser.firstName,
+          lastName: createdUser.lastName,
+          pronouns: createdUser.pronouns,
+          username: createdUser.username
         }
       } catch (error) {
-        console.error('Error creating user:', error)
+        console.error('Error creating user:', error);
         throw error
       }
     },
@@ -61,8 +56,10 @@ export function RailsAdapter (apiClient: BattleStadiumAPIClient): Adapter {
           const user = await apiClient.Users.get({ id });
         return userAdapter(user);
       } catch (error) {
-        console.error('Error creating user:', error)
-        return null;
+        if ((error as ResponseError).response.status === 404) {
+          return null;
+        }
+        throw error;
       }
     },
 
@@ -72,7 +69,10 @@ export function RailsAdapter (apiClient: BattleStadiumAPIClient): Adapter {
         const user = await apiClient.Users.getByEmail( email );
         return userAdapter(user);
       } catch (error) {
-        return catchError(error);
+        if ((error as ResponseError).response.status === 404) {
+          return null;
+        }
+        throw error;
       }
     },
 
@@ -81,7 +81,10 @@ export function RailsAdapter (apiClient: BattleStadiumAPIClient): Adapter {
         const user = await apiClient.Users.getUserByProvider({} as GetUserRequest)
         return userAdapter(user);
       } catch (error) {
-        return catchError(error);
+        if ((error as ResponseError).response.status === 404) {
+          return null;
+        }
+        throw error;
       }
     },
 
@@ -157,8 +160,6 @@ export function RailsAdapter (apiClient: BattleStadiumAPIClient): Adapter {
     async createSession ({ sessionToken, userId, expires }) {
       console.log('Creating session', sessionToken, userId, expires);
       try {
-        console.log('Creating session', sessionToken, userId, expires);
-
         const session = await apiClient.Session.create({ userLoginRequest: { email: '', password: '' } });
 
         const adapterSession: AdapterSession = {
@@ -176,26 +177,41 @@ export function RailsAdapter (apiClient: BattleStadiumAPIClient): Adapter {
     async getSessionAndUser (sessionToken) {
       console.log('Getting session and user', sessionToken);
       try {
-        const { session, user } = await apiClient.Session.getSessionAndUser(sessionToken)
+        const { session, user } = await apiClient.Session.get({
+          headers: {
+            Authorization: `Bearer ${sessionToken}`
+          },
+        });
 
-        if (!session || !user) return null;
+        if (!session || !user) {
+          console.log('No session or user found');
+          return null;
+        }
+
+        console.log('Got session and user', session, user);
 
         return {
           session: {
-            sessionToken: session.sessionToken,
+            sessionToken: session.token,
             userId: session.userId,
-            expires: new Date(session.expires),
+            expires: session.expiresAt,
           },
           user: {
-            id: user.id.toString(),
+            id: user.id,
             email: user.email,
-            emailVerified: null,
-            name: user.name,
-            emailVerified: user.emailVerified,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            pronouns: user.pronouns,
+            emailVerified: user.emailVerified ?? null,
           },
         }
       } catch (error) {
-        return catchError(error);
+        if ((error as ResponseError)?.response?.status === 404) {
+          console.log('getSessionAndUser(nul)- No session or user found');
+          return null;
+        }
+        console.log('getSessionAndUser(throw) - No session or user found');
+        throw error;
       }
     },
 
