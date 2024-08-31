@@ -109,6 +109,8 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
 
       response(401, 'unauthorized') do
+        let(:Authorization) { 'Bearer invalid' } # rubocop:disable RSpec/VariableName
+
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -120,8 +122,6 @@ RSpec.describe Api::V1::Auth::SessionsController do
       produces 'application/json'
       description 'Updates the current session.'
       operationId 'update'
-
-      parameter name: :Authorization, in: :header, type: :string, required: true, description: 'Authorization token'
 
       security [Bearer: []]
 
@@ -137,6 +137,8 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
 
       response(401, 'unauthorized') do
+        let(:Authorization) { 'Bearer invalid' } # rubocop:disable RSpec/VariableName
+
         OpenApi::Response.set_example_response_metadata
 
         run_test!
