@@ -9,10 +9,6 @@ import { Configuration } from "./lib/api/runtime";
 
 import { RailsAdapter } from "@/lib/auth/rails-api-adapter";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
-import { AdapterUser } from "@auth/core/adapters";
-import { User } from "@auth/core/types";
-import { clone } from "lodash";
-
 
 const config = async (): Promise<Configuration> => {
   const jwt = new jose.SignJWT({ username: "battlestadiumbot" })
@@ -56,7 +52,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
       },
       jwt: {
         encode: async ({ secret, token }: JWTEncodeParams) => {
-          console.log("jwt encode", "secret", secret, "token", token);
           const encoder = new TextEncoder();
 
           if (typeof secret === "string") {
@@ -72,8 +67,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
           throw new Error("Invalid secret provided");
         },
         decode: async ({ secret, token }) => {
-          console.log("jwt decode", "secret", secret, "token", token);
-
           if (!token) {
             throw new Error("No token provided");
           }
@@ -88,13 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
         },
       },
       callbacks: {
-        async jwt({ token, user, account, profile, session }) {
-          console.log("jwt callback", token);
-          console.log("jwt callback user", user);
-          console.log("jwt callback account", account);
-          console.log("jwt callback profile", profile);
-          console.log("jwt callback session", session);
-
+        async jwt({ token, user, account }) {
           if (user) {
             token = {
               ...token,
@@ -103,25 +90,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
             };
           }
 
-          if(account) {
-            console.debug("account", account.provider, account);
-
+          if (account) {
             if (account?.provider === "Github") {
-              return { ...token, accessToken: account.access_token }
+              return { ...token, accessToken: account.access_token };
             }
           }
 
-
           return token;
         },
-        async session({ session, token, user, trigger }) {
-          console.log("session callback", session);
-          console.log("session callback token", token);
-          console.log("session callback user", user);
-          console.log("session callback trigger", trigger);
-          console.log("session callback newSession");
-
-          const name = user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username ?? "";
+        async session({ session, user }) {
+          const name = user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : (user.username ?? "");
 
           const clonedSession: Session = {
             ...(JSON.parse(JSON.stringify(session)) as Session),
@@ -129,11 +107,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
               ...session.user,
               ...user,
               name: name ?? undefined,
-            }
-          }
-
-          console.log("session callback - old vs new", 'old-session',session, 'new-session', clonedSession)
-
+            },
+            jti: session.jti,
+          };
 
           return clonedSession;
         },
@@ -142,7 +118,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
 
     return config;
   } catch (error) {
-    console.error("Error initializing NextAuth adapter:", error);
     throw error;
   }
 });

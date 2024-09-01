@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_31_021159) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_01_212140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -193,6 +193,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_31_021159) do
     t.datetime "expires_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "jti", default: -> { "gen_random_uuid()" }, null: false
   end
 
   create_table "tournament_formats", force: :cascade do |t|

@@ -317,7 +317,8 @@ export const SessionFactory = new Factory<Session>()
 
   .attr("token", () => faker.lorem.word())
   .attr("userId", () => faker.lorem.word())
-  .attr("expiresAt", () => faker.date.recent());
+  .attr("expiresAt", () => faker.date.recent())
+  .attr("jti", () => faker.lorem.word());
 
 export const SessionAndUserFactory = new Factory<SessionAndUser>()
 

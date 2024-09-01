@@ -37,6 +37,12 @@ export interface Session {
    * @memberof Session
    */
   expiresAt: Date;
+  /**
+   *
+   * @type {string}
+   * @memberof Session
+   */
+  jti?: string;
 }
 
 /**
@@ -61,6 +67,7 @@ export function SessionFromJSONTyped(json: any, ignoreDiscriminator: boolean): S
     token: json["token"],
     userId: json["user_id"],
     expiresAt: new Date(json["expires_at"]),
+    jti: json["jti"] == null ? undefined : json["jti"],
   };
 }
 
@@ -72,5 +79,6 @@ export function SessionToJSON(value?: Session | null): any {
     token: value["token"],
     user_id: value["userId"],
     expires_at: value["expiresAt"].toISOString(),
+    jti: value["jti"],
   };
 }

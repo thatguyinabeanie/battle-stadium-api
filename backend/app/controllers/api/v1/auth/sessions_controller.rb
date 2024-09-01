@@ -18,10 +18,7 @@ module Api
         # GET /api/v1/auth/session
         def show
           auth_header = request.headers['Authorization']
-          Rails.logger.info "Auth header: #{auth_header}"
-
           token = auth_header.split(' ').last if auth_header
-          Rails.logger.info "Extracted token: #{token}"
 
           return invalid_token_or_expired_session unless token
 
@@ -29,24 +26,21 @@ module Api
           token = token.gsub(/^["']|["']$/, '')
 
           decrypted_payload = TokenDecryptor.decrypt(token)
-          Rails.logger.info "Decrypted payload: #{decrypted_payload}"
 
-          token = JSON.parse(decrypted_payload)['token']
-          Rails.logger.info "Extracted token: #{token}"
+          jwt_json = JSON.parse(decrypted_payload)['token']
+          jwt = JSON.parse(jwt_json)
 
-          session = ::Auth::Session.find_by(token:)
-          Rails.logger.info "Found session: #{session.inspect}"
+          session = ::Auth::Session.find_by(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
 
           return invalid_token_or_expired_session unless session&.active?
 
           user = session.user
-          Rails.logger.info "Found user: #{user.inspect}"
 
           render json: {
             session: {
-              token: session.token,
+              token: session.jwt_payload.to_json,
               user_id: user.id,
-              expires_at: session.expires_at
+              expires_at: session.expires_at,
             },
             user: {
               id: user.id,
@@ -60,7 +54,6 @@ module Api
           }, status: :ok
         rescue StandardError => e
           Rails.logger.error "Error in SessionsController#show: #{e.message}"
-          Rails.logger.error e.backtrace.join("\n")
           render json: { error: 'An error occurred while processing your request' }, status: :internal_server_error
         end
 
@@ -84,7 +77,7 @@ module Api
               pronouns: user.pronouns,
               first_name: user.first_name,
               last_name: user.last_name,
-              token: session.token
+              token: session.jwt_payload.to_json
             }, status: :created
           else
             render json: { error: 'Invalid login' }, status: :unauthorized
@@ -93,30 +86,23 @@ module Api
 
         def update
           auth_header = request.headers['Authorization']
-          Rails.logger.info "Auth header: #{auth_header}"
-
           encrypted_token = auth_header.split(' ').last if auth_header
-          Rails.logger.info "Extracted encrypted token: #{encrypted_token}"
-
           return invalid_token_or_expired_session unless encrypted_token
 
           # Remove any wrapping quotes if present
           encrypted_token = encrypted_token.gsub(/^["']|["']$/, '')
 
           decrypted_payload = TokenDecryptor.decrypt(encrypted_token)
-          Rails.logger.info "Decrypted payload: #{decrypted_payload}"
 
-          token = JSON.parse(decrypted_payload)['token']
-          Rails.logger.info "Extracted token: #{token}"
+          jwt_json = JSON.parse(decrypted_payload)['token']
+          jwt = JSON.parse(jwt_json)
 
-          session = ::Auth::Session.find_by(token:)
-          Rails.logger.info "Found session: #{session.inspect}"
+          session = ::Auth::Session.find_by(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
 
           return invalid_token_or_expired_session unless session&.active?
 
           session.touch(:updated_at) # Update the session's timestamp
           user = session.user
-          Rails.logger.info "Updated session and found user: #{user.inspect}"
 
           render json: {
             session: {
@@ -136,16 +122,19 @@ module Api
           }, status: :ok
         rescue StandardError => e
           Rails.logger.error "Error in SessionsController#update: #{e.message}"
-          Rails.logger.error e.backtrace.join("\n")
           render json: { error: "An error occurred while processing your request: #{e.message}" }, status: :internal_server_error
         end
 
         # DELETE /api/v1/auth/sign_out
         def destroy
-          encrypted_token = request.headers['Authorization']&.split&.last
-          decrypted_payload = TokenDecryptor.decrypt(encrypted_token)
+          auth_header = request.headers['Authorization']
+          encrypted_token = auth_header.split(' ').last if auth_header
+          return invalid_token_or_expired_session unless encrypted_token
+
+          Rails.logger.info "Decrypted payload: #{decrypted_payload}"
 
           token = JSON.parse(decrypted_payload)['token']
+
           session = ::Auth::Session.find_by(token:)
 
           return invalid_token_or_expired_session unless session&.active?

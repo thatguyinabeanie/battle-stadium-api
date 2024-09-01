@@ -51,7 +51,6 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
           username: createdUser.username,
         };
       } catch (error) {
-        console.error("createUser error", error);
         throw error;
       }
     },
@@ -63,10 +62,8 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         return userAdapter(user);
       } catch (error) {
         if ((error as ResponseError).response.status === 404) {
-          console.error('getUser ResponseError status 404', error);
           return null;
         }
-        console.error('getUser error', error);
         throw error;
       }
     },
@@ -78,25 +75,21 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         return userAdapter(user);
       } catch (error) {
         if ((error as ResponseError).response.status === 404) {
-          console.error('getUserByEmail ResponseError status 404', error);
           return null;
         }
-        console.error('getUserByEmail error', error);
         throw error;
       }
     },
 
-    async getUserByAccount({ providerAccountId, provider }) {
+    async getUserByAccount() {
       try {
         const user = await apiClient.Users.getUserByProvider({} as GetUserRequest);
 
         return userAdapter(user);
       } catch (error) {
         if ((error as ResponseError).response.status === 404) {
-          console.error('getUserByAccount ResponseError status 404', error);
           return null;
         }
-        console.error('getUserByAccount error', error);
         throw error;
       }
     },
@@ -126,7 +119,6 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
           name: `${updatedUser.firstName} ${updatedUser.lastName}`,
         };
       } catch (error) {
-        console.error("updateUser error", error);
         throw error;
       }
     },
@@ -135,7 +127,6 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       try {
         await apiClient.Users.delete(id);
       } catch (error) {
-        console.error("deleteUser error", error);
         throw error;
       }
     },
@@ -159,7 +150,6 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
         return adapterAccount;
       } catch (error) {
-        console.error("linkAccount error", error);
         throw error;
       }
     },
@@ -168,12 +158,11 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       try {
         await apiClient.Users.unlinkAccount({ provider, providerAccountId } as unknown as GetUserRequest);
       } catch (error) {
-        console.error("unlinkAccount error", error);
         throw error;
       }
     },
 
-    async createSession({ sessionToken, userId, expires }) {
+    async createSession() {
       try {
         const session = await apiClient.Session.create({ email: "", password: "" });
 
@@ -185,7 +174,6 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
         return adapterSession;
       } catch (error) {
-        console.error("createSession error", error);
         throw error;
       }
     },
@@ -194,10 +182,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       try {
         const { session, user } = await apiClient.Session.get(authorizationHeader(sessionToken));
 
-
         if (!session || !user) {
-          if(!session) console.error('getSessionAndUser no session');
-          if (!user) console.error('getSessionAndUser no user');
           return null;
         }
 
@@ -218,16 +203,13 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         };
       } catch (error) {
         if ((error as ResponseError)?.response?.status === 404) {
-          console.error('getSessionAndUser ResponseError status 404', error);
           return null;
         }
-        console.error('getSessionAndUser error', error);
-      throw error;
+        throw error;
       }
     },
 
-    async updateSession({ sessionToken, expires, userId }) {
-      console.log("updateSession", sessionToken, expires, userId);
+    async updateSession({ sessionToken }) {
       try {
         const { session } = await apiClient.Session.update(authorizationHeader(sessionToken));
 
@@ -237,8 +219,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
           expires: session.expiresAt,
         };
       } catch (error) {
-        console.error("updateSession error", error);
-        // throw error;
+        throw error;
       }
     },
 
@@ -246,8 +227,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       try {
         await apiClient.Session.delete({ sessionToken } as unknown as RequestInit);
       } catch (error) {
-        console.error("deleteSession error", error);
-        // throw error;
+        throw error;
       }
     },
 

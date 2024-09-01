@@ -1576,6 +1576,9 @@ components:
         expires_at:
           type: string
           format: date-time
+        jti:
+          type: string
+          format: uuid
       required:
       - token
       - user_id
