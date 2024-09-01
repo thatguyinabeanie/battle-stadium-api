@@ -2,8 +2,8 @@ require 'swagger_helper'
 require_relative '../../../../support/openapi/response_helper'
 
 RSpec.describe Api::V1::Auth::SessionsController do
-  path('/api/v1/auth/sign_in') do
-    post('Login') do
+  path('/api/v1/auth/session') do
+    post('Create') do
       tags 'Sessions'
       produces 'application/json'
       consumes 'application/json'
@@ -71,10 +71,8 @@ RSpec.describe Api::V1::Auth::SessionsController do
         run_test!
       end
     end
-  end
 
-  path('/api/v1/auth/sign_out') do
-    delete('Logout') do
+    delete('Delete') do
       tags 'Sessions'
       produces 'application/json'
       description 'Logs out a User.'
@@ -89,25 +87,8 @@ RSpec.describe Api::V1::Auth::SessionsController do
         run_test!
       end
     end
-  end
 
-  path('/api/v1/auth/session') do
-    delete('Logout') do
-      tags 'Sessions'
-      produces 'application/json'
-      description 'Logs out a User.'
-      operationId 'delete'
-
-      response(204, 'no content') do
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-    end
-  end
-
-  path('/api/v1/auth/session') do
-    get('Get Session and User') do
+    get('Get') do
       tags 'Sessions'
       produces 'application/json'
       description 'Shows the current session.'
@@ -135,7 +116,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
     end
 
-    put('Update Session') do
+    put('Update') do
       tags 'Sessions'
       produces 'application/json'
       description 'Updates the current session.'

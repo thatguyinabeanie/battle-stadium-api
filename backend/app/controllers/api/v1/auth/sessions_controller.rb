@@ -8,9 +8,9 @@ require_relative '../../../../../lib/token_decryptor'
 module Api
   module V1
     module Auth
-      class SessionsController < Devise::SessionsController
+      # class SessionsController < Devise::SessionsController
+      class SessionsController < ApplicationController
         respond_to :json
-        before_action :configure_sign_in_params, only: %i[create update show destroy]
         skip_before_action :verify_authenticity_token, only: %i[create update show destroy]
 
         # Get Session and User
@@ -53,7 +53,6 @@ module Api
             }
           }, status: :ok
         rescue StandardError => e
-          Rails.logger.error "Error in SessionsController#show: #{e.message}"
           render json: { error: 'An error occurred while processing your request' }, status: :internal_server_error
         end
 
@@ -87,7 +86,6 @@ module Api
         def update
           auth_header = request.headers['Authorization']
           encrypted_token = auth_header.split(' ').last if auth_header
-          return invalid_token_or_expired_session unless encrypted_token
 
           # Remove any wrapping quotes if present
           encrypted_token = encrypted_token.gsub(/^["']|["']$/, '')
@@ -121,7 +119,6 @@ module Api
             }
           }, status: :ok
         rescue StandardError => e
-          Rails.logger.error "Error in SessionsController#update: #{e.message}"
           render json: { error: "An error occurred while processing your request: #{e.message}" }, status: :internal_server_error
         end
 
@@ -129,21 +126,23 @@ module Api
         def destroy
           auth_header = request.headers['Authorization']
           encrypted_token = auth_header.split(' ').last if auth_header
-          return invalid_token_or_expired_session unless encrypted_token
 
-          Rails.logger.info "Decrypted payload: #{decrypted_payload}"
+          # Remove any wrapping quotes if present
+          encrypted_token = encrypted_token.gsub(/^["']|["']$/, '')
 
-          token = JSON.parse(decrypted_payload)['token']
+          decrypted_payload = TokenDecryptor.decrypt(encrypted_token)
+          jwt_json = JSON.parse(decrypted_payload)['token']
+          jwt = JSON.parse(jwt_json)
 
-          session = ::Auth::Session.find_by(token:)
+          session = ::Auth::Session.find_by!(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
 
           return invalid_token_or_expired_session unless session&.active?
 
           session.revoke_session
 
           render json: { message: 'Logged out successfully' }, status: :ok
-        rescue StandardError
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+        rescue StandardError => e
+          render json: { error: 'Invalid token or expired session '  }, status: :unauthorized
         end
 
         private
@@ -160,10 +159,6 @@ module Api
           head :no_content
         end
 
-        # If you have extra params to permit, append them to the sanitizer.
-        def configure_sign_in_params
-          devise_parameter_sanitizer.permit(:sign_in, keys: %i[email password username])
-        end
       end
     end
   end

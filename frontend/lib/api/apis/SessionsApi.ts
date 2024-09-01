@@ -33,7 +33,7 @@ export interface LoginUserRequest {
 export class SessionsApi extends runtime.BaseAPI {
   /**
    * Shows the current session.
-   * Get Session and User
+   * Get
    */
   async getSessionRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
@@ -61,7 +61,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Shows the current session.
-   * Get Session and User
+   * Get
    */
   async getSession(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionAndUser> {
     const response = await this.getSessionRaw(initOverrides);
@@ -70,7 +70,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Logs in a User.
-   * Login
+   * Create
    */
   async loginUserRaw(
     requestParameters: LoginUserRequest,
@@ -84,7 +84,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/auth/sign_in`,
+        path: `/api/v1/auth/session`,
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
@@ -98,7 +98,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Logs in a User.
-   * Login
+   * Create
    */
   async loginUser(
     userLoginRequest?: UserLoginRequest,
@@ -110,7 +110,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Logs out a User.
-   * Logout
+   * Delete
    */
   async logoutUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
     const queryParameters: any = {};
@@ -119,7 +119,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/auth/sign_out`,
+        path: `/api/v1/auth/session`,
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
@@ -132,7 +132,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Logs out a User.
-   * Logout
+   * Delete
    */
   async logoutUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
     await this.logoutUserRaw(initOverrides);
@@ -140,7 +140,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Updates the current session.
-   * Update Session
+   * Update
    */
   async updateRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
@@ -168,7 +168,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
   /**
    * Updates the current session.
-   * Update Session
+   * Update
    */
   async update(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SessionAndUser> {
     const response = await this.updateRaw(initOverrides);
