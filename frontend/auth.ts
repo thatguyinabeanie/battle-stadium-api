@@ -1,6 +1,6 @@
 // eslint-disable-file no-console
 import * as jose from "jose";
-import NextAuth, { NextAuthConfig } from "next-auth";
+import NextAuth, { NextAuthConfig, Session } from "next-auth";
 import { EncryptJWT, jwtDecrypt } from "jose";
 import { JWTEncodeParams } from "@auth/core/jwt";
 
@@ -9,6 +9,10 @@ import { Configuration } from "./lib/api/runtime";
 
 import { RailsAdapter } from "@/lib/auth/rails-api-adapter";
 import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import { AdapterUser } from "@auth/core/adapters";
+import { User } from "@auth/core/types";
+import { clone } from "lodash";
+
 
 const config = async (): Promise<Configuration> => {
   const jwt = new jose.SignJWT({ username: "battlestadiumbot" })
@@ -41,6 +45,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
 
   try {
     const config: NextAuthConfig = {
+      debug: true,
       providers,
       adapter: RailsAdapter(apiClient),
       secret: process.env.AUTH_SECRET,
@@ -98,24 +103,39 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
             };
           }
 
+          if(account) {
+            console.debug("account", account.provider, account);
+
+            if (account?.provider === "Github") {
+              return { ...token, accessToken: account.access_token }
+            }
+          }
+
+
           return token;
         },
-        async session({ session, token, user, trigger, newSession }) {
+        async session({ session, token, user, trigger }) {
           console.log("session callback", session);
           console.log("session callback token", token);
           console.log("session callback user", user);
           console.log("session callback trigger", trigger);
-          console.log("session callback newSession", newSession);
+          console.log("session callback newSession");
 
-          // You might need to customize this based on your token structure
-          session.user = {
-            ...user,
-            name: `${user.firstName} ${user.lastName}`,
-          };
+          const name = user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username ?? "";
 
-          session.accessToken = (user.token || token.accessToken || session.sessionToken) ?? "";
+          const clonedSession: Session = {
+            ...(JSON.parse(JSON.stringify(session)) as Session),
+            user: {
+              ...session.user,
+              ...user,
+              name: name ?? undefined,
+            }
+          }
 
-          return session;
+          console.log("session callback - old vs new", 'old-session',session, 'new-session', clonedSession)
+
+
+          return clonedSession;
         },
       },
     };

@@ -63,8 +63,10 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         return userAdapter(user);
       } catch (error) {
         if ((error as ResponseError).response.status === 404) {
+          console.error('getUser ResponseError status 404', error);
           return null;
         }
+        console.error('getUser error', error);
         throw error;
       }
     },
@@ -76,8 +78,10 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         return userAdapter(user);
       } catch (error) {
         if ((error as ResponseError).response.status === 404) {
+          console.error('getUserByEmail ResponseError status 404', error);
           return null;
         }
+        console.error('getUserByEmail error', error);
         throw error;
       }
     },
@@ -89,8 +93,10 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         return userAdapter(user);
       } catch (error) {
         if ((error as ResponseError).response.status === 404) {
+          console.error('getUserByAccount ResponseError status 404', error);
           return null;
         }
+        console.error('getUserByAccount error', error);
         throw error;
       }
     },
@@ -188,7 +194,10 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       try {
         const { session, user } = await apiClient.Session.get(authorizationHeader(sessionToken));
 
+
         if (!session || !user) {
+          if(!session) console.error('getSessionAndUser no session');
+          if (!user) console.error('getSessionAndUser no user');
           return null;
         }
 
@@ -209,9 +218,11 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         };
       } catch (error) {
         if ((error as ResponseError)?.response?.status === 404) {
+          console.error('getSessionAndUser ResponseError status 404', error);
           return null;
         }
-        throw error;
+        console.error('getSessionAndUser error', error);
+      throw error;
       }
     },
 
@@ -227,7 +238,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         };
       } catch (error) {
         console.error("updateSession error", error);
-        throw error;
+        // throw error;
       }
     },
 
@@ -236,7 +247,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         await apiClient.Session.delete({ sessionToken } as unknown as RequestInit);
       } catch (error) {
         console.error("deleteSession error", error);
-        throw error;
+        // throw error;
       }
     },
 
