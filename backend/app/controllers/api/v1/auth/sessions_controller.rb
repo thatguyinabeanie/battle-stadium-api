@@ -127,13 +127,18 @@ module Api
           auth_header = request.headers['Authorization']
           encrypted_token = auth_header.split(' ').last if auth_header
 
+          Rails.logger.info("Encrypted token: #{encrypted_token}")
           # Remove any wrapping quotes if present
           encrypted_token = encrypted_token.gsub(/^["']|["']$/, '')
+          Rails.logger.info("Encrypted token Cleaned: #{encrypted_token}")
 
           decrypted_payload = TokenDecryptor.decrypt(encrypted_token)
+          Rails.logger.info("Decrypted payload: #{decrypted_payload}")
+
           jwt_json = JSON.parse(decrypted_payload)['token']
           jwt = JSON.parse(jwt_json)
 
+          Rails.logger.inf("Decoded token: #{jwt}")
           session = ::Auth::Session.find_by!(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
 
           return invalid_token_or_expired_session unless session&.active?
