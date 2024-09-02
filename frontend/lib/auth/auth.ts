@@ -15,8 +15,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
 
   const apiClient = BattleStadiumAPI(config(defaultWT));
 
-  try {
-    const config: NextAuthConfig = {
+  return {
       providers,
       adapter: RailsAdapter(apiClient),
       secret: process.env.AUTH_SECRET,
@@ -85,8 +84,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
       },
     };
 
-    return config;
-  } catch (error) {
-    throw error;
-  }
+
 });

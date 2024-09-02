@@ -1,4 +1,5 @@
 
+import { defaultConfig } from "./config";
 import {
   Configuration,
   ConfigurationParameters,
@@ -13,9 +14,6 @@ import {
   UserDetails,
   UserLoginRequest,
   UserPostRequest,
-} from "./generated-api-client";
-
-import {
   UsersApi,
   GamesApi,
   PhasesApi,
@@ -24,39 +22,7 @@ import {
   SessionsApi,
   RegistrationApi,
   OrganizationsApi,
-} from "./generated-api-client/apis";
-
-import { auth } from "@/lib/auth";
-import { signJWT } from "@/lib/auth/jwt";
-
-
-export const config = (encryptedJwt: string) =>
-  new Configuration({
-    headers: {
-      Authorization: `Bearer ${encryptedJwt}`,
-    },
-  });
-
-const defaultConfig = async () => {
-  const session = await auth();
-
-  const headers: HTTPHeaders = session
-    ? {
-        Authorization: `Bearer ${await signJWT({
-          session: session,
-        })}`,
-      }
-    : {};
-
-  const params: ConfigurationParameters = {
-    accessToken: async () => {
-      return session?.accessToken ?? "";
-    },
-    headers,
-  };
-
-  return new Configuration(params);
-};
+} from "./generated-api-client";
 
 export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
 
