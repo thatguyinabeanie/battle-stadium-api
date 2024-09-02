@@ -8,7 +8,7 @@ import Providers from "./providers";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
-// import { auth } from "@/auth";
+// import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: {

@@ -1,6 +1,6 @@
 // organizations/[organizationId]/page.tsx
 import OrganizationCard from "@/components/organizations/OrganizationCard";
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
+import { BattleStadiumAPI } from "@/lib/api";
 
 const OrganizationDetailsPage = async ({ params }: { params: { organizationId: string } }) => {
   try {

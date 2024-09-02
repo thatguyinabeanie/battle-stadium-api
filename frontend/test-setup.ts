@@ -37,3 +37,6 @@ Object.assign(global, {
   beforeAll,
   beforeEach,
 });
+
+process.env.COVERAGE_REPORTER = "text,lcov";
+process.env.COVERAGE_DIR = "coverage";

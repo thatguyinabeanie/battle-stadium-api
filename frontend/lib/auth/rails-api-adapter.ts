@@ -1,6 +1,6 @@
 import type { Adapter, AdapterUser, AdapterAccount, AdapterSession } from "next-auth/adapters";
 
-import { BattleStadiumAPIClient } from "@/lib/battle-stadium-api";
+import { BattleStadiumAPIClient } from "@/lib/api";
 import { GetUserRequest, RegisterUserRequest, ResponseError, UserDetails } from "@/lib/api";
 
 function userAdapter(user: UserDetails): AdapterUser {

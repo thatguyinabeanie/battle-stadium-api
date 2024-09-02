@@ -14,5 +14,11 @@
       "database": "fuecoco-db-dev",
       "username": "postgres"
     }
-  ]
+  ],
+  "importCost.typescriptExtensions": [
+    "\\.tsx?$"
+  ],
+  "typescript.experimental.updateImportsOnPaste": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "js/ts.implicitProjectConfig.strictFunctionTypes": false
 }

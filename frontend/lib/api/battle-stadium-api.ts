@@ -1,10 +1,11 @@
-import * as jose from "jose";
-import { JWT } from "@auth/core/jwt";
 
-import { Configuration, ConfigurationParameters, HTTPHeaders, InitOverrideFunction } from "./api/runtime";
 import {
+  Configuration,
+  ConfigurationParameters,
   CreateSession,
   Game,
+  HTTPHeaders,
+  InitOverrideFunction,
   Organization,
   Phase,
   RegisterUserRequest,
@@ -12,7 +13,7 @@ import {
   UserDetails,
   UserLoginRequest,
   UserPostRequest,
-} from "./api/models";
+} from "./generated-api-client";
 
 import {
   UsersApi,
@@ -23,26 +24,11 @@ import {
   SessionsApi,
   RegistrationApi,
   OrganizationsApi,
-} from "@/lib/api/apis";
-import { auth } from "@/auth";
+} from "./generated-api-client/apis";
 
-export const jwt = async (payload: JWT, encryptionSecret: string | undefined = process.env.AUTH_SECRET) => {
-  const secret = encryptionSecret ?? process.env.AUTH_SECRET;
+import { auth } from "@/lib/auth";
+import { signJWT } from "@/lib/auth/jwt";
 
-  if (!secret) {
-    throw new Error("No secret provided");
-  }
-
-  const encoder = new TextEncoder();
-
-  return new jose.SignJWT({ ...payload })
-    .setProtectedHeader({ alg: "HS512" })
-    .setIssuedAt()
-    .setIssuer("nextjs-auth-service")
-    .setAudience("rails-api-service")
-    .setExpirationTime("5m")
-    .sign(encoder.encode(secret));
-};
 
 export const config = (encryptedJwt: string) =>
   new Configuration({
@@ -56,7 +42,7 @@ const defaultConfig = async () => {
 
   const headers: HTTPHeaders = session
     ? {
-        Authorization: `Bearer ${await jwt({
+        Authorization: `Bearer ${await signJWT({
           session: session,
         })}`,
       }
@@ -72,7 +58,20 @@ const defaultConfig = async () => {
   return new Configuration(params);
 };
 
-const Session = (configOverride?: Configuration) => {
+export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
+
+export default function BattleStadiumAPI (configOverride?: Configuration) {
+  return {
+    Session: Session(configOverride),
+    Registration: Registration(configOverride),
+    Organizations: Organizations(configOverride),
+    Users: Users(configOverride),
+    Games: Games(configOverride),
+    Tournaments: Tournaments(configOverride)
+  };
+}
+
+function Session (configOverride?: Configuration) {
   const SessionAPI = async () => new SessionsApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -85,7 +84,7 @@ const Session = (configOverride?: Configuration) => {
   };
 };
 
-const Registration = (configOverride?: Configuration) => {
+function Registration (configOverride?: Configuration) {
   const RegistrationAPI = async () => new RegistrationApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -94,7 +93,7 @@ const Registration = (configOverride?: Configuration) => {
   };
 };
 
-const Organizations = (configOverride?: Configuration) => {
+function Organizations  (configOverride?: Configuration) {
   const OrganizationsAPI = async () => new OrganizationsApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -144,7 +143,7 @@ const Organizations = (configOverride?: Configuration) => {
   };
 };
 
-const Users = (configOverride?: Configuration) => {
+function Users (configOverride?: Configuration) {
   const UsersAPI = async () => new UsersApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -184,7 +183,7 @@ const Users = (configOverride?: Configuration) => {
   };
 };
 
-const Games = (configOverride?: Configuration) => {
+function Games (configOverride?: Configuration) {
   const GamesAPI = async () => new GamesApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -204,7 +203,7 @@ const Games = (configOverride?: Configuration) => {
   };
 };
 
-const Tournaments = (configOverride?: Configuration) => {
+function Tournaments  (configOverride?: Configuration) {
   const PhasesAPI = async () => new PhasesApi(configOverride ?? (await defaultConfig()));
   const TournamentsAPI = async () => new TournamentsApi(configOverride ?? (await defaultConfig()));
 
@@ -234,16 +233,4 @@ const Tournaments = (configOverride?: Configuration) => {
   };
 };
 
-const BattleStadiumAPI = (configOverride?: Configuration) => ({
-  Session: Session(configOverride),
-  Registration: Registration(configOverride),
-  Organizations: Organizations(configOverride),
-  Users: Users(configOverride),
-  Games: Games(configOverride),
-  Tournaments: Tournaments(configOverride),
-});
-
-export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
-
 export { BattleStadiumAPI };
-export default BattleStadiumAPI;

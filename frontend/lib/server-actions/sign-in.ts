@@ -5,8 +5,8 @@ import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
 import { signInSchema } from "@/lib/zod";
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
-import { signIn } from "@/auth";
+import { BattleStadiumAPI } from "@/lib/api";
+import { signIn } from "@/lib/auth";
 
 const SIGNIN_ERROR_URL = "/";
 

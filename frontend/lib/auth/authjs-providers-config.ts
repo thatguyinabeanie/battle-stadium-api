@@ -7,7 +7,7 @@ import Twitch from "next-auth/providers/twitch";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
 
-import { railsSignIn } from "./lib/server-actions/sign-in";
+import { railsSignIn } from "../server-actions/sign-in";
 
 export const providers: Provider[] = [
   GitHub({
@@ -51,6 +51,7 @@ export const providers: Provider[] = [
   }),
 ];
 
+// TODO: pick better icons
 const ProvidersIconMap: Record<string, string> = {
   github: "logos:github",
   discord: "logos:discord",

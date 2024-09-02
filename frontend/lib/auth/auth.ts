@@ -3,23 +3,13 @@ import NextAuth, { NextAuthConfig } from "next-auth";
 import { EncryptJWT, jwtDecrypt } from "jose";
 import { JWTEncodeParams } from "@auth/core/jwt";
 
-import { providers } from "./auth.config";
+import { providers } from "./authjs-providers-config";
 
-import { RailsAdapter } from "@/lib/auth/rails-api-adapter";
-import BattleStadiumAPI, { config, jwt } from "@/lib/battle-stadium-api";
-
-const decrypt = async (token: string, secret: string) => {
-  const encoder = new TextEncoder();
-
-  return (
-    await jwtDecrypt(token, encoder.encode(secret), {
-      clockTolerance: 15,
-    })
-  ).payload;
-};
+import { decrypt, RailsAdapter, signJWT } from "@/lib/auth";
+import BattleStadiumAPI, { config } from "@/lib/api";
 
 export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
-  const defaultWT = await jwt({
+  const defaultWT = await signJWT({
     username: "battlestadiumbot",
   });
 
