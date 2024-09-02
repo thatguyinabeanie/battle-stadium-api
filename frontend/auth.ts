@@ -1,7 +1,7 @@
 // eslint-disable-file no-console
 import NextAuth, { NextAuthConfig, Session } from "next-auth";
 import { EncryptJWT, jwtDecrypt } from "jose";
-import { JWT, JWTEncodeParams } from "@auth/core/jwt";
+import { JWTEncodeParams } from "@auth/core/jwt";
 
 import { providers } from "./auth.config";
 
@@ -88,26 +88,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
           return token;
         },
         async session({ session, user, token }) {
-          const name = user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.name ?? "";
-
-          const clonedSession: Session = {
-            ...(JSON.parse(JSON.stringify(session)) as Session),
-            user: {
-              ...session.user,
-              ...user,
-              name: name ?? undefined,
-            },
-          };
-
-          if (token) {
-            clonedSession.token = token;
+          return {
+            ...session,
+            user,
+            token,
           }
-
-          // if (account) {
-          //   clonedSession.account = account;
-          // }
-
-          return clonedSession;
         },
       },
     };

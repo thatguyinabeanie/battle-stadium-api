@@ -47,6 +47,23 @@ paths:
               - password
               - password_confirmation
   "/api/v1/auth/session":
+    get:
+      summary: Get
+      tags:
+      - Sessions
+      description: Shows the current session.
+      operationId: getSession
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SessionAndUser"
+        '401':
+          description: unauthorized
     post:
       summary: Create
       tags:
@@ -77,23 +94,6 @@ paths:
       responses:
         '204':
           description: no content
-    get:
-      summary: Get
-      tags:
-      - Sessions
-      description: Shows the current session.
-      operationId: getSession
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/SessionAndUser"
-        '401':
-          description: unauthorized
     put:
       summary: Update
       tags:

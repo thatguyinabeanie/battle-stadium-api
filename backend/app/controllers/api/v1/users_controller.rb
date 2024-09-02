@@ -50,9 +50,9 @@ module Api
           sub = decoded_token['sub']
           jti = decoded_token['jti']
           token = decoded_token['token']
-          session = ::Auth::Session.find_by!(user_id: sub, jti: jti, token: token)
+          session = ::Auth::Session.find_by!(user_id: sub, jti:, token:)
           @current_user = session.user if session.active?
-        rescue StandardError => e
+        rescue StandardError
           render json: { error: 'User not found' }, status: :not_found
         end
       end

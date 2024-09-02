@@ -18,13 +18,7 @@ module Api
         # GET /api/v1/auth/session
         def show
           auth_header = request.headers['Authorization']
-          token = auth_header.split(' ').last if auth_header
-
-          return invalid_token_or_expired_session unless token
-
-          # Remove any wrapping quotes if present
-          token = token.gsub(/^["']|["']$/, '')
-
+          token = auth_header.split.last.gsub(/^["']|["']$/, '')
           decrypted_payload = TokenDecryptor.decrypt(token)
 
           jwt_json = JSON.parse(decrypted_payload)['token']
@@ -53,7 +47,7 @@ module Api
               pronouns: user.pronouns
             }
           }, status: :ok
-        rescue StandardError => e
+        rescue StandardError
           render json: { error: 'An error occurred while processing your request' }, status: :internal_server_error
         end
 
@@ -87,7 +81,7 @@ module Api
 
         def update
           auth_header = request.headers['Authorization']
-          encrypted_token = auth_header.split(' ').last if auth_header
+          encrypted_token = auth_header.split.last if auth_header
 
           # Remove any wrapping quotes if present
           encrypted_token = encrypted_token.gsub(/^["']|["']$/, '')
@@ -101,7 +95,7 @@ module Api
 
           return invalid_token_or_expired_session unless session&.active?
 
-          session.touch(:updated_at) # Update the session's timestamp
+          session.refresh
           user = session.user
 
           render json: {
@@ -128,7 +122,7 @@ module Api
         # DELETE /api/v1/auth/sign_out
         def destroy
           auth_header = request.headers['Authorization']
-          encrypted_token = auth_header.split(' ').last if auth_header
+          encrypted_token = auth_header.split.last if auth_header
 
           # Remove any wrapping quotes if present
           encrypted_token = encrypted_token.gsub(/^["']|["']$/, '')
@@ -141,9 +135,9 @@ module Api
           session = ::Auth::Session.find_by!(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
 
           return invalid_token_or_expired_session unless session&.active?
-          session.revoke_session
 
-        rescue StandardError => e
+          session.revoke_session
+        rescue StandardError
           render json: { message: 'Logged out successfully' }, status: :ok
         end
 

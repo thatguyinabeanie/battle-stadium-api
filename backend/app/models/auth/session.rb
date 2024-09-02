@@ -19,7 +19,7 @@ module Auth
       expires_at > Time.now.utc
     end
 
-    def update
+    def refresh
       self.expires_at = Time.now.utc + SESSION_DURATOIN
 
       save!
@@ -38,10 +38,11 @@ module Auth
         sub: user.id,
         iat: Time.now.utc.to_i,
         exp: expires_at.to_i,
-        jti: jti,
-        token: token,
+        jti:,
+        token:
       }
     end
+
     def encrypted_jwt
       TokenEncryptor.encrypt(jwt_payload)
     end

@@ -411,7 +411,7 @@ SESSION = {
   properties: {
     token: { type: :string, format: 'jwt' },
     user_id: UUID_TYPE,
-  expires_at: { type: :string, format: DATE_TIME_TYPE },
+    expires_at: { type: :string, format: DATE_TIME_TYPE },
     jti: { type: :string, format: 'uuid' }
   },
   required: %w[token user_id expires_at]

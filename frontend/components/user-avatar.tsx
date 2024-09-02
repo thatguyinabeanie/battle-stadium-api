@@ -26,6 +26,7 @@ function DefaultAvatar({ classNames, className, name, ...props }: AvatarProps) {
 function UserInfo() {
   const { data: session } = useSession();
   const isCompact = useMediaQuery("(max-width: 768px)");
+  const { firstName, lastName, name } = session?.user ?? {};
 
   return (
     <div className={cn("flex max-w-full flex-col", { hidden: isCompact })}>
@@ -41,14 +42,14 @@ function UserInfo() {
         <>
           <p className="text-small font-medium text-default-600">
             <Link aria-label="Profile Link" href="/profile">
-              {session.user?.name}
+              { session.user?.username ?? (session.user.firstName + " " + session.user.lastName) }
             </Link>
           </p>
 
-          {session.user?.id && (
-            <p className="truncate text-tiny text-default-400">
+          { (name || (firstName && lastName)) && (
+            <p className="truncate text-tiny text-default-300">
               <Link aria-label="session-user-id" href="/profile">
-                {session.user?.id}
+                {session.user?.name ?? (session.user.firstName + " " + session.user.lastName)}
               </Link>
             </p>
           )}
