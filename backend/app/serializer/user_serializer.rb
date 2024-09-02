@@ -22,11 +22,13 @@ module Serializer
 
   class UserDetails < ActiveModel::Serializer
     include UserDetailsMixin
+    attributes :email_verified_at
   end
 
   class UserMe < ActiveModel::Serializer
     include UserDetailsMixin
     attribute :organizations
+    attributes :email_verified_at
 
     def organizations
       owned_organization = object.owned_organization

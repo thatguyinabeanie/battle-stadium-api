@@ -4,7 +4,8 @@ require 'rails_helper'
 require 'support/constants'
 
 ID_PROPERTY = { id: { type: :integer } }.freeze
-UUID_PROPERTY = { id: { type: :string, format: 'uuid' } }.freeze
+UUID_TYPE = { type: :string, format: 'uuid' }.freeze
+UUID_PROPERTY = { id: UUID_TYPE }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
@@ -102,7 +103,7 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
       first_name: { type: :string },
       last_name: { type: :string }
     },
-    required: %w[email first_name last_name] + SIMPLE_USER_SCHEMA[:required]
+    required: %w[email first_name last_name email_verified_at] + SIMPLE_USER_SCHEMA[:required]
   }
 ).freeze
 
@@ -110,7 +111,7 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: 'User Details',
-    properties: UUID_PROPERTY,
+    properties: UUID_PROPERTY.merge(email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }),
     required: %w[id] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -168,10 +169,11 @@ USER_LOGIN_REQUEST = {
   type: :object,
   title: 'User Login Request',
   properties: {
-    email: { type: :string, format: 'email' },
+    username: { type: :string, nullable: true },
+    email: { type: :string, format: 'email', nullable: true },
     password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters')
   },
-  required: %w[email password]
+  required: %w[password]
 }.freeze
 
 REGISTRATION_RESPONSE = {
@@ -187,10 +189,10 @@ REGISTRATION_RESPONSE = {
     pronouns: { type: :string, nullable: true },
     jti: { type: :string, format: 'jwt' },
     name: { type: :string, nullable: true },
-    emailVerified: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     image: { type: :string, nullable: true }
   ),
-  required: %w[id email username first_name last_name created_at updated_at pronouns jti name emailVerified image]
+  required: %w[id email username first_name last_name created_at updated_at pronouns jti name email_verified_at image]
 }.freeze
 
 ORGANIZATION_SCHEMA = {
@@ -320,7 +322,7 @@ PLAYER_REQUEST = {
   type: :object,
   title: 'Player Request',
   properties: {
-    user_id: { type: :integer },
+    user_id: UUID_TYPE,
     in_game_name: { type: :string }
   },
   required: %w[user_id in_game_name]
@@ -392,6 +394,47 @@ PHASE_DETAILS_SCHEMA = {
     rounds: { type: :array, items: { '$ref' => '#/components/schemas/Round' } }
   ),
   required: PHASE_SCHEMA[:required] + %w[players rounds]
+}.freeze
+
+GET_SESSION_REQUEST = {
+  type: :object,
+  title: 'Get Session Params',
+  properties: {
+    token: { type: :string, format: 'jwt' }
+  },
+  required: %w[token]
+}.freeze
+
+SESSION = {
+  type: :object,
+  title: 'Session',
+  properties: {
+    token: { type: :string, format: 'jwt' },
+    user_id: UUID_TYPE,
+    expires_at: { type: :string, format: DATE_TIME_TYPE },
+  },
+  required: %w[token user_id expires_at]
+}.freeze
+
+CREATE_SESSION = {
+  type: :object,
+  title: 'Create Session',
+  properties: {
+    user_id: UUID_TYPE,
+    session_token: { type: :string, format: 'jwt' },
+    expires_at: { type: :string, format: DATE_TIME_TYPE }
+  },
+  required: %w[user_id]
+}.freeze
+
+SESSION_AND_USER = {
+  type: :object,
+  title: 'Session And User',
+  properties: {
+    session: { '$ref' => '#/components/schemas/Session' },
+    user: { '$ref' => '#/components/schemas/UserDetails' }
+  },
+  required: %w[session user]
 }.freeze
 
 RSpec.configure do |config|
@@ -470,7 +513,11 @@ RSpec.configure do |config|
           PhaseDetails: PHASE_DETAILS_SCHEMA,
           GameRequest: GAME_REQUEST,
           TournamentRequest: TOURNAMENT_REQUEST,
-          TournamentPostRequest: TOURNAMENT_POST_REQUEST
+          TournamentPostRequest: TOURNAMENT_POST_REQUEST,
+          GetSessionRequest: GET_SESSION_REQUEST,
+          CreateSession: CREATE_SESSION,
+          Session: SESSION,
+          SessionAndUser: SESSION_AND_USER
         }
       }
     }

@@ -82,6 +82,7 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    aes_key_wrap (1.1.0)
     ast (2.4.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
@@ -93,6 +94,7 @@ GEM
       parser (>= 2.4)
       smart_properties
     bigdecimal (3.1.8)
+    bindata (2.5.0)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -156,6 +158,8 @@ GEM
     faraday (2.11.0)
       faraday-net_http (>= 2.0, < 3.4)
       logger
+    faraday-follow_redirects (0.3.0)
+      faraday (>= 1, < 3)
     faraday-net_http (3.3.0)
       net-http
     ffi (1.17.0-aarch64-linux-gnu)
@@ -180,6 +184,13 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.7.2)
+    json-jwt (1.16.6)
+      activesupport (>= 4.2)
+      aes_key_wrap
+      base64
+      bindata
+      faraday (~> 2.0)
+      faraday-follow_redirects
     json-schema (4.3.1)
       addressable (>= 2.8)
     jsonapi-renderer (0.2.2)
@@ -552,7 +563,9 @@ DEPENDENCIES
   importmap-rails (~> 2)
   irb
   jbuilder (~> 2)
+  json-jwt
   jsonapi-serializer (~> 2)
+  jwt
   kredis (~> 1)
   listen (~> 3.3)
   omniauth-discord (~> 1)

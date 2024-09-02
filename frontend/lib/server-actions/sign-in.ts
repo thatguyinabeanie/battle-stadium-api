@@ -5,8 +5,8 @@ import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
 import { signInSchema } from "@/lib/zod";
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
-import { signIn } from "@/auth";
+import { BattleStadiumAPI } from "@/lib/api";
+import { signIn } from "@/lib/auth";
 
 const SIGNIN_ERROR_URL = "/";
 
@@ -55,15 +55,10 @@ export async function railsSignIn<T extends string | number | symbol>(
 ) {
   "use server";
 
-  const { email, password } = await signInSchema.parseAsync(credentials);
+  const { email, password, username } = await signInSchema.parseAsync(credentials);
 
   try {
-    return await BattleStadiumAPI.Authentication.login({
-      userLoginRequest: {
-        email,
-        password,
-      },
-    });
+    return await BattleStadiumAPI().Users.authorize({ email, password, username });
   } catch (error) {
     return null;
   }

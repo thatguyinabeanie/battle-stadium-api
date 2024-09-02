@@ -2,10 +2,10 @@ import React from "react";
 
 import TournamentsTable from "./TournamentsTable";
 
-import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import BattleStadiumAPI from "@/lib/api";
 
 const Tournaments = async () => {
-  const tournaments = await BattleStadiumAPI.Tournaments.list();
+  const tournaments = await BattleStadiumAPI().Tournaments.list();
 
   return (
     <>

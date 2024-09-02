@@ -31,9 +31,11 @@
       "@testing-library/jest-dom",
       "web"
     ],
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "sourceMap": true
   },
   "include": [
+    "bun-types",
     "./node_modules/@types",
     "next-env.d.ts",
     "**/*.ts",
@@ -43,7 +45,7 @@
     "scripts/generateRosieFactories.mts",
     "./types",
     "global.d.ts",
-    "./auth.ts"
+    "./test-setup.ts"
   ],
   "exclude": ["node_modules", ".next"]
 }

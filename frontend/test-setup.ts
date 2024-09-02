@@ -16,6 +16,9 @@ import {
   beforeEach,
 } from "bun:test";
 
+process.env.COVERAGE_REPORTER = "text,lcov";
+process.env.COVERAGE_DIR = "coverage";
+
 const oldConsole = console;
 
 GlobalRegistrator.register();
@@ -37,3 +40,6 @@ Object.assign(global, {
   beforeAll,
   beforeEach,
 });
+
+// Mock fetch globally
+global.fetch = jest.fn();

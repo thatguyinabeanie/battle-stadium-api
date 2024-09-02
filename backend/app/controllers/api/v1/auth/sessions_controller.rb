@@ -1,80 +1,119 @@
 # frozen_string_literal: true
 
+# app/controllers/api/v1/auth/sessions_controller.rb
+
+require 'jwt'
+require_relative '../../../../../lib/token_decryptor'
+
 module Api
   module V1
     module Auth
-      class SessionsController < Devise::SessionsController
+      class SessionsController < ApplicationController
         respond_to :json
+        skip_before_action :verify_authenticity_token, only: %i[create update show destroy]
 
-        before_action :configure_sign_in_params, only: [:create]
-        skip_before_action :verify_authenticity_token, only: [:create]
+        # GET /api/v1/auth/session
+        def show
+          session, user = find_session_and_user_from_token
+          return invalid_token_or_expired_session unless session&.active?
 
-        # POST /api/v1/auth/sign_in
+          render_session_and_user(session, user)
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+        end
+
+        # POST /api/v1/auth/session
         def create
-          email = params[:email]
-          # username = params[:username]
-          password = params[:password]
-          user = User.find_for_database_authentication(email:)
-          # user ||= User.find_for_database_authentication(username:)
-          if user&.valid_password?(password)
-            sign_in(user)
-            render json: {
-              id: user.id,
-              message: 'Logged in successfully.',
-              username: user.username,
-              email: user.email,
-              pronouns: user.pronouns,
-              first_name: user.first_name,
-              last_name: user.last_name,
-              token: current_token
-            }, status: :created
+          Rails.logger.info("params: #{params}")
+          user = User.find(params[:user_id])
+          if user&.valid_password?(params[:password])
+            session = ::Auth::Session.create(user:)
 
+            render_session(session, :created)
           else
-            render json: { error: 'Invalid email or password.' }, status: :unauthorized
+            render json: { error: 'Invalid login' }, status: :unauthorized
           end
+        end
+
+        # PUT /api/v1/auth/session
+        def update
+          session, = find_session_and_user_from_token
+          return invalid_token_or_expired_session unless session&.active?
+
+          session.refresh
+          render_session(session, :ok)
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+        end
+
+        # DELETE /api/v1/auth/sign_out
+        def destroy
+          session, _user = find_session_and_user_from_token
+          return invalid_token_or_expired_session unless session&.active?
+
+          session.revoke
+          render json: { message: 'Logged out successfully' }, status: :ok
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
         private
 
-        def respond_with(resource, _opts = {})
-          render json: { message: 'Logged in successfully.', user: resource }, status: :ok
+        def find_user_by_email_or_username(email, username)
+          User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
         end
 
-        def respond_to_on_destroy
-          head :no_content
+        def find_session_and_user_from_token
+          auth_header = request.headers['Authorization']
+          token = auth_header.split.last.gsub(/^["']|["']$/, '')
+          decrypted_payload = TokenDecryptor.decrypt(token)
+
+          if decrypted_payload.is_a?(String)
+            jwt = JSON.parse(decrypted_payload)
+            session = ::Auth::Session.where(user_id: jwt['sub']).order(created_at: :desc).first
+            user = session&.user
+            return [session, user]
+          end
+
+          session_token = decrypted_payload['session']['sessionToken'] || decrypted_payload['token']
+
+          session = ::Auth::Session.find_by!(token: session_token, user_id: decrypted_payload['session']['user']['id'])
+          user = session&.user
+          [session, user]
+        rescue StandardError => e
+          raise ::Auth::Session::InvalidTokenOrExpiredSession, e.message
         end
 
-        def current_token
-          request.env['warden-jwt_auth.token']
+        def render_session(session, status)
+          render json: {
+              token: session.token,
+              user_id: session.user_id,
+              expires_at: session.expires_at
+          }, status:
         end
 
-        # If you have extra params to permit, append them to the sanitizer.
-        def configure_sign_in_params
-          devise_parameter_sanitizer.permit(:sign_in, keys: %i[email password])
+        def render_session_and_user(session, user)
+          render json: {
+            session: {
+              token: session.token,
+              user_id: user.id,
+              expires_at: session.expires_at
+            },
+            user: {
+              id: user.id,
+              email: user.email,
+              email_verified_at: user.email_verified_at,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              username: user.username,
+              pronouns: user.pronouns
+            }
+          }, status: :ok
         end
-        # before_action :configure_sign_in_params, only: [:create]
 
-        # GET /resource/sign_in
-        # def new
-        #   super
-        # end
-
-        # POST /resource/sign_in
-        # def create
-        #   super
-        # end
-
-        # DELETE /resource/sign_out
-        # def destroy
-        #   super
-        # end
-
-        # protected
-
-        # If you have extra params to permit, append them to the sanitizer.
-        # def configure_sign_in_params
-        #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-        # end
+        def invalid_token_or_expired_session
+          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+        end
       end
     end
   end

@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_27_163904) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_01_212140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "account", primary_key: ["provider", "provider_account_id"], force: :cascade do |t|
+  create_table "accounts", primary_key: ["provider", "provider_account_id"], force: :cascade do |t|
     t.string "type", null: false
     t.string "provider", null: false
     t.string "provider_account_id", null: false
@@ -29,22 +29,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_163904) do
     t.text "token_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "userId", default: -> { "gen_random_uuid()" }, null: false
-    t.index ["provider", "provider_account_id"], name: "index_account_on_provider_and_provider_account_id", unique: true
+    t.uuid "user_id", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["provider", "provider_account_id"], name: "index_accounts_on_provider_and_provider_account_id", unique: true
   end
 
-  create_table "authenticators", id: false, force: :cascade do |t|
-    t.text "credentialID", null: false
-    t.text "providerAccountId", null: false
-    t.text "credentialPublicKey", null: false
+  create_table "authenticators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "credential_id", null: false
+    t.text "provider_account_id", null: false
+    t.text "credential_public_key", null: false
     t.integer "counter", null: false
-    t.text "credentialDeviceType", null: false
-    t.boolean "credentialBackedUp", null: false
+    t.text "credential_device_type", null: false
+    t.boolean "credential_backed_up", null: false
     t.text "transports"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "userId"
-    t.index ["credentialID"], name: "index_authenticators_on_credentialID", unique: true
+    t.uuid "user_id", null: false
+    t.index ["credential_id"], name: "index_authenticators_on_credential_id", unique: true
   end
 
   create_table "formats", force: :cascade do |t|
@@ -187,11 +187,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_163904) do
     t.index ["phase_id"], name: "index_rounds_on_phase_id"
   end
 
-  create_table "session", primary_key: "sessionToken", id: :text, force: :cascade do |t|
-    t.datetime "expires", null: false
+  create_table "sessions", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.text "token", null: false
+    t.datetime "expires_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id", default: -> { "uuid_generate_v4()" }, null: false
+    t.uuid "jti", default: -> { "gen_random_uuid()" }, null: false
   end
 
   create_table "tournament_formats", force: :cascade do |t|
@@ -252,10 +254,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_163904) do
     t.datetime "locked_at"
     t.string "first_name"
     t.string "last_name"
-    t.string "pronouns"
+    t.string "pronouns", default: "", null: false
     t.string "jti", default: "invalid", null: false
     t.string "name"
-    t.datetime "emailVerified"
+    t.datetime "email_verified_at"
     t.text "image"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -265,16 +267,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_163904) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "verification_token", primary_key: "[:identifier, :token]", force: :cascade do |t|
+  create_table "verification_tokens", force: :cascade do |t|
     t.text "identifier", null: false
-    t.datetime "expires", null: false
+    t.datetime "expires_at", null: false
     t.text "token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["identifier", "token"], name: "index_verification_token_on_identifier_and_token", unique: true
   end
 
-  add_foreign_key "authenticators", "users", column: "userId"
+  add_foreign_key "authenticators", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
   add_foreign_key "match_games", "players", column: "loser_id"
@@ -295,6 +297,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_163904) do
   add_foreign_key "players", "users"
   add_foreign_key "pokemon", "pokemon_teams"
   add_foreign_key "pokemon_teams", "users"
+  add_foreign_key "sessions", "users"
   add_foreign_key "tournament_formats", "formats"
   add_foreign_key "tournament_formats", "tournaments"
   add_foreign_key "tournaments", "games"

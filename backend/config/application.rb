@@ -25,12 +25,9 @@ module BattleStadium
       unless Rails.env.production?
         require 'socket'
         hostname = Socket.gethostname
-        puts "Postgres Host: #{ENV['POSTGRES_HOST']}"
 
-        # ENV['POSTGRES_HOST'] = hostname == 'rails-api-container' ? 'postgres' : 'localhost'
+        ENV['POSTGRES_HOST'] = hostname == 'rails-api-container' ? 'postgres' : 'localhost'
       end
-
-      puts ENV
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

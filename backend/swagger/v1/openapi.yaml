@@ -46,38 +46,73 @@ paths:
               - email
               - password
               - password_confirmation
-  "/api/v1/auth/sign_in":
-    post:
-      summary: Login
+  "/api/v1/auth/session":
+    get:
+      summary: Get
       tags:
       - Sessions
-      description: Logs in a User.
-      operationId: loginUser
-      parameters: []
+      description: Shows the current session.
+      operationId: getSession
+      security:
+      - Bearer: []
       responses:
-        '201':
-          description: created
+        '200':
+          description: ok
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/UserLoginResponse"
+                "$ref": "#/components/schemas/SessionAndUser"
         '401':
           description: unauthorized
+    post:
+      summary: Create
+      tags:
+      - Sessions
+      description: Creates a new session.
+      operationId: create
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Session"
+        '401':
+          description: Unauthorized with no email or password.
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/UserLoginRequest"
-  "/api/v1/auth/sign_out":
+              "$ref": "#/components/schemas/CreateSession"
+    put:
+      summary: Update
+      tags:
+      - Sessions
+      description: Updates the current session.
+      operationId: update
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: updates
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Session"
+        '401':
+          description: unauthorized
     delete:
-      summary: Logout
+      summary: Delete
       tags:
       - Sessions
       description: Logs out a User.
       operationId: logoutUser
+      security:
+      - Bearer: []
       responses:
-        '204':
-          description: no content
+        '200':
+          description: session deleted
   "/api/v1/games":
     get:
       summary: List Games
@@ -633,6 +668,28 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/UserPostRequest"
+  "/api/v1/users/authorize":
+    post:
+      summary: Authorize User
+      tags:
+      - Users
+      description: Authorizes a User.
+      operationId: authorizeUser
+      parameters: []
+      responses:
+        '200':
+          description: Successful Username Login
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserDetails"
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserLoginRequest"
   "/api/v1/users/me":
     get:
       summary: Show Me
@@ -649,6 +706,8 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/UserMe"
+        '404':
+          description: not found
   "/api/v1/users/{id}":
     parameters:
     - name: id
@@ -656,7 +715,7 @@ paths:
       description: ID of the User
       required: true
       schema:
-        type: integer
+        type: string
     get:
       summary: Show User
       tags:
@@ -820,11 +879,16 @@ components:
         id:
           type: string
           format: uuid
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
       required:
       - id
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserMe:
@@ -844,6 +908,10 @@ components:
         id:
           type: string
           format: uuid
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
         organizations:
           type: array
           items:
@@ -854,6 +922,7 @@ components:
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserPostRequest:
@@ -891,6 +960,7 @@ components:
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserRequest:
@@ -921,6 +991,7 @@ components:
       - email
       - first_name
       - last_name
+      - email_verified_at
       - username
       - pronouns
     UserLoginResponse:
@@ -959,9 +1030,13 @@ components:
       type: object
       title: User Login Request
       properties:
+        username:
+          type: string
+          nullable: true
         email:
           type: string
           format: email
+          nullable: true
         password:
           type: string
           minLength: 8
@@ -969,7 +1044,6 @@ components:
           title: Password
           description: Must be at least 8 characters
       required:
-      - email
       - password
     RegistrationResponse:
       type: object
@@ -1002,7 +1076,7 @@ components:
         name:
           type: string
           nullable: true
-        emailVerified:
+        email_verified_at:
           type: string
           format: date-time
           nullable: true
@@ -1020,7 +1094,7 @@ components:
       - pronouns
       - jti
       - name
-      - emailVerified
+      - email_verified_at
       - image
     Organization:
       type: object
@@ -1239,7 +1313,8 @@ components:
       title: Player Request
       properties:
         user_id:
-          type: integer
+          type: string
+          format: uuid
         in_game_name:
           type: string
       required:
@@ -1501,3 +1576,55 @@ components:
       - check_in_start_at
       - open_team_sheets
       - teamlists_required
+    GetSessionRequest:
+      type: object
+      title: Get Session Params
+      properties:
+        token:
+          type: string
+          format: jwt
+      required:
+      - token
+    CreateSession:
+      type: object
+      title: Create Session
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        session_token:
+          type: string
+          format: jwt
+        expires_at:
+          type: string
+          format: date-time
+      required:
+      - user_id
+    Session:
+      type: object
+      title: Session
+      properties:
+        token:
+          type: string
+          format: jwt
+        user_id:
+          type: string
+          format: uuid
+        expires_at:
+          type: string
+          format: date-time
+      required:
+      - token
+      - user_id
+      - expires_at
+    SessionAndUser:
+      type: object
+      title: Session And User
+      properties:
+        session:
+          "$ref": "#/components/schemas/Session"
+        user:
+          "$ref": "#/components/schemas/UserDetails"
+      required:
+      - session
+      - user

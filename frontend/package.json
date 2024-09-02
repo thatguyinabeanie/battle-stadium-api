@@ -12,10 +12,10 @@
     "prettier:write": "prettier --write .",
     "prettier:check": "prettier --check .",
     "tsc": "tsc --noEmit",
+    "tsc:watch": "tsc --noEmit --watch",
     "fix": "bun prettier:write && bun lint:fix",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
-    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api  --additional-properties=useSingleRequestParameter=true --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && bun generate:factories",
-    "drizzlekit:pull": "drizzle-kit pull",
+    "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api/generated-api-client --additional-properties=useSingleRequestParameter=false --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && bun generate:factories",
     "check:unused": "depcheck"
   },
   "dependencies": {
@@ -98,6 +98,7 @@
     "eslint-plugin-unused-imports": "^3.2.0",
     "esm": "^3.2.25",
     "happy-dom": "^15.0.0",
+    "jest-fetch-mock": "^3.0.3",
     "js-yaml": "^4.1.0",
     "openapi-typescript": "^7.3.0",
     "postcss": "^8.4.41",

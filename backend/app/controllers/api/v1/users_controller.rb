@@ -1,6 +1,6 @@
 require_relative '../../../serializer/user_serializer'
 require 'jwt'
-require_relative '../../../../lib/helpers/JWT/token_handler'
+require_relative '../../../../lib/token_decryptor'
 
 module Api
   module V1
@@ -14,6 +14,8 @@ module Api
       before_action :authenticate_user, only: %i[me]
       before_action :set_cache_headers, only: %i[me]
 
+      skip_before_action :verify_authenticity_token, only: %i[create update show destroy authorize me patch_password]
+
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
 
@@ -26,8 +28,25 @@ module Api
         end
       end
 
+      def authorize
+        user = find_user_by_email_or_username(params[:email], params[:username])
+        if user&.valid_password?(params[:password])
+          render json: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            pronouns: user.pronouns,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email_verified_at: user.email_verified_at
+          }, status: :ok
+        else
+          render json: { error: 'Invalid login' }, status: :unauthorized
+        end
+      end
+
       def me
-        @user = current_user
+        @user = @current_user
         render json: @user, serializer: Serializer::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
@@ -42,21 +61,20 @@ module Api
 
       private
 
+      def find_user_by_email_or_username(email, username)
+        User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
+      end
+
       def authenticate_user
-        token = request.headers['Authorization']&.split&.last
+        encrypted_token = request.headers['Authorization']&.split&.last
 
         begin
-          decoded_token = Helpers::JWT::TokenHandler.new.decode!(token)
-          decoded_token.first['sub']
-          Rails.logger.info("Decoded token: #{decoded_token}")
-
-          @current_user = User.find(decoded_token.first['sub'])
-
-          Rails.logger.info("current_user: #{@current_user}")
-        rescue JWT::DecodeError => e
-          Rails.logger.error("JWT::DecodeError: #{e}")
-          render json: { error: e.message }, status: :bad_request
-        rescue ActiveRecord::RecordNotFound
+          decrypted_token = TokenDecryptor.decrypt(encrypted_token)
+          sub = decrypted_token['session']['user']['id']
+          token = decrypted_token['session']['sessionToken']
+          session = ::Auth::Session.find_by!(user_id: sub, token:)
+          @current_user = session.user if session.active?
+        rescue StandardError
           render json: { error: 'User not found' }, status: :not_found
         end
       end

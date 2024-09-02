@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 
 export default async function Dashboard() {
   const session = await auth();
@@ -8,8 +8,6 @@ export default async function Dashboard() {
   }
 
   try {
-    // const me = await BattleStadiumAPI.Users.me();
-
     return (
       <div>
         <h1>Dashboard</h1>

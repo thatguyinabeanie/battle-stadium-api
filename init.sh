@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Generate a 16-byte secret
-SECRET=$(openssl rand -base64 16)
+# Generate a 64-byte secret
+SECRET=$(openssl rand -base64 48)
 
 # Exit with nonzero status if no arguments are passed in
 if [ $# -eq 0 ]; then

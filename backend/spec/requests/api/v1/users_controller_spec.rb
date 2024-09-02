@@ -2,6 +2,7 @@ require 'swagger_helper'
 require_relative '../../../support/openapi/schema_helper'
 require_relative '../../../support/openapi/response_helper'
 require_relative '../../../../app/models/concerns/secure_password'
+require_relative '../../../../lib/token_encryptor'
 
 USER_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/UserDetails'.freeze
 PASSWORD = SecurePassword.generate_secure_password
@@ -80,6 +81,63 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
+  path('/api/v1/users/authorize') do
+    post('Authorize User') do
+      tags 'Users'
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      consumes OpenApi::Response::JSON_CONTENT_TYPE
+      description 'Authorizes a User.'
+      operationId 'authorizeUser'
+
+      parameter name: :login, in: :body, schema: { '$ref' => '#/components/schemas/UserLoginRequest' }
+
+      response(200, 'Successful Email Login') do
+        let(:user) { create(:user, password: PASSWORD) }
+        let(:login) do
+          {
+            email: user.email,
+            password: PASSWORD
+          }
+        end
+
+        schema '$ref' => '#/components/schemas/UserDetails'
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(200, 'Successful Username Login') do
+        let(:user) { create(:user, password: PASSWORD) }
+        let(:login) do
+          {
+            username: user.username,
+            password: PASSWORD
+          }
+        end
+
+        schema '$ref' => '#/components/schemas/UserDetails'
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(401, 'unauthorized') do
+        let(:login) do
+          {
+            email: 'user.email@email.com',
+            password: 'invalid'
+          }
+        end
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+  end
+
   path('/api/v1/users/me') do
     get('Show Me') do
       tags 'Users'
@@ -91,10 +149,35 @@ RSpec.describe Api::V1::UsersController do
 
       response(200, 'successful') do
         let(:user) { create(:user) }
-        let(:token) { user.jwt }
-        let(:Authorization) { "Bearer #{token}" } # rubocop:disable RSpec/VariableName
+        let(:session) { create(:session, user:) }
+        let(:jwt_token) do
+          TokenEncryptor.encrypt({
+                                   session: {
+                                     sessionToken: session.token,
+                                     user: {
+                                       id: session.user.id,
+                                       email: session.user.email,
+                                       firstName: session.user.first_name,
+                                       lastName: session.user.last_name,
+                                       pronouns: session.user.pronouns,
+                                       emailVerified: session.user.email_verified_at
+                                     }
+                                   }
+                                 })
+        end
+
+        let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 
         schema '$ref' => '#/components/schemas/UserMe'
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(404, NOT_FOUND) do
+        let(:token) { 'invalid' }
+        let(:Authorization) { "Bearer #{token}" } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
@@ -104,7 +187,7 @@ RSpec.describe Api::V1::UsersController do
   end
 
   path('/api/v1/users/{id}') do
-    parameter name: :id, in: :path, type: :integer, description: 'ID of the User'
+    parameter name: :id, in: :path, type: :string, description: 'ID of the User'
 
     get('Show User') do
       tags 'Users'
