@@ -48,7 +48,7 @@ const OrganizationCard = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
           ) : (
             <>
               <div className="flex items-start justify-between gap-1">
-                <h3 className="text-small font-medium text-default-700">{organization.name}</h3>
+                <h3 className="text-small font-medium text-default-700" data-testid="org-name">{organization.name}</h3>
               </div>
               {organization?.description ? (
                 <p className="text-small text-default-500">{organization?.description}</p>

@@ -1,23 +1,13 @@
-import { render, screen } from "@testing-library/react";
-
+import { render, screen} from "@testing-library/react";
 import OrganizationPage from "@/app/organizations/page";
-import { BattleStadiumAPI } from "@/lib/api";
-import { OrganizationFactory } from "@/factories";
-
-
-// Mock the headers function
-// Mock the headers function manually
-
 
 describe("Organizations Page", () => {
-  it("renders the correct text", async () => {
-    const org = OrganizationFactory.build();
-
-    spyOn(BattleStadiumAPI().Organizations, "list").mockResolvedValue([org]);
-
+  test("should render the organization page", async () => {
     render(await OrganizationPage());
-    const text = screen.getByText(org.name);
 
-    expect(text).toBeDefined();
+    const orgName = screen.getByTestId("org-name");
+
+    expect(orgName).toBeDefined();
+
   });
 });

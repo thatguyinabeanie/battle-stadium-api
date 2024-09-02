@@ -98,6 +98,7 @@
     "eslint-plugin-unused-imports": "^3.2.0",
     "esm": "^3.2.25",
     "happy-dom": "^15.0.0",
+    "jest-fetch-mock": "^3.0.3",
     "js-yaml": "^4.1.0",
     "openapi-typescript": "^7.3.0",
     "postcss": "^8.4.41",

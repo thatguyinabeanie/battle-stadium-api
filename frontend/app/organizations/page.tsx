@@ -8,19 +8,6 @@ import { BattleStadiumAPI } from "@/lib/api";
 const OrganizationsPage = async () => {
   const organizations = await BattleStadiumAPI().Organizations.list();
 
-  // const owner: User = {
-  //   id: "uuid-1",
-  //   username: "Test User",
-  //   pronouns: "they/them",
-  // }
-  // const organization: Organization = {
-  //   id: 1,
-  //   name: "Test Organization",
-  //   description: "Test Description",
-  //   owner: owner
-  // };
-
-
   return (
     <div
       className={cn(
