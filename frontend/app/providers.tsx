@@ -14,15 +14,7 @@ const getCurrentUser = async () => {
     return null;
   }
 
-  try {
-    const me = await BattleStadiumAPI().Users.me();
-
-    return me;
-  } catch (error) {
-    console.error("(providers) Error fetching current user:", error); // eslint-disable-line no-console
-
-    return null;
-  }
+  return BattleStadiumAPI().Users.me();
 };
 const initialIsOpen = process.env.NODE_ENV === "development";
 

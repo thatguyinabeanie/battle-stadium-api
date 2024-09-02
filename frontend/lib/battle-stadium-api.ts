@@ -5,49 +5,47 @@ import {
   GamesApi,
   PhasesApi,
   TournamentsApi,
-  PostOrganizationTournamentRequest,
-  PatchOrganizationTournamentRequest,
-  ListOrganizationStaffRequest,
-  PostUserRequest,
   GetUserRequest,
-  PatchUserRequest,
-  DeleteUserRequest,
-  PostOrganizationRequest,
-  PostGameRequest,
-  GetGameRequest,
-  PatchGameRequest,
-  DeleteGameRequest,
-  GetTournamentRequest,
-  PostTournamentPhaseRequest,
-  PatchTournamentPhaseRequest,
-  ListTournamentPhasesRequest,
-  GetOrganizationRequest,
-  DeleteOrganizationRequest,
-  PatchOrganizationRequest,
   SessionsApi,
-  LoginUserRequest,
   RegistrationApi,
-  RegisterUserOperationRequest,
   OrganizationsApi,
 } from "@/lib/api/apis";
 import { auth } from "@/auth";
 import { Configuration, ConfigurationParameters, HTTPHeaders, InitOverrideFunction } from "./api/runtime";
 import { Game, Organization, Phase, RegisterUserRequest, TournamentDetails, UserDetails, UserLoginRequest, UserPostRequest } from "./api/models";
+import { JWT } from "@auth/core/jwt";
 
-const defaultConfig = async () => {
-  const session = await auth();
-  const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
-  const jwt = await new jose.SignJWT({ user: session?.user })
-    .setProtectedHeader({ alg: "HS256" })
+
+export const jwt = async (payload: JWT, encryptionSecret: string | undefined = process.env.AUTH_SECRET) => {
+  const secret = encryptionSecret ?? process.env.AUTH_SECRET;
+  if (!secret) {
+    throw new Error("No secret provided");
+  }
+
+  const encoder = new TextEncoder();
+  return new jose.SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS512" })
     .setIssuedAt()
     .setIssuer("nextjs-auth-service")
     .setAudience("rails-api-service")
-    .setExpirationTime("8h")
-    .sign(secret);
+    .setExpirationTime("5m")
+    .sign(encoder.encode(secret));
+}
+
+export const config = (encryptedJwt: string) => new Configuration({
+  headers: {
+    Authorization: `Bearer ${jwt}`,
+  },
+});
+
+const defaultConfig = async () => {
+  const session = await auth();
 
   const headers: HTTPHeaders = session
     ? {
-        Authorization: `Bearer ${jwt}`,
+      Authorization: `Bearer ${await jwt({
+        session: session,
+      })}`,
       }
     : {};
 
@@ -152,7 +150,10 @@ const Users = (configOverride?: Configuration) => {
     delete: async (id: string, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await UsersAPI()).deleteUser(id, initOverrides),
 
-    me: async (initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).getMe(initOverrides),
+    me: async (initOverrides?: RequestInit | InitOverrideFunction) => {
+
+      return (await UsersAPI()).getMe(initOverrides);
+    }
   };
 };
 

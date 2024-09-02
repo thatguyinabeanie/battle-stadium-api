@@ -26,7 +26,6 @@ export class Configuration {
         // TODO: do if environment is dev, testing, prod
         const componentType = typeof window === "undefined" ? "server" : "client";
         const backendHost = (componentType === "server" && process?.env?.BACKEND_HOST) ?? "localhost";
-        console.log("backendHost", backendHost);
         const API_BASE_URL_PATH: string = `http://${backendHost}:3000`;
         const BASE_PATH = API_BASE_URL_PATH.replace(/\/+$/, "");
         return this.configuration.basePath ?? BASE_PATH;

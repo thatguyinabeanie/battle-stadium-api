@@ -1,30 +1,13 @@
 // eslint-disable-file no-console
-import * as jose from "jose";
 import NextAuth, { NextAuthConfig, Session } from "next-auth";
 import { EncryptJWT, jwtDecrypt } from "jose";
-import { JWTEncodeParams } from "@auth/core/jwt";
+import { JWT, JWTEncodeParams } from "@auth/core/jwt";
 
 import { providers } from "./auth.config";
-import { Configuration } from "./lib/api/runtime";
 
 import { RailsAdapter } from "@/lib/auth/rails-api-adapter";
-import BattleStadiumAPI from "@/lib/battle-stadium-api";
+import BattleStadiumAPI, { config, jwt } from "@/lib/battle-stadium-api";
 
-const config = async (): Promise<Configuration> => {
-  const jwt = new jose.SignJWT({ username: "battlestadiumbot" })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setIssuer("nextjs-auth-service")
-    .setAudience("rails-api-service")
-    .setExpirationTime("8h")
-    .sign(new TextEncoder().encode(process.env.AUTH_SECRET));
-
-  return new Configuration({
-    headers: {
-      Authorization: `Bearer ${await jwt}`,
-    },
-  });
-};
 
 const decrypt = async (token: string, secret: string) => {
   const encoder = new TextEncoder();
@@ -37,11 +20,15 @@ const decrypt = async (token: string, secret: string) => {
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
-  const apiClient = BattleStadiumAPI(await config());
+
+  const defaultWT = await jwt({
+    username: "battlestadiumbot",
+  });
+
+  const apiClient = BattleStadiumAPI(config(defaultWT));
 
   try {
     const config: NextAuthConfig = {
-      debug: true,
       providers,
       adapter: RailsAdapter(apiClient),
       secret: process.env.AUTH_SECRET,
@@ -54,14 +41,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
         encode: async ({ secret, token }: JWTEncodeParams) => {
           const encoder = new TextEncoder();
 
+          const encryptedJwt = new EncryptJWT(token)
+            .setProtectedHeader({ alg: "dir", enc: "A256CBC-HS512" })
+            .setIssuedAt()
+            .setIssuer("nextjs-auth-service")
+            .setAudience("rails-api-service");
+
           if (typeof secret === "string") {
-            return await new EncryptJWT(token)
-              .setProtectedHeader({ alg: "dir", enc: "A256CBC-HS512" })
-              .encrypt(encoder.encode(secret));
+            return await encryptedJwt.encrypt(encoder.encode(secret));
           } else if (secret instanceof Array && secret.length > 0) {
-            return await new EncryptJWT(token)
-              .setProtectedHeader({ alg: "dir", enc: "A256CBC-HS512" })
-              .encrypt(encoder.encode(secret[0]));
+            return await encryptedJwt.encrypt(encoder.encode(secret[0]));
           }
 
           throw new Error("Invalid secret provided");
@@ -98,8 +87,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
 
           return token;
         },
-        async session({ session, user }) {
-          const name = user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : (user.username ?? "");
+        async session({ session, user, token }) {
+          const name = user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.name ?? "";
 
           const clonedSession: Session = {
             ...(JSON.parse(JSON.stringify(session)) as Session),
@@ -108,8 +97,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
               ...user,
               name: name ?? undefined,
             },
-            jti: session.jti,
           };
+
+          if (token) {
+            clonedSession.token = token;
+          }
+
+          // if (account) {
+          //   clonedSession.account = account;
+          // }
 
           return clonedSession;
         },

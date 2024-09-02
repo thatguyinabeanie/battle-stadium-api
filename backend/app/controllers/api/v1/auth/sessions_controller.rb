@@ -40,7 +40,7 @@ module Api
             session: {
               token: session.jwt_payload.to_json,
               user_id: user.id,
-              expires_at: session.expires_at,
+              expires_at: session.expires_at
             },
             user: {
               id: user.id,
@@ -48,6 +48,7 @@ module Api
               email_verified_at: user.email_verified_at,
               first_name: user.first_name,
               last_name: user.last_name,
+              name: user.name || "#{user.first_name} #{user.last_name}",
               username: user.username,
               pronouns: user.pronouns
             }
@@ -76,6 +77,7 @@ module Api
               pronouns: user.pronouns,
               first_name: user.first_name,
               last_name: user.last_name,
+              name: user.name || "#{user.first_name} #{user.last_name}",
               token: session.jwt_payload.to_json
             }, status: :created
           else
@@ -114,6 +116,7 @@ module Api
               email_verified_at: user.email_verified_at,
               first_name: user.first_name,
               last_name: user.last_name,
+              name: user.name || "#{user.first_name} #{user.last_name}",
               username: user.username,
               pronouns: user.pronouns
             }
@@ -127,27 +130,21 @@ module Api
           auth_header = request.headers['Authorization']
           encrypted_token = auth_header.split(' ').last if auth_header
 
-          Rails.logger.info("Encrypted token: #{encrypted_token}")
           # Remove any wrapping quotes if present
           encrypted_token = encrypted_token.gsub(/^["']|["']$/, '')
-          Rails.logger.info("Encrypted token Cleaned: #{encrypted_token}")
 
           decrypted_payload = TokenDecryptor.decrypt(encrypted_token)
-          Rails.logger.info("Decrypted payload: #{decrypted_payload}")
 
-          jwt_json = JSON.parse(decrypted_payload)['token']
+          jwt_json = decrypted_payload['token']
           jwt = JSON.parse(jwt_json)
 
-          Rails.logger.inf("Decoded token: #{jwt}")
           session = ::Auth::Session.find_by!(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
 
           return invalid_token_or_expired_session unless session&.active?
-
           session.revoke_session
 
-          render json: { message: 'Logged out successfully' }, status: :ok
         rescue StandardError => e
-          render json: { error: 'Invalid token or expired session '  }, status: :unauthorized
+          render json: { message: 'Logged out successfully' }, status: :ok
         end
 
         private
@@ -163,7 +160,6 @@ module Api
         def respond_to_on_destroy
           head :no_content
         end
-
       end
     end
   end

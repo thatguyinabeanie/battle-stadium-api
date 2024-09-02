@@ -16,9 +16,9 @@ declare module "next-auth" {
        * you need to add them back into the newly declared interface.
        */
     } & DefaultSession["user"];
-    token: JWT["accessToken"];
+    token: JWT,
     accessToken: JWT["accessToken"];
-    jti: JWT["jti"];
+    // account: Account;
   }
   /**
  * The shape of the user object returned in the OAuth providers' `profile` callback,
@@ -33,10 +33,10 @@ declare module "next-auth" {
     name?: string | null;
     token?: string;
   }
+
   interface User extends UserBase{
     password?: string;
     passwordConfirmation?: string;
-
   }
 
   interface AdapterUser extends UserBase {

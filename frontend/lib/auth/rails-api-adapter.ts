@@ -225,7 +225,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
     async deleteSession(sessionToken) {
       try {
-        await apiClient.Session.delete({ sessionToken } as unknown as RequestInit);
+        await apiClient.Session.delete(authorizationHeader(sessionToken));
       } catch (error) {
         throw error;
       }

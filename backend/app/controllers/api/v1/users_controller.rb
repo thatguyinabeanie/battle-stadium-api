@@ -46,13 +46,13 @@ module Api
         token = request.headers['Authorization']&.split&.last
 
         begin
-          decoded_token = TokenDecryptor.decrypt(token)['sub']
-          Rails.logger.info("Decoded token: #{decoded_token}")
-
-          @current_user = User.find(decoded_token)
-
-          Rails.logger.info("current_user: #{@current_user}")
-        rescue StandardError
+          decoded_token = JSON.parse(TokenDecryptor.decrypt(token)[:session][:sessionToken])
+          sub = decoded_token['sub']
+          jti = decoded_token['jti']
+          token = decoded_token['token']
+          session = ::Auth::Session.find_by!(user_id: sub, jti: jti, token: token)
+          @current_user = session.user if session.active?
+        rescue StandardError => e
           render json: { error: 'User not found' }, status: :not_found
         end
       end

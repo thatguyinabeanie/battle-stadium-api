@@ -8,16 +8,16 @@ class TokenDecryptor
     jwe = JSON::JWT.decode(token, secret)
 
     # If it's a JWE, the payload is already decrypted
-    return jwe.plain_text if jwe.is_a?(JSON::JWE)
-
+    if jwe.is_a?(JSON::JWE)
+      return jwe.plain_text
+    end
     # If it's not a JWE, it might be a regular JWT
     jwe
   rescue JSON::JWT::InvalidFormat
     # If it's not a valid JWE/JWT, try decoding it as a plain JWT
     begin
-      JSON::JWT.decode(token, secret, :HS256)
+      hs256 = JSON::JWT.decode(token, secret, :HS256)
     rescue StandardError => e
-      Rails.logger.error "Failed to decrypt token: #{e.message}"
       nil
     end
   rescue StandardError => e
