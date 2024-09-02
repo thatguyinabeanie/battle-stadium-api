@@ -35,18 +35,23 @@ end
 
 create_battlestadium_bot
 
-def create_user(username: nil)
+def create_user(username: nil, password: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil)
   username ||= Faker::Internet.unique.username
+  password ||= SecurePassword.generate_secure_password
+  first_name ||= Faker::Name.first_name
+  last_name ||= Faker::Name.last_name
+  email ||= "#{username}@beanie.com"
+  pronouns ||= 'they/them'
 
   # Check if user already exists
   User.find_or_create_by!(username:) do |user|
-    password = SecurePassword.generate_secure_password
-    user.email = "#{user.username}@example.com"
+    user.email = "#{user.username}@beanie.com"
     user.password = password
     user.password_confirmation = password
-    user.pronouns = 'they/them'
-    user.first_name = Faker::Name.first_name
-    user.last_name = Faker::Name.last_name
+    user.pronouns = pronouns
+    user.first_name = last_name
+    user.last_name = first_name
+    user.email_verified_at = Time.zone.now
   end
 end
 
@@ -86,7 +91,7 @@ scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
 
 format = Tournaments::Format.find_or_create_by!(name: 'Regulation H', game: scarlet_violet)
 
-fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy')
+fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy', password: 'FuecocoSupremacy777!', first_name: 'Pablo', last_name: 'Escobar', pronouns: 'he/him')
 
 org_owners = (1..25).to_a.map { create_user }
 

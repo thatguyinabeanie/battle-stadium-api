@@ -15,6 +15,13 @@ Battle Stadium is the definitive Pokemon VGC Tournament Hosting website. This pr
 - [Contributing](#contributing)
 - [License](#license)
 
+## Local Dev User
+
+Once you go through the instructions below to set up local dev, you can use the following credentials to log in
+
+- email: `fuecoco-supremacy@beanie.gg`
+- password: `FuecocoSupremacy777!`
+
 ## Overview
 
 Battle Stadium is designed to facilitate the hosting and management of Pokemon VGC tournaments. It features a robust backend built with Ruby on Rails and a dynamic frontend using NextJS. Authentication is handled via the Devise gem.
