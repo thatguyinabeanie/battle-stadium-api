@@ -14,11 +14,12 @@ module Api
 
         # GET /api/v1/auth/session
         def show
-          session, user = find_session_and_user_from_token
+          session = find_session_from_authorization_header
           return invalid_token_or_expired_session unless session&.active?
 
-          render_session_and_user(session, user)
-        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render_session_and_user(session, session.user)
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession=> e
+          Rails.logger.error('InvalidTokenOrExpiredSession: ' +e.message)
           render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
@@ -37,7 +38,7 @@ module Api
 
         # PUT /api/v1/auth/session
         def update
-          session, = find_session_and_user_from_token
+          session = find_session_from_authorization_header
           return invalid_token_or_expired_session unless session&.active?
 
           session.refresh
@@ -48,7 +49,7 @@ module Api
 
         # DELETE /api/v1/auth/sign_out
         def destroy
-          session, _user = find_session_and_user_from_token
+          session = find_session_from_authorization_header
           return invalid_token_or_expired_session unless session&.active?
 
           session.revoke
@@ -63,16 +64,21 @@ module Api
           User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
         end
 
-        def find_session_and_user_from_token
+        def find_session_from_authorization_header
           auth_header = request.headers['Authorization']
           token = auth_header.split.last.gsub(/^["']|["']$/, '')
           decrypted_payload = TokenDecryptor.decrypt(token)
 
           if decrypted_payload.is_a?(String)
             jwt = JSON.parse(decrypted_payload)
-            session = ::Auth::Session.where(user_id: jwt['sub']).order(created_at: :desc).first
-            user = session&.user
-            return [session, user]
+            sub = jwt['sub']
+            session = ::Auth::Session
+              .where(user_id: sub)
+              .where('expires_at > ?', Time.now.utc)
+              .order(created_at: :desc)
+              .first
+
+            return session
           end
 
           session_token = decrypted_payload['session']['sessionToken'] || decrypted_payload['token']
