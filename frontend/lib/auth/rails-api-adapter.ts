@@ -164,7 +164,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
     async createSession({ userId }) {
       try {
-        const newSession = await apiClient.Session.create({userId});
+        const newSession = await apiClient.Session.create({ userId });
 
         const adapterSession: AdapterSession = {
           sessionToken: newSession.token,
@@ -211,7 +211,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
     async updateSession({ sessionToken }) {
       try {
-        const session  = await apiClient.Session.update(authorizationHeader(sessionToken));
+        const session = await apiClient.Session.update(authorizationHeader(sessionToken));
 
         return {
           sessionToken: session.token,

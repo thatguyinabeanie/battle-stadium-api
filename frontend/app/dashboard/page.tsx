@@ -8,7 +8,6 @@ export default async function Dashboard() {
   }
 
   try {
-
     return (
       <div>
         <h1>Dashboard</h1>

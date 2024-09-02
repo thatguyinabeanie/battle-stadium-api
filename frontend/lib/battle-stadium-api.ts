@@ -1,4 +1,18 @@
 import * as jose from "jose";
+import { JWT } from "@auth/core/jwt";
+
+import { Configuration, ConfigurationParameters, HTTPHeaders, InitOverrideFunction } from "./api/runtime";
+import {
+  CreateSession,
+  Game,
+  Organization,
+  Phase,
+  RegisterUserRequest,
+  TournamentDetails,
+  UserDetails,
+  UserLoginRequest,
+  UserPostRequest,
+} from "./api/models";
 
 import {
   UsersApi,
@@ -11,18 +25,16 @@ import {
   OrganizationsApi,
 } from "@/lib/api/apis";
 import { auth } from "@/auth";
-import { Configuration, ConfigurationParameters, HTTPHeaders, InitOverrideFunction } from "./api/runtime";
-import { CreateSession, Game, Organization, Phase, RegisterUserRequest, TournamentDetails, UserDetails, UserLoginRequest, UserPostRequest } from "./api/models";
-import { JWT } from "@auth/core/jwt";
-
 
 export const jwt = async (payload: JWT, encryptionSecret: string | undefined = process.env.AUTH_SECRET) => {
   const secret = encryptionSecret ?? process.env.AUTH_SECRET;
+
   if (!secret) {
     throw new Error("No secret provided");
   }
 
   const encoder = new TextEncoder();
+
   return new jose.SignJWT({ ...payload })
     .setProtectedHeader({ alg: "HS512" })
     .setIssuedAt()
@@ -30,22 +42,23 @@ export const jwt = async (payload: JWT, encryptionSecret: string | undefined = p
     .setAudience("rails-api-service")
     .setExpirationTime("5m")
     .sign(encoder.encode(secret));
-}
+};
 
-export const config = (encryptedJwt: string) => new Configuration({
-  headers: {
-    Authorization: `Bearer ${jwt}`,
-  },
-});
+export const config = (encryptedJwt: string) =>
+  new Configuration({
+    headers: {
+      Authorization: `Bearer ${encryptedJwt}`,
+    },
+  });
 
 const defaultConfig = async () => {
   const session = await auth();
 
   const headers: HTTPHeaders = session
     ? {
-      Authorization: `Bearer ${await jwt({
-        session: session,
-      })}`,
+        Authorization: `Bearer ${await jwt({
+          session: session,
+        })}`,
       }
     : {};
 
@@ -60,7 +73,8 @@ const defaultConfig = async () => {
 };
 
 const Session = (configOverride?: Configuration) => {
-  const SessionAPI = async () => new SessionsApi( configOverride ?? await defaultConfig());
+  const SessionAPI = async () => new SessionsApi(configOverride ?? (await defaultConfig()));
+
   return {
     create: async (requestParameters?: CreateSession, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await SessionAPI()).create(requestParameters, initOverrides),
@@ -72,18 +86,16 @@ const Session = (configOverride?: Configuration) => {
 };
 
 const Registration = (configOverride?: Configuration) => {
-  const RegistrationAPI = async () => new RegistrationApi(configOverride ?? await defaultConfig());
+  const RegistrationAPI = async () => new RegistrationApi(configOverride ?? (await defaultConfig()));
 
   return {
-    register: async (
-      requestParameters?: RegisterUserRequest,
-      initOverrides?: RequestInit | InitOverrideFunction,
-    ) => (await RegistrationAPI()).registerUser(requestParameters, initOverrides),
+    register: async (requestParameters?: RegisterUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await RegistrationAPI()).registerUser(requestParameters, initOverrides),
   };
 };
 
 const Organizations = (configOverride?: Configuration) => {
-  const OrganizationsAPI = async () => new OrganizationsApi(configOverride ?? await defaultConfig());
+  const OrganizationsAPI = async () => new OrganizationsApi(configOverride ?? (await defaultConfig()));
 
   return {
     list: async (initOverrides?: RequestInit | InitOverrideFunction) =>
@@ -95,8 +107,11 @@ const Organizations = (configOverride?: Configuration) => {
     get: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await OrganizationsAPI()).getOrganization(organizationId, initOverrides),
 
-    patch: async (organizationId: number, organization?: Organization, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await OrganizationsAPI()).patchOrganization(organizationId, organization, initOverrides),
+    patch: async (
+      organizationId: number,
+      organization?: Organization,
+      initOverrides?: RequestInit | InitOverrideFunction,
+    ) => (await OrganizationsAPI()).patchOrganization(organizationId, organization, initOverrides),
 
     delete: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await OrganizationsAPI()).deleteOrganization(organizationId, initOverrides),
@@ -113,22 +128,28 @@ const Organizations = (configOverride?: Configuration) => {
         tournamentId: number,
         tournamentDetails?: TournamentDetails,
         initOverrides?: RequestInit | InitOverrideFunction,
-      ) => (await OrganizationsAPI()).patchOrganizationTournament(organizationId, tournamentId, tournamentDetails, initOverrides),
+      ) =>
+        (await OrganizationsAPI()).patchOrganizationTournament(
+          organizationId,
+          tournamentId,
+          tournamentDetails,
+          initOverrides,
+        ),
     },
 
     Staff: {
-      list: async (
-        organizationId: number, initOverrides?: RequestInit | InitOverrideFunction
-      ) => (await OrganizationsAPI()).listOrganizationStaff(organizationId, initOverrides),
+      list: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
+        (await OrganizationsAPI()).listOrganizationStaff(organizationId, initOverrides),
     },
   };
 };
 
 const Users = (configOverride?: Configuration) => {
-  const UsersAPI = async () => new UsersApi(configOverride ?? await defaultConfig());
+  const UsersAPI = async () => new UsersApi(configOverride ?? (await defaultConfig()));
 
   return {
-    authorize: async (userLoginRequest: UserLoginRequest, initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).authorizeUser(userLoginRequest, initOverrides),
+    authorize: async (userLoginRequest: UserLoginRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await UsersAPI()).authorizeUser(userLoginRequest, initOverrides),
     list: async (initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).listUsers(initOverrides),
 
     post: async (userPostRequest?: UserPostRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
@@ -137,13 +158,19 @@ const Users = (configOverride?: Configuration) => {
     get: async (id: string, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await UsersAPI()).getUser(id, initOverrides),
 
-    getByEmail: (email: string, initOverrides?: RequestInit | InitOverrideFunction): Promise<UserDetails> => Promise.resolve({} as UserDetails),
+    getByEmail: (_email: string, _initOverrides?: RequestInit | InitOverrideFunction): Promise<UserDetails> =>
+      Promise.resolve({} as UserDetails),
 
-    linkAccount: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({} as UserDetails),
+    linkAccount: async (_requestParameters: GetUserRequest, _initOverrides?: RequestInit | InitOverrideFunction) =>
+      Promise.resolve({} as UserDetails),
 
-    unlinkAccount: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({} as UserDetails),
+    unlinkAccount: async (_requestParameters: GetUserRequest, _initOverrides?: RequestInit | InitOverrideFunction) =>
+      Promise.resolve({} as UserDetails),
 
-    getUserByProvider: async (requestParameters: GetUserRequest, initOverrides?: RequestInit | InitOverrideFunction) => Promise.resolve({} as UserDetails),
+    getUserByProvider: async (
+      _requestParameters: GetUserRequest,
+      _initOverrides?: RequestInit | InitOverrideFunction,
+    ) => Promise.resolve({} as UserDetails),
 
     patch: async (id: string, userDetails?: UserDetails, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await UsersAPI()).patchUser(id, userDetails, initOverrides),
@@ -152,14 +179,13 @@ const Users = (configOverride?: Configuration) => {
       (await UsersAPI()).deleteUser(id, initOverrides),
 
     me: async (initOverrides?: RequestInit | InitOverrideFunction) => {
-
       return (await UsersAPI()).getMe(initOverrides);
-    }
+    },
   };
 };
 
 const Games = (configOverride?: Configuration) => {
-  const GamesAPI = async () => new GamesApi(configOverride ?? await defaultConfig());
+  const GamesAPI = async () => new GamesApi(configOverride ?? (await defaultConfig()));
 
   return {
     listGames: async (initOverrides?: RequestInit | InitOverrideFunction) =>
@@ -179,8 +205,8 @@ const Games = (configOverride?: Configuration) => {
 };
 
 const Tournaments = (configOverride?: Configuration) => {
-  const PhasesAPI = async () => new PhasesApi(configOverride ?? await defaultConfig());
-  const TournamentsAPI = async () => new TournamentsApi(configOverride ?? await defaultConfig());
+  const PhasesAPI = async () => new PhasesApi(configOverride ?? (await defaultConfig()));
+  const TournamentsAPI = async () => new TournamentsApi(configOverride ?? (await defaultConfig()));
 
   return {
     list: async (initOverrides?: RequestInit | InitOverrideFunction) =>
@@ -192,14 +218,18 @@ const Tournaments = (configOverride?: Configuration) => {
     post: async (tournamentId: number, phase?: Phase, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await PhasesAPI()).postTournamentPhase(tournamentId, phase, initOverrides),
 
-    patch: async (tournamentId: number, id: number, phase?: Phase, initOverrides?: RequestInit | InitOverrideFunction) =>
+    patch: async (
+      tournamentId: number,
+      id: number,
+      phase?: Phase,
+      initOverrides?: RequestInit | InitOverrideFunction,
+    ) =>
       // TODO - figure out what the correct type is for the id parameter is
       (await PhasesAPI()).patchTournamentPhase(tournamentId, id, phase, initOverrides),
 
     Phases: {
-      list: async (tournamentId: number,
-        initOverrides?: RequestInit | InitOverrideFunction,
-      ) => (await PhasesAPI()).listTournamentPhases(tournamentId, initOverrides),
+      list: async (tournamentId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
+        (await PhasesAPI()).listTournamentPhases(tournamentId, initOverrides),
     },
   };
 };

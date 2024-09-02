@@ -31,14 +31,14 @@ const Register = () => {
       const userApi = new UsersApi();
 
       await userApi.postUser({
-          username: formData.username,
-          pronouns: formData.pronouns,
-          email: formData.email,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          password: formData.password,
-          passwordConfirmation: formData.passwordConfirmation,
-        });
+        username: formData.username,
+        pronouns: formData.pronouns,
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        password: formData.password,
+        passwordConfirmation: formData.passwordConfirmation,
+      });
 
       router.push("/login");
     } catch (error) {

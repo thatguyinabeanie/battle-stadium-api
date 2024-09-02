@@ -1,14 +1,18 @@
-import type { NextAuthConfig, User } from "next-auth";
+import type { NextAuthConfig } from "next-auth";
+
 import Discord from "next-auth/providers/discord";
 import GitHub from "next-auth/providers/github";
 import Twitter from "next-auth/providers/twitter";
 import Twitch from "next-auth/providers/twitch";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
+
 import { railsSignIn } from "./lib/server-actions/sign-in";
 
 export const providers: Provider[] = [
-  GitHub,
+  GitHub({
+    allowDangerousEmailAccountLinking: true,
+  }),
   Discord,
   Twitch,
   Twitter({

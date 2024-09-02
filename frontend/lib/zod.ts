@@ -7,8 +7,7 @@ export const signInSchema = object({
     .min(1, "Password is required")
     .min(8, "Password must be more than 8 characters")
     .max(50, "Password must be less than 32 characters"),
-
-}).refine(data => data.email || data.username, {
+}).refine((data) => data.email || data.username, {
   message: "Either email or username is required",
   path: ["email", "username"],
 });

@@ -1,6 +1,6 @@
 import { DefaultSession } from "@auth/core/types";
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
-import { JWT } from "next-auth/jwt"
+import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
   /**
@@ -16,14 +16,14 @@ declare module "next-auth" {
        * you need to add them back into the newly declared interface.
        */
     } & DefaultSession["user"];
-    token: JWT,
+    token: JWT;
     accessToken: JWT["accessToken"];
     // account: Account;
   }
   /**
- * The shape of the user object returned in the OAuth providers' `profile` callback,
- * or the second parameter of the `session` callback, when using a database.
- */
+   * The shape of the user object returned in the OAuth providers' `profile` callback,
+   * or the second parameter of the `session` callback, when using a database.
+   */
   interface UserBase {
     username?: string | null;
     email?: string | null;
@@ -34,7 +34,7 @@ declare module "next-auth" {
     token?: string;
   }
 
-  interface User extends UserBase{
+  interface User extends UserBase {
     password?: string;
     passwordConfirmation?: string;
   }
@@ -44,10 +44,10 @@ declare module "next-auth" {
     emailVerified: Date | null;
   }
   /**
- * The shape of the account object returned in the OAuth providers' `account` callback,
- * Usually contains information about the provider being used, like OAuth tokens (`access_token`, etc).
- */
-  interface Account { }
+   * The shape of the account object returned in the OAuth providers' `account` callback,
+   * Usually contains information about the provider being used, like OAuth tokens (`access_token`, etc).
+   */
+  interface Account {}
 }
 
 declare module "next-auth/jwt" {

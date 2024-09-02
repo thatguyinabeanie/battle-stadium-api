@@ -1,5 +1,5 @@
 // eslint-disable-file no-console
-import NextAuth, { NextAuthConfig, Session } from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import { EncryptJWT, jwtDecrypt } from "jose";
 import { JWTEncodeParams } from "@auth/core/jwt";
 
@@ -7,7 +7,6 @@ import { providers } from "./auth.config";
 
 import { RailsAdapter } from "@/lib/auth/rails-api-adapter";
 import BattleStadiumAPI, { config, jwt } from "@/lib/battle-stadium-api";
-
 
 const decrypt = async (token: string, secret: string) => {
   const encoder = new TextEncoder();
@@ -20,7 +19,6 @@ const decrypt = async (token: string, secret: string) => {
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
-
   const defaultWT = await jwt({
     username: "battlestadiumbot",
   });
@@ -92,7 +90,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
             ...session,
             user,
             token,
-          }
+          };
         },
       },
     };

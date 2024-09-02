@@ -58,7 +58,7 @@ export async function railsSignIn<T extends string | number | symbol>(
   const { email, password, username } = await signInSchema.parseAsync(credentials);
 
   try {
-    return await BattleStadiumAPI().Users.authorize({email, password, username});
+    return await BattleStadiumAPI().Users.authorize({ email, password, username });
   } catch (error) {
     return null;
   }
