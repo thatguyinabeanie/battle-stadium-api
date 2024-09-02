@@ -184,12 +184,15 @@ RSpec.describe Api::V1::UsersController do
     let(:jwt_token) do
       TokenEncryptor.encrypt({
         session: {
-          sessionToken: {
-            sub: session.user.id,
-            iat: session.created_at.to_i,
-            jti: session.jti,
-            token: session.token
-          }.to_json
+          sessionToken: session.token,
+          user: {
+            id: session.user.id,
+            email: session.user.email,
+            firstName: session.user.first_name,
+            lastName: session.user.last_name,
+            pronouns: session.user.pronouns,
+            emailVerified: session.user.email_verified_at
+          }
         }
       })
     end

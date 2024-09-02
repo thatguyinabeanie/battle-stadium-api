@@ -14,6 +14,8 @@ module Api
       before_action :authenticate_user, only: %i[me]
       before_action :set_cache_headers, only: %i[me]
 
+      skip_before_action :verify_authenticity_token, only: %i[create update show destroy authorize me patch_password]
+
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
 
@@ -44,7 +46,7 @@ module Api
       end
 
       def me
-        @user = current_user
+        @user = @current_user
         render json: @user, serializer: Serializer::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
@@ -59,15 +61,18 @@ module Api
 
       private
 
+      def find_user_by_email_or_username(email, username)
+        User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
+      end
+
       def authenticate_user
-        token = request.headers['Authorization']&.split&.last
+        encrypted_token = request.headers['Authorization']&.split&.last
 
         begin
-          decoded_token = JSON.parse(TokenDecryptor.decrypt(token)[:session][:sessionToken])
-          sub = decoded_token['sub']
-          jti = decoded_token['jti']
-          token = decoded_token['token']
-          session = ::Auth::Session.find_by!(user_id: sub, jti:, token:)
+          decrypted_token = TokenDecryptor.decrypt(encrypted_token)
+          sub = decrypted_token['session']['user']['id']
+          token = decrypted_token['session']['sessionToken']
+          session = ::Auth::Session.find_by!(user_id: sub, token:)
           @current_user = session.user if session.active?
         rescue StandardError
           render json: { error: 'User not found' }, status: :not_found

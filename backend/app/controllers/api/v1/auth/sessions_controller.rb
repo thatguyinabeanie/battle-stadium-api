@@ -18,7 +18,7 @@ module Api
           return invalid_token_or_expired_session unless session&.active?
 
           render_session_and_user(session, user)
-        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
           render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
@@ -68,21 +68,34 @@ module Api
           token = auth_header.split.last.gsub(/^["']|["']$/, '')
           decrypted_payload = TokenDecryptor.decrypt(token)
 
-          jwt_json = JSON.parse(decrypted_payload)['token']
-          jwt = JSON.parse(jwt_json)
+          begin
+            jwt = JSON.parse(decrypted_payload)
+            session =  ::Auth::Session.where(user_id: jwt['sub']).order(created_at: :desc).first
+            user = session&.user
+            return [session, user]
+          rescue JSON::ParserError
+          end
 
-          session = ::Auth::Session.find_by!(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
+          unless session_token
+           session_token = if decrypted_payload['session']['sessionToken']
+                                  JSON.parse(decrypted_payload['session']['sessionToken'])
+                            else
+                                   JSON.parse(decrypted_payload['token']).values_at('token', 'jti', 'sub')
+                            end
+          end
+
+          session = ::Auth::Session.find_by!(token: session_token['token'], jti: session_token['jti'], user_id: session_token['sub'])
           user = session&.user
           [session, user]
         rescue StandardError => e
-          raise Auth::Session::InvalidTokenOrExpiredSession, e.message
+          raise ::Auth::Session::InvalidTokenOrExpiredSession, e.message
         end
 
         def render_session(session, status)
           render json: {
             session: {
-              token: session.jwt_payload.to_json,
-              user_id: user.id,
+              token: session.token,
+              user_id: session.user_id,
               expires_at: session.expires_at
             }
           }, status:
@@ -91,7 +104,7 @@ module Api
         def render_session_and_user(session, user)
           render json: {
             session: {
-              token: session.jwt_payload.to_json,
+              token: session.token,
               user_id: user.id,
               expires_at: session.expires_at
             },
