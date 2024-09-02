@@ -1,11 +1,8 @@
-
 import { defaultConfig } from "./config";
 import {
   Configuration,
-  ConfigurationParameters,
   CreateSession,
   Game,
-  HTTPHeaders,
   InitOverrideFunction,
   Organization,
   Phase,
@@ -26,18 +23,18 @@ import {
 
 export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
 
-export default function BattleStadiumAPI (configOverride?: Configuration) {
+export default function BattleStadiumAPI(configOverride?: Configuration) {
   return {
     Session: Session(configOverride),
     Registration: Registration(configOverride),
     Organizations: Organizations(configOverride),
     Users: Users(configOverride),
     Games: Games(configOverride),
-    Tournaments: Tournaments(configOverride)
+    Tournaments: Tournaments(configOverride),
   };
 }
 
-function Session (configOverride?: Configuration) {
+function Session(configOverride?: Configuration) {
   const SessionAPI = async () => new SessionsApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -48,18 +45,18 @@ function Session (configOverride?: Configuration) {
     delete: async (initOverrides?: RequestInit | InitOverrideFunction) =>
       (await SessionAPI()).logoutUser(initOverrides),
   };
-};
+}
 
-function Registration (configOverride?: Configuration) {
+function Registration(configOverride?: Configuration) {
   const RegistrationAPI = async () => new RegistrationApi(configOverride ?? (await defaultConfig()));
 
   return {
     register: async (requestParameters?: RegisterUserRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await RegistrationAPI()).registerUser(requestParameters, initOverrides),
   };
-};
+}
 
-function Organizations  (configOverride?: Configuration) {
+function Organizations(configOverride?: Configuration) {
   const OrganizationsAPI = async () => new OrganizationsApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -107,9 +104,9 @@ function Organizations  (configOverride?: Configuration) {
         (await OrganizationsAPI()).listOrganizationStaff(organizationId, initOverrides),
     },
   };
-};
+}
 
-function Users (configOverride?: Configuration) {
+function Users(configOverride?: Configuration) {
   const UsersAPI = async () => new UsersApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -147,9 +144,9 @@ function Users (configOverride?: Configuration) {
       return (await UsersAPI()).getMe(initOverrides);
     },
   };
-};
+}
 
-function Games (configOverride?: Configuration) {
+function Games(configOverride?: Configuration) {
   const GamesAPI = async () => new GamesApi(configOverride ?? (await defaultConfig()));
 
   return {
@@ -167,9 +164,9 @@ function Games (configOverride?: Configuration) {
     deleteGame: async (id: number, initOverrides?: RequestInit | InitOverrideFunction) =>
       (await GamesAPI()).deleteGame(id, initOverrides),
   };
-};
+}
 
-function Tournaments  (configOverride?: Configuration) {
+function Tournaments(configOverride?: Configuration) {
   const PhasesAPI = async () => new PhasesApi(configOverride ?? (await defaultConfig()));
   const TournamentsAPI = async () => new TournamentsApi(configOverride ?? (await defaultConfig()));
 
@@ -197,6 +194,6 @@ function Tournaments  (configOverride?: Configuration) {
         (await PhasesAPI()).listTournamentPhases(tournamentId, initOverrides),
     },
   };
-};
+}
 
 export { BattleStadiumAPI };

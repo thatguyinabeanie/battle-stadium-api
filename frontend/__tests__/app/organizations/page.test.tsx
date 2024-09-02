@@ -1,4 +1,5 @@
-import { render, screen} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+
 import OrganizationPage from "@/app/organizations/page";
 
 describe("Organizations Page", () => {
@@ -8,6 +9,5 @@ describe("Organizations Page", () => {
     const orgName = screen.getByTestId("org-name");
 
     expect(orgName).toBeDefined();
-
   });
 });

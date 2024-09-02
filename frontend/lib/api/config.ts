@@ -1,8 +1,7 @@
+import { Configuration, ConfigurationParameters, HTTPHeaders } from "./generated-api-client";
+
 import { auth } from "@/lib/auth";
 import { signJWT } from "@/lib/auth/jwt";
-import { Configuration, ConfigurationParameters, HTTPHeaders } from "./generated-api-client";
-import { Session } from "@auth/core/types";
-
 
 export const config = (encryptedJwt: string) =>
   new Configuration({
@@ -17,10 +16,10 @@ export const defaultConfig = async () => {
 
   const headers: HTTPHeaders = session
     ? {
-      Authorization: `Bearer ${await signJWT({
-        session: session,
-      })}`,
-    }
+        Authorization: `Bearer ${await signJWT({
+          session: session,
+        })}`,
+      }
     : {};
 
   const params: ConfigurationParameters = {
@@ -32,4 +31,3 @@ export const defaultConfig = async () => {
 
   return new Configuration(params);
 };
-
