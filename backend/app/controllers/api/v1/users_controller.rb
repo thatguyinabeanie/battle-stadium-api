@@ -30,6 +30,8 @@ module Api
 
       def authorize
         user = find_user_by_email_or_username(params[:email], params[:username])
+
+
         if user&.valid_password?(params[:password])
           render json: {
             id: user.id,
@@ -62,8 +64,9 @@ module Api
       private
 
       def find_user_by_email_or_username(email, username)
-        User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
+        User.find_for_database_authentication(email: email) || User.find_for_database_authentication(username: username)
       end
+
 
       def authenticate_user
         encrypted_token = request.headers['Authorization']&.split&.last
