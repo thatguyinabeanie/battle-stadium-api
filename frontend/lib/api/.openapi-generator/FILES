@@ -9,6 +9,7 @@ apis/UsersApi.ts
 apis/index.ts
 index.ts
 models/ChangePasswordRequest.ts
+models/CreateSession.ts
 models/Format.ts
 models/Game.ts
 models/GameDetail.ts

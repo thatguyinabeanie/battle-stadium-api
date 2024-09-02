@@ -38,7 +38,7 @@ module Api
             pronouns: user.pronouns,
             first_name: user.first_name,
             last_name: user.last_name,
-            email_verified_at: user.email_verified_at,
+            email_verified_at: user.email_verified_at
           }, status: :ok
         else
           render json: { error: 'Invalid login' }, status: :unauthorized

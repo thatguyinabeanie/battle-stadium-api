@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from "./ChangePasswordRequest";
+export * from "./CreateSession";
 export * from "./Format";
 export * from "./Game";
 export * from "./GameDetail";

@@ -1,6 +1,6 @@
 require 'rails_helper'
 require_relative '../../../../app/serializer/user_serializer'
-require_relative '../../../../lib/token_encryptor.rb'
+require_relative '../../../../lib/token_encryptor'
 
 RSpec.describe Api::V1::UsersController do
   include Devise::Test::ControllerHelpers
@@ -180,21 +180,21 @@ RSpec.describe Api::V1::UsersController do
 
   context 'when /users/me' do
     let!(:user) { create(:user) }
-    let!(:session) { create(:session, user: user) }
+    let!(:session) { create(:session, user:) }
     let(:jwt_token) do
       TokenEncryptor.encrypt({
-        session: {
-          sessionToken: session.token,
-          user: {
-            id: session.user.id,
-            email: session.user.email,
-            firstName: session.user.first_name,
-            lastName: session.user.last_name,
-            pronouns: session.user.pronouns,
-            emailVerified: session.user.email_verified_at
-          }
-        }
-      })
+                               session: {
+                                 sessionToken: session.token,
+                                 user: {
+                                   id: session.user.id,
+                                   email: session.user.email,
+                                   firstName: session.user.first_name,
+                                   lastName: session.user.last_name,
+                                   pronouns: session.user.pronouns,
+                                   emailVerified: session.user.email_verified_at
+                                 }
+                               }
+                             })
     end
 
     before do

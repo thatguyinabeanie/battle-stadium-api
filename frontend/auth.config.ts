@@ -38,7 +38,6 @@ export const providers: Provider[] = [
         name: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
         email: loggedInUser.email,
         pronouns: loggedInUser.pronouns,
-        token: loggedInUser.token,
         username: loggedInUser.username,
         // Add other properties as needed
       };

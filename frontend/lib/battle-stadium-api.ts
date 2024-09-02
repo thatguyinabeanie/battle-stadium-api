@@ -12,7 +12,7 @@ import {
 } from "@/lib/api/apis";
 import { auth } from "@/auth";
 import { Configuration, ConfigurationParameters, HTTPHeaders, InitOverrideFunction } from "./api/runtime";
-import { Game, Organization, Phase, RegisterUserRequest, TournamentDetails, UserDetails, UserLoginRequest, UserPostRequest } from "./api/models";
+import { CreateSession, Game, Organization, Phase, RegisterUserRequest, TournamentDetails, UserDetails, UserLoginRequest, UserPostRequest } from "./api/models";
 import { JWT } from "@auth/core/jwt";
 
 
@@ -62,8 +62,8 @@ const defaultConfig = async () => {
 const Session = (configOverride?: Configuration) => {
   const SessionAPI = async () => new SessionsApi( configOverride ?? await defaultConfig());
   return {
-    create: async (requestParameters?: UserLoginRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await SessionAPI()).loginUser(requestParameters, initOverrides),
+    create: async (requestParameters?: CreateSession, initOverrides?: RequestInit | InitOverrideFunction) =>
+      (await SessionAPI()).create(requestParameters, initOverrides),
     get: async (initOverrides?: RequestInit | InitOverrideFunction) => (await SessionAPI()).getSession(initOverrides),
     update: async (initOverrides?: RequestInit | InitOverrideFunction) => (await SessionAPI()).update(initOverrides),
     delete: async (initOverrides?: RequestInit | InitOverrideFunction) =>

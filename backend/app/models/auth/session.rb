@@ -15,7 +15,6 @@ module Auth
     before_validation :generate_token, on: :create
     before_validation :set_expires_at, on: :create
 
-
     class InvalidTokenOrExpiredSession < StandardError; end
 
     def active?
@@ -35,15 +34,15 @@ module Auth
 
     def encrypted_jwt
       TokenEncryptor.encrypt({
-        session: {
-          sessionToken: {
-            sub: self.user.id,
-            iat: self.created_at.to_i,
-            jti: self.jti,
-            token: self.token
-          }.to_json
-        }
-      })
+                               session: {
+                                 sessionToken: {
+                                   sub: user.id,
+                                   iat: created_at.to_i,
+                                   jti:,
+                                   token:
+                                 }.to_json
+                               }
+                             })
     end
 
     def self.generate_token

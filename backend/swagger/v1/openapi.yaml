@@ -68,8 +68,8 @@ paths:
       summary: Create
       tags:
       - Sessions
-      description: Logs in a User.
-      operationId: loginUser
+      description: Creates a new session.
+      operationId: create
       parameters: []
       responses:
         '201':
@@ -77,7 +77,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/UserLoginResponse"
+                "$ref": "#/components/schemas/Session"
         '401':
           description: Unauthorized with no email or password.
       requestBody:
@@ -85,15 +85,6 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/CreateSession"
-    delete:
-      summary: Delete
-      tags:
-      - Sessions
-      description: Logs out a User.
-      operationId: logoutUser
-      responses:
-        '204':
-          description: no content
     put:
       summary: Update
       tags:
@@ -108,9 +99,20 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SessionAndUser"
+                "$ref": "#/components/schemas/Session"
         '401':
           description: unauthorized
+    delete:
+      summary: Delete
+      tags:
+      - Sessions
+      description: Logs out a User.
+      operationId: logoutUser
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: session deleted
   "/api/v1/games":
     get:
       summary: List Games
@@ -1611,9 +1613,6 @@ components:
         expires_at:
           type: string
           format: date-time
-        jti:
-          type: string
-          format: uuid
       required:
       - token
       - user_id

@@ -18,7 +18,7 @@ module Api
           return invalid_token_or_expired_session unless session&.active?
 
           render_session_and_user(session, user)
-        rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession
           render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
@@ -51,7 +51,7 @@ module Api
           session, _user = find_session_and_user_from_token
           return invalid_token_or_expired_session unless session&.active?
 
-          session.revoke_session
+          session.revoke
           render json: { message: 'Logged out successfully' }, status: :ok
         rescue ::Auth::Session::InvalidTokenOrExpiredSession
           render json: { error: 'Invalid token or expired session' }, status: :unauthorized
@@ -68,23 +68,16 @@ module Api
           token = auth_header.split.last.gsub(/^["']|["']$/, '')
           decrypted_payload = TokenDecryptor.decrypt(token)
 
-          begin
+          if decrypted_payload.is_a?(String)
             jwt = JSON.parse(decrypted_payload)
-            session =  ::Auth::Session.where(user_id: jwt['sub']).order(created_at: :desc).first
+            session = ::Auth::Session.where(user_id: jwt['sub']).order(created_at: :desc).first
             user = session&.user
             return [session, user]
-          rescue JSON::ParserError
           end
 
-          unless session_token
-           session_token = if decrypted_payload['session']['sessionToken']
-                                  JSON.parse(decrypted_payload['session']['sessionToken'])
-                            else
-                                   JSON.parse(decrypted_payload['token']).values_at('token', 'jti', 'sub')
-                            end
-          end
+          session_token = decrypted_payload['session']['sessionToken'] || decrypted_payload['token']
 
-          session = ::Auth::Session.find_by!(token: session_token['token'], jti: session_token['jti'], user_id: session_token['sub'])
+          session = ::Auth::Session.find_by!(token: session_token, user_id: decrypted_payload['session']['user']['id'])
           user = session&.user
           [session, user]
         rescue StandardError => e
@@ -93,11 +86,9 @@ module Api
 
         def render_session(session, status)
           render json: {
-            session: {
               token: session.token,
               user_id: session.user_id,
               expires_at: session.expires_at
-            }
           }, status:
         end
 
@@ -114,7 +105,6 @@ module Api
               email_verified_at: user.email_verified_at,
               first_name: user.first_name,
               last_name: user.last_name,
-              name: user.name || "#{user.first_name} #{user.last_name}",
               username: user.username,
               pronouns: user.pronouns
             }
