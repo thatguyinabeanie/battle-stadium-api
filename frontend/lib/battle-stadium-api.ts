@@ -128,6 +128,7 @@ const Users = (configOverride?: Configuration) => {
   const UsersAPI = async () => new UsersApi(configOverride ?? await defaultConfig());
 
   return {
+    authorize: async (userLoginRequest: UserLoginRequest, initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).authorizeUser(userLoginRequest, initOverrides),
     list: async (initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).listUsers(initOverrides),
 
     post: async (userPostRequest?: UserPostRequest, initOverrides?: RequestInit | InitOverrideFunction) =>

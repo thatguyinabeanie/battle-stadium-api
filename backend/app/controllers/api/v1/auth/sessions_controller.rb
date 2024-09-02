@@ -18,27 +18,18 @@ module Api
           return invalid_token_or_expired_session unless session&.active?
 
           render_session_and_user(session, user)
-        rescue StandardError
-          render json: { error: 'An error occurred while processing your request' }, status: :internal_server_error
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
-        # POST /api/v1/auth/sign_in
+        # POST /api/v1/auth/session
         def create
-          user = find_user_by_email_or_username(params[:email], params[:username])
+          Rails.logger.info("params: #{params}")
+          user = User.find(params[:user_id])
           if user&.valid_password?(params[:password])
             session = ::Auth::Session.create(user:)
 
-            render json: {
-              id: user.id,
-              message: 'Logged in successfully.',
-              username: user.username,
-              email: user.email,
-              pronouns: user.pronouns,
-              first_name: user.first_name,
-              last_name: user.last_name,
-              name: user.name || "#{user.first_name} #{user.last_name}",
-              token: session.jwt_payload.to_json
-            }, status: :created
+            render_session(session, :created)
           else
             render json: { error: 'Invalid login' }, status: :unauthorized
           end
@@ -46,13 +37,13 @@ module Api
 
         # PUT /api/v1/auth/session
         def update
-          session, user = find_session_and_user_from_token
+          session, = find_session_and_user_from_token
           return invalid_token_or_expired_session unless session&.active?
 
           session.refresh
-          render_session_and_user(session, user)
-        rescue StandardError => e
-          render json: { error: "An error occurred while processing your request: #{e.message}" }, status: :internal_server_error
+          render_session(session, :ok)
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
         # DELETE /api/v1/auth/sign_out
@@ -62,8 +53,8 @@ module Api
 
           session.revoke_session
           render json: { message: 'Logged out successfully' }, status: :ok
-        rescue StandardError
-          render json: { error: 'An error occurred while processing your request' }, status: :internal_server_error
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
         private
@@ -80,10 +71,21 @@ module Api
           jwt_json = JSON.parse(decrypted_payload)['token']
           jwt = JSON.parse(jwt_json)
 
-          session = ::Auth::Session.find_by(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
+          session = ::Auth::Session.find_by!(token: jwt['token'], jti: jwt['jti'], user_id: jwt['sub'])
           user = session&.user
-
           [session, user]
+        rescue StandardError => e
+          raise Auth::Session::InvalidTokenOrExpiredSession, e.message
+        end
+
+        def render_session(session, status)
+          render json: {
+            session: {
+              token: session.jwt_payload.to_json,
+              user_id: user.id,
+              expires_at: session.expires_at
+            }
+          }, status:
         end
 
         def render_session_and_user(session, user)

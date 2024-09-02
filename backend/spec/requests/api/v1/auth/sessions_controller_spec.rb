@@ -14,7 +14,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
       response(200, 'ok') do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
-        let(:Authorization) { "Bearer #{session.encrypt}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { "Bearer #{session.encrypted_jwt}" } # rubocop:disable RSpec/VariableName
 
         schema '$ref' => '#/components/schemas/SessionAndUser'
         OpenApi::Response.set_example_response_metadata
@@ -38,29 +38,13 @@ RSpec.describe Api::V1::Auth::SessionsController do
       description 'Logs in a User.'
       operationId 'loginUser'
 
-      parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserLoginRequest' }
+      parameter name: :create_session_params, in: :body, schema: { '$ref' => '#/components/schemas/CreateSession' }
 
-      response(201, 'Created with Email') do
+      response(201, 'Created') do
         let(:existing_user) { create(:user) }
-        let(:user) do
+        let(:create_session_params) do
           {
-            email: existing_user.email,
-            password: existing_user.password
-          }
-        end
-
-        schema '$ref' => '#/components/schemas/UserLoginResponse'
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-
-      response(201, 'Created with Username') do
-        let(:existing_user) { create(:user) }
-        let(:user) do
-          {
-            username: existing_user.username,
-            password: existing_user.password
+            user_id: existing_user.id,
           }
         end
 
@@ -109,7 +93,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
       response(204, 'no content') do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
-        let(:Authorization) { "Bearer #{session.encrypt}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { "Bearer #{session.encrypted_jwt}" } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
@@ -128,7 +112,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
       response(200, 'updates') do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
-        let(:Authorization) { "Bearer #{session.encrypt}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { "Bearer #{session.encrypted_jwt}" } # rubocop:disable RSpec/VariableName
 
         schema '$ref' => '#/components/schemas/SessionAndUser'
         OpenApi::Response.set_example_response_metadata

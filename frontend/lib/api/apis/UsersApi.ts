@@ -13,17 +13,23 @@
  */
 
 import * as runtime from "../runtime";
-import type { User, UserDetails, UserMe, UserPostRequest } from "../models/index";
+import type { User, UserDetails, UserLoginRequest, UserMe, UserPostRequest } from "../models/index";
 import {
   UserFromJSON,
   UserToJSON,
   UserDetailsFromJSON,
   UserDetailsToJSON,
+  UserLoginRequestFromJSON,
+  UserLoginRequestToJSON,
   UserMeFromJSON,
   UserMeToJSON,
   UserPostRequestFromJSON,
   UserPostRequestToJSON,
 } from "../models/index";
+
+export interface AuthorizeUserRequest {
+  userLoginRequest?: UserLoginRequest;
+}
 
 export interface DeleteUserRequest {
   id: string;
@@ -46,6 +52,46 @@ export interface PostUserRequest {
  *
  */
 export class UsersApi extends runtime.BaseAPI {
+  /**
+   * Authorizes a User.
+   * Authorize User
+   */
+  async authorizeUserRaw(
+    requestParameters: AuthorizeUserRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<UserDetails>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/api/v1/users/authorize`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: UserLoginRequestToJSON(requestParameters["userLoginRequest"]),
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
+  }
+
+  /**
+   * Authorizes a User.
+   * Authorize User
+   */
+  async authorizeUser(
+    userLoginRequest?: UserLoginRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<UserDetails> {
+    const response = await this.authorizeUserRaw({ userLoginRequest: userLoginRequest }, initOverrides);
+    return await response.value();
+  }
+
   /**
    * Delete User
    */

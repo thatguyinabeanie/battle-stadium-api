@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative '../../../../app/serializer/user_serializer'
+require_relative '../../../../lib/token_encryptor.rb'
 
 RSpec.describe Api::V1::UsersController do
   include Devise::Test::ControllerHelpers
@@ -179,10 +180,22 @@ RSpec.describe Api::V1::UsersController do
 
   context 'when /users/me' do
     let!(:user) { create(:user) }
-    let(:token) { user.jwt }
+    let!(:session) { create(:session, user: user) }
+    let(:jwt_token) do
+      TokenEncryptor.encrypt({
+        session: {
+          sessionToken: {
+            sub: session.user.id,
+            iat: session.created_at.to_i,
+            jti: session.jti,
+            token: session.token
+          }.to_json
+        }
+      })
+    end
 
     before do
-      request.headers['Authorization'] = "Bearer #{token}"
+      request.headers['Authorization'] = "Bearer #{jwt_token}"
     end
 
     describe 'GET' do

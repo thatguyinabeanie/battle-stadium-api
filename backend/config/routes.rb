@@ -25,12 +25,15 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      post 'users/authorize', to: 'users#authorize'
       get 'users/me', to: 'users#me'
+
       resources :users, only: %i[index show create destroy update] do
         member do
           patch 'password', to: 'users#patch_password'
         end
       end
+
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
           post 'tournaments', to: 'organizations#post_tournaments'

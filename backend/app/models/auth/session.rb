@@ -15,6 +15,9 @@ module Auth
     before_validation :generate_token, on: :create
     before_validation :set_expires_at, on: :create
 
+
+    class InvalidTokenOrExpiredSession < StandardError; end
+
     def active?
       expires_at > Time.now.utc
     end
@@ -30,21 +33,17 @@ module Auth
       destroy
     end
 
-    def jwt_payload
-      {
-        name: user.username,
-        email: user.email,
-        picture: user.image,
-        sub: user.id,
-        iat: Time.now.utc.to_i,
-        exp: expires_at.to_i,
-        jti:,
-        token:
-      }
-    end
-
     def encrypted_jwt
-      TokenEncryptor.encrypt(jwt_payload)
+      TokenEncryptor.encrypt({
+        session: {
+          sessionToken: {
+            sub: self.user.id,
+            iat: self.created_at.to_i,
+            jti: self.jti,
+            token: self.token
+          }.to_json
+        }
+      })
     end
 
     def self.generate_token

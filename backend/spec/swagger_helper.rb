@@ -417,6 +417,17 @@ SESSION = {
   required: %w[token user_id expires_at]
 }.freeze
 
+CREATE_SESSION = {
+  type: :object,
+  title: 'Create Session',
+  properties: {
+    user_id: UUID_TYPE,
+    session_token: { type: :string, format: 'jwt' },
+    expires_at: { type: :string, format: DATE_TIME_TYPE }
+  },
+  required: %w[user_id]
+}.freeze
+
 SESSION_AND_USER = {
   type: :object,
   title: 'Session And User',
@@ -505,6 +516,7 @@ RSpec.configure do |config|
           TournamentRequest: TOURNAMENT_REQUEST,
           TournamentPostRequest: TOURNAMENT_POST_REQUEST,
           GetSessionRequest: GET_SESSION_REQUEST,
+          CreateSession: CREATE_SESSION,
           Session: SESSION,
           SessionAndUser: SESSION_AND_USER
         }

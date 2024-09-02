@@ -162,14 +162,14 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
       }
     },
 
-    async createSession() {
+    async createSession({ sessionToken, userId, expires}) {
       try {
-        const session = await apiClient.Session.create({ email: "", password: "" });
+        const newSession = await apiClient.Session.create({ email: "", password: "" });
 
         const adapterSession: AdapterSession = {
-          sessionToken: session.token,
-          userId: session.id,
-          expires: new Date(), // Add expires
+          // sessionToken: newSession.token,
+          // userId: newSession.
+          // expires: new Date(), // Add expires
         };
 
         return adapterSession;

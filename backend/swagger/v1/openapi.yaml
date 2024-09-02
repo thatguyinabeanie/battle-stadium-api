@@ -73,7 +73,7 @@ paths:
       parameters: []
       responses:
         '201':
-          description: Created with Username
+          description: Created
           content:
             application/json:
               schema:
@@ -84,7 +84,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/UserLoginRequest"
+              "$ref": "#/components/schemas/CreateSession"
     delete:
       summary: Delete
       tags:
@@ -666,6 +666,28 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/UserPostRequest"
+  "/api/v1/users/authorize":
+    post:
+      summary: Authorize User
+      tags:
+      - Users
+      description: Authorizes a User.
+      operationId: authorizeUser
+      parameters: []
+      responses:
+        '200':
+          description: Successful Username Login
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserDetails"
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserLoginRequest"
   "/api/v1/users/me":
     get:
       summary: Show Me
@@ -1561,6 +1583,21 @@ components:
           format: jwt
       required:
       - token
+    CreateSession:
+      type: object
+      title: Create Session
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        session_token:
+          type: string
+          format: jwt
+        expires_at:
+          type: string
+          format: date-time
+      required:
+      - user_id
     Session:
       type: object
       title: Session

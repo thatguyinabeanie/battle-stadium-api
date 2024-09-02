@@ -26,6 +26,23 @@ module Api
         end
       end
 
+      def authorize
+        user = find_user_by_email_or_username(params[:email], params[:username])
+        if user&.valid_password?(params[:password])
+          render json: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            pronouns: user.pronouns,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            name: user.name || "#{user.first_name} #{user.last_name}"
+          }, status: :ok
+        else
+          render json: { error: 'Invalid login' }, status: :unauthorized
+        end
+      end
+
       def me
         @user = current_user
         render json: @user, serializer: Serializer::UserMe, status: :ok

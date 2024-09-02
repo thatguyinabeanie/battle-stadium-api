@@ -80,6 +80,64 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
+  path('/api/v1/users/authorize') do
+    post('Authorize User') do
+      tags 'Users'
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      consumes OpenApi::Response::JSON_CONTENT_TYPE
+      description 'Authorizes a User.'
+      operationId 'authorizeUser'
+
+      parameter name: :login, in: :body, schema: { '$ref' => '#/components/schemas/UserLoginRequest' }
+
+      response(200, 'Successful Email Login') do
+        let(:user) { create(:user) }
+        let(:body) do
+
+          {
+            email: user.email,
+            password: PASSWORD
+          }
+        end
+
+        schema '$ref' => '#/components/schemas/UserDetails'
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(200, 'Successful Username Login') do
+        let(:user) { create(:user) }
+        let(:body) do
+
+          {
+            username: user.username,
+            password: PASSWORD
+          }
+        end
+        schema '$ref' => '#/components/schemas/UserDetails'
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(401, 'unauthorized') do
+        let(:user) do
+          {
+            email: user.email,
+            password: 'invalid'
+          }
+        end
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+  end
+
   path('/api/v1/users/me') do
     get('Show Me') do
       tags 'Users'
