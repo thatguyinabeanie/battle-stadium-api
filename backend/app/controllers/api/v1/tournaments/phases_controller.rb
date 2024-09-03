@@ -1,4 +1,4 @@
-require_relative '../../../../serializer/phase_serializer'
+require_relative '../../../../serializers/phase_serializer'
 
 module Api
   module V1
@@ -9,7 +9,7 @@ module Api
         before_action :set_phase, only: %i[show update destroy]
 
         def index
-          render json: @phases, each_serializer: Serializer::Phase, status: :ok
+          render json: @phases, each_serializer: Serializers::Phase, status: :ok
         end
 
         def show
@@ -52,7 +52,7 @@ module Api
         private
 
         def serialize_phase_details
-          Serializer::PhaseDetails.new(@phase).serializable_hash
+          Serializers::PhaseDetails.new(@phase).serializable_hash
         end
 
         def set_tournament

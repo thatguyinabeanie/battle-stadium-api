@@ -1,4 +1,4 @@
-require_relative '../../../lib/token_encryptor'
+require_relative '../../../lib/json_web_token'
 
 module Auth
   class Session < ApplicationRecord
@@ -6,8 +6,9 @@ module Auth
 
     validates :token, presence: true, uniqueness: true
     validates :jti, presence: true, uniqueness: true
-
     validates :expires_at, presence: true
+    validates :token, uniqueness: { scope: :jti, message: ::I18n.t('errors.session.token_jti_must_be_unique') }
+    validates :token, uniqueness: { scope: %i[user_id jti], message: ::I18n.t('errors.session.token_jti_user_id_must_be_unique') }
 
     SESSION_DURATOIN = 1.day
 
@@ -29,20 +30,19 @@ module Auth
 
     def revoke
       self.expires_at = Time.now.utc
-      destroy
     end
 
     def encrypted_jwt
-      TokenEncryptor.encrypt({
-                               session: {
-                                 sessionToken: {
-                                   sub: user.id,
-                                   iat: created_at.to_i,
-                                   jti:,
-                                   token:
-                                 }.to_json
-                               }
-                             })
+      JsonWebToken.encrypt({
+                             session: {
+                               sessionToken: {
+                                 sub: user.id,
+                                 iat: created_at.to_i,
+                                 jti:,
+                                 token:
+                               }.to_json
+                             }
+                           })
     end
 
     def self.generate_token

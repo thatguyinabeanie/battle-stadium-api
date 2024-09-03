@@ -63,7 +63,8 @@ jobs:
         working-directory: ./backend
 
       - name: Run RSpec tests
-        run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
+        run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml --format documentation
+
         working-directory: ./backend
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

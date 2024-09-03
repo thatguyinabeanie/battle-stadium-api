@@ -1,5 +1,5 @@
 require_relative 'serializer_mixin'
-module Serializer
+module Serializers
   class Pokemon < ActiveModel::Serializer
     include SerializerMixin::Id
     attributes :nickname

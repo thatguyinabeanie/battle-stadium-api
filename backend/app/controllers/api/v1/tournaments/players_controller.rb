@@ -1,4 +1,4 @@
-require_relative '../../../../serializer/player_serializer'
+require_relative '../../../../serializers/player_serializer'
 
 module Api
   module V1
@@ -9,7 +9,7 @@ module Api
         before_action :set_player, only: %i[show update destroy]
 
         def index
-          render json: @players, each_serializer: Serializer::Player, status: :ok
+          render json: @players, each_serializer: Serializers::Player, status: :ok
         end
 
         def show
@@ -43,7 +43,7 @@ module Api
         private
 
         def serialize_player_details
-          Serializer::PlayerDetails.new(@player).serializable_hash
+          Serializers::PlayerDetails.new(@player).serializable_hash
         end
 
         def set_players

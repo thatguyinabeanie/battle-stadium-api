@@ -57,20 +57,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
       },
     },
     callbacks: {
-      async jwt({ token, user, account }) {
+      async jwt({ token, user, session }) {
         if (user) {
-          token = {
-            ...token,
-            ...user,
-            accessToken: user.token,
-          };
+          token.user = user;
+          token.accessToken = user.token;
         }
 
-        if (account) {
-          if (account?.provider === "Github") {
-            return { ...token, accessToken: account.access_token };
-          }
-        }
+        token.session = session;
 
         return token;
       },
@@ -79,6 +72,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
           ...session,
           user,
           token,
+          accessToken: session.sessionToken || token.accessToken,
         };
       },
     },

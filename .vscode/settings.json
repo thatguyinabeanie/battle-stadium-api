@@ -20,5 +20,11 @@
   ],
   "typescript.experimental.updateImportsOnPaste": true,
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "js/ts.implicitProjectConfig.strictFunctionTypes": false
+  "js/ts.implicitProjectConfig.strictFunctionTypes": false,
+  "tailwindcss-intellisense.trace.server": "off",
+  "tailwindCSS.lint.invalidConfigPath": "warning",
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "inline"
+  }
 }

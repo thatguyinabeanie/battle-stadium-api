@@ -1,7 +1,7 @@
 require_relative 'format_serializer'
 require_relative 'serializer_mixin'
 
-module Serializer
+module Serializers
   module GameMixin
     extend ActiveSupport::Concern
     included do
@@ -17,6 +17,6 @@ module Serializer
   class GameDetails < ActiveModel::Serializer
     include GameMixin
     attributes :formats
-    has_many :formats, serializer: Serializer::Format
+    has_many :formats, serializer: Serializers::Format
   end
 end

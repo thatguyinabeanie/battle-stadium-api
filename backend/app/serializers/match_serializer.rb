@@ -1,6 +1,6 @@
 require_relative 'serializer_mixin'
 
-module Serializer
+module Serializers
   module MatchMixin
     extend ActiveSupport::Concern
     included do

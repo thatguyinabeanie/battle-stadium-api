@@ -1,6 +1,6 @@
 require 'rails_helper'
-require_relative '../../../../app/serializer/user_serializer'
-require_relative '../../../../lib/token_encryptor'
+require_relative '../../../../app/serializers/user_serializer'
+require_relative '../../../../lib/json_web_token'
 
 RSpec.describe Api::V1::UsersController do
   include Devise::Test::ControllerHelpers
@@ -182,19 +182,19 @@ RSpec.describe Api::V1::UsersController do
     let!(:user) { create(:user) }
     let!(:session) { create(:session, user:) }
     let(:jwt_token) do
-      TokenEncryptor.encrypt({
-                               session: {
-                                 sessionToken: session.token,
-                                 user: {
-                                   id: session.user.id,
-                                   email: session.user.email,
-                                   firstName: session.user.first_name,
-                                   lastName: session.user.last_name,
-                                   pronouns: session.user.pronouns,
-                                   emailVerified: session.user.email_verified_at
-                                 }
+      JsonWebToken.encrypt({
+                             session: {
+                               sessionToken: session.token,
+                               user: {
+                                 id: session.user.id,
+                                 email: session.user.email,
+                                 firstName: session.user.first_name,
+                                 lastName: session.user.last_name,
+                                 pronouns: session.user.pronouns,
+                                 emailVerified: session.user.email_verified_at
                                }
-                             })
+                             }
+                           })
     end
 
     before do
@@ -210,7 +210,7 @@ RSpec.describe Api::V1::UsersController do
       it 'returns a users me serialized response' do
         get :me
 
-        expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializer::UserMe.new(user).as_json
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(user).as_json
       end
     end
   end

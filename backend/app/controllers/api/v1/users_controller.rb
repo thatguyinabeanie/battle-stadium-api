@@ -1,20 +1,21 @@
-require_relative '../../../serializer/user_serializer'
-require 'jwt'
-require_relative '../../../../lib/token_decryptor'
+require_relative '../../../serializers/user_serializer'
+require_relative '../../../../lib/json_web_token'
 
 module Api
   module V1
     class UsersController < AbstractApplicationController
       self.klass = User
-      self.serializer_klass = Serializer::User
-      self.detail_serializer_klass = Serializer::UserDetails
+      self.serializer_klass = Serializers::User
+      self.detail_serializer_klass = Serializers::UserDetails
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
       before_action :authenticate_user, only: %i[me]
       before_action :set_cache_headers, only: %i[me]
 
+      # rubocop:disable Rails/LexicallyScopedActionFilter
       skip_before_action :verify_authenticity_token, only: %i[create update show destroy authorize me patch_password]
+      # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def patch_password
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
@@ -30,6 +31,7 @@ module Api
 
       def authorize
         user = find_user_by_email_or_username(params[:email], params[:username])
+
         if user&.valid_password?(params[:password])
           render json: {
             id: user.id,
@@ -38,7 +40,8 @@ module Api
             pronouns: user.pronouns,
             first_name: user.first_name,
             last_name: user.last_name,
-            email_verified_at: user.email_verified_at
+            email_verified_at: user.email_verified_at,
+            token: ::Auth::Session.create(user:).token
           }, status: :ok
         else
           render json: { error: 'Invalid login' }, status: :unauthorized
@@ -47,7 +50,7 @@ module Api
 
       def me
         @user = @current_user
-        render json: @user, serializer: Serializer::UserMe, status: :ok
+        render json: @user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
       end
@@ -66,17 +69,9 @@ module Api
       end
 
       def authenticate_user
-        encrypted_token = request.headers['Authorization']&.split&.last
-
-        begin
-          decrypted_token = TokenDecryptor.decrypt(encrypted_token)
-          sub = decrypted_token['session']['user']['id']
-          token = decrypted_token['session']['sessionToken']
-          session = ::Auth::Session.find_by!(user_id: sub, token:)
-          @current_user = session.user if session.active?
-        rescue StandardError
-          render json: { error: 'User not found' }, status: :not_found
-        end
+        @current_user = ::JwtAuthenticate.session_from_authorization_header(request:).user
+      rescue ::Auth::Session::InvalidTokenOrExpiredSession
+        render json: { error: 'Invalid token or expired session' }, status: :unauthorized
       end
 
       # Use callbacks to share common setup or constraints between actions.

@@ -1,8 +1,9 @@
+require 'rails_helper'
 require 'swagger_helper'
 require_relative '../../../support/openapi/schema_helper'
 require_relative '../../../support/openapi/response_helper'
 require_relative '../../../../app/models/concerns/secure_password'
-require_relative '../../../../lib/token_encryptor'
+require_relative '../../../../lib/json_web_token'
 
 USER_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/UserDetails'.freeze
 PASSWORD = SecurePassword.generate_secure_password
@@ -100,7 +101,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/UserDetails'
+        schema '$ref' => '#/components/schemas/UserLoginResponse'
 
         OpenApi::Response.set_example_response_metadata
 
@@ -116,7 +117,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/UserDetails'
+        schema '$ref' => '#/components/schemas/UserLoginResponse'
 
         OpenApi::Response.set_example_response_metadata
 
@@ -151,19 +152,19 @@ RSpec.describe Api::V1::UsersController do
         let(:user) { create(:user) }
         let(:session) { create(:session, user:) }
         let(:jwt_token) do
-          TokenEncryptor.encrypt({
-                                   session: {
-                                     sessionToken: session.token,
-                                     user: {
-                                       id: session.user.id,
-                                       email: session.user.email,
-                                       firstName: session.user.first_name,
-                                       lastName: session.user.last_name,
-                                       pronouns: session.user.pronouns,
-                                       emailVerified: session.user.email_verified_at
-                                     }
+          JsonWebToken.encrypt({
+                                 session: {
+                                   sessionToken: session.token,
+                                   user: {
+                                     id: session.user.id,
+                                     email: session.user.email,
+                                     firstName: session.user.first_name,
+                                     lastName: session.user.last_name,
+                                     pronouns: session.user.pronouns,
+                                     emailVerified: session.user.email_verified_at
                                    }
-                                 })
+                                 }
+                               })
         end
 
         let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
@@ -175,7 +176,7 @@ RSpec.describe Api::V1::UsersController do
         run_test!
       end
 
-      response(404, NOT_FOUND) do
+      response(401, NOT_FOUND) do
         let(:token) { 'invalid' }
         let(:Authorization) { "Bearer #{token}" } # rubocop:disable RSpec/VariableName
 

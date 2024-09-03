@@ -2,7 +2,7 @@ require_relative 'serializer_mixin'
 require_relative 'round_serializer'
 require_relative 'player_serializer'
 
-module Serializer
+module Serializers
   module PhaseMixin
     extend ActiveSupport::Concern
     included do
@@ -21,7 +21,7 @@ module Serializer
 
   class PhaseDetails < ActiveModel::Serializer
     include PhaseMixin
-    attribute :players, serializer: Serializer::Player
-    attribute :rounds, serializer: Serializer::Round
+    attribute :players, serializer: Serializers::Player
+    attribute :rounds, serializer: Serializers::Round
   end
 end

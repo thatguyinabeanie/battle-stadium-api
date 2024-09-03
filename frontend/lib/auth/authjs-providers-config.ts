@@ -1,4 +1,4 @@
-import type { NextAuthConfig } from "next-auth";
+import type { AdapterUser, NextAuthConfig } from "next-auth";
 
 import Discord from "next-auth/providers/discord";
 import GitHub from "next-auth/providers/github";
@@ -37,13 +37,16 @@ export const providers: Provider[] = [
       }
 
       // Transform UserMe to User if necessary
-      const user = {
+      const user: AdapterUser = {
         id: `${loggedInUser.id}`,
         name: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
         email: loggedInUser.email,
         pronouns: loggedInUser.pronouns,
         username: loggedInUser.username,
-        // Add other properties as needed
+        firstName: loggedInUser.firstName,
+        lastName: loggedInUser.lastName,
+        token: loggedInUser.token,
+        emailVerified: loggedInUser.emailVerifiedAt ?? null,
       };
 
       return user;

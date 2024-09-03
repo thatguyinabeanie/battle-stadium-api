@@ -1,4 +1,4 @@
-require_relative '../../../../serializer/match_serializer'
+require_relative '../../../../serializers/match_serializer'
 
 module Api
   module V1
@@ -9,7 +9,7 @@ module Api
         before_action :set_match, only: %i[show update destroy]
 
         def index
-          render json: @tournament.matches, each_serializer: Serializer::Match, status: :ok
+          render json: @tournament.matches, each_serializer: Serializers::Match, status: :ok
         end
 
         def show
@@ -43,7 +43,7 @@ module Api
         private
 
         def serialize_details
-          Serializer::MatchDetails.new(@match).serializable_hash
+          Serializers::MatchDetails.new(@match).serializable_hash
         end
 
         def permitted_params

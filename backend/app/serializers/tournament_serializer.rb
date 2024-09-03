@@ -3,7 +3,7 @@ require_relative 'game_serializer'
 require_relative 'format_serializer'
 require_relative 'organization_serializer'
 
-module Serializer
+module Serializers
   module TournamentMixin
     extend ActiveSupport::Concern
     included do
@@ -16,8 +16,8 @@ module Serializer
       attributes :organization
       attributes :registration_start_at, :registration_end_at, :late_registration
       attributes :start_at, :started_at, :end_at, :ended_at
-      belongs_to :game, serializer: Serializer::Game
-      belongs_to :format, serializer: Serializer::Format
+      belongs_to :game, serializer: Serializers::Game
+      belongs_to :format, serializer: Serializers::Format
 
       def player_count
         object.players.count
@@ -31,12 +31,12 @@ module Serializer
 
   class Tournament < ActiveModel::Serializer
     include TournamentMixin
-    self.organization_serializer = Serializer::Organization
+    self.organization_serializer = Serializers::Organization
   end
 
   class TournamentDetails < ActiveModel::Serializer
     include TournamentMixin
-    self.organization_serializer = Serializer::Organization
+    self.organization_serializer = Serializers::Organization
     attributes :check_in_start_at
     attributes :autostart
     # attributes :description

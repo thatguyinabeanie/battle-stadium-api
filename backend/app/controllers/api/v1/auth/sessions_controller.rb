@@ -3,7 +3,8 @@
 # app/controllers/api/v1/auth/sessions_controller.rb
 
 require 'jwt'
-require_relative '../../../../../lib/token_decryptor'
+require_relative '../../../../../lib/json_web_token'
+require_relative '../../../../../lib/jwt_authenticate'
 
 module Api
   module V1
@@ -14,17 +15,16 @@ module Api
 
         # GET /api/v1/auth/session
         def show
-          session, user = find_session_and_user_from_token
-          return invalid_token_or_expired_session unless session&.active?
+          session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
-          render_session_and_user(session, user)
-        rescue ::Auth::Session::InvalidTokenOrExpiredSession
+          render_session_and_user(session, session.user)
+        rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
+          Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
           render json: { error: 'Invalid token or expired session' }, status: :unauthorized
         end
 
         # POST /api/v1/auth/session
         def create
-          Rails.logger.info("params: #{params}")
           user = User.find(params[:user_id])
           if user&.valid_password?(params[:password])
             session = ::Auth::Session.create(user:)
@@ -37,8 +37,7 @@ module Api
 
         # PUT /api/v1/auth/session
         def update
-          session, = find_session_and_user_from_token
-          return invalid_token_or_expired_session unless session&.active?
+          session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.refresh
           render_session(session, :ok)
@@ -48,8 +47,7 @@ module Api
 
         # DELETE /api/v1/auth/sign_out
         def destroy
-          session, _user = find_session_and_user_from_token
-          return invalid_token_or_expired_session unless session&.active?
+          session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.revoke
           render json: { message: 'Logged out successfully' }, status: :ok
@@ -63,32 +61,11 @@ module Api
           User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
         end
 
-        def find_session_and_user_from_token
-          auth_header = request.headers['Authorization']
-          token = auth_header.split.last.gsub(/^["']|["']$/, '')
-          decrypted_payload = TokenDecryptor.decrypt(token)
-
-          if decrypted_payload.is_a?(String)
-            jwt = JSON.parse(decrypted_payload)
-            session = ::Auth::Session.where(user_id: jwt['sub']).order(created_at: :desc).first
-            user = session&.user
-            return [session, user]
-          end
-
-          session_token = decrypted_payload['session']['sessionToken'] || decrypted_payload['token']
-
-          session = ::Auth::Session.find_by!(token: session_token, user_id: decrypted_payload['session']['user']['id'])
-          user = session&.user
-          [session, user]
-        rescue StandardError => e
-          raise ::Auth::Session::InvalidTokenOrExpiredSession, e.message
-        end
-
         def render_session(session, status)
           render json: {
-              token: session.token,
-              user_id: session.user_id,
-              expires_at: session.expires_at
+            token: session.token,
+            user_id: session.user_id,
+            expires_at: session.expires_at
           }, status:
         end
 

@@ -682,7 +682,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/UserDetails"
+                "$ref": "#/components/schemas/UserLoginResponse"
         '401':
           description: unauthorized
       requestBody:
@@ -1001,8 +1001,6 @@ components:
         id:
           type: string
           format: uuid
-        message:
-          type: string
         username:
           type: string
         pronouns:
@@ -1017,6 +1015,10 @@ components:
         token:
           type: string
           format: jwt
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
       required:
       - id
       - username
