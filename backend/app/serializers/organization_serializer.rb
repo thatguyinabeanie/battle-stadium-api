@@ -1,7 +1,7 @@
 require_relative 'serializer_mixin'
 require_relative 'user_serializer'
 
-module Serializer
+module Serializers
   module OrganizationMixin
     extend ActiveSupport::Concern
     included do
@@ -20,6 +20,6 @@ module Serializer
 
   class Organization < ActiveModel::Serializer
     include OrganizationMixin
-    self.owner_serializer = ::Serializer::User
+    self.owner_serializer = ::Serializers::User
   end
 end

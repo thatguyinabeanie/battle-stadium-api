@@ -1,6 +1,6 @@
 require 'swagger_helper'
 require_relative '../../../../support/openapi/response_helper'
-require_relative '../../../../../lib/token_encryptor'
+require_relative '../../../../../lib/json_web_token'
 
 RSpec.describe Api::V1::Auth::SessionsController do
   path('/api/v1/auth/session') do
@@ -16,19 +16,19 @@ RSpec.describe Api::V1::Auth::SessionsController do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
         let(:jwt_token) do
-          TokenEncryptor.encrypt({
-                                   session: {
-                                     sessionToken: session.token,
-                                     user: {
-                                       id: session.user.id,
-                                       email: session.user.email,
-                                       firstName: session.user.first_name,
-                                       lastName: session.user.last_name,
-                                       pronouns: session.user.pronouns,
-                                       emailVerified: session.user.email_verified_at
-                                     }
+          JsonWebToken.encrypt({
+                                 session: {
+                                   sessionToken: session.token,
+                                   user: {
+                                     id: session.user.id,
+                                     email: session.user.email,
+                                     firstName: session.user.first_name,
+                                     lastName: session.user.last_name,
+                                     pronouns: session.user.pronouns,
+                                     emailVerified: session.user.email_verified_at
                                    }
-                                 })
+                                 }
+                               })
         end
         let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 
@@ -112,19 +112,19 @@ RSpec.describe Api::V1::Auth::SessionsController do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
         let(:jwt_token) do
-          TokenEncryptor.encrypt({
-                                   session: {
-                                     sessionToken: session.token,
-                                     user: {
-                                       id: session.user.id,
-                                       email: session.user.email,
-                                       firstName: session.user.first_name,
-                                       lastName: session.user.last_name,
-                                       pronouns: session.user.pronouns,
-                                       emailVerified: session.user.email_verified_at
-                                     }
+          JsonWebToken.encrypt({
+                                 session: {
+                                   sessionToken: session.token,
+                                   user: {
+                                     id: session.user.id,
+                                     email: session.user.email,
+                                     firstName: session.user.first_name,
+                                     lastName: session.user.last_name,
+                                     pronouns: session.user.pronouns,
+                                     emailVerified: session.user.email_verified_at
                                    }
-                                 })
+                                 }
+                               })
         end
         let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 
@@ -155,19 +155,19 @@ RSpec.describe Api::V1::Auth::SessionsController do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
         let(:jwt_token) do
-          TokenEncryptor.encrypt({
-                                   session: {
-                                     sessionToken: session.token,
-                                     user: {
-                                       id: session.user.id,
-                                       email: session.user.email,
-                                       firstName: session.user.first_name,
-                                       lastName: session.user.last_name,
-                                       pronouns: session.user.pronouns,
-                                       emailVerified: session.user.email_verified_at
-                                     }
+          JsonWebToken.encrypt({
+                                 session: {
+                                   sessionToken: session.token,
+                                   user: {
+                                     id: session.user.id,
+                                     email: session.user.email,
+                                     firstName: session.user.first_name,
+                                     lastName: session.user.last_name,
+                                     pronouns: session.user.pronouns,
+                                     emailVerified: session.user.email_verified_at
                                    }
-                                 })
+                                 }
+                               })
         end
         let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 

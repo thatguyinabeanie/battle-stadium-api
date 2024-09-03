@@ -1,6 +1,6 @@
-require_relative '../../../serializer/organization_serializer'
-require_relative '../../../serializer/user_serializer'
-require_relative '../../../serializer/tournament_serializer'
+require_relative '../../../serializers/organization_serializer'
+require_relative '../../../serializers/user_serializer'
+require_relative '../../../serializers/tournament_serializer'
 
 module Api
   module V1
@@ -8,13 +8,13 @@ module Api
       before_action :set_organization, only: %i[staff post_tournaments patch_tournament]
 
       self.klass = ::Organization
-      self.serializer_klass = Serializer::Organization
-      self.detail_serializer_klass = Serializer::Organization
+      self.serializer_klass = Serializers::Organization
+      self.detail_serializer_klass = Serializers::Organization
 
       def staff
         # Assuming there's an association called `staff_members` you can directly use it
         # If not, replace `organization.staff_members` with your logic to fetch staff members
-        render json: @organization.staff, each_serializer: Serializer::User, status: :ok
+        render json: @organization.staff, each_serializer: Serializers::User, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Organization not found' }, status: :not_found
       end
@@ -22,7 +22,7 @@ module Api
       def post_tournaments
         @tournament = @organization.tournaments.new tournaments_permitted_params
         if @tournament.save
-          render json: @tournament, status: :created, serializer: Serializer::TournamentDetails
+          render json: @tournament, status: :created, serializer: Serializers::TournamentDetails
         else
           render json: @tournament.errors, status: :unprocessable_entity
         end
@@ -33,7 +33,7 @@ module Api
       def patch_tournament
         @tournament = @organization.tournaments.find(params[:tournament_id])
         if @tournament.update! tournaments_permitted_params
-          render json: @tournament, status: :ok, serializer: Serializer::TournamentDetails
+          render json: @tournament, status: :ok, serializer: Serializers::TournamentDetails
         else
           render json: @tournament.errors, status: :unprocessable_entity
         end

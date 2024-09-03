@@ -1,5 +1,5 @@
 require_relative 'serializer_mixin'
-module Serializer
+module Serializers
   class Format < ActiveModel::Serializer
     include SerializerMixin::Id
     include SerializerMixin::Name

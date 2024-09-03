@@ -160,9 +160,9 @@ USER_LOGIN_RESPONSE = {
     first_name: { type: :string },
     last_name: { type: :string },
     token: { type: :string, format: 'jwt' },
-    email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   ),
-  required: %w[id username pronouns email token message first_name last_name]
+  required: %w[id username pronouns email token first_name last_name]
 }.freeze
 
 USER_LOGIN_REQUEST = {

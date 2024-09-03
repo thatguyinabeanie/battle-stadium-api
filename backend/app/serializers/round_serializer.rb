@@ -1,5 +1,5 @@
 require_relative 'serializer_mixin'
-module Serializer
+module Serializers
   class Round < ActiveModel::Serializer
     include SerializerMixin::Id
     attributes :round_number, :phase_id

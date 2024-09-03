@@ -1,6 +1,6 @@
 require 'devise'
 require 'faker'
-require_relative '../../lib/token_encryptor'
+require_relative '../../lib/json_web_token'
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
@@ -61,6 +61,6 @@ class User < ApplicationRecord
       iat: Time.now.to_i,
       jti:
     }
-    TokenEncryptor.encrypt(payload)
+    JsonWebToken.encrypt(payload)
   end
 end

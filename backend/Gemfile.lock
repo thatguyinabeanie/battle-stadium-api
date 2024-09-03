@@ -560,6 +560,7 @@ DEPENDENCIES
   factory_bot_rails (~> 6)
   faker (~> 3)
   hirb
+  i18n
   importmap-rails (~> 2)
   irb
   jbuilder (~> 2)

@@ -1,4 +1,4 @@
-require_relative '../../../serializer/tournament_serializer'
+require_relative '../../../serializers/tournament_serializer'
 
 module Api
   module V1
@@ -12,7 +12,7 @@ module Api
                        .where(start_at: ..7.days.from_now)
                        .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
                        .order(start_at: :asc)
-        render json: @tournaments, each_serializer: Serializer::Tournament, status: :ok
+        render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
       def show
@@ -75,7 +75,7 @@ module Api
       end
 
       def serialize_details
-        Serializer::TournamentDetails.new(@tournament).serializable_hash
+        Serializers::TournamentDetails.new(@tournament).serializable_hash
       end
 
       # Only allow a list of trusted parameters through.

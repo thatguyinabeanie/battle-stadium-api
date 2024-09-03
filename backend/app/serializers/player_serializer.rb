@@ -1,7 +1,7 @@
 require_relative 'user_serializer'
 require_relative 'pokemon_serializer'
 
-module Serializer
+module Serializers
   module PlayerMixin
     extend ActiveSupport::Concern
     included do
@@ -10,7 +10,7 @@ module Serializer
       attributes :in_game_name
       # attributes :checked_in_at, :checked_in
       # attributes :team_sheet_submitted, :team_sheet_submitted_at
-      belongs_to :user, serializer: Serializer::User
+      belongs_to :user, serializer: Serializers::User
 
       def checked_in
         object.checked_in_at.present?
