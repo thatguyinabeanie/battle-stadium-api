@@ -8,7 +8,6 @@ import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
 
 import { railsSignIn } from "../server-actions/sign-in";
-import { first } from "lodash";
 
 export const providers: Provider[] = [
   GitHub({
@@ -29,9 +28,6 @@ export const providers: Provider[] = [
       password: { label: "Password", type: "password" },
     },
     authorize: async (credentials, request) => {
-      console.log('authorize - credentials:', credentials );
-      console.log('authorize - request:', request );
-
       const loggedInUser = await railsSignIn(credentials, request);
 
       if (!loggedInUser) {

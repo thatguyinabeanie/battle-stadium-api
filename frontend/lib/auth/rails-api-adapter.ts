@@ -179,7 +179,6 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
     },
 
     async getSessionAndUser(sessionToken) {
-
       try {
         const { session, user } = await apiClient.Session.get(authorizationHeader(sessionToken));
 
