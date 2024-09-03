@@ -86,9 +86,9 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
 
       response(401, 'Unauthorized with no email or password.') do
-                let(:existing_user) { create(:user) }
+        let(:existing_user) { create(:user) }
 
-            let(:create_session_params) do
+        let(:create_session_params) do
           {
             user_id: existing_user.id
           }
@@ -126,7 +126,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
                                    }
                                  })
         end
-                let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 
         schema '$ref' => '#/components/schemas/Session'
         OpenApi::Response.set_example_response_metadata

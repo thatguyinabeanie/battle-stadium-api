@@ -154,13 +154,13 @@ USER_LOGIN_RESPONSE = {
   type: :object,
   title: 'User Login Response',
   properties: UUID_PROPERTY.merge(
-    message: { type: :string },
     username: { type: :string },
     pronouns: { type: :string },
     email: { type: :string, format: 'email' },
     first_name: { type: :string },
     last_name: { type: :string },
-    token: { type: :string, format: 'jwt' }
+    token: { type: :string, format: 'jwt' },
+    email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
   ),
   required: %w[id username pronouns email token message first_name last_name]
 }.freeze
@@ -411,7 +411,7 @@ SESSION = {
   properties: {
     token: { type: :string, format: 'jwt' },
     user_id: UUID_TYPE,
-    expires_at: { type: :string, format: DATE_TIME_TYPE },
+    expires_at: { type: :string, format: DATE_TIME_TYPE }
   },
   required: %w[token user_id expires_at]
 }.freeze

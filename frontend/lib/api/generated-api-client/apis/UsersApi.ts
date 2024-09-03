@@ -13,7 +13,7 @@
  */
 
 import * as runtime from "../runtime";
-import type { User, UserDetails, UserLoginRequest, UserMe, UserPostRequest } from "../models/index";
+import type { User, UserDetails, UserLoginRequest, UserLoginResponse, UserMe, UserPostRequest } from "../models/index";
 import {
   UserFromJSON,
   UserToJSON,
@@ -21,6 +21,8 @@ import {
   UserDetailsToJSON,
   UserLoginRequestFromJSON,
   UserLoginRequestToJSON,
+  UserLoginResponseFromJSON,
+  UserLoginResponseToJSON,
   UserMeFromJSON,
   UserMeToJSON,
   UserPostRequestFromJSON,
@@ -59,7 +61,7 @@ export class UsersApi extends runtime.BaseAPI {
   async authorizeUserRaw(
     requestParameters: AuthorizeUserRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<UserDetails>> {
+  ): Promise<runtime.ApiResponse<UserLoginResponse>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -77,7 +79,7 @@ export class UsersApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, (jsonValue) => UserDetailsFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, (jsonValue) => UserLoginResponseFromJSON(jsonValue));
   }
 
   /**
@@ -87,7 +89,7 @@ export class UsersApi extends runtime.BaseAPI {
   async authorizeUser(
     userLoginRequest?: UserLoginRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<UserDetails> {
+  ): Promise<UserLoginResponse> {
     const response = await this.authorizeUserRaw({ userLoginRequest: userLoginRequest }, initOverrides);
     return await response.value();
   }

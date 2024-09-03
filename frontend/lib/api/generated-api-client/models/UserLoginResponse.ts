@@ -30,12 +30,6 @@ export interface UserLoginResponse {
    * @type {string}
    * @memberof UserLoginResponse
    */
-  message: string;
-  /**
-   *
-   * @type {string}
-   * @memberof UserLoginResponse
-   */
   username: string;
   /**
    *
@@ -67,6 +61,12 @@ export interface UserLoginResponse {
    * @memberof UserLoginResponse
    */
   token: string;
+  /**
+   *
+   * @type {Date}
+   * @memberof UserLoginResponse
+   */
+  emailVerifiedAt?: Date | null;
 }
 
 /**
@@ -74,7 +74,6 @@ export interface UserLoginResponse {
  */
 export function instanceOfUserLoginResponse(value: object): value is UserLoginResponse {
   if (!("id" in value) || value["id"] === undefined) return false;
-  if (!("message" in value) || value["message"] === undefined) return false;
   if (!("username" in value) || value["username"] === undefined) return false;
   if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
   if (!("email" in value) || value["email"] === undefined) return false;
@@ -94,13 +93,13 @@ export function UserLoginResponseFromJSONTyped(json: any, ignoreDiscriminator: b
   }
   return {
     id: json["id"],
-    message: json["message"],
     username: json["username"],
     pronouns: json["pronouns"],
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
     token: json["token"],
+    emailVerifiedAt: json["email_verified_at"] == null ? undefined : new Date(json["email_verified_at"]),
   };
 }
 
@@ -110,12 +109,12 @@ export function UserLoginResponseToJSON(value?: UserLoginResponse | null): any {
   }
   return {
     id: value["id"],
-    message: value["message"],
     username: value["username"],
     pronouns: value["pronouns"],
     email: value["email"],
     first_name: value["firstName"],
     last_name: value["lastName"],
     token: value["token"],
+    email_verified_at: value["emailVerifiedAt"] == null ? undefined : (value["emailVerifiedAt"] as any).toISOString(),
   };
 }

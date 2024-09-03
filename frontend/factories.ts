@@ -431,13 +431,13 @@ export const UserLoginRequestFactory = new Factory<UserLoginRequest>()
 export const UserLoginResponseFactory = new Factory<UserLoginResponse>()
 
   .sequence("id")
-  .attr("message", () => faker.lorem.word())
   .attr("username", () => faker.lorem.word())
   .attr("pronouns", () => faker.lorem.word())
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("token", () => faker.lorem.word());
+  .attr("token", () => faker.lorem.word())
+  .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null));
 
 export const UserMeFactory = new Factory<UserMe>()
 

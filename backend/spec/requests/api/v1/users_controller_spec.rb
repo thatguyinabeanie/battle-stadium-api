@@ -100,7 +100,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/UserDetails'
+        schema '$ref' => '#/components/schemas/UserLoginResponse'
 
         OpenApi::Response.set_example_response_metadata
 
@@ -116,7 +116,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/UserDetails'
+        schema '$ref' => '#/components/schemas/UserLoginResponse'
 
         OpenApi::Response.set_example_response_metadata
 

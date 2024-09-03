@@ -40,7 +40,7 @@ def create_user(username: nil, password: nil, first_name: nil, last_name: nil, e
   password ||= SecurePassword.generate_secure_password
   first_name ||= Faker::Name.first_name
   last_name ||= Faker::Name.last_name
-  email ||= "#{username}@beanie.com"
+  email || "#{username}@beanie.com"
   pronouns ||= 'they/them'
 
   # Check if user already exists

@@ -39,7 +39,8 @@ module Api
             pronouns: user.pronouns,
             first_name: user.first_name,
             last_name: user.last_name,
-            email_verified_at: user.email_verified_at
+            email_verified_at: user.email_verified_at,
+            token: ::Auth::Session.create(user: user).token
           }, status: :ok
         else
           render json: { error: 'Invalid login' }, status: :unauthorized
@@ -63,9 +64,8 @@ module Api
       private
 
       def find_user_by_email_or_username(email, username)
-        User.find_for_database_authentication(email: email) || User.find_for_database_authentication(username: username)
+        User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
       end
-
 
       def authenticate_user
         encrypted_token = request.headers['Authorization']&.split&.last

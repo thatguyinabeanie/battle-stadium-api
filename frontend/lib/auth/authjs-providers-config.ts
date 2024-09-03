@@ -45,9 +45,8 @@ export const providers: Provider[] = [
         username: loggedInUser.username,
         firstName: loggedInUser.firstName,
         lastName: loggedInUser.lastName,
-        emailVerified: loggedInUser.emailVerifiedAt,
         token: loggedInUser.token,
-        // Add other properties as needed
+        emailVerified: loggedInUser.emailVerifiedAt ?? null,
       };
 
       return user;
