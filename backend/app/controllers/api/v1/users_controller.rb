@@ -69,17 +69,9 @@ module Api
       end
 
       def authenticate_user
-        encrypted_token = request.headers['Authorization']&.split&.last
-
-        begin
-          decrypted_token = JsonWebToken.decrypt(encrypted_token)
-          sub = decrypted_token['session']['user']['id']
-          token = decrypted_token['session']['sessionToken']
-          session = ::Auth::Session.find_by!(user_id: sub, token:)
-          @current_user = session.user if session.active?
-        rescue StandardError
-          render json: { error: 'User not found' }, status: :not_found
-        end
+        @current_user = ::JwtAuthenticate.session_from_authorization_header(request:).user
+      rescue ::Auth::Session::InvalidTokenOrExpiredSession
+        render json: { error: 'Invalid token or expired session' }, status: :unauthorized
       end
 
       # Use callbacks to share common setup or constraints between actions.

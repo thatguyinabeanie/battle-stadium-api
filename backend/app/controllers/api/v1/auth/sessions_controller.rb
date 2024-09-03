@@ -15,7 +15,7 @@ module Api
 
         # GET /api/v1/auth/session
         def show
-          session = JwtAuthenticate.find_session_from_authorization_header(request:)
+          session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           render_session_and_user(session, session.user)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
@@ -25,7 +25,6 @@ module Api
 
         # POST /api/v1/auth/session
         def create
-          Rails.logger.info("params: #{params}")
           user = User.find(params[:user_id])
           if user&.valid_password?(params[:password])
             session = ::Auth::Session.create(user:)
@@ -38,7 +37,7 @@ module Api
 
         # PUT /api/v1/auth/session
         def update
-          session = JwtAuthenticate.find_session_from_authorization_header(request:)
+          session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.refresh
           render_session(session, :ok)
@@ -48,7 +47,7 @@ module Api
 
         # DELETE /api/v1/auth/sign_out
         def destroy
-          session = JwtAuthenticate.find_session_from_authorization_header(request:)
+          session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.revoke
           render json: { message: 'Logged out successfully' }, status: :ok

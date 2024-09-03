@@ -35,7 +35,7 @@ class JwtAuthenticate
     session
   end
 
-  def self.find_session_from_authorization_header(request:)
+  def self.session_from_authorization_header(request:)
     decrypted_payload = jwt_bearer_token(request:)
     session_from_decrypted_payload(decrypted_payload:)
   end
