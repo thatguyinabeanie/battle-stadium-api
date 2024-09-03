@@ -70,22 +70,25 @@ module Api
           decrypted_payload = TokenDecryptor.decrypt(token)
 
           if decrypted_payload.is_a?(String)
+            Rails.logger.info("decrypted_payload.is_a?(String)")
             jwt = JSON.parse(decrypted_payload)
             sub = jwt['sub']
-            session = ::Auth::Session
-              .where(user_id: sub)
-              .where('expires_at > ?', Time.now.utc)
-              .order(created_at: :desc)
-              .first
 
-            return session
+            session = ::Auth::Session.where(user_id: sub).last
+            return session if session&.active?
+
+            ::Auth::Session.create user_id: sub
+          elsif decryptes_payload['session']
+            Rails.logger.info("decryptes_payload['session']")
+            session_token = decrypted_payload['session']['sessionToken'] || decrypted_payload['token']
+            ::Auth::Session.find_by!(token: session_token, user_id: decrypted_payload['session']['user']['id'])
+          elsif decrypted_payload['user']
+            Rails.logger.info("decryptes_payload['user']")
+            ::Auth::Session.find_by!(user_id: decrypted_payload['user']['id'])
+          else
+            Rails.logger.info("Invalid token: #{decrypted_payload}")
+            raise ::Auth::Session::InvalidTokenOrExpiredSession, 'Invalid token or expired session'
           end
-
-          session_token = decrypted_payload['session']['sessionToken'] || decrypted_payload['token']
-
-          session = ::Auth::Session.find_by!(token: session_token, user_id: decrypted_payload['session']['user']['id'])
-          user = session&.user
-          [session, user]
         rescue StandardError => e
           raise ::Auth::Session::InvalidTokenOrExpiredSession, e.message
         end

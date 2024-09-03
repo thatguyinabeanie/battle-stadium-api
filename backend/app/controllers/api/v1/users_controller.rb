@@ -31,7 +31,6 @@ module Api
       def authorize
         user = find_user_by_email_or_username(params[:email], params[:username])
 
-
         if user&.valid_password?(params[:password])
           render json: {
             id: user.id,

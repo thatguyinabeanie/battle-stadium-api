@@ -12,7 +12,10 @@ export const config = (encryptedJwt: string) =>
 
 export const defaultConfig = async () => {
   const environment = process.env.NODE_ENV || "development";
+  console.log("environment", environment);
   const session = environment !== "test" ? await auth() : null;
+
+  console.log("defaultConfig", session);
 
   const headers: HTTPHeaders = session
     ? {

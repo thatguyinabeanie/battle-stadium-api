@@ -1,4 +1,4 @@
-import type { NextAuthConfig } from "next-auth";
+import type { AdapterUser, NextAuthConfig } from "next-auth";
 
 import Discord from "next-auth/providers/discord";
 import GitHub from "next-auth/providers/github";
@@ -8,6 +8,7 @@ import Credentials from "next-auth/providers/credentials";
 import { Provider } from "next-auth/providers";
 
 import { railsSignIn } from "../server-actions/sign-in";
+import { first } from "lodash";
 
 export const providers: Provider[] = [
   GitHub({
@@ -28,6 +29,9 @@ export const providers: Provider[] = [
       password: { label: "Password", type: "password" },
     },
     authorize: async (credentials, request) => {
+      console.log('authorize - credentials:', credentials );
+      console.log('authorize - request:', request );
+
       const loggedInUser = await railsSignIn(credentials, request);
 
       if (!loggedInUser) {
@@ -37,12 +41,16 @@ export const providers: Provider[] = [
       }
 
       // Transform UserMe to User if necessary
-      const user = {
+      const user: AdapterUser = {
         id: `${loggedInUser.id}`,
         name: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
         email: loggedInUser.email,
         pronouns: loggedInUser.pronouns,
         username: loggedInUser.username,
+        firstName: loggedInUser.firstName,
+        lastName: loggedInUser.lastName,
+        emailVerified: loggedInUser.emailVerifiedAt,
+        token: loggedInUser.token,
         // Add other properties as needed
       };
 
