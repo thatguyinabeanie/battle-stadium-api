@@ -190,7 +190,8 @@ REGISTRATION_RESPONSE = {
     jti: { type: :string, format: 'jwt' },
     name: { type: :string, nullable: true },
     email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    image: { type: :string, nullable: true }
+    image: { type: :string, nullable: true },
+    admin: { type: :boolean }
   ),
   required: %w[id email username first_name last_name created_at updated_at pronouns jti name email_verified_at image]
 }.freeze

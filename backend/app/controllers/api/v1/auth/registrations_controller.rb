@@ -6,12 +6,13 @@ module Api
       class RegistrationsController < Devise::RegistrationsController
         before_action :configure_permitted_parameters, if: :devise_controller?
         skip_before_action :verify_authenticity_token, only: %i[create update destroy]
-
+        skip_before_action :authenticate_user, only: %i[create]
         DEVISE_USER_KEYS = %i[first_name last_name email username password password_confirmation].freeze
         respond_to :json
 
         # POST /resource
         def create
+          skip_authorization
           parms = params.require(:user).permit(:username, :password, :password_confirmation, :email, :first_name, :last_name)
 
           build_resource(parms)

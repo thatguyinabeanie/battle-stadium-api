@@ -12,10 +12,11 @@ module Api
       class SessionsController < ApplicationController
         respond_to :json
         skip_before_action :verify_authenticity_token, only: %i[create update show destroy]
+        skip_before_action :authenticate_user, only: %i[show destroy create]
 
         # GET /api/v1/auth/session
         def show
-          authorize ::Auth::Session, :admin?
+          skip_authorization
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
           render_session_and_user(session, session.user)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
@@ -25,7 +26,7 @@ module Api
 
         # POST /api/v1/auth/session
         def create
-          authorize ::Auth::Session, :admin?
+          skip_authorization
           user = User.find(params[:user_id])
           if user&.valid_password?(params[:password])
             session = ::Auth::Session.create(user:)
@@ -38,7 +39,7 @@ module Api
 
         # PUT /api/v1/auth/session
         def update
-          authorize ::Auth::Session, :admin?
+          skip_authorization
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.refresh
@@ -49,7 +50,7 @@ module Api
 
         # DELETE /api/v1/auth/sign_out
         def destroy
-          authorize ::Auth::Session, :admin?
+          skip_authorization
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.revoke

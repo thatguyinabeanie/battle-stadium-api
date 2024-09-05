@@ -8,15 +8,25 @@ module Api
         before_action :set_players, only: %i[index create]
         before_action :set_player, only: %i[show update destroy]
 
+        skip_before_action :authenticate_user, only: %i[index show]
+
+        def self.policy_class
+          ::Tournaments::PlayerPolicy
+        end
+
         def index
+          super
           render json: @players, each_serializer: Serializers::Player, status: :ok
         end
 
         def show
+          super
           render json: serialize_player_details, status: :ok
         end
 
         def create
+          authorize ::Tournaments::Player, :create?
+
           @player = @players.create! permitted_params.merge(tournament_id: @tournament.id)
           if @player.save
             render json: serialize_player_details, status: :created
@@ -28,6 +38,7 @@ module Api
         end
 
         def update
+          authorize @player, :update?
           if @player.update! permitted_params
             render json: serialize_player_details, status: :ok
           else
@@ -36,6 +47,7 @@ module Api
         end
 
         def destroy
+          authorize @player, :destroy?
           @player.destroy!
           render json: { message: 'Player deleted' }, status: :ok
         end
@@ -57,6 +69,8 @@ module Api
         def set_player
           @players ||= set_players
           @player = @players.find_by!(user_id: params[:id])
+          @object = @player
+          @player
         rescue ActiveRecord::RecordNotFound
           render json: { error: 'Player not found' }, status: :not_found
         end
