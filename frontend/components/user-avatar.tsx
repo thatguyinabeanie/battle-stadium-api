@@ -27,8 +27,7 @@ function UserInfo() {
   const { data: session } = useSession();
   const isCompact = useMediaQuery("(max-width: 768px)");
 
-
-  const { firstName, lastName, name, username} = session?.user ?? {};
+  const { firstName, lastName, name, username } = session?.user ?? {};
 
   return (
     <div className={cn("flex max-w-full flex-col", { hidden: isCompact })}>
@@ -44,7 +43,7 @@ function UserInfo() {
         <>
           <p className="text-small font-medium text-default-600">
             <Link aria-label="Profile Link" href="/dashboard">
-              { username ?? session.username}
+              {username ?? session.username}
             </Link>
           </p>
 
