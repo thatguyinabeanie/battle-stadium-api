@@ -49,10 +49,9 @@ function UserInfo() {
           {(name || (firstName && lastName)) && (
             <Link aria-label="session-user-id" href="/dashboard">
               <p className="truncate text-tiny text-default-400">
-                  {session.user?.name ?? session.user.firstName + " " + session.user.lastName}
+                {session.user?.name ?? session.user.firstName + " " + session.user.lastName}
               </p>
             </Link>
-
           )}
         </>
       )}
