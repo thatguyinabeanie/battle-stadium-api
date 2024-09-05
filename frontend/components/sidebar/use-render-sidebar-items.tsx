@@ -3,6 +3,8 @@
 import { ListboxItem, Tooltip, Accordion, AccordionItem, Listbox, SlotsToClasses } from "@nextui-org/react";
 import React from "react";
 import { useMediaQuery } from "usehooks-ts";
+import { usePathname } from "next/navigation";
+import { IconifyIcon } from "@iconify/react/dist/iconify.js";
 
 import { Icon } from "../client";
 
@@ -60,6 +62,8 @@ export default function useRenderSideBarItems({
   const isCompact = useMediaQuery("(max-width: 768px)");
 
   const { sectionClasses, itemClasses } = useSidebarClasses(sectionClassesProp, itemClassesProp);
+
+  const currentPath = usePathname()?.split("/")?.[1];
 
   const renderNestItem = React.useCallback(
     (item: SidebarItem) => {
@@ -173,6 +177,8 @@ export default function useRenderSideBarItems({
         return renderNestItem(item);
       }
 
+      const icon = (currentPath === item.key ? item.iconSelected : item.icon) ?? item.icon;
+
       return (
         <ListboxItem
           aria-label="Sidebar ListboxItem"
@@ -183,7 +189,7 @@ export default function useRenderSideBarItems({
             isCompact ? null : item.icon ? (
               <Icon
                 className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
-                icon={item.icon}
+                icon={icon as string | IconifyIcon}
                 width={24}
               />
             ) : (

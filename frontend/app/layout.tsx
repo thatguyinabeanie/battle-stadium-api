@@ -7,7 +7,6 @@ import Providers from "./providers";
 
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
-import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 // import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -34,10 +33,7 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
       <head />
       <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
         <Providers>
-          <main className="flex h-full w-full">
-            <SidebarResponsive aria-label="Responsive Sidebar" />
-            {children}
-          </main>
+          <main className="flex h-full w-full">{children}</main>
         </Providers>
       </body>
     </html>
