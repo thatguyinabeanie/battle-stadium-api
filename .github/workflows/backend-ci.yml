@@ -142,7 +142,7 @@ jobs:
         with:
           workdir: backend
           rubocop_version: gemfile
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-rspec:gemfile
+          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-rspec:gemfile rubocop-github:gemfile
           only_changed: true
           github_token: ${{ github.token }}
           reporter: github-pr-review # Default is github-pr-check

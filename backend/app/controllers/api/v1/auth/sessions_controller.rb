@@ -2,9 +2,9 @@
 
 # app/controllers/api/v1/auth/sessions_controller.rb
 
-require 'jwt'
-require_relative '../../../../../lib/json_web_token'
-require_relative '../../../../../lib/jwt_authenticate'
+require "jwt"
+require_relative "../../../../../lib/json_web_token"
+require_relative "../../../../../lib/jwt_authenticate"
 
 module Api
   module V1
@@ -21,7 +21,7 @@ module Api
           render_session_and_user(session, session.user)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
           Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: "Invalid token or expired session" }, status: :unauthorized
         end
 
         # POST /api/v1/auth/session
@@ -33,7 +33,7 @@ module Api
 
             render_session(session, :created)
           else
-            render json: { error: 'Invalid login' }, status: :unauthorized
+            render json: { error: "Invalid login" }, status: :unauthorized
           end
         end
 
@@ -45,7 +45,7 @@ module Api
           session.refresh
           render_session(session, :ok)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: "Invalid token or expired session" }, status: :unauthorized
         end
 
         # DELETE /api/v1/auth/sign_out
@@ -54,9 +54,9 @@ module Api
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.revoke
-          render json: { message: 'Logged out successfully' }, status: :ok
+          render json: { message: "Logged out successfully" }, status: :ok
         rescue ::Auth::Session::InvalidTokenOrExpiredSession
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: "Invalid token or expired session" }, status: :unauthorized
         end
 
         private
@@ -96,7 +96,7 @@ module Api
         end
 
         def invalid_token_or_expired_session
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: "Invalid token or expired session" }, status: :unauthorized
         end
       end
     end

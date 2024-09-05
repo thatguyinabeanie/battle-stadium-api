@@ -1,4 +1,4 @@
-require 'pundit'
+require "pundit"
 
 class ApplicationController < ActionController::Base
   attr_reader :current_user
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     @current_user
   rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
     Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
-    render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+    render json: { error: "Invalid token or expired session" }, status: :unauthorized
   end
 
   def pundit_user

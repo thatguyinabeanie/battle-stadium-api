@@ -1,7 +1,9 @@
 inherit_from: .rubocop_todo.yml
 inherit_gem:
   rswag-specs: .rubocop_rspec_alias_config.yml
-  # pundit: config/rubocop-rspec.yml
+  rubocop-github:
+    - config/default.yml # generic Ruby rules and cops
+    - config/rails.yml # Rails-specific rules and cops
 
 require:
   - rubocop-factory_bot

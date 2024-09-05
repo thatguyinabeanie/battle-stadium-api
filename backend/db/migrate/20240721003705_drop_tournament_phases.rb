@@ -15,8 +15,8 @@ class DropTournamentPhases < ActiveRecord::Migration[7.1]
       # Add other columns and indexes as necessary
     end
 
-    add_index :tournament_phases, :phase_id, name: 'index_tournament_phases_on_phase_id'
-    add_index :tournament_phases, %i[tournament_id phase_id], name: 'index_tournament_phases_on_tournament_id_and_phase_id', unique: true
-    add_index :tournament_phases, :tournament_id, name: 'index_tournament_phases_on_tournament_id'
+    add_index :tournament_phases, :phase_id, name: "index_tournament_phases_on_phase_id"
+    add_index :tournament_phases, %i[tournament_id phase_id], name: "index_tournament_phases_on_tournament_id_and_phase_id", unique: true
+    add_index :tournament_phases, :tournament_id, name: "index_tournament_phases_on_tournament_id"
   end
 end

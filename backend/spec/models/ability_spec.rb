@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Ability do
-  describe 'Ability' do
+  describe "Ability" do
     pending "add some examples (or delete) #{__FILE__}"
   end
   # describe 'abilities' do

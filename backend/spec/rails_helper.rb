@@ -1,34 +1,34 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 
-require_relative '../config/environment'
-require 'spec_helper'
+require_relative "../config/environment"
+require "spec_helper"
 # Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
+abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'rspec/rails'
-require 'shoulda/matchers'
-require 'simplecov'
-require 'support/authorization_header'
-require 'support/openapi/schema_helper'
-require 'support/openapi/response_helper'
-require_relative '../app/models/concerns/secure_password'
-require_relative '../lib/json_web_token'
+require "rspec/rails"
+require "shoulda/matchers"
+require "simplecov"
+require "support/authorization_header"
+require "support/openapi/schema_helper"
+require "support/openapi/response_helper"
+require_relative "../app/models/concerns/secure_password"
+require_relative "../lib/json_web_token"
 
-SimpleCov.start 'rails' do
-  add_filter '/spec/'
-  add_filter '/config/'
-  add_filter '/vendor/'
-  add_filter '/lib/tasks/'
-  add_filter '/tmp/'
-  add_filter '/log/'
-  add_filter '/db/'
-  add_filter '/.devcontainer/'
-  add_filter '/.github/'
-  add_filter '/.vscode/'
-  add_filter '/.turbo/'
-  add_filter '/test-results/'
-  add_filter '/coverage/'
+SimpleCov.start "rails" do
+  add_filter "/spec/"
+  add_filter "/config/"
+  add_filter "/vendor/"
+  add_filter "/lib/tasks/"
+  add_filter "/tmp/"
+  add_filter "/log/"
+  add_filter "/db/"
+  add_filter "/.devcontainer/"
+  add_filter "/.github/"
+  add_filter "/.vscode/"
+  add_filter "/.turbo/"
+  add_filter "/test-results/"
+  add_filter "/coverage/"
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -57,7 +57,7 @@ end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
-    Rails.root.join('spec/fixtures')
+    Rails.root.join("spec/fixtures")
   ]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

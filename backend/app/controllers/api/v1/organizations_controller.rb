@@ -1,6 +1,6 @@
-require_relative '../../../serializers/organization_serializer'
-require_relative '../../../serializers/user_serializer'
-require_relative '../../../serializers/tournament_serializer'
+require_relative "../../../serializers/organization_serializer"
+require_relative "../../../serializers/user_serializer"
+require_relative "../../../serializers/tournament_serializer"
 
 module Api
   module V1
@@ -11,7 +11,6 @@ module Api
       self.serializer_klass = Serializers::Organization
       self.detail_serializer_klass = Serializers::Organization
 
-      # rubocop:disable Rails/LexicallyScopedActionFilter
       skip_before_action :authenticate_user, only: %i[index show staff]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -25,7 +24,7 @@ module Api
         # If not, replace `organization.staff_members` with your logic to fetch staff members
         render json: @organization.staff, each_serializer: Serializers::User, status: :ok
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Organization not found' }, status: :not_found
+        render json: { error: "Organization not found" }, status: :not_found
       end
 
       def post_tournaments
@@ -51,7 +50,7 @@ module Api
           render json: @tournament.errors, status: :unprocessable_entity
         end
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Tournament not found' }, status: :not_found
+        render json: { error: "Tournament not found" }, status: :not_found
       end
 
       private

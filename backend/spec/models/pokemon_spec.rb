@@ -1,23 +1,23 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Pokemon do
-  describe 'associations' do
-    it { is_expected.to belong_to(:pokemon_team).class_name('PokemonTeam').inverse_of(:pokemon) }
+  describe "associations" do
+    it { is_expected.to belong_to(:pokemon_team).class_name("PokemonTeam").inverse_of(:pokemon) }
   end
 
-  describe 'validations' do
+  describe "validations" do
     subject do
       described_class.create(
         pokemon_team_id: pokemon_team.id,
-        name: 'Pikachu',
-        ability: 'Static',
-        tera_type: 'Electric',
-        nature: 'Jolly',
-        held_item: 'Light Ball',
-        move1: 'Thunderbolt',
-        move2: 'Quick Attack',
-        move3: 'Iron Tail',
-        move4: 'Volt Tackle'
+        name: "Pikachu",
+        ability: "Static",
+        tera_type: "Electric",
+        nature: "Jolly",
+        held_item: "Light Ball",
+        move1: "Thunderbolt",
+        move2: "Quick Attack",
+        move3: "Iron Tail",
+        move4: "Volt Tackle"
       )
     end
 

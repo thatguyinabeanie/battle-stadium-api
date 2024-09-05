@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :session, class: 'Auth::Session' do
+  factory :session, class: "Auth::Session" do
     # Define your session attributes here
     user factory: :user
     token { SecureRandom.hex(48) }

@@ -9,7 +9,7 @@ class DropAndCreateVerificationTokens < ActiveRecord::Migration[7.1]
       t.datetime :created_at, null: false
       t.datetime :updated_at, null: false
 
-      t.index %i[identifier token], name: 'index_verification_token_on_identifier_and_token', unique: true
+      t.index %i[identifier token], name: "index_verification_token_on_identifier_and_token", unique: true
     end
   end
 
@@ -23,7 +23,7 @@ class DropAndCreateVerificationTokens < ActiveRecord::Migration[7.1]
       t.datetime :created_at, null: false
       t.datetime :updated_at, null: false
 
-      t.index %i[identifier token], name: 'index_verification_token_on_identifier_and_token', unique: true
+      t.index %i[identifier token], name: "index_verification_token_on_identifier_and_token", unique: true
     end
   end
 end

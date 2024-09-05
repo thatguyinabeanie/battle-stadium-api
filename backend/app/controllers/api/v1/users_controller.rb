@@ -1,5 +1,5 @@
-require_relative '../../../serializers/user_serializer'
-require_relative '../../../../lib/json_web_token'
+require_relative "../../../serializers/user_serializer"
+require_relative "../../../../lib/json_web_token"
 
 module Api
   module V1
@@ -15,7 +15,6 @@ module Api
 
       before_action :set_cache_headers, only: %i[me]
 
-      # rubocop:disable Rails/LexicallyScopedActionFilter
       skip_before_action :verify_authenticity_token, only: %i[create update show destroy password_login me patch_password]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -26,7 +25,7 @@ module Api
         if password_params[:password].blank?
           render json: { errors: ["Password can't be blank"] }, status: :unprocessable_entity
         elsif @user.update_with_password(password_params)
-          render json: { message: 'Password updated successfully' }, status: :ok
+          render json: { message: "Password updated successfully" }, status: :ok
         else
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         end
@@ -49,7 +48,7 @@ module Api
             token: ::Auth::Session.create(user:).token
           }, status: :ok
         else
-          render json: { error: 'Invalid login' }, status: :unauthorized
+          render json: { error: "Invalid login" }, status: :unauthorized
         end
       end
 
@@ -57,7 +56,7 @@ module Api
         authorize @current_user, :me?
         render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
-        render json: { errors: ['User not found'] }, status: :not_found
+        render json: { errors: ["User not found"] }, status: :not_found
       end
 
       protected
@@ -80,7 +79,7 @@ module Api
       end
 
       def set_cache_headers
-        response.headers['Cache-Control'] = 'public, max-age=300'
+        response.headers["Cache-Control"] = "public, max-age=300"
       end
     end
   end

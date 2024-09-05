@@ -1,23 +1,23 @@
-require 'rails_helper'
-require 'swagger_helper'
+require "rails_helper"
+require "swagger_helper"
 
-USER_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/UserDetails'.freeze
+USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 PASSWORD = SecurePassword.generate_secure_password
 
 RSpec.describe Api::V1::UsersController do
   include Devise::Test::IntegrationHelpers
 
-  path('/api/v1/users') do
-    get('List Users') do
-      tags 'Users'
+  path("/api/v1/users") do
+    get("List Users") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves a list of all Users'
-      operationId 'listUsers'
+      description "Retrieves a list of all Users"
+      operationId "listUsers"
 
-      response(200, 'successful') do
+      response(200, "successful") do
         let(:users) { create_list(:user, 10) }
 
-        schema type: :array, items: { '$ref' => '#/components/schemas/User' }
+        schema type: :array, items: { "$ref" => "#/components/schemas/User" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -25,18 +25,18 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    post('Create User') do
-      tags 'Users'
+    post("Create User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Creates a new User.'
-      operationId 'postUser'
+      description "Creates a new User."
+      operationId "postUser"
 
-      parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserPostRequest' }
+      parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserPostRequest" }
 
       security [Bearer: []]
 
-      response(201, 'created') do
+      response(201, "created") do
         let(:Authorization) do # rubocop:disable RSpec/VariableName
           session = create(:session, user: create(:admin))
 
@@ -63,24 +63,24 @@ RSpec.describe Api::V1::UsersController do
           {
             user: {
               username: Faker::Internet.unique.username,
-              pronouns: 'he/him',
-              email: 'new_user@example.com',
-              first_name: 'New ',
-              last_name: 'User',
+              pronouns: "he/him",
+              email: "new_user@example.com",
+              first_name: "New ",
+              last_name: "User",
               password: PASSWORD,
               password_confirmation: PASSWORD
             }
           }
         end
 
-        schema '$ref' => USER_DETAILS_SCHEMA_COMPONENT
+        schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
-      response(403, 'forbidden') do
+      response(403, "forbidden") do
         let(:Authorization) do # rubocop:disable RSpec/VariableName
           session = create(:session, user: create(:user))
 
@@ -112,7 +112,7 @@ RSpec.describe Api::V1::UsersController do
         run_test!
       end
 
-      response(422, 'unprocessable entity') do
+      response(422, "unprocessable entity") do
         let(:Authorization) do # rubocop:disable RSpec/VariableName
           session = create(:session, user: create(:admin))
 
@@ -138,11 +138,11 @@ RSpec.describe Api::V1::UsersController do
         let(:user) do
           {
             user: {
-              username: '',
-              pronouns: 'he/him',
-              email: 'new_user@example.com',
-              first_name: 'New ',
-              last_name: 'User',
+              username: "",
+              pronouns: "he/him",
+              email: "new_user@example.com",
+              first_name: "New ",
+              last_name: "User",
               password: PASSWORD,
               password_confirmation: PASSWORD
             }
@@ -156,17 +156,17 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path('/api/v1/users/authorize') do
-    post('Authorize User') do
-      tags 'Users'
+  path("/api/v1/users/authorize") do
+    post("Authorize User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Authorizes a User.'
-      operationId 'authorizeUser'
+      description "Authorizes a User."
+      operationId "authorizeUser"
 
-      parameter name: :login, in: :body, schema: { '$ref' => '#/components/schemas/UserLoginRequest' }
+      parameter name: :login, in: :body, schema: { "$ref" => "#/components/schemas/UserLoginRequest" }
 
-      response(200, 'Successful Email Login') do
+      response(200, "Successful Email Login") do
         let(:user) { create(:user, password: PASSWORD) }
         let(:login) do
           {
@@ -175,14 +175,14 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/UserLoginResponse'
+        schema "$ref" => "#/components/schemas/UserLoginResponse"
 
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
-      response(200, 'Successful Username Login') do
+      response(200, "Successful Username Login") do
         let(:user) { create(:user, password: PASSWORD) }
         let(:login) do
           {
@@ -191,18 +191,18 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/UserLoginResponse'
+        schema "$ref" => "#/components/schemas/UserLoginResponse"
 
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
-      response(401, 'unauthorized') do
+      response(401, "unauthorized") do
         let(:login) do
           {
-            email: 'user.email@email.com',
-            password: 'invalid'
+            email: "user.email@email.com",
+            password: "invalid"
           }
         end
 
@@ -213,16 +213,16 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path('/api/v1/users/me') do
-    get('Show Me') do
-      tags 'Users'
+  path("/api/v1/users/me") do
+    get("Show Me") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves the current User.'
-      operationId 'getMe'
+      description "Retrieves the current User."
+      operationId "getMe"
 
       security [Bearer: []]
 
-      response(200, 'successful') do
+      response(200, "successful") do
         let(:user) { create(:user) }
         let(:session) { create(:session, user:) }
         let(:jwt_token) do
@@ -243,7 +243,7 @@ RSpec.describe Api::V1::UsersController do
 
         let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 
-        schema '$ref' => '#/components/schemas/UserMe'
+        schema "$ref" => "#/components/schemas/UserMe"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -251,7 +251,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(401, NOT_FOUND) do
-        let(:token) { 'invalid' }
+        let(:token) { "invalid" }
         let(:Authorization) { "Bearer #{token}" } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
@@ -261,25 +261,25 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path('/api/v1/users/{id}') do
-    parameter name: :id, in: :path, type: :string, description: 'ID of the User'
+  path("/api/v1/users/{id}") do
+    parameter name: :id, in: :path, type: :string, description: "ID of the User"
 
-    get('Show User') do
-      tags 'Users'
+    get("Show User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves a specific User by ID.'
-      operationId 'getUser'
+      description "Retrieves a specific User by ID."
+      operationId "getUser"
 
-      response(200, 'successful') do
-        let(:id) { create(:user, first_name: 'Existing', last_name: 'User').id }
+      response(200, "successful") do
+        let(:id) { create(:user, first_name: "Existing", last_name: "User").id }
 
-        schema '$ref' => USER_DETAILS_SCHEMA_COMPONENT
+        schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
+        let(:id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -287,26 +287,26 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    patch('Update User') do
-      tags 'Users'
+    patch("Update User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Updates an existing User.'
-      operationId 'patchUser'
+      description "Updates an existing User."
+      operationId "patchUser"
 
-      parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserDetails' }
+      parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserDetails" }
 
       security [Bearer: []]
 
-      response(200, 'Updated by Admin') do
+      response(200, "Updated by Admin") do
         let(:user_object) { create(:user) }
         let(:id) { user_object.id }
         let(:user) do
           {
             username: Faker::Internet.unique.username,
-            pronouns: 'they/them',
-            email: 'updateduser@example.com',
-            first_name: 'Updated', last_name: 'Userrrrr',
+            pronouns: "they/them",
+            email: "updateduser@example.com",
+            first_name: "Updated", last_name: "Userrrrr",
             current_password: user_object.password
           }
         end
@@ -331,7 +331,7 @@ RSpec.describe Api::V1::UsersController do
           "Bearer #{jwt_token}"
         end
 
-        schema '$ref' => USER_DETAILS_SCHEMA_COMPONENT
+        schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
         OpenApi::Response.set_example_response_metadata
 
@@ -358,10 +358,10 @@ RSpec.describe Api::V1::UsersController do
           )
           "Bearer #{jwt_token}"
         end
-        let(:id) { 'invalid' }
+        let(:id) { "invalid" }
         let(:user) do
           {
-            first_name: 'Updated', last_name: 'Userrrrr'
+            first_name: "Updated", last_name: "Userrrrr"
           }
         end
 
@@ -371,15 +371,15 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    delete('Delete User') do
-      tags 'Users'
+    delete("Delete User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      describe 'Deletes a User by ID.'
-      operationId 'deleteUser'
+      describe "Deletes a User by ID."
+      operationId "deleteUser"
 
       security [Bearer: []]
 
-      response(200, 'successful') do
+      response(200, "successful") do
         let(:Authorization) do # rubocop:disable RSpec/VariableName
           session = create(:session, user: create(:admin))
           jwt_token = JsonWebToken.encrypt(
@@ -428,7 +428,7 @@ RSpec.describe Api::V1::UsersController do
           )
           "Bearer #{jwt_token}"
         end
-        let(:id) { 'invalid' }
+        let(:id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
 

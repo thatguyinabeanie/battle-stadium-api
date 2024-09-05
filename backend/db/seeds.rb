@@ -12,24 +12,24 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-require 'faker'
+require "faker"
 
 if Rails.env.production?
-  Rails.logger.info('Seeding is disabled in production.')
+  Rails.logger.info("Seeding is disabled in production.")
   exit
 end
 
 # require 'factory_bot'
 
 def create_battlestadium_bot
-  User.find_or_create_by!(username: 'battlestadiumbot') do |user|
+  User.find_or_create_by!(username: "battlestadiumbot") do |user|
     password = SecurePassword.generate_secure_password
-    user.email = 'battlestadium@beanie.gg'
+    user.email = "battlestadium@beanie.gg"
     user.password = password
     user.password_confirmation = password
-    user.pronouns = 'they/them'
-    user.first_name = 'Battle'
-    user.last_name = 'Stadium'
+    user.pronouns = "they/them"
+    user.first_name = "Battle"
+    user.last_name = "Stadium"
     user.admin = true
   end
 end
@@ -40,7 +40,7 @@ def create_user(username: nil, password: nil, first_name: nil, last_name: nil, e
   first_name ||= Faker::Name.first_name
   last_name ||= Faker::Name.last_name
   email || "#{username}@beanie.com"
-  pronouns ||= 'they/them'
+  pronouns ||= "they/them"
 
   # Check if user already exists
   User.find_or_create_by!(username:) do |user|
@@ -84,14 +84,14 @@ def create_format(name:, game:)
   Tournaments::Format.find_or_create_by!(name:, game:)
 end
 
-scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
+scarlet_violet = Game.find_or_create_by!(name: "Pokemon Scarlet & Violet")
 
 (1..10).to_a.map { |series| Game.find_or_create_by!(name: "Pokemon Series #{series}") }
 
-format = Tournaments::Format.find_or_create_by!(name: 'Regulation H', game: scarlet_violet)
+format = Tournaments::Format.find_or_create_by!(name: "Regulation H", game: scarlet_violet)
 
-fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy', password: 'FuecocoSupremacy777!',
-                                     first_name: 'Pablo', last_name: 'Escobar', pronouns: 'he/him')
+fuecoco_supremacy_user = create_user(username: "fuecoco-supremacy", password: "FuecocoSupremacy777!",
+                                     first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
 fuecoco_supremacy_user.admin = true
 fuecoco_supremacy_user.save!
 

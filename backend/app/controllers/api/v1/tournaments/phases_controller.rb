@@ -1,4 +1,4 @@
-require_relative '../../../../serializers/phase_serializer'
+require_relative "../../../../serializers/phase_serializer"
 
 module Api
   module V1
@@ -32,7 +32,7 @@ module Api
                   when Phases::SingleElimination.to_s
                     Phases::SingleElimination
                   else
-                    raise ActionController::BadRequest, 'Invalid phase type'
+                    raise ActionController::BadRequest, "Invalid phase type"
                   end
 
           @phase = klass.new permitted_params.merge(tournament_id: @tournament.id)
@@ -58,7 +58,7 @@ module Api
         def destroy
           authorize @phase, :destroy?
           @phase.destroy!
-          render json: { message: 'Phase deleted' }, status: :ok
+          render json: { message: "Phase deleted" }, status: :ok
         end
 
         private
@@ -71,7 +71,7 @@ module Api
           @tournament = ::Tournaments::Tournament.find(params[:tournament_id])
           @tournament
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Tournament not found' }, status: :not_found
+          render json: { error: "Tournament not found" }, status: :not_found
         end
 
         def set_phases
@@ -86,7 +86,7 @@ module Api
           @object = @phase
           @phase
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Phase not found' }, status: :not_found
+          render json: { error: "Phase not found" }, status: :not_found
         end
 
         def permitted_params

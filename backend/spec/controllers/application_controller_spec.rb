@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Define the DummyController for testing purposes
 class DummyController < ApplicationController
@@ -20,7 +20,7 @@ RSpec.describe ApplicationController do
     end
   end
 
-  describe '#authenticate_user' do
+  describe "#authenticate_user" do
     let(:user) { create(:user) }
     let(:jwt_token) do
       session = create(:session, user:)
@@ -40,16 +40,16 @@ RSpec.describe ApplicationController do
     end
 
     before do
-      request.headers['Authorization'] = "Bearer #{jwt_token}"
+      request.headers["Authorization"] = "Bearer #{jwt_token}"
     end
 
-    it 'authenticates the user' do
+    it "authenticates the user" do
       get :index
       expect(response).to have_http_status(:success)
     end
 
-    it 'handles invalid or expired session' do
-      request.headers['Authorization'] = 'Bearer invalid_token'
+    it "handles invalid or expired session" do
+      request.headers["Authorization"] = "Bearer invalid_token"
       get :index
       expect(response).to have_http_status(:unauthorized)
     end

@@ -1,4 +1,4 @@
-require_relative '../../../../serializers/player_serializer'
+require_relative "../../../../serializers/player_serializer"
 
 module Api
   module V1
@@ -49,7 +49,7 @@ module Api
         def destroy
           authorize @player, :destroy?
           @player.destroy!
-          render json: { message: 'Player deleted' }, status: :ok
+          render json: { message: "Player deleted" }, status: :ok
         end
 
         private
@@ -63,7 +63,7 @@ module Api
           @players = @tournament.players
           @players
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Tournament not found' }, status: :not_found
+          render json: { error: "Tournament not found" }, status: :not_found
         end
 
         def set_player
@@ -72,14 +72,14 @@ module Api
           @object = @player
           @player
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Player not found' }, status: :not_found
+          render json: { error: "Player not found" }, status: :not_found
         end
 
         def set_tournament
           @tournament ||= ::Tournaments::Tournament.find(params[:tournament_id])
           @tournament
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Tournament not found' }, status: :not_found
+          render json: { error: "Tournament not found" }, status: :not_found
         end
 
         def permitted_params

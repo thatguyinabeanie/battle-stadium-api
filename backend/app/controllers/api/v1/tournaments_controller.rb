@@ -1,4 +1,4 @@
-require_relative '../../../serializers/tournament_serializer'
+require_relative "../../../serializers/tournament_serializer"
 
 module Api
   module V1
@@ -15,7 +15,7 @@ module Api
       def index
         super
         @tournaments = ::Tournaments::Tournament
-                       .where('start_at > ?', Time.zone.now)
+                       .where("start_at > ?", Time.zone.now)
                        .where(start_at: ..7.days.from_now)
                        .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
                        .order(start_at: :asc)
@@ -51,7 +51,7 @@ module Api
       def destroy
         authorize @tournament, :destroy?
         @tournament.destroy!
-        render json: { message: 'Tournament deleted' }, status: :ok
+        render json: { message: "Tournament deleted" }, status: :ok
       end
 
       private
@@ -62,7 +62,7 @@ module Api
         @object = @tournament
         @tournament
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Tournament not found' }, status: :not_found
+        render json: { error: "Tournament not found" }, status: :not_found
       end
 
       def set_tournaments
@@ -70,7 +70,7 @@ module Api
                           @organization ||= set_organization
                           @organization.tournaments
                         else
-                          @tournaments = ::Tournaments::Tournament.where('start_at > ?', Time.zone.now)
+                          @tournaments = ::Tournaments::Tournament.where("start_at > ?", Time.zone.now)
                                                                   .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now)
                                                                   .where(ended_at: nil))
                         end
@@ -84,7 +84,7 @@ module Api
                         end
         @organization
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Organization not found' }, status: :not_found
+        render json: { error: "Organization not found" }, status: :not_found
       end
 
       def serialize_details

@@ -2,7 +2,7 @@ class DropAndCreateAuthenticators < ActiveRecord::Migration[7.1]
   def up
     drop_table :authenticators
 
-    create_table :authenticators, id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
+    create_table :authenticators, id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
       t.text :credential_id, null: false
       t.text :provider_account_id, null: false
       t.text :credential_public_key, null: false
@@ -14,7 +14,7 @@ class DropAndCreateAuthenticators < ActiveRecord::Migration[7.1]
       t.datetime :updated_at, null: false
       t.uuid :user_id, null: false
 
-      t.index :credential_id, name: 'index_authenticators_on_credential_id', unique: true
+      t.index :credential_id, name: "index_authenticators_on_credential_id", unique: true
     end
 
     add_foreign_key :authenticators, :users, column: :user_id
@@ -35,7 +35,7 @@ class DropAndCreateAuthenticators < ActiveRecord::Migration[7.1]
       t.datetime :updated_at, null: false
       t.uuid :userId
 
-      t.index :credentialID, name: 'index_authenticators_on_credentialID', unique: true
+      t.index :credentialID, name: "index_authenticators_on_credentialID", unique: true
     end
   end
 end

@@ -1,10 +1,10 @@
 class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
   def up
     # Enable the uuid-ossp extension
-    enable_extension 'uuid-ossp'
+    enable_extension "uuid-ossp"
 
     # Add the UUID column
-    add_column :users, :uuid, :uuid, default: 'gen_random_uuid()', null: false
+    add_column :users, :uuid, :uuid, default: "gen_random_uuid()", null: false
 
     # Drop dependent foreign key constraints
     remove_foreign_key :authenticators, column: :userId
@@ -49,10 +49,10 @@ class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
     rename_column :pokemon_teams, :user_uuid, :user_id
 
     # Drop the old primary key constraint with CASCADE
-    execute 'ALTER TABLE users DROP CONSTRAINT users_pkey CASCADE;'
+    execute "ALTER TABLE users DROP CONSTRAINT users_pkey CASCADE;"
 
     # Add the new primary key constraint
-    execute 'ALTER TABLE users ADD PRIMARY KEY (uuid);'
+    execute "ALTER TABLE users ADD PRIMARY KEY (uuid);"
 
     # Add foreign key constraints with the new primary key
     add_foreign_key :authenticators, :users, column: :userId, primary_key: :uuid, on_delete: :cascade
@@ -68,7 +68,7 @@ class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
 
   def down
     # Add the old primary key column back
-    add_column :users, :id, :bigint, null: false, auto_increment: true # rubocop:disable Rails/DangerousColumnNames,Rails/NotNullColumn
+    add_column :users, :id, :bigint, null: false, auto_increment: true # rubocop:disable Rails/DangerousColumnNames
 
     # Drop dependent foreign key constraints
     remove_foreign_key :authenticators, column: :userId
@@ -113,8 +113,8 @@ class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
     rename_column :pokemon_teams, :user_bigint, :user_id
 
     # Remove the UUID column as the primary key
-    execute 'ALTER TABLE users DROP CONSTRAINT users_pkey;'
-    execute 'ALTER TABLE users ADD PRIMARY KEY (id);'
+    execute "ALTER TABLE users DROP CONSTRAINT users_pkey;"
+    execute "ALTER TABLE users ADD PRIMARY KEY (id);"
 
     # Restore the old foreign key references
     add_foreign_key :authenticators, :users, column: :userId, on_delete: :cascade

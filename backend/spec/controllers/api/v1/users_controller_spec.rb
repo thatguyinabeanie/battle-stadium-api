@@ -1,6 +1,6 @@
-require 'rails_helper'
-require_relative '../../../../app/serializers/user_serializer'
-require_relative '../../../../lib/json_web_token'
+require "rails_helper"
+require_relative "../../../../app/serializers/user_serializer"
+require_relative "../../../../lib/json_web_token"
 
 RSpec.describe Api::V1::UsersController do
   include Devise::Test::ControllerHelpers
@@ -9,9 +9,9 @@ RSpec.describe Api::V1::UsersController do
     JSON.parse(response.body, symbolize_names: true)
   end
 
-  context 'when /users' do
-    describe 'GET' do
-      it 'returns a successful response' do
+  context "when /users" do
+    describe "GET" do
+      it "returns a successful response" do
         create_list(:user, 3)
 
         get :index
@@ -19,7 +19,7 @@ RSpec.describe Api::V1::UsersController do
         expect(response).to be_successful
       end
 
-      it 'returns a list of users' do
+      it "returns a list of users" do
         create_list(:user, 3)
 
         get :index
@@ -28,7 +28,7 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    describe 'POST' do
+    describe "POST" do
       let(:jwt_token) do
         session = create(:session, user: create(:admin))
         JsonWebToken.encrypt({
@@ -47,16 +47,16 @@ RSpec.describe Api::V1::UsersController do
       end
 
       before do
-        request.headers['Authorization'] = "Bearer #{jwt_token}"
+        request.headers["Authorization"] = "Bearer #{jwt_token}"
       end
 
-      it 'returns a successful response' do
+      it "returns a successful response" do
         post :create, params: { user: attributes_for(:user) }
 
         expect(response).to be_successful
       end
 
-      it 'creates a new user' do
+      it "creates a new user" do
         user_attributes = attributes_for(:user)
 
         post :create, params: { user: user_attributes }
@@ -66,7 +66,7 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  context 'when /users/:id' do
+  context "when /users/:id" do
     let(:request_user) { create(:admin) }
     let(:jwt_token) do
       session = create(:session, user: request_user)
@@ -86,20 +86,20 @@ RSpec.describe Api::V1::UsersController do
     end
 
     before do
-      request.headers['Authorization'] = "Bearer #{jwt_token}"
+      request.headers["Authorization"] = "Bearer #{jwt_token}"
     end
 
-    describe 'GET /users/:id' do
+    describe "GET /users/:id" do
       let(:request_user) { create(:user) }
 
-      it 'returns a successful response' do
+      it "returns a successful response" do
         user = create(:user)
         get :show, params: { id: user.id }
 
         expect(response).to be_successful
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         user = create(:user)
 
         get :show, params: { id: user.id }
@@ -108,8 +108,8 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    describe 'PUT' do
-      it 'returns a successful response' do
+    describe "PUT" do
+      it "returns a successful response" do
         user = create(:user)
         user_attributes = attributes_for(:user)
 
@@ -118,34 +118,34 @@ RSpec.describe Api::V1::UsersController do
         expect(response).to be_successful
       end
 
-      it 'updates the user' do
+      it "updates the user" do
         user = create(:user)
 
-        put :update, params: { id: user.id, user: { first_name: 'Jane' } }
+        put :update, params: { id: user.id, user: { first_name: "Jane" } }
 
-        expect(json_response[:first_name]).to eq('Jane')
+        expect(json_response[:first_name]).to eq("Jane")
       end
     end
 
-    describe 'PATCH' do
-      it 'returns a successful response' do
+    describe "PATCH" do
+      it "returns a successful response" do
         user = create(:user)
 
-        patch :update, params: { id: user.id, user: { first_name: 'Jane' } }
+        patch :update, params: { id: user.id, user: { first_name: "Jane" } }
 
         expect(response).to be_successful
       end
 
-      it 'updates the user' do
+      it "updates the user" do
         user = create(:user)
 
-        patch :update, params: { id: user.id, user: { first_name: 'Jane' } }
+        patch :update, params: { id: user.id, user: { first_name: "Jane" } }
 
-        expect(json_response[:first_name]).to eq('Jane')
+        expect(json_response[:first_name]).to eq("Jane")
       end
     end
 
-    describe 'DELETE' do
+    describe "DELETE" do
       let(:jwt_token) do
         session = create(:session, user: create(:admin))
         JsonWebToken.encrypt({
@@ -164,10 +164,10 @@ RSpec.describe Api::V1::UsersController do
       end
 
       before do
-        request.headers['Authorization'] = "Bearer #{jwt_token}"
+        request.headers["Authorization"] = "Bearer #{jwt_token}"
       end
 
-      it 'returns a successful response' do
+      it "returns a successful response" do
         user = create(:user)
 
         delete :destroy, params: { id: user.id }
@@ -175,7 +175,7 @@ RSpec.describe Api::V1::UsersController do
         expect(response).to be_successful
       end
 
-      it 'deletes the user' do
+      it "deletes the user" do
         user = create(:user)
 
         delete :destroy, params: { id: user.id }
@@ -185,7 +185,7 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  context 'when /users/:id/password' do
+  context "when /users/:id/password" do
     let(:user) { create(:user) }
     let(:jwt_token) do
       session = create(:session, user:)
@@ -205,59 +205,59 @@ RSpec.describe Api::V1::UsersController do
     end
 
     before do
-      request.headers['Authorization'] = "Bearer #{jwt_token}"
+      request.headers["Authorization"] = "Bearer #{jwt_token}"
     end
 
-    describe 'PATCH' do
-      it 'returns a successful response' do
+    describe "PATCH" do
+      it "returns a successful response" do
         password = SecurePassword.generate_secure_password
 
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
-        expect(json_response[:message]).to eq('Password updated successfully')
+        expect(json_response[:message]).to eq("Password updated successfully")
       end
 
-      it 'changes the password successfully' do
+      it "changes the password successfully" do
         password = SecurePassword.generate_secure_password
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
         expect(user.password).not_to eq(password)
       end
 
-      it 'returns an error if the current password is incorrect' do
+      it "returns an error if the current password is incorrect" do
         password = SecurePassword.generate_secure_password
         # deepcode ignore HardcodedPassword: not a real password. just a string in a test
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: 'incorrect_password' } }
-        expect(json_response[:errors]).to include('Current password is invalid')
+        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: "incorrect_password" } }
+        expect(json_response[:errors]).to include("Current password is invalid")
       end
 
-      it 'returns an error if the password and password confirmation do not match' do
+      it "returns an error if the password and password confirmation do not match" do
         password = SecurePassword.generate_secure_password
         # deepcode ignore HardcodedPassword: not a real password. just a string in a test
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: 'incorrect_password', current_password: user.password } }
+        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: "incorrect_password", current_password: user.password } }
         expect(json_response[:errors]).to include("Password confirmation doesn't match Password")
       end
 
-      it 'returns an error if the password is too short' do
-        password = 'short'
+      it "returns an error if the password is too short" do
+        password = "short"
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
-        expect(json_response[:errors]).to include('Password is too short (minimum is 6 characters)')
+        expect(json_response[:errors]).to include("Password is too short (minimum is 6 characters)")
       end
 
-      it 'returns an error if the password is too long' do
-        password = 'a' * 129
+      it "returns an error if the password is too long" do
+        password = "a" * 129
 
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
 
-        expect(json_response[:errors]).to include('Password is too long (maximum is 128 characters)')
+        expect(json_response[:errors]).to include("Password is too long (maximum is 128 characters)")
       end
 
-      it 'returns an error if the password is blank' do
-        patch :patch_password, params: { id: user.id, user: { password: '', password_confirmation: 'other', current_password: user.password } }
+      it "returns an error if the password is blank" do
+        patch :patch_password, params: { id: user.id, user: { password: "", password_confirmation: "other", current_password: user.password } }
         expect(json_response[:errors]).to include("Password can't be blank")
       end
     end
   end
 
-  context 'when /users/me' do
+  context "when /users/me" do
     let!(:user) { create(:user) }
     let!(:session) { create(:session, user:) }
     let(:jwt_token) do
@@ -277,16 +277,16 @@ RSpec.describe Api::V1::UsersController do
     end
 
     before do
-      request.headers['Authorization'] = "Bearer #{jwt_token}"
+      request.headers["Authorization"] = "Bearer #{jwt_token}"
     end
 
-    describe 'GET' do
-      it 'returns a successful response' do
+    describe "GET" do
+      it "returns a successful response" do
         get :me
         expect(response).to be_successful
       end
 
-      it 'returns a users me serialized response' do
+      it "returns a users me serialized response" do
         get :me
 
         expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(user).as_json

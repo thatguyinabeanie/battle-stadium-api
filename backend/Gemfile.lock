@@ -402,6 +402,10 @@ GEM
       rubocop (~> 1.61)
     rubocop-git (0.1.3)
       rubocop (>= 0.24.1)
+    rubocop-github (0.20.0)
+      rubocop (>= 1.37)
+      rubocop-performance (>= 1.15)
+      rubocop-rails (>= 2.17)
     rubocop-graphql (1.5.4)
       rubocop (>= 1.50, < 2)
     rubocop-i18n (3.0.0)
@@ -594,6 +598,7 @@ DEPENDENCIES
   rubocop-erb
   rubocop-factory_bot
   rubocop-git
+  rubocop-github
   rubocop-graphql
   rubocop-i18n
   rubocop-junit-formatter

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :match_game, class: 'Tournaments::MatchGame' do
+  factory :match_game, class: "Tournaments::MatchGame" do
     match factory: :match
     winner { nil }
     loser { nil }

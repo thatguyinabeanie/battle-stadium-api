@@ -1,16 +1,16 @@
-require 'swagger_helper'
+require "swagger_helper"
 
 RSpec.describe Api::V1::Auth::SessionsController do
-  path('/api/v1/auth/session') do
-    get('Get') do
-      tags 'Sessions'
-      produces 'application/json'
-      description 'Shows the current session.'
-      operationId 'getSession'
+  path("/api/v1/auth/session") do
+    get("Get") do
+      tags "Sessions"
+      produces "application/json"
+      description "Shows the current session."
+      operationId "getSession"
 
       security [Bearer: []]
 
-      response(200, 'ok') do
+      response(200, "ok") do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
         let(:jwt_token) do
@@ -30,14 +30,14 @@ RSpec.describe Api::V1::Auth::SessionsController do
         end
         let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 
-        schema '$ref' => '#/components/schemas/SessionAndUser'
+        schema "$ref" => "#/components/schemas/SessionAndUser"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
-      response(401, 'unauthorized') do
-        let(:Authorization) { 'Bearer invalid' } # rubocop:disable RSpec/VariableName
+      response(401, "unauthorized") do
+        let(:Authorization) { "Bearer invalid" } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
@@ -45,16 +45,16 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
     end
 
-    post('Create') do
-      tags 'Sessions'
-      produces 'application/json'
-      consumes 'application/json'
-      description 'Creates a new session.'
-      operationId 'create'
+    post("Create") do
+      tags "Sessions"
+      produces "application/json"
+      consumes "application/json"
+      description "Creates a new session."
+      operationId "create"
 
-      parameter name: :create_session_params, in: :body, schema: { '$ref' => '#/components/schemas/CreateSession' }
+      parameter name: :create_session_params, in: :body, schema: { "$ref" => "#/components/schemas/CreateSession" }
 
-      response(201, 'Created') do
+      response(201, "Created") do
         let(:existing_user) { create(:user) }
         let(:create_session_params) do
           {
@@ -63,13 +63,13 @@ RSpec.describe Api::V1::Auth::SessionsController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/Session'
+        schema "$ref" => "#/components/schemas/Session"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
-      response(401, 'Unauthorized with Email') do
+      response(401, "Unauthorized with Email") do
         let(:existing_user) { create(:user) }
 
         let(:create_session_params) do
@@ -83,7 +83,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
         run_test!
       end
 
-      response(401, 'Unauthorized with no email or password.') do
+      response(401, "Unauthorized with no email or password.") do
         let(:existing_user) { create(:user) }
 
         let(:create_session_params) do
@@ -98,15 +98,15 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
     end
 
-    put('Update') do
-      tags 'Sessions'
-      produces 'application/json'
-      description 'Updates the current session.'
-      operationId 'update'
+    put("Update") do
+      tags "Sessions"
+      produces "application/json"
+      description "Updates the current session."
+      operationId "update"
 
       security [Bearer: []]
 
-      response(200, 'updates') do
+      response(200, "updates") do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
         let(:jwt_token) do
@@ -126,14 +126,14 @@ RSpec.describe Api::V1::Auth::SessionsController do
         end
         let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
 
-        schema '$ref' => '#/components/schemas/Session'
+        schema "$ref" => "#/components/schemas/Session"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
-      response(401, 'unauthorized') do
-        let(:Authorization) { 'Bearer invalid' } # rubocop:disable RSpec/VariableName
+      response(401, "unauthorized") do
+        let(:Authorization) { "Bearer invalid" } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
@@ -141,15 +141,15 @@ RSpec.describe Api::V1::Auth::SessionsController do
       end
     end
 
-    delete('Delete') do
-      tags 'Sessions'
-      produces 'application/json'
-      description 'Logs out a User.'
-      operationId 'logoutUser'
+    delete("Delete") do
+      tags "Sessions"
+      produces "application/json"
+      description "Logs out a User."
+      operationId "logoutUser"
 
       security [Bearer: []]
 
-      response(200, 'session deleted') do
+      response(200, "session deleted") do
         let(:existing_user) { create(:user) }
         let(:session) { create(:session, user: existing_user) }
         let(:jwt_token) do

@@ -1,8 +1,8 @@
 # lib/token_encryptor.rb
-require 'json/jwt'
+require "json/jwt"
 
 module JsonWebToken
-  def self.decrypt(token, secret = ENV.fetch('AUTH_SECRET', nil))
+  def self.decrypt(token, secret = ENV.fetch("AUTH_SECRET", nil))
     # First, try to parse the token as a JWE
     jwe = JSON::JWT.decode(token, secret)
 
@@ -23,7 +23,7 @@ module JsonWebToken
     nil
   end
 
-  def self.encrypt(payload, secret = ENV.fetch('AUTH_SECRET', nil))
+  def self.encrypt(payload, secret = ENV.fetch("AUTH_SECRET", nil))
     JSON::JWT.new(payload).sign(secret, :HS512).to_s
   rescue StandardError => e
     Rails.logger.error "Failed to encrypt token: #{e.message}"

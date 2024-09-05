@@ -2,10 +2,10 @@
 
 # abort if any command fails
 
-require 'fileutils'
+require "fileutils"
 
 # path to your application root.
-APP_ROOT = File.expand_path('..', __dir__)
+APP_ROOT = File.expand_path("..", __dir__)
 
 def system!(*)
   system(*, exception: true)
@@ -16,7 +16,7 @@ FileUtils.chdir APP_ROOT do
   # This script is idempotent, so that you can run it at any time and get an expectable outcome.
   # Add necessary setup steps to this file.
 
-  puts '== Installing dependencies =='
+  puts "== Installing dependencies =="
   # system! 'gem install bundler --conservative'
   # system('bundle check') || system!('bundle install')
 
@@ -26,14 +26,14 @@ FileUtils.chdir APP_ROOT do
   # end
 
   puts "\n== Preparing database =="
-  system! 'bundle exec rails db:prepare'
+  system! "bundle exec rails db:prepare"
 
   puts "\n== Removing old logs and tempfiles =="
-  system! 'bundle exec rails log:clear tmp:clear'
+  system! "bundle exec rails log:clear tmp:clear"
 
   puts "\n== Migrating Database =="
-  system! 'bundle exec rails db:migrate'
+  system! "bundle exec rails db:migrate"
 
   puts "\n== Restarting application server =="
-  system! 'bundle exec rails restart'
+  system! "bundle exec rails restart"
 end

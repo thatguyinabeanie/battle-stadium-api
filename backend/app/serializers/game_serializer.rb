@@ -1,5 +1,5 @@
-require_relative 'format_serializer'
-require_relative 'serializer_mixin'
+require_relative "format_serializer"
+require_relative "serializer_mixin"
 
 module Serializers
   module GameMixin

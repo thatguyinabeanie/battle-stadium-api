@@ -6,9 +6,9 @@ module OpenApi
                properties: {
                  error: { type: :string }
                },
-               required: ['error'],
-               example: { error: 'bad request' },
-               title: '400 Bad Request'
+               required: ["error"],
+               example: { error: "bad request" },
+               title: "400 Bad Request"
       }
     end
   end

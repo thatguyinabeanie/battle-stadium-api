@@ -1,6 +1,6 @@
-require 'devise'
-require 'faker'
-require_relative '../../lib/json_web_token'
+require "devise"
+require "faker"
+require_relative "../../lib/json_web_token"
 
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
@@ -18,12 +18,12 @@ class User < ApplicationRecord
   validates :pronouns, length: { maximum: MAX_CHARACTER_LENGTH }, allow_blank: true
   validates :first_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
   validates :last_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
-  has_one :owned_organization, class_name: 'Organization', foreign_key: 'owner_id', dependent: :destroy,
+  has_one :owned_organization, class_name: "Organization", foreign_key: "owner_id", dependent: :destroy,
                                inverse_of: :owner
-  has_many :organization_staff_members, class_name: 'OrganizationStaffMember', dependent: :destroy
+  has_many :organization_staff_members, class_name: "OrganizationStaffMember", dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :user
-  has_many :accounts, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Account'
-  has_many :sessions, inverse_of: :user, dependent: :destroy, class_name: 'Auth::Session'
+  has_many :accounts, inverse_of: :user, dependent: :destroy, class_name: "Auth::Account"
+  has_many :sessions, inverse_of: :user, dependent: :destroy, class_name: "Auth::Session"
 
   def admin?
     admin
@@ -41,7 +41,7 @@ class User < ApplicationRecord
     return if SecurePassword.complexity_check password
 
     errors.add :password,
-               'must include at least one lowercase letter, one uppercase letter, one digit, and one special character'
+               "must include at least one lowercase letter, one uppercase letter, one digit, and one special character"
   end
 
   # Update record attributes when :current_password matches, otherwise

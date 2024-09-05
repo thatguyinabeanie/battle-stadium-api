@@ -1,4 +1,4 @@
-require_relative 'serializer_mixin'
+require_relative "serializer_mixin"
 module Serializers
   class Round < ActiveModel::Serializer
     include SerializerMixin::Id

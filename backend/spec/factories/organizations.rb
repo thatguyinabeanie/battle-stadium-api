@@ -1,7 +1,7 @@
 FactoryBot.define do
-  factory :organization, class: 'Organization' do
+  factory :organization, class: "Organization" do
     name { "Totally Real Organization #{Faker::Company.unique.name}" }
-    description { 'This is a very deep and meaningful description.' }
+    description { "This is a very deep and meaningful description." }
     owner factory: :user
   end
 

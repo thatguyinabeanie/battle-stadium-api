@@ -6,7 +6,7 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     password { SecurePassword.generate_secure_password }
     password_confirmation { password }
-    pronouns { 'they/them' }
+    pronouns { "they/them" }
     admin { false }
 
     factory :admin do

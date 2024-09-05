@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pokemon_team, class: 'PokemonTeam' do
+  factory :pokemon_team, class: "PokemonTeam" do
     user factory: :user
     pokemon { [] }
 
