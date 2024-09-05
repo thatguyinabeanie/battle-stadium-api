@@ -11,6 +11,10 @@ module Api
       self.serializer_klass = Serializers::Organization
       self.detail_serializer_klass = Serializers::Organization
 
+      # rubocop:disable Rails/LexicallyScopedActionFilter
+      skip_before_action :authenticate_user!, only: %i[index show]
+      # rubocop:enable Rails/LexicallyScopedActionFilter
+
       def staff
         # Assuming there's an association called `staff_members` you can directly use it
         # If not, replace `organization.staff_members` with your logic to fetch staff members

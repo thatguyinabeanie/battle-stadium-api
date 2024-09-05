@@ -69,14 +69,15 @@ module Api
         end
 
         def render_session_and_user(session, user)
+          use ||= User.find(session.user_id)
           render json: {
             session: {
               token: session.token,
-              user_id: user.id,
+              user_id: session.user_id,
               expires_at: session.expires_at
             },
             user: {
-              id: user.id,
+              id:session.user_id,
               email: user.email,
               email_verified_at: user.email_verified_at,
               first_name: user.first_name,

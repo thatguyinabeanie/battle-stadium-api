@@ -15,6 +15,7 @@ module Api
 
       # rubocop:disable Rails/LexicallyScopedActionFilter
       skip_before_action :verify_authenticity_token, only: %i[create update show destroy authorize me patch_password]
+      skip_before_action :authenticate_user!, only: %i[create authorize index show]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def patch_password
@@ -49,8 +50,7 @@ module Api
       end
 
       def me
-        @user = @current_user
-        render json: @user, serializer: Serializers::UserMe, status: :ok
+        render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
       end
@@ -66,12 +66,6 @@ module Api
 
       def find_user_by_email_or_username(email, username)
         User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
-      end
-
-      def authenticate_user
-        @current_user = ::JwtAuthenticate.session_from_authorization_header(request:).user
-      rescue ::Auth::Session::InvalidTokenOrExpiredSession
-        render json: { error: 'Invalid token or expired session' }, status: :unauthorized
       end
 
       # Use callbacks to share common setup or constraints between actions.

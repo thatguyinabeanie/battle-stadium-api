@@ -12,11 +12,6 @@ class JwtAuthenticate
         sub = jwt['sub']
         session = ::Auth::Session.where(user_id: sub).last
 
-        if session&.active?
-          session
-        else
-          ::Auth::Session.create user_id: sub
-        end
       elsif decrypted_payload['session']
         session_token = decrypted_payload['session']['sessionToken']
 
@@ -30,8 +25,10 @@ class JwtAuthenticate
       raise ::Auth::Session::InvalidTokenOrExpiredSession, e.message
     end
 
-    raise ::Auth::Session::InvalidTokenOrExpiredSession, 'Invalid token or expired session' unless session&.active?
 
+    session = ::Auth::Session.create user_id: sub if !session&.user
+
+    raise ::Auth::Session::InvalidTokenOrExpiredSession, 'Invalid token or expired session' unless session&.active?
     session
   end
 
