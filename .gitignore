@@ -74,3 +74,5 @@ frontend/junit.xml
 backend/.env
 frontend/.env
 frontend/.env.local
+
+config/keys/*.pem
