@@ -1,6 +1,8 @@
 class JwtAuthenticate
   def self.jwt_bearer_token(request:)
     auth_header = request.headers['Authorization']
+    raise ::Auth::Session::InvalidTokenOrExpiredSession, 'Missing token' unless auth_header
+
     token = auth_header.split.last.gsub(/^["']|["']$/, '')
     JsonWebToken.decrypt(token)
   end
@@ -10,7 +12,7 @@ class JwtAuthenticate
       if decrypted_payload.is_a?(String)
         jwt = JSON.parse(decrypted_payload)
         sub = jwt['sub']
-        session = ::Auth::Session.where(user_id: sub).last
+        ::Auth::Session.where(user_id: sub).last
 
       elsif decrypted_payload['session']
         session_token = decrypted_payload['session']['sessionToken']
@@ -25,10 +27,10 @@ class JwtAuthenticate
       raise ::Auth::Session::InvalidTokenOrExpiredSession, e.message
     end
 
-
-    session = ::Auth::Session.create user_id: sub if !session&.user
+    session = ::Auth::Session.create user_id: sub unless session&.user
 
     raise ::Auth::Session::InvalidTokenOrExpiredSession, 'Invalid token or expired session' unless session&.active?
+
     session
   end
 

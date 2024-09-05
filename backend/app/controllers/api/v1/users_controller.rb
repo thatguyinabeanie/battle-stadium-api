@@ -10,13 +10,12 @@ module Api
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
-      before_action :authenticate_user, only: %i[me]
+      before_action :authenticate_user, only: %i[me patch_password update destroy create]
+
       before_action :set_cache_headers, only: %i[me]
 
       # rubocop:disable Rails/LexicallyScopedActionFilter
-      skip_before_action :verify_authenticity_token, only: %i[create update show destroy authorize me patch_password]
-      skip_before_action :authenticate_user, only: %i[create authorize index show]
-      # skip_before_action :verify_authorized, only: %i[authorize index show]
+      skip_before_action :verify_authenticity_token, only: %i[create update show destroy password_login me patch_password]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def patch_password
@@ -31,9 +30,10 @@ module Api
         end
       end
 
-      def authorize
+      def password_login
+        authorize ::User, :password_login?
+
         user = find_user_by_email_or_username(params[:email], params[:username])
-        # authorize user, :authorize?
 
         if user&.valid_password?(params[:password])
           render json: {
@@ -52,7 +52,7 @@ module Api
       end
 
       def me
-        # authorize @current_user, :me?
+        authorize @current_user, :me?
         render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found
@@ -62,7 +62,8 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def permitted_params
-        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name, :password, :password_confirmation)
+        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name, :password,
+                                     :password_confirmation)
       end
 
       private

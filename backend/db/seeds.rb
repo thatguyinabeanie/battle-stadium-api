@@ -90,7 +90,8 @@ scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
 
 format = Tournaments::Format.find_or_create_by!(name: 'Regulation H', game: scarlet_violet)
 
-fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy', password: 'FuecocoSupremacy777!', first_name: 'Pablo', last_name: 'Escobar', pronouns: 'he/him')
+fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy', password: 'FuecocoSupremacy777!',
+                                     first_name: 'Pablo', last_name: 'Escobar', pronouns: 'he/him')
 fuecoco_supremacy_user.admin = true
 fuecoco_supremacy_user.save!
 
@@ -124,7 +125,11 @@ future_tournaments.flat_map do |tournament|
     next if tournament.players.exists?(user:) || !tournament.registration_open?
 
     tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
-      player.pokemon_team = PokemonTeam.create(user:).tap { |pokemon_team| pokemon_team.pokemon = (1..6).to_a.map { Pokemon.create(pokemon_team:) } }
+      player.pokemon_team = PokemonTeam.create(user:).tap do |pokemon_team|
+        pokemon_team.pokemon = (1..6).to_a.map do
+          Pokemon.create(pokemon_team:)
+        end
+      end
     end
   end
 end
@@ -139,10 +144,16 @@ in_progress_tournaments = orgs.flat_map do |organization|
       next if tournament.players.exists?(user:)
 
       tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
-        player.pokemon_team = PokemonTeam.create(user:).tap { |pokemon_team| pokemon_team.pokemon = (1..6).to_a.map { Pokemon.create(pokemon_team:) } }
+        player.pokemon_team = PokemonTeam.create(user:).tap do |pokemon_team|
+          pokemon_team.pokemon = (1..6).to_a.map do
+            Pokemon.create(pokemon_team:)
+          end
+        end
       end
     end
   end
 end
 
-in_progress_tournaments.each { |tournament| tournament.start_tournament! if tournament.players.checked_in_and_ready.count.positive? }
+in_progress_tournaments.each do |tournament|
+  tournament.start_tournament! if tournament.players.checked_in_and_ready.count.positive?
+end

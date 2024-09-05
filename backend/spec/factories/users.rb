@@ -9,5 +9,10 @@ FactoryBot.define do
     password { SecurePassword.generate_secure_password }
     password_confirmation { password }
     pronouns { 'they/them' }
+    admin { false }
+
+    factory :admin do
+      admin { true }
+    end
   end
 end

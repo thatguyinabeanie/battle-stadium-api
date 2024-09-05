@@ -8,36 +8,36 @@ class ApplicationPolicy
     @record = record
   end
 
+  def admin?
+    user&.admin?
+  end
+
   def index?
-    true || user.admin? || user == record || record.user == user || record.owner == user
+    true
   end
 
   def show?
-    false || user.admin? || user == record || record.user == user || record.owner == user
+    true
   end
 
   def create?
-    false || user.admin?
+    false || admin?
   end
 
   def new?
-    create? || user.admin?
+    create? || admin?
   end
 
   def update?
-    false || user.admin?
+    false || admin?
   end
 
   def edit?
-    update? || user.admin?
+    update? || admin?
   end
 
   def destroy?
-    false || user.admin?
-  end
-
-  def manage?
-    user.admin?
+    false || admin?
   end
 
   class Scope

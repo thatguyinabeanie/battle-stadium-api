@@ -8,7 +8,7 @@ module Api
       self.detail_serializer_klass = Serializers::GameDetails
 
       # rubocop:disable Rails/LexicallyScopedActionFilter
-      skip_before_action :authenticate_user!, only: %i[index show]
+      skip_before_action :authenticate_user, only: %i[index show]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       protected

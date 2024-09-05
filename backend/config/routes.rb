@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      post 'users/authorize', to: 'users#authorize'
+      post 'users/authorize', to: 'users#password_login'
       get 'users/me', to: 'users#me'
 
       resources :users, only: %i[index show create destroy update] do

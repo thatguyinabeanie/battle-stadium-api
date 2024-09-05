@@ -8,6 +8,8 @@ module Api
         before_action :set_phases, only: %i[index create]
         before_action :set_phase, only: %i[show update destroy]
 
+        before_action :authenticate_user, only: %i[create update destroy]
+
         def index
           render json: @phases, each_serializer: Serializers::Phase, status: :ok
         end
@@ -27,6 +29,7 @@ module Api
                   end
 
           @phase = klass.new permitted_params.merge(tournament_id: @tournament.id)
+
           if @phase.save
             render json: serialize_phase_details, status: :created
           else

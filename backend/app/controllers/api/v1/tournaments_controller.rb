@@ -6,22 +6,29 @@ module Api
       before_action :set_tournaments, only: %i[show]
       before_action :set_tournament, only: %i[show update destroy]
       before_action :authenticate_user, only: %i[create update destroy]
+      before_action :set_organization, only: %i[create update]
+
+      def self.policy_class
+        ::Tournaments::TournamentPolicy
+      end
 
       def index
+        super
         @tournaments = ::Tournaments::Tournament
                        .where('start_at > ?', Time.zone.now)
                        .where(start_at: ..7.days.from_now)
                        .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
                        .order(start_at: :asc)
-        authorize ::Tournaments::Tournament, :index?
         render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
       def show
+        super
         render json: serialize_details, status: :ok
       end
 
       def create
+        authorize @organization, :create_tournament?
         @tournament = ::Tournaments::Tournament.new permitted_params
         if @tournament.save
           render json: serialize_details, status: :created
@@ -33,6 +40,7 @@ module Api
       end
 
       def update
+        authorize ::Organization, :update_tournament?
         if @tournament.update! permitted_params
           render json: serialize_details, status: :ok
         else
@@ -50,6 +58,7 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_tournament
         @tournament = ::Tournaments::Tournament.find(params[:id])
+        @object = @tournament
         @tournament
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Tournament not found' }, status: :not_found
@@ -61,7 +70,8 @@ module Api
                           @organization.tournaments
                         else
                           @tournaments = ::Tournaments::Tournament.where('start_at > ?', Time.zone.now)
-                                                                  .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
+                                                                  .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now)
+                                                                  .where(ended_at: nil))
                         end
       end
 

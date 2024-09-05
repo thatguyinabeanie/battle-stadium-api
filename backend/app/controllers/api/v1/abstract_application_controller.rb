@@ -1,3 +1,5 @@
+require 'pundit'
+
 module Api
   module V1
     class AbstractApplicationController < ApiController
@@ -13,25 +15,29 @@ module Api
       # GET /api/v1/:klass.json
       def index
         @objects = klass.all
-        authorize @objects, :index?
+        authorize klass, :index?
         render json: @objects, each_serializer: index_serializer, status: :ok
       end
 
       # GET /api/v1/:klass/:id
       # GET /api/v1/:klass/:id.json
       def show
+        authorize @object, :show?
         render json: serialize_details, status: :ok
       end
 
       # POST /api/v1/:klass
       # POST /api/v1/:klass.json
       def create
+        authorize klass, :create?
         @object = klass.create! permitted_params
         if @object.save
           render json: serialize_details, status: :created
         else
           render json: @object.errors, status: :unprocessable_entity
         end
+      rescue Pundit::NotAuthorizedError => e
+        render json: { error: e.message }, status: :forbidden
       rescue ActionController::ParameterMissing => e
         render json: { error: e.message }, status: :bad_request
       end
@@ -39,6 +45,7 @@ module Api
       # PATCH/PUT /api/v1/:klass/:id
       # PATCH/PUT /api/v1/:klass/:id.json
       def update
+        authorize @object, :update?
         if @object.update permitted_params.except(update_params_except)
           render json: serialize_details, status: :ok
         else
@@ -49,8 +56,11 @@ module Api
       # DELETE /api/v1/:klass/:id
       # DELETE /api/v1/:klass/:id.json
       def destroy
+        authorize @object, :destroy?
         @object.destroy!
         render json: { message: "#{klass} deleted" }, status: :ok
+      rescue Pundit::NotAuthorizedError => e
+        render json: { error: e.message }, status: :forbidden
       end
 
       protected

@@ -1,22 +1,10 @@
 class OrganizationPolicy < ApplicationPolicy
-  def index?
-    true
-  end
-
-  def show?
-    true
-  end
-
-  def create?
-    user.admin?
-  end
-
   def update?
-    user.admin? || record.owner == user
+    super || record.owner == user
   end
 
-  def destroy?
-    user.admin?
+  def staff?
+    true
   end
 
   def add_staff?
@@ -27,11 +15,15 @@ class OrganizationPolicy < ApplicationPolicy
     user.admin? || record.owner == user
   end
 
-  def add_tournament?
-    user.admin? || record.owner == user
+  def create_tournament?
+    user.admin? || record.owner == user || record.staff_members.include?(user)
   end
 
-  def remove_tournament?
+  def update_tournament?
+    create_tournament?
+  end
+
+  def delete_tournament?
     user.admin? || record.owner == user
   end
 end

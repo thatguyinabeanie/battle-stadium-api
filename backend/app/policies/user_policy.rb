@@ -1,4 +1,12 @@
 class UserPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
+  def password_login?
+    true
+  end
+
   def show?
     user == record
   end
@@ -7,8 +15,11 @@ class UserPolicy < ApplicationPolicy
     user.admin? || user == record
   end
 
-  def authorize?
-    binding.break
+  def patch_password?
     user == record
+  end
+
+  def create?
+    user&.admin?
   end
 end

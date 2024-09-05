@@ -38,7 +38,31 @@ RSpec.describe Api::V1::UsersController do
 
       parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserPostRequest' }
 
+      security [Bearer: []]
+
       response(201, 'created') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
+
         let(:user) do
           {
             user: {
@@ -60,15 +84,68 @@ RSpec.describe Api::V1::UsersController do
         run_test!
       end
 
+      response(403, 'forbidden') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:user))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
+
+        let(:user) { {} }
+
+        schema type: :object, properties: { error: { type: :string } }
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
       response(422, 'unprocessable entity') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
         let(:user) do
           {
             user: {
               username: '',
+              pronouns: 'he/him',
               email: 'new_user@example.com',
               first_name: 'New ',
               last_name: 'User',
-              pronouns: 'he/him',
               password: PASSWORD,
               password_confirmation: PASSWORD
             }

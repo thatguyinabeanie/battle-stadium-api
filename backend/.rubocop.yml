@@ -9,6 +9,7 @@ require:
   - rubocop-rspec_rails
 
 AllCops:
+  TargetRubyVersion: 3.3
   NewCops: enable
   Exclude:
     - "db/schema.rb"
@@ -17,7 +18,6 @@ AllCops:
     - "frontend/**/*"
     - "sorbet/**"
     - "sorbet/**/*"
-    - "vendir/bundle/**"
     - "frontend/**"
 Style/Documentation:
   Enabled: false
