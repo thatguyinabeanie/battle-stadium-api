@@ -9,11 +9,11 @@ class ApplicationPolicy
   end
 
   def index?
-    true
+    true || user.admin? || user == record || record.user == user || record.owner == user
   end
 
   def show?
-    false || user.admin?
+    false || user.admin? || user == record || record.user == user || record.owner == user
   end
 
   def create?
@@ -34,6 +34,10 @@ class ApplicationPolicy
 
   def destroy?
     false || user.admin?
+  end
+
+  def manage?
+    user.admin?
   end
 
   class Scope

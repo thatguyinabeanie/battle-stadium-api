@@ -1,8 +1,8 @@
 module Api
   module V1
     class ApiController < ApplicationController
-      # include Pundit::Authorization
-      # after_action :verify_authorized
+      include Pundit::Authorization
+      after_action :verify_authorized
       before_action :authenticate_user!
 
       def authenticate_user

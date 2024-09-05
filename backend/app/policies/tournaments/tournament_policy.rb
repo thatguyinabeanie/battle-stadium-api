@@ -15,5 +15,17 @@ module Tournaments
     def patch_tournament?
       user.admin? || record.organization.owner == user
     end
+
+    def create?
+      user.admin? || record.organization.owner == user
+    end
+
+    def update?
+      user.admin? || record.organization.owner == user
+    end
+
+    def destroy?
+      user.admin? || record.organization.owner == user
+    end
   end
 end

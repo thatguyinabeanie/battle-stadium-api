@@ -5,6 +5,7 @@ module Api
     class TournamentsController < ApiController
       before_action :set_tournaments, only: %i[show]
       before_action :set_tournament, only: %i[show update destroy]
+      before_action :authenticate_user, only: %i[create update destroy]
 
       def index
         @tournaments = ::Tournaments::Tournament
@@ -12,7 +13,7 @@ module Api
                        .where(start_at: ..7.days.from_now)
                        .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
                        .order(start_at: :asc)
-        authorize @tournaments, :index?
+        authorize ::Tournaments::Tournament, :index?
         render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
