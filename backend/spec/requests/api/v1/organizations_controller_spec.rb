@@ -31,24 +31,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:session) { create(:session, user: create(:admin)) }
-        let(:jwt_token) do
-          JsonWebToken.encrypt({
-                                 session: {
-                                   sessionToken: session.token,
-                                   user: {
-                                     id: session.user.id,
-                                     email: session.user.email,
-                                     firstName: session.user.first_name,
-                                     lastName: session.user.last_name,
-                                     pronouns: session.user.pronouns,
-                                     emailVerified: session.user.email_verified_at
-                                   }
-                                 }
-                               })
-        end
-
-        let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         let(:owner) { create(:user) }
         let(:organization) do
@@ -104,28 +87,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: create(:admin))
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
-
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:id) { create(:organization).id }
         let(:organization) do
           {
@@ -140,27 +102,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: create(:admin))
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:id) { -1 }
         let(:organization) do
           {
@@ -184,54 +126,14 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(200, "Organization deleted") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: create(:admin))
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(403, "forbidden") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: create(:user))
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:user)) } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
@@ -239,27 +141,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: create(:admin))
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
@@ -314,27 +196,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(201, "Created by Org Owner") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: org.owner)
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
 
         let(:game) { create(:game) }
         let(:format) { create(:format, game:) }
@@ -363,27 +225,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(400, "bad request") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: org.owner)
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
         let(:tournament) { {} }
 
         OpenApi::Response.set_example_response_metadata
@@ -435,27 +277,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(200, "Updated by Organization Owner") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: org.owner)
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
 
         schema "$ref" => "#/components/schemas/TournamentDetails"
         OpenApi::Response.set_example_response_metadata
@@ -463,27 +285,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, "not found") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: org.owner)
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
         let(:tour) { create(:tournament) }
         let(:tournament_id) { tour.id }
 
@@ -492,27 +294,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(400, "bad request") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: org.owner)
-
-          jwt = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-
-          "Bearer #{jwt}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
         let(:tournament) { {} }
 
         OpenApi::Response.set_example_response_metadata
