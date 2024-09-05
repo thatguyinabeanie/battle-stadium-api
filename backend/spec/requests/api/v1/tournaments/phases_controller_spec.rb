@@ -44,25 +44,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: create(:admin))
-          jwt_token = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-          "Bearer #{jwt_token}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         let(:phase) do
           {
@@ -80,25 +62,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response 404, NOT_FOUND do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: create(:admin))
-          jwt_token = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-          "Bearer #{jwt_token}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:tournament_id) { "invalid" }
         let(:phase) do
           {
@@ -157,25 +121,8 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: tournament.organization.owner)
-          jwt_token = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-          "Bearer #{jwt_token}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
+
         let(:phase) do
           {
             name: "Swiss Round",
@@ -216,50 +163,16 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: tournament.organization.owner)
-          jwt_token = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-          "Bearer #{jwt_token}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
+
 
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) do # rubocop:disable RSpec/VariableName
-          session = create(:session, user: tournament.organization.owner)
-          jwt_token = JsonWebToken.encrypt(
-            {
-              session: {
-                sessionToken: session.token,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  firstName: session.user.first_name,
-                  lastName: session.user.last_name,
-                  pronouns: session.user.pronouns,
-                  emailVerified: session.user.email_verified_at
-                }
-              }
-            }
-          )
-          "Bearer #{jwt_token}"
-        end
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
+
         let(:id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
