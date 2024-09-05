@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative '../../app/models/concerns/secure_password'
 
 RSpec.describe User do
   describe 'validations' do

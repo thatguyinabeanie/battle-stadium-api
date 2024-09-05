@@ -1,5 +1,4 @@
 require 'swagger_helper'
-require_relative '../../../../support/openapi/response_helper'
 
 RSpec.describe Api::V1::Auth::RegistrationsController do
   path('/api/v1/auth') do

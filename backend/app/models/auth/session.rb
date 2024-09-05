@@ -33,16 +33,18 @@ module Auth
     end
 
     def encrypted_jwt
-      JsonWebToken.encrypt({
-                             session: {
-                               sessionToken: {
-                                 sub: user.id,
-                                 iat: created_at.to_i,
-                                 jti:,
-                                 token:
-                               }.to_json
-                             }
-                           })
+      JsonWebToken.encrypt(
+        {
+          session: {
+            sessionToken: {
+              sub: user.id,
+              iat: created_at.to_i,
+              jti:,
+              token:
+            }.to_json
+          }
+        }
+      )
     end
 
     def self.generate_token

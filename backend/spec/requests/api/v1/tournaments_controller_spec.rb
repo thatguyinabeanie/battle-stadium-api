@@ -1,6 +1,4 @@
 require 'swagger_helper'
-require_relative '../../../support/openapi/schema_helper'
-require_relative '../../../support/openapi/response_helper'
 
 TOURNAMENT_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/TournamentDetails'.freeze
 RSpec.describe Api::V1::TournamentsController do

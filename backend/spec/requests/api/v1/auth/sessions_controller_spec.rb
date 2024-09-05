@@ -1,6 +1,4 @@
 require 'swagger_helper'
-require_relative '../../../../support/openapi/response_helper'
-require_relative '../../../../../lib/json_web_token'
 
 RSpec.describe Api::V1::Auth::SessionsController do
   path('/api/v1/auth/session') do

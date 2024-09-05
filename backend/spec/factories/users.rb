@@ -1,5 +1,3 @@
-require_relative '../../app/models/concerns/secure_password'
-
 FactoryBot.define do
   factory :user do
     username { Faker::Internet.unique.username(specifier: 5..50) }

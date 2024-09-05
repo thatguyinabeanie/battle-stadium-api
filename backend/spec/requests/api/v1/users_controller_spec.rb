@@ -1,9 +1,5 @@
 require 'rails_helper'
 require 'swagger_helper'
-require_relative '../../../support/openapi/schema_helper'
-require_relative '../../../support/openapi/response_helper'
-require_relative '../../../../app/models/concerns/secure_password'
-require_relative '../../../../lib/json_web_token'
 
 USER_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/UserDetails'.freeze
 PASSWORD = SecurePassword.generate_secure_password

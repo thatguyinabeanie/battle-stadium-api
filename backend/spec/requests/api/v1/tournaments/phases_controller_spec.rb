@@ -1,6 +1,4 @@
 require 'swagger_helper'
-require_relative '../../../../support/openapi/schema_helper'
-require_relative '../../../../support/openapi/response_helper'
 
 PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
 
