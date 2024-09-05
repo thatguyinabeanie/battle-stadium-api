@@ -6,7 +6,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
 
-function DefaultAvatar({ classNames, className, name, ...props }: AvatarProps) {
+function DefaultAvatar({ classNames, className, name, ...props }: Readonly<AvatarProps>) {
   return (
     <Avatar
       {...props}
@@ -22,7 +22,6 @@ function DefaultAvatar({ classNames, className, name, ...props }: AvatarProps) {
   );
 }
 
-// TODO: update the UserInfo component to display the user's username primarily and their name as a secondary option
 function UserInfo() {
   const { data: session } = useSession();
   const isCompact = useMediaQuery("(max-width: 768px)");
@@ -48,11 +47,12 @@ function UserInfo() {
           </p>
 
           {(name || (firstName && lastName)) && (
-            <p className="truncate text-tiny text-default-250">
-              <Link aria-label="session-user-id" href="/dashboard">
-                {session.user?.name ?? session.user.firstName + " " + session.user.lastName}
-              </Link>
-            </p>
+            <Link aria-label="session-user-id" href="/dashboard">
+              <p className="truncate text-tiny text-default-400">
+                  {session.user?.name ?? session.user.firstName + " " + session.user.lastName}
+              </p>
+            </Link>
+
           )}
         </>
       )}
