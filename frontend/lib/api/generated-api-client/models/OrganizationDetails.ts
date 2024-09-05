@@ -36,6 +36,12 @@ export interface OrganizationDetails {
   description: string | null;
   /**
    *
+   * @type {string}
+   * @memberof OrganizationDetails
+   */
+  logoUrl: string | null;
+  /**
+   *
    * @type {number}
    * @memberof OrganizationDetails
    */
@@ -54,6 +60,7 @@ export interface OrganizationDetails {
 export function instanceOfOrganizationDetails(value: object): value is OrganizationDetails {
   if (!("owner" in value) || value["owner"] === undefined) return false;
   if (!("description" in value) || value["description"] === undefined) return false;
+  if (!("logoUrl" in value) || value["logoUrl"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   return true;
@@ -70,6 +77,7 @@ export function OrganizationDetailsFromJSONTyped(json: any, ignoreDiscriminator:
   return {
     owner: UserFromJSON(json["owner"]),
     description: json["description"],
+    logoUrl: json["logo_url"],
     id: json["id"],
     name: json["name"],
   };
@@ -82,6 +90,7 @@ export function OrganizationDetailsToJSON(value?: OrganizationDetails | null): a
   return {
     owner: UserToJSON(value["owner"]),
     description: value["description"],
+    logo_url: value["logoUrl"],
     id: value["id"],
     name: value["name"],
   };

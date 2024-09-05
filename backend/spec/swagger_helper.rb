@@ -200,15 +200,15 @@ ORGANIZATION_SCHEMA = {
   title: 'Organization',
   properties: {
     owner: { '$ref' => '#/components/schemas/User' },
-    description: { type: :string, nullable: true }
+    description: { type: :string, nullable: true },
+    logo_url: { type: :string, nullable: true, format: 'uri' }
   }.merge(ID_NAME_PROPERTIES),
-  required: ID_NAME_REQUIRED + %w[owner description]
+  required: ID_NAME_REQUIRED + %w[owner description logo_url]
 }.freeze
 
 ORGANIZATION_DETAILS_SCHEMA = {
   type: :object,
   title: 'Organization Details',
-
   properties: ORGANIZATION_SCHEMA[:properties],
   required: ORGANIZATION_SCHEMA[:required]
 }.freeze

@@ -36,6 +36,12 @@ export interface Organization {
   description: string | null;
   /**
    *
+   * @type {string}
+   * @memberof Organization
+   */
+  logoUrl: string | null;
+  /**
+   *
    * @type {number}
    * @memberof Organization
    */
@@ -54,6 +60,7 @@ export interface Organization {
 export function instanceOfOrganization(value: object): value is Organization {
   if (!("owner" in value) || value["owner"] === undefined) return false;
   if (!("description" in value) || value["description"] === undefined) return false;
+  if (!("logoUrl" in value) || value["logoUrl"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   return true;
@@ -70,6 +77,7 @@ export function OrganizationFromJSONTyped(json: any, ignoreDiscriminator: boolea
   return {
     owner: UserFromJSON(json["owner"]),
     description: json["description"],
+    logoUrl: json["logo_url"],
     id: json["id"],
     name: json["name"],
   };
@@ -82,6 +90,7 @@ export function OrganizationToJSON(value?: Organization | null): any {
   return {
     owner: UserToJSON(value["owner"]),
     description: value["description"],
+    logo_url: value["logoUrl"],
     id: value["id"],
     name: value["name"],
   };

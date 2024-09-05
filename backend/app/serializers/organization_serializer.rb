@@ -7,6 +7,7 @@ module Serializers
     included do
       class_attribute :owner_serializer
       attribute :owner
+      attribute :logo_url
       attributes :description
 
       include SerializerMixin::Id

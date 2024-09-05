@@ -16,7 +16,6 @@ module Api
         # GET /api/v1/auth/session
         def show
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
-
           render_session_and_user(session, session.user)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
           Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
