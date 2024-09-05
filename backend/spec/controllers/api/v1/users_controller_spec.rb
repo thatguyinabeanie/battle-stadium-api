@@ -29,6 +29,27 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe 'POST' do
+      let(:jwt_token) do
+        session = create(:session, user: create(:admin))
+        JsonWebToken.encrypt({
+                               session: {
+                                 sessionToken: session.token,
+                                 user: {
+                                   id: session.user.id,
+                                   email: session.user.email,
+                                   firstName: session.user.first_name,
+                                   lastName: session.user.last_name,
+                                   pronouns: session.user.pronouns,
+                                   emailVerified: session.user.email_verified_at
+                                 }
+                               }
+                             })
+      end
+
+      before do
+        request.headers['Authorization'] = "Bearer #{jwt_token}"
+      end
+
       it 'returns a successful response' do
         post :create, params: { user: attributes_for(:user) }
 
@@ -46,10 +67,33 @@ RSpec.describe Api::V1::UsersController do
   end
 
   context 'when /users/:id' do
+    let(:request_user) { create(:admin) }
+    let(:jwt_token) do
+      session = create(:session, user: request_user)
+      JsonWebToken.encrypt({
+                             session: {
+                               sessionToken: session.token,
+                               user: {
+                                 id: session.user.id,
+                                 email: session.user.email,
+                                 firstName: session.user.first_name,
+                                 lastName: session.user.last_name,
+                                 pronouns: session.user.pronouns,
+                                 emailVerified: session.user.email_verified_at
+                               }
+                             }
+                           })
+    end
+
+    before do
+      request.headers['Authorization'] = "Bearer #{jwt_token}"
+    end
+
     describe 'GET /users/:id' do
+      let(:request_user) { create(:user) }
+
       it 'returns a successful response' do
         user = create(:user)
-
         get :show, params: { id: user.id }
 
         expect(response).to be_successful
@@ -102,6 +146,27 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe 'DELETE' do
+      let(:jwt_token) do
+        session = create(:session, user: create(:admin))
+        JsonWebToken.encrypt({
+                               session: {
+                                 sessionToken: session.token,
+                                 user: {
+                                   id: session.user.id,
+                                   email: session.user.email,
+                                   firstName: session.user.first_name,
+                                   lastName: session.user.last_name,
+                                   pronouns: session.user.pronouns,
+                                   emailVerified: session.user.email_verified_at
+                                 }
+                               }
+                             })
+      end
+
+      before do
+        request.headers['Authorization'] = "Bearer #{jwt_token}"
+      end
+
       it 'returns a successful response' do
         user = create(:user)
 
@@ -121,9 +186,30 @@ RSpec.describe Api::V1::UsersController do
   end
 
   context 'when /users/:id/password' do
+    let(:user) { create(:user) }
+    let(:jwt_token) do
+      session = create(:session, user:)
+      JsonWebToken.encrypt({
+                             session: {
+                               sessionToken: session.token,
+                               user: {
+                                 id: session.user.id,
+                                 email: session.user.email,
+                                 firstName: session.user.first_name,
+                                 lastName: session.user.last_name,
+                                 pronouns: session.user.pronouns,
+                                 emailVerified: session.user.email_verified_at
+                               }
+                             }
+                           })
+    end
+
+    before do
+      request.headers['Authorization'] = "Bearer #{jwt_token}"
+    end
+
     describe 'PATCH' do
       it 'returns a successful response' do
-        user = create(:user)
         password = SecurePassword.generate_secure_password
 
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
@@ -131,14 +217,12 @@ RSpec.describe Api::V1::UsersController do
       end
 
       it 'changes the password successfully' do
-        user = create(:user)
         password = SecurePassword.generate_secure_password
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
         expect(user.password).not_to eq(password)
       end
 
       it 'returns an error if the current password is incorrect' do
-        user = create(:user)
         password = SecurePassword.generate_secure_password
         # deepcode ignore HardcodedPassword: not a real password. just a string in a test
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: 'incorrect_password' } }
@@ -146,7 +230,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       it 'returns an error if the password and password confirmation do not match' do
-        user = create(:user)
         password = SecurePassword.generate_secure_password
         # deepcode ignore HardcodedPassword: not a real password. just a string in a test
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: 'incorrect_password', current_password: user.password } }
@@ -154,15 +237,12 @@ RSpec.describe Api::V1::UsersController do
       end
 
       it 'returns an error if the password is too short' do
-        user = create(:user)
         password = 'short'
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
         expect(json_response[:errors]).to include('Password is too short (minimum is 6 characters)')
       end
 
       it 'returns an error if the password is too long' do
-        user = create(:user)
-
         password = 'a' * 129
 
         patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
@@ -171,7 +251,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       it 'returns an error if the password is blank' do
-        user = create(:user)
         patch :patch_password, params: { id: user.id, user: { password: '', password_confirmation: 'other', current_password: user.password } }
         expect(json_response[:errors]).to include("Password can't be blank")
       end

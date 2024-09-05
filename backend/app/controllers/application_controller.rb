@@ -23,8 +23,6 @@ class ApplicationController < ActionController::Base
   def authenticate_user
     @session = ::JwtAuthenticate.session_from_authorization_header(request:)
     @current_user = @session.user
-    Rails.logger.info "Authenticated user: #{@user.inspect}"
-    @user = @current_user
     @current_user
   rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
     Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")

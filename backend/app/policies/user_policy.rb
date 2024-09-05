@@ -1,14 +1,6 @@
 class UserPolicy < ApplicationPolicy
-  def index?
-    true
-  end
-
   def password_login?
     true
-  end
-
-  def show?
-    user == record
   end
 
   def me?

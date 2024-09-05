@@ -138,6 +138,7 @@ RSpec.describe Api::V1::UsersController do
 
           "Bearer #{jwt}"
         end
+
         let(:user) do
           {
             user: {

@@ -10,6 +10,7 @@ module Api
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
+
       before_action :authenticate_user, only: %i[me patch_password update destroy create]
 
       before_action :set_cache_headers, only: %i[me]
@@ -19,6 +20,7 @@ module Api
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def patch_password
+        authorize @object, :patch_password?
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
 
         if password_params[:password].blank?

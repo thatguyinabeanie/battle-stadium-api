@@ -30,7 +30,31 @@ RSpec.describe Api::V1::GamesController do
 
       parameter name: :game, in: :body, schema: { '$ref' => '#/components/schemas/Game' }
 
+      security [Bearer: []]
+
       response(201, 'created') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
+
         let(:game) { { game: { name: 'New Game' } } }
 
         schema '$ref' => GAME_DETAIL_SCHEMA
@@ -41,6 +65,27 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(400, 'bad request') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
         let(:game) { { title: '', genre: '' } }
 
         OpenApi::Response.set_example_response_metadata
@@ -86,7 +131,31 @@ RSpec.describe Api::V1::GamesController do
 
       parameter name: :game, in: :body, schema: { '$ref' => '#/components/schemas/Game' }
 
+      security [Bearer: []]
+
       response(200, 'successful') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
+
         let(:game) { { game: { name: 'Updated Game' } } }
 
         schema '$ref' => GAME_DETAIL_SCHEMA
@@ -97,6 +166,28 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(404, NOT_FOUND) do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
+
         let(:id) { 'invalid' }
         let(:game) { { game: { name: 'Updated Game' } } }
 
@@ -112,13 +203,59 @@ RSpec.describe Api::V1::GamesController do
       description 'Deletes a game by ID.'
       operationId 'deleteGame'
 
+      security [Bearer: []]
+
       response(200, 'successful') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
+
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
       response(404, NOT_FOUND) do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+
+          jwt = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+
+          "Bearer #{jwt}"
+        end
+
         let(:id) { 'invalid' }
 
         OpenApi::Response.set_example_response_metadata
