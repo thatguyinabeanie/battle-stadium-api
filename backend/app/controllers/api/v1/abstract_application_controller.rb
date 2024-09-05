@@ -13,6 +13,7 @@ module Api
       # GET /api/v1/:klass.json
       def index
         @objects = klass.all
+        authorize @objects, :index?
         render json: @objects, each_serializer: index_serializer, status: :ok
       end
 

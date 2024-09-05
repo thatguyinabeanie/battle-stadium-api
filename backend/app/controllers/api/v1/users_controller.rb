@@ -15,7 +15,8 @@ module Api
 
       # rubocop:disable Rails/LexicallyScopedActionFilter
       skip_before_action :verify_authenticity_token, only: %i[create update show destroy authorize me patch_password]
-      skip_before_action :authenticate_user!, only: %i[create authorize index show]
+      skip_before_action :authenticate_user, only: %i[create authorize index show]
+      # skip_before_action :verify_authorized, only: %i[authorize index show]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def patch_password
@@ -32,6 +33,7 @@ module Api
 
       def authorize
         user = find_user_by_email_or_username(params[:email], params[:username])
+        # authorize user, :authorize?
 
         if user&.valid_password?(params[:password])
           render json: {
@@ -50,6 +52,7 @@ module Api
       end
 
       def me
+        # authorize @current_user, :me?
         render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ['User not found'] }, status: :not_found

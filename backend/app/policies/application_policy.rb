@@ -9,31 +9,31 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    true
   end
 
   def show?
-    false
+    false || user.admin?
   end
 
   def create?
-    false
+    false || user.admin?
   end
 
   def new?
-    create?
+    create? || user.admin?
   end
 
   def update?
-    false
+    false || user.admin?
   end
 
   def edit?
-    update?
+    update? || user.admin?
   end
 
   def destroy?
-    false
+    false || user.admin?
   end
 
   class Scope

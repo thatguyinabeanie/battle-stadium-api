@@ -1,5 +1,9 @@
 module Tournaments
   class TournamentPolicy < ApplicationPolicy
+    def index?
+      true
+    end
+
     def staff?
       user.admin? || record.organization.staff_members.include?(user)
     end

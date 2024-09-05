@@ -12,6 +12,7 @@ module Api
                        .where(start_at: ..7.days.from_now)
                        .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
                        .order(start_at: :asc)
+        authorize @tournaments, :index?
         render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
