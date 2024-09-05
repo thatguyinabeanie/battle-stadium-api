@@ -3,6 +3,8 @@
 import { ListboxItem, Tooltip, Accordion, AccordionItem, Listbox, SlotsToClasses } from "@nextui-org/react";
 import React from "react";
 import { useMediaQuery } from "usehooks-ts";
+import { usePathname } from "next/navigation";
+import { IconifyIcon } from "@iconify/react/dist/iconify.js";
 
 import { Icon } from "../client";
 
@@ -10,8 +12,6 @@ import { SidebarItem, SidebarItemType } from "./sidebar";
 import useSideBarItems from "./useSideBarItems";
 
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
-import { IconifyIcon } from "@iconify/react/dist/iconify.js";
 
 export type ItemClassesType =
   | SlotsToClasses<"base" | "title" | "description" | "wrapper" | "selectedIcon" | "shortcut">
@@ -63,8 +63,7 @@ export default function useRenderSideBarItems({
 
   const { sectionClasses, itemClasses } = useSidebarClasses(sectionClassesProp, itemClassesProp);
 
-  const pathname = usePathname();
-  const currentPath = pathname.split("/")?.[1];
+  const currentPath = usePathname()?.split("/")?.[1];
 
   const renderNestItem = React.useCallback(
     (item: SidebarItem) => {

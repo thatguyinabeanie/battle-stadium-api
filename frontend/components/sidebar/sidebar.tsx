@@ -59,8 +59,7 @@ export default function Sidebar(props: SidebarProps) {
     ...rest
   } = props;
 
-  const pathname = usePathname();
-  const currentPath = pathname.split("/")?.[1];
+  const currentPath = usePathname()?.split("/")?.[1];
   const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey);
 
   const { renderItem, renderNestItem, items, itemClasses, sectionClasses } = useRenderSideBarItems({
