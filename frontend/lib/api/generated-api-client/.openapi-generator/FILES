@@ -24,6 +24,7 @@ models/Player.ts
 models/PlayerDetails.ts
 models/PlayerRequest.ts
 models/Pokemon.ts
+models/PostUser403Response.ts
 models/RegisterUserRequest.ts
 models/RegistrationResponse.ts
 models/Round.ts

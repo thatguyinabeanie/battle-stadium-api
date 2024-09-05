@@ -1,7 +1,7 @@
-require_relative 'serializer_mixin'
-require_relative 'game_serializer'
-require_relative 'format_serializer'
-require_relative 'organization_serializer'
+require_relative "serializer_mixin"
+require_relative "game_serializer"
+require_relative "format_serializer"
+require_relative "organization_serializer"
 
 module Serializers
   module TournamentMixin

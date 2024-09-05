@@ -1,7 +1,7 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
-require 'dotenv'
+require "rails/all"
+require "dotenv"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -15,18 +15,18 @@ module BattleStadium
     config.before_configuration do
       # puts "Rails.env: #{Rails.env}"
       # puts 'Loading .env file'
-      env_file = '.env'
+      env_file = ".env"
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
 
       # puts 'Loading .env.postgres file'
-      env_postgres_file = '../.env.postgres'
+      env_postgres_file = "../.env.postgres"
       Dotenv.load(env_postgres_file) if File.exist?(env_file) && !Rails.env.production?
 
       unless Rails.env.production?
-        require 'socket'
+        require "socket"
         hostname = Socket.gethostname
 
-        ENV['POSTGRES_HOST'] = hostname == 'rails-api-container' ? 'postgres' : 'localhost'
+        ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
       end
     end
 
@@ -35,7 +35,7 @@ module BattleStadium
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
     # config.autoload_paths << Rails.root.join('lib')
-    config.autoload_paths << Rails.root.join('app/serializers')
+    config.autoload_paths << Rails.root.join("app/serializers")
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -56,8 +56,8 @@ module BattleStadium
     #     resource '*', headers: :any, methods: %i[get post put patch delete]
     #   end
     # end
-    config.session_store :cookie_store, key: 'sessions.battlestadium.gg'
+    config.session_store :cookie_store, key: "sessions.battlestadium.gg"
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: 'sessions.battlestadium.gg'
+    config.middleware.use ActionDispatch::Session::CookieStore, key: "sessions.battlestadium.gg"
   end
 end

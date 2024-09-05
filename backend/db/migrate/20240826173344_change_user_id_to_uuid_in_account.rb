@@ -1,7 +1,7 @@
 class ChangeUserIdToUuidInAccount < ActiveRecord::Migration[7.1]
   def up
     # Add a temporary column with type uuid
-    add_column :account, :user_id_uuid, :uuid, default: 'gen_random_uuid()', null: false
+    add_column :account, :user_id_uuid, :uuid, default: "gen_random_uuid()", null: false
 
     # Copy data from the integer column to the uuid column
     execute <<-SQL.squish

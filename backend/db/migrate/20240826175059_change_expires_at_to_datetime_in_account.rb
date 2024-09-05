@@ -4,6 +4,6 @@ class ChangeExpiresAtToDatetimeInAccount < ActiveRecord::Migration[7.1]
   end
 
   def down
-    change_column :account, :expires_at, 'bigint USING extract(epoch from expires_at)::bigint', null: false
+    change_column :account, :expires_at, "bigint USING extract(epoch from expires_at)::bigint", null: false
   end
 end

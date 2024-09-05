@@ -91,6 +91,12 @@ export interface RegistrationResponse {
    * @memberof RegistrationResponse
    */
   image: string | null;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RegistrationResponse
+   */
+  admin?: boolean;
 }
 
 /**
@@ -133,6 +139,7 @@ export function RegistrationResponseFromJSONTyped(json: any, ignoreDiscriminator
     name: json["name"],
     emailVerifiedAt: json["email_verified_at"] == null ? null : new Date(json["email_verified_at"]),
     image: json["image"],
+    admin: json["admin"] == null ? undefined : json["admin"],
   };
 }
 
@@ -153,5 +160,6 @@ export function RegistrationResponseToJSON(value?: RegistrationResponse | null):
     name: value["name"],
     email_verified_at: value["emailVerifiedAt"] == null ? null : (value["emailVerifiedAt"] as any).toISOString(),
     image: value["image"],
+    admin: value["admin"],
   };
 }

@@ -1,6 +1,6 @@
-import type { Adapter, AdapterUser, AdapterAccount, AdapterSession } from "next-auth/adapters";
+import type { Adapter, AdapterUser } from "next-auth/adapters";
 
-import { BattleStadiumAPIClient, GetUserRequest, RegisterUserRequest, ResponseError, UserDetails } from "@/lib/api";
+import { BattleStadiumAPIClient, GetUserRequest, RegisterUserRequest, UserDetails } from "@/lib/api";
 
 function userAdapter(user: UserDetails): AdapterUser {
   const adapterUser: AdapterUser = {
@@ -36,61 +36,36 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         passwordConfirmation: user.passwordConfirmation as string,
       };
 
-      try {
-        const createdUser = await apiClient.Registration.register(registerUserRequest);
+      const createdUser = await apiClient.Registration.register(registerUserRequest);
 
-        return {
-          id: createdUser.id,
-          email: createdUser.email,
-          emailVerified: createdUser.emailVerifiedAt ?? null,
-          name: createdUser.name,
-          firstName: createdUser.firstName,
-          lastName: createdUser.lastName,
-          pronouns: createdUser.pronouns,
-          username: createdUser.username,
-        };
-      } catch (error) {
-        throw error;
-      }
+      return {
+        id: createdUser.id,
+        email: createdUser.email,
+        emailVerified: createdUser.emailVerifiedAt ?? null,
+        name: createdUser.name,
+        firstName: createdUser.firstName,
+        lastName: createdUser.lastName,
+        pronouns: createdUser.pronouns,
+        username: createdUser.username,
+      };
     },
 
     async getUser(id) {
-      try {
-        const user = await apiClient.Users.get(id);
+      const user = await apiClient.Users.get(id);
 
-        return userAdapter(user);
-      } catch (error) {
-        if ((error as ResponseError).response.status === 404) {
-          return null;
-        }
-        throw error;
-      }
+      return userAdapter(user);
     },
 
     async getUserByEmail(email) {
-      try {
-        const user = await apiClient.Users.getByEmail(email);
+      const user = await apiClient.Users.getByEmail(email);
 
-        return userAdapter(user);
-      } catch (error) {
-        if ((error as ResponseError).response.status === 404) {
-          return null;
-        }
-        throw error;
-      }
+      return userAdapter(user);
     },
 
     async getUserByAccount() {
-      try {
-        const user = await apiClient.Users.getUserByProvider({} as GetUserRequest);
+      const user = await apiClient.Users.getUserByProvider({} as GetUserRequest);
 
-        return userAdapter(user);
-      } catch (error) {
-        if ((error as ResponseError).response.status === 404) {
-          return null;
-        }
-        throw error;
-      }
+      return userAdapter(user);
     },
 
     async updateUser(user) {
@@ -104,130 +79,93 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         emailVerifiedAt: user.emailVerified ?? null,
       };
 
-      try {
-        const updatedUser = await apiClient.Users.patch(user.id, userDetails);
+      const updatedUser = await apiClient.Users.patch(user.id, userDetails);
 
-        return {
-          id: updatedUser.id.toString(),
-          email: updatedUser.email,
-          emailVerified: null,
-          firstName: updatedUser.firstName,
-          lastName: updatedUser.lastName,
-          pronouns: updatedUser.pronouns,
-          username: updatedUser.username,
-          name: `${updatedUser.firstName} ${updatedUser.lastName}`,
-        };
-      } catch (error) {
-        throw error;
-      }
+      return {
+        id: updatedUser.id.toString(),
+        email: updatedUser.email,
+        emailVerified: null,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        pronouns: updatedUser.pronouns,
+        username: updatedUser.username,
+        name: `${updatedUser.firstName} ${updatedUser.lastName}`,
+      };
     },
 
     async deleteUser(id) {
-      try {
-        await apiClient.Users.delete(id);
-      } catch (error) {
-        throw error;
-      }
+      await apiClient.Users.delete(id);
     },
 
     async linkAccount(account) {
-      try {
-        const user = await apiClient.Users.linkAccount({
-          userId: parseInt(account.userId),
-          provider: account.provider,
-          providerAccountId: account.providerAccountId,
-          type: account.type,
-          // Add other relevant fields
-        } as unknown as GetUserRequest);
+      const user = await apiClient.Users.linkAccount({
+        userId: parseInt(account.userId),
+        provider: account.provider,
+        providerAccountId: account.providerAccountId,
+        type: account.type,
+        // Add other relevant fields
+      } as unknown as GetUserRequest);
 
-        const adapterAccount: AdapterAccount = {
-          userId: user.id,
-          type: account.type,
-          provider: account.provider,
-          providerAccountId: account.providerAccountId,
-        };
-
-        return adapterAccount;
-      } catch (error) {
-        throw error;
-      }
+      return {
+        userId: user.id,
+        type: account.type,
+        provider: account.provider,
+        providerAccountId: account.providerAccountId,
+      };
     },
 
     async unlinkAccount({ providerAccountId, provider }) {
-      try {
-        await apiClient.Users.unlinkAccount({ provider, providerAccountId } as unknown as GetUserRequest);
-      } catch (error) {
-        throw error;
-      }
+      await apiClient.Users.unlinkAccount({ provider, providerAccountId } as unknown as GetUserRequest);
     },
 
     async createSession({ userId }) {
-      try {
-        const newSession = await apiClient.Session.create({ userId });
+      const newSession = await apiClient.Session.create({ userId });
 
-        const adapterSession: AdapterSession = {
-          sessionToken: newSession.token,
-          userId: newSession.userId,
-          expires: newSession.expiresAt,
-        };
-
-        return adapterSession;
-      } catch (error) {
-        throw error;
-      }
+      return {
+        sessionToken: newSession.token,
+        userId: newSession.userId,
+        expires: newSession.expiresAt,
+      };
     },
 
     async getSessionAndUser(sessionToken) {
-      try {
-        const { session, user } = await apiClient.Session.get(authorizationHeader(sessionToken));
+      const { session, user } = await apiClient.Session.get(authorizationHeader(sessionToken));
 
-        if (!session || !user) {
-          return null;
-        }
-
-        return {
-          session: {
-            sessionToken: session.token,
-            userId: session.userId,
-            expires: session.expiresAt,
-          },
-          user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            pronouns: user.pronouns,
-            emailVerified: user.emailVerifiedAt ?? null,
-          },
-        };
-      } catch (error) {
-        if ((error as ResponseError)?.response?.status === 404) {
-          return null;
-        }
-        throw error;
+      if (!session || !user) {
+        return null;
       }
-    },
 
-    async updateSession({ sessionToken }) {
-      try {
-        const session = await apiClient.Session.update(authorizationHeader(sessionToken));
-
-        return {
+      return {
+        session: {
+          username: user.username,
           sessionToken: session.token,
           userId: session.userId,
           expires: session.expiresAt,
-        };
-      } catch (error) {
-        throw error;
-      }
+        },
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          pronouns: user.pronouns,
+          emailVerified: user.emailVerifiedAt ?? null,
+        },
+      };
+    },
+
+    async updateSession({ sessionToken }) {
+      const session = await apiClient.Session.update(authorizationHeader(sessionToken));
+
+      return {
+        username: session.username,
+        sessionToken: session.token,
+        userId: session.userId,
+        expires: session.expiresAt,
+      };
     },
 
     async deleteSession(sessionToken) {
-      try {
-        await apiClient.Session.delete(authorizationHeader(sessionToken));
-      } catch (error) {
-        throw error;
-      }
+      await apiClient.Session.delete(authorizationHeader(sessionToken));
     },
 
     // Implement verifyToken, setVerifyToken, and useVerificationToken if needed for email verification

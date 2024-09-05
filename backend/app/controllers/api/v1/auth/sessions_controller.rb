@@ -2,9 +2,9 @@
 
 # app/controllers/api/v1/auth/sessions_controller.rb
 
-require 'jwt'
-require_relative '../../../../../lib/json_web_token'
-require_relative '../../../../../lib/jwt_authenticate'
+require "jwt"
+require_relative "../../../../../lib/json_web_token"
+require_relative "../../../../../lib/jwt_authenticate"
 
 module Api
   module V1
@@ -12,46 +12,51 @@ module Api
       class SessionsController < ApplicationController
         respond_to :json
         skip_before_action :verify_authenticity_token, only: %i[create update show destroy]
+        skip_before_action :authenticate_user, only: %i[show destroy create]
 
         # GET /api/v1/auth/session
         def show
+          skip_authorization
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
           render_session_and_user(session, session.user)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
           Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
 
         # POST /api/v1/auth/session
         def create
+          skip_authorization
           user = User.find(params[:user_id])
           if user&.valid_password?(params[:password])
             session = ::Auth::Session.create(user:)
 
             render_session(session, :created)
           else
-            render json: { error: 'Invalid login' }, status: :unauthorized
+            render json: { error: "Invalid login" }, status: :unauthorized
           end
         end
 
         # PUT /api/v1/auth/session
         def update
+          skip_authorization
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.refresh
           render_session(session, :ok)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
 
         # DELETE /api/v1/auth/sign_out
         def destroy
+          skip_authorization
           session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
           session.revoke
-          render json: { message: 'Logged out successfully' }, status: :ok
+          render json: { message: "Logged out successfully" }, status: :ok
         rescue ::Auth::Session::InvalidTokenOrExpiredSession
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
 
         private
@@ -62,6 +67,7 @@ module Api
 
         def render_session(session, status)
           render json: {
+            username: session.user.username,
             token: session.token,
             user_id: session.user_id,
             expires_at: session.expires_at
@@ -69,14 +75,16 @@ module Api
         end
 
         def render_session_and_user(session, user)
+          user ||= User.find(session.user_id)
           render json: {
             session: {
+              username: user.username,
               token: session.token,
-              user_id: user.id,
+              user_id: session.user_id,
               expires_at: session.expires_at
             },
             user: {
-              id: user.id,
+              id: session.user_id,
               email: user.email,
               email_verified_at: user.email_verified_at,
               first_name: user.first_name,
@@ -88,7 +96,7 @@ module Api
         end
 
         def invalid_token_or_expired_session
-          render json: { error: 'Invalid token or expired session' }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
       end
     end

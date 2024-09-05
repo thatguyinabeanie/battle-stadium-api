@@ -22,6 +22,7 @@ import {
 } from "./generated-api-client";
 
 export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
+export * from "./generated-api-client";
 
 export default function BattleStadiumAPI(configOverride?: Configuration) {
   return {

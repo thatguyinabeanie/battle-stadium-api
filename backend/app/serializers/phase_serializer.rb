@@ -1,6 +1,6 @@
-require_relative 'serializer_mixin'
-require_relative 'round_serializer'
-require_relative 'player_serializer'
+require_relative "serializer_mixin"
+require_relative "round_serializer"
+require_relative "player_serializer"
 
 module Serializers
   module PhaseMixin

@@ -55,6 +55,7 @@ import {
   Round,
   PlayerDetails,
   Pokemon,
+  PostUser403Response,
   RegistrationResponse,
   Session,
   SessionAndUser,
@@ -293,6 +294,8 @@ export const PokemonFactory = new Factory<Pokemon>()
   .attr("move3", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .attr("move4", () => (faker.datatype.boolean() ? faker.lorem.word() : null));
 
+export const PostUser403ResponseFactory = new Factory<PostUser403Response>().attr("error", () => faker.lorem.word());
+
 export const RegisterUserRequestFactory = new Factory<RegisterUserRequest>()
 
   .attr("username", () => faker.lorem.word())
@@ -317,7 +320,8 @@ export const RegistrationResponseFactory = new Factory<RegistrationResponse>()
   .attr("jti", () => faker.lorem.word())
   .attr("name", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .attr("emailVerifiedAt", () => (faker.datatype.boolean() ? faker.date.recent() : null))
-  .attr("image", () => (faker.datatype.boolean() ? faker.lorem.word() : null));
+  .attr("image", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
+  .attr("admin", () => faker.datatype.boolean());
 
 export const RoundFactory = new Factory<Round>()
 
@@ -329,6 +333,7 @@ export const RoundFactory = new Factory<Round>()
 
 export const SessionFactory = new Factory<Session>()
 
+  .attr("username", () => faker.lorem.word())
   .attr("token", () => faker.lorem.word())
   .attr("userId", () => faker.lorem.word())
   .attr("expiresAt", () => faker.date.recent());

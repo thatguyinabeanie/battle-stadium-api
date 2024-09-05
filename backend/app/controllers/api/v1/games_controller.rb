@@ -1,4 +1,4 @@
-require_relative '../../../serializers/game_serializer'
+require_relative "../../../serializers/game_serializer"
 
 module Api
   module V1
@@ -6,6 +6,9 @@ module Api
       self.klass = ::Game
       self.serializer_klass = Serializers::Game
       self.detail_serializer_klass = Serializers::GameDetails
+
+      skip_before_action :authenticate_user, only: %i[index show]
+      # rubocop:enable Rails/LexicallyScopedActionFilter
 
       protected
 

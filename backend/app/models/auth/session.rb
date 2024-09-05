@@ -1,14 +1,14 @@
-require_relative '../../../lib/json_web_token'
+require_relative "../../../lib/json_web_token"
 
 module Auth
   class Session < ApplicationRecord
-    belongs_to :user, inverse_of: :sessions, class_name: 'User'
+    belongs_to :user, inverse_of: :sessions, class_name: "User"
 
     validates :token, presence: true, uniqueness: true
     validates :jti, presence: true, uniqueness: true
     validates :expires_at, presence: true
-    validates :token, uniqueness: { scope: :jti, message: ::I18n.t('errors.session.token_jti_must_be_unique') }
-    validates :token, uniqueness: { scope: %i[user_id jti], message: ::I18n.t('errors.session.token_jti_user_id_must_be_unique') }
+    validates :token, uniqueness: { scope: :jti, message: ::I18n.t("errors.session.token_jti_must_be_unique") }
+    validates :token, uniqueness: { scope: %i[user_id jti], message: ::I18n.t("errors.session.token_jti_user_id_must_be_unique") }
 
     SESSION_DURATOIN = 1.day
 
@@ -33,16 +33,18 @@ module Auth
     end
 
     def encrypted_jwt
-      JsonWebToken.encrypt({
-                             session: {
-                               sessionToken: {
-                                 sub: user.id,
-                                 iat: created_at.to_i,
-                                 jti:,
-                                 token:
-                               }.to_json
-                             }
-                           })
+      JsonWebToken.encrypt(
+        {
+          session: {
+            sessionToken: {
+              sub: user.id,
+              iat: created_at.to_i,
+              jti:,
+              token:
+            }.to_json
+          }
+        }
+      )
     end
 
     def self.generate_token

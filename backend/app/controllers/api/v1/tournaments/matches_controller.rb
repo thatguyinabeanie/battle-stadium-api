@@ -1,4 +1,4 @@
-require_relative '../../../../serializers/match_serializer'
+require_relative "../../../../serializers/match_serializer"
 
 module Api
   module V1
@@ -37,7 +37,7 @@ module Api
 
         def destroy
           @match.destroy!
-          render json: { message: 'Match deleted' }, status: :ok
+          render json: { message: "Match deleted" }, status: :ok
         end
 
         private
@@ -54,7 +54,7 @@ module Api
           @tournament ||= ::Tournaments::Tournament.find(params[:tournament_id])
           @tournament
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Tournament not found' }, status: :not_found
+          render json: { error: "Tournament not found" }, status: :not_found
         end
 
         def set_match

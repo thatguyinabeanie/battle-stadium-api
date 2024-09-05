@@ -13,8 +13,18 @@
  */
 
 import * as runtime from "../runtime";
-import type { User, UserDetails, UserLoginRequest, UserLoginResponse, UserMe, UserPostRequest } from "../models/index";
+import type {
+  PostUser403Response,
+  User,
+  UserDetails,
+  UserLoginRequest,
+  UserLoginResponse,
+  UserMe,
+  UserPostRequest,
+} from "../models/index";
 import {
+  PostUser403ResponseFromJSON,
+  PostUser403ResponseToJSON,
   UserFromJSON,
   UserToJSON,
   UserDetailsFromJSON,
@@ -109,6 +119,10 @@ export class UsersApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (this.configuration?.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
+
     const response = await this.request(
       {
         path: `/api/v1/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
@@ -138,7 +152,7 @@ export class UsersApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (this.configuration && this.configuration.apiKey) {
+    if (this.configuration?.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
     }
 
@@ -253,6 +267,10 @@ export class UsersApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
+    if (this.configuration?.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
+
     const response = await this.request(
       {
         path: `/api/v1/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
@@ -293,6 +311,10 @@ export class UsersApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration?.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
 
     const response = await this.request(
       {

@@ -1,8 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Tournaments API', type: :request do
+RSpec.describe "Tournaments API", type: :request do
   before do
-    skip 'Skipping the entire suite due to ongoing refactoring'
+    skip "Skipping the entire suite due to ongoing refactoring"
   end
 
   let(:user) { create(:user) }
@@ -17,79 +17,79 @@ RSpec.describe 'Tournaments API', type: :request do
     JSON.parse(response.body)
   end
 
-  context 'when /api/v1/organizations/:organization_id/tournaments' do
-    describe 'GET' do
+  context "when /api/v1/organizations/:organization_id/tournaments" do
+    describe "GET" do
       let!(:tournaments) { (1..10).each { |n| create(:tournament, organization:, start_at: n.weeks.from_now) } }
       let(:path_route) { "/api/v1/organizations/#{organization.id}/tournaments" }
 
-      it 'returns http status :success' do
+      it "returns http status :success" do
         get path_route
         expect(response).to have_http_status(:success)
       end
 
-      it 'returns a list of tournaments' do
+      it "returns a list of tournaments" do
         get path_route
         expect(json.size).to eq(tournaments.size)
       end
     end
 
-    describe 'POST' do
+    describe "POST" do
       let(:path_route) { "/api/v1/organizations/#{organization.id}/tournaments" }
       let(:game) { create(:game) }
       let(:format) { create(:format, game:) }
       let(:tournament_params) do
         { tournament: {
-          name: 'New Tournament',
+          name: "New Tournament",
           game_id: game.id,
           format_id: format.id
         } }
       end
 
-      it 'returns http status :created' do
+      it "returns http status :created" do
         post path_route, params: tournament_params
         expect(response).to have_http_status(:created)
       end
 
-      it 'creates a tournament' do
+      it "creates a tournament" do
         post path_route, params: tournament_params
-        expect(json).to include_json(name: 'New Tournament')
+        expect(json).to include_json(name: "New Tournament")
       end
     end
   end
 
-  context 'when /api/v1/organizations/:organization_id/tournaments/:id' do
-    describe 'GET' do
+  context "when /api/v1/organizations/:organization_id/tournaments/:id" do
+    describe "GET" do
       let(:path_route) { "/api/v1/organizations/#{organization.id}/tournaments/#{tournament.id}" }
 
-      it 'returns http status :success' do
+      it "returns http status :success" do
         get path_route
         expect(response).to have_http_status(:success)
       end
 
-      it 'returns a tournament' do
+      it "returns a tournament" do
         get path_route
         expect(json).to include_json(id: tournament.id)
       end
     end
 
-    describe 'PUT' do
+    describe "PUT" do
       let(:path_route) { "/api/v1/organizations/#{organization.id}/tournaments/#{tournament.id}" }
 
-      it 'returns http status :success' do
-        put path_route, params: { tournament: { name: 'Updated Tournament' } }
+      it "returns http status :success" do
+        put path_route, params: { tournament: { name: "Updated Tournament" } }
         expect(response).to have_http_status(:success)
       end
 
-      it 'updates a tournament' do
-        put path_route, params: { tournament: { name: 'Updated Tournament' } }
-        expect(json).to include_json(name: 'Updated Tournament')
+      it "updates a tournament" do
+        put path_route, params: { tournament: { name: "Updated Tournament" } }
+        expect(json).to include_json(name: "Updated Tournament")
       end
     end
 
-    describe 'DELETE' do
+    describe "DELETE" do
       let(:path_route) { "/api/v1/organizations/#{organization.id}/tournaments/#{tournament.id}" }
 
-      it 'deletes a tournament' do
+      it "deletes a tournament" do
         delete path_route
         expect(response).to have_http_status(:success)
       end

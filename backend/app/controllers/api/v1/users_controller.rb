@@ -1,5 +1,5 @@
-require_relative '../../../serializers/user_serializer'
-require_relative '../../../../lib/json_web_token'
+require_relative "../../../serializers/user_serializer"
+require_relative "../../../../lib/json_web_token"
 
 module Api
   module V1
@@ -10,26 +10,30 @@ module Api
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
-      before_action :authenticate_user, only: %i[me]
+
+      before_action :authenticate_user, only: %i[me patch_password update destroy create] # rubocop:disable Rails/LexicallyScopedActionFilter
+
       before_action :set_cache_headers, only: %i[me]
 
-      # rubocop:disable Rails/LexicallyScopedActionFilter
-      skip_before_action :verify_authenticity_token, only: %i[create update show destroy authorize me patch_password]
+      skip_before_action :verify_authenticity_token, only: %i[create update show destroy password_login me patch_password]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def patch_password
+        authorize @object, :patch_password?
         password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
 
         if password_params[:password].blank?
           render json: { errors: ["Password can't be blank"] }, status: :unprocessable_entity
         elsif @user.update_with_password(password_params)
-          render json: { message: 'Password updated successfully' }, status: :ok
+          render json: { message: "Password updated successfully" }, status: :ok
         else
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
-      def authorize
+      def password_login
+        authorize ::User, :password_login?
+
         user = find_user_by_email_or_username(params[:email], params[:username])
 
         if user&.valid_password?(params[:password])
@@ -44,22 +48,23 @@ module Api
             token: ::Auth::Session.create(user:).token
           }, status: :ok
         else
-          render json: { error: 'Invalid login' }, status: :unauthorized
+          render json: { error: "Invalid login" }, status: :unauthorized
         end
       end
 
       def me
-        @user = @current_user
-        render json: @user, serializer: Serializers::UserMe, status: :ok
+        authorize @current_user, :me?
+        render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
-        render json: { errors: ['User not found'] }, status: :not_found
+        render json: { errors: ["User not found"] }, status: :not_found
       end
 
       protected
 
       # Only allow a list of trusted parameters through.
       def permitted_params
-        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name, :password, :password_confirmation)
+        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name, :password,
+                                     :password_confirmation)
       end
 
       private
@@ -68,19 +73,13 @@ module Api
         User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
       end
 
-      def authenticate_user
-        @current_user = ::JwtAuthenticate.session_from_authorization_header(request:).user
-      rescue ::Auth::Session::InvalidTokenOrExpiredSession
-        render json: { error: 'Invalid token or expired session' }, status: :unauthorized
-      end
-
       # Use callbacks to share common setup or constraints between actions.
       def set_user
         @user = set_object
       end
 
       def set_cache_headers
-        response.headers['Cache-Control'] = 'public, max-age=300'
+        response.headers["Cache-Control"] = "public, max-age=300"
       end
     end
   end

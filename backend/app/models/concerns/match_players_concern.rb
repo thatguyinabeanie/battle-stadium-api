@@ -47,18 +47,18 @@ module MatchPlayersConcern
   def winner_is_match_player
     return if winner.nil? && loser.nil?
 
-    errors.add(:base, I18n.t('errors.match_game.winner_must_be_match_player')) if [player_one, player_two].exclude?(winner)
+    errors.add(:base, I18n.t("errors.match_game.winner_must_be_match_player")) if [player_one, player_two].exclude?(winner)
   end
 
   def loser_is_match_player
     return if winner.nil? && loser.nil?
 
-    errors.add(:base, I18n.t('errors.match_game.loser_must_be_match_player')) if [player_one, player_two].exclude?(loser)
+    errors.add(:base, I18n.t("errors.match_game.loser_must_be_match_player")) if [player_one, player_two].exclude?(loser)
   end
 
   def winner_is_not_loser
     return if winner.nil? && loser.nil?
 
-    errors.add(:base, I18n.t('errors.match_game.winner_and_loser_are_the_same')) if winner == loser
+    errors.add(:base, I18n.t("errors.match_game.winner_and_loser_are_the_same")) if winner == loser
   end
 end

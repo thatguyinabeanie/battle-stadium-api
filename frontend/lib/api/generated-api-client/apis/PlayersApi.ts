@@ -78,6 +78,10 @@ export class PlayersApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (this.configuration?.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
+
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/players/{id}`
@@ -173,6 +177,10 @@ export class PlayersApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
+    if (this.configuration?.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
+
     const response = await this.request(
       {
         path: `/api/v1/tournaments/{tournament_id}/players`.replace(
@@ -233,6 +241,10 @@ export class PlayersApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration?.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
+    }
 
     const response = await this.request(
       {

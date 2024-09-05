@@ -82,7 +82,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (this.configuration && this.configuration.apiKey) {
+    if (this.configuration?.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
     }
 
@@ -117,7 +117,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (this.configuration && this.configuration.apiKey) {
+    if (this.configuration?.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
     }
 
@@ -151,7 +151,7 @@ export class SessionsApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (this.configuration && this.configuration.apiKey) {
+    if (this.configuration?.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // Bearer authentication
     }
 

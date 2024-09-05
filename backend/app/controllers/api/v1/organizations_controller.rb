@@ -1,6 +1,6 @@
-require_relative '../../../serializers/organization_serializer'
-require_relative '../../../serializers/user_serializer'
-require_relative '../../../serializers/tournament_serializer'
+require_relative "../../../serializers/organization_serializer"
+require_relative "../../../serializers/user_serializer"
+require_relative "../../../serializers/tournament_serializer"
 
 module Api
   module V1
@@ -11,16 +11,27 @@ module Api
       self.serializer_klass = Serializers::Organization
       self.detail_serializer_klass = Serializers::Organization
 
+      skip_before_action :authenticate_user, only: %i[index show staff]
+      # rubocop:enable Rails/LexicallyScopedActionFilter
+
+      def self.policy_class
+        ::OrganizationPolicy
+      end
+
       def staff
+        authorize ::Organization, :staff?
         # Assuming there's an association called `staff_members` you can directly use it
         # If not, replace `organization.staff_members` with your logic to fetch staff members
         render json: @organization.staff, each_serializer: Serializers::User, status: :ok
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Organization not found' }, status: :not_found
+        render json: { error: "Organization not found" }, status: :not_found
       end
 
       def post_tournaments
+        authorize @organization, :create_tournament?
+
         @tournament = @organization.tournaments.new tournaments_permitted_params
+
         if @tournament.save
           render json: @tournament, status: :created, serializer: Serializers::TournamentDetails
         else
@@ -31,6 +42,7 @@ module Api
       end
 
       def patch_tournament
+        authorize @organization, :update_tournament?
         @tournament = @organization.tournaments.find(params[:tournament_id])
         if @tournament.update! tournaments_permitted_params
           render json: @tournament, status: :ok, serializer: Serializers::TournamentDetails
@@ -38,7 +50,7 @@ module Api
           render json: @tournament.errors, status: :unprocessable_entity
         end
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Tournament not found' }, status: :not_found
+        render json: { error: "Tournament not found" }, status: :not_found
       end
 
       private

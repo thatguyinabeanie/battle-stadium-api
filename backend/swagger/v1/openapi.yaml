@@ -136,6 +136,8 @@ paths:
       description: Creates a new game.
       operationId: postGame
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '201':
           description: created
@@ -180,6 +182,8 @@ paths:
       description: Updates a game by ID.
       operationId: patchGame
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -200,6 +204,8 @@ paths:
       - Games
       description: Deletes a game by ID.
       operationId: deleteGame
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -227,6 +233,8 @@ paths:
       description: Creates a new organization.
       operationId: postOrganization
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '201':
           description: created
@@ -269,6 +277,8 @@ paths:
       description: Updates an existing organization.
       operationId: patchOrganization
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -289,9 +299,13 @@ paths:
       - Organizations
       description: Deletes an organization.
       operationId: deleteOrganization
+      security:
+      - Bearer: []
       responses:
         '200':
           description: Organization deleted
+        '403':
+          description: forbidden
         '404':
           description: not found
   "/api/v1/organizations/{id}/staff":
@@ -332,9 +346,11 @@ paths:
       description: Creates a new tournament for a given organization.
       operationId: postOrganizationTournament
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '201':
-          description: created
+          description: Created by Org Owner
           content:
             application/json:
               schema:
@@ -365,9 +381,11 @@ paths:
       description: Updates an existing tournament for a given organization.
       operationId: patchOrganizationTournament
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '200':
-          description: successful
+          description: Updated by Organization Owner
           content:
             application/json:
               schema:
@@ -413,6 +431,8 @@ paths:
       description: Creates a new Tournament Phase.
       operationId: postTournamentPhase
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '201':
           description: created
@@ -463,6 +483,8 @@ paths:
       description: Updates a Tournament Phase.
       operationId: patchTournamentPhase
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '404':
           description: not found
@@ -483,6 +505,8 @@ paths:
       - Phases
       description: Deletes a Tournament Phase.
       operationId: deleteTournamentPhase
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -520,6 +544,8 @@ paths:
       description: Creates a new Player.
       operationId: postTournamentPlayer
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '201':
           description: created
@@ -568,6 +594,8 @@ paths:
       description: Updates a Player.
       operationId: putTournamentPlayer
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -586,6 +614,8 @@ paths:
       - Players
       description: Deletes a Player.
       operationId: deleteTournamentPlayer
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -654,6 +684,8 @@ paths:
       description: Creates a new User.
       operationId: postUser
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '201':
           description: created
@@ -661,6 +693,15 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/UserDetails"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
         '422':
           description: unprocessable entity
       requestBody:
@@ -738,9 +779,11 @@ paths:
       description: Updates an existing User.
       operationId: patchUser
       parameters: []
+      security:
+      - Bearer: []
       responses:
         '200':
-          description: successful
+          description: Updated by Admin
           content:
             application/json:
               schema:
@@ -757,6 +800,8 @@ paths:
       tags:
       - Users
       operationId: deleteUser
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -1084,6 +1129,8 @@ components:
         image:
           type: string
           nullable: true
+        admin:
+          type: boolean
       required:
       - id
       - email
@@ -1615,6 +1662,8 @@ components:
       type: object
       title: Session
       properties:
+        username:
+          type: string
         token:
           type: string
           format: jwt

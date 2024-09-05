@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pokemon, class: 'Pokemon' do
+  factory :pokemon, class: "Pokemon" do
     name { Faker::Games::Pokemon.name }
     ability { "ability_#{rand(1..3)}" }
     nature {  "nature_#{rand(1..25)}" }

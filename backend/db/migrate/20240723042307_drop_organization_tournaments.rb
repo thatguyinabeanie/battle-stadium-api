@@ -13,7 +13,7 @@ class DropOrganizationTournaments < ActiveRecord::Migration[7.1]
 
     add_index :organization_tournaments, :organization_id
     add_index :organization_tournaments, :tournament_id
-    add_index :organization_tournaments, %i[organization_id tournament_id], unique: true, name: 'index_org_tourns_on_org_id_and_tourn_id'
+    add_index :organization_tournaments, %i[organization_id tournament_id], unique: true, name: "index_org_tourns_on_org_id_and_tourn_id"
 
     add_foreign_key :organization_tournaments, :organizations
     add_foreign_key :organization_tournaments, :tournaments
