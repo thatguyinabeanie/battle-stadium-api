@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     @current_user
   rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
     Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
-    render json: { error: "Invalid token or expired session" }, status: :unauthorized
+    render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
   end
 
   def pundit_user
