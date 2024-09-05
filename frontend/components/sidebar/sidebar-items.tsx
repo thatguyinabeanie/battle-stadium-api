@@ -11,6 +11,13 @@ export const sectionItems: SidebarItem[] = [
         title: "Home",
       },
       {
+        key: "dashboard",
+        href: "/dashboard",
+        icon: "mage:dashboard-chart-arrow",
+        icon_selected: "mage:dashboard-chart-arrow-fill",
+        title: "Dashboard",
+      },
+      {
         key: "organization",
         href: "/organizations",
         icon: "solar:widget-2-outline",
@@ -21,6 +28,12 @@ export const sectionItems: SidebarItem[] = [
         href: "/tournaments",
         icon: "solar:users-group-two-rounded-outline",
         title: "Tournaments",
+      },
+      {
+        key: "analytics",
+        href: "/analytics",
+        icon: "solar:analytics-outline",
+        title: "Analytics",
       },
       {
         key: "settings",

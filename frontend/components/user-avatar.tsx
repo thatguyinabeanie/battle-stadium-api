@@ -75,7 +75,7 @@ export default function UserAvatar() {
 
   return (
     <div className="flex items-center gap-3 px-3">
-      <Link href="/profile">
+      <Link href="/dashboard">
         <Avatar
           isBordered
           aria-label="User Avatar Signed In"
