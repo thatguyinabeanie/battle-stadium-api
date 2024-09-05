@@ -1,7 +1,8 @@
 require "factory_bot"
 
 module AuthorizationHeader
-  def self.bearer_token(user:)
+  def self.bearer_token(user: nil)
+    user ||= FactoryBot.create(:user)
     session = FactoryBot.create(:session, user:)
     jwt = JsonWebToken.encrypt(
       {

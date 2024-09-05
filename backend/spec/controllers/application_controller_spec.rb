@@ -21,26 +21,10 @@ RSpec.describe ApplicationController do
   end
 
   describe "#authenticate_user" do
-    let(:user) { create(:user) }
-    let(:jwt_token) do
-      session = create(:session, user:)
-      JsonWebToken.encrypt({
-                             session: {
-                               sessionToken: session.token,
-                               user: {
-                                 id: session.user.id,
-                                 email: session.user.email,
-                                 firstName: session.user.first_name,
-                                 lastName: session.user.last_name,
-                                 pronouns: session.user.pronouns,
-                                 emailVerified: session.user.email_verified_at
-                               }
-                             }
-                           })
-    end
+    let(:bearer_token) { AuthorizationHeader.bearer_token(user: create(:user)) }
 
     before do
-      request.headers["Authorization"] = "Bearer #{jwt_token}"
+      request.headers["Authorization"] = bearer_token
     end
 
     it "authenticates the user" do

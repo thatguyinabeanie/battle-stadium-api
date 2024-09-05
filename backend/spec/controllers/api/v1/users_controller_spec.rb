@@ -29,25 +29,11 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "POST" do
-      let(:jwt_token) do
-        session = create(:session, user: create(:admin))
-        JsonWebToken.encrypt({
-                               session: {
-                                 sessionToken: session.token,
-                                 user: {
-                                   id: session.user.id,
-                                   email: session.user.email,
-                                   firstName: session.user.first_name,
-                                   lastName: session.user.last_name,
-                                   pronouns: session.user.pronouns,
-                                   emailVerified: session.user.email_verified_at
-                                 }
-                               }
-                             })
-      end
+      let(:user) { create(:admin) }
+      let(:bearer_token) { AuthorizationHeader.bearer_token(user:) }
 
       before do
-        request.headers["Authorization"] = "Bearer #{jwt_token}"
+        request.headers["Authorization"] =  bearer_token
       end
 
       it "returns a successful response" do
@@ -68,25 +54,11 @@ RSpec.describe Api::V1::UsersController do
 
   context "when /users/:id" do
     let(:request_user) { create(:admin) }
-    let(:jwt_token) do
-      session = create(:session, user: request_user)
-      JsonWebToken.encrypt({
-                             session: {
-                               sessionToken: session.token,
-                               user: {
-                                 id: session.user.id,
-                                 email: session.user.email,
-                                 firstName: session.user.first_name,
-                                 lastName: session.user.last_name,
-                                 pronouns: session.user.pronouns,
-                                 emailVerified: session.user.email_verified_at
-                               }
-                             }
-                           })
-    end
+    let(:user) { create(:user) }
+    let(:bearer_token) { AuthorizationHeader.bearer_token(user: request_user) }
 
     before do
-      request.headers["Authorization"] = "Bearer #{jwt_token}"
+      request.headers["Authorization"] =  bearer_token
     end
 
     describe "GET /users/:id" do
@@ -146,25 +118,11 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "DELETE" do
-      let(:jwt_token) do
-        session = create(:session, user: create(:admin))
-        JsonWebToken.encrypt({
-                               session: {
-                                 sessionToken: session.token,
-                                 user: {
-                                   id: session.user.id,
-                                   email: session.user.email,
-                                   firstName: session.user.first_name,
-                                   lastName: session.user.last_name,
-                                   pronouns: session.user.pronouns,
-                                   emailVerified: session.user.email_verified_at
-                                 }
-                               }
-                             })
-      end
+      let(:admin) { create(:admin) }
+      let(:bearer_token) { AuthorizationHeader.bearer_token(user: admin) }
 
       before do
-        request.headers["Authorization"] = "Bearer #{jwt_token}"
+        request.headers["Authorization"] =  bearer_token
       end
 
       it "returns a successful response" do
@@ -187,25 +145,10 @@ RSpec.describe Api::V1::UsersController do
 
   context "when /users/:id/password" do
     let(:user) { create(:user) }
-    let(:jwt_token) do
-      session = create(:session, user:)
-      JsonWebToken.encrypt({
-                             session: {
-                               sessionToken: session.token,
-                               user: {
-                                 id: session.user.id,
-                                 email: session.user.email,
-                                 firstName: session.user.first_name,
-                                 lastName: session.user.last_name,
-                                 pronouns: session.user.pronouns,
-                                 emailVerified: session.user.email_verified_at
-                               }
-                             }
-                           })
-    end
+    let(:bearer_token) { AuthorizationHeader.bearer_token(user:) }
 
     before do
-      request.headers["Authorization"] = "Bearer #{jwt_token}"
+      request.headers["Authorization"] =  bearer_token
     end
 
     describe "PATCH" do

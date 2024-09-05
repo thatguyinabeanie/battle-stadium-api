@@ -12,23 +12,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
 
       response(200, "ok") do
         let(:existing_user) { create(:user) }
-        let(:session) { create(:session, user: existing_user) }
-        let(:jwt_token) do
-          JsonWebToken.encrypt({
-                                 session: {
-                                   sessionToken: session.token,
-                                   user: {
-                                     id: session.user.id,
-                                     email: session.user.email,
-                                     firstName: session.user.first_name,
-                                     lastName: session.user.last_name,
-                                     pronouns: session.user.pronouns,
-                                     emailVerified: session.user.email_verified_at
-                                   }
-                                 }
-                               })
-        end
-        let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: existing_user) } # rubocop:disable RSpec/VariableName
 
         schema "$ref" => "#/components/schemas/SessionAndUser"
         OpenApi::Response.set_example_response_metadata
@@ -108,23 +92,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
 
       response(200, "updates") do
         let(:existing_user) { create(:user) }
-        let(:session) { create(:session, user: existing_user) }
-        let(:jwt_token) do
-          JsonWebToken.encrypt({
-                                 session: {
-                                   sessionToken: session.token,
-                                   user: {
-                                     id: session.user.id,
-                                     email: session.user.email,
-                                     firstName: session.user.first_name,
-                                     lastName: session.user.last_name,
-                                     pronouns: session.user.pronouns,
-                                     emailVerified: session.user.email_verified_at
-                                   }
-                                 }
-                               })
-        end
-        let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: existing_user) } # rubocop:disable RSpec/VariableName
 
         schema "$ref" => "#/components/schemas/Session"
         OpenApi::Response.set_example_response_metadata
@@ -151,23 +119,7 @@ RSpec.describe Api::V1::Auth::SessionsController do
 
       response(200, "session deleted") do
         let(:existing_user) { create(:user) }
-        let(:session) { create(:session, user: existing_user) }
-        let(:jwt_token) do
-          JsonWebToken.encrypt({
-                                 session: {
-                                   sessionToken: session.token,
-                                   user: {
-                                     id: session.user.id,
-                                     email: session.user.email,
-                                     firstName: session.user.first_name,
-                                     lastName: session.user.last_name,
-                                     pronouns: session.user.pronouns,
-                                     emailVerified: session.user.email_verified_at
-                                   }
-                                 }
-                               })
-        end
-        let(:Authorization) { "Bearer #{jwt_token}" } # rubocop:disable RSpec/VariableName
+        let(:Authorization) { AuthorizationHeader.bearer_token(user: existing_user) } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
