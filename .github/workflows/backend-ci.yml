@@ -136,6 +136,9 @@ jobs:
         run: bundle check || bundle install
         working-directory: ./backend
 
+      - name: Instal Pundit
+        run: bundle add pundit
+
       - name: Run RuboCop with Reviewdog
         if: github.event_name == 'pull_request'
         uses: reviewdog/action-rubocop@v2
