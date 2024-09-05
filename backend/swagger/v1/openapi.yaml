@@ -706,7 +706,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/UserMe"
-        '404':
+        '401':
           description: not found
   "/api/v1/users/{id}":
     parameters:
@@ -1025,7 +1025,6 @@ components:
       - pronouns
       - email
       - token
-      - message
       - first_name
       - last_name
     UserLoginRequest:
@@ -1107,6 +1106,10 @@ components:
         description:
           type: string
           nullable: true
+        logo_url:
+          type: string
+          nullable: true
+          format: uri
         id:
           type: integer
         name:
@@ -1116,6 +1119,7 @@ components:
       - name
       - owner
       - description
+      - logo_url
     OrganizationDetails:
       type: object
       title: Organization Details
@@ -1125,6 +1129,10 @@ components:
         description:
           type: string
           nullable: true
+        logo_url:
+          type: string
+          nullable: true
+          format: uri
         id:
           type: integer
         name:
@@ -1134,6 +1142,7 @@ components:
       - name
       - owner
       - description
+      - logo_url
     Tournament:
       type: object
       title: Tournament

@@ -213,6 +213,7 @@ export const OrganizationFactory = new Factory<Organization>()
 
   .attr("owner", () => UserFactory.build())
   .attr("description", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
+  .attr("logoUrl", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .sequence("id")
   .attr("name", () => faker.lorem.word());
 
@@ -220,6 +221,7 @@ export const OrganizationDetailsFactory = new Factory<OrganizationDetails>()
 
   .attr("owner", () => UserFactory.build())
   .attr("description", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
+  .attr("logoUrl", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .sequence("id")
   .attr("name", () => faker.lorem.word());
 
