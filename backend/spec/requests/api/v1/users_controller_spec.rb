@@ -300,7 +300,9 @@ RSpec.describe Api::V1::UsersController do
 
       parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserDetails' }
 
-      response(200, 'successful') do
+      security [Bearer: []]
+
+      response(200, 'Updated by Admin') do
         let(:user_object) { create(:user) }
         let(:id) { user_object.id }
         let(:user) do
@@ -313,6 +315,26 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+          jwt_token = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+          "Bearer #{jwt_token}"
+        end
+
         schema '$ref' => USER_DETAILS_SCHEMA_COMPONENT
 
         OpenApi::Response.set_example_response_metadata
@@ -321,6 +343,25 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+          jwt_token = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+          "Bearer #{jwt_token}"
+        end
         let(:id) { 'invalid' }
         let(:user) do
           {
@@ -340,7 +381,29 @@ RSpec.describe Api::V1::UsersController do
       describe 'Deletes a User by ID.'
       operationId 'deleteUser'
 
+      security [Bearer: []]
+
       response(200, 'successful') do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+          jwt_token = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+          "Bearer #{jwt_token}"
+        end
+
         let(:user) { create(:user) }
         let(:id) { user.id }
 
@@ -350,6 +413,25 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
+        let(:Authorization) do # rubocop:disable RSpec/VariableName
+          session = create(:session, user: create(:admin))
+          jwt_token = JsonWebToken.encrypt(
+            {
+              session: {
+                sessionToken: session.token,
+                user: {
+                  id: session.user.id,
+                  email: session.user.email,
+                  firstName: session.user.first_name,
+                  lastName: session.user.last_name,
+                  pronouns: session.user.pronouns,
+                  emailVerified: session.user.email_verified_at
+                }
+              }
+            }
+          )
+          "Bearer #{jwt_token}"
+        end
         let(:id) { 'invalid' }
 
         OpenApi::Response.set_example_response_metadata

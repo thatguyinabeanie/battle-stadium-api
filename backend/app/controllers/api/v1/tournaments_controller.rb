@@ -40,7 +40,7 @@ module Api
       end
 
       def update
-        authorize ::Organization, :update_tournament?
+        authorize @tournament, :update?
         if @tournament.update! permitted_params
           render json: serialize_details, status: :ok
         else
@@ -49,6 +49,7 @@ module Api
       end
 
       def destroy
+        authorize @tournament, :destroy?
         @tournament.destroy!
         render json: { message: 'Tournament deleted' }, status: :ok
       end

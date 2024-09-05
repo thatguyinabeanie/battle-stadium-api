@@ -1,12 +1,12 @@
 module Phases
   class BasePhase < ApplicationRecord
-    self.table_name = 'phases'
-    self.inheritance_column = 'type'
-    self.abstract_class = true
-
     def self.policy_class
       ::Tournaments::PhasePolicy
     end
+
+    self.table_name = 'phases'
+    self.inheritance_column = 'type'
+    self.abstract_class = true
 
     belongs_to :tournament, class_name: 'Tournaments::Tournament'
     delegate :organization, to: :tournament

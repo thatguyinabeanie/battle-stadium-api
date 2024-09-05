@@ -9,16 +9,23 @@ module Api
         before_action :set_phase, only: %i[show update destroy]
 
         before_action :authenticate_user, only: %i[create update destroy]
+        def self.policy_class
+          ::Tournaments::PhasePolicy
+        end
 
         def index
+          super
           render json: @phases, each_serializer: Serializers::Phase, status: :ok
         end
 
         def show
+          super
           render json: serialize_phase_details, status: :ok
         end
 
         def create
+          authorize @tournament, :create_phase?
+
           klass = case params[:phase][:type]
                   when Phases::Swiss.to_s
                     Phases::Swiss
@@ -40,6 +47,7 @@ module Api
         end
 
         def update
+          authorize @phase, :update?
           if @phase.update! permitted_params
             render json: serialize_phase_details, status: :ok
           else
@@ -48,6 +56,7 @@ module Api
         end
 
         def destroy
+          authorize @phase, :destroy?
           @phase.destroy!
           render json: { message: 'Phase deleted' }, status: :ok
         end
@@ -74,6 +83,7 @@ module Api
         def set_phase
           @phases ||= set_phases
           @phase = @phases.find(params[:id])
+          @object = @phase
           @phase
         rescue ActiveRecord::RecordNotFound
           render json: { error: 'Phase not found' }, status: :not_found

@@ -23,6 +23,14 @@ class OrganizationPolicy < ApplicationPolicy
     create_tournament?
   end
 
+  def create_phase?
+    create_tournament?
+  end
+
+  def update_phase?
+    create_phase?
+  end
+
   def delete_tournament?
     user.admin? || record.owner == user
   end
