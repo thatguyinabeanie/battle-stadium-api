@@ -21,7 +21,7 @@ module Api
           render_session_and_user(session, session.user)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
           Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
-          render json: { error: "Invalid token or expired session" }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
 
         # POST /api/v1/auth/session
@@ -45,7 +45,7 @@ module Api
           session.refresh
           render_session(session, :ok)
         rescue ::Auth::Session::InvalidTokenOrExpiredSession
-          render json: { error: "Invalid token or expired session" }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
 
         # DELETE /api/v1/auth/sign_out
@@ -56,7 +56,7 @@ module Api
           session.revoke
           render json: { message: "Logged out successfully" }, status: :ok
         rescue ::Auth::Session::InvalidTokenOrExpiredSession
-          render json: { error: "Invalid token or expired session" }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
 
         private
@@ -96,7 +96,7 @@ module Api
         end
 
         def invalid_token_or_expired_session
-          render json: { error: "Invalid token or expired session" }, status: :unauthorized
+          render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
         end
       end
     end
