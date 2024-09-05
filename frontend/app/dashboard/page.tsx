@@ -6,12 +6,13 @@ export default async function Dashboard() {
   if (!session) {
     return <div>Not signed in</div>;
   }
+  const { firstName, lastName } = session?.user ?? {};
 
   try {
     return (
       <div>
         <h1>Dashboard</h1>
-        <p>Welcome, {session.user?.name}</p>
+        <p>Welcome, {`${firstName} ${lastName}`}</p>
       </div>
     );
   } catch (error) {
