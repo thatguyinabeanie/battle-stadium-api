@@ -145,6 +145,6 @@ jobs:
           only_changed: true
           github_token: ${{ github.token }}
           reporter: github-pr-review # Default is github-pr-check
-          skip_install: true
+          skip_install: false
           use_bundler: true
           rubocop_flags: --force-exclusion
