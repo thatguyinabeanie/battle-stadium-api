@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 inherit_gem:
   rswag-specs: .rubocop_rspec_alias_config.yml
-
+  pundit: config/rubocop-rspec.yml
 require:
   - rubocop-factory_bot
   - rubocop-rails
