@@ -10,6 +10,8 @@ import { SidebarItem, SidebarItemType } from "./sidebar";
 import useSideBarItems from "./useSideBarItems";
 
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { IconifyIcon } from "@iconify/react/dist/iconify.js";
 
 export type ItemClassesType =
   | SlotsToClasses<"base" | "title" | "description" | "wrapper" | "selectedIcon" | "shortcut">
@@ -60,6 +62,9 @@ export default function useRenderSideBarItems({
   const isCompact = useMediaQuery("(max-width: 768px)");
 
   const { sectionClasses, itemClasses } = useSidebarClasses(sectionClassesProp, itemClassesProp);
+
+  const pathname = usePathname();
+  const currentPath = pathname.split("/")?.[1];
 
   const renderNestItem = React.useCallback(
     (item: SidebarItem) => {
@@ -173,6 +178,8 @@ export default function useRenderSideBarItems({
         return renderNestItem(item);
       }
 
+      const icon = (currentPath === item.key ? item.iconSelected : item.icon) ?? item.icon;
+
       return (
         <ListboxItem
           aria-label="Sidebar ListboxItem"
@@ -183,7 +190,7 @@ export default function useRenderSideBarItems({
             isCompact ? null : item.icon ? (
               <Icon
                 className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
-                icon={item.icon}
+                icon={icon as string | IconifyIcon}
                 width={24}
               />
             ) : (

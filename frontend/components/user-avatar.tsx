@@ -41,14 +41,14 @@ function UserInfo() {
       {session && (
         <>
           <p className="text-small font-medium text-default-600">
-            <Link aria-label="Profile Link" href="/profile">
+            <Link aria-label="Profile Link" href="/dashboard">
               {session.user?.username ?? session.user.firstName + " " + session.user.lastName}
             </Link>
           </p>
 
           {(name || (firstName && lastName)) && (
             <p className="truncate text-tiny text-default-300">
-              <Link aria-label="session-user-id" href="/profile">
+              <Link aria-label="session-user-id" href="/dashboard">
                 {session.user?.name ?? session.user.firstName + " " + session.user.lastName}
               </Link>
             </p>

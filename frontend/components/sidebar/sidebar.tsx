@@ -28,7 +28,7 @@ export type SidebarItem = {
   key: string;
   title: string;
   icon?: string;
-  icon_selected?: string;
+  iconSelected?: string;
   href?: string;
   type?: SidebarItemType.Nest;
   startContent?: React.ReactNode;
