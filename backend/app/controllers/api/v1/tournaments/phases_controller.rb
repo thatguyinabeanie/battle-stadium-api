@@ -24,7 +24,7 @@ module Api
         end
 
         def create
-          authorize @tournament, :create_phase?
+          authorize @tournament, :update?
 
           klass = case params[:phase][:type]
                   when Phases::Swiss.to_s
