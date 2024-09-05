@@ -8,14 +8,10 @@ export default async function Dashboard() {
   }
   const { firstName, lastName } = session?.user ?? {};
 
-  try {
-    return (
-      <div>
-        <h1>Dashboard</h1>
-        <p>Welcome, {`${firstName} ${lastName}`}</p>
-      </div>
-    );
-  } catch (error) {
-    return <div>Something went wrong</div>;
-  }
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome, {`${firstName} ${lastName}`}</p>
+    </div>
+  );
 }
