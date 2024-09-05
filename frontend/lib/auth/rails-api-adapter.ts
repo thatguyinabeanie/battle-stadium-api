@@ -166,6 +166,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
         const newSession = await apiClient.Session.create({ userId });
 
         const adapterSession: AdapterSession = {
+          username: newSession.username,
           sessionToken: newSession.token,
           userId: newSession.userId,
           expires: newSession.expiresAt,
@@ -187,6 +188,7 @@ export function RailsAdapter(apiClient: BattleStadiumAPIClient): Adapter {
 
         return {
           session: {
+            username: user.username,
             sessionToken: session.token,
             userId: session.userId,
             expires: session.expiresAt,

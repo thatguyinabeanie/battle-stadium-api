@@ -16,6 +16,7 @@ export * from "./Player";
 export * from "./PlayerDetails";
 export * from "./PlayerRequest";
 export * from "./Pokemon";
+export * from "./PostUser403Response";
 export * from "./RegisterUserRequest";
 export * from "./RegistrationResponse";
 export * from "./Round";

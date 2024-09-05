@@ -67,6 +67,7 @@ module Api
 
         def render_session(session, status)
           render json: {
+            username: session.user.username,
             token: session.token,
             user_id: session.user_id,
             expires_at: session.expires_at
@@ -77,6 +78,7 @@ module Api
           user ||= User.find(session.user_id)
           render json: {
             session: {
+              username: user.username,
               token: session.token,
               user_id: session.user_id,
               expires_at: session.expires_at

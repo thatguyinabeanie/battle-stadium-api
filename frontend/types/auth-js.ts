@@ -7,6 +7,8 @@ declare module "next-auth" {
    * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
   interface Session {
+    username?: string;
+
     user: {
       name?: string;
       /**
@@ -48,6 +50,10 @@ declare module "next-auth" {
    * Usually contains information about the provider being used, like OAuth tokens (`access_token`, etc).
    */
   interface Account {}
+
+  interface AdapterSession {
+    username?: string;
+  }
 }
 
 declare module "next-auth/jwt" {

@@ -410,6 +410,7 @@ SESSION = {
   type: :object,
   title: 'Session',
   properties: {
+    username: { type: :string },
     token: { type: :string, format: 'jwt' },
     user_id: UUID_TYPE,
     expires_at: { type: :string, format: DATE_TIME_TYPE }

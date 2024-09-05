@@ -24,6 +24,12 @@ export interface Session {
    * @type {string}
    * @memberof Session
    */
+  username?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Session
+   */
   token: string;
   /**
    *
@@ -58,6 +64,7 @@ export function SessionFromJSONTyped(json: any, ignoreDiscriminator: boolean): S
     return json;
   }
   return {
+    username: json["username"] == null ? undefined : json["username"],
     token: json["token"],
     userId: json["user_id"],
     expiresAt: new Date(json["expires_at"]),
@@ -69,6 +76,7 @@ export function SessionToJSON(value?: Session | null): any {
     return value;
   }
   return {
+    username: value["username"],
     token: value["token"],
     user_id: value["userId"],
     expires_at: value["expiresAt"].toISOString(),
