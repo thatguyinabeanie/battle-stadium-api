@@ -86,4 +86,4 @@ test:
 #
 production:
   <<: *default
-  database: fuecoco-db
+  url: <%= ENV['DATABASE_URL'] %>
