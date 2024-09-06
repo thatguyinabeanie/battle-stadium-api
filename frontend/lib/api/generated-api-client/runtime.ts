@@ -33,8 +33,9 @@ export class Configuration {
   }
 
   get basePath(): string {
-    if (process.env.API_BASE_URL_PATH) {
+    if (process.env.NODE_ENV === "production" &&  process.env.API_BASE_URL_PATH) {
       const BASE_PATH = process.env.API_BASE_URL_PATH.replace(/\/+$/, "");
+
       return this.configuration.basePath ?? BASE_PATH;
     }
 
