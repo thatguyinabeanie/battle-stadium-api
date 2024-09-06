@@ -32,11 +32,11 @@ services:
       "
     tty: true
     ports:
-      - 3000:3000
+      - 10000:10000
     depends_on:
       - postgres
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000/up" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:10000/up" ]
       interval: 60s
       timeout: 10s
       retries: 3
@@ -67,7 +67,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - 8080:8080
+      - 10001:10001
     volumes:
       - .:/battle-stadium
       - ./frontend/.zshrc:/root/.zshenv

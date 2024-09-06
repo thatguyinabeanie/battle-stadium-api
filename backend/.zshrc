@@ -107,10 +107,10 @@ DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
 
-# Function to kill Rails server running on port 3000
+# Function to kill Rails server running on port 10000
 kill_server() {
-  # Find the PID of the Rails server running on port 3000
-  RAILS_PID=$(lsof -i :3000 -t)
+  # Find the PID of the Rails server running on port 10000
+  RAILS_PID=$(lsof -i :10000 -t)
 
   # Check if the PID exists
   if [ -n "$RAILS_PID" ]; then
@@ -118,7 +118,7 @@ kill_server() {
     kill -9 $RAILS_PID
     echo "Rails server killed."
   else
-    echo "No Rails server running on port 3000."
+    echo "No Rails server running on port 10000."
   fi
 }
 
@@ -138,12 +138,12 @@ start_server() {
 
 
   bin/setup
-  rails server -b 0.0.0.0 -p 3000
+  rails server -b 0.0.0.0 -p 10000
 
   echo "Rails server started."
 }
 
-alias rs="rails server -b 0.0.0.0 -p 3000"
+alias rs="rails server -b 0.0.0.0 -p 10000"
 alias rc="rails console"
 alias rg="rails generate"
 alias rdb="rails db"

@@ -58,6 +58,6 @@ FROM thatguyinabeanie/battle-stadium:dev-latest AS development
 WORKDIR /battle-stadium/backend
 COPY . .
 RUN bundle check || bundle install
-EXPOSE 3000
+EXPOSE 10000
 
-CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0", "-p", "3000"]
+CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]

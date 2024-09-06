@@ -18,7 +18,7 @@
   // "containerEnv": {},
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [8080],
+  "forwardPorts": [10001],
 
   // Uncomment the next line if you want start specific services in your Docker Compose config.
   "runServices": ["postgres", "backend", "frontend"],
