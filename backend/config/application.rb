@@ -19,8 +19,11 @@ module BattleStadium
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
 
       # puts 'Loading .env.postgres file'
-      env_postgres_file = "../.env.development.local"
-      Dotenv.load(env_postgres_file) if File.exist?(env_file) && !Rails.env.production?
+      env_postgres_file = "../.env.postgres"
+      Dotenv.load(env_postgres_file) if File.exist?(env_postgres_file) && !Rails.env.production?
+
+      env_development_local = "../.env.development.local"
+      Dotenv.load(env_development_local) if File.exist?(env_development_local) && !Rails.env.production?
 
       unless Rails.env.production?
         require "socket"
