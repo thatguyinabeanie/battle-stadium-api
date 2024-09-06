@@ -72,7 +72,7 @@ WORKDIR /battle-stadium/backend
 COPY . .
 ENV PORT 10000
 RUN bundle check || bundle install
-EXPOSE 10000
+EXPOSE ${PORT}
 ENV RAILS_ENV=production
 CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0", "-p", "${PORT}", "-e", "production"]
 
