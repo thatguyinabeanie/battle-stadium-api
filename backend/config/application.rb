@@ -19,7 +19,7 @@ module BattleStadium
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
 
       # puts 'Loading .env.postgres file'
-      env_postgres_file = "../.env.postgres"
+      env_postgres_file = "../.env.development.local"
       Dotenv.load(env_postgres_file) if File.exist?(env_file) && !Rails.env.production?
 
       unless Rails.env.production?
