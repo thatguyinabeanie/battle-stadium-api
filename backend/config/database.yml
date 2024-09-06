@@ -19,15 +19,14 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT", 5000) %>
-
   host: <%= ENV.fetch("POSTGRES_HOST", 'postgres') %>
   port: <%= ENV.fetch("POSTGRES_PORT", '5432') %>
-
   username: <%= ENV.fetch("POSTGRES_USER", 'postgres') %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD", 'postgres') %>
 development:
   <<: *default
-  database: fuecoco-db-dev
+  database: <%= ENV.fetch("POSTGRES_DATABASE", 'fuecoco-db-dev') %>
+  # url: <%= ENV['DATABASE_URL'] %>
 
 # RAILS_DB_NAME=fuecoco-db-test   bin/rails db:create && rspec
 # The specified database role being used to connect to PostgreSQL.
@@ -86,4 +85,4 @@ test:
 #
 production:
   <<: *default
-  database: fuecoco-db
+  url: <%= ENV['DATABASE_URL'] %>

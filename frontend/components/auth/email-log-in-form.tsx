@@ -1,11 +1,11 @@
 import { Button, Input } from "@nextui-org/react";
 import { m } from "framer-motion";
 
+import { credentialsSignIn } from "@/lib/server-actions/sign-in";
+
 import { Icon } from "../client";
 
 import { LoginFormProps, orDivider, variants } from "./common";
-
-import { credentialsSignIn } from "@/lib/server-actions/sign-in";
 
 export default function EmailLoginForm({ setIsFormVisible }: LoginFormProps) {
   return (

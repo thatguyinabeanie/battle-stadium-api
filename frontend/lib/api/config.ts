@@ -1,7 +1,7 @@
-import { Configuration, ConfigurationParameters, HTTPHeaders } from "./generated-api-client";
-
 import { auth } from "@/lib/auth";
 import { signJWT } from "@/lib/auth/jwt";
+
+import { Configuration, ConfigurationParameters, HTTPHeaders } from "./generated-api-client";
 
 export const config = (encryptedJwt: string) =>
   new Configuration({

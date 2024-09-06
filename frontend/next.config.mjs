@@ -1,16 +1,12 @@
 /** @type {import('next').NextConfig} */
-import dotenv from "dotenv";
 import { join } from "path";
 
-dotenv.config();
-dotenv.config({ path: join(process.cwd(), "..", ".env.postgres") });
+import dotenv from "dotenv";
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, POSTGRES_HOST } = process.env;
+dotenv.config();
+dotenv.config({ path: join(process.cwd(), "..", ".env.development.local") });
 
 const nextConfig = {
-  env: {
-    POSTGRES_CONNECTION_STRING: `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST ?? "localhost"}:${POSTGRES_PORT}/${POSTGRES_DB}`,
-  },
   reactStrictMode: true,
 };
 

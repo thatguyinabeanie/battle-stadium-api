@@ -1,8 +1,9 @@
 import { Tooltip, Button } from "@nextui-org/react";
 
+import { cn } from "@/lib/utils";
+
 import { Icon } from "../client";
 
-import { cn } from "@/lib/utils";
 export interface HelpAndInformationProps {
   isCompact: boolean;
 }
