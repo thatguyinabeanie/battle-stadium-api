@@ -1,9 +1,9 @@
 import { Button } from "@nextui-org/react";
 import { m } from "framer-motion";
 
-import { Icon } from "../../components/client";
-
 import { credentialsSignIn } from "@/lib/server-actions/sign-in";
+
+import { Icon } from "../../components/client";
 
 export default function SignUp() {
   return (

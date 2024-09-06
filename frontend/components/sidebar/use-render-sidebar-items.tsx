@@ -6,12 +6,12 @@ import { useMediaQuery } from "usehooks-ts";
 import { usePathname } from "next/navigation";
 import { IconifyIcon } from "@iconify/react/dist/iconify.js";
 
+import { cn } from "@/lib/utils";
+
 import { Icon } from "../client";
 
 import { SidebarItem, SidebarItemType } from "./sidebar";
 import useSideBarItems from "./useSideBarItems";
-
-import { cn } from "@/lib/utils";
 
 export type ItemClassesType =
   | SlotsToClasses<"base" | "title" | "description" | "wrapper" | "selectedIcon" | "shortcut">

@@ -1,10 +1,10 @@
 import { m } from "framer-motion";
 import { useSession } from "next-auth/react";
 
-import { Button, Icon, Tooltip } from "../client";
-
 import { cn } from "@/lib";
 import { signOut } from "@/lib/server-actions/sign-out";
+
+import { Button, Icon, Tooltip } from "../client";
 
 export interface LogoutProps {
   isCompact: boolean;

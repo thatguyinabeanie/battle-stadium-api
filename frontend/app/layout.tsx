@@ -5,10 +5,10 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
 
-import Providers from "./providers";
-
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
+
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: {

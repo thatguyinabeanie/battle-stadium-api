@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 import React from "react";
 
-import TournamentsTable from "./TournamentsTable";
-
 import BattleStadiumAPI, { Tournament } from "@/lib/api/battle-stadium-api";
+
+import TournamentsTable from "./TournamentsTable";
 
 export const metadata: Metadata = {
   title: "Tournaments",
