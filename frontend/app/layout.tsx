@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
@@ -7,7 +9,6 @@ import Providers from "./providers";
 
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
-// import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -33,7 +34,11 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
       <head />
       <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
         <Providers>
-          <main className="flex h-full w-full">{children}</main>
+          <main className="flex h-full w-full">
+            {children}
+            <Analytics />
+            <SpeedInsights />
+          </main>
         </Providers>
       </body>
     </html>
