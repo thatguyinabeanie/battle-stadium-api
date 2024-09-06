@@ -25,12 +25,12 @@ COPY . .
 
 FROM base-image AS development
 EXPOSE 10001
+ENV NODE_ENV=development
 # Start the Next.js development server
 CMD ["bun", "dev"]
 
-
-
 FROM base-image AS production
 EXPOSE ${PORT:-3000}
+ENV NODE_ENV=production
 RUN bun build:nextjs
 CMD ["bun", "start"]
