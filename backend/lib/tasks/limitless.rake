@@ -15,7 +15,7 @@ namespace :limitless do
 
     # Fetch all tournaments
     puts "Fetching tournaments..."
-    tournaments = fetch_data("#{base_url}/tournaments?limit=10000&game=VGC", access_key)
+    tournaments = fetch_data("#{base_url}/tournaments?limit=100000&game=VGC", access_key)
     organizers = {}
     tournament_details = []
 

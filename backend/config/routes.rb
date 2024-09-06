@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
+          get "tournaments", to: "organizations#list_tournaments"
           post "tournaments", to: "organizations#post_tournaments"
           patch "tournaments/:tournament_id", to: "organizations#patch_tournament"
         end

@@ -184,6 +184,28 @@ RSpec.describe Api::V1::OrganizationsController do
     let(:org) { create(:organization_with_staff, staff_count: 5) }
     let(:organization_id) { org.id }
 
+    get("List Organization Tournaments") do
+      tags "Organizations"
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      description "Retrieves a list of tournaments for a specific organization."
+      operationId "listOrganizationTournaments"
+
+      response(200, "successful") do
+        schema type: :array, items: { "$ref" => "#/components/schemas/TournamentDetails" }
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(404, NOT_FOUND) do
+        let(:organization_id) { "invalid" }
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+
     post("Create Tournament") do
       tags "Organizations"
       consumes OpenApi::Response::JSON_CONTENT_TYPE

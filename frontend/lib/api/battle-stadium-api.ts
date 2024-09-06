@@ -80,6 +80,8 @@ function Organizations(configOverride?: Configuration) {
       (await OrganizationsAPI()).deleteOrganization(organizationId, initOverrides),
 
     Tournaments: {
+      list: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
+        (await OrganizationsAPI()).listOrganizationTournaments(organizationId, initOverrides),
       post: async (
         organizationId: number,
         tournamentDetails?: TournamentDetails,

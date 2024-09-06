@@ -7,6 +7,7 @@ import { Tournament } from "@/lib/api";
 
 export interface TournamentsTableProps {
   tournaments: Tournament[];
+  disableColumns?: string[];
 }
 
 const columns = [
@@ -88,7 +89,7 @@ const renderCell: typeof getKeyValue = (row: Tournament, columnKey) => {
   }
 };
 
-const TournamentsTable = ({ tournaments }: TournamentsTableProps) => {
+const TournamentsTable = ({ tournaments, disableColumns }: TournamentsTableProps) => {
   const [hydrated, setHydrated] = React.useState(false);
 
   React.useEffect(() => {
@@ -100,8 +101,8 @@ const TournamentsTable = ({ tournaments }: TournamentsTableProps) => {
   }
 
   return (
-    <Table isStriped aria-label="Example table with dynamic content">
-      <TableHeader columns={columns}>
+    <Table isStriped aria-label="list of tournaments">
+      <TableHeader columns={columns.filter((c) => !disableColumns?.includes(c.key))}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
 
