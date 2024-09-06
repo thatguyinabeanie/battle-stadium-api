@@ -4,12 +4,20 @@
     {
       "src": "backend/Dockerfile",
       "use": "@vercel/docker"
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/next"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "/backend/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
     }
   ]
 }
