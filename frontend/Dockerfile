@@ -31,7 +31,6 @@ CMD ["bun", "dev"]
 
 
 FROM base-image AS production
-EXPOSE 10001
+EXPOSE ${PORT:-3000}
 RUN bun build:nextjs
-# Start the Next.js development server
 CMD ["bun", "start"]
