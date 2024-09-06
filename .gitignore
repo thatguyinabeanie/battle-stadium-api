@@ -76,3 +76,4 @@ frontend/.env
 frontend/.env.local
 
 config/keys/*.pem
+.vercel
