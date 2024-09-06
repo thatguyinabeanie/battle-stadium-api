@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
-import dotenv from "dotenv";
 import { join } from "path";
+
+import dotenv from "dotenv";
 
 dotenv.config();
 dotenv.config({ path: join(process.cwd(), "..", ".env.postgres") });
