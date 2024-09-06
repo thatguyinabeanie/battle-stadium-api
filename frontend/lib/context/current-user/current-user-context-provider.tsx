@@ -2,10 +2,10 @@
 
 import React from "react";
 
-import { CurrentUserContext, CurrentUserContextValue } from "./current-user-context";
-
 import { UserMe } from "@/lib/api";
 import { ChildrenProps } from "@/types";
+
+import { CurrentUserContext, CurrentUserContextValue } from "./current-user-context";
 
 export interface CurrentUserContextProviderProps extends ChildrenProps {
   initCurrentUser: UserMe | null;

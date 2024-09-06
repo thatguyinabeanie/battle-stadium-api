@@ -1,8 +1,8 @@
-import { SidebarItem } from "./sidebar";
-import { sectionItems } from "./sidebar-items";
-
 import { UserMe } from "@/lib/api";
 import { useCurrentUser } from "@/lib/context/current-user";
+
+import { SidebarItem } from "./sidebar";
+import { sectionItems } from "./sidebar-items";
 
 const getYourOrganizations = (currentUser: UserMe) => {
   const yourOrganizations: SidebarItem = {

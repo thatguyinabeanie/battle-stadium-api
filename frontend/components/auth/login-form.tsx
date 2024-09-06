@@ -2,10 +2,10 @@
 
 import React from "react";
 
+import { AnimatePresence, domAnimation, LazyMotion, ResizablePanel } from "@/components/client";
+
 import EmailLoginForm from "./email-log-in-form";
 import LoginOptions from "./login-options";
-
-import { AnimatePresence, domAnimation, LazyMotion, ResizablePanel } from "@/components/client";
 
 export default function LoginForm() {
   const [isFormVisible, setIsFormVisible] = React.useState(false);
