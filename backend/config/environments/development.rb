@@ -77,5 +77,7 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
   config.web_console.whitelisted_ips = ["172.18.0.0/16", "192.168.0.0/16"]
 
-  config.hosts << "localhost" << "backend"
+  config.hosts = [
+    "localhost" , "backend", "api-battle-stadium-gg.onrender.com"
+  ]
 end
