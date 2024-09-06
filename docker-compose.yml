@@ -50,7 +50,7 @@ services:
     hostname: nextjs-container
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     environment:
-      - BACKEND_HOST=backend
+      - BACKEND_HOST=backend:10000
       - POSTGRES_HOST=postgres
     build:
       context: frontend
