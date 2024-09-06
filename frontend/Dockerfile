@@ -27,3 +27,11 @@ FROM base-image AS development
 EXPOSE 10001
 # Start the Next.js development server
 CMD ["bun", "dev"]
+
+
+
+FROM base-image AS production
+EXPOSE 10001
+# Start the Next.js development server
+RUN bun build
+CMD ["bun", "start"]
