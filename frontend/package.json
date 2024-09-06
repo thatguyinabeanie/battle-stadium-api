@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --port 10001",
     "build:nextjs": "next build",
-    "start": "next start --port 10001",
+    "start": "next start",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json",
     "lint:fix": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
     "prettier:write": "prettier --write .",
