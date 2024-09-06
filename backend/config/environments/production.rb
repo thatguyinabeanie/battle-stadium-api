@@ -101,4 +101,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+
+  config.secret_key_base = ENV["AUTH_SECRET"]
 end
