@@ -78,6 +78,6 @@ module Api
           :open_team_sheets, :teamlists_required
         )
       end
-  end
+    end
   end
 end
