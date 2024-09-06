@@ -16,6 +16,10 @@ class ApplicationPolicy
     true
   end
 
+  def list?
+    index?
+  end
+
   def show?
     true
   end

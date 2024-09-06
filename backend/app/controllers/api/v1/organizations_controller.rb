@@ -5,14 +5,12 @@ require_relative "../../../serializers/tournament_serializer"
 module Api
   module V1
     class OrganizationsController < AbstractApplicationController
-      before_action :set_organization, only: %i[staff post_tournaments patch_tournament]
-
       self.klass = ::Organization
       self.serializer_klass = Serializers::Organization
       self.detail_serializer_klass = Serializers::Organization
 
-      skip_before_action :authenticate_user, only: %i[index show staff]
-      # rubocop:enable Rails/LexicallyScopedActionFilter
+      before_action :set_organization, only: %i[staff post_tournaments patch_tournament list_tournaments]
+      skip_before_action :authenticate_user, only: %i[index show staff list_tournaments]
 
       def self.policy_class
         ::OrganizationPolicy
@@ -25,6 +23,12 @@ module Api
         render json: @organization.staff, each_serializer: Serializers::User, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Organization not found" }, status: :not_found
+      end
+
+      def list_tournaments
+        authorize ::Tournaments::Tournament, :list?
+        @tournaments = @organization.tournaments
+        render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
       def post_tournaments
@@ -53,7 +57,7 @@ module Api
         render json: { error: "Tournament not found" }, status: :not_found
       end
 
-      private
+    private
 
       def set_organization
         @organization = set_object

@@ -35,6 +35,10 @@ export interface ListOrganizationStaffRequest {
   id: number;
 }
 
+export interface ListOrganizationTournamentsRequest {
+  organizationId: number;
+}
+
 export interface PatchOrganizationRequest {
   id: number;
   organization?: Organization;
@@ -188,6 +192,53 @@ export class OrganizationsApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<User>> {
     const response = await this.listOrganizationStaffRaw({ id: id }, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Retrieves a list of tournaments for a specific organization.
+   * List Organization Tournaments
+   */
+  async listOrganizationTournamentsRaw(
+    requestParameters: ListOrganizationTournamentsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<Array<TournamentDetails>>> {
+    if (requestParameters["organizationId"] == null) {
+      throw new runtime.RequiredError(
+        "organizationId",
+        'Required parameter "organizationId" was null or undefined when calling listOrganizationTournaments().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/api/v1/organizations/{organization_id}/tournaments`.replace(
+          `{${"organization_id"}}`,
+          encodeURIComponent(String(requestParameters["organizationId"])),
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TournamentDetailsFromJSON));
+  }
+
+  /**
+   * Retrieves a list of tournaments for a specific organization.
+   * List Organization Tournaments
+   */
+  async listOrganizationTournaments(
+    organizationId: number,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Array<TournamentDetails>> {
+    const response = await this.listOrganizationTournamentsRaw({ organizationId: organizationId }, initOverrides);
     return await response.value();
   }
 

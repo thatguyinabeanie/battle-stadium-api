@@ -11,6 +11,7 @@ import {
   DeleteOrganizationRequest,
   GetOrganizationRequest,
   ListOrganizationStaffRequest,
+  ListOrganizationTournamentsRequest,
   PatchOrganizationRequest,
   Organization,
   PatchOrganizationTournamentRequest,
@@ -83,6 +84,11 @@ export const DeleteOrganizationRequestFactory = new Factory<DeleteOrganizationRe
 export const GetOrganizationRequestFactory = new Factory<GetOrganizationRequest>().sequence("id");
 
 export const ListOrganizationStaffRequestFactory = new Factory<ListOrganizationStaffRequest>().sequence("id");
+
+export const ListOrganizationTournamentsRequestFactory = new Factory<ListOrganizationTournamentsRequest>().attr(
+  "organizationId",
+  () => faker.number.int({ min: 1, max: 100 }),
+);
 
 export const PatchOrganizationRequestFactory = new Factory<PatchOrganizationRequest>()
 
