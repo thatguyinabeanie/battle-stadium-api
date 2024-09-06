@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 dotenv.config({ path: join(process.cwd(), "..", ".env.development.local") });
 
+
 const nextConfig = {
   reactStrictMode: true,
 };
