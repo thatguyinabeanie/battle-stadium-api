@@ -3,8 +3,6 @@ import NextAuth from "next-auth";
 import { EncryptJWT } from "jose";
 import { JWTEncodeParams } from "@auth/core/jwt";
 
-import { providers } from "./authjs-providers-config";
-
 import { decrypt, RailsAdapter, signJWT } from "@/lib/auth";
 import BattleStadiumAPI, { config } from "@/lib/api";
 
@@ -14,6 +12,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
   });
 
   const apiClient = BattleStadiumAPI(config(defaultWT));
+
+  const { providers } = await import("@/lib/auth/authjs-providers-config");
 
   return {
     providers,
