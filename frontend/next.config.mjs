@@ -12,7 +12,6 @@ const nextConfig = {
   },
   reactStrictMode: true,
   experimental: {
-    allowMiddlewareResponseBody: true,
   },
 };
 
