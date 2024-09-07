@@ -4,7 +4,7 @@ import { join } from "path";
 import dotenv from "dotenv";
 
 dotenv.config();
-dotenv.config({ path: join(process.cwd(), "..", ".env.development.local") });
+dotenv.config({ path: join(process.cwd(), "..", ".env.local") });
 
 const nextConfig = {
   env: {

@@ -1,6 +1,7 @@
 require_relative "../../../serializers/organization_serializer"
 require_relative "../../../serializers/user_serializer"
 require_relative "../../../serializers/tournament_serializer"
+require_relative "../../../../lib/vercel_oidc"
 
 module Api
   module V1

@@ -1,18 +1,12 @@
-import { Configuration, ConfigurationParameters } from "./generated-api-client";
+import { getVercelOidcToken } from "@vercel/functions/oidc";
 
-export const config = (encryptedJwt: string) =>
-  new Configuration({
-    headers: {
-      Authorization: `Bearer ${encryptedJwt}`,
-    },
-  });
+import { Configuration, ConfigurationParameters } from "./generated-api-client";
 
 export const defaultConfig = async () => {
   const params: ConfigurationParameters = {
-    accessToken: async () => {
-      return "";
+    headers: {
+      Authorization: `Bearer ${await getVercelOidcToken()}`,
     },
-    // headers,
   };
 
   return new Configuration(params);

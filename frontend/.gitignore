@@ -36,3 +36,4 @@ tmp/
 **tmp**
 
 .env.development.local
+.env*.local

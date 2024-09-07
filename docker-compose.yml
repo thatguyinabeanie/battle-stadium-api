@@ -32,6 +32,7 @@ services:
       "
     tty: true
     ports:
+      - 10000:10000
       - 3000:10000
     depends_on:
       - postgres
@@ -50,7 +51,7 @@ services:
     hostname: nextjs-container
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     environment:
-      - BACKEND_HOST=backend:10000
+      - BACKEND_HOST=backend
       - POSTGRES_HOST=postgres
     build:
       context: frontend

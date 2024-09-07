@@ -16,7 +16,7 @@ module Api
         policy = ClerkPolicy.new(request)
 
         render status: :unauthorized, json: { error: "Signature verification failed" } unless policy.webhook_verify?
-        handle_event(request, params)
+        handle_event(request)
       rescue StandardError => e
         Rails.logger.error("Webhook verification failed: #{e.message}")
         render status: :unauthorized, json: { error: e.message }
@@ -25,15 +25,15 @@ module Api
 
       private
 
-      def handle_event(request, params)
+      def handle_event(request)
         payload = JSON.parse(request.body.read);
-
-        case params[:type]
-        when 'user.created'
+        type = payload["type"]
+        case type
+        when "user.created"
           return handle_user_created(payload)
-        when 'user.updated'
+        when "user.updated"
           return handle_user_updated(payload)
-        when 'user.deleted'
+        when "user.deleted"
           return handle_user_deleted(payload)
         # Add more event types as needed
         else
@@ -45,8 +45,6 @@ module Api
         # Implement your logic for handling user.created event
 
         Rails.logger.info("Handling user.created event: #{payload}")
-
-        binding.break
       end
 
       def handle_user_updated(payload)
