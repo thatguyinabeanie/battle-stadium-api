@@ -6,26 +6,13 @@ current_dir=$(dirname "$(realpath "$0")")
 # any issues related to an existing server.pid file.
 rm -f tmp/pids/server.pid
 
-if [ "${INSTALL_BUNDLE_DEPS}" = "true" ]; then
-  echo "== Installing dependencies =="
-  bundle check || bundle install
-fi
+echo "== Installing dependencies =="
+bundle check || bundle install
 
-# If running the rails server then create or migrate existing database
-if [ "${RAILS_SETUP}" = "true" ]; then
-  $current_dir/setup
-fi
+bundle exec rails db:prepare
 
-if [ "${SEED_DB}" = "true" ]; then
-  bundle exec rails db:seed || true
-fi
+bundle exec rails db:migrate
 
-if [ "${START_RAILS_SERVER}" = "true" ]; then
-  bundle exec rails server -b 0.0.0.0 -p 10000 &
-fi
-
-if [ "${SLEEP_INFINITY}" = "true" ]; then
-  sleep infinity
-fi
+bundle exec rails server -b 0.0.0.0
 
 exec "${@}"

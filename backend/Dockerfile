@@ -75,5 +75,6 @@ RUN bundle check || bundle install
 EXPOSE ${PORT}
 ENV RAILS_ENV=production
 
-CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0", "-e", "production"]
+ENTRYPOINT [ "./bin/docker-entrypoint" ]
+CMD ["./bin/docker-entrypoint"]
 
