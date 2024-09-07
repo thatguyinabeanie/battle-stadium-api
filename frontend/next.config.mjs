@@ -11,6 +11,9 @@ const nextConfig = {
     MEASUREMENT_ID: process.env.MEASUREMENT_ID,
   },
   reactStrictMode: true,
+  experimental: {
+    allowMiddlewareResponseBody: true,
+  },
 };
 
 export default nextConfig;

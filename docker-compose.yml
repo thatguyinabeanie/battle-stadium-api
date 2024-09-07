@@ -32,7 +32,7 @@ services:
       "
     tty: true
     ports:
-      - 10000:10000
+      - 3000:10000
     depends_on:
       - postgres
     healthcheck:
@@ -67,7 +67,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - 10001:10001
+      - 8080:10001
     volumes:
       - .:/battle-stadium
       - ./frontend/.zshrc:/root/.zshenv
