@@ -4,7 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
-import { GoogleAnalytics } from "@next/third-parties";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import Providers from "./providers";
 
