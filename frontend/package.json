@@ -21,6 +21,7 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.4.1",
     "@internationalized/date": "^3.5.5",
     "@neondatabase/serverless": "^0.9.5",
     "@next/eslint-plugin-next": "^14.2.8",
