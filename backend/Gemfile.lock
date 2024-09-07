@@ -174,6 +174,9 @@ GEM
     hirb (0.7.3)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
+    immutable-ruby (0.2.0)
+      concurrent-ruby (~> 1.1)
+      sorted_set (~> 1.0)
     importmap-rails (2.0.1)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -185,6 +188,9 @@ GEM
     jbuilder (2.12.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jose (1.2.0)
+      base64
+      immutable-ruby
     json (2.7.2)
     json-jwt (1.16.6)
       activesupport (>= 4.2)
@@ -338,6 +344,7 @@ GEM
     rb-readline (0.5.5)
     rbs (3.5.3)
       logger
+    rbtree (0.4.6)
     rdoc (6.7.0)
       psych (>= 4.0.0)
     redis (5.3.0)
@@ -474,6 +481,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    set (1.1.0)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.1)
@@ -493,6 +501,9 @@ GEM
       hashie
       version_gem (~> 1.1, >= 1.1.1)
     sorbet-runtime (0.5.11553)
+    sorted_set (1.0.3)
+      rbtree
+      set (~> 1.0)
     spring (4.2.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
@@ -575,6 +586,7 @@ DEPENDENCIES
   importmap-rails (~> 2)
   irb
   jbuilder (~> 2)
+  jose (~> 1.2)
   json-jwt
   jsonapi-serializer (~> 2)
   jwt

@@ -4,19 +4,18 @@ require_relative "../../../../lib/json_web_token"
 module Api
   module V1
     class UsersController < AbstractApplicationController
-      self.klass = User
+      self.klass = ::User
       self.serializer_klass = Serializers::User
       self.detail_serializer_klass = Serializers::UserDetails
       self.update_params_except = %i[password password_confirmation]
 
       before_action :set_user, only: %i[patch_password]
 
-      before_action :authenticate_user, only: %i[me patch_password update destroy create] # rubocop:disable Rails/LexicallyScopedActionFilter
+      before_action :authenticate_user, only: %i[me patch_password update destroy create]
 
       before_action :set_cache_headers, only: %i[me]
 
       skip_before_action :verify_authenticity_token, only: %i[create update show destroy password_login me patch_password]
-      # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def patch_password
         authorize @object, :patch_password?
