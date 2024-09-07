@@ -62,5 +62,7 @@ module BattleStadium
     config.session_store :cookie_store, key: "sessions.battlestadium.gg"
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: "sessions.battlestadium.gg"
+
+    config.filter_parameters += %i[password password_confirmation email_address email first_name last_name phone_numbers]
   end
 end

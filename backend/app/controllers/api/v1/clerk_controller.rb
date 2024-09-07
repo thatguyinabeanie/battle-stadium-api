@@ -15,17 +15,50 @@ module Api
         skip_authorization
         policy = ClerkPolicy.new(request)
 
-        if policy.webhook_verify?
-          Rails.logger.info("Signature verified")
-          render status: :ok, json: { message: "ok" }
-        else
-          Rails.logger.error("Signature verification failed")
-          render status: :unauthorized, json: { error: "Signature verification failed" }
-        end
+        render status: :unauthorized, json: { error: "Signature verification failed" } unless policy.webhook_verify?
+        handle_event(request, params)
       rescue StandardError => e
         Rails.logger.error("Webhook verification failed: #{e.message}")
         render status: :unauthorized, json: { error: e.message }
       end
+
+
+      private
+
+      def handle_event(request, params)
+        payload = JSON.parse(request.body.read);
+
+        case params[:type]
+        when 'user.created'
+          return handle_user_created(payload)
+        when 'user.updated'
+          return handle_user_updated(payload)
+        when 'user.deleted'
+          return handle_user_deleted(payload)
+        # Add more event types as needed
+        else
+          Rails.logger.warn("Unhandled event type: #{type}")
+        end
+      end
+
+      def handle_user_created(payload)
+        # Implement your logic for handling user.created event
+
+        Rails.logger.info("Handling user.created event: #{payload}")
+
+        binding.break
+      end
+
+      def handle_user_updated(payload)
+        # Implement your logic for handling user.updated event
+        Rails.logger.info("Handling user.updated event: #{payload}")
+      end
+
+      def handle_user_deleted(payload)
+        # Implement your logic for handling user.deleted event
+        Rails.logger.info("Handling user.deleted event: #{payload}")
+      end
+
     end
   end
 end
