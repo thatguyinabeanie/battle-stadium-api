@@ -18,15 +18,6 @@ module Api
       skip_before_action :verify_authenticity_token, only: %i[create update show destroy password_login me patch_password]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
-      def index
-        decoded_token = VercelOidc.decode_token(request:)
-        if decoded_token.present?
-          super
-        else
-          skip_authorization
-          render json: { error: "Unauthorized" }, status: :unauthorized
-        end
-      end
 
       def patch_password
         authorize @object, :patch_password?

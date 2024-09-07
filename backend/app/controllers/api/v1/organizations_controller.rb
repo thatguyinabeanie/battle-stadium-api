@@ -17,16 +17,6 @@ module Api
         ::OrganizationPolicy
       end
 
-      def index
-        decoded_token = VercelOidc.decode_token(request:)
-        if decoded_token.present?
-          super
-        else
-          skip_authorization
-          render json: { error: "Unauthorized" }, status: :unauthorized
-        end
-      end
-
       def staff
         authorize ::Organization, :staff?
         # Assuming there's an association called `staff_members` you can directly use it
