@@ -1,1 +1,1 @@
-{ "dependencies": { "@prisma/adapter-neon": "^5.19.1", "@vercel/postgres": "^0.9.0" } }
+{ "dependencies": { "@next/third-parties": "^14.2.8", "@prisma/adapter-neon": "^5.19.1", "@vercel/postgres": "^0.9.0" } }
