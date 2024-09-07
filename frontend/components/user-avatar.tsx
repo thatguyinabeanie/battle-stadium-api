@@ -4,6 +4,7 @@ import { useMediaQuery } from "usehooks-ts";
 
 import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
+import { useSession, useUser } from "@clerk/nextjs";
 
 function DefaultAvatar({ classNames, className, name, ...props }: Readonly<AvatarProps>) {
   return (
@@ -22,46 +23,34 @@ function DefaultAvatar({ classNames, className, name, ...props }: Readonly<Avata
 }
 
 function UserInfo() {
+  const { isSignedIn, user, isLoaded } = useUser();
   const isCompact = useMediaQuery("(max-width: 768px)");
-
-  const session = {
-    username: "roblow",
-    user: {
-      name: "John Doe",
-      firstName: "John",
-      lastName: "Doe",
-      image: "https://avatars.dicebear.com/api/avataaars/john-doe.svg",
-      username: "roblow",
-    },
-  };
-
-  const { firstName, lastName, name, username } = session?.user ?? {};
 
   return (
     <div className={cn("flex max-w-full flex-col", { hidden: isCompact })}>
-      {!session && (
+      {(!user || !isSignedIn) && (
         <p className="truncate text-tiny text-default-400">
-          <Link aria-label="Log In" href="/login">
-            Log in
+          <Link aria-label="Log In" href="/sign-in">
+            Sign In
           </Link>
         </p>
       )}
 
-      {session && (
+      {user && isSignedIn && isLoaded && (
         <>
           <p className="text-small font-medium text-default-600">
             <Link aria-label="Profile Link" href="/dashboard">
-              {username ?? session.username}
+              { user.username }
             </Link>
           </p>
 
-          {(name || (firstName && lastName)) && (
+
             <Link aria-label="session-user-id" href="/dashboard">
               <p className="truncate text-tiny text-default-400">
-                {session.user?.name ?? session.user.firstName + " " + session.user.lastName}
+                {user.fullName}
               </p>
             </Link>
-          )}
+
         </>
       )}
     </div>
@@ -69,22 +58,19 @@ function UserInfo() {
 }
 
 export default function UserAvatar() {
-  const session = {
-    username: "roblow",
-    user: {
-      name: "John Doe",
-      firstName: "John",
-      lastName: "Doe",
-      image: "https://avatars.dicebear.com/api/avataaars/john-doe.svg",
-      username: "roblow",
-    },
-  };
+  const { isSignedIn, user } = useUser();
 
-  if (!session) {
+  if(user && isSignedIn) {
     return (
       <div className="flex items-center gap-3 px-3">
-        <Link href="/login">
-          <DefaultAvatar isBordered aria-label="User Avatar Not Signed In" icon={<AvatarIcon />} size="sm" />
+        <Link href="/dashboard">
+          <Avatar
+            isBordered
+            aria-label="User Avatar Signed In"
+            icon={ <AvatarIcon /> }
+            size="sm"
+            src={ user.imageUrl }
+          />
         </Link>
         <UserInfo />
       </div>
@@ -93,14 +79,8 @@ export default function UserAvatar() {
 
   return (
     <div className="flex items-center gap-3 px-3">
-      <Link href="/dashboard">
-        <Avatar
-          isBordered
-          aria-label="User Avatar Signed In"
-          icon={<AvatarIcon />}
-          size="sm"
-          src={session.user?.image ?? undefined}
-        />
+      <Link href="/sign-in">
+        <DefaultAvatar isBordered aria-label="User Avatar Not Signed In" icon={<AvatarIcon />} size="sm" />
       </Link>
       <UserInfo />
     </div>

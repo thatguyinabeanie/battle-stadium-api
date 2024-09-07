@@ -18,7 +18,8 @@ import BattleStadium from "@/components/battle-stadium";
 import UserAvatar from "../user-avatar";
 
 import useRenderSideBarItems from "./use-render-sidebar-items";
-import Logout from "./logout";
+import Logout from "./sign-out";
+import SignOut from "./sign-out";
 
 export enum SidebarItemType {
   Nest = "nest",
@@ -127,7 +128,7 @@ export default function Sidebar(props: SidebarProps) {
 
       <Spacer y={2} />
 
-      <Logout isCompact={isCompact} />
+      <SignOut isCompact={isCompact} />
     </>
   );
 }

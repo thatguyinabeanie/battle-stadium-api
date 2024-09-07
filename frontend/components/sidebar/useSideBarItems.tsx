@@ -1,8 +1,8 @@
 import { UserMe } from "@/lib/api";
-import { useCurrentUser } from "@/lib/context/current-user";
 
 import { SidebarItem } from "./sidebar";
 import { sectionItems } from "./sidebar-items";
+import { useUser } from "@clerk/nextjs";
 
 const getYourOrganizations = (currentUser: UserMe) => {
   const yourOrganizations: SidebarItem = {
@@ -19,12 +19,11 @@ const getYourOrganizations = (currentUser: UserMe) => {
 };
 
 export default function useSideBarItems() {
-  const contextValue = useCurrentUser();
 
-  const currentUser = contextValue?.currentUser;
+  const { isSignedIn, user, isLoaded } = useUser();
 
-  if (currentUser && currentUser?.organizations?.length > 0) {
-    return [...sectionItems, getYourOrganizations(currentUser)];
+  if (user && isSignedIn && isLoaded) {
+    const orgMemberships = user?.getOrganizationMemberships();
   }
 
   return [...sectionItems];
