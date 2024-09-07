@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
 /**
  * Returns a Response object with a JSON body
@@ -9,7 +9,7 @@ export function jsonResponse(status: number, data: any, init?: ResponseInit) {
     status,
     headers: {
       ...init?.headers,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-  })
+  });
 }
