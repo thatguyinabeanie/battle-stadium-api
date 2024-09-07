@@ -42,7 +42,7 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
           </main>
         </Providers>
       </body>
-      <GoogleAnalytics gaId={process.env.MEASUREMENT_ID} />
+      <GoogleAnalytics gaId={process.env.MEASUREMENT_ID ?? ""} />
     </html>
   );
 }
