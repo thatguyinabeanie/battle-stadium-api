@@ -7,6 +7,9 @@ dotenv.config();
 dotenv.config({ path: join(process.cwd(), "..", ".env.development.local") });
 
 const nextConfig = {
+  env: {
+    MEASUREMENT_ID: process.env.MEASUREMENT_ID,
+  },
   reactStrictMode: true,
 };
 
