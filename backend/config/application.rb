@@ -30,7 +30,7 @@ module BattleStadium
         hostname = Socket.gethostname
 
         ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
-        ENV['DATABASE_URL'] = nil
+        ENV["DATABASE_URL"] = nil
       end
     end
 
