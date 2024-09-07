@@ -101,6 +101,10 @@ jobs:
         run: bun install --silent
         working-directory: frontend
 
+      - name: Generate Prisma Client
+        run: bun prisma:generate
+        working-directory: frontend
+
       - name: Run Type Check
         run: bun tsc
         working-directory: frontend
