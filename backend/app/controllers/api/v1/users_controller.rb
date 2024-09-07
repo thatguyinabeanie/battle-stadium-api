@@ -19,9 +19,8 @@ module Api
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def index
-        decoded_token = VercelOidc.decode_token(request: request)
+        decoded_token = VercelOidc.decode_token(request:)
         if decoded_token.present?
-          binding.break
           super
         else
           skip_authorization
