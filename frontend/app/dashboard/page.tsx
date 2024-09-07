@@ -3,8 +3,9 @@
 import { useUser } from "@clerk/nextjs";
 
 export default function Dashboard() {
-  const { isSignedIn, user} = useUser();
-  if(user && isSignedIn) {
+  const { isSignedIn, user } = useUser();
+
+  if (user && isSignedIn) {
     return (
       <div>
         <h1>Dashboard</h1>

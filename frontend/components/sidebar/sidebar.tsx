@@ -18,7 +18,6 @@ import BattleStadium from "@/components/battle-stadium";
 import UserAvatar from "../user-avatar";
 
 import useRenderSideBarItems from "./use-render-sidebar-items";
-import Logout from "./sign-out";
 import SignOut from "./sign-out";
 
 export enum SidebarItemType {

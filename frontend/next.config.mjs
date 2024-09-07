@@ -11,8 +11,7 @@ const nextConfig = {
     MEASUREMENT_ID: process.env.MEASUREMENT_ID,
   },
   reactStrictMode: true,
-  experimental: {
-  },
+  experimental: {},
 };
 
 export default nextConfig;

@@ -1,13 +1,12 @@
-import { cn } from "@/lib";
-import { SignOutButton, useUser } from '@clerk/nextjs'
+import { SignOutButton, useUser } from "@clerk/nextjs";
 
+import { cn } from "@/lib";
 
 export interface LogoutProps {
   isCompact: boolean;
 }
 
 export default function SignOut({ isCompact }: Readonly<LogoutProps>) {
-
   const { user, isSignedIn } = useUser();
 
   if (!(user && isSignedIn)) {
@@ -20,10 +19,9 @@ export default function SignOut({ isCompact }: Readonly<LogoutProps>) {
         "items-center": isCompact,
       })}
     >
-      <SignOutButton >
+      <SignOutButton>
         <button>Sign out</button>
       </SignOutButton>
-
     </div>
   );
 }

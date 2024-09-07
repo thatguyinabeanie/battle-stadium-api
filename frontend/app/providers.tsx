@@ -7,9 +7,7 @@ export default async function Providers({ children }: Readonly<ChildrenProps>) {
   return (
     <NextUIProvider>
       <ThemesProvider attribute="class" defaultTheme="dark">
-        <div className="flex h-dvh w-full">
-          {children}
-        </div>
+        <div className="flex h-dvh w-full">{children}</div>
       </ThemesProvider>
     </NextUIProvider>
   );
