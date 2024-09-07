@@ -68,7 +68,7 @@ jobs:
           bun-version: latest
 
       - name: Install Dependencies
-        run: bun install --silent
+        run: bun install
         working-directory: frontend
 
       - name: Run Lint
