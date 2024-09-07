@@ -6,6 +6,7 @@ import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { OrganizationDetails } from "@/lib/api";
 
 const OrganizationsPage = async () => {
+<<<<<<< Updated upstream
   const orgs = (
     await prisma.organizations.findMany({
       include: {
@@ -33,6 +34,17 @@ const OrganizationsPage = async () => {
         },
     logoUrl: org.logo_url ?? "/pokemon/vgc.png",
   }));
+=======
+  const orgs = await BattleStadiumAPI().Organizations.list({
+    cache: 'no-store'
+  });
+  const users = await BattleStadiumAPI().Users.list({
+    cache: 'no-store'
+  });
+
+  console.log('user', users);
+
+>>>>>>> Stashed changes
 
   return (
     <div

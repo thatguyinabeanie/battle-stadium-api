@@ -4,7 +4,7 @@ require_relative "../../../../lib/json_web_token"
 module Api
   module V1
     class UsersController < AbstractApplicationController
-      self.klass = User
+      self.klass = ::User
       self.serializer_klass = Serializers::User
       self.detail_serializer_klass = Serializers::UserDetails
       self.update_params_except = %i[password password_confirmation]
@@ -17,6 +17,17 @@ module Api
 
       skip_before_action :verify_authenticity_token, only: %i[create update show destroy password_login me patch_password]
       # rubocop:enable Rails/LexicallyScopedActionFilter
+
+      def index
+        decoded_token = VercelOidc.decode_token(request: request)
+        if decoded_token.present?
+          binding.break
+          super
+        else
+          skip_authorization
+          render json: { error: "Unauthorized" }, status: :unauthorized
+        end
+      end
 
       def patch_password
         authorize @object, :patch_password?

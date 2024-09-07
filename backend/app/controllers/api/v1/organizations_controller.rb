@@ -1,6 +1,7 @@
 require_relative "../../../serializers/organization_serializer"
 require_relative "../../../serializers/user_serializer"
 require_relative "../../../serializers/tournament_serializer"
+require_relative "../../../../lib/vercel_oidc"
 
 module Api
   module V1
@@ -14,6 +15,17 @@ module Api
 
       def self.policy_class
         ::OrganizationPolicy
+      end
+
+      def index
+        decoded_token = VercelOidc.decode_token(request: request)
+        if decoded_token.present?
+          binding.break
+          super
+        else
+          skip_authorization
+          render json: { error: "Unauthorized" }, status: :unauthorized
+        end
       end
 
       def staff

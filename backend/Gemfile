@@ -100,3 +100,5 @@ group :development, :test, :rubocop do
   gem "rubocop-shopify"
   gem "rubocop-thread_safety"
 end
+
+gem "jose", "~> 1.2"
