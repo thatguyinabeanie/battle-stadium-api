@@ -3,7 +3,7 @@
 require "rails_helper"
 require "support/constants"
 
-ID_PROPERTY = { id: { type: :integer } }.freeze
+ID_PROPERTY = { id: { type: :integer, format: :int64 } }.freeze
 UUID_TYPE = { type: :string, format: "uuid" }.freeze
 UUID_PROPERTY = { id: UUID_TYPE }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
@@ -265,9 +265,10 @@ TOURNAMENT_DETAILS_SCHEMA = {
 TOURNAMENT_REQUEST = {
   type: :object,
   title: "Tournament Request",
-  properties: ID_NAME_PROPERTIES.merge({
-                                         game_id: { type: :integer },
-                                         format_id: { type: :integer },
+  properties: ID_NAME_PROPERTIES.merge(
+    {
+                                         game_id: { type: :integer, format: :int64 },
+                                         format_id: { type: :integer, format: :int64 },
                                          autostart: { type: :boolean },
                                          start_at: { type: :string, format: DATE_TIME_TYPE },
                                          player_cap: { type: :integer, nullable: true },
@@ -285,10 +286,10 @@ TOURNAMENT_POST_REQUEST = {
   type: :object,
   title: "Tournament Post Request",
   properties: {
-    organization_id: { type: :integer },
+    organization_id: { type: :integer, format: :int64},
     name: { type: :string },
-    game_id: { type: :integer },
-    format_id: { type: :integer },
+    game_id: { type: :integer, format: :int64 },
+    format_id: { type: :integer, format: :int64 },
     autostart: { type: :boolean },
     start_at: { type: :string, format: DATE_TIME_TYPE },
     player_cap: { type: :integer, nullable: true },
@@ -333,7 +334,7 @@ PLAYER_SCHEMA = {
   type: :object,
   title: "Player",
   properties: {
-    id: { type: :integer },
+    id: { type: :integer, format: :int64 },
     user: { "$ref" => "#/components/schemas/User" },
     in_game_name: { type: :string }
     # checked_in: { type: :boolean },
@@ -362,8 +363,8 @@ ROUND_SCHEMA = {
   type: :object,
   title: "Round",
   properties: ID_PROPERTY.merge(
-    phase_id: { type: :integer },
-    round_number: { type: :integer },
+    phase_id: { type: :integer, format: :int64 },
+    round_number: { type: :integer, format: :int64 },
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   ),
@@ -374,11 +375,11 @@ PHASE_SCHEMA = {
   type: :object,
   title: "Phase",
   properties: ID_NAME_PROPERTIES.merge(
-    order: { type: :integer },
+    order: { type: :integer, format: :int64 },
     type: { type: :string },
-    tournament_id: { type: :integer },
-    number_of_rounds: { type: :integer },
-    best_of: { type: :integer },
+    tournament_id: { type: :integer, format: :int64 },
+    number_of_rounds: { type: :integer},
+    best_of: { type: :integer},
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     created_at: { type: :string, format: DATE_TIME_TYPE },

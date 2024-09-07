@@ -1,10 +1,10 @@
 import React from "react";
 
+import LoadingPlaceholder from "./loading-place-holder";
+
 import { Image, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
 import { OrganizationDetails } from "@/lib/api";
-
-import LoadingPlaceholder from "./loading-place-holder";
 
 export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
   isLoading?: boolean;

@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 
 import React from "react";
 
-import BattleStadiumAPI, { Tournament } from "@/lib/api/battle-stadium-api";
-
 import TournamentsTable from "./TournamentsTable";
+
+import BattleStadiumAPI from "@/lib/api/battle-stadium-api";
+import prisma from "@/prisma/client";
 
 export const metadata: Metadata = {
   title: "Tournaments",
 };
 
 const Tournaments = async () => {
-  const tournaments: Tournament[] = await BattleStadiumAPI().Tournaments.list();
-  // const tournaments: Tournament[] = [];
+  const tournaments = await BattleStadiumAPI().Tournaments.list();
 
   return <TournamentsTable tournaments={tournaments} />;
 };

@@ -33,15 +33,14 @@ export class Configuration {
   }
 
   get basePath(): string {
-    if (process.env.NODE_ENV === "production" && process.env.API_BASE_URL_PATH) {
+    if (process.env.API_BASE_URL_PATH) {
       const BASE_PATH = process.env.API_BASE_URL_PATH.replace(/\/+$/, "");
-
       return this.configuration.basePath ?? BASE_PATH;
     }
 
     const componentType = typeof window === "undefined" ? "server" : "client";
-    const backendHost = (componentType === "server" && process?.env?.BACKEND_HOST) || "localhost:10000";
-    const API_BASE_URL_PATH: string = `http://${backendHost}`;
+    const backendHost = (componentType === "server" && process?.env?.BACKEND_HOST) || "localhost";
+    const API_BASE_URL_PATH: string = `http://${backendHost}:10000`;
     const BASE_PATH = API_BASE_URL_PATH.replace(/\/+$/, "");
     return this.configuration.basePath ?? BASE_PATH;
   }
