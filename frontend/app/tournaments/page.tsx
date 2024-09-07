@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 
 import React from "react";
 
-import TournamentsTable from "./TournamentsTable";
-
 import BattleStadiumAPI from "@/lib/api/battle-stadium-api";
-import prisma from "@/prisma/client";
+
+import TournamentsTable from "./TournamentsTable";
 
 export const metadata: Metadata = {
   title: "Tournaments",

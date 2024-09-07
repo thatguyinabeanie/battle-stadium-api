@@ -1,6 +1,5 @@
 import React from "react";
 import { AvatarProps } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { Avatar, AvatarIcon, Link } from "@/components/client";

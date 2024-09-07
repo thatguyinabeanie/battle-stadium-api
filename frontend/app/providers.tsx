@@ -10,11 +10,11 @@ export default async function Providers({ children }: Readonly<ChildrenProps>) {
   return (
     <NextUIProvider>
       <ThemesProvider attribute="class" defaultTheme="dark">
-          <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
-            <div className="flex h-dvh w-full">
-              <CurrentUserContextProvider initCurrentUser={null}>{children}</CurrentUserContextProvider>
-            </div>
-          </ReactQueryClientProvider>
+        <ReactQueryClientProvider initialIsOpen={initialIsOpen}>
+          <div className="flex h-dvh w-full">
+            <CurrentUserContextProvider initCurrentUser={null}>{children}</CurrentUserContextProvider>
+          </div>
+        </ReactQueryClientProvider>
       </ThemesProvider>
     </NextUIProvider>
   );

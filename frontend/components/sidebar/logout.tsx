@@ -1,9 +1,8 @@
 import { m } from "framer-motion";
-import { useSession } from "next-auth/react";
-
-import { Button, Icon, Tooltip } from "../client";
 
 import { cn } from "@/lib";
+
+import { Button, Icon, Tooltip } from "../client";
 
 const signOut: ((formData: FormData) => void) | undefined = (_formData) => {
   throw new Error("Function not implemented.");
