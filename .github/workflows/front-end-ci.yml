@@ -23,6 +23,10 @@ jobs:
         run: bun install --silent
         working-directory: frontend
 
+      - name: Generate Prisma Client
+        run: bun prisma:generate
+        working-directory: frontend
+
       - name: Run Tests
         run: bun test
         working-directory: frontend
@@ -99,6 +103,10 @@ jobs:
 
       - name: Install Dependencies
         run: bun install --silent
+        working-directory: frontend
+
+      - name: Generate Prisma Client
+        run: bun prisma:generate
         working-directory: frontend
 
       - name: Run Type Check

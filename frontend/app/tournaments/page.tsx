@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import React from "react";
 
-import BattleStadiumAPI, { Tournament } from "@/lib/api/battle-stadium-api";
+import BattleStadiumAPI from "@/lib/api/battle-stadium-api";
 
 import TournamentsTable from "./TournamentsTable";
 
@@ -11,8 +11,7 @@ export const metadata: Metadata = {
 };
 
 const Tournaments = async () => {
-  const tournaments: Tournament[] = await BattleStadiumAPI().Tournaments.list();
-  // const tournaments: Tournament[] = [];
+  const tournaments = await BattleStadiumAPI().Tournaments.list();
 
   return <TournamentsTable tournaments={tournaments} />;
 };

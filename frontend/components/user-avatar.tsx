@@ -1,6 +1,5 @@
 import React from "react";
 import { AvatarProps } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { Avatar, AvatarIcon, Link } from "@/components/client";
@@ -23,8 +22,18 @@ function DefaultAvatar({ classNames, className, name, ...props }: Readonly<Avata
 }
 
 function UserInfo() {
-  const { data: session } = useSession();
   const isCompact = useMediaQuery("(max-width: 768px)");
+
+  const session = {
+    username: "roblow",
+    user: {
+      name: "John Doe",
+      firstName: "John",
+      lastName: "Doe",
+      image: "https://avatars.dicebear.com/api/avataaars/john-doe.svg",
+      username: "roblow",
+    },
+  };
 
   const { firstName, lastName, name, username } = session?.user ?? {};
 
@@ -60,7 +69,16 @@ function UserInfo() {
 }
 
 export default function UserAvatar() {
-  const { data: session } = useSession();
+  const session = {
+    username: "roblow",
+    user: {
+      name: "John Doe",
+      firstName: "John",
+      lastName: "Doe",
+      image: "https://avatars.dicebear.com/api/avataaars/john-doe.svg",
+      username: "roblow",
+    },
+  };
 
   if (!session) {
     return (

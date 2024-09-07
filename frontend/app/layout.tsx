@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
@@ -41,6 +42,7 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
           </main>
         </Providers>
       </body>
+      <GoogleAnalytics gaId={process.env.MEASUREMENT_ID ?? ""} />
     </html>
   );
 }

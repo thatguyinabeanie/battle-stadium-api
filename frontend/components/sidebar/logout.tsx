@@ -1,19 +1,17 @@
 import { m } from "framer-motion";
-import { useSession } from "next-auth/react";
 
 import { cn } from "@/lib";
-import { signOut } from "@/lib/server-actions/sign-out";
 
 import { Button, Icon, Tooltip } from "../client";
+
+const signOut: ((formData: FormData) => void) | undefined = (_formData) => {
+  throw new Error("Function not implemented.");
+};
 
 export interface LogoutProps {
   isCompact: boolean;
 }
-export default function Logout({ isCompact }: LogoutProps) {
-  const { status } = useSession();
-
-  if (status === "unauthenticated") return null;
-
+export default function Logout({ isCompact }: Readonly<LogoutProps>) {
   return (
     <div
       className={cn("mt-auto flex flex-col", {

@@ -846,6 +846,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
     Game:
@@ -854,6 +855,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
       required:
@@ -865,6 +867,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         formats:
@@ -1176,6 +1179,7 @@ components:
           format: uri
         id:
           type: integer
+          format: int64
         name:
           type: string
       required:
@@ -1199,6 +1203,7 @@ components:
           format: uri
         id:
           type: integer
+          format: int64
         name:
           type: string
       required:
@@ -1223,6 +1228,7 @@ components:
           "$ref": "#/components/schemas/Game"
         id:
           type: integer
+          format: int64
         name:
           type: string
         player_cap:
@@ -1270,6 +1276,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         autostart:
@@ -1346,6 +1353,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         nickname:
@@ -1401,6 +1409,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         user:
           "$ref": "#/components/schemas/User"
         in_game_name:
@@ -1415,6 +1424,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         user:
           "$ref": "#/components/schemas/User"
         in_game_name:
@@ -1429,10 +1439,13 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         phase_id:
           type: integer
+          format: int64
         round_number:
           type: integer
+          format: int64
         started_at:
           type: string
           format: date-time
@@ -1453,14 +1466,17 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         order:
           type: integer
+          format: int64
         type:
           type: string
         tournament_id:
           type: integer
+          format: int64
         number_of_rounds:
           type: integer
         best_of:
@@ -1494,14 +1510,17 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         order:
           type: integer
+          format: int64
         type:
           type: string
         tournament_id:
           type: integer
+          format: int64
         number_of_rounds:
           type: integer
         best_of:
@@ -1545,6 +1564,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
       required:
@@ -1555,12 +1575,15 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         game_id:
           type: integer
+          format: int64
         format_id:
           type: integer
+          format: int64
         autostart:
           type: boolean
         start_at:
@@ -1606,12 +1629,15 @@ components:
       properties:
         organization_id:
           type: integer
+          format: int64
         name:
           type: string
         game_id:
           type: integer
+          format: int64
         format_id:
           type: integer
+          format: int64
         autostart:
           type: boolean
         start_at:
