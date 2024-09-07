@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      post "clerk", to: "clerk#post"
       post "users/authorize", to: "users#password_login"
       get "users/me", to: "users#me"
 
