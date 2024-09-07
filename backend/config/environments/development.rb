@@ -78,6 +78,9 @@ Rails.application.configure do
   config.web_console.whitelisted_ips = ["172.18.0.0/16", "192.168.0.0/16"]
 
   config.hosts = [
-    "localhost" , "backend", "api-battle-stadium-gg.onrender.com"
+    "localhost" ,
+    "backend",
+    "api-battle-stadium-gg.onrender.com",
+    "a5c4-2600-1700-4b40-2c60-bc7f-e8b9-c73a-f56a.ngrok-free.app"
   ]
 end
