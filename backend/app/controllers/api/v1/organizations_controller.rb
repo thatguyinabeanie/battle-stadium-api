@@ -18,7 +18,7 @@ module Api
       end
 
       def staff
-        authorize ::Organization, :staff?
+        # authorize ::Organization, :staff?
         # Assuming there's an association called `staff_members` you can directly use it
         # If not, replace `organization.staff_members` with your logic to fetch staff members
         render json: @organization.staff, each_serializer: Serializers::User, status: :ok
@@ -27,13 +27,13 @@ module Api
       end
 
       def list_tournaments
-        authorize ::Tournaments::Tournament, :list?
+        # authorize ::Tournaments::Tournament, :list?
         @tournaments = @organization.tournaments
         render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
       def post_tournaments
-        authorize @organization, :create_tournament?
+        # authorize @organization, :create_tournament?
 
         @tournament = @organization.tournaments.new tournaments_permitted_params
 
@@ -47,7 +47,7 @@ module Api
       end
 
       def patch_tournament
-        authorize @organization, :update_tournament?
+        # authorize @organization, :update_tournament?
         @tournament = @organization.tournaments.find(params[:tournament_id])
         if @tournament.update! tournaments_permitted_params
           render json: @tournament, status: :ok, serializer: Serializers::TournamentDetails

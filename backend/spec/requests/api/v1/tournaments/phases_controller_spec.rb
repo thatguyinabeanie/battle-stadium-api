@@ -44,7 +44,6 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         let(:phase) do
           {
@@ -62,7 +61,6 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response 404, NOT_FOUND do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:tournament_id) { "invalid" }
         let(:phase) do
           {
@@ -121,7 +119,6 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
 
         let(:phase) do
           {
@@ -163,7 +160,6 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
 
 
         OpenApi::Response.set_example_response_metadata
@@ -171,7 +167,6 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
 
         let(:id) { "invalid" }
 

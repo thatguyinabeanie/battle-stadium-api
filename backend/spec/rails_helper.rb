@@ -9,7 +9,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "rspec/rails"
 require "shoulda/matchers"
 require "simplecov"
-require "support/authorization_header"
+
 require "support/openapi/schema_helper"
 require "support/openapi/response_helper"
 

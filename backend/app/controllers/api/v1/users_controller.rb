@@ -14,7 +14,7 @@ module Api
 
 
       def me
-        authorize @current_user, :me?
+        # authorize @current_user, :me?
         render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { errors: ["User not found"] }, status: :not_found

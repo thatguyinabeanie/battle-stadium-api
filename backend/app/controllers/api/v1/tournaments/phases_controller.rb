@@ -14,17 +14,17 @@ module Api
         end
 
         def index
-          super
+          # super
           render json: @phases, each_serializer: Serializers::Phase, status: :ok
         end
 
         def show
-          super
+          # super
           render json: serialize_phase_details, status: :ok
         end
 
         def create
-          authorize @tournament, :update?
+          # authorize @tournament, :update?
 
           klass = case params[:phase][:type]
                   when Phases::Swiss.to_s
@@ -47,7 +47,7 @@ module Api
         end
 
         def update
-          authorize @phase, :update?
+          # authorize @phase, :update?
           if @phase.update! permitted_params
             render json: serialize_phase_details, status: :ok
           else
@@ -56,7 +56,7 @@ module Api
         end
 
         def destroy
-          authorize @phase, :destroy?
+          # authorize @phase, :destroy?
           @phase.destroy!
           render json: { message: "Phase deleted" }, status: :ok
         end

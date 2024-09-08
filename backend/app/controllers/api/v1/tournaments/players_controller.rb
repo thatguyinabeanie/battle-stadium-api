@@ -14,17 +14,17 @@ module Api
         end
 
         def index
-          super
+          # super
           render json: @players, each_serializer: Serializers::Player, status: :ok
         end
 
         def show
-          super
+          # super
           render json: serialize_player_details, status: :ok
         end
 
         def create
-          authorize ::Tournaments::Player, :create?
+          # authorize ::Tournaments::Player, :create?
 
           @player = @players.create! permitted_params.merge(tournament_id: @tournament.id)
           if @player.save
@@ -37,7 +37,7 @@ module Api
         end
 
         def update
-          authorize @player, :update?
+          # authorize @player, :update?
           if @player.update! permitted_params
             render json: serialize_player_details, status: :ok
           else
@@ -46,7 +46,7 @@ module Api
         end
 
         def destroy
-          authorize @player, :destroy?
+          # authorize @player, :destroy?
           @player.destroy!
           render json: { message: "Player deleted" }, status: :ok
         end

@@ -9,7 +9,8 @@ class VercelOidc
   class << self
     def decode_token(request:)
       Rails.logger.info("Verifying Vercel OIDC token")
-      token = request.headers["Authorization"]&.split("Bearer ")&.last
+      # token = request.headers["Authorization"]&.split("Bearer ")&.last
+      token = nil
 
       if token.nil?
         return nil

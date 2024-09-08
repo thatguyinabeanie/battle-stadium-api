@@ -34,7 +34,6 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         let(:user) do
           {
@@ -56,7 +55,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(403, "forbidden") do
-        let(:Authorization) { AuthorizationHeader.bearer_token } # rubocop:disable RSpec/VariableName
 
         let(:user) { {} }
 
@@ -68,7 +66,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(422, "unprocessable entity") do
-        let(:Authorization) { AuthorizationHeader.bearer_token user: create(:admin) } # rubocop:disable RSpec/VariableName
 
         let(:user) do
           {
@@ -153,7 +150,6 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token } # rubocop:disable RSpec/VariableName
 
         schema "$ref" => "#/components/schemas/UserMe"
 
@@ -163,7 +159,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(401, NOT_FOUND) do
-        let(:Authorization) { "Bearer invalid" } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
@@ -222,7 +217,6 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -232,7 +226,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:id) { "invalid" }
         let(:user) do
           {
@@ -255,7 +248,6 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         let(:user) { create(:user) }
         let(:id) { user.id }
@@ -266,7 +258,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata

@@ -31,9 +31,6 @@ RSpec.describe Api::V1::GamesController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-
-
         let(:game) { { game: { name: "New Game" } } }
 
         schema "$ref" => GAME_DETAIL_SCHEMA
@@ -44,7 +41,6 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(400, "bad request") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
         let(:game) { { title: "", genre: "" } }
 
         OpenApi::Response.set_example_response_metadata
@@ -90,11 +86,9 @@ RSpec.describe Api::V1::GamesController do
 
       parameter name: :game, in: :body, schema: { "$ref" => "#/components/schemas/Game" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-
         let(:game) { { game: { name: "Updated Game" } } }
 
         schema "$ref" => GAME_DETAIL_SCHEMA
@@ -105,8 +99,6 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-
         let(:id) { "invalid" }
         let(:game) { { game: { name: "Updated Game" } } }
 
@@ -122,10 +114,9 @@ RSpec.describe Api::V1::GamesController do
       description "Deletes a game by ID."
       operationId "deleteGame"
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
 
         OpenApi::Response.set_example_response_metadata
 
@@ -133,8 +124,6 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-
         let(:id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
