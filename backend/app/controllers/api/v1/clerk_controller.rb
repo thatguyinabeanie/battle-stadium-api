@@ -52,7 +52,7 @@ module Api
         image_url = user_data["image_url"]
         # Implement your logic for handling user.created event
         # For example, you can create a new user record in the database
-        u = User.build(id: user_id, name: username, first_name: first_name, last_name: last_name, email: email_addresses.first, image: image_url)
+        u = User.build(id: user_id, name: username, first_name:, last_name:, email: email_addresses.first, image: image_url)
 
         if u.save
           Rails.logger.info("User created successfully")

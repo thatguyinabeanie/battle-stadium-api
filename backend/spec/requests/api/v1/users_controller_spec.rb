@@ -2,7 +2,6 @@ require "rails_helper"
 require "swagger_helper"
 
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
-PASSWORD = SecurePassword.generate_secure_password
 
 RSpec.describe Api::V1::UsersController do
   path("/api/v1/users") do
@@ -45,8 +44,6 @@ RSpec.describe Api::V1::UsersController do
               email: "new_user@example.com",
               first_name: "New ",
               last_name: "User",
-              password: PASSWORD,
-              password_confirmation: PASSWORD
             }
           }
         end
@@ -81,8 +78,6 @@ RSpec.describe Api::V1::UsersController do
               email: "new_user@example.com",
               first_name: "New ",
               last_name: "User",
-              password: PASSWORD,
-              password_confirmation: PASSWORD
             }
           }
         end
@@ -109,7 +104,6 @@ RSpec.describe Api::V1::UsersController do
         let(:login) do
           {
             email: user.email,
-            password: PASSWORD
           }
         end
 
@@ -125,7 +119,6 @@ RSpec.describe Api::V1::UsersController do
         let(:login) do
           {
             username: user.username,
-            password: PASSWORD
           }
         end
 
@@ -140,7 +133,6 @@ RSpec.describe Api::V1::UsersController do
         let(:login) do
           {
             email: "user.email@email.com",
-            password: "invalid"
           }
         end
 

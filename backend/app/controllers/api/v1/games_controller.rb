@@ -11,7 +11,7 @@ module Api
 
       def permitted_params
         params.require(:game).permit(:name)
-      endf
+      end
 
       private
 

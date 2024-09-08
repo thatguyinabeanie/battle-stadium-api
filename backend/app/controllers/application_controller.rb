@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     # Use short-lived session tokens for authentication
     session_token = request.headers["Authorization"]&.split("Bearer ")&.last
     if session_token
-      clerk = Clerk::SDK.new()
+      clerk = Clerk::SDK.new
       session = clerk.verify_token(session_token)
 
     else

@@ -7,48 +7,11 @@ module Api
       self.klass = ::User
       self.serializer_klass = Serializers::User
       self.detail_serializer_klass = Serializers::UserDetails
-      self.update_params_except = %i[password password_confirmation]
-
-      before_action :set_user, only: %i[patch_password]
-
 
       before_action :set_cache_headers, only: %i[me]
 
-      skip_before_action :verify_authenticity_token, only: %i[create update show destroy password_login me patch_password]
+      skip_before_action :verify_authenticity_token, only: %i[create update show destroy me]
 
-      def patch_password
-        authorize @object, :patch_password?
-        password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
-
-        if password_params[:password].blank?
-          render json: { errors: ["Password can't be blank"] }, status: :unprocessable_entity
-        elsif @user.update_with_password(password_params)
-          render json: { message: "Password updated successfully" }, status: :ok
-        else
-          render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
-
-      def password_login
-        authorize ::User, :password_login?
-
-        user = find_user_by_email_or_username(params[:email], params[:username])
-
-        if user&.valid_password?(params[:password])
-          render json: {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            pronouns: user.pronouns,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email_verified_at: user.email_verified_at,
-            token: ::Auth::Session.create(user:).token
-          }, status: :ok
-        else
-          render json: { error: "Invalid login" }, status: :unauthorized
-        end
-      end
 
       def me
         authorize @current_user, :me?
@@ -61,8 +24,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def permitted_params
-        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name, :password,
-                                     :password_confirmation)
+        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name)
       end
 
       private
