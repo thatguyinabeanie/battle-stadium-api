@@ -1,6 +1,5 @@
 require "rails_helper"
 require_relative "../../../../app/serializers/user_serializer"
-require_relative "../../../../lib/json_web_token"
 
 RSpec.describe Api::V1::UsersController do
 

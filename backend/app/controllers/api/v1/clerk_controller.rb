@@ -16,7 +16,6 @@ module Api
         render status: :unauthorized, json: { error: "Signature verification failed" } unless policy.webhook_verify?
         handle_event(request)
       rescue StandardError => e
-        Rails.logger.error("Webhook verification failed: #{e.message}")
         render status: :unauthorized, json: { error: e.message }
       end
 
@@ -42,7 +41,6 @@ module Api
       end
 
       def handle_user_created(payload)
-        Rails.logger.info("Handling user.created event: #{payload}")
 
         user_data = payload["data"]
         user_id = user_data["id"]
@@ -57,7 +55,7 @@ module Api
         email_addresses = user_data["email_addresses"]
         email = email_addresses.find { |email| email["id"] == primary_email_address_id }["email_address"]
 
-        User.find_or_create_by!(clerk_user_id: user_id, email: email, username: username) do |user|
+        User.find_or_create_by!(clerk_user_id: user_id, email:, username:) do |user|
           user.first_name = first_name
           user.last_name = last_name
           user.image_url = image_url
@@ -65,7 +63,6 @@ module Api
 
         render status: :ok, json: { message: "User created successfully" }
       rescue StandardError => e
-        Rails.logger.error("Failed to handle user.created event: #{e.message}")
         render status: :internal_server_error, json: { error: e.message }
       end
 

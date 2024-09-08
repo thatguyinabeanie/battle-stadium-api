@@ -1,5 +1,4 @@
 require_relative "../../../serializers/user_serializer"
-require_relative "../../../../lib/json_web_token"
 
 module Api
   module V1
