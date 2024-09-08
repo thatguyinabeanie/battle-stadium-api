@@ -51,6 +51,10 @@ module Api
         else
           render json: @object.errors, status: :unprocessable_entity
         end
+      rescue Pundit::NotAuthorizedError => e
+        render json: { error: e.message }, status: :forbidden
+      rescue ActionController::ParameterMissing => e
+        render json: { error: e.message }, status: :bad_request
       end
 
       # DELETE /api/v1/:klass/:id
@@ -61,6 +65,8 @@ module Api
         render json: { message: "#{klass} deleted" }, status: :ok
       rescue Pundit::NotAuthorizedError => e
         render json: { error: e.message }, status: :forbidden
+      rescue ActionController::ParameterMissing => e
+        render json: { error: e.message }, status: :bad_request
       end
 
       protected

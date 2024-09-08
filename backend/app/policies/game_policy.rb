@@ -4,7 +4,7 @@ class GamePolicy < ApplicationPolicy
   end
 
   def update?
-    admin?
+    user.admin?
   end
 
   def destroy?

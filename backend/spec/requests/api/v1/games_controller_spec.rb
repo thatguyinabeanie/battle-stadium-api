@@ -1,8 +1,10 @@
 require "swagger_helper"
-
+require "support/clerk_sdk_mock"
 GAME_DETAIL_SCHEMA = "#/components/schemas/GameDetail".freeze
 
 RSpec.describe Api::V1::GamesController do
+  include ClerkSdkMock
+
   path("/api/v1/games") do
     get("List Games") do
       tags "Games"
@@ -28,11 +30,13 @@ RSpec.describe Api::V1::GamesController do
 
       parameter name: :game, in: :body, schema: { "$ref" => "#/components/schemas/Game" }
 
-      # security [Bearer: []]
+      security [Bearer: []]
 
       response(201, "created") do
+        let(:request_user) { create(:admin) }
         let(:game) { { game: { name: "New Game" } } }
 
+        include_context "with Clerk SDK Mock"
         schema "$ref" => GAME_DETAIL_SCHEMA
 
         OpenApi::Response.set_example_response_metadata
@@ -40,9 +44,23 @@ RSpec.describe Api::V1::GamesController do
         run_test!
       end
 
+      response(403, "forbidden") do
+        let(:request_user) { create(:user) }
+        let(:game) { { game: { name: "New Game" } } }
+
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
       response(400, "bad request") do
+        let(:request_user) { create(:admin) }
         let(:game) { { title: "", genre: "" } }
 
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -86,11 +104,14 @@ RSpec.describe Api::V1::GamesController do
 
       parameter name: :game, in: :body, schema: { "$ref" => "#/components/schemas/Game" }
 
-      # security [Bearer: []]
+      security [Bearer: []]
 
       response(200, "successful") do
+        let(:request_user) { create(:admin) }
+
         let(:game) { { game: { name: "Updated Game" } } }
 
+        include_context "with Clerk SDK Mock"
         schema "$ref" => GAME_DETAIL_SCHEMA
 
         OpenApi::Response.set_example_response_metadata
@@ -98,10 +119,24 @@ RSpec.describe Api::V1::GamesController do
         run_test!
       end
 
+      response(403, "forbidden") do
+        let(:request_user) { create(:user) }
+        let(:game) { { game: { name: "Updated Game" } } }
+
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
       response(404, NOT_FOUND) do
+        let(:request_user) { create(:admin) }
         let(:id) { "invalid" }
         let(:game) { { game: { name: "Updated Game" } } }
 
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -114,18 +149,35 @@ RSpec.describe Api::V1::GamesController do
       description "Deletes a game by ID."
       operationId "deleteGame"
 
-      # security [Bearer: []]
+      security [Bearer: []]
 
       response(200, "successful") do
+        let(:request_user) { create(:admin) }
 
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => "#/components/schemas/Message"
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(403, "forbidden") do
+        let(:request_user) { create(:user) }
+
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
       response(404, NOT_FOUND) do
+        let(:request_user) { create(:admin) }
         let(:id) { "invalid" }
 
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
