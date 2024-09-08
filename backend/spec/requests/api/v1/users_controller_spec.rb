@@ -31,7 +31,7 @@ RSpec.describe Api::V1::UsersController do
 
       parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserPostRequest" }
 
-      # security [Bearer: []]
+      security [Bearer: []]
 
       response(201, "created") do
 

@@ -20,9 +20,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
-
   def authenticate_user
-
     # Use short-lived session tokens for authentication
     session_token = request.headers["Authorization"]&.split("Bearer ")&.last
     if session_token
@@ -31,10 +29,10 @@ class ApplicationController < ActionController::Base
       @current_user = User.find_by(clerk_user_id: session["userId"])
       @current_user
     else
-      render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
+      render json: { error: "invalid token or expired sessino" }, status: :unauthorized
     end
-  rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
-    render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
+  rescue ::Auth::Session::InvalidTokenOrExpiredSession
+    render json: { error: "invalid token or expired session" }, status: :unauthorized
   end
 
   def pundit_user
