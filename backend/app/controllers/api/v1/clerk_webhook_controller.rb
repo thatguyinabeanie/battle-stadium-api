@@ -8,7 +8,7 @@ module Api
       before_action :verify_clerk_webhook
 
       def verify_clerk_webhook
-          authorize request, :valid_request?, policy_class: ClerkWebhookPolicy
+        authorize request, :valid_request?, policy_class: ClerkWebhookPolicy
       end
 
       def post

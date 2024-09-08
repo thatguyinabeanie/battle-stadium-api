@@ -1,8 +1,10 @@
+require "clerk/authenticatable"
+require "clerk"
+
 module ClerkJWT
   module Webhook
 
-    class Error < StandardError
-    end
+    class Error < StandardError; end
 
     class << self
       WEBHOOK_TOLERANCE_IN_SECONDS = 300 # 5 minutes
@@ -94,6 +96,44 @@ module ClerkJWT
         res = 0
         b.each_byte { |byte| res |= byte ^ l.shift }
         res == 0
+      end
+    end
+  end
+
+  module Session
+    class NoAuthorizationHeader < StandardError; end
+    class VerificationError < StandardError; end
+    class InvalidSessionToken < StandardError; end
+    class << self
+      def authenticate!(request:)
+        session = verify_token(request:)
+
+        raise InvalidSessionToken, "Invalid session token. Missing attributes." unless session && session["userId"]
+
+        current_user = User.find_or_create_by(email: session["email"], username: session["username"]) do |user|
+          user.first_name = session["firstName"]
+          user.last_name = session["lastName"]
+          user.image_url = session["imageUrl"]
+        end
+
+        current_user.clerk_users.find_or_create_by(clerk_user_id: session["userId"], user: current_user)
+        current_user.save!
+        current_user
+      end
+
+      private
+
+      def verify_token(request:)
+        session_token = request.headers["Authorization"]&.split("Bearer ")&.last
+
+        raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
+
+        begin
+          clerk = Clerk::SDK.new
+          return clerk.verify_token(session_token)
+        rescue StandardError => e
+          raise VerificationError, e.message
+        end
       end
     end
   end

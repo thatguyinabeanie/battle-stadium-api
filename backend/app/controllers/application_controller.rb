@@ -1,6 +1,7 @@
 require "pundit"
 require "clerk/authenticatable"
 require "clerk"
+require_relative "../../lib/clerk_jwt"
 
 class ApplicationController < ActionController::Base
   include Clerk::Authenticatable
@@ -10,7 +11,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
   after_action :verify_authorized
 
-  before_action :verify_clerk_session
+  before_action :authenticate_clerk_user!
 
   skip_before_action :verify_clerk_session, only: %i[index show]
   before_action :set_no_cache_headers
@@ -25,33 +26,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def verify_clerk_session
-    session_token = request.headers["Authorization"]&.split("Bearer ")&.last
-
-    if session_token
-      begin
-        clerk = Clerk::SDK.new
-        session = clerk.verify_token(session_token)
-
-        if session && session["userId"]
-
-          @current_user = User.find_or_create_by(email: session["email"], username: session["username"]) do |user|
-            user.first_name = session["firstName"]
-            user.last_name = session["lastName"]
-            user.image_url = session["imageUrl"]
-          end
-          @current_user.clerk_users.find_or_create_by(clerk_user_id: session["userId"], user: @current_user)
-          @current_user.save!
-        else
-          render json: { error: "Invalid session token" }, status: :unauthorized
-        end
-      rescue StandardError => e
-        Rails.logger.error("Clerk verification error: #{e.message}")
-        render json: { error: "Invalid token or expired session" }, status: :unauthorized
-      end
-    else
-      render json: { error: "Authorization header missing or malformed" }, status: :unauthorized
-    end
+  def authenticate_clerk_user!
+    ClerkJWT::Session.authenticate!(request:)
+  rescue ClerkJWT::Session::NoAuthorizationHeader, ClerkJWT::Session::VerificationError, ClerkJWT::Session::InvalidSessionToken => e
+    render json: { error: e.message }, status: :unauthorized
   end
 
   def pundit_user
