@@ -1,4 +1,4 @@
-export default async function Dashboard() {
+export default async function Analytics() {
   return (
     <div>
       <h1>Analytics</h1>

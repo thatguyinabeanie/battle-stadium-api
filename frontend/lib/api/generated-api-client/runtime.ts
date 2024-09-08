@@ -34,8 +34,9 @@ export class Configuration {
 
   get basePath(): string {
     if (process.env.API_BASE_URL_PATH) {
-      const BASE_PATH = process.env.API_BASE_URL_PATH.replace(/\/+$/, "");
-      return this.configuration.basePath ?? BASE_PATH;
+      const BASE_PATH = process.env.API_BASE_URL_PATH;
+      // Remove trailing slashes without using regex
+      return BASE_PATH.endsWith("/") ? BASE_PATH.slice(0, -1) : BASE_PATH;
     }
 
     const componentType = typeof window === "undefined" ? "server" : "client";
