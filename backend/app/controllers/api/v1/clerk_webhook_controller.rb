@@ -4,12 +4,8 @@ require "base64"
 module Api
   module V1
     class ClerkWebhookController < ApiController
-      skip_before_action :verify_clerk_session
+      skip_before_action :authenticate_clerk_user!
       before_action :verify_clerk_webhook
-
-      def verify_clerk_webhook
-        authorize request, :valid_request?, policy_class: ClerkWebhookPolicy
-      end
 
       def post
         handle_event(payload: params.to_unsafe_hash)
@@ -19,6 +15,10 @@ module Api
       end
 
       private
+
+      def verify_clerk_webhook
+        authorize request, :valid_request?, policy_class: ClerkWebhookPolicy
+      end
 
       def handle_event(payload:)
         type = payload["type"]
