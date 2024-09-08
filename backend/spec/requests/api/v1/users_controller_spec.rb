@@ -1,6 +1,6 @@
 require "rails_helper"
 require "swagger_helper"
-require "support/clerk_sdk_mock"
+require_relative "../../../support/clerk_sdk_mock.rb"
 
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 

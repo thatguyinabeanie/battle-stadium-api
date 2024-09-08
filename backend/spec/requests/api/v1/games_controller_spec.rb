@@ -1,5 +1,6 @@
 require "swagger_helper"
-require "support/clerk_sdk_mock"
+require_relative "../../../support/clerk_sdk_mock.rb"
+
 GAME_DETAIL_SCHEMA = "#/components/schemas/GameDetail".freeze
 
 RSpec.describe Api::V1::GamesController do

@@ -1,5 +1,5 @@
 require "swagger_helper"
-require "support/clerk_sdk_mock"
+require_relative "../../../../support/clerk_sdk_mock.rb"
 
 PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
 PHASE_SWISS = "Phases::Swiss".freeze

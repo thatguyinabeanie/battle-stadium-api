@@ -1,6 +1,6 @@
 require "rails_helper"
 require_relative "../../../../app/serializers/user_serializer"
-require "support/clerk_sdk_mock"
+require_relative "../../../support/clerk_sdk_mock.rb"
 
 RSpec.describe Api::V1::UsersController do
   include ClerkSdkMock
