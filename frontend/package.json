@@ -19,7 +19,7 @@
     "generate:api": "TS_POST_PROCESS_FILE='./node_modules/.bin/prettier --write' openapi-generator-cli generate -i ../backend/swagger/v1/openapi.yaml -g typescript-fetch -o ./lib/api/generated-api-client --additional-properties=useSingleRequestParameter=false --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true -t openapi-templates/typescript-fetch --enable-post-process-file && bun generate:factories",
     "check:unused": "depcheck",
     "prisma:generate": "prisma generate",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.4.1",
