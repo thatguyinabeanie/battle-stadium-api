@@ -12,7 +12,7 @@ module Api
       end
 
       def index
-        # super
+        super
         @tournaments = ::Tournaments::Tournament
                        .where("start_at > ?", Time.zone.now)
                        .where(start_at: ..7.days.from_now)
@@ -22,12 +22,12 @@ module Api
       end
 
       def show
-        # super
+        super
         render json: serialize_details, status: :ok
       end
 
       def create
-        # authorize @organization, :create_tournament?
+        authorize @organization, :create_tournament?
         @tournament = ::Tournaments::Tournament.new permitted_params
         if @tournament.save
           render json: serialize_details, status: :created
@@ -39,7 +39,7 @@ module Api
       end
 
       def update
-        # authorize @tournament, :update?
+        authorize @tournament, :update?
         if @tournament.update! permitted_params
           render json: serialize_details, status: :ok
         else
@@ -48,7 +48,7 @@ module Api
       end
 
       def destroy
-        # authorize @tournament, :destroy?
+        authorize @tournament, :destroy?
         @tournament.destroy!
         render json: { message: "Tournament deleted" }, status: :ok
       end

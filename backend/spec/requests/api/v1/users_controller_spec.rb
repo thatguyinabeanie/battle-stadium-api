@@ -63,8 +63,6 @@ RSpec.describe Api::V1::UsersController do
           allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
         end
 
-
-
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
         OpenApi::Response.set_example_response_metadata
