@@ -245,7 +245,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_030640) do
     t.string "first_name"
     t.string "last_name"
     t.string "pronouns", default: "", null: false
-    t.text "text"
+    t.text "image_url"
     t.boolean "admin", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true

@@ -12,6 +12,6 @@ class RemoveColumnsFromUsers < ActiveRecord::Migration[7.1]
     remove_column :users, :email_verified_at, :datetime
     remove_column :users, :last_sign_in_ip, :string
 
-    rename_column :users, :image, :text
+    rename_column :users, :image, :image_url
   end
 end
