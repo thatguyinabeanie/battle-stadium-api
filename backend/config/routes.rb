@@ -10,19 +10,6 @@ Rails.application.routes.draw do
 
   # get '*path', to: 'static#index', constraints: ->(req) { !req.xhr? && req.format.html? }
 
-  devise_for :users,
-             path: "api/v1/auth",
-             controllers: {
-               registrations: "api/v1/auth/registrations"
-             }
-
-  devise_scope :user do
-    post "api/v1/auth/session", to: "api/v1/auth/sessions#create"
-    get "api/v1/auth/session", to: "api/v1/auth/sessions#show"
-    put "api/v1/auth/session", to: "api/v1/auth/sessions#update"
-    delete "api/v1/auth/session", to: "api/v1/auth/sessions#destroy"
-  end
-
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       post "clerk", to: "clerk#post"

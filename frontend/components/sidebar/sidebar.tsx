@@ -12,13 +12,13 @@ import {
 import React from "react";
 import { useMediaQuery } from "usehooks-ts";
 
-import { cn } from "@/lib/utils";
-import BattleStadium from "@/components/battle-stadium";
-
 import UserAvatar from "../user-avatar";
 
 import useRenderSideBarItems from "./use-render-sidebar-items";
 import SignOut from "./sign-out";
+
+import BattleStadium from "@/components/battle-stadium";
+import { cn } from "@/lib/utils";
 
 export enum SidebarItemType {
   Nest = "nest",
@@ -70,6 +70,11 @@ export default function Sidebar(props: SidebarProps) {
   });
 
   const isCompact = useMediaQuery("(max-width: 768px)");
+
+  React.useEffect(() => {
+    // Ensure the selected state is consistent on the client side
+    setSelected(currentPath ?? defaultSelectedKey);
+  }, [currentPath, defaultSelectedKey]);
 
   return (
     <>

@@ -5,7 +5,6 @@ module Api
     class TournamentsController < ApiController
       before_action :set_tournaments, only: %i[show]
       before_action :set_tournament, only: %i[show update destroy]
-      before_action :authenticate_user, only: %i[create update destroy]
       before_action :set_organization, only: %i[create update]
 
       def self.policy_class

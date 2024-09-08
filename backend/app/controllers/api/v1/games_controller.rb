@@ -7,14 +7,11 @@ module Api
       self.serializer_klass = Serializers::Game
       self.detail_serializer_klass = Serializers::GameDetails
 
-      skip_before_action :authenticate_user, only: %i[index show]
-      # rubocop:enable Rails/LexicallyScopedActionFilter
-
       protected
 
       def permitted_params
         params.require(:game).permit(:name)
-      end
+      endf
 
       private
 

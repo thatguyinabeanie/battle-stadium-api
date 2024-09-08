@@ -11,7 +11,6 @@ module Api
 
       before_action :set_user, only: %i[patch_password]
 
-      before_action :authenticate_user, only: %i[me patch_password update destroy create]
 
       before_action :set_cache_headers, only: %i[me]
 

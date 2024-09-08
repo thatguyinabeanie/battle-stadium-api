@@ -108,6 +108,10 @@ GEM
     case_transform (0.2)
       activesupport
     choice (0.2.0)
+    clerk-sdk-ruby (3.2.0)
+      concurrent-ruby (~> 1.1)
+      faraday (>= 1.4.1, < 3.0)
+      jwt (~> 2.5)
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crack (1.0.0)
@@ -574,6 +578,7 @@ DEPENDENCIES
   brakeman (~> 6)
   bundler-audit (~> 0)
   cancancan (~> 3)
+  clerk-sdk-ruby
   debug (~> 1)
   devise
   devise-jwt

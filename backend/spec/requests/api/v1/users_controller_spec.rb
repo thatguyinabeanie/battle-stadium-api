@@ -5,8 +5,6 @@ USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 PASSWORD = SecurePassword.generate_secure_password
 
 RSpec.describe Api::V1::UsersController do
-  include Devise::Test::IntegrationHelpers
-
   path("/api/v1/users") do
     get("List Users") do
       tags "Users"

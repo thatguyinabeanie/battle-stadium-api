@@ -8,7 +8,6 @@ module Api
         before_action :set_players, only: %i[index create]
         before_action :set_player, only: %i[show update destroy]
 
-        skip_before_action :authenticate_user, only: %i[index show]
 
         def self.policy_class
           ::Tournaments::PlayerPolicy

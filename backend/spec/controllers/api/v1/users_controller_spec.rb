@@ -3,7 +3,6 @@ require_relative "../../../../app/serializers/user_serializer"
 require_relative "../../../../lib/json_web_token"
 
 RSpec.describe Api::V1::UsersController do
-  include Devise::Test::ControllerHelpers
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
