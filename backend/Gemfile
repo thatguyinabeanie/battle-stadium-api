@@ -16,6 +16,8 @@ gem "hirb"
 gem "i18n"
 gem "importmap-rails", "~> 2"
 gem "irb"
+gem "jose", "~> 1.2"
+gem 'clerk-sdk-ruby', require: "clerk"
 gem "jbuilder", "~> 2"
 gem "jsonapi-serializer", "~> 2"
 gem "json-jwt"
@@ -100,5 +102,3 @@ group :development, :test, :rubocop do
   gem "rubocop-shopify"
   gem "rubocop-thread_safety"
 end
-
-gem "jose", "~> 1.2"
