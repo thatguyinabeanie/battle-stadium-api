@@ -7,6 +7,10 @@ module Api
       self.serializer_klass = Serializers::User
       self.detail_serializer_klass = Serializers::UserDetails
 
+      def self.policy_class
+        ::UserPolicy
+      end
+
       def me
         Rails.logger.info "api/v1/users_controller.rb: me"
         authorize @current_user, :me?
@@ -30,7 +34,7 @@ module Api
 
       # Use callbacks to share common setup or constraints between actions.
       def set_user
-        @user = set_object
+        @current_user = set_object
       end
     end
   end

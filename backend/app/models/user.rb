@@ -14,12 +14,7 @@ class User < ApplicationRecord
   has_many :sessions, inverse_of: :user, dependent: :destroy, class_name: "Auth::Session"
   has_many :clerk_users, dependent: :destroy, inverse_of: :user, class_name: "ClerkUser"
 
-  def admin?
-    admin
-  end
-
   def staff_member_of?(organization)
     organization.staff.exists?(id:)
   end
-
 end

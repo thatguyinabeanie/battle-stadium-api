@@ -9,10 +9,12 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   after_action :verify_authorized
-
   before_action :authenticate_clerk_user!
   skip_before_action :authenticate_clerk_user!, only: %i[index show]
 
+  def self.policy_class
+    ::ApplicationPolicy
+  end
 
   def index
     authorize self.class, :index?
@@ -25,7 +27,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate_clerk_user!
-    ClerkJWT::Session.authenticate!(request:)
+    @current_user = ClerkJWT::Session.authenticate!(request:)
   rescue ClerkJWT::Session::NoAuthorizationHeader, ClerkJWT::Session::VerificationError, ClerkJWT::Session::InvalidSessionToken => e
     render json: { error: e.message }, status: :unauthorized
   end

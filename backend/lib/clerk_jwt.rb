@@ -3,9 +3,7 @@ require "clerk"
 
 module ClerkJWT
   module Webhook
-
     class Error < StandardError; end
-
     class << self
       WEBHOOK_TOLERANCE_IN_SECONDS = 300 # 5 minutes
       def validate!(request:)
@@ -110,15 +108,7 @@ module ClerkJWT
 
         raise InvalidSessionToken, "Invalid session token. Missing attributes." unless session && session["userId"]
 
-        current_user = User.find_or_create_by(email: session["email"], username: session["username"]) do |user|
-          user.first_name = session["firstName"]
-          user.last_name = session["lastName"]
-          user.image_url = session["imageUrl"]
-        end
-
-        current_user.clerk_users.find_or_create_by(clerk_user_id: session["userId"], user: current_user)
-        current_user.save!
-        current_user
+        ClerkUser.find_by!(clerk_user_id: session["userId"]).user
       end
 
       private
