@@ -45,12 +45,9 @@ def create_user(username: nil, password: nil, first_name: nil, last_name: nil, e
   # Check if user already exists
   User.find_or_create_by!(username:) do |user|
     user.email = "#{user.username}@beanie.gg"
-    user.password = password
-    user.password_confirmation = password
     user.pronouns = pronouns
     user.first_name = last_name
     user.last_name = first_name
-    user.email_verified_at = Time.zone.now
   end
 end
 

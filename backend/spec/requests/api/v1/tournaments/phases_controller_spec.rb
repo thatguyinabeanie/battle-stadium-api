@@ -1,10 +1,20 @@
 require "swagger_helper"
+require_relative "../../../../support/clerk_sdk_mock.rb"
 
 PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
-
 PHASE_SWISS = "Phases::Swiss".freeze
+
+
 RSpec.describe Api::V1::Tournaments::PhasesController do
+  include ClerkSdkMock
+
   let(:tournament) { create(:tournament) }
+  let(:owner) do
+    owner = tournament.organization.owner
+    owner.clerk_users << ClerkUser.new(user_id: owner.id, clerk_user_id: "user_#{owner.id}")
+    owner
+  end
+
   let(:tournament_id) { tournament.id }
 
   path("/api/v1/tournaments/{tournament_id}/phases") do
@@ -44,8 +54,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-
+        let(:request_user) { create(:admin) }
         let(:phase) do
           {
             name: "Swiss Round",
@@ -55,6 +64,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
+        include_context "with Clerk SDK Mock"
         schema "$ref" => "#/components/schemas/PhaseDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -62,7 +72,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response 404, NOT_FOUND do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:admin) }
         let(:tournament_id) { "invalid" }
         let(:phase) do
           {
@@ -74,6 +84,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -121,7 +132,8 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
+
+        let(:request_user) { owner }
 
         let(:phase) do
           {
@@ -132,25 +144,28 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
+        include_context "with Clerk SDK Mock"
         schema "$ref" => "#/components/schemas/PhaseDetails"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
+      end
 
-        response(404, NOT_FOUND) do
-          let(:id) { "invalid" }
-          let(:phase) do
-            {
-              name: "Swiss Round",
-              number_of_rounds: 3,
-              best_of: 3,
-              type: PHASE_SWISS
-            }
-          end
-
-          OpenApi::Response.set_example_response_metadata
-          run_test!
+      response(404, NOT_FOUND) do
+        let(:request_user) { owner }
+        let(:id) { "invalid" }
+        let(:phase) do
+          {
+            name: "Swiss Round",
+            number_of_rounds: 3,
+            best_of: 3,
+            type: PHASE_SWISS
+          }
         end
+
+        include_context "with Clerk SDK Mock"
+        OpenApi::Response.set_example_response_metadata
+        run_test!
       end
     end
 
@@ -163,18 +178,19 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { owner }
 
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: tournament.organization.owner) } # rubocop:disable RSpec/VariableName
-
+        let(:request_user) { owner }
         let(:id) { "invalid" }
 
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

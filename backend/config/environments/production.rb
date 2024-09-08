@@ -92,6 +92,7 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
+    "www.battlestadium.gg",
     "battlestadium.gg",
     "api.battlestadium.gg",
     "battle-stadium.onrender.com"

@@ -1,12 +1,16 @@
 require "rails_helper"
 require_relative "../../../../app/serializers/user_serializer"
-require_relative "../../../../lib/json_web_token"
+require_relative "../../../support/clerk_sdk_mock.rb"
 
 RSpec.describe Api::V1::UsersController do
-  include Devise::Test::ControllerHelpers
+  include ClerkSdkMock
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
+  end
+
+  before do
+    request.headers["Authorization"] =  "Bearer #{SecureRandom.alphanumeric(25)}"
   end
 
   context "when /users" do
@@ -29,12 +33,11 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "POST" do
-      let(:user) { create(:admin) }
-      let(:bearer_token) { AuthorizationHeader.bearer_token(user:) }
+      let(:request_user) { create(:admin) }
 
-      before do
-        request.headers["Authorization"] =  bearer_token
-      end
+
+
+      include_context "with Clerk SDK Mock"
 
       it "returns a successful response" do
         post :create, params: { user: attributes_for(:user) }
@@ -55,11 +58,6 @@ RSpec.describe Api::V1::UsersController do
   context "when /users/:id" do
     let(:request_user) { create(:admin) }
     let(:user) { create(:user) }
-    let(:bearer_token) { AuthorizationHeader.bearer_token(user: request_user) }
-
-    before do
-      request.headers["Authorization"] =  bearer_token
-    end
 
     describe "GET /users/:id" do
       let(:request_user) { create(:user) }
@@ -81,6 +79,11 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "PUT" do
+      let(:request_user) { create(:admin) }
+
+
+      include_context "with Clerk SDK Mock"
+
       it "returns a successful response" do
         user = create(:user)
         user_attributes = attributes_for(:user)
@@ -100,6 +103,10 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "PATCH" do
+      let(:request_user) { create(:admin) }
+
+      include_context "with Clerk SDK Mock"
+
       it "returns a successful response" do
         user = create(:user)
 
@@ -118,12 +125,10 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "DELETE" do
-      let(:admin) { create(:admin) }
-      let(:bearer_token) { AuthorizationHeader.bearer_token(user: admin) }
+      let(:request_user) { create(:admin) }
 
-      before do
-        request.headers["Authorization"] =  bearer_token
-      end
+
+      include_context "with Clerk SDK Mock"
 
       it "returns a successful response" do
         user = create(:user)
@@ -143,85 +148,10 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  context "when /users/:id/password" do
-    let(:user) { create(:user) }
-    let(:bearer_token) { AuthorizationHeader.bearer_token(user:) }
-
-    before do
-      request.headers["Authorization"] =  bearer_token
-    end
-
-    describe "PATCH" do
-      it "returns a successful response" do
-        password = SecurePassword.generate_secure_password
-
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
-        expect(json_response[:message]).to eq("Password updated successfully")
-      end
-
-      it "changes the password successfully" do
-        password = SecurePassword.generate_secure_password
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
-        expect(user.password).not_to eq(password)
-      end
-
-      it "returns an error if the current password is incorrect" do
-        password = SecurePassword.generate_secure_password
-        # deepcode ignore HardcodedPassword: not a real password. just a string in a test
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: "incorrect_password" } }
-        expect(json_response[:errors]).to include("Current password is invalid")
-      end
-
-      it "returns an error if the password and password confirmation do not match" do
-        password = SecurePassword.generate_secure_password
-        # deepcode ignore HardcodedPassword: not a real password. just a string in a test
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: "incorrect_password", current_password: user.password } }
-        expect(json_response[:errors]).to include("Password confirmation doesn't match Password")
-      end
-
-      it "returns an error if the password is too short" do
-        password = "short"
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
-        expect(json_response[:errors]).to include("Password is too short (minimum is 6 characters)")
-      end
-
-      it "returns an error if the password is too long" do
-        password = "a" * 129
-
-        patch :patch_password, params: { id: user.id, user: { password:, password_confirmation: password, current_password: user.password } }
-
-        expect(json_response[:errors]).to include("Password is too long (maximum is 128 characters)")
-      end
-
-      it "returns an error if the password is blank" do
-        patch :patch_password, params: { id: user.id, user: { password: "", password_confirmation: "other", current_password: user.password } }
-        expect(json_response[:errors]).to include("Password can't be blank")
-      end
-    end
-  end
-
   context "when /users/me" do
-    let!(:user) { create(:user) }
-    let!(:session) { create(:session, user:) }
-    let(:jwt_token) do
-      JsonWebToken.encrypt({
-                             session: {
-                               sessionToken: session.token,
-                               user: {
-                                 id: session.user.id,
-                                 email: session.user.email,
-                                 firstName: session.user.first_name,
-                                 lastName: session.user.last_name,
-                                 pronouns: session.user.pronouns,
-                                 emailVerified: session.user.email_verified_at
-                               }
-                             }
-                           })
-    end
+    let(:request_user) { create(:user) }
 
-    before do
-      request.headers["Authorization"] = "Bearer #{jwt_token}"
-    end
+    include_context "with Clerk SDK Mock"
 
     describe "GET" do
       it "returns a successful response" do
@@ -232,7 +162,7 @@ RSpec.describe Api::V1::UsersController do
       it "returns a users me serialized response" do
         get :me
 
-        expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(user).as_json
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(request_user).as_json
       end
     end
   end

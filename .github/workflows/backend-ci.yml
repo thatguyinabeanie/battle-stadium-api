@@ -10,19 +10,23 @@ permissions:
   pull-requests: write
   checks: write
 
+env:
+  RAILS_ENV: test
+  POSTGRES_HOST: ${{ secrets.DB_HOST }}
+  POSTGRES_PORT: ${{ secrets.DB_PORT }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_DATABASE: ${{ secrets.POSTGRES_DB }}
+  AUTH_SECRET: ${{ secrets.DEVISE_JWT_SECRET_KEY }}
+  BUNDLE_GEMFILE: ${{ github.workspace }}/backend/Gemfile
+  CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+  CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+
 jobs:
   rspec:
     runs-on: ubuntu-latest
-
-    env:
-      RAILS_ENV: test
-      POSTGRES_HOST: ${{ secrets.DB_HOST }}
-      POSTGRES_PORT: ${{ secrets.DB_PORT }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      AUTH_SECRET: ${{ secrets.DEVISE_JWT_SECRET_KEY }}
-      BUNDLE_GEMFILE: ${{ github.workspace }}/backend/Gemfile
 
     services:
       postgres:

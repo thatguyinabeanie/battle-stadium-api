@@ -1,7 +1,6 @@
 require_relative "../../../serializers/organization_serializer"
 require_relative "../../../serializers/user_serializer"
 require_relative "../../../serializers/tournament_serializer"
-require_relative "../../../../lib/vercel_oidc"
 
 module Api
   module V1
@@ -11,14 +10,15 @@ module Api
       self.detail_serializer_klass = Serializers::Organization
 
       before_action :set_organization, only: %i[staff post_tournaments patch_tournament list_tournaments]
-      skip_before_action :authenticate_user, only: %i[index show staff list_tournaments]
+
+      skip_before_action :authenticate_clerk_user!, only: %i[staff list_tournaments]
 
       def self.policy_class
         ::OrganizationPolicy
       end
 
       def staff
-        authorize ::Organization, :staff?
+        authorize ::Organization, :list?
         # Assuming there's an association called `staff_members` you can directly use it
         # If not, replace `organization.staff_members` with your logic to fetch staff members
         render json: @organization.staff, each_serializer: Serializers::User, status: :ok

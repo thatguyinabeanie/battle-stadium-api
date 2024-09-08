@@ -9,11 +9,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "rspec/rails"
 require "shoulda/matchers"
 require "simplecov"
-require "support/authorization_header"
+
 require "support/openapi/schema_helper"
 require "support/openapi/response_helper"
-require_relative "../app/models/concerns/secure_password"
-require_relative "../lib/json_web_token"
 
 SimpleCov.start "rails" do
   add_filter "/spec/"
@@ -87,8 +85,6 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-
-  config.include Devise::Test::IntegrationHelpers, type: :request
 end
 
 Shoulda::Matchers.configure do |config|

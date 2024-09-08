@@ -136,6 +136,9 @@ start_server() {
     export POSTGRES_HOST='localhost'
   fi
 
+  if [ -d "/battle-stadium/frontend/.next" ]; then
+    rm -rf /battle-stadium/frontend/.next
+  fi
+
   bun dev
-  echo "NextJS server started."
 }

@@ -1,11 +1,11 @@
 require "rails_helper"
 require "swagger_helper"
+require_relative "../../../support/clerk_sdk_mock.rb"
 
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
-PASSWORD = SecurePassword.generate_secure_password
 
 RSpec.describe Api::V1::UsersController do
-  include Devise::Test::IntegrationHelpers
+  include ClerkSdkMock
 
   path("/api/v1/users") do
     get("List Users") do
@@ -37,8 +37,7 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-
+        let(:request_user) { create(:admin) }
         let(:user) do
           {
             user: {
@@ -47,11 +46,11 @@ RSpec.describe Api::V1::UsersController do
               email: "new_user@example.com",
               first_name: "New ",
               last_name: "User",
-              password: PASSWORD,
-              password_confirmation: PASSWORD
             }
           }
         end
+
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -61,10 +60,12 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(403, "forbidden") do
-        let(:Authorization) { AuthorizationHeader.bearer_token } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:user) }
 
         let(:user) { {} }
 
+
+        include_context "with Clerk SDK Mock"
         schema type: :object, properties: { error: { type: :string } }
 
         OpenApi::Response.set_example_response_metadata
@@ -73,7 +74,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(422, "unprocessable entity") do
-        let(:Authorization) { AuthorizationHeader.bearer_token user: create(:admin) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:admin) }
 
         let(:user) do
           {
@@ -83,68 +84,11 @@ RSpec.describe Api::V1::UsersController do
               email: "new_user@example.com",
               first_name: "New ",
               last_name: "User",
-              password: PASSWORD,
-              password_confirmation: PASSWORD
             }
           }
         end
 
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-    end
-  end
-
-  path("/api/v1/users/authorize") do
-    post("Authorize User") do
-      tags "Users"
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description "Authorizes a User."
-      operationId "authorizeUser"
-
-      parameter name: :login, in: :body, schema: { "$ref" => "#/components/schemas/UserLoginRequest" }
-
-      response(200, "Successful Email Login") do
-        let(:user) { create(:user, password: PASSWORD) }
-        let(:login) do
-          {
-            email: user.email,
-            password: PASSWORD
-          }
-        end
-
-        schema "$ref" => "#/components/schemas/UserLoginResponse"
-
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-
-      response(200, "Successful Username Login") do
-        let(:user) { create(:user, password: PASSWORD) }
-        let(:login) do
-          {
-            username: user.username,
-            password: PASSWORD
-          }
-        end
-
-        schema "$ref" => "#/components/schemas/UserLoginResponse"
-
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-
-      response(401, "unauthorized") do
-        let(:login) do
-          {
-            email: "user.email@email.com",
-            password: "invalid"
-          }
-        end
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -163,7 +107,9 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:user) }
+
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => "#/components/schemas/UserMe"
 
@@ -173,7 +119,10 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(401, NOT_FOUND) do
-        let(:Authorization) { "Bearer invalid" } # rubocop:disable RSpec/VariableName
+        let(:request_user) { build(:user) }
+
+        include_context "with Clerk SDK Mock"
+
 
         OpenApi::Response.set_example_response_metadata
 
@@ -220,6 +169,8 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "Updated by Admin") do
+        let(:request_user) { create(:admin) }
+
         let(:user_object) { create(:user) }
         let(:id) { user_object.id }
         let(:user) do
@@ -228,11 +179,10 @@ RSpec.describe Api::V1::UsersController do
             pronouns: "they/them",
             email: "updateduser@example.com",
             first_name: "Updated", last_name: "Userrrrr",
-            current_password: user_object.password
           }
         end
 
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -242,13 +192,16 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:admin) }
+
         let(:id) { "invalid" }
         let(:user) do
           {
             first_name: "Updated", last_name: "Userrrrr"
           }
         end
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -265,10 +218,12 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:admin) }
 
         let(:user) { create(:user) }
         let(:id) { user.id }
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -276,8 +231,12 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:admin) }
+
         let(:id) { "invalid" }
+
+        include_context "with Clerk SDK Mock"
+
 
         OpenApi::Response.set_example_response_metadata
 

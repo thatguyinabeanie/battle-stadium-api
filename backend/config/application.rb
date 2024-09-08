@@ -25,7 +25,8 @@ module BattleStadium
       env_development_local = "../.env.development.local"
       Dotenv.load(env_development_local) if File.exist?(env_development_local) && !Rails.env.production?
 
-      if Rails.env.test?
+      # if Rails.env.test?
+      unless Rails.env.production?
         require "socket"
         hostname = Socket.gethostname
 
@@ -38,7 +39,6 @@ module BattleStadium
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
-    # config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join("app/serializers")
 
     # Configuration for the application, engines, and railties goes here.
@@ -65,5 +65,13 @@ module BattleStadium
     config.middleware.use ActionDispatch::Session::CookieStore, key: "sessions.battlestadium.gg"
 
     config.filter_parameters += %i[password password_confirmation email_address email first_name last_name phone_numbers]
+
+
+    # Clerk.configure do |config|
+    #   config.api_key = ENV['NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY']
+    #   config.base_url = "https://api.clerk.com"
+    #   config.middleware_cache_store = Rails.cache # if omitted: no caching
+    # end
+
   end
 end

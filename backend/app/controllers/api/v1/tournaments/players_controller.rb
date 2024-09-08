@@ -8,8 +8,6 @@ module Api
         before_action :set_players, only: %i[index create]
         before_action :set_player, only: %i[show update destroy]
 
-        skip_before_action :authenticate_user, only: %i[index show]
-
         def self.policy_class
           ::Tournaments::PlayerPolicy
         end
@@ -25,14 +23,15 @@ module Api
         end
 
         def create
-          authorize ::Tournaments::Player, :create?
-
-          @player = @players.create! permitted_params.merge(tournament_id: @tournament.id)
+          @player = @players.new permitted_params.merge(tournament_id: @tournament.id)
+          authorize @player, :create?
           if @player.save
             render json: serialize_player_details, status: :created
           else
             render json: @player.errors, status: :unprocessable_entity
           end
+        rescue Pundit::NotAuthorizedError => e
+          render json: { error: e.message }, status: :forbidden
         rescue ActionController::ParameterMissing => e
           render json: { error: e.message }, status: :bad_request
         end

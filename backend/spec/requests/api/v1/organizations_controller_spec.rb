@@ -1,9 +1,16 @@
 require "swagger_helper"
+require_relative "../../../support/clerk_sdk_mock.rb"
 
 ORGANIZATION_DETAIL_SCHEMA = "#/components/schemas/Organization".freeze
 DESCRIPTION = "the bomb dot com".freeze
 
 RSpec.describe Api::V1::OrganizationsController do
+  include ClerkSdkMock
+
+  let(:org) { create(:organization_with_staff, staff_count: 5) }
+  let(:owner) { org.owner }
+  let(:org_id) { org.id }
+
   path("/api/v1/organizations") do
     get("List Organizations") do
       tags "Organizations"
@@ -31,28 +38,43 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-
-        let(:owner) { create(:user) }
+        let(:request_user) { create(:admin) }
         let(:organization) do
           {
             name: "New Organization",
             description: DESCRIPTION,
-            owner_id: owner.id
+            owner_id: create(:user).id
           }
         end
 
         schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
+        include_context "with Clerk SDK Mock"
+
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
+      response(403, "forbidden") do
+        let(:request_user) { create(:user) }
+        let(:organization) do
+          {
+            name: "New Organization",
+            description: DESCRIPTION,
+            owner_id: create(:user).id
+          }
+        end
+
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
     end
   end
 
-  path("/api/v1/organizations/{id}") do
-    parameter name: :id, in: :path, type: :integer, required: true
-    let(:org) { create(:organization) }
-    let(:id) { org.id }
+  path("/api/v1/organizations/{org_id}") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
 
     get("Show Organization") do
       tags "Organizations"
@@ -67,8 +89,9 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { "invalid" }
+        let(:org_id) { "invalid" }
 
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -87,14 +110,15 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-        let(:id) { create(:organization).id }
+        let(:request_user) { owner }
         let(:organization) do
           {
             name: "Updated Organization",
             description: DESCRIPTION
           }
         end
+
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
         OpenApi::Response.set_example_response_metadata
@@ -102,8 +126,9 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-        let(:id) { -1 }
+        let(:request_user) { create(:admin) }
+
+        let(:org_id) { -1 }
         let(:organization) do
           {
             name: "Updated Organization",
@@ -111,6 +136,8 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -126,24 +153,29 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(200, "Organization deleted") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:admin) }
 
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Message"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(403, "forbidden") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:user)) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { create(:user) }
 
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: create(:admin)) } # rubocop:disable RSpec/VariableName
-        let(:id) { "invalid" }
+        let(:request_user) { create(:admin) }
+        let(:org_id) { "invalid" }
 
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -151,10 +183,8 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/api/v1/organizations/{id}/staff") do
-    parameter name: :id, in: :path, type: :integer, required: true
-    let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:id) { org.id }
+  path("/api/v1/organizations/{org_id}/staff") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
 
     get("List Organization Staff") do
       tags "Organizations"
@@ -165,13 +195,13 @@ RSpec.describe Api::V1::OrganizationsController do
       response(200, "successful") do
         schema type: :array, items: { "$ref" => "#/components/schemas/User" }
         OpenApi::Response.set_example_response_metadata
-
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { "invalid" }
+        let(:org_id) { "invalid" }
 
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -179,10 +209,8 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/api/v1/organizations/{organization_id}/tournaments") do
-    parameter name: :organization_id, in: :path, type: :integer, required: true
-    let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:organization_id) { org.id }
+  path("/api/v1/organizations/{org_id}/tournaments") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
 
     get("List Organization Tournaments") do
       tags "Organizations"
@@ -193,12 +221,11 @@ RSpec.describe Api::V1::OrganizationsController do
       response(200, "successful") do
         schema type: :array, items: { "$ref" => "#/components/schemas/TournamentDetails" }
         OpenApi::Response.set_example_response_metadata
-
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:organization_id) { "invalid" }
+        let(:org_id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -218,8 +245,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(201, "Created by Org Owner") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
-
+        let(:request_user) { owner }
         let(:game) { create(:game) }
         let(:format) { create(:format, game:) }
         let(:tournament) do
@@ -241,14 +267,17 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
+        include_context "with Clerk SDK Mock"
         schema "$ref" => "#/components/schemas/TournamentDetails"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(400, "bad request") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { owner }
         let(:tournament) { {} }
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -256,14 +285,12 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/api/v1/organizations/{organization_id}/tournaments/{id}") do
-    parameter name: :organization_id, in: :path, type: :integer, required: true
-    parameter name: :id, in: :path, type: :integer, required: true
+  path("/api/v1/organizations/{org_id}/tournaments/{tournament_id}") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
+    parameter name: :tournament_id, in: :path, type: :integer, required: true
 
-    let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:organization_id) { org.id }
     let(:tour) { create(:tournament, organization: org) }
-    let(:id) { tour.id }
+    let(:tournament_id) { tour.id }
 
     let(:game) { create(:game) }
     let(:format) { create(:format, game:) }
@@ -299,7 +326,9 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(200, "Updated by Organization Owner") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { owner }
+
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => "#/components/schemas/TournamentDetails"
         OpenApi::Response.set_example_response_metadata
@@ -307,18 +336,23 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, "not found") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
-        let(:tour) { create(:tournament) }
-        let(:tournament_id) { tour.id }
+        let(:request_user) { owner }
+        let(:tournament_id) { -1 }
 
+        include_context "with Clerk SDK Mock"
+
+
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(400, "bad request") do
-        let(:Authorization) { AuthorizationHeader.bearer_token(user: org.owner) } # rubocop:disable RSpec/VariableName
+        let(:request_user) { owner }
+
         let(:tournament) { {} }
 
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

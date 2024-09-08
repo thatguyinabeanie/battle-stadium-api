@@ -27,10 +27,11 @@ services:
         - thatguyinabeanie/battle-stadium:dev-latest
     command: >
       zsh -c "
-        start_server && \
+        # start_server && \
         tail -f /dev/null
       "
     tty: true
+    stdin_open: true
     ports:
       - 10000:10000
       - 3000:10000
@@ -50,9 +51,6 @@ services:
   frontend:
     hostname: nextjs-container
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
-    environment:
-      - BACKEND_HOST=backend
-      - POSTGRES_HOST=postgres
     build:
       context: frontend
       dockerfile: Dockerfile
@@ -61,7 +59,7 @@ services:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
     command: >
       zsh -c "
-        start_server && \
+        # start_server && \
         tail -f /dev/null
       "
     tty: true

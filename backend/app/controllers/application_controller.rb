@@ -1,17 +1,20 @@
 require "pundit"
-require_relative "../../lib/vercel_oidc.rb"
+require "clerk/authenticatable"
+require "clerk"
+require_relative "../../lib/clerk_jwt"
 
 class ApplicationController < ActionController::Base
   attr_reader :current_user
-
-  protect_from_forgery with: :exception
-  include Devise::Controllers::Helpers
+  include Clerk::Authenticatable
   include Pundit::Authorization
 
   after_action :verify_authorized
-  before_action :authenticate_user
+  before_action :authenticate_clerk_user!
+  skip_before_action :authenticate_clerk_user!, only: %i[index show]
 
-  before_action :verify_vercel_oidc_token, if: -> { Rails.env.production? }
+  def self.policy_class
+    ::ApplicationPolicy
+  end
 
   def index
     authorize self.class, :index?
@@ -23,22 +26,11 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def authenticate_user
-    @session = ::JwtAuthenticate.session_from_authorization_header(request:)
-    @current_user = @session.user
-    @current_user
-  rescue ::Auth::Session::InvalidTokenOrExpiredSession => e
-    Rails.logger.error("InvalidTokenOrExpiredSession: #{e.message}")
-    render json: { error: I18n.t("session.errors.invalid_token_or_expired") }, status: :unauthorized
+  def authenticate_clerk_user!
+    @current_user = ClerkJwt::Session.authenticate!(request:)
+  rescue ClerkJwt::Session::NoAuthorizationHeader, ClerkJwt::Session::VerificationError, ClerkJwt::Session::InvalidSessionToken => e
+    render json: { error: e.message }, status: :unauthorized
   end
-
-  def verify_vercel_oidc_token
-    decoded_token = VercelOidc.decode_token(request:)
-    unless decoded_token
-      raise StandardError, "Invalid token"
-    end
-  end
-
 
   def pundit_user
     current_user

@@ -8,7 +8,7 @@ module Api
         before_action :set_phases, only: %i[index create]
         before_action :set_phase, only: %i[show update destroy]
 
-        before_action :authenticate_user, only: %i[create update destroy]
+        # before_action :authenticate_user, only: %i[create update destroy]
         def self.policy_class
           ::Tournaments::PhasePolicy
         end

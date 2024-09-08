@@ -1,15 +1,15 @@
 module Tournaments
   class PlayerPolicy < ApplicationPolicy
     def create?
-      true
+      admin? || record.user.id == user.id
     end
 
     def update?
-      user.admin? || user == record.user || Pundit.policy(user, record.tournament).update?
+      admin? || user == record.user || Pundit.policy(user, record.tournament).update?
     end
 
     def destroy?
-      user.admin? || user == record.user || Pundit.policy(user, record.tournament).update?
+      admin? || user == record.user || Pundit.policy(user, record.tournament).update?
     end
   end
 end

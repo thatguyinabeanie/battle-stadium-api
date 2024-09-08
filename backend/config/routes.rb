@@ -8,33 +8,12 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "/up" => "rails/health#show", :as => :rails_health_check
 
-  # get '*path', to: 'static#index', constraints: ->(req) { !req.xhr? && req.format.html? }
-
-  devise_for :users,
-             path: "api/v1/auth",
-             controllers: {
-               registrations: "api/v1/auth/registrations"
-             }
-
-  devise_scope :user do
-    post "api/v1/auth/session", to: "api/v1/auth/sessions#create"
-    get "api/v1/auth/session", to: "api/v1/auth/sessions#show"
-    put "api/v1/auth/session", to: "api/v1/auth/sessions#update"
-    delete "api/v1/auth/session", to: "api/v1/auth/sessions#destroy"
-  end
-
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      post "clerk", to: "clerk#post"
-      post "users/authorize", to: "users#password_login"
+      post "clerk", to: "clerk_webhook#post"
       get "users/me", to: "users#me"
 
-      resources :users, only: %i[index show create destroy update] do
-        member do
-          patch "password", to: "users#patch_password"
-        end
-      end
-
+      resources :users, only: %i[index show create destroy update]
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
           get "tournaments", to: "organizations#list_tournaments"

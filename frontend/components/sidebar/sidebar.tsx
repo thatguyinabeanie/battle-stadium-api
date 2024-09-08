@@ -71,6 +71,11 @@ export default function Sidebar(props: SidebarProps) {
 
   const isCompact = useMediaQuery("(max-width: 768px)");
 
+  React.useEffect(() => {
+    // Ensure the selected state is consistent on the client side
+    setSelected(currentPath ?? defaultSelectedKey);
+  }, [currentPath, defaultSelectedKey]);
+
   return (
     <>
       <BattleStadium aria-label="Battle Stadium Logo" />
