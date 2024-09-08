@@ -1,7 +1,7 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
+import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 import BattleStadiumAPI from "@/lib/api";
-import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 const getMe = async () => {
   "use server";
@@ -13,12 +13,11 @@ const getMe = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      cache: 'no-store',
+      cache: "no-store",
     });
 
-
     return await BattleStadiumAPI().Users.me({
-      cache: 'no-store',
+      cache: "no-store",
       headers: {
         Authorization: `Bearer ${await getVercelOidcToken()}`,
       },

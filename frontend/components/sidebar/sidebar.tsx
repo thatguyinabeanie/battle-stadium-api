@@ -12,13 +12,13 @@ import {
 import React from "react";
 import { useMediaQuery } from "usehooks-ts";
 
+import { cn } from "@/lib/utils";
+import BattleStadium from "@/components/battle-stadium";
+
 import UserAvatar from "../user-avatar";
 
 import useRenderSideBarItems from "./use-render-sidebar-items";
 import SignOut from "./sign-out";
-
-import BattleStadium from "@/components/battle-stadium";
-import { cn } from "@/lib/utils";
 
 export enum SidebarItemType {
   Nest = "nest",
