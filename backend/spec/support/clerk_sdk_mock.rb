@@ -5,7 +5,7 @@ module ClerkSdkMock
 
   included do
     let(:clerk_sdk_instance) { instance_double(Clerk::SDK) }
-    let(:Authorization) { "Bearer mock_session_token_totally_random" }
+    let(:Authorization) { "Bearer #{SecureRandom.alphanumeric(25)}" }
 
     def session_data(user)
       {

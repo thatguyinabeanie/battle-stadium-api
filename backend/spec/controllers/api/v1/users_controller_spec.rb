@@ -1,10 +1,16 @@
 require "rails_helper"
 require_relative "../../../../app/serializers/user_serializer"
+require "support/clerk_sdk_mock"
 
 RSpec.describe Api::V1::UsersController do
+  include ClerkSdkMock
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
+  end
+
+  before do
+    request.headers["Authorization"] =  "Bearer #{SecureRandom.alphanumeric(25)}"
   end
 
   context "when /users" do
@@ -27,7 +33,11 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "POST" do
-      let(:user) { create(:admin) }
+      let(:request_user) { create(:admin) }
+
+
+
+      include_context "with Clerk SDK Mock"
 
       it "returns a successful response" do
         post :create, params: { user: attributes_for(:user) }
@@ -69,6 +79,11 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "PUT" do
+      let(:request_user) { create(:admin) }
+
+
+      include_context "with Clerk SDK Mock"
+
       it "returns a successful response" do
         user = create(:user)
         user_attributes = attributes_for(:user)
@@ -88,6 +103,10 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "PATCH" do
+      let(:request_user) { create(:admin) }
+
+      include_context "with Clerk SDK Mock"
+
       it "returns a successful response" do
         user = create(:user)
 
@@ -106,7 +125,10 @@ RSpec.describe Api::V1::UsersController do
     end
 
     describe "DELETE" do
-      let(:admin) { create(:admin) }
+      let(:request_user) { create(:admin) }
+
+
+      include_context "with Clerk SDK Mock"
 
       it "returns a successful response" do
         user = create(:user)
@@ -126,20 +148,22 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  # context "when /users/me" do
-  #   let!(:user) { create(:user) }
+  context "when /users/me" do
+    let(:request_user) { create(:user) }
 
-  #   describe "GET" do
-  #     it "returns a successful response" do
-  #       get :me
-  #       expect(response).to be_successful
-  #     end
+    include_context "with Clerk SDK Mock"
 
-  #     it "returns a users me serialized response" do
-  #       get :me
+    describe "GET" do
+      it "returns a successful response" do
+        get :me
+        expect(response).to be_successful
+      end
 
-  #       expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(user).as_json
-  #     end
-  #   end
-  # end
+      it "returns a users me serialized response" do
+        get :me
+
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(request_user).as_json
+      end
+    end
+  end
 end
