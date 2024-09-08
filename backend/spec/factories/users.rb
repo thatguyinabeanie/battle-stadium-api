@@ -8,14 +8,12 @@ FactoryBot.define do
     admin { false }
     clerk_users { [] }
 
-    factory :admin do
-      admin { true }
+    after(:create) do |user|
+      user.clerk_users << create(:clerk_user, user:)
     end
 
-    trait :with_clerk_user do
-      after(:create) do |user|
-        user.clerk_users << create(:clerk_user, user:)
-      end
+    factory :admin do
+      admin { true }
     end
   end
 end

@@ -8,7 +8,6 @@ RSpec.describe Api::V1::UsersController do
   include ClerkSdkMock
 
   path("/api/v1/users") do
-
     get("List Users") do
       tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -38,7 +37,7 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
         let(:user) do
           {
             user: {
@@ -61,7 +60,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(403, "forbidden") do
-        let(:request_user) { create(:user, :with_clerk_user) }
+        let(:request_user) { create(:user) }
 
         let(:user) { {} }
 
@@ -75,7 +74,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(422, "unprocessable entity") do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
 
         let(:user) do
           {
@@ -108,7 +107,7 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { create(:user, :with_clerk_user) }
+        let(:request_user) { create(:user) }
 
         include_context "with Clerk SDK Mock"
 
@@ -170,7 +169,7 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "Updated by Admin") do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
 
         let(:user_object) { create(:user) }
         let(:id) { user_object.id }
@@ -193,7 +192,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
 
         let(:id) { "invalid" }
         let(:user) do
@@ -219,7 +218,7 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
 
         let(:user) { create(:user) }
         let(:id) { user.id }
@@ -232,7 +231,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
 
         let(:id) { "invalid" }
 

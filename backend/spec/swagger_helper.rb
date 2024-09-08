@@ -438,6 +438,23 @@ SESSION_AND_USER = {
   required: %w[session user]
 }.freeze
 
+
+ERROR = {
+  type: :object,
+  properties: {
+    error: { type: :string }
+  },
+  required: %w[error]
+}.freeze
+
+MESSAGE = {
+  type: :object,
+  properties: {
+    message: { type: :string }
+  },
+  required: %w[message]
+}.freeze
+
 RSpec.configure do |config|
   # config.include SwaggerHelper
   # Specify a root folder where Swagger JSON files are generated
@@ -518,7 +535,9 @@ RSpec.configure do |config|
           GetSessionRequest: GET_SESSION_REQUEST,
           CreateSession: CREATE_SESSION,
           Session: SESSION,
-          SessionAndUser: SESSION_AND_USER
+          SessionAndUser: SESSION_AND_USER,
+          Error: ERROR,
+          Message: MESSAGE
         }
       }
     }

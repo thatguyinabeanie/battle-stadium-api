@@ -54,7 +54,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
         let(:phase) do
           {
             name: "Swiss Round",
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response 404, NOT_FOUND do
-        let(:request_user) { create(:admin, :with_clerk_user) }
+        let(:request_user) { create(:admin) }
         let(:tournament_id) { "invalid" }
         let(:phase) do
           {
