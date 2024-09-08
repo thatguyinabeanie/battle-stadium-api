@@ -20,7 +20,7 @@ jobs:
           bun-version: latest
 
       - name: Install Dependencies
-        run: bun install --silent
+        run: bun install
         working-directory: frontend
 
       - name: Generate Prisma Client
@@ -85,7 +85,7 @@ jobs:
           bun-version: latest
 
       - name: Install Dependencies
-        run: bun install --silent
+        run: bun install
         working-directory: frontend
 
       - name: Run Prettier Check
@@ -102,7 +102,7 @@ jobs:
           bun-version: latest
 
       - name: Install Dependencies
-        run: bun install --silent
+        run: bun install
         working-directory: frontend
 
       - name: Generate Prisma Client
