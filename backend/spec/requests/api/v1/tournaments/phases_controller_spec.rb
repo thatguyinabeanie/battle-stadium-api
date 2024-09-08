@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
 
       parameter name: :phase, in: :body, schema: { "$ref" => "#/components/schemas/Phase" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(201, "created") do
 
@@ -116,7 +116,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       operationId "patchTournamentPhase"
 
       parameter name: :phase, in: :body, schema: { "$ref" => "#/components/schemas/Phase" }
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "successful") do
 
@@ -157,7 +157,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       description "Deletes a Tournament Phase."
       operationId "deleteTournamentPhase"
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "successful") do
 

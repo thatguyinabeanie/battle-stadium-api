@@ -2,7 +2,7 @@ class JwtAuthenticate
   def self.jwt_bearer_token(request:)
     # auth_header = request.headers["Authorization"]
     auth_header = nil
-  raise ::Auth::Session::InvalidTokenOrExpiredSession, "Missing token" unless auth_header
+    raise ::Auth::Session::InvalidTokenOrExpiredSession, "Missing token" unless auth_header
 
     token = auth_header.split.last.gsub(/^["']|["']$/, "")
     JsonWebToken.decrypt(token)

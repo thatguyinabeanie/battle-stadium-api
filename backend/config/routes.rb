@@ -13,15 +13,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       post "clerk", to: "clerk#post"
-      post "users/authorize", to: "users#password_login"
       get "users/me", to: "users#me"
 
-      resources :users, only: %i[index show create destroy update] do
-        member do
-          patch "password", to: "users#patch_password"
-        end
-      end
-
+      resources :users, only: %i[index show create destroy update]
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
           get "tournaments", to: "organizations#list_tournaments"

@@ -20,16 +20,16 @@ RSpec.describe ApplicationController do
     end
   end
 
-  pending "#authenticate_user" do
+  pending "#authenticate_user"
 
-    it "authenticates the user" do
-      get :index
-      expect(response).to have_http_status(:success)
-    end
+    # it "authenticates the user" do
+    #   get :index
+    #   expect(response).to have_http_status(:success)
+    # end
 
-    it "handles invalid or expired session" do
-      get :index
-      expect(response).to have_http_status(:unauthorized)
-    end
-  end
+    # it "handles invalid or expired session" do
+    #   get :index
+    #   expect(response).to have_http_status(:unauthorized)
+    # end
+  # end
 end

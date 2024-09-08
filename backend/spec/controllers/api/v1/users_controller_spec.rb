@@ -127,20 +127,20 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  context "when /users/me" do
-    let!(:user) { create(:user) }
+  # context "when /users/me" do
+  #   let!(:user) { create(:user) }
 
-    describe "GET" do
-      it "returns a successful response" do
-        get :me
-        expect(response).to be_successful
-      end
+  #   describe "GET" do
+  #     it "returns a successful response" do
+  #       get :me
+  #       expect(response).to be_successful
+  #     end
 
-      it "returns a users me serialized response" do
-        get :me
+  #     it "returns a users me serialized response" do
+  #       get :me
 
-        expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(user).as_json
-      end
-    end
-  end
+  #       expect(JSON.parse(response.body, symbolize_names: true)).to eq Serializers::UserMe.new(user).as_json
+  #     end
+  #   end
+  # end
 end

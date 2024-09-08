@@ -103,7 +103,7 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
       first_name: { type: :string },
       last_name: { type: :string }
     },
-    required: %w[email first_name last_name email_verified_at] + SIMPLE_USER_SCHEMA[:required]
+    required: %w[email first_name last_name ] + SIMPLE_USER_SCHEMA[:required]
   }
 ).freeze
 
@@ -111,7 +111,7 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: "User Details",
-    properties: UUID_PROPERTY.merge(email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }),
+    properties: UUID_PROPERTY,
     required: %w[id] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -159,8 +159,7 @@ USER_LOGIN_RESPONSE = {
     email: { type: :string, format: "email" },
     first_name: { type: :string },
     last_name: { type: :string },
-    token: { type: :string, format: "jwt" },
-    email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
+    token: { type: :string, format: "jwt" }
   ),
   required: %w[id username pronouns email token first_name last_name]
 }.freeze
@@ -189,11 +188,10 @@ REGISTRATION_RESPONSE = {
     pronouns: { type: :string, nullable: true },
     jti: { type: :string, format: "jwt" },
     name: { type: :string, nullable: true },
-    email_verified_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     image: { type: :string, nullable: true },
     admin: { type: :boolean }
   ),
-  required: %w[id email username first_name last_name created_at updated_at pronouns jti name email_verified_at image]
+  required: %w[id email username first_name last_name created_at updated_at pronouns jti name image]
 }.freeze
 
 ORGANIZATION_SCHEMA = {

@@ -24,8 +24,6 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user_old
     @session = ::JwtAuthenticate.session_from_authorization_header(request:)
-
-    binding.break
     @current_user = @session.user
     @current_user
   rescue ::Auth::Session::InvalidTokenOrExpiredSession => e

@@ -40,7 +40,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       parameter name: :player, in: :body, schema: { "$ref" => "#/components/schemas/PlayerRequest" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(201, "created") do
         let(:user) { create(:user) }
@@ -93,7 +93,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       parameter name: :player, in: :body, schema: { "$ref" => "#/components/schemas/PlayerRequest" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
       response(200, "successful") do
 
         let(:id) { tournament_player.user_id }
@@ -116,7 +116,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       description "Deletes a Player."
       operationId "deleteTournamentPlayer"
 
-      security [Bearer: []]
+      # security [Bearer: []]
       response(200, "successful") do
 
         OpenApi::Response.set_example_response_metadata

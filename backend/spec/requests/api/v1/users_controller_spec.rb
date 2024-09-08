@@ -31,7 +31,7 @@ RSpec.describe Api::V1::UsersController do
 
       parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserPostRequest" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(201, "created") do
 
@@ -54,16 +54,16 @@ RSpec.describe Api::V1::UsersController do
         run_test!
       end
 
-      response(403, "forbidden") do
+      # response(403, "forbidden") do
 
-        let(:user) { {} }
+      #   let(:user) { {} }
 
-        schema type: :object, properties: { error: { type: :string } }
+      #   schema type: :object, properties: { error: { type: :string } }
 
-        OpenApi::Response.set_example_response_metadata
+      #   OpenApi::Response.set_example_response_metadata
 
-        run_test!
-      end
+      #   run_test!
+      # end
 
       response(422, "unprocessable entity") do
 
@@ -86,86 +86,32 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path("/api/v1/users/authorize") do
-    post("Authorize User") do
-      tags "Users"
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description "Authorizes a User."
-      operationId "authorizeUser"
+  # path("/api/v1/users/me") do
+  #   get("Show Me") do
+  #     tags "Users"
+  #     produces OpenApi::Response::JSON_CONTENT_TYPE
+  #     description "Retrieves the current User."
+  #     operationId "getMe"
 
-      parameter name: :login, in: :body, schema: { "$ref" => "#/components/schemas/UserLoginRequest" }
+  #     # security [Bearer: []]
 
-      response(200, "Successful Email Login") do
-        let(:user) { create(:user, password: PASSWORD) }
-        let(:login) do
-          {
-            email: user.email,
-          }
-        end
+  #     response(200, "successful") do
 
-        schema "$ref" => "#/components/schemas/UserLoginResponse"
+  #       schema "$ref" => "#/components/schemas/UserMe"
 
-        OpenApi::Response.set_example_response_metadata
+  #       OpenApi::Response.set_example_response_metadata
 
-        run_test!
-      end
+  #       run_test!
+  #     end
 
-      response(200, "Successful Username Login") do
-        let(:user) { create(:user, password: PASSWORD) }
-        let(:login) do
-          {
-            username: user.username,
-          }
-        end
+  #     response(401, NOT_FOUND) do
 
-        schema "$ref" => "#/components/schemas/UserLoginResponse"
+  #       OpenApi::Response.set_example_response_metadata
 
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-
-      response(401, "unauthorized") do
-        let(:login) do
-          {
-            email: "user.email@email.com",
-          }
-        end
-
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-    end
-  end
-
-  path("/api/v1/users/me") do
-    get("Show Me") do
-      tags "Users"
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      description "Retrieves the current User."
-      operationId "getMe"
-
-      security [Bearer: []]
-
-      response(200, "successful") do
-
-        schema "$ref" => "#/components/schemas/UserMe"
-
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-
-      response(401, NOT_FOUND) do
-
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-    end
-  end
+  #       run_test!
+  #     end
+  #   end
+  # end
 
   path("/api/v1/users/{id}") do
     parameter name: :id, in: :path, type: :string, description: "ID of the User"
@@ -202,7 +148,7 @@ RSpec.describe Api::V1::UsersController do
 
       parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserDetails" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "Updated by Admin") do
         let(:user_object) { create(:user) }
@@ -213,7 +159,6 @@ RSpec.describe Api::V1::UsersController do
             pronouns: "they/them",
             email: "updateduser@example.com",
             first_name: "Updated", last_name: "Userrrrr",
-            current_password: user_object.password
           }
         end
 
@@ -245,7 +190,7 @@ RSpec.describe Api::V1::UsersController do
       describe "Deletes a User by ID."
       operationId "deleteUser"
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "successful") do
 

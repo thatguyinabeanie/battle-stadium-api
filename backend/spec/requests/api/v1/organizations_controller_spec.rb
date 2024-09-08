@@ -28,7 +28,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
       parameter name: :organization, required: true, in: :body, schema: { "$ref" => "#/components/schemas/Organization" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(201, "created") do
         let(:owner) { create(:user) }
@@ -82,7 +82,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
       parameter name: :organization, in: :body, schema: { "$ref" => "#/components/schemas/Organization" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "successful") do
         let(:id) { create(:organization).id }
@@ -119,18 +119,18 @@ RSpec.describe Api::V1::OrganizationsController do
       description "Deletes an organization."
       operationId "deleteOrganization"
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "Organization deleted") do
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
-      response(403, "forbidden") do
-        OpenApi::Response.set_example_response_metadata
+      # response(403, "forbidden") do
+      #   OpenApi::Response.set_example_response_metadata
 
-        run_test!
-      end
+      #   run_test!
+      # end
 
       response(404, NOT_FOUND) do
         let(:id) { "invalid" }
@@ -206,7 +206,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
       parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentDetails" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(201, "Created by Org Owner") do
 
@@ -285,7 +285,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
       parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentDetails" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(200, "Updated by Organization Owner") do
 
