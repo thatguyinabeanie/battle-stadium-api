@@ -1,30 +1,11 @@
 require "rails_helper"
 require "swagger_helper"
+require "support/clerk_sdk_mock"
 
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 
 RSpec.describe Api::V1::UsersController do
-  let(:clerk_sdk_instance) { instance_double(Clerk::SDK) }
-  let(:Authorization) { "Bearer mock_session_token_totally_random" }
-
-  def session_data(user)
-    {
-      "userId" => user.clerk_users.first&.clerk_user_id,
-      "email" => user.email,
-      "username" => user.username,
-      "firstName" => user.first_name,
-      "lastName" => user.last_name,
-      "imageUrl" => user.image_url,
-    }
-  end
-
-  shared_context "With mock Clerk SDK" do
-    before do
-      session = session_data(request_user)
-      allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-      allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: session)
-    end
-  end
+  include ClerkSdkMock
 
   path("/api/v1/users") do
 
@@ -70,7 +51,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -85,7 +66,7 @@ RSpec.describe Api::V1::UsersController do
         let(:user) { {} }
 
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
         schema type: :object, properties: { error: { type: :string } }
 
         OpenApi::Response.set_example_response_metadata
@@ -108,8 +89,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "With mock Clerk SDK"
-
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -130,7 +110,7 @@ RSpec.describe Api::V1::UsersController do
       response(200, "successful") do
         let(:request_user) { create(:user, :with_clerk_user) }
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => "#/components/schemas/UserMe"
 
@@ -142,7 +122,7 @@ RSpec.describe Api::V1::UsersController do
       response(401, NOT_FOUND) do
         let(:request_user) { build(:user) }
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
 
 
         OpenApi::Response.set_example_response_metadata
@@ -203,7 +183,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -222,7 +202,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -244,7 +224,7 @@ RSpec.describe Api::V1::UsersController do
         let(:user) { create(:user) }
         let(:id) { user.id }
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -256,7 +236,7 @@ RSpec.describe Api::V1::UsersController do
 
         let(:id) { "invalid" }
 
-        include_context "With mock Clerk SDK"
+        include_context "with Clerk SDK Mock"
 
 
         OpenApi::Response.set_example_response_metadata
