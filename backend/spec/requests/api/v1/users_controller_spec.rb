@@ -212,3 +212,12 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 end
+
+
+# before do
+#   clerk_sdk_instance = instance_double("Clerk::SDK")
+#   allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
+#   allow(clerk_sdk_instance).to receive(:verify_token).and_return({
+#     "userId" => "123",
+#   }) # Mock specific methods as needed
+# end

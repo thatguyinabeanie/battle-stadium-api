@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_08_043218) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_08_163937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -45,6 +45,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_043218) do
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["credential_id"], name: "index_authenticators_on_credential_id", unique: true
+  end
+
+  create_table "clerk_users", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "clerk_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clerk_user_id"], name: "index_clerk_users_on_clerk_user_id", unique: true
+    t.index ["user_id"], name: "index_clerk_users_on_user_id"
   end
 
   create_table "formats", force: :cascade do |t|
@@ -247,8 +256,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_043218) do
     t.string "pronouns", default: "", null: false
     t.text "image_url"
     t.boolean "admin", default: false, null: false
-    t.string "clerk_user_id", null: false
-    t.index ["clerk_user_id"], name: "index_users_on_clerk_user_id", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
@@ -263,6 +270,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_043218) do
   end
 
   add_foreign_key "authenticators", "users"
+  add_foreign_key "clerk_users", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
   add_foreign_key "match_games", "players", column: "loser_id"

@@ -3,8 +3,8 @@ import { join } from "path";
 
 import dotenv from "dotenv";
 
-dotenv.config();
-dotenv.config({ path: join(process.cwd(), "..", ".env.local") });
+dotenv.config({ path: join(process.cwd(), ".env") });
+dotenv.config({ path: join(process.cwd(), ".env.local") });
 
 const nextConfig = {
   env: {

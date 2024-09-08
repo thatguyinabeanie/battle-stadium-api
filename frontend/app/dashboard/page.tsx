@@ -1,6 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 
 import BattleStadiumAPI from "@/lib/api";
+import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 const getMe = async () => {
   "use server";
@@ -12,6 +13,15 @@ const getMe = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      cache: 'no-store',
+    });
+
+
+    return await BattleStadiumAPI().Users.me({
+      cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${await getVercelOidcToken()}`,
+      },
     });
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -22,7 +32,7 @@ const getMe = async () => {
 };
 
 export default async function Dashboard() {
-  const user = await currentUser();
+  // const user = await currentUser();
 
   const me = await getMe();
 

@@ -34,16 +34,20 @@ export class Configuration {
 
   get basePath(): string {
     if (process.env.API_BASE_URL_PATH) {
+      console.log('Using API_BASE_URL_PATH from environment variable');
       const BASE_PATH = process.env.API_BASE_URL_PATH;
       // Remove trailing slashes without using regex
       return BASE_PATH.endsWith("/") ? BASE_PATH.slice(0, -1) : BASE_PATH;
     }
 
+    console.log("Using default API_BASE_URL_PATH");
     const componentType = typeof window === "undefined" ? "server" : "client";
     const backendHost = (componentType === "server" && process?.env?.BACKEND_HOST) || "localhost";
     const API_BASE_URL_PATH: string = `http://${backendHost}:10000`;
     const BASE_PATH = API_BASE_URL_PATH.replace(/\/+$/, "");
-    return this.configuration.basePath ?? BASE_PATH;
+    const returnValue =  this.configuration.basePath ?? BASE_PATH;
+    console.log("Using BASE_PATH: ", returnValue);
+    return returnValue;
   }
 
   get fetchApi(): FetchAPI | undefined {
