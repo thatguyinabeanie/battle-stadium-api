@@ -38,8 +38,6 @@ module Api
         # Add more event types as needed
         else
           Rails.logger.warn("Unhandled event type: #{type}")
-
-          binding.break
         end
       end
 
