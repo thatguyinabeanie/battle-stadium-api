@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def authenticate_user
+  def authenticate_user_old
     @session = ::JwtAuthenticate.session_from_authorization_header(request:)
 
     binding.break

@@ -28,7 +28,7 @@ RSpec.describe Api::V1::GamesController do
 
       parameter name: :game, in: :body, schema: { "$ref" => "#/components/schemas/Game" }
 
-      security [Bearer: []]
+      # security [Bearer: []]
 
       response(201, "created") do
         let(:game) { { game: { name: "New Game" } } }
