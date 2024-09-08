@@ -27,8 +27,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate_clerk_user!
-    @current_user = ClerkJWT::Session.authenticate!(request:)
-  rescue ClerkJWT::Session::NoAuthorizationHeader, ClerkJWT::Session::VerificationError, ClerkJWT::Session::InvalidSessionToken => e
+    @current_user = ClerkJwt::Session.authenticate!(request:)
+  rescue ClerkJwt::Session::NoAuthorizationHeader, ClerkJwt::Session::VerificationError, ClerkJwt::Session::InvalidSessionToken => e
     render json: { error: e.message }, status: :unauthorized
   end
 

@@ -1,7 +1,7 @@
 require "clerk/authenticatable"
 require "clerk"
 
-module ClerkJWT
+module ClerkJwt
   module Webhook
     class Error < StandardError; end
     class << self
