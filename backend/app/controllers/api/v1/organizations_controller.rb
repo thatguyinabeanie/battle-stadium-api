@@ -11,7 +11,7 @@ module Api
       self.detail_serializer_klass = Serializers::Organization
 
       before_action :set_organization, only: %i[staff post_tournaments patch_tournament list_tournaments]
-      # skip_before_action :authenticate_user, only: %i[staff list_tournaments]
+
 
       def self.policy_class
         ::OrganizationPolicy
