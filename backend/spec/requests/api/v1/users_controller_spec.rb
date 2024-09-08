@@ -4,7 +4,30 @@ require "swagger_helper"
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 
 RSpec.describe Api::V1::UsersController do
+  let(:clerk_sdk_instance) { instance_double(Clerk::SDK) }
+  let(:Authorization) { "Bearer mock_session_token_totally_random" }
+
+  def session_data(user)
+    {
+      "userId" => user.clerk_users.first&.clerk_user_id,
+      "email" => user.email,
+      "username" => user.username,
+      "firstName" => user.first_name,
+      "lastName" => user.last_name,
+      "imageUrl" => user.image_url,
+    }
+  end
+
+  shared_context "With mock Clerk SDK" do
+    before do
+      session = session_data(request_user)
+      allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
+      allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: session)
+    end
+  end
+
   path("/api/v1/users") do
+
     get("List Users") do
       tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -35,7 +58,6 @@ RSpec.describe Api::V1::UsersController do
 
       response(201, "created") do
         let(:request_user) { create(:admin, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
         let(:user) do
           {
             user: {
@@ -48,20 +70,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
+        include_context "With mock Clerk SDK"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -72,27 +81,11 @@ RSpec.describe Api::V1::UsersController do
 
       response(403, "forbidden") do
         let(:request_user) { create(:user, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
+
         let(:user) { {} }
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-            "userId" => request_user.clerk_users.first.clerk_user_id,
 
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
-
-
-
+        include_context "With mock Clerk SDK"
         schema type: :object, properties: { error: { type: :string } }
 
         OpenApi::Response.set_example_response_metadata
@@ -102,7 +95,7 @@ RSpec.describe Api::V1::UsersController do
 
       response(422, "unprocessable entity") do
         let(:request_user) { create(:admin, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
+
         let(:user) do
           {
             user: {
@@ -115,20 +108,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
+        include_context "With mock Clerk SDK"
 
 
         OpenApi::Response.set_example_response_metadata
@@ -149,23 +129,8 @@ RSpec.describe Api::V1::UsersController do
 
       response(200, "successful") do
         let(:request_user) { create(:user, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
-
+        include_context "With mock Clerk SDK"
 
         schema "$ref" => "#/components/schemas/UserMe"
 
@@ -176,22 +141,8 @@ RSpec.describe Api::V1::UsersController do
 
       response(401, NOT_FOUND) do
         let(:request_user) { build(:user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first&.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
+        include_context "With mock Clerk SDK"
 
 
         OpenApi::Response.set_example_response_metadata
@@ -240,7 +191,7 @@ RSpec.describe Api::V1::UsersController do
 
       response(200, "Updated by Admin") do
         let(:request_user) { create(:admin, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
+
         let(:user_object) { create(:user) }
         let(:id) { user_object.id }
         let(:user) do
@@ -252,23 +203,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first&.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
-
-
-
+        include_context "With mock Clerk SDK"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -279,7 +214,7 @@ RSpec.describe Api::V1::UsersController do
 
       response(404, NOT_FOUND) do
         let(:request_user) { create(:admin, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
+
         let(:id) { "invalid" }
         let(:user) do
           {
@@ -287,21 +222,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first&.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
-
+        include_context "With mock Clerk SDK"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -319,25 +240,11 @@ RSpec.describe Api::V1::UsersController do
 
       response(200, "successful") do
         let(:request_user) { create(:admin, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
+
         let(:user) { create(:user) }
         let(:id) { user.id }
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first&.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
-
+        include_context "With mock Clerk SDK"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -346,23 +253,10 @@ RSpec.describe Api::V1::UsersController do
 
       response(404, NOT_FOUND) do
         let(:request_user) { create(:admin, :with_clerk_user) }
-        let(:Authorization) { "Bearer mock_session_token_totally_random" }
+
         let(:id) { "invalid" }
 
-        before do
-          clerk_sdk_instance = instance_double(Clerk::SDK)
-          session = {
-            "userId" => request_user.clerk_users.first&.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
-          }
-
-          allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-          allow(clerk_sdk_instance).to receive_messages(verify_token: session, decode_token: (session))
-        end
+        include_context "With mock Clerk SDK"
 
 
         OpenApi::Response.set_example_response_metadata
@@ -372,12 +266,3 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 end
-
-
-# before do
-#   clerk_sdk_instance = instance_double("Clerk::SDK")
-#   allow(Clerk::SDK).to receive(:new).and_return(clerk_sdk_instance)
-#   allow(clerk_sdk_instance).to receive(:verify_token).and_return({
-#     "userId" => "123",
-#   }) # Mock specific methods as needed
-# end
