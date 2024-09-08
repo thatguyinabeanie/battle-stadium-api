@@ -1,6 +1,8 @@
 require "swagger_helper"
-
+require "support/clerk_sdk_mock"
 RSpec.describe Api::V1::Tournaments::PlayersController do
+  include ClerkSdkMock
+
   let(:organization) { create(:organization) }
   let(:organization_id) { organization.id }
   let(:tournament) { create(:tournament, organization:) }
@@ -40,13 +42,27 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       parameter name: :player, in: :body, schema: { "$ref" => "#/components/schemas/PlayerRequest" }
 
-      # security [Bearer: []]
+      security [Bearer: []]
 
       response(201, "created") do
         let(:user) { create(:user) }
+        let(:request_user) { user }
         let(:player) { { user_id: user.id } }
 
+        include_context "with Clerk SDK Mock"
         schema "$ref" => "#/components/schemas/PlayerDetails"
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(403, "forbidden") do
+        let(:user) { create(:user) }
+        let(:request_user) { create(:user) }
+        let(:player) { { user_id: user.id } }
+
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -54,8 +70,11 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       response(404, NOT_FOUND) do
         let(:user) { create(:user) }
+        let(:request_user) { create(:user) }
         let(:tournament_id) { "invalid" }
-        let(:player) { { user_id: create(:user).id } }
+        let(:player) { { user_id: user.id} }
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -93,15 +112,17 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       parameter name: :player, in: :body, schema: { "$ref" => "#/components/schemas/PlayerRequest" }
 
-      # security [Bearer: []]
+      security [Bearer: []]
       response(200, "successful") do
+        let(:request_user) { tournament_player.user }
 
-        let(:id) { tournament_player.user_id }
         let(:player) do
           {
             in_game_name: "fuecocos-strongest-soldier"
           }
         end
+
+        include_context "with Clerk SDK Mock"
 
         schema "$ref" => "#/components/schemas/PlayerDetails"
         OpenApi::Response.set_example_response_metadata
@@ -116,16 +137,20 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       description "Deletes a Player."
       operationId "deleteTournamentPlayer"
 
-      # security [Bearer: []]
+      security [Bearer: []]
       response(200, "successful") do
+        let(:request_user) { tournament_player.user }
 
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(404, NOT_FOUND) do
-
+        let(:request_user) { tournament_player.user }
         let(:id) { "invalid" }
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
