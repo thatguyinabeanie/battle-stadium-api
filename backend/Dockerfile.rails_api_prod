@@ -20,6 +20,7 @@ FROM base AS build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     build-essential \
+    curl \
     git \
     libpq-dev \
     libssl-dev \
@@ -37,27 +38,13 @@ RUN rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bund
     bundle exec bootsnap precompile --gemfile
 
 # Copy application code
-COPY app bin config db lib public storage Rakefile vendor config.ru .ruby-version  ./
+COPY app bin config db lib public scripts storage swagger vendor Rakefile config.ru ./
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-
 # Final stage for app image
 FROM base
-
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get --no-install-recommends install -y \
-    curl \
-    libpq-dev && \
-    libvips \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
@@ -73,3 +60,6 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 10000
 CMD ["./bin/rails", "server"]
+
+FROM base AS production
+CMD ["./bin/rails", "server", "-e", "production", "-b", "0.0.0.0"]
