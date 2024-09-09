@@ -52,8 +52,6 @@ module BattleStadium
 
       errors << "Missing PRODUCTION_DATABASE_URL environment variable" if ENV.fetch("PRODUCTION_DATABASE_URL", nil).nil? && Rails.env.production?
 
-      errors << "Missing STAGING_DATABASE_URL environment variable" if ENV.fetch("PRODUCTION_DATABASE_URL", nil).nil? && Rails.env.staging?
-
       errors << "Missing AUTH_SECRET environment variable" if ENV.fetch("AUTH_SECRET", nil).nil?
 
       raise errors.join("\n") if errors.any?
