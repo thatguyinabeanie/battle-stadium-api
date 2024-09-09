@@ -1,6 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from "./ChangePasswordRequest";
 export * from "./CreateSession";
 export * from "./Format";
 export * from "./Game";
@@ -11,7 +10,6 @@ export * from "./Message";
 export * from "./ModelError";
 export * from "./Organization";
 export * from "./OrganizationDetails";
-export * from "./PasswordRequest";
 export * from "./Phase";
 export * from "./PhaseDetails";
 export * from "./Player";
@@ -29,8 +27,6 @@ export * from "./TournamentPostRequest";
 export * from "./TournamentRequest";
 export * from "./User";
 export * from "./UserDetails";
-export * from "./UserLoginRequest";
-export * from "./UserLoginResponse";
 export * from "./UserMe";
 export * from "./UserPostRequest";
 export * from "./UserRequest";

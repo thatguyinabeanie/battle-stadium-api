@@ -37,7 +37,6 @@ import {
   UserDetails,
   PostUserRequest,
   UserPostRequest,
-  ChangePasswordRequest,
   CreateSession,
   Format,
   GameDetail,
@@ -47,7 +46,6 @@ import {
   ModelError,
   User,
   OrganizationDetails,
-  PasswordRequest,
   PhaseDetails,
   Player,
   Round,
@@ -60,8 +58,6 @@ import {
   Tournament,
   TournamentPostRequest,
   TournamentRequest,
-  UserLoginRequest,
-  UserLoginResponse,
   UserMe,
   UserRequest,
 } from "@/lib/api";
@@ -179,14 +175,6 @@ export const PostUserRequestFactory = new Factory<PostUserRequest>().attr("userP
   UserPostRequestFactory.build(),
 );
 
-export const ChangePasswordRequestFactory = new Factory<ChangePasswordRequest>()
-
-  .attr("password", () => faker.internet.password())
-  .attr("passwordConfirmation", function (this: any) {
-    return this.password;
-  })
-  .attr("currentPassword", () => faker.lorem.word());
-
 export const CreateSessionFactory = new Factory<CreateSession>()
 
   .attr("userId", () => faker.lorem.word())
@@ -226,13 +214,6 @@ export const OrganizationDetailsFactory = new Factory<OrganizationDetails>()
   .attr("logoUrl", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
   .sequence("id")
   .attr("name", () => faker.lorem.word());
-
-export const PasswordRequestFactory = new Factory<PasswordRequest>()
-
-  .attr("password", () => faker.internet.password())
-  .attr("passwordConfirmation", function (this: any) {
-    return this.password;
-  });
 
 export const PhaseFactory = new Factory<Phase>()
 
@@ -417,22 +398,6 @@ export const UserDetailsFactory = new Factory<UserDetails>()
   .attr("lastName", () => faker.lorem.word())
   .sequence("id");
 
-export const UserLoginRequestFactory = new Factory<UserLoginRequest>()
-
-  .attr("username", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
-  .attr("email", () => (faker.datatype.boolean() ? faker.lorem.word() : null))
-  .attr("password", () => faker.internet.password());
-
-export const UserLoginResponseFactory = new Factory<UserLoginResponse>()
-
-  .sequence("id")
-  .attr("username", () => faker.lorem.word())
-  .attr("pronouns", () => faker.lorem.word())
-  .attr("email", () => `${faker.internet.userName()}@example.com`)
-  .attr("firstName", () => faker.lorem.word())
-  .attr("lastName", () => faker.lorem.word())
-  .attr("token", () => faker.lorem.word());
-
 export const UserMeFactory = new Factory<UserMe>()
 
   .attr("username", () => faker.lorem.word())
@@ -450,10 +415,6 @@ export const UserPostRequestFactory = new Factory<UserPostRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("password", () => faker.internet.password())
-  .attr("passwordConfirmation", function (this: any) {
-    return this.password;
-  })
   .sequence("id");
 
 export const UserRequestFactory = new Factory<UserRequest>()
@@ -463,5 +424,4 @@ export const UserRequestFactory = new Factory<UserRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("currentPassword", () => faker.lorem.word())
   .sequence("id");

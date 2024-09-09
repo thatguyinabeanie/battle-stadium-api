@@ -8,7 +8,6 @@ UUID_TYPE = { type: :string, format: "uuid" }.freeze
 UUID_PROPERTY = { id: UUID_TYPE }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
-PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: "password" }.freeze
 
 COMPONENT_SCHEMA_ORGANIZATION = "#/components/schemas/Organization"
 COMPONENT_SCHEMA_FORMAT = "#/components/schemas/Format"
@@ -51,29 +50,6 @@ GAME_DETAILS_SCHEMA = {
     formats: { type: :array, items: { "$ref" => COMPONENT_SCHEMA_FORMAT } }
   ),
   required: (GAME_SCHEMA[:required] + %w[formats])
-}.freeze
-
-PASSWORD_REQUEST = {
-  type: :object,
-  title: "Password Request",
-  properties: {
-    password: PASSWORD_STRING_TYPE.merge(title: "Password", description: "Must be at least 8 characters"),
-    password_confirmation: PASSWORD_STRING_TYPE.merge(title: "Password Confirmation", description: "Must match the password.")
-  },
-  required: %w[password password_confirmation]
-}.freeze
-
-CHANGE_PASSWORD_REQUEST = {
-  allOf: [
-    { "$ref" => "#/components/schemas/PasswordRequest" },
-    {
-      title: "Change Password Request",
-      properties: {
-        current_password: PASSWORD_STRING_TYPE.merge(title: "Current Password", description: "Your current password.")
-      },
-      required: %w[current_password]
-    }
-  ]
 }.freeze
 
 SIMPLE_USER_SCHEMA = {
@@ -131,10 +107,8 @@ USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: "User Request",
-    properties: {
-      current_password: PASSWORD_STRING_TYPE.merge(title: "Current Password", description: "Your current password.")
-    }.merge(UUID_PROPERTY),
-    required: %w[current_password] + SIMPLE_USER_DETAILS_SCHEMA[:required]
+    properties: UUID_PROPERTY,
+    required: SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
@@ -142,11 +116,8 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: "User Request",
-    properties: {
-      password: PASSWORD_STRING_TYPE.merge(title: "Password", description: "Must be at least 8 characters"),
-      password_confirmation: PASSWORD_STRING_TYPE.merge(title: "Password Confirmation", description: "Must match the password.")
-    }.merge(UUID_PROPERTY),
-    required: %w[password password_confirmation] + SIMPLE_USER_DETAILS_SCHEMA[:required]
+    properties: UUID_PROPERTY,
+    required: SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
@@ -162,17 +133,6 @@ USER_LOGIN_RESPONSE = {
     token: { type: :string, format: "jwt" }
   ),
   required: %w[id username pronouns email token first_name last_name]
-}.freeze
-
-USER_LOGIN_REQUEST = {
-  type: :object,
-  title: "User Login Request",
-  properties: {
-    username: { type: :string, nullable: true },
-    email: { type: :string, format: "email", nullable: true },
-    password: PASSWORD_STRING_TYPE.merge(title: "Password", description: "Must be at least 8 characters")
-  },
-  required: %w[password]
 }.freeze
 
 REGISTRATION_RESPONSE = {
@@ -508,15 +468,11 @@ RSpec.configure do |config|
           Format: FORMAT_SCHEMA,
           Game: GAME_SCHEMA,
           GameDetail: GAME_DETAILS_SCHEMA,
-          PasswordRequest: PASSWORD_REQUEST,
-          ChangePasswordRequest: CHANGE_PASSWORD_REQUEST,
           User: USER_SCHEMA,
           UserDetails: USER_DETAILS_SCHEMA,
           UserMe: USER_ME,
           UserPostRequest: USER_POST_REQUEST,
           UserRequest: USER_REQUEST,
-          UserLoginResponse: USER_LOGIN_RESPONSE,
-          UserLoginRequest: USER_LOGIN_REQUEST,
           RegistrationResponse: REGISTRATION_RESPONSE,
           Organization: ORGANIZATION_SCHEMA,
           OrganizationDetails: ORGANIZATION_DETAILS_SCHEMA,

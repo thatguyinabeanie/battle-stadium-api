@@ -50,12 +50,6 @@ export interface UserRequest {
    */
   lastName: string;
   /**
-   * Your current password.
-   * @type {string}
-   * @memberof UserRequest
-   */
-  currentPassword: string;
-  /**
    *
    * @type {string}
    * @memberof UserRequest
@@ -72,7 +66,6 @@ export function instanceOfUserRequest(value: object): value is UserRequest {
   if (!("email" in value) || value["email"] === undefined) return false;
   if (!("firstName" in value) || value["firstName"] === undefined) return false;
   if (!("lastName" in value) || value["lastName"] === undefined) return false;
-  if (!("currentPassword" in value) || value["currentPassword"] === undefined) return false;
   return true;
 }
 
@@ -90,7 +83,6 @@ export function UserRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
-    currentPassword: json["current_password"],
     id: json["id"] == null ? undefined : json["id"],
   };
 }
@@ -105,7 +97,6 @@ export function UserRequestToJSON(value?: UserRequest | null): any {
     email: value["email"],
     first_name: value["firstName"],
     last_name: value["lastName"],
-    current_password: value["currentPassword"],
     id: value["id"],
   };
 }

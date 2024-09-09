@@ -50,18 +50,6 @@ export interface UserPostRequest {
    */
   lastName: string;
   /**
-   * Must be at least 8 characters
-   * @type {string}
-   * @memberof UserPostRequest
-   */
-  password: string;
-  /**
-   * Must match the password.
-   * @type {string}
-   * @memberof UserPostRequest
-   */
-  passwordConfirmation: string;
-  /**
    *
    * @type {string}
    * @memberof UserPostRequest
@@ -78,8 +66,6 @@ export function instanceOfUserPostRequest(value: object): value is UserPostReque
   if (!("email" in value) || value["email"] === undefined) return false;
   if (!("firstName" in value) || value["firstName"] === undefined) return false;
   if (!("lastName" in value) || value["lastName"] === undefined) return false;
-  if (!("password" in value) || value["password"] === undefined) return false;
-  if (!("passwordConfirmation" in value) || value["passwordConfirmation"] === undefined) return false;
   return true;
 }
 
@@ -97,8 +83,6 @@ export function UserPostRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     email: json["email"],
     firstName: json["first_name"],
     lastName: json["last_name"],
-    password: json["password"],
-    passwordConfirmation: json["password_confirmation"],
     id: json["id"] == null ? undefined : json["id"],
   };
 }
@@ -113,8 +97,6 @@ export function UserPostRequestToJSON(value?: UserPostRequest | null): any {
     email: value["email"],
     first_name: value["firstName"],
     last_name: value["lastName"],
-    password: value["password"],
-    password_confirmation: value["passwordConfirmation"],
     id: value["id"],
   };
 }

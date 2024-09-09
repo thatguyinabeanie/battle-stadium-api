@@ -113,7 +113,7 @@ module ClerkJwt
 
         user = User.find_by(email: session["email"]) || User.find_by(username: session["username"])
         if user
-          ClerkUser.create!(clerk_user_id: session["userId"], user: user)
+          ClerkUser.create!(clerk_user_id: session["userId"], user:)
           return user
         end
 

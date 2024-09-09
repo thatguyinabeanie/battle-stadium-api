@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
-  binaryTargets   = ["native", "linux-arm64-openssl-3.0.x", "debian-openssl-3.0.x","darwin", "windows", "linux-musl"]
+  binaryTargets   = ["native", "linux-arm64-openssl-3.0.x", "debian-openssl-3.0.x", "darwin", "windows", "linux-musl"]
 }
 
 datasource db {
@@ -24,7 +24,7 @@ model accounts {
   updated_at          DateTime @db.Timestamp(6)
   user_id             String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-  @@id([provider, provider_account_id])
+  @@id([provider, provider_account_id], map: "account_pkey")
   @@unique([provider, provider_account_id], map: "index_accounts_on_provider_and_provider_account_id")
 }
 
@@ -42,7 +42,7 @@ model authenticators {
   credential_public_key  String
   counter                Int
   credential_device_type String
-  credential_backed_up   Boolean
+  credential_backed_up   Boolean  @default(false)
   transports             String?
   created_at             DateTime @db.Timestamp(6)
   updated_at             DateTime @db.Timestamp(6)
@@ -194,9 +194,9 @@ model players {
   matches_matches_player_two_idToplayers     matches[]       @relation("matches_player_two_idToplayers")
   matches_matches_player_one_idToplayers     matches[]       @relation("matches_player_one_idToplayers")
   phase_players                              phase_players[]
+  tournaments                                tournaments     @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f96ec8a72f")
   users                                      users?          @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_224cac07ce")
   pokemon_teams                              pokemon_teams?  @relation(fields: [pokemon_team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_aeec102047")
-  tournaments                                tournaments     @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f96ec8a72f")
 
   @@unique([user_id, tournament_id], map: "index_players_on_user_id_and_tournament_id")
   @@index([pokemon_team_id], map: "index_players_on_pokemon_team_id")
@@ -312,36 +312,18 @@ model tournaments {
 }
 
 model users {
-  id                         String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email                      String                       @unique(map: "index_users_on_email") @default("") @db.VarChar
   username                   String?                      @unique(map: "index_users_on_username") @default("") @db.VarChar
   created_at                 DateTime                     @db.Timestamp(6)
   updated_at                 DateTime                     @db.Timestamp(6)
-  encrypted_password         String                       @default("") @db.VarChar
-  reset_password_token       String?                      @unique(map: "index_users_on_reset_password_token") @db.VarChar
-  reset_password_sent_at     DateTime?                    @db.Timestamp(6)
-  remember_created_at        DateTime?                    @db.Timestamp(6)
-  sign_in_count              Int                          @default(0)
-  current_sign_in_at         DateTime?                    @db.Timestamp(6)
-  last_sign_in_at            DateTime?                    @db.Timestamp(6)
-  current_sign_in_ip         String?                      @db.VarChar
-  last_sign_in_ip            String?                      @db.VarChar
-  confirmation_token         String?                      @unique(map: "index_users_on_confirmation_token") @db.VarChar
-  confirmed_at               DateTime?                    @db.Timestamp(6)
-  confirmation_sent_at       DateTime?                    @db.Timestamp(6)
-  unconfirmed_email          String?                      @db.VarChar
-  failed_attempts            Int                          @default(0)
-  unlock_token               String?                      @unique(map: "index_users_on_unlock_token") @db.VarChar
-  locked_at                  DateTime?                    @db.Timestamp(6)
   first_name                 String?                      @db.VarChar
   last_name                  String?                      @db.VarChar
   pronouns                   String                       @default("") @db.VarChar
-  jti                        String                       @unique(map: "index_users_on_jti") @default("invalid") @db.VarChar
-  name                       String?                      @db.VarChar
-  email_verified_at          DateTime?                    @db.Timestamp(6)
-  image                      String?
+  image_url                  String?
+  id                         String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   admin                      Boolean                      @default(false)
   authenticators             authenticators[]
+  clerk_users                clerk_users[]
   match_games                match_games[]
   organization_staff_members organization_staff_members[]
   organizations              organizations?
@@ -359,4 +341,15 @@ model verification_tokens {
   updated_at DateTime @db.Timestamp(6)
 
   @@unique([identifier, token], map: "index_verification_token_on_identifier_and_token")
+}
+
+model clerk_users {
+  id            BigInt   @id @default(autoincrement())
+  user_id       String   @db.Uuid
+  clerk_user_id String   @unique(map: "index_clerk_users_on_clerk_user_id") @db.VarChar
+  created_at    DateTime @db.Timestamp(6)
+  updated_at    DateTime @db.Timestamp(6)
+  users         users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_982e94e92d")
+
+  @@index([user_id], map: "index_clerk_users_on_user_id")
 }

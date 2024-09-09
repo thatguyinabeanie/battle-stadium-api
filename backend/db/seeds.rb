@@ -23,10 +23,7 @@ end
 
 def create_battlestadium_bot
   User.find_or_create_by!(username: "battlestadiumbot") do |user|
-    password = SecurePassword.generate_secure_password
     user.email = "battlestadium@beanie.gg"
-    user.password = password
-    user.password_confirmation = password
     user.pronouns = "they/them"
     user.first_name = "Battle"
     user.last_name = "Stadium"
@@ -34,9 +31,7 @@ def create_battlestadium_bot
   end
 end
 
-def create_user(username: nil, password: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil)
-  username ||= Faker::Internet.unique.username
-  password ||= SecurePassword.generate_secure_password
+def create_user(username: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil)
   first_name ||= Faker::Name.first_name
   last_name ||= Faker::Name.last_name
   email || "#{username}@beanie.com"
@@ -87,8 +82,7 @@ scarlet_violet = Game.find_or_create_by!(name: "Pokemon Scarlet & Violet")
 
 format = Tournaments::Format.find_or_create_by!(name: "Regulation H", game: scarlet_violet)
 
-fuecoco_supremacy_user = create_user(username: "fuecoco-supremacy", password: "FuecocoSupremacy777!",
-                                     first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
+fuecoco_supremacy_user = create_user(username: "fuecoco-supremacy", first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
 fuecoco_supremacy_user.admin = true
 fuecoco_supremacy_user.save!
 
