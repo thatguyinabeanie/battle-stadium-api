@@ -30,10 +30,6 @@ import {
   PlayerRequest,
   PutTournamentPlayerRequest,
   ShowTournamentPlayerRequest,
-  RegisterUserOperationRequest,
-  RegisterUserRequest,
-  CreateRequest,
-  CreateSession,
   GetTournamentRequest,
   DeleteUserRequest,
   GetUserRequest,
@@ -42,6 +38,7 @@ import {
   PostUserRequest,
   UserPostRequest,
   ChangePasswordRequest,
+  CreateSession,
   Format,
   GameDetail,
   GameRequest,
@@ -166,15 +163,6 @@ export const ShowTournamentPlayerRequestFactory = new Factory<ShowTournamentPlay
 
   .attr("tournamentId", () => faker.number.int({ min: 1, max: 100 }))
   .sequence("id");
-
-export const RegisterUserOperationRequestFactory = new Factory<RegisterUserOperationRequest>().attr(
-  "registerUserRequest",
-  () => RegisterUserRequestFactory.build(),
-);
-
-export const CreateRequestFactory = new Factory<CreateRequest>().attr("createSession", () =>
-  CreateSessionFactory.build(),
-);
 
 export const GetTournamentRequestFactory = new Factory<GetTournamentRequest>().sequence("id");
 
@@ -308,17 +296,6 @@ export const PokemonFactory = new Factory<Pokemon>()
   .attr("move4", () => (faker.datatype.boolean() ? faker.lorem.word() : null));
 
 export const PostUser403ResponseFactory = new Factory<PostUser403Response>().attr("error", () => faker.lorem.word());
-
-export const RegisterUserRequestFactory = new Factory<RegisterUserRequest>()
-
-  .attr("username", () => faker.lorem.word())
-  .attr("firstName", () => faker.lorem.word())
-  .attr("lastName", () => faker.lorem.word())
-  .attr("email", () => `${faker.internet.userName()}@example.com`)
-  .attr("password", () => faker.internet.password())
-  .attr("passwordConfirmation", function (this: any) {
-    return this.password;
-  });
 
 export const RegistrationResponseFactory = new Factory<RegistrationResponse>()
 
