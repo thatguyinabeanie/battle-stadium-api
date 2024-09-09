@@ -72,7 +72,7 @@ jobs:
             thatguyinabeanie/battle-stadium:frontend-dev-${{env.MAJOR}}
             thatguyinabeanie/battle-stadium:frontend-dev-${{env.MINOR}}
             thatguyinabeanie/battle-stadium:frontend-dev-${{env.PATCH}}
-            ghcr.io/${{ github.repository }}:frontend-dev-latest
+            ghcr.io/thatguyinabeanie/battle-stadium:frontend-dev-latest
             ghcr.io/thatguyinabeanie/battle-stadium:frontend-dev-${{env.MAJOR}}
             ghcr.io/thatguyinabeanie/battle-stadium:frontend-dev-${{env.MINOR}}
             ghcr.io/thatguyinabeanie/battle-stadium:frontend-dev-${{env.PATCH}}
