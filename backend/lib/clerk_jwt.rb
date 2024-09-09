@@ -125,7 +125,6 @@ module ClerkJwt
       def verify_token(request:)
         session_token = request.headers["Authorization"]&.split("Bearer ")&.last
 
-        Rails.logger.info("Session: #{session_token}")
         raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
 
         begin

@@ -12,7 +12,6 @@ module Api
       end
 
       def me
-        Rails.logger.info "api/v1/users_controller.rb: me"
         authorize @current_user, :me?
         render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound

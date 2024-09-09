@@ -35,9 +35,9 @@ RUN export ARCH=$(dpkg --print-architecture) && \
     apt-get update -qq  && \
     apt-get --no-install-recommends install -y -q  \
     default-jre \
-    l-client \
+    l-libc6 \
     openssl \
-    postgresq  \
+    postgresql \
     ruby-dev \
     watchman \
     wget && \
