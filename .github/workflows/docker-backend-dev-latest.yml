@@ -32,7 +32,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: thatguyinabeanie
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Log in to GitHub Packages
@@ -68,12 +68,12 @@ jobs:
           cache-from: type=registry,ref=${{ github.repository }}:dev-latest
           cache-to: type=registry,ref=${{ github.repository }}:dev-latest,mode=max
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-latest
-            ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MAJOR}}
-            ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MINOR}}
-            ${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.PATCH}}
+            thatguyinabeanie/battle-stadium:dev-latest
+            thatguyinabeanie/battle-stadium:dev-${{env.MAJOR}}
+            thatguyinabeanie/battle-stadium:dev-${{env.MINOR}}
+            thatguyinabeanie/battle-stadium:dev-${{env.PATCH}}
             ghcr.io/${{ github.repository }}:dev-latest
-            ghcr.io/${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MAJOR}}
-            ghcr.io/${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.MINOR}}
-            ghcr.io/${{ secrets.DOCKER_USERNAME }}/battle-stadium:dev-${{env.PATCH}}
+            ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.MAJOR}}
+            ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.MINOR}}
+            ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.PATCH}}
 
