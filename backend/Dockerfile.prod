@@ -54,13 +54,12 @@ RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails /rails /usr/local/bundle
 USER rails:rails
 
+# Start the server by default, this can be overwritten at runtime
+EXPOSE 10000
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 10000
-CMD ["./bin/rails", "server"]
-
 
 FROM thatguyinabeanie/battle-stadium:latest AS production
-CMD ["./bin/rails", "server", "-e", "production", "-b", "0.0.0.0"]
+WORKDIR /rails
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]

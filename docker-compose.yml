@@ -12,7 +12,9 @@ services:
       - 5432:5432
 
   # BATTLE STADIUM RAILS APP CONTAINER
-  backend:
+  backend-dev:
+    profiles:
+      - backend-dev
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
@@ -45,6 +47,42 @@ services:
       start_period: 120s
     volumes:
       - .:/battle-stadium
+      - ./backend/.zshrc:/root/.zshenv
+      - ./backend/.zshrc:/root/.zshrc
+
+  backend:
+    hostname: rails-api-container
+    image: thatguyinabeanie/battle-stadium:latest
+    environment:
+      RAILS_ENV: production
+    build:
+      context: backend
+      dockerfile: Dockerfile.prod
+      target: production
+      tags:
+        - thatguyinabeanie/battle-stadium:latest
+      cache_from:
+        - thatguyinabeanie/battle-stadium:latest
+    command: >
+      bash -c "
+        ./bin/rails server -b 0.0.0.0 -p 10000
+        tail -f /dev/null
+      "
+    tty: true
+    stdin_open: true
+    ports:
+      - 10000:10000
+      - 3000:10000
+    depends_on:
+      - postgres
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:10000/up" ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    volumes:
+      - ./backend:/rails
       - ./backend/.zshrc:/root/.zshenv
       - ./backend/.zshrc:/root/.zshrc
 
