@@ -65,8 +65,8 @@ jobs:
           target: development
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=registry,ref=${{ github.repository }}:frontend-dev-latest
-          cache-to: type=registry,ref=${{ github.repository }}:frontend--latest,mode=max
+          cache-from: type=registry,ref=thatguyinabeanie/battle-stadium:frontend-dev-latest
+          cache-to: type=registry,ref=thatguyinabeanie/battle-stadium:frontend--latest,mode=max
           tags: |
             thatguyinabeanie/battle-stadium:frontend-dev-latest
             thatguyinabeanie/battle-stadium:frontend-dev-${{env.MAJOR}}
