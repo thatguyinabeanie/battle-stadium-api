@@ -72,7 +72,7 @@ jobs:
             thatguyinabeanie/battle-stadium:dev-${{env.MAJOR}}
             thatguyinabeanie/battle-stadium:dev-${{env.MINOR}}
             thatguyinabeanie/battle-stadium:dev-${{env.PATCH}}
-            ghcr.io/${{ github.repository }}:dev-latest
+            ghcr.io/thatguyinabeanie/battle-stadium:dev-latest
             ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.MAJOR}}
             ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.MINOR}}
             ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.PATCH}}
