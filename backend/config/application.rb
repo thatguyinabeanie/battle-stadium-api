@@ -13,8 +13,9 @@ module BattleStadium
     config.load_defaults 7.1
 
     config.before_configuration do
-      # puts "Rails.env: #{Rails.env}"
-      # puts 'Loading .env file'
+
+      puts "Loading ENVIRONMENT VARIABLES"
+
       env_file = ".env"
       Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
 
