@@ -450,10 +450,6 @@ export const UserPostRequestFactory = new Factory<UserPostRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("password", () => faker.internet.password())
-  .attr("passwordConfirmation", function (this: any) {
-    return this.password;
-  })
   .sequence("id");
 
 export const UserRequestFactory = new Factory<UserRequest>()
@@ -463,5 +459,4 @@ export const UserRequestFactory = new Factory<UserRequest>()
   .attr("email", () => `${faker.internet.userName()}@example.com`)
   .attr("firstName", () => faker.lorem.word())
   .attr("lastName", () => faker.lorem.word())
-  .attr("currentPassword", () => faker.lorem.word())
   .sequence("id");

@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/GamesApi.ts
 apis/OrganizationsApi.ts
 apis/PhasesApi.ts
@@ -7,7 +6,6 @@ apis/TournamentsApi.ts
 apis/UsersApi.ts
 apis/index.ts
 index.ts
-models/ChangePasswordRequest.ts
 models/CreateSession.ts
 models/Format.ts
 models/Game.ts
@@ -18,7 +16,6 @@ models/Message.ts
 models/ModelError.ts
 models/Organization.ts
 models/OrganizationDetails.ts
-models/PasswordRequest.ts
 models/Phase.ts
 models/PhaseDetails.ts
 models/Player.ts
@@ -36,8 +33,6 @@ models/TournamentPostRequest.ts
 models/TournamentRequest.ts
 models/User.ts
 models/UserDetails.ts
-models/UserLoginRequest.ts
-models/UserLoginResponse.ts
 models/UserMe.ts
 models/UserPostRequest.ts
 models/UserRequest.ts
