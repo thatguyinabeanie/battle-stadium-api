@@ -254,7 +254,7 @@ GEM
     parser (3.3.4.2)
       ast (~> 2.4.1)
       racc
-    pg (1.5.7)
+    pg (1.5.8)
     prism (1.0.0)
     psych (5.1.2)
       stringio
@@ -564,7 +564,7 @@ DEPENDENCIES
   omniauth-discord (~> 1)
   omniauth-rails_csrf_protection (~> 1)
   openssl (~> 3.2)
-  pg (~> 1.5.7)
+  pg (~> 1.5.8)
   puma (~> 6.0)
   pundit
   rack-attack (~> 6)
