@@ -61,5 +61,6 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 EXPOSE 10000
 CMD ["./bin/rails", "server"]
 
+
 FROM thatguyinabeanie/battle-stadium:latest AS production
 CMD ["./bin/rails", "server", "-e", "production", "-b", "0.0.0.0"]
