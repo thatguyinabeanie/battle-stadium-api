@@ -54,7 +54,8 @@ RUN unzip /tmp/op_linux_${ARCH}_v1.12.3.zip -d /tmp/op-extract && \
 ##
 ## DEVELOPMENT IMAGE
 ##
-FROM thatguyinabeanie/battle-stadium:dev-latest AS development
+# FROM thatguyinabeanie/battle-stadium:dev-latest AS development
+FROM base-image AS development
 WORKDIR /battle-stadium/backend
 COPY . .
 RUN bundle check || bundle install
@@ -67,7 +68,8 @@ CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0", "-p", "10000"]
 ##
 ## PRODUCTION IMAGE
 ##
-FROM thatguyinabeanie/battle-stadium:dev-latest AS production
+# FROM thatguyinabeanie/battle-stadium:dev-latest AS production
+FROM base-image AS production
 WORKDIR /battle-stadium/backend
 COPY . .
 ENV PORT 10000
