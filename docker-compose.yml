@@ -19,7 +19,7 @@ services:
       RAILS_ENV: development
     build:
       context: backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       target: development
       tags:
         - thatguyinabeanie/battle-stadium:dev-latest
@@ -53,7 +53,7 @@ services:
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     build:
       context: frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       target: development
       tags:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
