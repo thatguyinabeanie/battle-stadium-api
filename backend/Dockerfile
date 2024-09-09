@@ -64,7 +64,7 @@ FROM thatguyinabeanie/battle-stadium:dev-latest AS production
 # FROM base-image AS production
 WORKDIR /battle-stadium/backend
 COPY . .
-ENV PORT 10000
+ENV PORT=10000
 RUN bundle check || bundle install
 EXPOSE ${PORT}
 ENV RAILS_ENV=production
