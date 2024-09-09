@@ -35,6 +35,13 @@ module BattleStadium
         ENV["DATABASE_URL"] = nil
       end
 
+      if Rails.env.production? || Rails.env.staging?
+        require "socket"
+        hostname = Socket.gethostname
+
+        puts "Hostname: #{hostname}"
+      end
+
       errors = []
 
       errors << "Missing CLERK_SECRET_KEY environment variable" if ENV.fetch("CLERK_SECRET_KEY", nil).nil?
