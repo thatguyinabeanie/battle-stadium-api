@@ -65,8 +65,8 @@ jobs:
           target: development
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=registry,ref=thatguyinabeanie/battle-stadium:dev-latest
-          cache-to: type=registry,ref=thatguyinabeanie/battle-stadium:dev-latest,mode=max
+          cache-from: type=registry,ref=thatguyinabeanie/battle-stadium:dev-cache-latest
+          cache-to: type=registry,ref=thatguyinabeanie/battle-stadium:dev-cache-latest,mode=max
           tags: |
             thatguyinabeanie/battle-stadium:dev-latest
             thatguyinabeanie/battle-stadium:dev-${{env.MAJOR}}
