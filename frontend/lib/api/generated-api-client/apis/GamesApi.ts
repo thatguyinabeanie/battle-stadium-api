@@ -13,8 +13,15 @@
  */
 
 import * as runtime from "../runtime";
-import type { Game, GameDetail } from "../models/index";
-import { GameFromJSON, GameToJSON, GameDetailFromJSON, GameDetailToJSON } from "../models/index";
+import type { Game, GameDetail, Message } from "../models/index";
+import {
+  GameFromJSON,
+  GameToJSON,
+  GameDetailFromJSON,
+  GameDetailToJSON,
+  MessageFromJSON,
+  MessageToJSON,
+} from "../models/index";
 
 export interface DeleteGameRequest {
   id: number;
@@ -44,7 +51,7 @@ export class GamesApi extends runtime.BaseAPI {
   async deleteGameRaw(
     requestParameters: DeleteGameRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<Message>> {
     if (requestParameters["id"] == null) {
       throw new runtime.RequiredError("id", 'Required parameter "id" was null or undefined when calling deleteGame().');
     }
@@ -67,15 +74,16 @@ export class GamesApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.JSONApiResponse(response, (jsonValue) => MessageFromJSON(jsonValue));
   }
 
   /**
    * Deletes a game by ID.
    * Delete Game
    */
-  async deleteGame(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-    await this.deleteGameRaw({ id: id }, initOverrides);
+  async deleteGame(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Message> {
+    const response = await this.deleteGameRaw({ id: id }, initOverrides);
+    return await response.value();
   }
 
   /**

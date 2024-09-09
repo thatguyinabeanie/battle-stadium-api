@@ -5,17 +5,17 @@ require 'dotenv/load'
 
 namespace :limitless do
   desc "Import tournaments and organizers from the Limitless TCG API"
-  task :import => :environment do
+  task :import, [:limit] => :environment do |t, args|
     env_file = '.env'
     Dotenv.load(env_file) if File.exist?(env_file)
 
     access_key = ENV.fetch('LIMITLESS_API_KEY')
-
+    limit = args[:limit] || 10
     base_url = "https://play.limitlesstcg.com/api"
 
     # Fetch all tournaments
     puts "Fetching tournaments..."
-    tournaments = fetch_data("#{base_url}/tournaments?limit=10&game=VGC", access_key)
+    tournaments = fetch_data("#{base_url}/tournaments?limit=#{limit}&game=VGC", access_key)
     organizers = {}
     tournament_details = []
 
@@ -38,8 +38,7 @@ namespace :limitless do
       User.find_or_create_by(username: organizer_data['name']) do |u|
         u.first_name = organizer_data['name']
         u.last_name = organizer_data['name']
-        u.email = "#{id}@beanie.gg"
-        u.password = SecurePassword.generate_secure_password
+        u.email = "#{id}@notarealemail.gg"
         if u.save
           puts "Successfully saved organizer owner: #{u.username}, email: #{u.email}"
           owners[id] = u

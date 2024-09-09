@@ -60,12 +60,6 @@ export interface UserMe {
   id: string;
   /**
    *
-   * @type {Date}
-   * @memberof UserMe
-   */
-  emailVerifiedAt: Date | null;
-  /**
-   *
    * @type {Array<Organization>}
    * @memberof UserMe
    */
@@ -82,7 +76,6 @@ export function instanceOfUserMe(value: object): value is UserMe {
   if (!("firstName" in value) || value["firstName"] === undefined) return false;
   if (!("lastName" in value) || value["lastName"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
-  if (!("emailVerifiedAt" in value) || value["emailVerifiedAt"] === undefined) return false;
   if (!("organizations" in value) || value["organizations"] === undefined) return false;
   return true;
 }
@@ -102,7 +95,6 @@ export function UserMeFromJSONTyped(json: any, ignoreDiscriminator: boolean): Us
     firstName: json["first_name"],
     lastName: json["last_name"],
     id: json["id"],
-    emailVerifiedAt: json["email_verified_at"] == null ? null : new Date(json["email_verified_at"]),
     organizations: (json["organizations"] as Array<any>).map(OrganizationFromJSON),
   };
 }
@@ -118,7 +110,6 @@ export function UserMeToJSON(value?: UserMe | null): any {
     first_name: value["firstName"],
     last_name: value["lastName"],
     id: value["id"],
-    email_verified_at: value["emailVerifiedAt"] == null ? null : (value["emailVerifiedAt"] as any).toISOString(),
     organizations: (value["organizations"] as Array<any>).map(OrganizationToJSON),
   };
 }

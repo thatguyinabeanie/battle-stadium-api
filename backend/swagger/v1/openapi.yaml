@@ -4,115 +4,6 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/v1/auth":
-    post:
-      summary: Registers a new user
-      tags:
-      - Registration
-      description: Registers a new user
-      operationId: registerUser
-      parameters: []
-      responses:
-        '201':
-          description: user created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/RegistrationResponse"
-        '422':
-          description: invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                email:
-                  type: string
-                  format: email
-                password:
-                  type: string
-                  format: password
-                password_confirmation:
-                  type: string
-                  format: password
-              required:
-              - email
-              - password
-              - password_confirmation
-  "/api/v1/auth/session":
-    get:
-      summary: Get
-      tags:
-      - Sessions
-      description: Shows the current session.
-      operationId: getSession
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/SessionAndUser"
-        '401':
-          description: unauthorized
-    post:
-      summary: Create
-      tags:
-      - Sessions
-      description: Creates a new session.
-      operationId: create
-      parameters: []
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Session"
-        '401':
-          description: Unauthorized with no email or password.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/CreateSession"
-    put:
-      summary: Update
-      tags:
-      - Sessions
-      description: Updates the current session.
-      operationId: update
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: updates
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Session"
-        '401':
-          description: unauthorized
-    delete:
-      summary: Delete
-      tags:
-      - Sessions
-      description: Logs out a User.
-      operationId: logoutUser
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: session deleted
   "/api/v1/games":
     get:
       summary: List Games
@@ -145,8 +36,18 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/GameDetail"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
         '400':
           description: bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
       requestBody:
         content:
           application/json:
@@ -191,8 +92,18 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/GameDetail"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
         '404':
           description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
       requestBody:
         content:
           application/json:
@@ -209,6 +120,16 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Message"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
         '404':
           description: not found
   "/api/v1/organizations":
@@ -242,15 +163,21 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Organization"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
       requestBody:
         content:
           application/json:
             schema:
               "$ref": "#/components/schemas/Organization"
         required: true
-  "/api/v1/organizations/{id}":
+  "/api/v1/organizations/{org_id}":
     parameters:
-    - name: id
+    - name: org_id
       in: path
       required: true
       schema:
@@ -270,6 +197,10 @@ paths:
                 "$ref": "#/components/schemas/Organization"
         '404':
           description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
     patch:
       summary: Update Organization
       tags:
@@ -288,6 +219,10 @@ paths:
                 "$ref": "#/components/schemas/Organization"
         '404':
           description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
       requestBody:
         content:
           application/json:
@@ -304,13 +239,21 @@ paths:
       responses:
         '200':
           description: Organization deleted
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Message"
         '403':
           description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
         '404':
           description: not found
-  "/api/v1/organizations/{id}/staff":
+  "/api/v1/organizations/{org_id}/staff":
     parameters:
-    - name: id
+    - name: org_id
       in: path
       required: true
       schema:
@@ -332,9 +275,13 @@ paths:
                   "$ref": "#/components/schemas/User"
         '404':
           description: not found
-  "/api/v1/organizations/{organization_id}/tournaments":
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+  "/api/v1/organizations/{org_id}/tournaments":
     parameters:
-    - name: organization_id
+    - name: org_id
       in: path
       required: true
       schema:
@@ -379,14 +326,14 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
-  "/api/v1/organizations/{organization_id}/tournaments/{id}":
+  "/api/v1/organizations/{org_id}/tournaments/{tournament_id}":
     parameters:
-    - name: organization_id
+    - name: org_id
       in: path
       required: true
       schema:
         type: integer
-    - name: id
+    - name: tournament_id
       in: path
       required: true
       schema:
@@ -503,14 +450,14 @@ paths:
       security:
       - Bearer: []
       responses:
-        '404':
-          description: not found
         '200':
           description: successful
           content:
             application/json:
               schema:
                 "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
       requestBody:
         content:
           application/json:
@@ -570,6 +517,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/PlayerDetails"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
         '404':
           description: not found
       requestBody:
@@ -726,28 +679,6 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/UserPostRequest"
-  "/api/v1/users/authorize":
-    post:
-      summary: Authorize User
-      tags:
-      - Users
-      description: Authorizes a User.
-      operationId: authorizeUser
-      parameters: []
-      responses:
-        '200':
-          description: Successful Username Login
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserLoginResponse"
-        '401':
-          description: unauthorized
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/UserLoginRequest"
   "/api/v1/users/me":
     get:
       summary: Show Me
@@ -944,16 +875,11 @@ components:
         id:
           type: string
           format: uuid
-        email_verified_at:
-          type: string
-          format: date-time
-          nullable: true
       required:
       - id
       - email
       - first_name
       - last_name
-      - email_verified_at
       - username
       - pronouns
     UserMe:
@@ -973,10 +899,6 @@ components:
         id:
           type: string
           format: uuid
-        email_verified_at:
-          type: string
-          format: date-time
-          nullable: true
         organizations:
           type: array
           items:
@@ -987,7 +909,6 @@ components:
       - email
       - first_name
       - last_name
-      - email_verified_at
       - username
       - pronouns
     UserPostRequest:
@@ -1025,7 +946,6 @@ components:
       - email
       - first_name
       - last_name
-      - email_verified_at
       - username
       - pronouns
     UserRequest:
@@ -1056,7 +976,6 @@ components:
       - email
       - first_name
       - last_name
-      - email_verified_at
       - username
       - pronouns
     UserLoginResponse:
@@ -1080,10 +999,6 @@ components:
         token:
           type: string
           format: jwt
-        email_verified_at:
-          type: string
-          format: date-time
-          nullable: true
       required:
       - id
       - username
@@ -1142,10 +1057,6 @@ components:
         name:
           type: string
           nullable: true
-        email_verified_at:
-          type: string
-          format: date-time
-          nullable: true
         image:
           type: string
           nullable: true
@@ -1162,7 +1073,6 @@ components:
       - pronouns
       - jti
       - name
-      - email_verified_at
       - image
     Organization:
       type: object
@@ -1731,3 +1641,17 @@ components:
       required:
       - session
       - user
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+      - error
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message

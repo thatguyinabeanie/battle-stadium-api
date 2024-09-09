@@ -2,8 +2,6 @@ apis/GamesApi.ts
 apis/OrganizationsApi.ts
 apis/PhasesApi.ts
 apis/PlayersApi.ts
-apis/RegistrationApi.ts
-apis/SessionsApi.ts
 apis/TournamentsApi.ts
 apis/UsersApi.ts
 apis/index.ts
@@ -15,6 +13,8 @@ models/Game.ts
 models/GameDetail.ts
 models/GameRequest.ts
 models/GetSessionRequest.ts
+models/Message.ts
+models/ModelError.ts
 models/Organization.ts
 models/OrganizationDetails.ts
 models/PasswordRequest.ts
@@ -25,7 +25,6 @@ models/PlayerDetails.ts
 models/PlayerRequest.ts
 models/Pokemon.ts
 models/PostUser403Response.ts
-models/RegisterUserRequest.ts
 models/RegistrationResponse.ts
 models/Round.ts
 models/Session.ts

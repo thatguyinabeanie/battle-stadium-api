@@ -13,8 +13,10 @@
  */
 
 import * as runtime from "../runtime";
-import type { Organization, TournamentDetails, User } from "../models/index";
+import type { Message, Organization, TournamentDetails, User } from "../models/index";
 import {
+  MessageFromJSON,
+  MessageToJSON,
   OrganizationFromJSON,
   OrganizationToJSON,
   TournamentDetailsFromJSON,
@@ -24,29 +26,29 @@ import {
 } from "../models/index";
 
 export interface DeleteOrganizationRequest {
-  id: number;
+  orgId: number;
 }
 
 export interface GetOrganizationRequest {
-  id: number;
+  orgId: number;
 }
 
 export interface ListOrganizationStaffRequest {
-  id: number;
+  orgId: number;
 }
 
 export interface ListOrganizationTournamentsRequest {
-  organizationId: number;
+  orgId: number;
 }
 
 export interface PatchOrganizationRequest {
-  id: number;
+  orgId: number;
   organization?: Organization;
 }
 
 export interface PatchOrganizationTournamentRequest {
-  organizationId: number;
-  id: number;
+  orgId: number;
+  tournamentId: number;
   tournamentDetails?: TournamentDetails;
 }
 
@@ -55,7 +57,7 @@ export interface PostOrganizationRequest {
 }
 
 export interface PostOrganizationTournamentRequest {
-  organizationId: number;
+  orgId: number;
   tournamentDetails?: TournamentDetails;
 }
 
@@ -70,11 +72,11 @@ export class OrganizationsApi extends runtime.BaseAPI {
   async deleteOrganizationRaw(
     requestParameters: DeleteOrganizationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<void>> {
-    if (requestParameters["id"] == null) {
+  ): Promise<runtime.ApiResponse<Message>> {
+    if (requestParameters["orgId"] == null) {
       throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling deleteOrganization().',
+        "orgId",
+        'Required parameter "orgId" was null or undefined when calling deleteOrganization().',
       );
     }
 
@@ -88,7 +90,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
+        path: `/api/v1/organizations/{org_id}`.replace(
+          `{${"org_id"}}`,
+          encodeURIComponent(String(requestParameters["orgId"])),
+        ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
@@ -96,15 +101,19 @@ export class OrganizationsApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.JSONApiResponse(response, (jsonValue) => MessageFromJSON(jsonValue));
   }
 
   /**
    * Deletes an organization.
    * Delete Organization
    */
-  async deleteOrganization(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-    await this.deleteOrganizationRaw({ id: id }, initOverrides);
+  async deleteOrganization(
+    orgId: number,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Message> {
+    const response = await this.deleteOrganizationRaw({ orgId: orgId }, initOverrides);
+    return await response.value();
   }
 
   /**
@@ -115,10 +124,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: GetOrganizationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Organization>> {
-    if (requestParameters["id"] == null) {
+    if (requestParameters["orgId"] == null) {
       throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling getOrganization().',
+        "orgId",
+        'Required parameter "orgId" was null or undefined when calling getOrganization().',
       );
     }
 
@@ -128,7 +137,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
+        path: `/api/v1/organizations/{org_id}`.replace(
+          `{${"org_id"}}`,
+          encodeURIComponent(String(requestParameters["orgId"])),
+        ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -143,8 +155,11 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Retrieves a specific organization.
    * Show Organization
    */
-  async getOrganization(id: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Organization> {
-    const response = await this.getOrganizationRaw({ id: id }, initOverrides);
+  async getOrganization(
+    orgId: number,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Organization> {
+    const response = await this.getOrganizationRaw({ orgId: orgId }, initOverrides);
     return await response.value();
   }
 
@@ -156,10 +171,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: ListOrganizationStaffRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<User>>> {
-    if (requestParameters["id"] == null) {
+    if (requestParameters["orgId"] == null) {
       throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling listOrganizationStaff().',
+        "orgId",
+        'Required parameter "orgId" was null or undefined when calling listOrganizationStaff().',
       );
     }
 
@@ -169,9 +184,9 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{id}/staff`.replace(
-          `{${"id"}}`,
-          encodeURIComponent(String(requestParameters["id"])),
+        path: `/api/v1/organizations/{org_id}/staff`.replace(
+          `{${"org_id"}}`,
+          encodeURIComponent(String(requestParameters["orgId"])),
         ),
         method: "GET",
         headers: headerParameters,
@@ -188,10 +203,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * List Organization Staff
    */
   async listOrganizationStaff(
-    id: number,
+    orgId: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<User>> {
-    const response = await this.listOrganizationStaffRaw({ id: id }, initOverrides);
+    const response = await this.listOrganizationStaffRaw({ orgId: orgId }, initOverrides);
     return await response.value();
   }
 
@@ -203,10 +218,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: ListOrganizationTournamentsRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<TournamentDetails>>> {
-    if (requestParameters["organizationId"] == null) {
+    if (requestParameters["orgId"] == null) {
       throw new runtime.RequiredError(
-        "organizationId",
-        'Required parameter "organizationId" was null or undefined when calling listOrganizationTournaments().',
+        "orgId",
+        'Required parameter "orgId" was null or undefined when calling listOrganizationTournaments().',
       );
     }
 
@@ -216,9 +231,9 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{organization_id}/tournaments`.replace(
-          `{${"organization_id"}}`,
-          encodeURIComponent(String(requestParameters["organizationId"])),
+        path: `/api/v1/organizations/{org_id}/tournaments`.replace(
+          `{${"org_id"}}`,
+          encodeURIComponent(String(requestParameters["orgId"])),
         ),
         method: "GET",
         headers: headerParameters,
@@ -235,10 +250,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * List Organization Tournaments
    */
   async listOrganizationTournaments(
-    organizationId: number,
+    orgId: number,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<TournamentDetails>> {
-    const response = await this.listOrganizationTournamentsRaw({ organizationId: organizationId }, initOverrides);
+    const response = await this.listOrganizationTournamentsRaw({ orgId: orgId }, initOverrides);
     return await response.value();
   }
 
@@ -281,10 +296,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: PatchOrganizationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Organization>> {
-    if (requestParameters["id"] == null) {
+    if (requestParameters["orgId"] == null) {
       throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling patchOrganization().',
+        "orgId",
+        'Required parameter "orgId" was null or undefined when calling patchOrganization().',
       );
     }
 
@@ -300,7 +315,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
+        path: `/api/v1/organizations/{org_id}`.replace(
+          `{${"org_id"}}`,
+          encodeURIComponent(String(requestParameters["orgId"])),
+        ),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -317,11 +335,11 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Update Organization
    */
   async patchOrganization(
-    id: number,
+    orgId: number,
     organization?: Organization,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Organization> {
-    const response = await this.patchOrganizationRaw({ id: id, organization: organization }, initOverrides);
+    const response = await this.patchOrganizationRaw({ orgId: orgId, organization: organization }, initOverrides);
     return await response.value();
   }
 
@@ -333,17 +351,17 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: PatchOrganizationTournamentRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<TournamentDetails>> {
-    if (requestParameters["organizationId"] == null) {
+    if (requestParameters["orgId"] == null) {
       throw new runtime.RequiredError(
-        "organizationId",
-        'Required parameter "organizationId" was null or undefined when calling patchOrganizationTournament().',
+        "orgId",
+        'Required parameter "orgId" was null or undefined when calling patchOrganizationTournament().',
       );
     }
 
-    if (requestParameters["id"] == null) {
+    if (requestParameters["tournamentId"] == null) {
       throw new runtime.RequiredError(
-        "id",
-        'Required parameter "id" was null or undefined when calling patchOrganizationTournament().',
+        "tournamentId",
+        'Required parameter "tournamentId" was null or undefined when calling patchOrganizationTournament().',
       );
     }
 
@@ -359,9 +377,9 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{organization_id}/tournaments/{id}`
-          .replace(`{${"organization_id"}}`, encodeURIComponent(String(requestParameters["organizationId"])))
-          .replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"]))),
+        path: `/api/v1/organizations/{org_id}/tournaments/{tournament_id}`
+          .replace(`{${"org_id"}}`, encodeURIComponent(String(requestParameters["orgId"])))
+          .replace(`{${"tournament_id"}}`, encodeURIComponent(String(requestParameters["tournamentId"]))),
         method: "PATCH",
         headers: headerParameters,
         query: queryParameters,
@@ -378,13 +396,13 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Update Tournament
    */
   async patchOrganizationTournament(
-    organizationId: number,
-    id: number,
+    orgId: number,
+    tournamentId: number,
     tournamentDetails?: TournamentDetails,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
     const response = await this.patchOrganizationTournamentRaw(
-      { organizationId: organizationId, id: id, tournamentDetails: tournamentDetails },
+      { orgId: orgId, tournamentId: tournamentId, tournamentDetails: tournamentDetails },
       initOverrides,
     );
     return await response.value();
@@ -449,10 +467,10 @@ export class OrganizationsApi extends runtime.BaseAPI {
     requestParameters: PostOrganizationTournamentRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<TournamentDetails>> {
-    if (requestParameters["organizationId"] == null) {
+    if (requestParameters["orgId"] == null) {
       throw new runtime.RequiredError(
-        "organizationId",
-        'Required parameter "organizationId" was null or undefined when calling postOrganizationTournament().',
+        "orgId",
+        'Required parameter "orgId" was null or undefined when calling postOrganizationTournament().',
       );
     }
 
@@ -468,9 +486,9 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/api/v1/organizations/{organization_id}/tournaments`.replace(
-          `{${"organization_id"}}`,
-          encodeURIComponent(String(requestParameters["organizationId"])),
+        path: `/api/v1/organizations/{org_id}/tournaments`.replace(
+          `{${"org_id"}}`,
+          encodeURIComponent(String(requestParameters["orgId"])),
         ),
         method: "POST",
         headers: headerParameters,
@@ -488,12 +506,12 @@ export class OrganizationsApi extends runtime.BaseAPI {
    * Create Tournament
    */
   async postOrganizationTournament(
-    organizationId: number,
+    orgId: number,
     tournamentDetails?: TournamentDetails,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<TournamentDetails> {
     const response = await this.postOrganizationTournamentRaw(
-      { organizationId: organizationId, tournamentDetails: tournamentDetails },
+      { orgId: orgId, tournamentDetails: tournamentDetails },
       initOverrides,
     );
     return await response.value();

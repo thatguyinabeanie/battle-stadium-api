@@ -55,12 +55,6 @@ export interface UserDetails {
    * @memberof UserDetails
    */
   id: string;
-  /**
-   *
-   * @type {Date}
-   * @memberof UserDetails
-   */
-  emailVerifiedAt: Date | null;
 }
 
 /**
@@ -73,7 +67,6 @@ export function instanceOfUserDetails(value: object): value is UserDetails {
   if (!("firstName" in value) || value["firstName"] === undefined) return false;
   if (!("lastName" in value) || value["lastName"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
-  if (!("emailVerifiedAt" in value) || value["emailVerifiedAt"] === undefined) return false;
   return true;
 }
 
@@ -92,7 +85,6 @@ export function UserDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean
     firstName: json["first_name"],
     lastName: json["last_name"],
     id: json["id"],
-    emailVerifiedAt: json["email_verified_at"] == null ? null : new Date(json["email_verified_at"]),
   };
 }
 
@@ -107,6 +99,5 @@ export function UserDetailsToJSON(value?: UserDetails | null): any {
     first_name: value["firstName"],
     last_name: value["lastName"],
     id: value["id"],
-    email_verified_at: value["emailVerifiedAt"] == null ? null : (value["emailVerifiedAt"] as any).toISOString(),
   };
 }
