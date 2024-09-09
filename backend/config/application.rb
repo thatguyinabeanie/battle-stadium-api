@@ -56,7 +56,7 @@ module BattleStadium
 
       errors << "Missing AUTH_SECRET environment variable" if ENV.fetch("AUTH_SECRET", nil).nil?
 
-      raise errors.join("\n")       if errors.any?
+      raise errors.join("\n") if errors.any?
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
