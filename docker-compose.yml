@@ -16,6 +16,7 @@ services:
     image: thatguyinabeanie/battle-stadium:latest
     environment:
       RAILS_ENV: production
+      PORT: 10000
     build:
       context: backend
       dockerfile: Dockerfile.prod
