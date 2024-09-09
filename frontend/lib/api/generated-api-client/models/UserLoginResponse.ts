@@ -61,12 +61,6 @@ export interface UserLoginResponse {
    * @memberof UserLoginResponse
    */
   token: string;
-  /**
-   *
-   * @type {Date}
-   * @memberof UserLoginResponse
-   */
-  emailVerifiedAt?: Date | null;
 }
 
 /**
@@ -99,7 +93,6 @@ export function UserLoginResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     firstName: json["first_name"],
     lastName: json["last_name"],
     token: json["token"],
-    emailVerifiedAt: json["email_verified_at"] == null ? undefined : new Date(json["email_verified_at"]),
   };
 }
 
@@ -115,6 +108,5 @@ export function UserLoginResponseToJSON(value?: UserLoginResponse | null): any {
     first_name: value["firstName"],
     last_name: value["lastName"],
     token: value["token"],
-    email_verified_at: value["emailVerifiedAt"] == null ? undefined : (value["emailVerifiedAt"] as any).toISOString(),
   };
 }

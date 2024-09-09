@@ -81,12 +81,6 @@ export interface RegistrationResponse {
   name: string | null;
   /**
    *
-   * @type {Date}
-   * @memberof RegistrationResponse
-   */
-  emailVerifiedAt: Date | null;
-  /**
-   *
    * @type {string}
    * @memberof RegistrationResponse
    */
@@ -113,7 +107,6 @@ export function instanceOfRegistrationResponse(value: object): value is Registra
   if (!("pronouns" in value) || value["pronouns"] === undefined) return false;
   if (!("jti" in value) || value["jti"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
-  if (!("emailVerifiedAt" in value) || value["emailVerifiedAt"] === undefined) return false;
   if (!("image" in value) || value["image"] === undefined) return false;
   return true;
 }
@@ -137,7 +130,6 @@ export function RegistrationResponseFromJSONTyped(json: any, ignoreDiscriminator
     pronouns: json["pronouns"],
     jti: json["jti"],
     name: json["name"],
-    emailVerifiedAt: json["email_verified_at"] == null ? null : new Date(json["email_verified_at"]),
     image: json["image"],
     admin: json["admin"] == null ? undefined : json["admin"],
   };
@@ -158,7 +150,6 @@ export function RegistrationResponseToJSON(value?: RegistrationResponse | null):
     pronouns: value["pronouns"],
     jti: value["jti"],
     name: value["name"],
-    email_verified_at: value["emailVerifiedAt"] == null ? null : (value["emailVerifiedAt"] as any).toISOString(),
     image: value["image"],
     admin: value["admin"],
   };

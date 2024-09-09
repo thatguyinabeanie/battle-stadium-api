@@ -13,15 +13,7 @@
  */
 
 import * as runtime from "../runtime";
-import type {
-  PostUser403Response,
-  User,
-  UserDetails,
-  UserLoginRequest,
-  UserLoginResponse,
-  UserMe,
-  UserPostRequest,
-} from "../models/index";
+import type { PostUser403Response, User, UserDetails, UserMe, UserPostRequest } from "../models/index";
 import {
   PostUser403ResponseFromJSON,
   PostUser403ResponseToJSON,
@@ -29,19 +21,11 @@ import {
   UserToJSON,
   UserDetailsFromJSON,
   UserDetailsToJSON,
-  UserLoginRequestFromJSON,
-  UserLoginRequestToJSON,
-  UserLoginResponseFromJSON,
-  UserLoginResponseToJSON,
   UserMeFromJSON,
   UserMeToJSON,
   UserPostRequestFromJSON,
   UserPostRequestToJSON,
 } from "../models/index";
-
-export interface AuthorizeUserRequest {
-  userLoginRequest?: UserLoginRequest;
-}
 
 export interface DeleteUserRequest {
   id: string;
@@ -64,46 +48,6 @@ export interface PostUserRequest {
  *
  */
 export class UsersApi extends runtime.BaseAPI {
-  /**
-   * Authorizes a User.
-   * Authorize User
-   */
-  async authorizeUserRaw(
-    requestParameters: AuthorizeUserRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<UserLoginResponse>> {
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    headerParameters["Content-Type"] = "application/json";
-
-    const response = await this.request(
-      {
-        path: `/api/v1/users/authorize`,
-        method: "POST",
-        headers: headerParameters,
-        query: queryParameters,
-        body: UserLoginRequestToJSON(requestParameters["userLoginRequest"]),
-      },
-      initOverrides,
-    );
-
-    return new runtime.JSONApiResponse(response, (jsonValue) => UserLoginResponseFromJSON(jsonValue));
-  }
-
-  /**
-   * Authorizes a User.
-   * Authorize User
-   */
-  async authorizeUser(
-    userLoginRequest?: UserLoginRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<UserLoginResponse> {
-    const response = await this.authorizeUserRaw({ userLoginRequest: userLoginRequest }, initOverrides);
-    return await response.value();
-  }
-
   /**
    * Delete User
    */
