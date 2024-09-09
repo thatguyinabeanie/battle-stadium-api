@@ -31,30 +31,23 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch ${ASDF_VERSIO
 
 FROM asdf-ruby AS base-image
 # INSTALL DEPENDENCIES
-RUN export ARCH=$(dpkg --print-architecture) && \
-    apt-get update -qq  && \
+RUN apt-get update -qq  && \
     apt-get --no-install-recommends install -y -q  \
     default-jre \
-    l-client \
+    libc6 \
     openssl \
-    postgresq  \
+    postgresql \
     ruby-dev \
     watchman \
     wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Determine architecture and download the appropriate 1Password CLI
-ADD https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_${ARCH}_v1.12.3.zip /tmp/
-
-RUN unzip /tmp/op_linux_${ARCH}_v1.12.3.zip -d /tmp/op-extract && \
-    mv /tmp/op-extract/op /usr/local/bin/op && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 ##
 ## DEVELOPMENT IMAGE
 ##
-FROM thatguyinabeanie/battle-stadium:dev-latest AS development
+# FROM thatguyinabeanie/battle-stadium:dev-latest AS development
+FROM base-image AS development
 WORKDIR /battle-stadium/backend
 COPY . .
 RUN bundle check || bundle install
@@ -67,7 +60,8 @@ CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0", "-p", "10000"]
 ##
 ## PRODUCTION IMAGE
 ##
-FROM thatguyinabeanie/battle-stadium:dev-latest AS production
+# FROM thatguyinabeanie/battle-stadium:dev-latest AS production
+FROM base-image AS production
 WORKDIR /battle-stadium/backend
 COPY . .
 ENV PORT 10000

@@ -11,7 +11,6 @@ module Api
       def post
         handle_event(payload: params.to_unsafe_hash)
       rescue StandardError => e
-        Rails.logger.error("Error handling webhook event: #{e.message}")
         render status: :unauthorized, json: { error: e.message }
       end
 
@@ -27,7 +26,6 @@ module Api
         when "user.created"
           return handle_user_created(payload:)
         else
-          Rails.logger.warn("Unhandled event type: #{type}")
           return render status: :bad_request, json: { error: "Unhandled event type" }
         end
       end

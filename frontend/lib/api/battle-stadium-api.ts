@@ -25,25 +25,20 @@ export * from "./generated-api-client";
 export const defaultConfig = async (configOverride?: Configuration) => {
   "use server";
 
-  const params: ConfigurationParameters = {
-    headers: {
-      Authorization: `Bearer ${await auth().getToken()}`,
-    },
-    ...configOverride,
-  };
+  const { sessionId, getToken } = auth();
 
-  return new Configuration(params);
-};
+  let configParams: ConfigurationParameters = {};
 
-export const defaultInitOverrides = (initOverrides?: RequestInit | InitOverrideFunction) => {
-  if (typeof initOverrides === "function") {
-    throw new Error("InitOverrideFunction is not supported in defaultInitOverrides");
+  if (sessionId) {
+    configParams = {
+      ...configParams,
+      headers: {
+        Authorization: sessionId ? `Bearer ${await getToken()}` : "Bearer",
+      },
+    };
   }
 
-  return {
-    next: { revalidate: CACHE_TIMEOUT },
-    ...initOverrides,
-  };
+  return new Configuration({ ...configParams, ...configOverride });
 };
 
 export default function BattleStadiumAPI(configOverride?: Configuration) {
@@ -63,35 +58,29 @@ function Organizations(configOverride?: Configuration) {
       (await OrganizationsAPI()).listOrganizations(initOverrides),
 
     post: async (requestParameters: Organization, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await OrganizationsAPI()).postOrganization(requestParameters, defaultInitOverrides(initOverrides)),
+      (await OrganizationsAPI()).postOrganization(requestParameters, initOverrides),
 
     get: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await OrganizationsAPI()).getOrganization(organizationId, defaultInitOverrides(initOverrides)),
+      (await OrganizationsAPI()).getOrganization(organizationId, initOverrides),
 
     patch: async (
       organizationId: number,
       organization?: Organization,
       initOverrides?: RequestInit | InitOverrideFunction,
-    ) =>
-      (await OrganizationsAPI()).patchOrganization(organizationId, organization, defaultInitOverrides(initOverrides)),
+    ) => (await OrganizationsAPI()).patchOrganization(organizationId, organization, initOverrides),
 
     delete: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await OrganizationsAPI()).deleteOrganization(organizationId, defaultInitOverrides(initOverrides)),
+      (await OrganizationsAPI()).deleteOrganization(organizationId, initOverrides),
 
     Tournaments: {
       list: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-        (await OrganizationsAPI()).listOrganizationTournaments(organizationId, defaultInitOverrides(initOverrides)),
+        (await OrganizationsAPI()).listOrganizationTournaments(organizationId, initOverrides),
 
       post: async (
         organizationId: number,
         tournamentDetails?: TournamentDetails,
         initOverrides?: RequestInit | InitOverrideFunction,
-      ) =>
-        (await OrganizationsAPI()).postOrganizationTournament(
-          organizationId,
-          tournamentDetails,
-          defaultInitOverrides(initOverrides),
-        ),
+      ) => (await OrganizationsAPI()).postOrganizationTournament(organizationId, tournamentDetails, initOverrides),
 
       patch: async (
         organizationId: number,
@@ -109,7 +98,7 @@ function Organizations(configOverride?: Configuration) {
 
     Staff: {
       list: async (organizationId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-        (await OrganizationsAPI()).listOrganizationStaff(organizationId, defaultInitOverrides(initOverrides)),
+        (await OrganizationsAPI()).listOrganizationStaff(organizationId, initOverrides),
     },
   };
 }
@@ -118,23 +107,21 @@ function Users(configOverride?: Configuration) {
   const UsersAPI = async () => new UsersApi(await defaultConfig(configOverride));
 
   return {
-    list: async (initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await UsersAPI()).listUsers(defaultInitOverrides(initOverrides)),
+    list: async (initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).listUsers(initOverrides),
 
     post: async (userPostRequest?: UserPostRequest, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await UsersAPI()).postUser(userPostRequest, defaultInitOverrides(initOverrides)),
+      (await UsersAPI()).postUser(userPostRequest, initOverrides),
 
     get: async (id: string, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await UsersAPI()).getUser(id, defaultInitOverrides(initOverrides)),
+      (await UsersAPI()).getUser(id, initOverrides),
 
     patch: async (id: string, userDetails?: UserDetails, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await UsersAPI()).patchUser(id, userDetails, defaultInitOverrides(initOverrides)),
+      (await UsersAPI()).patchUser(id, userDetails, initOverrides),
 
     delete: async (id: string, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await UsersAPI()).deleteUser(id, defaultInitOverrides(initOverrides)),
+      (await UsersAPI()).deleteUser(id, initOverrides),
 
-    me: async (initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await UsersAPI()).getMe(defaultInitOverrides(initOverrides)),
+    me: async (initOverrides?: RequestInit | InitOverrideFunction) => (await UsersAPI()).getMe(initOverrides),
   };
 }
 
@@ -143,19 +130,19 @@ function Games(configOverride?: Configuration) {
 
   return {
     listGames: async (initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await GamesAPI()).listGames(defaultInitOverrides(initOverrides)),
+      (await GamesAPI()).listGames(initOverrides),
 
     postGame: async (game?: Game, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await GamesAPI()).postGame(game, defaultInitOverrides(initOverrides)),
+      (await GamesAPI()).postGame(game, initOverrides),
 
     getGame: async (gameId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await GamesAPI()).getGame(gameId, defaultInitOverrides(initOverrides)),
+      (await GamesAPI()).getGame(gameId, initOverrides),
 
     patchGame: async (gameId: number, game?: Game, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await GamesAPI()).patchGame(gameId, game, defaultInitOverrides(initOverrides)),
+      (await GamesAPI()).patchGame(gameId, game, initOverrides),
 
     deleteGame: async (gameId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await GamesAPI()).deleteGame(gameId, defaultInitOverrides(initOverrides)),
+      (await GamesAPI()).deleteGame(gameId, initOverrides),
   };
 }
 
@@ -165,24 +152,24 @@ function Tournaments(configOverride?: Configuration) {
 
   return {
     list: async (initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await TournamentsAPI()).listTournaments(defaultInitOverrides(initOverrides)),
+      (await TournamentsAPI()).listTournaments(initOverrides),
 
     get: async (tournamentId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await TournamentsAPI()).getTournament(tournamentId, defaultInitOverrides(initOverrides)),
+      (await TournamentsAPI()).getTournament(tournamentId, initOverrides),
 
     post: async (tournamentId: number, phase?: Phase, initOverrides?: RequestInit | InitOverrideFunction) =>
-      (await PhasesAPI()).postTournamentPhase(tournamentId, phase, defaultInitOverrides(initOverrides)),
+      (await PhasesAPI()).postTournamentPhase(tournamentId, phase, initOverrides),
 
     patch: async (
       tournamentId: number,
       id: number,
       phase?: Phase,
       initOverrides?: RequestInit | InitOverrideFunction,
-    ) => (await PhasesAPI()).patchTournamentPhase(tournamentId, id, phase, defaultInitOverrides(initOverrides)),
+    ) => (await PhasesAPI()).patchTournamentPhase(tournamentId, id, phase, initOverrides),
 
     Phases: {
       list: async (tournamentId: number, initOverrides?: RequestInit | InitOverrideFunction) =>
-        (await PhasesAPI()).listTournamentPhases(tournamentId, defaultInitOverrides(initOverrides)),
+        (await PhasesAPI()).listTournamentPhases(tournamentId, initOverrides),
     },
   };
 }

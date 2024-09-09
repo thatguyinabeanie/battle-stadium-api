@@ -1,15 +1,21 @@
+import { auth } from "@clerk/nextjs/server";
+
 import BattleStadiumAPI from "@/lib/api";
 
 export default async function Dashboard() {
-  const me = await BattleStadiumAPI().Users.me();
+  const authObj = auth();
 
-  if (me) {
-    return (
-      <div>
-        <h1>Dashboard</h1>
-        <p>Welcome, {me?.firstName}!</p>
-      </div>
-    );
+  if (authObj.userId) {
+    const me = await BattleStadiumAPI().Users.me();
+
+    if (me) {
+      return (
+        <div>
+          <h1>Dashboard</h1>
+          <p>Welcome, {me?.firstName}!</p>
+        </div>
+      );
+    }
   }
 
   return (
