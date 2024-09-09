@@ -27,7 +27,7 @@ module BattleStadium
       Dotenv.load(env_development_local) if File.exist?(env_development_local) && !Rails.env.production?
 
       # if Rails.env.test?
-      unless Rails.env.production?
+      unless Rails.env.production? || Rails.env.staging?
         require "socket"
         hostname = Socket.gethostname
 
