@@ -31,11 +31,10 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch ${ASDF_VERSIO
 
 FROM asdf-ruby AS base-image
 # INSTALL DEPENDENCIES
-RUN export ARCH=$(dpkg --print-architecture) && \
-    apt-get update -qq  && \
+RUN apt-get update -qq  && \
     apt-get --no-install-recommends install -y -q  \
     default-jre \
-    l-libc6 \
+    libc6 \
     openssl \
     postgresql \
     ruby-dev \
