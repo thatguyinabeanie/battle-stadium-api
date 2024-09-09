@@ -2,5 +2,5 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "Battle Stadium",
-  description: "Make beautiful websites regardless of your design experience.",
+  description: "A modern tournament platform. Built by the community, for the community.",
 };
