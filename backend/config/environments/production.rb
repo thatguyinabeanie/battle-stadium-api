@@ -93,7 +93,8 @@ Rails.application.configure do
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
     /.*\.battlestadium.gg/, # Allow requests from subdomains like `www.battlestadium.gg`
-    /battle-stadium-api(-\w+)?\.onrender\.com/
+    "battle-stadium-api.onrender.com",
+    /battle-stadium-api(-pr-\w+)?\.onrender\.com/
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
