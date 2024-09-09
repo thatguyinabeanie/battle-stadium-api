@@ -44,13 +44,6 @@ RUN export ARCH=$(dpkg --print-architecture) && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Determine architecture and download the appropriate 1Password CLI
-ADD https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_${ARCH}_v1.12.3.zip /tmp/
-
-RUN unzip /tmp/op_linux_${ARCH}_v1.12.3.zip -d /tmp/op-extract && \
-    mv /tmp/op-extract/op /usr/local/bin/op && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 ##
 ## DEVELOPMENT IMAGE
 ##
