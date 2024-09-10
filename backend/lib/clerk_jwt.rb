@@ -1,4 +1,3 @@
-require "clerk/authenticatable"
 require "clerk"
 
 module ClerkJwt
