@@ -58,12 +58,3 @@ class ClerkTokenVerifier
     raise "Invalid issuer" unless claims["iss"].start_with?(ENV.fetch("CLERK_FRONTEND_API", "http://localhost:3000"))
   end
 end
-
-# Usage example:
-# verifier = ClerkTokenVerifier.new('your_clerk_api_key')
-# begin
-#   claims = verifier.verify_token('your_session_token')
-#   puts "Token verified successfully. User ID: #{claims['sub']}"
-# rescue StandardError => e
-#   puts "Token verification failed: #{e.message}"
-# end
