@@ -77,7 +77,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
-  config.web_console.whitelisted_ips = ["172.18.0.0/16", "192.168.0.0/16"]
+  # config.web_console.whitelisted_ips = ["172.18.0.0/16", "192.168.0.0/16"]
 
   config.hosts = [
     "localhost" ,
