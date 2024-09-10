@@ -11,7 +11,7 @@ services:
     ports:
       - 5432:5432
 
-  backend:
+  backend-dev:
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
@@ -71,6 +71,8 @@ services:
   #     start_period: 120s
 
   frontend:
+    environment:
+      - BACKEND_HOST=backend-dev
     hostname: nextjs-container
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     build:

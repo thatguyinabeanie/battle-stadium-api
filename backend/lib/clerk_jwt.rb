@@ -131,7 +131,11 @@ module ClerkJwt
         raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
 
         begin
-          clerk = Clerk::SDK.new(api_key: ENV["CLERK_SECRET_KEY"])
+          clerk = Clerk::SDK.new(
+            api_key: ENV["CLERK_SECRET_KEY"],
+            logger: Logger.new(STDOUT),
+            base_url: "https://api.clerk.com"
+          )
           return clerk.verify_token(session_token,)
         rescue StandardError => e
           raise VerificationError, e.message

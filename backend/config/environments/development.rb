@@ -82,6 +82,7 @@ Rails.application.configure do
   config.hosts = [
     "localhost" ,
     "backend",
+    "backend-dev:10000",
     "api-battle-stadium-gg.onrender.com",
     "a5c4-2600-1700-4b40-2c60-bc7f-e8b9-c73a-f56a.ngrok-free.app"
   ]
