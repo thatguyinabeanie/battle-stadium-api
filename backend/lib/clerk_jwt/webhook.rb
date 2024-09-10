@@ -1,4 +1,4 @@
-require_relative "clerk_jwt_token_verifier"
+require_relative "token_verifier"
 
 module ClerkJwt
   module Webhook
