@@ -1,4 +1,4 @@
-require "clerk"
+# require "clerk"
 
 module ClerkJwt
   module Webhook
