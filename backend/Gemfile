@@ -90,3 +90,9 @@ group :development, :test, :rubocop do
   gem "rubocop-shopify"
   gem "rubocop-thread_safety"
 end
+
+gem "jwt", "~> 2.8"
+gem "json", "~> 2.7"
+gem "uri", "~> 0.13.1"
+
+gem "net", "~> 0.3.3"

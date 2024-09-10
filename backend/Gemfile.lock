@@ -101,10 +101,6 @@ GEM
     case_transform (0.2)
       activesupport
     choice (0.2.0)
-    clerk-sdk-ruby (3.2.0)
-      concurrent-ruby (~> 1.1)
-      faraday (>= 1.4.1, < 3.0)
-      jwt (~> 2.5)
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crack (1.0.0)
@@ -132,11 +128,6 @@ GEM
       railties (>= 5.0.0)
     faker (3.4.2)
       i18n (>= 1.8.11, < 2)
-    faraday (2.11.0)
-      faraday-net_http (>= 2.0, < 3.4)
-      logger
-    faraday-net_http (3.3.0)
-      net-http
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
@@ -179,8 +170,8 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.1)
     msgpack (1.7.2)
-    net-http (0.4.1)
-      uri
+    net (0.3.3)
+      activesupport
     net-imap (0.4.16)
       date
       net-protocol
@@ -480,7 +471,6 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   brakeman (~> 6)
   bundler-audit (~> 0)
-  clerk-sdk-ruby (~> 3.2)
   debug (~> 1)
   dotenv-rails
   factory_bot_rails (~> 6)
@@ -488,9 +478,12 @@ DEPENDENCIES
   hirb
   i18n
   irb
+  json (~> 2.7)
   jsonapi-serializer (~> 2)
+  jwt (~> 2.8)
   kredis (~> 1)
   listen (~> 3.3)
+  net (~> 0.3.3)
   openssl (~> 3.2)
   pg (~> 1.5.7)
   puma (~> 6.0)
@@ -546,6 +539,7 @@ DEPENDENCIES
   traceroute (~> 0)
   turbo-rails (~> 2)
   tzinfo-data
+  uri (~> 0.13.1)
   versionist (~> 2)
   web-console (~> 4)
   webmock (~> 3)

@@ -1,4 +1,4 @@
-# require "clerk"
+require_relative "clerk_token_verifier"
 
 module ClerkJwt
   module Webhook
@@ -130,7 +130,7 @@ module ClerkJwt
         raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
 
         begin
-          # return Clerk::SDK.new.verify_token(session_token)
+          ClerkTokenVerifier.new.verify_token(session_token)
         rescue StandardError => e
           raise VerificationError, e.message
         end

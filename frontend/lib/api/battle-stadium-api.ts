@@ -1,4 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
+import * as VercelOIDC from '@vercel/functions/oidc';
+import { clerkClient } from '@clerk/nextjs/server';
+import { verifyToken } from '@clerk/backend';
 
 import {
   Configuration,
@@ -25,20 +28,17 @@ export * from "./generated-api-client";
 export const defaultConfig = async (configOverride?: Configuration) => {
   "use server";
 
-  const { sessionId, getToken } = auth();
+  const { getToken } = auth();
+  const sessionToken = await getToken();
 
-  let configParams: ConfigurationParameters = {};
-
-  if (sessionId) {
-    configParams = {
-      ...configParams,
+  let configParams: ConfigurationParameters = {
       headers: {
-        Authorization: sessionId ? `Bearer ${await getToken()}` : "Bearer",
+        Authorization: sessionToken ? `Bearer ${sessionToken}` : "Bearer",
       },
-    };
-  }
+    ...configOverride,
+  };
 
-  return new Configuration({ ...configParams, ...configOverride });
+  return new Configuration(configParams);
 };
 
 export default function BattleStadiumAPI(configOverride?: Configuration) {
