@@ -5,7 +5,7 @@ module Api
   module V1
     class ClerkWebhookController < ApiController
       skip_before_action :verify_authenticity_token, only: [:post]
-      # skip_before_action :authenticate_clerk_user!
+      skip_before_action :authenticate_clerk_user!
       before_action :verify_clerk_webhook
 
       def post

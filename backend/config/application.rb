@@ -13,7 +13,6 @@ module BattleStadium
     config.load_defaults 7.1
 
     config.before_configuration do
-
       puts "Loading ENVIRONMENT VARIABLES"
       env_file = ".env"
       Dotenv.load(env_file) if File.exist?(env_file)
@@ -43,7 +42,6 @@ module BattleStadium
 
       errors << "Missing AUTH_SECRET environment variable" if ENV.fetch("AUTH_SECRET", nil).nil?
 
-      # raise errors.join("\n") if errors.any?
       puts errors.join("\n") if errors.any?
     end
 
