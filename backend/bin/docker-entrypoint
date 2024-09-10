@@ -7,12 +7,12 @@ current_dir=$(dirname "$(realpath "$0")")
 rm -f tmp/pids/server.pid
 
 echo "== Installing dependencies =="
-bundle check || bundle install
+./rails check || ./rails bundle install
 
-bundle exec rails db:prepare
+./rails db:prepare
 
-bundle exec rails db:migrate
+./railsdb:migrate
 
-bundle exec rails server -b 0.0.0.0 -p $PORT
+./rails server -b 0.0.0.0 -p $PORT
 
 exec "${@}"
