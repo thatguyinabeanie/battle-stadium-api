@@ -92,6 +92,9 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
+    # "localhost:3000",
+    # "localhost:10000",
+    # "backend:10000",
     /.*\.battlestadium.gg/, # Allow requests from subdomains like `www.battlestadium.gg`
     "battle-stadium-api.onrender.com",
     /battle-stadium-api(-pr-\w+)?\.onrender\.com/

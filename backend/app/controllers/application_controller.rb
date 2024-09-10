@@ -28,7 +28,9 @@ class ApplicationController < ActionController::Base
 
   def authenticate_clerk_user!
     @current_user = ClerkJwt::Session.authenticate!(request:)
+    @current_user
   rescue StandardError => e
+    Rails.logger.info "Failed to authenticate user: #{e.message}"
     render json: { error: e.message }, status: :unauthorized
   end
 

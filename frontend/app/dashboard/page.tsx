@@ -6,7 +6,7 @@ export default async function Dashboard() {
   const authObj = auth();
 
   if (authObj.userId) {
-    const me = await BattleStadiumAPI().Users.me();
+    const me = await BattleStadiumAPI().Users.me({ next: { revalidate: 1 } });
 
     if (me) {
       return (

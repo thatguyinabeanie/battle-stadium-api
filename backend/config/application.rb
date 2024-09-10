@@ -14,24 +14,22 @@ module BattleStadium
 
     config.before_configuration do
 
-      unless Rails.env.production?
-        puts "Loading ENVIRONMENT VARIABLES"
-        env_file = ".env"
-        Dotenv.load(env_file) if File.exist?(env_file)
+      puts "Loading ENVIRONMENT VARIABLES"
+      env_file = ".env"
+      Dotenv.load(env_file) if File.exist?(env_file)
 
-        # puts 'Loading .env.postgres file'
-        env_postgres_file = "../.env.postgres"
-        Dotenv.load(env_postgres_file) if File.exist?(env_postgres_file)
+      # puts 'Loading .env.postgres file'
+      env_postgres_file = "../.env.postgres"
+      Dotenv.load(env_postgres_file) if File.exist?(env_postgres_file)
 
-        env_development_local = "../.env.development.local"
-        Dotenv.load(env_development_local) if File.exist?(env_development_local)
+      env_development_local = "../.env.development.local"
+      Dotenv.load(env_development_local) if File.exist?(env_development_local)
 
-        require "socket"
-        hostname = Socket.gethostname
+      require "socket"
+      hostname = Socket.gethostname
 
-        ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
-        ENV["DATABASE_URL"] = nil
-      end
+      ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
+      ENV["DATABASE_URL"] = nil
 
       errors = []
 

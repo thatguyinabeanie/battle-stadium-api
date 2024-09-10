@@ -21,6 +21,7 @@ RUN apt-get update -qq && \
     libpq-dev \
     libssl-dev \
     libvips \
+    lsof \
     openssl \
     pkg-config \
     postgresql-client && \
@@ -49,7 +50,6 @@ RUN useradd rails --create-home --shell /bin/bash && \
 USER rails:rails
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 10000
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 

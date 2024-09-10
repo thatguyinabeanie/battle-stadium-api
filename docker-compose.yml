@@ -59,7 +59,7 @@ services:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
     command: >
       zsh -c "
-        # start_server && \
+        bun install && bun dev && \
         tail -f /dev/null
       "
     tty: true

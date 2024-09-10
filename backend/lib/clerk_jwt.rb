@@ -108,16 +108,19 @@ module ClerkJwt
 
         raise InvalidSessionToken, "Invalid session token. Missing attributes." unless session && session["userId"]
 
-        user = ClerkUser.find_by(clerk_user_id: session["userId"])&.user
-        return user if user
+        # First check if the user is already in the database with a clerk id
+        clerk_user = ClerkUser.find_by(clerk_user_id: session["userId"])
+        return clerk_user.user if clerk_user
 
-        user = User.find_by(email: session["email"]) || User.find_by(username: session["username"])
-        if user
-          ClerkUser.create!(clerk_user_id: session["userId"], user:)
-          return user
+        # If the user is not in the database, check if the user is in the database with the email or username
+        user = User.find_or_create_by(email: session["email"], username: session["username"]) do |u|
+          u.first_name = session["firstName"]
+          u.last_name = session["lastName"]
         end
 
-        raise ActiveRecord::RecordNotFound, "User not found"
+        user.clerk_users << ClerkUser.find_or_create_by!(clerk_user_id: session["userId"], user:)
+        user.save!
+        user
       end
 
       private
@@ -129,7 +132,7 @@ module ClerkJwt
 
         begin
           clerk = Clerk::SDK.new
-          return clerk.verify_token(session_token)
+          return clerk.verify_token(session_token,)
         rescue StandardError => e
           raise VerificationError, e.message
         end

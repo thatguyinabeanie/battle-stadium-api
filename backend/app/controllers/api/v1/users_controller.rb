@@ -12,6 +12,7 @@ module Api
       end
 
       def me
+        Rails.logger.info "Current user: #{@current_user}"
         authorize @current_user, :me?
         render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
@@ -29,11 +30,6 @@ module Api
 
       def find_user_by_email_or_username(email, username)
         User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
-      end
-
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user
-        @current_user = set_object
       end
     end
   end
