@@ -1,3 +1,5 @@
+require "clerk"
+
 Clerk.configure do |c|
   c.api_key = ENV.fetch("CLERK_SECRET_KEY", nil)
   c.base_url = "https://api.clerk.com/v1/"
