@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 
 import Providers from "./providers";
+import AwesomeParticles from "./particles";
 
 export const metadata: Metadata = {
   title: {
@@ -35,9 +36,10 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">
         <head />
-        <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden")}>
+        <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
           <Providers>
-            <main className="flex h-full w-full">
+            <AwesomeParticles />
+            <main className="flex h-full w-full z-10">
               {children}
               <Analytics />
               <SpeedInsights />
