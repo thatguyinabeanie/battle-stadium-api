@@ -57,4 +57,5 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 FROM thatguyinabeanie/battle-stadium:latest AS production
 USER rails:rails
 WORKDIR /rails
+COPY app bin config db lib public scripts storage swagger vendor Rakefile config.ru /rails/
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
