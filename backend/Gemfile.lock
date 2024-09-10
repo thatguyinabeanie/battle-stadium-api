@@ -78,7 +78,6 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    aes_key_wrap (1.1.0)
     ast (2.4.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
@@ -90,7 +89,6 @@ GEM
       parser (>= 2.4)
       smart_properties
     bigdecimal (3.1.8)
-    bindata (2.5.0)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -103,10 +101,6 @@ GEM
     case_transform (0.2)
       activesupport
     choice (0.2.0)
-    clerk-sdk-ruby (3.2.0)
-      concurrent-ruby (~> 1.1)
-      faraday (>= 1.4.1, < 3.0)
-      jwt (~> 2.5)
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crack (1.0.0)
@@ -134,13 +128,6 @@ GEM
       railties (>= 5.0.0)
     faker (3.4.2)
       i18n (>= 1.8.11, < 2)
-    faraday (2.11.0)
-      faraday-net_http (>= 2.0, < 3.4)
-      logger
-    faraday-follow_redirects (0.3.0)
-      faraday (>= 1, < 3)
-    faraday-net_http (3.3.0)
-      net-http
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
@@ -153,35 +140,19 @@ GEM
     immutable-ruby (0.2.0)
       concurrent-ruby (~> 1.1)
       sorted_set (~> 1.0)
-    importmap-rails (2.0.1)
-      actionpack (>= 6.0.0)
-      activesupport (>= 6.0.0)
-      railties (>= 6.0.0)
     io-console (0.7.2)
     irb (1.14.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jbuilder (2.12.0)
-      actionview (>= 5.0.0)
-      activesupport (>= 5.0.0)
     jose (1.2.0)
       base64
       immutable-ruby
     json (2.7.2)
-    json-jwt (1.16.6)
-      activesupport (>= 4.2)
-      aes_key_wrap
-      base64
-      bindata
-      faraday (~> 2.0)
-      faraday-follow_redirects
     json-schema (4.3.1)
       addressable (>= 2.8)
     jsonapi-renderer (0.2.2)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
-    jwt (2.8.2)
-      base64
     kredis (1.7.0)
       activemodel (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -203,8 +174,6 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.1)
     msgpack (1.7.2)
-    net-http (0.4.1)
-      uri
     net-imap (0.4.16)
       date
       net-protocol
@@ -475,7 +444,6 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
-    uri (0.13.1)
     useragent (0.16.10)
     versionist (2.0.1)
       activesupport (>= 3)
@@ -509,20 +477,15 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   brakeman (~> 6)
   bundler-audit (~> 0)
-  clerk-sdk-ruby
   debug (~> 1)
   dotenv-rails
   factory_bot_rails (~> 6)
   faker (~> 3)
   hirb
   i18n
-  importmap-rails (~> 2)
   irb
-  jbuilder (~> 2)
   jose (~> 1.2)
-  json-jwt
   jsonapi-serializer (~> 2)
-  jwt
   kredis (~> 1)
   listen (~> 3.3)
   openssl (~> 3.2)
