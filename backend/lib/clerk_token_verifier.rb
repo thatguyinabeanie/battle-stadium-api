@@ -55,9 +55,7 @@ class ClerkTokenVerifier
     raise "Token has expired" if Time.now.to_i > claims["exp"]
 
     # Verify issuer (customize with your Clerk frontend API)
-    if Rails.env.development?
-      raise "Invalid issuer" unless claims["iss"].start_with?("https://dashing-eel-80.clerk.accounts.dev")
-    end
+    raise "Invalid issuer" unless claims["iss"].start_with?(ENV.fetch("CLERK_FRONTEND_API", "http://localhost:3000"))
   end
 end
 
