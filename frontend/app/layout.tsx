@@ -31,11 +31,10 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
 };
-const AwesomeParticles = dynamic(() => import("@/components/awesome-particles/awesome-particles"));
 
-AwesomeParticles.displayName = "AwesomeParticles";
 
 export default async function RootLayout({ children }: ChildrenProps & AppProps) {
+  const AwesomeParticles = dynamic(() => import("@/components/awesome-particles/awesome-particles"));
   return (
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">

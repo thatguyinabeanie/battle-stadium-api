@@ -1,7 +1,7 @@
 // organizations/[organizationId]/page.tsx
 import TournamentsTable from "@/app/tournaments/TournamentsTable";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
-import { BattleStadiumAPI } from "@/lib/api";
+import { BattleStadiumAPI } from "@/lib/api/battle-stadium-api";
 
 const OrganizationDetailsPage = async ({ params }: { params: { organizationId: number } }) => {
   const organization = await BattleStadiumAPI().Organizations.get(params.organizationId);

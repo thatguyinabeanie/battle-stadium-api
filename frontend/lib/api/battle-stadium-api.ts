@@ -1,8 +1,6 @@
-import { auth } from "@clerk/nextjs/server";
 
 import {
   Configuration,
-  ConfigurationParameters,
   Game,
   InitOverrideFunction,
   Organization,
@@ -16,36 +14,18 @@ import {
   TournamentsApi,
   OrganizationsApi,
 } from "./generated-api-client";
+import { defaultConfig } from "./config";
 
-export const CACHE_TIMEOUT: number = 300;
-
-export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
-export * from "./generated-api-client";
-
-export const defaultConfig = async (configOverride?: Configuration) => {
-  "use server";
-
-  const { getToken } = auth();
-  const sessionToken = await getToken();
-
-  const configParams: ConfigurationParameters = {
-    headers: {
-      Authorization: sessionToken ? `Bearer ${sessionToken}` : "Bearer",
-    },
-    ...configOverride,
-  };
-
-  return new Configuration(configParams);
-};
-
-export default function BattleStadiumAPI(configOverride?: Configuration) {
+export function BattleStadiumAPI (configOverride?: Configuration) {
   return {
     Organizations: Organizations(configOverride),
     Users: Users(configOverride),
     Games: Games(configOverride),
     Tournaments: Tournaments(configOverride),
   };
-}
+};
+
+export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
 
 function Organizations(configOverride?: Configuration) {
   const OrganizationsAPI = async () => new OrganizationsApi(await defaultConfig(configOverride));
@@ -170,5 +150,3 @@ function Tournaments(configOverride?: Configuration) {
     },
   };
 }
-
-export { BattleStadiumAPI };
