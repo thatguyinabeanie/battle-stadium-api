@@ -71,18 +71,7 @@ module BattleStadium
     #     resource '*', headers: :any, methods: %i[get post put patch delete]
     #   end
     # end
-    config.session_store :cookie_store, key: "sessions.battlestadium.gg"
-    config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: "sessions.battlestadium.gg"
 
     config.filter_parameters += %i[password password_confirmation email_address email first_name last_name phone_numbers]
-
-
-    # Clerk.configure do |config|
-    #   config.api_key = ENV['NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY']
-    #   config.base_url = "https://api.clerk.com"
-    #   config.middleware_cache_store = Rails.cache # if omitted: no caching
-    # end
-
   end
 end
