@@ -13,7 +13,7 @@ services:
 
   backend:
     hostname: rails-api-container
-    image: thatguyinabeanie/battle-stadium:backend-dev-latest
+    image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
       RAILS_ENV: development
       PORT: 10000
@@ -21,6 +21,10 @@ services:
       context: backend
       dockerfile: Dockerfile.dev
       target: development
+      tags:
+        - thatguyinabeanie/battle-stadium:dev-latest
+      cache_from:
+        - thatguyinabeanie/battle-stadium:dev-latest
     env_file:
       - backend/.env
     tty: true
