@@ -1,7 +1,4 @@
 import { auth } from "@clerk/nextjs/server";
-import * as VercelOIDC from '@vercel/functions/oidc';
-import { clerkClient } from '@clerk/nextjs/server';
-import { verifyToken } from '@clerk/backend';
 
 import {
   Configuration,
@@ -31,10 +28,10 @@ export const defaultConfig = async (configOverride?: Configuration) => {
   const { getToken } = auth();
   const sessionToken = await getToken();
 
-  let configParams: ConfigurationParameters = {
-      headers: {
-        Authorization: sessionToken ? `Bearer ${sessionToken}` : "Bearer",
-      },
+  const configParams: ConfigurationParameters = {
+    headers: {
+      Authorization: sessionToken ? `Bearer ${sessionToken}` : "Bearer",
+    },
     ...configOverride,
   };
 
