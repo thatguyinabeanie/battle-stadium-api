@@ -25,11 +25,6 @@ services:
         - thatguyinabeanie/battle-stadium:latest
       cache_from:
         - thatguyinabeanie/battle-stadium:latest
-    command: >
-      bash -c "
-        ./bin/rails server -b 0.0.0.0 -p 10000
-        tail -f /dev/null
-      "
     tty: true
     stdin_open: true
     ports:

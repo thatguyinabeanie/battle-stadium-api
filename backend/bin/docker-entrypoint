@@ -7,12 +7,15 @@ current_dir=$(dirname "$(realpath "$0")")
 rm -f tmp/pids/server.pid
 
 echo "== Installing dependencies =="
-./rails check || ./rails bundle install
+$current_dir/bundle check || $current_dir/bundle install
 
-./rails db:prepare
+echo "== Preparing database =="
+$current_dir/bundle exec rails db:prepare
 
-./railsdb:migrate
+echo "== Running migrations =="
+$current_dir/bundle exec rails db:migrate
 
-./rails server -b 0.0.0.0 -p $PORT
+echo "== Starting server =="
+$current_dir/bundle exec rails server -b 0.0.0.0 -p $PORT
 
 exec "${@}"
