@@ -95,9 +95,10 @@ Rails.application.configure do
     "localhost",
     "backend",
     "backend:10000",
-    /.*\.battlestadium.gg/, # Allow requests from subdomains like `www.battlestadium.gg`
+    "api.battlestadium.gg",
+    "www.battlestadium.gg",
     "battle-stadium-api.onrender.com",
-    /battle-stadium-api(-pr-\w+)?\.onrender\.com/
+    "battle-stadium-api-pr-313.onrender.com",
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
