@@ -13,7 +13,6 @@ services:
 
   backend:
     hostname: rails-api-container
-    image: thatguyinabeanie/battle-stadium:latest
     environment:
       RAILS_ENV: production
       PORT: 10000
@@ -21,10 +20,6 @@ services:
       context: backend
       dockerfile: Dockerfile.prod
       target: production
-      tags:
-        - thatguyinabeanie/battle-stadium:latest
-      cache_from:
-        - thatguyinabeanie/battle-stadium:latest
     tty: true
     stdin_open: true
     ports:
@@ -38,10 +33,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 120s
-    volumes:
-      - ./backend:/rails
-      - ./backend/.zshrc:/root/.zshenv
-      - ./backend/.zshrc:/root/.zshrc
 
   frontend:
     hostname: nextjs-container
