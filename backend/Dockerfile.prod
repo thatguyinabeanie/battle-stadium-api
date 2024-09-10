@@ -75,5 +75,5 @@ COPY swagger ./swagger
 COPY vendor ./vendor
 COPY Rakefile ./Rakefile
 COPY config.ru ./config.ru
-RUN bundle check || bundle install
+
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
