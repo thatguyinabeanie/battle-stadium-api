@@ -1,11 +1,8 @@
 require "pundit"
-require "clerk/authenticatable"
-require "clerk"
 require_relative "../../lib/clerk_jwt"
 
 class ApplicationController < ActionController::Base
   attr_reader :current_user
-  include Clerk::Authenticatable
   include Pundit::Authorization
 
   after_action :verify_authorized
