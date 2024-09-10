@@ -1,7 +1,7 @@
 require "swagger_helper"
-require_relative "../../../../support/clerk_sdk_mock.rb"
+require_relative "../../../../support/clerk_jwt_token_verifier_mock.rb"
 RSpec.describe Api::V1::Tournaments::PlayersController do
-  include ClerkSdkMock
+  include ClerkJwt::TokenVerifier::Mock
 
   let(:organization) { create(:organization) }
   let(:organization_id) { organization.id }

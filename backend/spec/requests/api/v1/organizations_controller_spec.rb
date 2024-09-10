@@ -1,11 +1,11 @@
 require "swagger_helper"
-require_relative "../../../support/clerk_sdk_mock.rb"
+require_relative "../../../support/clerk_jwt_token_verifier_mock.rb"
 
 ORGANIZATION_DETAIL_SCHEMA = "#/components/schemas/Organization".freeze
 DESCRIPTION = "the bomb dot com".freeze
 
 RSpec.describe Api::V1::OrganizationsController do
-  include ClerkSdkMock
+  include ClerkJwt::TokenVerifier::Mock
 
   let(:org) { create(:organization_with_staff, staff_count: 5) }
   let(:owner) { org.owner }
