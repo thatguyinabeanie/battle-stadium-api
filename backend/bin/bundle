@@ -9,6 +9,8 @@
 
 require "rubygems"
 
+puts Dir.pwd
+
 m = Module.new do
   module_function
 

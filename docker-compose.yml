@@ -25,6 +25,8 @@ services:
     ports:
       - 10000:10000
       - 3000:10000
+    env_file:
+      - backend/.env
     depends_on:
       - postgres
     healthcheck:

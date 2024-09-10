@@ -1,21 +1,22 @@
 #!/bin/bash -e
 set -e
 current_dir=$(dirname "$(realpath "$0")")
+echo "== Current directory: $current_dir =="
 
 # The purpose of this command is to ensure that the server process does not encounter
 # any issues related to an existing server.pid file.
 rm -f tmp/pids/server.pid
 
 echo "== Installing dependencies =="
-$current_dir/bundle check || $current_dir/bundle install
+bundle check || bundle install
 
 echo "== Preparing database =="
-$current_dir/bundle exec rails db:prepare
+bundle exec rails db:prepare
 
 echo "== Running migrations =="
-$current_dir/bundle exec rails db:migrate
+bundle exec rails db:migrate
 
 echo "== Starting server =="
-$current_dir/bundle exec rails server -b 0.0.0.0 -p $PORT
+bundle exec rails server -b 0.0.0.0 -p $PORT
 
 exec "${@}"

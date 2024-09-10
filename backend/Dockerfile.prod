@@ -32,7 +32,18 @@ RUN rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bund
     bundle exec bootsnap precompile --gemfile
 
 # Copy application code
-COPY app/ bin/ config/ db/ lib/ public/ scripts/ storage/ swagger/ vendor/ Rakefile config.ru /rails/
+COPY app ./app
+COPY bin ./bin
+COPY config ./config
+COPY db ./db
+COPY lib ./lib
+COPY public ./public
+COPY scripts ./scripts
+COPY storage ./storage
+COPY swagger ./swagger
+COPY vendor ./vendor
+COPY Rakefile ./Rakefile
+COPY config.ru ./config.ru
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
@@ -49,8 +60,21 @@ USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 
-FROM thatguyinabeanie/battle-stadium:latest AS production
+# FROM thatguyinabeanie/battle-stadium:latest AS production
+FROM pre-production AS production
 USER rails:rails
 WORKDIR /rails
-COPY app/ bin/ config/ db/ lib/ public/ scripts/ storage/ swagger/ vendor/ Rakefile config.ru /rails/
+COPY app ./app
+COPY bin ./bin
+COPY config ./config
+COPY db ./db
+COPY lib ./lib
+COPY public ./public
+COPY scripts ./scripts
+COPY storage ./storage
+COPY swagger ./swagger
+COPY vendor ./vendor
+COPY Rakefile ./Rakefile
+COPY config.ru ./config.ru
+
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
