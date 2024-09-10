@@ -7,9 +7,19 @@ module ClerkJwt
   module TokenVerifier
     CLERK_API_URL = "https://api.clerk.dev/v1"
 
+    class NoAuthorizationHeader < StandardError; end
+    class VerificationError < StandardError; end
+    class InvalidSessionToken < StandardError; end
+
     class << self
       @@clerk_api_key = ENV.fetch("CLERK_SECRET_KEY")
-      def verify_token(session_token)
+
+      def verify(request:)
+        session_token = request.headers["Authorization"]&.split("Bearer ")&.last
+
+        raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
+
+
         # Fetch the JWT verification key from Clerk
         jwks = fetch_jwks
 
@@ -25,7 +35,7 @@ module ClerkJwt
         # If all verifications pass, return the claims
         claims
       rescue JWT::DecodeError => e
-        raise "Invalid token: #{e.message}"
+        raise InvalidSessionToken, "Invalid token: #{e.message}"
       end
 
     private
@@ -50,11 +60,14 @@ module ClerkJwt
       end
 
       def verify_claims(claims)
+        errors = []
         # Verify expiration time
-        raise "Token has expired" if Time.now.to_i > claims["exp"]
+        errors << "Token has expired" if Time.now.to_i > claims["exp"]
 
         # Verify issuer (customize with your Clerk frontend API)
-        raise "Invalid issuer" unless claims["iss"].start_with?(ENV.fetch("CLERK_FRONTEND_API", "http://localhost:3000"))
+        errors << "Invalid issuer" unless claims["iss"].start_with?(ENV.fetch("CLERK_FRONTEND_API", "http://localhost:3000"))
+
+        raise VerificationError, errors.join(", ") unless errors.empty?
       end
     end
   end

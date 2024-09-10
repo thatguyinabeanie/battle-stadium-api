@@ -1,5 +1,5 @@
 # spec/support/clerk_jwt_token_verifier_mock.rb
-require_relative "../../lib/clerk_jwt_token_verifier"
+require_relative "../../lib/clerk_jwt/token_verifier"
 
 module ClerkJwt
   module TokenVerifier
@@ -23,7 +23,7 @@ module ClerkJwt
         shared_context "with Clerk SDK Mock" do
           before do
             session = session_data(request_user)
-            allow(ClerkJwt::TokenVerifier).to receive(:verify_token).and_return(session)
+            allow(ClerkJwt::TokenVerifier).to receive(:verify).and_return(session)
           end
         end
       end

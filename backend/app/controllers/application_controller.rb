@@ -1,5 +1,5 @@
 require "pundit"
-require_relative "../../lib/clerk_jwt"
+require_relative "../../lib/clerk_jwt/session"
 
 class ApplicationController < ActionController::Base
   attr_reader :current_user

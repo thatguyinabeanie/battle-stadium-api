@@ -96,45 +96,4 @@ module ClerkJwt
       end
     end
   end
-
-  module Session
-    class NoAuthorizationHeader < StandardError; end
-    class VerificationError < StandardError; end
-    class InvalidSessionToken < StandardError; end
-    class << self
-      def authenticate!(request:)
-        session = verify_token(request:)
-
-        raise InvalidSessionToken, "Invalid session token. Missing attributes." unless session && session["userId"]
-
-        # First check if the user is already in the database with a clerk id
-        clerk_user = ClerkUser.find_by(clerk_user_id: session["userId"])
-        return clerk_user.user if clerk_user
-
-        # If the user is not in the database, check if the user is in the database with the email or username
-        user = User.find_or_create_by(email: session["email"], username: session["username"]) do |u|
-          u.first_name = session["firstName"]
-          u.last_name = session["lastName"]
-        end
-
-        user.clerk_users << ClerkUser.find_or_create_by!(clerk_user_id: session["userId"], user:)
-        user.save!
-        user
-      end
-
-      private
-
-      def verify_token(request:)
-        session_token = request.headers["Authorization"]&.split("Bearer ")&.last
-
-        raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
-
-        begin
-          ::ClerkJwt::TokenVerifier.verify_token(session_token)
-        rescue StandardError => e
-          raise VerificationError, e.message
-        end
-      end
-    end
-  end
 end
