@@ -1,6 +1,6 @@
 require "rails_helper"
 require_relative "../../../../app/serializers/user_serializer"
-require_relative "../../../support/clerk_jwt_token_verifier_mock.rb"
+require_relative "../../../support/clerk_jwt/token_verifier_mock"
 
 RSpec.describe Api::V1::UsersController do
   include ClerkJwt::TokenVerifier::Mock

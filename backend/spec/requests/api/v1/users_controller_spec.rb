@@ -1,6 +1,6 @@
 require "rails_helper"
 require "swagger_helper"
-require_relative "../../../support/clerk_jwt_token_verifier_mock.rb"
+require_relative "../../../support/clerk_jwt/token_verifier_mock"
 
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 

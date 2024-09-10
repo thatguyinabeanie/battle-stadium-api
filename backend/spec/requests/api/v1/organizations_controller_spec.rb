@@ -1,5 +1,5 @@
 require "swagger_helper"
-require_relative "../../../support/clerk_jwt_token_verifier_mock.rb"
+require_relative "../../../support/clerk_jwt/token_verifier_mock"
 
 ORGANIZATION_DETAIL_SCHEMA = "#/components/schemas/Organization".freeze
 DESCRIPTION = "the bomb dot com".freeze
