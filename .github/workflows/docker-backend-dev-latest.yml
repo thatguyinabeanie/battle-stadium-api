@@ -62,6 +62,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "{{defaultContext}}:backend"
+          file: "{{defaultContext}}/backend/Dockerfile.dev"
           target: development
           platforms: linux/amd64,linux/arm64
           push: true

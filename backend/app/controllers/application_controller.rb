@@ -1,11 +1,8 @@
 require "pundit"
-require "clerk/authenticatable"
-require "clerk"
-require_relative "../../lib/clerk_jwt"
+require_relative "../../lib/clerk_jwt/session"
 
 class ApplicationController < ActionController::Base
   attr_reader :current_user
-  include Clerk::Authenticatable
   include Pundit::Authorization
 
   after_action :verify_authorized
@@ -28,7 +25,9 @@ class ApplicationController < ActionController::Base
 
   def authenticate_clerk_user!
     @current_user = ClerkJwt::Session.authenticate!(request:)
+    @current_user
   rescue StandardError => e
+    Rails.logger.info "Failed to authenticate user: #{e.message}"
     render json: { error: e.message }, status: :unauthorized
   end
 

@@ -92,18 +92,20 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-    "www.battlestadium.gg",
-    "battlestadium.gg",
+    "localhost",
+    "backend",
+    "backend:10000",
     "api.battlestadium.gg",
-    "battle-stadium.onrender.com"
-    # /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+    "www.battlestadium.gg",
+    "battle-stadium-api.onrender.com",
+    "battle-stadium-api-pr-313.onrender.com",
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.action_mailer.default_url_options = { host: "localhost", port: 10000 }
 
-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.enabled = false
 
   config.secret_key_base = ENV["AUTH_SECRET"]
 end

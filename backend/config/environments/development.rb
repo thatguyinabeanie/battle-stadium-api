@@ -77,11 +77,11 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
-  config.web_console.whitelisted_ips = ["172.18.0.0/16", "192.168.0.0/16"]
 
   config.hosts = [
     "localhost" ,
     "backend",
+    "backend-dev:10000",
     "api-battle-stadium-gg.onrender.com",
     "a5c4-2600-1700-4b40-2c60-bc7f-e8b9-c73a-f56a.ngrok-free.app"
   ]

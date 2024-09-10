@@ -1,5 +1,4 @@
-require "clerk/authenticatable"
-require "clerk"
+require_relative "token_verifier"
 
 module ClerkJwt
   module Webhook
@@ -94,45 +93,6 @@ module ClerkJwt
         res = 0
         b.each_byte { |byte| res |= byte ^ l.shift }
         res == 0
-      end
-    end
-  end
-
-  module Session
-    class NoAuthorizationHeader < StandardError; end
-    class VerificationError < StandardError; end
-    class InvalidSessionToken < StandardError; end
-    class << self
-      def authenticate!(request:)
-        session = verify_token(request:)
-
-        raise InvalidSessionToken, "Invalid session token. Missing attributes." unless session && session["userId"]
-
-        user = ClerkUser.find_by(clerk_user_id: session["userId"])&.user
-        return user if user
-
-        user = User.find_by(email: session["email"]) || User.find_by(username: session["username"])
-        if user
-          ClerkUser.create!(clerk_user_id: session["userId"], user:)
-          return user
-        end
-
-        raise ActiveRecord::RecordNotFound, "User not found"
-      end
-
-      private
-
-      def verify_token(request:)
-        session_token = request.headers["Authorization"]&.split("Bearer ")&.last
-
-        raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
-
-        begin
-          clerk = Clerk::SDK.new
-          return clerk.verify_token(session_token)
-        rescue StandardError => e
-          raise VerificationError, e.message
-        end
       end
     end
   end

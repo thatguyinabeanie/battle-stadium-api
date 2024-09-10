@@ -25,20 +25,17 @@ export * from "./generated-api-client";
 export const defaultConfig = async (configOverride?: Configuration) => {
   "use server";
 
-  const { sessionId, getToken } = auth();
+  const { getToken } = auth();
+  const sessionToken = await getToken();
 
-  let configParams: ConfigurationParameters = {};
+  const configParams: ConfigurationParameters = {
+    headers: {
+      Authorization: sessionToken ? `Bearer ${sessionToken}` : "Bearer",
+    },
+    ...configOverride,
+  };
 
-  if (sessionId) {
-    configParams = {
-      ...configParams,
-      headers: {
-        Authorization: sessionId ? `Bearer ${await getToken()}` : "Bearer",
-      },
-    };
-  }
-
-  return new Configuration({ ...configParams, ...configOverride });
+  return new Configuration(configParams);
 };
 
 export default function BattleStadiumAPI(configOverride?: Configuration) {

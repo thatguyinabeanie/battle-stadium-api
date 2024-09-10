@@ -13,26 +13,21 @@ module BattleStadium
     config.load_defaults 7.1
 
     config.before_configuration do
-      # puts "Rails.env: #{Rails.env}"
-      # puts 'Loading .env file'
       env_file = ".env"
-      Dotenv.load(env_file) if File.exist?(env_file) && !Rails.env.production?
+      Dotenv.load(env_file) if File.exist?(env_file)
 
       # puts 'Loading .env.postgres file'
       env_postgres_file = "../.env.postgres"
-      Dotenv.load(env_postgres_file) if File.exist?(env_postgres_file) && !Rails.env.production?
+      Dotenv.load(env_postgres_file) if File.exist?(env_postgres_file)
 
       env_development_local = "../.env.development.local"
-      Dotenv.load(env_development_local) if File.exist?(env_development_local) && !Rails.env.production?
+      Dotenv.load(env_development_local) if File.exist?(env_development_local)
 
-      # if Rails.env.test?
-      unless Rails.env.production?
-        require "socket"
-        hostname = Socket.gethostname
+      require "socket"
+      hostname = Socket.gethostname
 
-        ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
-        ENV["DATABASE_URL"] = nil
-      end
+      ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
+      ENV["DATABASE_URL"] = nil
 
       errors = []
 
@@ -46,7 +41,7 @@ module BattleStadium
 
       errors << "Missing AUTH_SECRET environment variable" if ENV.fetch("AUTH_SECRET", nil).nil?
 
-      raise errors.join("\n")       if errors.any?
+      puts errors.join("\n") if errors.any?
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
@@ -67,25 +62,5 @@ module BattleStadium
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-
-    # config.middleware.insert_before 0, Rack::Cors do
-    #   allow do
-    #     origins 'https://your-allowed-domain.com' # Replace with your production domain
-    #     resource '*', headers: :any, methods: %i[get post put patch delete]
-    #   end
-    # end
-    config.session_store :cookie_store, key: "sessions.battlestadium.gg"
-    config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: "sessions.battlestadium.gg"
-
-    config.filter_parameters += %i[password password_confirmation email_address email first_name last_name phone_numbers]
-
-
-    # Clerk.configure do |config|
-    #   config.api_key = ENV['NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY']
-    #   config.base_url = "https://api.clerk.com"
-    #   config.middleware_cache_store = Rails.cache # if omitted: no caching
-    # end
-
   end
 end

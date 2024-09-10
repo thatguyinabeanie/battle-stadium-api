@@ -18,8 +18,6 @@ RUN bash /tmp/bun-install.sh && rm /tmp/bun-install.sh
 ENV BUN_INSTALL "/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
 COPY package.json bun.lockb ./
-
-COPY prisma/schema.prisma prisma/
 RUN bun install
 
 COPY . .

@@ -30,11 +30,6 @@ module Api
       def find_user_by_email_or_username(email, username)
         User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
       end
-
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user
-        @current_user = set_object
-      end
     end
   end
 end
