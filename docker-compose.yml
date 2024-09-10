@@ -89,6 +89,7 @@ services:
     tty: true
     depends_on:
       - postgres
+      - backend-dev
     ports:
       - 8080:10001
     volumes:
