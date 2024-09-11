@@ -51,10 +51,8 @@ namespace :limitless do
           ],
         }
       else
-        org = organizers[organizer['id']]
-        org['tournaments'] <<   tour_details.merge('bs_game_id' => get_game_id(tour_details['game']),
+        organizers[organizer['id']]['tournaments'] << tour_details.merge('bs_game_id' => get_game_id(tour_details['game']),
           'bs_format_id' => get_format_id(tour_details['format'], organizer['id']))
-        org['logo_url'] = organizer['logo'] if organizer['logo_url'].nil? && !organizer['logo'].nil?
       end
     end
 
@@ -69,15 +67,19 @@ namespace :limitless do
         # puts "Done Processing organizer: #{organizer_data['name']} (ID: #{id})"
       end
 
+      if org.logo_url.nil? && !organizer_data['logo_url'].nil?
+        org.logo_url = organizer_data['logo_url']
+        org.save
+      end
+
       puts "Processing Tournaments for organizer: #{organizer_data['name']} (ID: #{id})"
       organizer_data['tournaments'].each do |tournament_data|
         start_at = DateTime.parse(tournament_data['date'])
         name = tournament_data['name']
         organization_id = org.id
-
+        limitless_id = tournament_data['id']
         begin
-          org.tournaments.find_or_create_by!(name: , start_at:, organization_id:) do |tour|
-            tour.limitless_id = tournament_data['id']
+          ::Tournament::Tournament.find_or_create_by!(limitless_id:, name: , start_at:, organization_id:) do |tour|
             tour.game_id= tournament_data['bs_game_id']
             tour.format_id =tournament_data['bs_format_id']
             tour.check_in_start_at = tour.start_at - 1.hour
@@ -97,16 +99,11 @@ namespace :limitless do
             error: e.message
           }
         end
-
       end
     end
 
     if errors.any?
-      puts "Errors occurred during processing:"
-      errors.each do |error|
-        puts "Error type: #{error[:type]}, ID: #{error[:id]}, Error: #{error[:error]}"
-        puts "Data: #{error[:data]}"
-      end
+      puts "Errors occurred while processing tournaments: #{errors.count}"
     end
 
     puts "Import completed. Total tournaments processed: #{tournaments.count}"

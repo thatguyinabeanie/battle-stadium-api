@@ -36,7 +36,7 @@ def create_user(username: nil, first_name: nil, last_name: nil, email: nil, pron
   last_name ||= Faker::Name.last_name
   email || "#{username}@beanie.com"
   pronouns ||= "they/them"
-
+  username ||= Faker::Internet.unique.username
   # Check if user already exists
   User.find_or_create_by!(username:) do |user|
     user.email = "#{user.username}@beanie.gg"

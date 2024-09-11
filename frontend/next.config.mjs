@@ -18,6 +18,6 @@ const nextConfig = async (phase, { defaultConfig }) => {
     experimental: {},
   };
   return nextConfig;
-}
+};
 
 export default nextConfig;
