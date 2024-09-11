@@ -2,6 +2,8 @@
 require 'net/http'
 require 'json'
 require 'dotenv/load'
+require 'retries'
+require 'date'
 
 namespace :limitless do
   desc "Import tournaments and organizers from the Limitless TCG API"
@@ -10,103 +12,121 @@ namespace :limitless do
     Dotenv.load(env_file) if File.exist?(env_file)
 
     access_key = ENV.fetch('LIMITLESS_API_KEY')
-    limit = args[:limit] || 10
+    limit = args[:limit] || 50000
+
     base_url = "https://play.limitlesstcg.com/api"
 
     # Fetch all tournaments
     puts "Fetching tournaments..."
     tournaments = fetch_data("#{base_url}/tournaments?limit=#{limit}&game=VGC", access_key)
     organizers = {}
-    tournament_details = []
 
-    puts "Processing #{tournaments.count} tournaments..."
-    # Fetch details for each tournament and collect organizer information
-    tournaments.each do |tournament|
+    @games = {}
+    @formats = {}
 
-      details = fetch_data("#{base_url}/tournaments/#{tournament['id']}/details", access_key)
-      tournament_details << details
-      organizer = details['organizer']
-      organizers[organizer['id']] = organizer
+    def get_game_id(game_name)
+      @games[game_name] ||= Game.find_or_create_by(name: game_name).id
+      @games[game_name]
     end
 
-    puts "Rails Environment: #{Rails.env}"
+    def get_format_id(format_name, game_id)
+      @formats[format_name] ||= Tournaments::Format.find_or_create_by(name: format_name, game_id: game_id).id
+      @formats[format_name]
+    end
 
-    owners = {}
+    puts "Fetching #{tournaments.count} tournaments..."
+    Parallel.map(tournaments, in_threads: 10) do |tournament|
+      tour_details = fetch_data("#{base_url}/tournaments/#{tournament['id']}/details", access_key)
+      organizer =  tour_details['organizer']
 
-    organizers.each do |id, organizer_data|
-      puts "Processing organizer owner: #{organizer_data['name']} (ID: #{id})"
-      User.find_or_create_by(username: organizer_data['name']) do |u|
-        u.first_name = organizer_data['name']
-        u.last_name = organizer_data['name']
-        u.email = "#{id}@notarealemail.gg"
-        if u.save
-          puts "Successfully saved organizer owner: #{u.username}, email: #{u.email}"
-          owners[id] = u
-        else
-          puts "Failed to save organizer owner: #{u.username} -  email: #{u.email}. Errors: #{u.errors.full_messages.join(', ')}"
-        end
-
+      if organizers[organizer['id']].nil?
+        organizers[organizer['id']] =
+        {
+          'id' => organizer['id'],
+          'name' => organizer['name'],
+          'logo_url' => organizer['logo'],
+          'tournaments' => [tour_details.merge(
+            'bs_game_id' => get_game_id(tour_details['game']),
+            'bs_format_id' => get_format_id(tour_details['format'], organizer['id']))
+          ],
+        }
+      else
+        organizers[organizer['id']]['tournaments'] << tour_details.merge('bs_game_id' => get_game_id(tour_details['game']),
+          'bs_format_id' => get_format_id(tour_details['format'], organizer['id']))
       end
     end
 
-    # Create or update organizers
-    organizers.each do |id, organizer_data|
-      Organization.find_or_initialize_by(id: id).tap do |organizer|
+    errors = []
+    puts "Processing Organizers..."
+    Parallel.map(organizers, in_threads: 10) do |id, organizer_data|
 
-        puts "Processing organizer: #{organizer_data['name']} (ID: #{id})"
-
-        organizer.name = organizer_data['name']
+      puts "Processing organizer: #{organizer_data['name']} (ID: #{id})"
+      org = Organization.find_or_create_by(name: organizer_data['name']).tap do |organizer|
         organizer.logo_url = organizer_data['logo']
-        organizer.owner = User.find_by(username: organizer_data['name'])
+        organizer.hidden = organizer.logo_url.nil?
+        # puts "Done Processing organizer: #{organizer_data['name']} (ID: #{id})"
+      end
 
-        if organizer.save
-          puts "Successfully saved organizer: #{organizer.name}"
-        else
-          puts "Failed to save organizer: #{organizer.name}. Errors: #{organizer.errors.full_messages.join(', ')}"
+      if org.logo_url.nil? && !organizer_data['logo_url'].nil?
+        org.logo_url = organizer_data['logo_url']
+        org.save
+      end
+
+      puts "Processing Tournaments for organizer: #{organizer_data['name']} (ID: #{id})"
+      organizer_data['tournaments'].each do |tournament_data|
+        start_at = DateTime.parse(tournament_data['date'])
+        name = tournament_data['name']
+        organization_id = org.id
+        limitless_id = tournament_data['id']
+        begin
+          ::Tournament::Tournament.find_or_create_by!(limitless_id:, name: , start_at:, organization_id:) do |tour|
+            tour.game_id= tournament_data['bs_game_id']
+            tour.format_id =tournament_data['bs_format_id']
+            tour.check_in_start_at = tour.start_at - 1.hour
+          end
+        rescue ActiveRecord::RecordInvalid => e
+          errors << {
+            type: 'already_processed',
+            id: tournament_data['id'],
+            data: tournament_data,
+            error: e.message
+          }
+        rescue StandardError => e
+          errors << {
+            type: 'shrug',
+            id: tournament_data['id'],
+            data: tournament_data,
+            error: e.message
+          }
         end
       end
     end
 
-
-    # Create or update tournaments
-    tournament_details.each do |tournament_data|
-      Tournaments::Tournament.find_or_initialize_by(id: tournament_data['id']).tap do |tournament|
-
-        tournament.game_id = Game.find_or_create_by(name: tournament_data['game']).id
-        tournament.format_id = Tournaments::Format.find_or_create_by(name: tournament_data['format'], game_id: tournament.game_id).id
-
-        # tournament.format = tournament_data['format']
-        tournament.name = "#{tournament_data['name']} #{tournament_data['id']}"
-        tournament.start_at = tournament_data['date']
-        tournament.check_in_start_at = tournament.start_at - 1.hour
-
-        tournament.organization_id = tournament_data['organizer']['id']
-        # tournament.platform = tournament_data['platform']
-        # tournament.decklists = tournament_data['decklists']
-        # tournament.is_public = tournament_data['isPublic']
-        # tournament.is_online = tournament_data['isOnline']
-        # tournament.phases = tournament_data['phases']
-
-        if tournament.save
-          puts "Successfully saved tournament: #{tournament.name}"
-        else
-          puts "Failed to save tournament: #{tournament.name}. Errors: #{tournament.errors.full_messages.join(', ')}"
-        end
+    if errors.any?
+      puts "Errors occurred while processing tournaments: #{errors.count}"
+      errors.each do |error|
+        puts "Tournament ID: #{errors[:id]} - Error: #{error[:error]}"
+        puts "Tournament ID: #{errors[:id]} - Data: #{error[:data].to_json}"
       end
     end
 
-    puts "Import completed. Total tournaments processed: #{tournament_details.count}"
+    puts "Import completed. Total tournaments processed: #{tournaments.count}"
   end
 
   def fetch_data(url, access_key)
     uri = URI(url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+    http.read_timeout = 10 # Set read timeout to 10 seconds
+    http.open_timeout = 5  # Set open timeout to 5 seconds
 
     request = Net::HTTP::Get.new(uri)
     request['X-Access-Key'] = access_key
 
-    response = http.request(request)
+    response = nil
+    with_retries(max_tries: 3, base_sleep_seconds: 1.0, max_sleep_seconds: 5.0) do
+      response = http.request(request)
+    end
 
     if response.is_a?(Net::HTTPSuccess)
       JSON.parse(response.body)
@@ -115,5 +135,11 @@ namespace :limitless do
       puts "Response body: #{response.body}"
       []
     end
+  rescue Net::OpenTimeout, Net::ReadTimeout => e
+    puts "Error: Timeout while fetching data from API. URL: #{url}, Error: #{e.message}"
+    []
+  rescue StandardError => e
+    puts "Error: An unexpected error occurred. URL: #{url}, Error: #{e.message}"
+    []
   end
 end

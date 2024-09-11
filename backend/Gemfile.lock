@@ -270,6 +270,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.10)
       io-console (~> 0.5)
+    retries (0.0.5)
     rexml (3.3.7)
     rspec-core (3.13.1)
       rspec-support (~> 3.13.0)
@@ -485,6 +486,7 @@ DEPENDENCIES
   listen (~> 3.3)
   net (~> 0.3.3)
   openssl (~> 3.2)
+  parallel (~> 1.26)
   pg (~> 1.5.7)
   puma (~> 6.0)
   pundit
@@ -495,6 +497,7 @@ DEPENDENCIES
   rails-erd
   rb-readline
   redis (~> 5)
+  retries
   rspec-json_expectations
   rspec-rails
   rspec_junit_formatter (~> 0)

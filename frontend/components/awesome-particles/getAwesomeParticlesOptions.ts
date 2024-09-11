@@ -21,17 +21,17 @@ export default async function getAwesomeParticlesOptions(options?: Partial<ISour
           mode: "push",
         },
         onHover: {
-          enable: false,
+          enable: true,
           mode: "repulse",
         },
       },
       modes: {
         push: {
-          quantity: 4,
+          quantity: 20,
         },
         repulse: {
-          distance: 200,
-          duration: 0.4,
+          distance: 100,
+          quantity: 4,
         },
       },
     },
@@ -53,14 +53,14 @@ export default async function getAwesomeParticlesOptions(options?: Partial<ISour
           default: OutMode.out,
         },
         random: false,
-        speed: 2,
+        speed: 1.5,
         straight: false,
       },
       number: {
         density: {
           enable: true,
         },
-        value: 80,
+        value: 100,
       },
       opacity: {
         value: 0.3,

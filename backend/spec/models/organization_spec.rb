@@ -18,7 +18,7 @@ RSpec.describe Organization do
     let(:org_owner) { create(:user) }
     let(:organization) { create(:organization, owner: org_owner) }
 
-    it { is_expected.to belong_to(:owner) }
+    it { is_expected.to belong_to(:owner).class_name("User").optional }
     it { is_expected.to have_many(:organization_staff_members).class_name("OrganizationStaffMember").dependent(:destroy) }
     it { is_expected.to have_many(:staff).through(:organization_staff_members).source(:user) }
     it { is_expected.to have_many(:tournaments).class_name("Tournaments::Tournament").dependent(:destroy) }

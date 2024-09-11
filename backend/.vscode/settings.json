@@ -58,6 +58,16 @@
       "server": "backend",
       "port": 5432,
       "driver": "PostgreSQL",
+      "name": "backend",
+      "group": "fuecoco-db-dev",
+      "database": "fuecoco-db-dev",
+      "username": "postgres"
+    },
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
       "name": "localhost",
       "group": "fuecoco-db-dev",
       "database": "fuecoco-db-dev",

@@ -8,13 +8,19 @@ module Api
       class_attribute :index_serializer_klass
       class_attribute :detail_serializer_klass
       class_attribute :update_params_except
+      class_attribute :filter_params
 
       before_action :set_object, only: %i[show update destroy]
 
       # GET /api/v1/:klass
       # GET /api/v1/:klass.json
       def index
-        @objects = klass.all
+        @objects = if filter_params
+                     klass.where(filter_params)
+                    else
+                      klass.all
+                    end
+
         authorize klass, :index?
         render json: @objects, each_serializer: index_serializer, status: :ok
       end
