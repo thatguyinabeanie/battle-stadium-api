@@ -1,20 +1,7 @@
-"use client";
+import { SignUp } from "@clerk/nextjs";
 
-import React from "react";
-import { SignUp, useUser } from "@clerk/nextjs";
-
-export default function Component() {
-  const { user } = useUser();
-
-  if (user) {
-    return <div>You are signed in.. </div>;
-  }
-
+export default function SignUpPage() {
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-small">
-        <SignUp />
-      </div>
-    </div>
-  );
+    <SignUp path="/sign-up" routing="path" />
+  )
 }
