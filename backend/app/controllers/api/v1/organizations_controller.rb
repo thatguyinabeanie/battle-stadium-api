@@ -8,6 +8,7 @@ module Api
       self.klass = ::Organization
       self.serializer_klass = Serializers::Organization
       self.detail_serializer_klass = Serializers::Organization
+      self.filter_params = { hidden: false }
 
       before_action :set_organization, only: %i[staff post_tournaments patch_tournament list_tournaments]
 

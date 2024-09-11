@@ -979,6 +979,7 @@ components:
       properties:
         owner:
           "$ref": "#/components/schemas/User"
+          nullable: true
         description:
           type: string
           nullable: true
@@ -1003,6 +1004,7 @@ components:
       properties:
         owner:
           "$ref": "#/components/schemas/User"
+          nullable: true
         description:
           type: string
           nullable: true

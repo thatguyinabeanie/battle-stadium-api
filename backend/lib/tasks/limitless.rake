@@ -10,7 +10,8 @@ namespace :limitless do
     Dotenv.load(env_file) if File.exist?(env_file)
 
     access_key = ENV.fetch('LIMITLESS_API_KEY')
-    limit = args[:limit] || 10
+    limit = args[:limit] || 100000
+
     base_url = "https://play.limitlesstcg.com/api"
 
     # Fetch all tournaments
@@ -28,26 +29,6 @@ namespace :limitless do
       organizers[organizer['id']] = organizer
     end
 
-    puts "Rails Environment: #{Rails.env}"
-
-    owners = {}
-
-    organizers.each do |id, organizer_data|
-      puts "Processing organizer owner: #{organizer_data['name']} (ID: #{id})"
-      User.find_or_create_by(username: organizer_data['name']) do |u|
-        u.first_name = organizer_data['name']
-        u.last_name = organizer_data['name']
-        u.email = "#{id}@notarealemail.gg"
-        if u.save
-          puts "Successfully saved organizer owner: #{u.username}, email: #{u.email}"
-          owners[id] = u
-        else
-          puts "Failed to save organizer owner: #{u.username} -  email: #{u.email}. Errors: #{u.errors.full_messages.join(', ')}"
-        end
-
-      end
-    end
-
     # Create or update organizers
     organizers.each do |id, organizer_data|
       Organization.find_or_initialize_by(id: id).tap do |organizer|
@@ -56,7 +37,7 @@ namespace :limitless do
 
         organizer.name = organizer_data['name']
         organizer.logo_url = organizer_data['logo']
-        organizer.owner = User.find_by(username: organizer_data['name'])
+        organizer.hidden = organizer.logo_url.nil?
 
         if organizer.save
           puts "Successfully saved organizer: #{organizer.name}"
@@ -65,7 +46,6 @@ namespace :limitless do
         end
       end
     end
-
 
     # Create or update tournaments
     tournament_details.each do |tournament_data|

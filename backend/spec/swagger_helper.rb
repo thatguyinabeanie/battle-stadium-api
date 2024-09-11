@@ -158,7 +158,7 @@ ORGANIZATION_SCHEMA = {
   type: :object,
   title: "Organization",
   properties: {
-    owner: { "$ref" => "#/components/schemas/User" },
+    owner: { "$ref" => "#/components/schemas/User" , :nullable => true},
     description: { type: :string, nullable: true },
     logo_url: { type: :string, nullable: true, format: "uri" }
   }.merge(ID_NAME_PROPERTIES),

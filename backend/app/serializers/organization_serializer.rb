@@ -14,7 +14,7 @@ module Serializers
       include SerializerMixin::Name
 
       def owner
-        @owner ||= owner_serializer.new(object.owner).as_json
+        @owner ||= object.owner ? owner_serializer.new(object.owner).as_json : nil
       end
     end
   end
