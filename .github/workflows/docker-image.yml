@@ -39,11 +39,11 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "{{defaultContext}}:backend"
-          file: Dockerfile.dev
-          target: development
+          file: Dockerfile.prod
+          target: pre-production
           platforms: linux/amd64
           push: true
-          cache-from: type=registry,ref=${{ github.repository }}:dev-latest
+          cache-from: type=registry,ref=${{ github.repository }}:prod-cache-latest,modes=max
           tags: |
             ${{ github.repository }}:${{ github.head_ref}}
             ghcr.io/${{ github.repository }}:${{ github.head_ref}}

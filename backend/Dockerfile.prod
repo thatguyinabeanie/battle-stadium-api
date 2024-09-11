@@ -60,7 +60,7 @@ USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # FROM thatguyinabeanie/battle-stadium:latest AS production
-FROM thatguyinabeanie/battle-stadium:latest AS production
+FROM thatguyinabeanie/battle-stadium:1 AS production
 USER rails:rails
 WORKDIR /rails
 COPY app ./app
