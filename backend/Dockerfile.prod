@@ -76,4 +76,6 @@ COPY vendor ./vendor
 COPY Rakefile ./Rakefile
 COPY config.ru ./config.ru
 
+COPY Gemfile Gemfile.lock ./
+RUN bundle check || bundle install
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
