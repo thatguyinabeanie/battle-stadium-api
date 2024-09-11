@@ -59,6 +59,7 @@ USER rails:rails
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
+
 # FROM thatguyinabeanie/battle-stadium:latest AS production
 FROM thatguyinabeanie/battle-stadium:latest AS production
 USER rails:rails
