@@ -31,7 +31,7 @@ export default async function getAwesomeParticlesOptions(options?: Partial<ISour
         },
         repulse: {
           distance: 100,
-          duration: 0.4,
+          quantity: 4,
         },
       },
     },

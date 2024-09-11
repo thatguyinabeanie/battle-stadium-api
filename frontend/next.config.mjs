@@ -1,4 +1,3 @@
-// @ts-check
 /** @type {import('next').NextConfig} */
 import { join } from "path";
 
@@ -7,10 +6,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: join(process.cwd(), ".env") });
 dotenv.config({ path: join(process.cwd(), ".env.local") });
 
-export default async function nextConfig(phase, { defaultConfig }) {
-  /**
-   * @type {import('next').NextConfig}
-   */
+const nextConfig = async (phase, { defaultConfig }) => {
   const nextConfig = {
     ...defaultConfig,
     env: {
@@ -23,3 +19,5 @@ export default async function nextConfig(phase, { defaultConfig }) {
   };
   return nextConfig;
 }
+
+export default nextConfig;
