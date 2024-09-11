@@ -1,4 +1,4 @@
-name: Dev Docker Image
+name: Production Rails API Docker Image
 
 on:
   push:
