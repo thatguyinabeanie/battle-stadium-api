@@ -1,13 +1,11 @@
 import { useMemo, useRef } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type noop = (this: any, ...args: any[]) => any;
 
-type PickFunction<T extends noop> = (
-  this: ThisParameterType<T>,
-  ...args: Parameters<T>
-) => ReturnType<T>;
+type PickFunction<T extends noop> = (this: ThisParameterType<T>, ...args: Parameters<T>) => ReturnType<T>;
 
-export function useMemoizedCallback<T extends noop> (fn: T) {
+export function useMemoizedCallback<T extends noop>(fn: T) {
   const fnRef = useRef<T>(fn);
 
   // why not write `fnRef.current = fn`?
