@@ -52,7 +52,7 @@ export default async function getAwesomeParticlesOptions(options?: Partial<ISour
         outModes: {
           default: OutMode.out,
         },
-        random: false,
+        random: true,
         speed: 1.5,
         straight: false,
       },
