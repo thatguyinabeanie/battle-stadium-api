@@ -104,6 +104,10 @@ namespace :limitless do
 
     if errors.any?
       puts "Errors occurred while processing tournaments: #{errors.count}"
+      errors.each do |error|
+        puts "Tournament ID: #{errors[:id]} - Error: #{error[:error]}"
+        puts "Tournament ID: #{errors[:id]} - Data: #{error[:data].to_json}"
+      end
     end
 
     puts "Import completed. Total tournaments processed: #{tournaments.count}"
