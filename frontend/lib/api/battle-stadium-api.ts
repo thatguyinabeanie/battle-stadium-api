@@ -1,4 +1,3 @@
-
 import {
   Configuration,
   Game,
@@ -16,14 +15,14 @@ import {
 } from "./generated-api-client";
 import { defaultConfig } from "./config";
 
-export function BattleStadiumAPI (configOverride?: Configuration) {
+export function BattleStadiumAPI(configOverride?: Configuration) {
   return {
     Organizations: Organizations(configOverride),
     Users: Users(configOverride),
     Games: Games(configOverride),
     Tournaments: Tournaments(configOverride),
   };
-};
+}
 
 export type BattleStadiumAPIClient = ReturnType<typeof BattleStadiumAPI>;
 

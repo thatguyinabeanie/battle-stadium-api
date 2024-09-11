@@ -1,8 +1,6 @@
 "use client";
-import { usePathname } from "next/navigation";
 import {
   Listbox,
-  ListboxSection,
   ScrollShadow,
   Spacer,
   type ListboxProps,
@@ -64,7 +62,7 @@ export default function Sidebar(props: SidebarProps) {
     iconClassName,
     sectionClassesProp,
     itemClassesProp,
-    defaultSelectedKey
+    defaultSelectedKey,
   });
 
   const isCompact = useMediaQuery("(max-width: 768px)");
@@ -109,7 +107,7 @@ export default function Sidebar(props: SidebarProps) {
           }}
           {...rest}
         >
-          { renderListBoxItems}
+          {renderListBoxItems}
         </Listbox>
       </ScrollShadow>
 

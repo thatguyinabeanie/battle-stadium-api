@@ -6,10 +6,10 @@ import { BattleStadiumAPI } from "@/lib/api/battle-stadium-api";
 export interface OrganizationDetailPageProps {
   params: {
     organizationId: number;
-  }
+  };
 }
 
-export default async function OrganizationDetailPage({ params: {organizationId} }: OrganizationDetailPageProps) {
+export default async function OrganizationDetailPage({ params: { organizationId } }: OrganizationDetailPageProps) {
   const organization = await BattleStadiumAPI().Organizations.get(organizationId);
   const tournaments = await BattleStadiumAPI().Organizations.Tournaments.list(organizationId);
 
@@ -19,5 +19,4 @@ export default async function OrganizationDetailPage({ params: {organizationId} 
       <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
     </>
   );
-};
-
+}

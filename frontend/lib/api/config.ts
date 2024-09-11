@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
+
 import { Configuration, ConfigurationParameters } from "./generated-api-client";
 
 export const CACHE_TIMEOUT: number = 300;
@@ -20,4 +21,3 @@ export const defaultConfig = async (configOverride?: Configuration) => {
 
   return new Configuration(configParams);
 };
-

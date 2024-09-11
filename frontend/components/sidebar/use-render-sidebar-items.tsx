@@ -1,6 +1,14 @@
 "use client";
 
-import { ListboxItem, Tooltip, Accordion, AccordionItem, Listbox, SlotsToClasses, ListboxSection } from "@nextui-org/react";
+import {
+  ListboxItem,
+  Tooltip,
+  Accordion,
+  AccordionItem,
+  Listbox,
+  SlotsToClasses,
+  ListboxSection,
+} from "@nextui-org/react";
 import React from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { usePathname } from "next/navigation";
@@ -32,7 +40,7 @@ export default function useRenderSideBarItems({
   iconClassName,
   itemClassesProp,
   sectionClassesProp,
-  defaultSelectedKey
+  defaultSelectedKey,
 }: RenderSideBarItemsProps) {
   const items = useSideBarItems();
   const isCompact = useMediaQuery("(max-width: 768px)");
@@ -139,11 +147,10 @@ export default function useRenderSideBarItems({
   const renderItem = useRenderItem(isCompact, iconClassName, hideEndContent, renderStartContent, renderNestItem);
   const renderListBoxItems = useRenderListBoxItems(renderNestItem, renderItem, isCompact, sectionClasses);
 
-
-  return {  items,  itemClasses, renderListBoxItems, selected, setSelected };
+  return { items, itemClasses, renderListBoxItems, selected, setSelected };
 }
 
-function useSidebarClasses (sectionClassesProp: SectionClassesType, itemClassesProp: ItemClassesType) {
+function useSidebarClasses(sectionClassesProp: SectionClassesType, itemClassesProp: ItemClassesType) {
   const isCompact = useMediaQuery("(max-width: 768px)");
 
   const sectionClasses = {
@@ -169,7 +176,7 @@ function useSidebarClasses (sectionClassesProp: SectionClassesType, itemClassesP
   return { sectionClasses, itemClasses };
 }
 
-function useSetSelectedSideBarItem ({ defaultSelectedKey }: SidebarProps) {
+function useSetSelectedSideBarItem({ defaultSelectedKey }: SidebarProps) {
   const currentPath = usePathname()?.split("/")?.[1];
   const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey);
 
@@ -181,7 +188,6 @@ function useSetSelectedSideBarItem ({ defaultSelectedKey }: SidebarProps) {
   return { selected, setSelected };
 }
 
-
 function useRenderItem(
   isCompact: boolean,
   iconClassName: string | undefined,
@@ -189,7 +195,7 @@ function useRenderItem(
   renderStartContent: (item: SidebarItem) => React.ReactNode,
   renderNestItem: (item: SidebarItem) => React.JSX.Element,
 ) {
-  return (item: SidebarItem) => {
+  return function RenderItem(item: Readonly<SidebarItem>) {
     const isNestType = item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest;
 
     if (isNestType) {
@@ -199,75 +205,73 @@ function useRenderItem(
     return (
       <ListboxItem
         aria-label="Sidebar ListboxItem"
-        { ...item }
-        key={ item.key }
-        endContent={ isCompact || hideEndContent ? null : (item.endContent ?? null) }
-        startContent={ renderStartContent(item) }
-        textValue={ item.title }
-        title={ isCompact ? null : item.title }
+        {...item}
+        key={item.key}
+        endContent={isCompact || hideEndContent ? null : (item.endContent ?? null)}
+        startContent={renderStartContent(item)}
+        textValue={item.title}
+        title={isCompact ? null : item.title}
       >
-        { isCompact ? (
-          <Tooltip content={ item.title } placement="right">
+        {isCompact ? (
+          <Tooltip content={item.title} placement="right">
             <div className="flex w-full items-center justify-center">
-              { item.icon ? (
+              {item.icon ? (
                 <Icon
-                  className={ cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName) }
-                  icon={ item.icon }
-                  width={ 24 }
+                  className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
+                  icon={item.icon}
+                  width={24}
                 />
               ) : (
                 (item.startContent ?? null)
-              ) }
+              )}
             </div>
           </Tooltip>
-        ) : null }
+        ) : null}
       </ListboxItem>
     );
-  }
+  };
 }
 
-function useRenderListBoxItems (
+function useRenderListBoxItems(
   renderNestItem: (item: SidebarItem) => React.JSX.Element,
   renderItem: (item: SidebarItem) => React.JSX.Element,
   isCompact: boolean,
-  sectionClasses: SectionClassesType
+  sectionClasses: SectionClassesType,
 ) {
-  return (item: SidebarItem) => {
+  return function RenderListBoxItems(item: SidebarItem) {
     if (item.items && item.items?.length > 0) {
       if (item?.type === SidebarItemType.Nest) {
         return renderNestItem(item);
-      }
-      else {
+      } else {
         return (
-          <ListboxSection key={ item.key } classNames={ sectionClasses } showDivider={ isCompact } title={ item.title }>
-            { item.items.map(renderItem) }
+          <ListboxSection key={item.key} classNames={sectionClasses} showDivider={isCompact} title={item.title}>
+            {item.items.map(renderItem)}
           </ListboxSection>
         );
       }
     }
+
     return renderItem(item);
-  }
-};
+  };
+}
 
-
-function useRenderStartContent (isCompact: boolean, iconClassName: string | undefined) {
+function useRenderStartContent(isCompact: boolean, iconClassName: string | undefined) {
   const currentPath = usePathname()?.split("/")?.[1];
-  return (item: SidebarItem) => {
+
+  return function RenderStartContent(item: SidebarItem) {
     if (isCompact) {
       return null;
     }
     const icon = (currentPath === item.key ? item.iconSelected : item.icon) ?? item.icon;
-    return (
-      item.icon ? (
-        <Icon
-          className={ cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName) }
-          icon={ icon as string | IconifyIcon }
-          width={ 24 }
-        />
-      ) : (
-        (item.startContent ?? null)
-      )
+
+    return item.icon ? (
+      <Icon
+        className={cn("text-default-500 group-data-[selected=true]:text-foreground", iconClassName)}
+        icon={icon as string | IconifyIcon}
+        width={24}
+      />
+    ) : (
+      (item.startContent ?? null)
     );
   };
-};
-
+}

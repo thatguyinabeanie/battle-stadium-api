@@ -32,9 +32,9 @@ export const viewport: Viewport = {
   ],
 };
 
-
 export default async function RootLayout({ children }: ChildrenProps & AppProps) {
   const AwesomeParticles = dynamic(() => import("@/components/awesome-particles/awesome-particles"));
+
   return (
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">
