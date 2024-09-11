@@ -22,7 +22,6 @@ namespace :limitless do
     puts "Processing #{tournaments.count} tournaments..."
     # Fetch details for each tournament and collect organizer information
     tournaments.each do |tournament|
-
       details = fetch_data("#{base_url}/tournaments/#{tournament['id']}/details", access_key)
       tournament_details << details
       organizer = details['organizer']
