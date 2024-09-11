@@ -16,6 +16,7 @@ gem "jwt", "~> 2.8"
 gem "kredis", "~> 1"
 gem "net", "~> 0.3.3"
 gem "openssl", "~> 3.2"
+gem "parallel", "~> 1.26"
 gem "pg", "~> 1.5.7"
 gem "puma", "~> 6.0"
 gem "pundit"
@@ -95,5 +96,3 @@ group :development, :test, :rubocop do
   gem "rubocop-shopify"
   gem "rubocop-thread_safety"
 end
-
-gem "parallel", "~> 1.26"
