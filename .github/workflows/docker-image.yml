@@ -43,8 +43,7 @@ jobs:
           target: pre-production
           platforms: linux/amd64
           push: true
-          cache-to: type=registry,ref=${{ github.repository }}:dev-cache-latest
-          cache-from: type=registry,ref=${{ github.repository }}:dev-cache-latest,modes=max
+          cache-from: type=registry,ref=${{ github.repository }}:prod-cache-latest,modes=max
           tags: |
             ${{ github.repository }}:${{ github.head_ref}}
             ghcr.io/${{ github.repository }}:${{ github.head_ref}}
