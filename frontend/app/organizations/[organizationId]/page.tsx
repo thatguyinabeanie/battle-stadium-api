@@ -1,11 +1,17 @@
 // organizations/[organizationId]/page.tsx
 import TournamentsTable from "@/app/tournaments/TournamentsTable";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
-import { BattleStadiumAPI } from "@/lib/api";
+import { BattleStadiumAPI } from "@/lib/api/battle-stadium-api";
 
-const OrganizationDetailsPage = async ({ params }: { params: { organizationId: number } }) => {
-  const organization = await BattleStadiumAPI().Organizations.get(params.organizationId);
-  const tournaments = await BattleStadiumAPI().Organizations.Tournaments.list(params.organizationId);
+export interface OrganizationDetailPageProps {
+  params: {
+    organizationId: number;
+  };
+}
+
+export default async function OrganizationDetailPage({ params: { organizationId } }: OrganizationDetailPageProps) {
+  const organization = await BattleStadiumAPI().Organizations.get(organizationId);
+  const tournaments = await BattleStadiumAPI().Organizations.Tournaments.list(organizationId);
 
   return (
     <>
@@ -13,6 +19,4 @@ const OrganizationDetailsPage = async ({ params }: { params: { organizationId: n
       <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
     </>
   );
-};
-
-export default OrganizationDetailsPage;
+}

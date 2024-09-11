@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import dynamic from "next/dynamic";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -9,9 +10,9 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
+import getAwesomeParticlesOptions from "@/components/awesome-particles/getAwesomeParticlesOptions";
 
 import Providers from "./providers";
-import AwesomeParticles from "./particles";
 
 export const metadata: Metadata = {
   title: {
@@ -31,14 +32,16 @@ export const viewport: Viewport = {
   ],
 };
 
-async function RootLayout({ children }: ChildrenProps & AppProps) {
+export default async function RootLayout({ children }: ChildrenProps & AppProps) {
+  const AwesomeParticles = dynamic(() => import("@/components/awesome-particles/awesome-particles"));
+
   return (
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">
         <head />
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
           <Providers>
-            <AwesomeParticles />
+            {process.env.ENABLE_PARTICLES && <AwesomeParticles options={await getAwesomeParticlesOptions()} />}
             <main className="flex h-full w-full z-10">
               {children}
               <Analytics />
@@ -51,5 +54,3 @@ async function RootLayout({ children }: ChildrenProps & AppProps) {
     </ClerkProvider>
   );
 }
-
-export default RootLayout;

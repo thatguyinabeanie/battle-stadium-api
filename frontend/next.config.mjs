@@ -10,6 +10,7 @@ const nextConfig = {
   env: {
     CLERK_JWT_KEY: process.env.CLERK_JWT_KEY,
     MEASUREMENT_ID: process.env.MEASUREMENT_ID,
+    ENABLE_PARTICLES: process.env.ENABLE_PARTICLES === "true",
   },
   reactStrictMode: true,
   experimental: {},

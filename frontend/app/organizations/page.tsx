@@ -4,7 +4,11 @@ import { cn } from "@/lib/utils";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
 import BattleStadiumAPI, { OrganizationDetails } from "@/lib/api";
 
-const OrganizationsPage = async () => {
+export interface OrganizationsPageProps {
+  orgs: OrganizationDetails[];
+}
+
+export default async function OrganizationsPage() {
   const orgs = await BattleStadiumAPI().Organizations.list();
 
   return (
@@ -23,6 +27,4 @@ const OrganizationsPage = async () => {
       ))}
     </div>
   );
-};
-
-export default OrganizationsPage;
+}

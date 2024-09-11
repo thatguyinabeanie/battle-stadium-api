@@ -2,7 +2,7 @@
 import { title, subtitle } from "@/components/primitives";
 export default function NextJSHome() {
   return (
-    <div className="inline-block max-w-lg text-center justify-center">
+    <div className="inline-block max-w-lg text-center justify-center m-20">
       <h1 className={title({ color: "violet", size: "lg" })}>battlestadium.gg&nbsp;</h1>
 
       <br />

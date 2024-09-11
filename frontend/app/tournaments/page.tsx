@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import React from "react";
 
-import BattleStadiumAPI from "@/lib/api/battle-stadium-api";
+import BattleStadiumAPI from "@/lib/api";
 
 import TournamentsTable from "./TournamentsTable";
 

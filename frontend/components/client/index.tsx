@@ -20,8 +20,6 @@ import {
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
-export * from "framer-motion";
-
 export {
   Chip,
   Avatar,
