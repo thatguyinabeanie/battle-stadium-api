@@ -40,14 +40,16 @@ namespace :limitless do
       organizer =  tour_details['organizer']
 
       if organizers[organizer['id']].nil?
+        game_id =  get_game_id(tour_details['game'])
+
         organizers[organizer['id']] =
         {
           'id' => organizer['id'],
           'name' => organizer['name'],
           'logo_url' => organizer['logo'],
           'tournaments' => [tour_details.merge(
-            'bs_game_id' => get_game_id(tour_details['game']),
-            'bs_format_id' => get_format_id(tour_details['format'], organizer['id']))
+            'bs_game_id' => game_id,
+            'bs_format_id' => get_format_id(tour_details['format'], game_id))
           ],
         }
       else
@@ -79,7 +81,7 @@ namespace :limitless do
         organization_id = org.id
         limitless_id = tournament_data['id']
         begin
-          ::Tournament::Tournament.find_or_create_by!(limitless_id:, name: , start_at:, organization_id:) do |tour|
+          ::Tournaments::Tournament.find_or_create_by!(limitless_id:, name: , start_at:, organization_id:) do |tour|
             tour.game_id= tournament_data['bs_game_id']
             tour.format_id =tournament_data['bs_format_id']
             tour.check_in_start_at = tour.start_at - 1.hour
@@ -105,8 +107,8 @@ namespace :limitless do
     if errors.any?
       puts "Errors occurred while processing tournaments: #{errors.count}"
       errors.each do |error|
-        puts "Tournament ID: #{errors[:id]} - Error: #{error[:error]}"
-        puts "Tournament ID: #{errors[:id]} - Data: #{error[:data].to_json}"
+        puts "Tournament ID: #{error[:id]} - Error: #{error[:error]}"
+        puts "Tournament ID: #{error[:id]} - Data: #{error[:data].to_json}"
       end
     end
 
