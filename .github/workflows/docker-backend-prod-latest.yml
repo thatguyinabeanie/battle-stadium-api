@@ -64,12 +64,12 @@ jobs:
           cache-from: type=registry,ref=thatguyinabeanie/battle-stadium:prod-cache-latest
           cache-to: type=registry,ref=thatguyinabeanie/battle-stadium:prod-cache-latest,mode=max
           tags: |
-            thatguyinabeanie/battle-stadium:dev-latest
-            thatguyinabeanie/battle-stadium:dev-${{env.MAJOR}}
-            thatguyinabeanie/battle-stadium:dev-${{env.MINOR}}
-            thatguyinabeanie/battle-stadium:dev-${{env.PATCH}}
-            ghcr.io/thatguyinabeanie/battle-stadium:dev-latest
-            ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.MAJOR}}
-            ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.MINOR}}
-            ghcr.io/thatguyinabeanie/battle-stadium:dev-${{env.PATCH}}
+            thatguyinabeanie/battle-stadium:latest
+            thatguyinabeanie/battle-stadium:${{env.MAJOR}}
+            thatguyinabeanie/battle-stadium:${{env.MINOR}}
+            thatguyinabeanie/battle-stadium:${{env.PATCH}}
+            ghcr.io/thatguyinabeanie/battle-stadium:latest
+            ghcr.io/thatguyinabeanie/battle-stadium:${{env.MAJOR}}
+            ghcr.io/thatguyinabeanie/battle-stadium:${{env.MINOR}}
+            ghcr.io/thatguyinabeanie/battle-stadium:${{env.PATCH}}
 
