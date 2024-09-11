@@ -48,7 +48,6 @@ export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
 
 export default function Sidebar(props: SidebarProps) {
   const {
-    defaultSelectedKey,
     onSelect,
     hideEndContent,
     sectionClasses: sectionClassesProp = {},
@@ -56,25 +55,19 @@ export default function Sidebar(props: SidebarProps) {
     iconClassName,
     classNames,
     className,
+    defaultSelectedKey,
     ...rest
   } = props;
 
-  const currentPath = usePathname()?.split("/")?.[1];
-  const [selected, setSelected] = React.useState<React.Key>(currentPath ?? defaultSelectedKey);
-
-  const { renderItem, renderNestItem, items, itemClasses, sectionClasses } = useRenderSideBarItems({
+  const { items, itemClasses, renderListBoxItems, selected, setSelected } = useRenderSideBarItems({
     hideEndContent,
     iconClassName,
     sectionClassesProp,
     itemClassesProp,
+    defaultSelectedKey
   });
 
   const isCompact = useMediaQuery("(max-width: 768px)");
-
-  React.useEffect(() => {
-    // Ensure the selected state is consistent on the client side
-    setSelected(currentPath ?? defaultSelectedKey);
-  }, [currentPath, defaultSelectedKey]);
 
   return (
     <>
@@ -116,17 +109,7 @@ export default function Sidebar(props: SidebarProps) {
           }}
           {...rest}
         >
-          {(item) => {
-            return item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest ? (
-              renderNestItem(item)
-            ) : item.items && item.items?.length > 0 ? (
-              <ListboxSection key={item.key} classNames={sectionClasses} showDivider={isCompact} title={item.title}>
-                {item.items.map(renderItem)}
-              </ListboxSection>
-            ) : (
-              renderItem(item)
-            );
-          }}
+          { renderListBoxItems}
         </Listbox>
       </ScrollShadow>
 
