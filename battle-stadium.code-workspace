@@ -22,6 +22,18 @@
     "files.exclude": {
       "rails-api": true,
       "nextjs": true
-    }
+    },
+    "sqltools.connections": [
+      {
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 5432,
+        "driver": "PostgreSQL",
+        "name": "fuecoco-db-dev",
+        "group": "fuecoco-db-dev",
+        "database": "fuecoco-db-dev",
+        "username": "postgres"
+      }
+    ]
   }
 }

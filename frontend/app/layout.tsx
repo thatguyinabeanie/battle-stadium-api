@@ -41,7 +41,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <head />
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
           <Providers>
-            {process.env.ENABLE_PARTICLES && <AwesomeParticles options={await getAwesomeParticlesOptions()} />}
+            <AwesomeParticles options={await getAwesomeParticlesOptions()} />
             <main className="flex h-full w-full z-10">
               {children}
               <Analytics />

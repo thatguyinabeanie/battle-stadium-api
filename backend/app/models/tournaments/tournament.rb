@@ -24,6 +24,7 @@ module Tournaments
 
     has_many :players, class_name: "Tournaments::Player", dependent: :destroy_async
     validates :player_cap, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
+    validate :unique_limitless_id
 
     before_validation :set_defaults
     before_save :ready_to_start?, if: -> { saved_change_to_started_at?(from: nil) }
@@ -95,6 +96,12 @@ module Tournaments
       self.registration_start_at ||= start_at - 1.week
       self.registration_end_at ||= (start_at if late_registration)
       self.check_in_start_at ||= start_at - 1.hour
+    end
+
+    def unique_limitless_id
+      return if limitless_id.nil?
+
+      errors.add(:limitless_id, "has already been taken") if self.class.where(limitless_id:).where.not(id:).exists?
     end
   end
 end

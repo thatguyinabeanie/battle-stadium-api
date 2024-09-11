@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { AvatarProps } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";

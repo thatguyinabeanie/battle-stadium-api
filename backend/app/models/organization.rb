@@ -9,9 +9,15 @@ class Organization < ApplicationRecord
   has_many :staff, through: :organization_staff_members, source: :user
 
   validates :name, presence: true, uniqueness: true
-  validates :owner_id, uniqueness: true
+  validate :unique_owner_id
 
   def create_tournament!(params)
     tournaments.create!(params)
+  end
+
+  def unique_owner_id
+    return if owner_id.nil?
+
+    errors.add(:owner_id, "has already been taken") if Organization.where(owner_id:).where.not(id:).exists?
   end
 end

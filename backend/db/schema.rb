@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_11_031503) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_11_145656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -123,7 +123,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_11_031503) do
     t.boolean "partner", default: false, null: false
     t.boolean "hidden", default: false, null: false
     t.index ["name"], name: "index_organizations_on_name", unique: true
-    t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true
+    t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true, where: "(owner_id IS NOT NULL)"
   end
 
   create_table "phase_players", force: :cascade do |t|
@@ -240,8 +240,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_11_031503) do
     t.boolean "teamlists_required", default: true, null: false
     t.boolean "open_team_sheets", default: true, null: false
     t.datetime "end_at"
+    t.bigint "limitless_id"
     t.index ["format_id"], name: "index_tournaments_on_format_id"
     t.index ["game_id"], name: "index_tournaments_on_game_id"
+    t.index ["limitless_id"], name: "index_tournaments_on_limitless_id", unique: true, where: "(limitless_id IS NOT NULL)"
     t.index ["name", "organization_id"], name: "index_tournaments_on_name_and_organization_id", unique: true
     t.index ["organization_id", "name", "start_at"], name: "index_tournaments_on_org_id_name_start_date", unique: true
     t.index ["organization_id"], name: "index_tournaments_on_organization_id"
