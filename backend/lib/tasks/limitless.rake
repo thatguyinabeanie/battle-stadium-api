@@ -120,7 +120,6 @@ namespace :limitless do
     http.read_timeout = 10 # Set read timeout to 10 seconds
     http.open_timeout = 5  # Set open timeout to 5 seconds
 
-
     request = Net::HTTP::Get.new(uri)
     request['X-Access-Key'] = access_key
 
@@ -128,7 +127,6 @@ namespace :limitless do
     with_retries(max_tries: 3, base_sleep_seconds: 1.0, max_sleep_seconds: 5.0) do
       response = http.request(request)
     end
-
 
     if response.is_a?(Net::HTTPSuccess)
       JSON.parse(response.body)
