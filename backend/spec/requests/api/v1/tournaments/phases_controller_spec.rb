@@ -17,7 +17,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
 
   let(:tournament_id) { tournament.id }
 
-  path("/api/v1/tournaments/{tournament_id}/phases") do
+  path("/tournaments/{tournament_id}/phases") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the tournament", required: true
 
     get("List Tournament Phases") do
@@ -91,7 +91,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
     end
   end
 
-  path("/api/v1/tournaments/{tournament_id}/phases/{id}") do
+  path("/tournaments/{tournament_id}/phases/{id}") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the tournament", required: true
     parameter name: :id, in: :path, type: :integer, required: true, description: "ID of the Phase"
 

@@ -2,7 +2,7 @@ require "swagger_helper"
 
 TOURNAMENT_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/TournamentDetails".freeze
 RSpec.describe Api::V1::TournamentsController do
-  path("/api/v1/tournaments") do
+  path("/tournaments") do
     get("List Tournaments") do
       tags "Tournaments"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -44,7 +44,7 @@ RSpec.describe Api::V1::TournamentsController do
     end
   end
 
-  path("/api/v1/tournaments/{id}") do
+  path("/tournaments/{id}") do
     parameter name: :id, in: :path, type: :integer, description: "ID of the Tournament", required: true
 
     let(:organization) { create(:organization) }

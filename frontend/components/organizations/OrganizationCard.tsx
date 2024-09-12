@@ -2,14 +2,14 @@ import React from "react";
 
 import { Image, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
-import { OrganizationDetails } from "@/lib/api";
+import { components } from "@/lib/battle-stadium-api";
 
 import LoadingPlaceholder from "./loading-place-holder";
 
 export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
   isLoading?: boolean;
   removeWrapper?: boolean;
-  organization: OrganizationDetails;
+  organization?: components["schemas"]["OrganizationDetails"];
 };
 
 export default function OrganizationCard(props: PlaceListItemProps) {
@@ -27,18 +27,18 @@ export default function OrganizationCard(props: PlaceListItemProps) {
       {...rest}
     >
       <Link
-        key={organization.id}
-        aria-label={`View details for ${organization.name}`}
-        href={`/organizations/${organization.id}`}
+        key={organization?.id}
+        aria-label={`View details for ${organization?.name}`}
+        href={`/organizations/${organization?.id}`}
       >
         <Image
           isBlurred
           isZoomed
-          alt={organization.name}
-          aria-label={organization.name}
+          alt={organization?.name}
+          aria-label={organization?.name}
           className="aspect-square w-full hover:scale-110"
           isLoading={isLoading}
-          src={organization.logoUrl ?? "/pokemon/vgc.png"}
+          src={organization?.logo_url ?? "/pokemon/vgc.png"}
         />
       </Link>
 
@@ -49,7 +49,7 @@ export default function OrganizationCard(props: PlaceListItemProps) {
           <>
             <div className="flex items-start justify-between gap-1">
               <h3 className="text-small font-medium text-default-700" data-testid="org-name">
-                {organization.name}
+                {organization?.name}
               </h3>
             </div>
             {organization?.description ? (

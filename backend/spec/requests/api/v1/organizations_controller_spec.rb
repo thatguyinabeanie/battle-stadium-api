@@ -11,7 +11,7 @@ RSpec.describe Api::V1::OrganizationsController do
   let(:owner) { org.owner }
   let(:org_id) { org.id }
 
-  path("/api/v1/organizations") do
+  path("/organizations") do
     get("List Organizations") do
       tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -73,7 +73,7 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/api/v1/organizations/{org_id}") do
+  path("/organizations/{org_id}") do
     parameter name: :org_id, in: :path, type: :integer, required: true
 
     get("Show Organization") do
@@ -183,7 +183,7 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/api/v1/organizations/{org_id}/staff") do
+  path("/organizations/{org_id}/staff") do
     parameter name: :org_id, in: :path, type: :integer, required: true
 
     get("List Organization Staff") do
@@ -209,7 +209,7 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/api/v1/organizations/{org_id}/tournaments") do
+  path("/organizations/{org_id}/tournaments") do
     parameter name: :org_id, in: :path, type: :integer, required: true
 
     get("List Organization Tournaments") do
@@ -285,7 +285,7 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/api/v1/organizations/{org_id}/tournaments/{tournament_id}") do
+  path("/organizations/{org_id}/tournaments/{tournament_id}") do
     parameter name: :org_id, in: :path, type: :integer, required: true
     parameter name: :tournament_id, in: :path, type: :integer, required: true
 

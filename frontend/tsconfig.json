@@ -4,6 +4,7 @@
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,6 +18,7 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": "./",
+
     "plugins": [
       {
         "name": "next"

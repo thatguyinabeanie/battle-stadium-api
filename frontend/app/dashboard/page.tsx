@@ -1,18 +1,29 @@
 import { auth } from "@clerk/nextjs/server";
+import { Metadata } from "next";
 
-import BattleStadiumAPI from "@/lib/api";
+import BattleStadiumAPI from "@/lib/battle-stadium-api/BattleStadiumAPI";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
+
+async function getMe() {
+  return await BattleStadiumAPI.GET("/users/me", {
+    next: { revalidate: 300 },
+  });
+}
 
 export default async function Dashboard() {
   const authObj = auth();
 
   if (authObj.userId) {
-    const me = await BattleStadiumAPI().Users.me({ next: { revalidate: 1 } });
+    const { data: me, error } = await getMe();
 
     if (me) {
       return (
         <div>
           <h1>Dashboard</h1>
-          <p>Welcome, {me?.firstName}!</p>
+          <p>Welcome, {me?.first_name}!</p>
         </div>
       );
     }

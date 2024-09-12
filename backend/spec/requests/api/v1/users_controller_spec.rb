@@ -7,7 +7,7 @@ USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 RSpec.describe Api::V1::UsersController do
   include ClerkJwt::TokenVerifier::Mock
 
-  path("/api/v1/users") do
+  path("/users") do
     get("List Users") do
       tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -97,7 +97,7 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path("/api/v1/users/me") do
+  path("/users/me") do
     get("Show Me") do
       tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -131,7 +131,7 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path("/api/v1/users/{id}") do
+  path("/users/{id}") do
     parameter name: :id, in: :path, type: :string, description: "ID of the User"
 
     get("Show User") do
