@@ -54,4 +54,4 @@ jobs:
             ghcr.io/thatguyinabeanie/battle-stadium:latest
 
       - name: Call render.com deploy webhook
-        run: curl -X POST -d {} ${{ secrets.RENDER_WEBHOOK_URL }}
+        run: curl -X POST -d {} ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
