@@ -1,7 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
 
 import BattleStadiumAPI from "@/lib/api";
-
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 export default async function Dashboard() {
   const authObj = auth();
 

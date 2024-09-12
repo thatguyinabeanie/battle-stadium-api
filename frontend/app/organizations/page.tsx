@@ -3,13 +3,22 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
 import BattleStadiumAPI, { OrganizationDetails } from "@/lib/api";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Organizations",
+};
 
 export interface OrganizationsPageProps {
   orgs: OrganizationDetails[];
 }
 
+async function getOrgs() {
+  return await BattleStadiumAPI().Organizations.list();
+}
+
 export default async function OrganizationsPage() {
-  const orgs = await BattleStadiumAPI().Organizations.list();
+  const orgs = await getOrgs();
 
   return (
     <div

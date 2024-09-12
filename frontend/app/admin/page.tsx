@@ -1,5 +1,8 @@
 import { Text } from "@/components/text";
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Admin",
+};
 const Admin = () => {
   return (
     <div>
