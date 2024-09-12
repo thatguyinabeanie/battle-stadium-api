@@ -47,6 +47,7 @@ function renderRegistration({
   }
 
   const registrationStartAt = new Date(registration_start_at);
+
   if (currentTime < registrationStartAt) {
     return "Not Open";
   }
@@ -70,9 +71,8 @@ function renderRegistration({
   }
 }
 
-const renderCell: typeof getKeyValue = (row: components['schemas']['TournamentDetails'], columnKey) => {
+const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDetails"], columnKey) => {
   const { id, name, organization, start_at, player_count, player_cap } = row;
-
 
   switch (columnKey) {
     case "organization.name":

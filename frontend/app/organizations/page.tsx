@@ -1,9 +1,9 @@
 import React from "react";
+import { Metadata } from "next";
 
 import { cn } from "@/lib/utils";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
-import { Metadata } from "next";
-import {BattleStadiumAPI, type components} from "@/lib/battle-stadium-api";
+import { BattleStadiumAPI, type components } from "@/lib/battle-stadium-api";
 
 export const metadata: Metadata = {
   title: "Organizations",
@@ -18,7 +18,7 @@ async function getOrgs() {
 }
 
 export default async function OrganizationsPage() {
-  const {data: orgs} = await getOrgs();
+  const { data: orgs } = await getOrgs();
 
   return (
     <div

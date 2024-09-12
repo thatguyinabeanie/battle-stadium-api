@@ -1,5 +1,6 @@
-import { Text } from "@/components/text";
 import { Metadata } from "next";
+
+import { Text } from "@/components/text";
 export const metadata: Metadata = {
   title: "Admin",
 };

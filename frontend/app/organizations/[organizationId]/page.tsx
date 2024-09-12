@@ -13,25 +13,25 @@ async function getOrganization(organizationId: number) {
   return await BattleStadiumAPI.GET("/organizations/{org_id}", {
     params: {
       path: {
-        org_id: organizationId
+        org_id: organizationId,
       },
-    }
+    },
   });
-};
+}
 
 async function getTournaments(organizationId: number) {
   return await BattleStadiumAPI.GET("/organizations/{org_id}/tournaments", {
     params: {
       path: {
-        org_id: organizationId
+        org_id: organizationId,
       },
-    }
+    },
   });
 }
 
 export default async function OrganizationDetailPage({ params: { organizationId } }: OrganizationDetailPageProps) {
-  const {data: organization} = await getOrganization(organizationId);
-  const {data: tournaments} = await getTournaments(organizationId);
+  const { data: organization } = await getOrganization(organizationId);
+  const { data: tournaments } = await getTournaments(organizationId);
 
   return (
     <>

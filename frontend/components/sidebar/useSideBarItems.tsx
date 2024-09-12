@@ -1,11 +1,11 @@
 // import { useUser } from "@clerk/nextjs";
 
-import {components} from "@/lib/battle-stadium-api";
+import { components } from "@/lib/battle-stadium-api";
 
 import { SidebarItem } from "./sidebar";
 import { sectionItems } from "./sidebar-items";
 
-export const getYourOrganizations = (currentUser: components['schemas']['UserMe']) => {
+export const getYourOrganizations = (currentUser: components["schemas"]["UserMe"]) => {
   const yourOrganizations: SidebarItem = {
     key: "your-organizations",
     title: "Your Organizations",

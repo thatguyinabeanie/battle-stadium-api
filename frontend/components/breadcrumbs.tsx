@@ -1,21 +1,21 @@
 "use client";
 
-import React from 'react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { Breadcrumbs, BreadcrumbItem } from '@nextui-org/react';
+import React from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 
-export default function  BreadcrumbsComponent() {
+export default function BreadcrumbsComponent() {
   const pathname = usePathname();
-  const pathSegments = pathname.split('/').filter(segment => segment !== '');
+  const pathSegments = pathname.split("/").filter((segment) => segment !== "");
 
   const breadcrumbItems = pathSegments.map((segment, index) => {
-    const href = `/${pathSegments.slice(0, index + 1).join('/')}`;
+    const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
     const label = segment.charAt(0).toUpperCase() + segment.slice(1);
 
     return (
-      <BreadcrumbItem key={ href }>
-        <Link href={ href }>{ label }</Link>
+      <BreadcrumbItem key={href}>
+        <Link href={href}>{label}</Link>
       </BreadcrumbItem>
     );
   });
@@ -25,7 +25,7 @@ export default function  BreadcrumbsComponent() {
       <BreadcrumbItem>
         <Link href="/">Home</Link>
       </BreadcrumbItem>
-      { breadcrumbItems }
+      {breadcrumbItems}
     </Breadcrumbs>
   );
-};
+}
