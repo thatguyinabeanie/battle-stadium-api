@@ -3,10 +3,10 @@
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Link } from "@nextui-org/react";
 import * as React from "react";
 
-import { Tournament } from "@/lib/api";
+import { components } from "@/lib/battle-stadium-api";
 
 export interface TournamentsTableProps {
-  tournaments: Tournament[];
+  tournaments?: components["schemas"]["Tournament"][];
   disableColumns?: string[];
 }
 
@@ -34,24 +34,27 @@ const columns = [
 ];
 
 function renderRegistration({
-  registrationStartAt,
-  registrationEndAt,
-  playerCount,
-  playerCap,
-  lateRegistration,
-}: Tournament) {
+  registration_start_at,
+  registration_end_at,
+  player_count,
+  player_cap,
+  late_registration,
+}: components["schemas"]["TournamentDetails"]) {
   const currentTime = new Date();
 
-  if (!registrationStartAt) {
+  if (!registration_start_at) {
     return "Not Open";
   }
 
+  const registrationStartAt = new Date(registration_start_at);
   if (currentTime < registrationStartAt) {
     return "Not Open";
   }
 
+  const registrationEndAt = registration_end_at ? new Date(registration_end_at) : null;
+
   if (currentTime >= registrationStartAt && registrationEndAt && currentTime < registrationEndAt) {
-    if (playerCap && playerCount >= playerCap) {
+    if (player_cap && player_count >= player_cap) {
       return "Full";
     }
 
@@ -59,7 +62,7 @@ function renderRegistration({
   }
 
   if (registrationEndAt && currentTime > registrationEndAt) {
-    if (lateRegistration) {
+    if (late_registration) {
       return "Open";
     }
 
@@ -67,13 +70,18 @@ function renderRegistration({
   }
 }
 
-const renderCell: typeof getKeyValue = (row: Tournament, columnKey) => {
-  const { id, name, organization, startAt, playerCount, playerCap } = row;
+const renderCell: typeof getKeyValue = (row: components['schemas']['TournamentDetails'], columnKey) => {
+  const { id, name, organization, start_at, player_count, player_cap } = row;
+
 
   switch (columnKey) {
     case "organization.name":
       return <Link href={`/organizations/${organization.id}`}>{organization.name}</Link>;
     case "start_at":
+      if (!start_at) {
+        return "TBD";
+      }
+      const startAt = new Date(start_at);
       const date = startAt?.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
       const time = startAt?.toLocaleString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
 
@@ -81,7 +89,7 @@ const renderCell: typeof getKeyValue = (row: Tournament, columnKey) => {
     case "name":
       return <Link href={`/tournaments/${id}`}>{name}</Link>;
     case "players":
-      return playerCap ? `${playerCount}/${playerCap}` : playerCount;
+      return player_cap ? `${player_count}/${player_cap}` : player_count;
     case "registration":
       return renderRegistration(row);
     default:

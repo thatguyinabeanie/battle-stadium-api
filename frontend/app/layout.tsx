@@ -13,7 +13,6 @@ import { ChildrenProps } from "@/types";
 import getAwesomeParticlesOptions from "@/components/awesome-particles/getAwesomeParticlesOptions";
 
 import Providers from "./providers";
-import Breadcrumbs from "@/components/breadcrumbs";
 
 export const metadata: Metadata = {
   title: {

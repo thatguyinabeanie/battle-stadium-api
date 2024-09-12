@@ -6,7 +6,7 @@ GAME_DETAIL_SCHEMA = "#/components/schemas/GameDetail".freeze
 RSpec.describe Api::V1::GamesController do
   include ClerkJwt::TokenVerifier::Mock
 
-  path("/api/v1/games") do
+  path("/games") do
     get("List Games") do
       tags "Games"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -69,7 +69,7 @@ RSpec.describe Api::V1::GamesController do
     end
   end
 
-  path("/api/v1/games/{id}") do
+  path("/games/{id}") do
     # You'll want to customize the parameter types...
     parameter name: :id, in: :path, type: :integer, description: "ID of the game", required: true
     let(:test_game) { create(:game, name: "Test Game") }

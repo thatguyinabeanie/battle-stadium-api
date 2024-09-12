@@ -40,7 +40,7 @@ COPY lib ./lib
 COPY public ./public
 COPY scripts ./scripts
 COPY storage ./storage
-COPY swagger ./swagger
+COPY openapi ./openapi
 COPY vendor ./vendor
 COPY Rakefile ./Rakefile
 COPY config.ru ./config.ru
@@ -71,7 +71,7 @@ COPY lib ./lib
 COPY public ./public
 COPY scripts ./scripts
 COPY storage ./storage
-COPY swagger ./swagger
+COPY openapi ./openapi
 COPY vendor ./vendor
 COPY Rakefile ./Rakefile
 COPY config.ru ./config.ru

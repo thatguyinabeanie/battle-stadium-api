@@ -8,7 +8,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
   let(:tournament) { create(:tournament, organization:) }
   let(:tournament_id) { tournament.id }
 
-  path("/api/v1/tournaments/{tournament_id}/players") do
+  path("/tournaments/{tournament_id}/players") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
 
     get("List Tournament Players") do
@@ -82,7 +82,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
     end
   end
 
-  path("/api/v1/tournaments/{tournament_id}/players/{id}") do
+  path("/tournaments/{tournament_id}/players/{id}") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
     parameter name: :id, in: :path, type: :integer, description: "ID of the Player", required: true
 

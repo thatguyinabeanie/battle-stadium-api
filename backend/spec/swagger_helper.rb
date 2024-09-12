@@ -420,7 +420,7 @@ RSpec.configure do |config|
   # Specify a root folder where Swagger JSON files are generated
   # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
   # to ensure that it's configured to serve Swagger from the same folder
-  config.openapi_root = Rails.root.join("swagger").to_s
+  config.openapi_root = Rails.root.join("openapi").to_s
 
   config.openapi_strict_schema_validation = true
 
@@ -432,18 +432,18 @@ RSpec.configure do |config|
   # the root example_group in your specs, e.g. describe '...', openapi_spec: 'v2/swagger.json'
   config.openapi_specs = {
     "v1/openapi.yaml" => {
-      openapi: "3.0.1",
+      openapi: "3.1.0",
       info: {
-        title: "API V1",
+        title: "Battle Stadium API V1",
         version: "v1"
       },
       paths: {},
       servers: [
         {
-          url: "https://{defaultHost}",
+          url: "{defaultHost}",
           variables: {
             defaultHost: {
-              default: "127.0.0.1"
+              default: "https://api.battlestadium.gg/api/v1"
             }
           }
         }

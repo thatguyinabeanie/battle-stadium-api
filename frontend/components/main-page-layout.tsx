@@ -1,6 +1,5 @@
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 import { ChildrenProps } from "@/types";
-import Breadcrumbs from "./breadcrumbs";
 
 export default function MainPageLayout({ children }: Readonly<ChildrenProps>) {
   return (
