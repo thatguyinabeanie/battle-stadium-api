@@ -156,6 +156,18 @@ GEM
       activesupport (>= 4.2)
     jwt (2.8.2)
       base64
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     kredis (1.7.0)
       activemodel (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -506,6 +518,7 @@ DEPENDENCIES
   json (~> 2.7)
   jsonapi-serializer (~> 2)
   jwt (~> 2.8)
+  kaminari
   kredis (~> 1)
   listen (~> 3.3)
   net (~> 0.3.3)

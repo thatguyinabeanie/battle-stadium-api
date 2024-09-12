@@ -34,18 +34,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract version from file
-        id: extract_version
-        run: |
-          VERSION=$(cat backend/BASE_IMAGE_VERSION)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          MAJOR=$(echo $VERSION | cut -d'.' -f1)
-          MINOR=$(echo $VERSION | cut -d'.' -f2)
-          PATCH=$(echo $VERSION | cut -d'.' -f3)
-          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
-          echo "MINOR=$MAJOR.$MINOR" >> $GITHUB_ENV
-          echo "PATCH=$MAJOR.$MINOR.$PATCH" >> $GITHUB_ENV
-
       - name: Build & Push Docker Image
         if: github.ref == 'refs/heads/main' || github.event_name == 'release'
         uses: docker/build-push-action@v6
@@ -61,8 +49,6 @@ jobs:
             thatguyinabeanie/battle-stadium:latest
             ghcr.io/thatguyinabeanie/battle-stadium:latest
 
-      - name: Deploy Rails API to Render.com
-        env:
-          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          curl "$deploy_url"
+      - name: Call render.com deploy webhook
+        run: curl -X POST -d {} ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+
