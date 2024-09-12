@@ -65,7 +65,8 @@ module ClerkJwt
         errors << "Token has expired" if Time.now.to_i > claims["exp"]
 
         # Verify issuer (customize with your Clerk frontend API)
-        errors << "Invalid issuer" unless claims["iss"].start_with?(ENV.fetch("CLERK_FRONTEND_API", "http://localhost:3000"))
+        clerk_frontend_api_string = Rails.env.production? ? "CLERK_FRONTEND_API" : "CLERK_FRONTEND_API_DEV"
+        errors << "Invalid issuer: #{claims["iss"]}" unless claims["iss"].start_with?(ENV.fetch(clerk_frontend_api_string))
 
         raise VerificationError, errors.join(", ") unless errors.empty?
       end

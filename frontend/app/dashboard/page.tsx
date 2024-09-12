@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 };
 
 async function getMe() {
-  return await BattleStadiumAPI.GET("/users/me");
+  return await BattleStadiumAPI.GET("/users/me", {
+    next: { revalidate: 300 },
+  });
 }
 
 export default async function Dashboard() {

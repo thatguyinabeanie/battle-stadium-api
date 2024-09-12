@@ -10,7 +10,7 @@ const getBaseUrl = () => {
   return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
 }
 
-const myMiddleware: Middleware = {
+const clerkSessionMiddleware: Middleware = {
   async onRequest ({ request, options }) {
 
     const { getToken } = auth();
@@ -34,6 +34,8 @@ const BattleStadiumAPI = createClient<paths>({
     "Accept": "application/json",
   },
 });
+
+BattleStadiumAPI.use(clerkSessionMiddleware);
 
 export default BattleStadiumAPI;
 export { BattleStadiumAPI };
