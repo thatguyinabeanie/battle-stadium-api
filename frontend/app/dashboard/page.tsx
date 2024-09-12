@@ -17,7 +17,7 @@ export default async function Dashboard() {
   const authObj = auth();
 
   if (authObj.userId) {
-    const { data: me, error } = await getMe();
+    const { data: me } = await getMe();
 
     if (me) {
       return (

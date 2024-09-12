@@ -759,6 +759,13 @@ export interface components {
     Message: {
       message: string;
     };
+    Pagination: {
+      current_page: number;
+      next_page: number | null;
+      prev_page: number | null;
+      total_pages: number;
+      total_count: number;
+    };
   };
   responses: {
     /** @description not found */
@@ -769,7 +776,12 @@ export interface components {
       content?: never;
     };
   };
-  parameters: never;
+  parameters: {
+    /** @description Page number for pagination */
+    page: number;
+    /** @description Number of items per page for pagination */
+    per_page: number;
+  };
   requestBodies: never;
   headers: never;
   pathItems: never;
@@ -1564,7 +1576,12 @@ export interface operations {
   };
   listTournaments: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Page number for pagination */
+        page?: number;
+        /** @description Number of items per page for pagination */
+        per_page?: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -1577,7 +1594,10 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["Tournament"][];
+          "application/json": {
+            tournaments?: components["schemas"]["Tournament"][];
+            pagination?: components["schemas"]["Pagination"];
+          };
         };
       };
     };

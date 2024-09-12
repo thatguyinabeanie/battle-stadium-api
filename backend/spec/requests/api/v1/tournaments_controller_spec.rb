@@ -10,12 +10,20 @@ RSpec.describe Api::V1::TournamentsController do
       operationId "listTournaments"
 
       parameter name: :organization_id, in: :body, type: :integer, description: "ID of the Organization", required: false, schema: { type: :integer }
+      parameter PAGE_PARAMETER
+      parameter PER_PAGE_PARAMETER
 
       response(200, "Successful") do
         let(:organizations) { create_list(:organization, 5) }
         let(:tournaments) { organizations.flat_map { |org| create_list(:tournament, 10, organization: org) } }
 
-        schema type: :array, items: { "$ref" => "#/components/schemas/Tournament" }
+        let(:page) { 2 }
+        let(:per_page) { 2 }
+
+        schema type: :object, properties: {
+          tournaments: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
+          pagination: { "$ref" => "#/components/schemas/Pagination" }
+        }
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -29,14 +37,21 @@ RSpec.describe Api::V1::TournamentsController do
       operationId "listTournaments"
 
       parameter name: :organization_id, in: :body, type: :integer, description: "ID of the Organization", required: false, schema: { type: :integer }
+      parameter PAGE_PARAMETER
+      parameter PER_PAGE_PARAMETER
 
       response(200, "Successful") do
         let(:organization) { create(:organization) }
         let(:organization_id) { organization.id }
         let(:organizations) { create_list(:organization, 5) + [organization] }
-        let(:tournamentts) { organizations.flat_map { |org| create_list(:tournament, 10, organization: org) } }
+        let(:tournaments) { organizations.flat_map { |org| create_list(:tournament, 10, organization: org) } }
+        let(:page) { 2 }
+        let(:per_page) { 2 }
 
-        schema type: :array, items: { "$ref" => "#/components/schemas/Tournament" }
+        schema type: :object, properties: {
+          tournaments: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
+          pagination: { "$ref" => "#/components/schemas/Pagination" }
+        }
 
         OpenApi::Response.set_example_response_metadata
         run_test!

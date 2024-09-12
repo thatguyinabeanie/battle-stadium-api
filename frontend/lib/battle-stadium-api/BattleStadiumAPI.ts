@@ -1,4 +1,4 @@
-import type { paths } from "./v1";
+import type { paths } from "./api-v1";
 
 import { auth } from "@clerk/nextjs/server";
 import createClient, { Middleware } from "openapi-fetch";
@@ -13,20 +13,14 @@ const getBaseUrl = () => {
 };
 
 const clerkSessionMiddleware: Middleware = {
-  async onRequest({ request, options }) {
+  async onRequest({ request }) {
     const { getToken } = auth();
     const sessionToken = await getToken();
 
-    request.headers.set("Authorization", `${sessionToken ? `Bearer ${sessionToken}` : "Bearer"}`);
+    request.headers.set("Authorization", sessionToken ? `Bearer ${sessionToken}` : "");
 
     return request;
   },
-
-  // async onResponse ({ request, response, options }) {
-  //   const { body, ...resOptions } = response;
-  //   // change status of response
-  //   return new Response(body, { ...resOptions, status: 200 });
-  // },
 };
 
 const BattleStadiumAPI = createClient<paths>({

@@ -17,8 +17,19 @@ module Api
                        .where("start_at > ?", Time.zone.now)
                        .where(start_at: ..7.days.from_now)
                        .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
-                       .order(start_at: :asc)
-        render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
+                       .order(start_at: :desc)
+                       .page(params[:page]).per(params[:per_page])
+
+        render json: {
+          tournaments: ActiveModelSerializers::SerializableResource.new(@tournaments, each_serializer: Serializers::Tournament),
+          pagination: {
+            current_page: @tournaments.current_page,
+            next_page: @tournaments.next_page,
+            prev_page: @tournaments.prev_page,
+            total_pages: @tournaments.total_pages,
+            total_count: @tournaments.total_count
+          }
+        }, status: :ok
       end
 
       def show
@@ -100,7 +111,8 @@ module Api
           :registration_start_at, :registration_end_at, :late_registration,
           :check_in_start_at, :check_in_end_at,
           :open_team_sheets, :teamlists_required,
-          :organization_id
+          :organization_id,
+          :page, :per_page
         )
       end
     end
