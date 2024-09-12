@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - backend/BASE_IMAGE_VERSION
 
 permissions:
   contents: read
@@ -40,18 +38,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract version from file
-        id: extract_version
-        run: |
-          VERSION=$(cat backend/BASE_IMAGE_VERSION)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          MAJOR=$(echo $VERSION | cut -d'.' -f1)
-          MINOR=$(echo $VERSION | cut -d'.' -f2)
-          PATCH=$(echo $VERSION | cut -d'.' -f3)
-          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
-          echo "MINOR=$MAJOR.$MINOR" >> $GITHUB_ENV
-          echo "PATCH=$MAJOR.$MINOR.$PATCH" >> $GITHUB_ENV
-
       - name: Build & Push Docker Image
         if: github.ref == 'refs/heads/main' || github.event_name == 'release'
         uses: docker/build-push-action@v6
@@ -65,11 +51,5 @@ jobs:
           cache-to: type=registry,ref=thatguyinabeanie/battle-stadium:prod-cache-latest,mode=max
           tags: |
             thatguyinabeanie/battle-stadium:latest
-            thatguyinabeanie/battle-stadium:${{env.MAJOR}}
-            thatguyinabeanie/battle-stadium:${{env.MINOR}}
-            thatguyinabeanie/battle-stadium:${{env.PATCH}}
             ghcr.io/thatguyinabeanie/battle-stadium:latest
-            ghcr.io/thatguyinabeanie/battle-stadium:${{env.MAJOR}}
-            ghcr.io/thatguyinabeanie/battle-stadium:${{env.MINOR}}
-            ghcr.io/thatguyinabeanie/battle-stadium:${{env.PATCH}}
 
