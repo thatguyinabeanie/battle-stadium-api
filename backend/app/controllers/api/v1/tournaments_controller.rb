@@ -17,7 +17,8 @@ module Api
                        .where("start_at > ?", Time.zone.now)
                        .where(start_at: ..7.days.from_now)
                        .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
-                       .order(start_at: :asc)
+                       .order(start_at: :desc)
+                       .page(params[:page]).per(params[:per_page])
         render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
@@ -100,7 +101,8 @@ module Api
           :registration_start_at, :registration_end_at, :late_registration,
           :check_in_start_at, :check_in_end_at,
           :open_team_sheets, :teamlists_required,
-          :organization_id
+          :organization_id,
+          :page, :per_page
         )
       end
     end
