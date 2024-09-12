@@ -415,6 +415,34 @@ MESSAGE = {
   required: %w[message]
 }.freeze
 
+
+PAGE_PARAMETER = {
+  name: :page,
+  in: :query,
+  type: :integer,
+  description: "Page number for pagination",
+  required: false
+}
+
+PER_PAGE_PARAMETER = {
+  name: :per_page,
+  in: :query,
+  type: :integer,
+  description: "Number of items per page for pagination",
+}
+
+PAGINATION_META_DATA = {
+  type: :object,
+  properties: {
+    current_page: { type: :integer },
+    next_page: { type: :integer , nullable: true},
+    prev_page: { type: :integer, nullable: true },
+    total_pages: { type: :integer },
+    total_count: { type: :integer }
+  },
+  required: %w[current_page next_page prev_page total_pages total_count]
+}
+
 RSpec.configure do |config|
   # config.include SwaggerHelper
   # Specify a root folder where Swagger JSON files are generated
@@ -464,6 +492,11 @@ RSpec.configure do |config|
           }
         },
 
+        parameters: {
+          page: PAGE_PARAMETER,
+          per_page: PER_PAGE_PARAMETER
+        },
+
         schemas: {
           Format: FORMAT_SCHEMA,
           Game: GAME_SCHEMA,
@@ -493,7 +526,8 @@ RSpec.configure do |config|
           Session: SESSION,
           SessionAndUser: SESSION_AND_USER,
           Error: ERROR,
-          Message: MESSAGE
+          Message: MESSAGE,
+          PaginationMetaData: PAGINATION_META_DATA
         }
       }
     }
