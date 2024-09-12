@@ -11,6 +11,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import getAwesomeParticlesOptions from "@/components/awesome-particles/getAwesomeParticlesOptions";
+import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 
 import Providers from "./providers";
 
@@ -43,7 +44,12 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
           <Providers>
             <AwesomeParticles options={await getAwesomeParticlesOptions()} />
             <main className="flex h-full w-full z-10">
-              {children}
+              <SidebarResponsive aria-label="Responsive Sidebar" />
+              <div className="w-full flex-1 flex-col p-4 z-10">
+                <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
+                  <section className="flex flex-col gap-4 py-8 md:py-10 h-full w-ful items-center">{children}</section>
+                </div>
+              </div>
               <Analytics />
               <SpeedInsights />
             </main>
