@@ -1,11 +1,9 @@
-name: Production Rails API Docker Image
+name: Rails API Docker Image PROD
 
 on:
   push:
     branches:
       - main
-    paths:
-      - backend/BASE_IMAGE_VERSION
 
 permissions:
   contents: read
@@ -13,12 +11,8 @@ permissions:
   id-token: write
 
 jobs:
-  build-prod-image:
+  build:
     runs-on: ubuntu-latest
-    env:
-      MAJOR: -1
-      MINOR: -1
-      PATCH: -1
 
     steps:
       - name: Set up Docker Buildx
@@ -65,11 +59,10 @@ jobs:
           cache-to: type=registry,ref=thatguyinabeanie/battle-stadium:prod-cache-latest,mode=max
           tags: |
             thatguyinabeanie/battle-stadium:latest
-            thatguyinabeanie/battle-stadium:${{env.MAJOR}}
-            thatguyinabeanie/battle-stadium:${{env.MINOR}}
-            thatguyinabeanie/battle-stadium:${{env.PATCH}}
             ghcr.io/thatguyinabeanie/battle-stadium:latest
-            ghcr.io/thatguyinabeanie/battle-stadium:${{env.MAJOR}}
-            ghcr.io/thatguyinabeanie/battle-stadium:${{env.MINOR}}
-            ghcr.io/thatguyinabeanie/battle-stadium:${{env.PATCH}}
 
+      - name: Deploy Rails API to Render.com
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$deploy_url"

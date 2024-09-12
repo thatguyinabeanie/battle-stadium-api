@@ -1,4 +1,4 @@
-name: Dev Docker Image
+name: NextJS Frontend Docker Image DEV
 
 on:
   push:

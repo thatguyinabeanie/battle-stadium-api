@@ -1,4 +1,4 @@
-name: Backend CI
+name: Rails API CI
 on:
   push:
     branches:
