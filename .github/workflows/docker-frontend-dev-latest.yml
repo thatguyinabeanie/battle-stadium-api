@@ -1,4 +1,4 @@
-name: Dev Docker Image
+name: NextJS Frontend Docker Image DEV
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-frontend-dev:
+  build:
     runs-on: ubuntu-latest
     env:
       MAJOR: -1

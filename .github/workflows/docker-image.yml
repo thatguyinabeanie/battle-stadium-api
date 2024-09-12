@@ -1,4 +1,4 @@
-name: Branch Docker Image
+name: Rails API Docker Image DEV
 
 on:
   pull_request:

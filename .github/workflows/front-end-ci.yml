@@ -1,4 +1,4 @@
-name: Front End CI
+name: NextJS Frontend CI
 
 on:
   push:

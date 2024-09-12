@@ -1,4 +1,4 @@
-name: Production Rails API Docker Image
+name: Rails API Docker Image PROD
 
 on:
   push:
@@ -13,10 +13,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      MAJOR: -1
-      MINOR: -1
-      PATCH: -1
 
     steps:
       - name: Set up Docker Buildx
@@ -55,3 +51,4 @@ jobs:
 
       - name: Call render.com deploy webhook
         run: curl -X POST -d {} ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+
