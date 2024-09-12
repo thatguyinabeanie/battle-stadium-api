@@ -11,6 +11,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import getAwesomeParticlesOptions from "@/components/awesome-particles/getAwesomeParticlesOptions";
+import MainPageLayout from "@/components/main-page-layout";
 
 import Providers from "./providers";
 
@@ -43,7 +44,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
           <Providers>
             <AwesomeParticles options={await getAwesomeParticlesOptions()} />
             <main className="flex h-full w-full z-10">
-              {children}
+              <MainPageLayout>{children}</MainPageLayout>
               <Analytics />
               <SpeedInsights />
             </main>
