@@ -622,8 +622,8 @@ paths:
                     type: array
                     items:
                       "$ref": "#/components/schemas/Tournament"
-                  meta:
-                    "$ref": "#/components/schemas/PaginationMetaData"
+                  pagination:
+                    "$ref": "#/components/schemas/Pagination"
   "/tournaments/{id}":
     parameters:
     - name: id
@@ -1586,7 +1586,7 @@ components:
           type: string
       required:
       - message
-    PaginationMetaData:
+    Pagination:
       type: object
       properties:
         current_page:

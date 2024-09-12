@@ -22,7 +22,7 @@ RSpec.describe Api::V1::TournamentsController do
 
         schema type: :object, properties: {
           tournaments: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
-          meta: { "$ref" => "#/components/schemas/PaginationMetaData" }
+          pagination: { "$ref" => "#/components/schemas/Pagination" }
         }
 
         OpenApi::Response.set_example_response_metadata
@@ -50,7 +50,7 @@ RSpec.describe Api::V1::TournamentsController do
 
         schema type: :object, properties: {
           tournaments: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
-          meta: { "$ref" => "#/components/schemas/PaginationMetaData" }
+          pagination: { "$ref" => "#/components/schemas/Pagination" }
         }
 
         OpenApi::Response.set_example_response_metadata

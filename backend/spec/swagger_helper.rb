@@ -431,7 +431,7 @@ PER_PAGE_PARAMETER = {
   description: "Number of items per page for pagination",
 }
 
-PAGINATION_META_DATA = {
+PAGINATION = {
   type: :object,
   properties: {
     current_page: { type: :integer },
@@ -527,7 +527,7 @@ RSpec.configure do |config|
           SessionAndUser: SESSION_AND_USER,
           Error: ERROR,
           Message: MESSAGE,
-          PaginationMetaData: PAGINATION_META_DATA
+          Pagination: PAGINATION
         }
       }
     }

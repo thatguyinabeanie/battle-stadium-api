@@ -22,7 +22,7 @@ module Api
 
         render json: {
           tournaments: ActiveModelSerializers::SerializableResource.new(@tournaments, each_serializer: Serializers::Tournament),
-          meta: {
+          pagination: {
             current_page: @tournaments.current_page,
             next_page: @tournaments.next_page,
             prev_page: @tournaments.prev_page,
