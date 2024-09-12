@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-prod-image:
+  build:
     runs-on: ubuntu-latest
     env:
       MAJOR: -1
