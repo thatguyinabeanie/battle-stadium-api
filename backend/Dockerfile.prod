@@ -1,6 +1,6 @@
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.3.4
-FROM library/ruby:$RUBY_VERSION-slim AS base
+FROM library/ruby:$RUBY_VERSION-slim AS builder
 
 # Rails app lives here
 WORKDIR /rails
@@ -60,7 +60,7 @@ USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # FROM thatguyinabeanie/battle-stadium:latest AS production
-FROM thatguyinabeanie/battle-stadium:1 AS production
+FROM builder AS preproduction
 USER rails:rails
 WORKDIR /rails
 COPY app ./app
@@ -79,3 +79,9 @@ COPY config.ru ./config.ru
 COPY Gemfile Gemfile.lock ./
 RUN bundle check || bundle install
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+
+FROM thatguyinabeanie/battle-stadium:1 AS production
+USER rails:rails
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
