@@ -9,16 +9,7 @@ export const dynamicParams = true;
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const { data: organization } = await getOrganization(parseInt(params.id));
 
-  return {
-    title: organization?.name,
-  };
-}
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const { data: organization } = await getOrganization(parseInt(params.id));
-
-  return {
-    title: organization?.name,
-  };
+  return { title: organization?.name };
 }
 
 async function getOrganization(organizationId: number) {
@@ -29,27 +20,6 @@ async function getOrganization(organizationId: number) {
       },
     },
   });
-}
-
-// Next.js will invalidate the cache when a
-// request comes in, at most once every 60 seconds.
-export const revalidate = 300;
-
-// We'll prerender only the params from `generateStaticParams` at build time.
-// If a request comes in for a path that hasn't been generated,
-// Next.js will server-render the page on-demand.
-export const dynamicParams = true; // or false, to 404 on unknown paths
-
-export async function generateStaticParams() {
-  const { data: organizations } = await BattleStadiumAPI.GET("/organizations", {
-    next: { tags: ["organizations"] },
-  });
-
-  return organizations?.map((organization) => ({
-    params: {
-      organizationId: organization.id.toString(),
-    },
-  }));
 }
 
 async function getTournaments(organizationId: number) {
