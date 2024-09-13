@@ -6,7 +6,7 @@ RUN mkdir -p /battle-stadium/frontend
 WORKDIR /battle-stadium/frontend
 
 # Copy package.json and package-lock.json to the working directory
-ENV PORT 10001
+ENV PORT=10001
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
@@ -15,7 +15,7 @@ RUN apt-get update -qq && \
 ADD https://bun.sh/install /tmp/bun-install.sh
 RUN bash /tmp/bun-install.sh && rm /tmp/bun-install.sh
 
-ENV BUN_INSTALL "/root/.bun"
+ENV BUN_INSTALL="/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
 COPY package.json bun.lockb ./
 RUN bun install
@@ -28,6 +28,6 @@ EXPOSE 10001
 CMD ["bun", "dev"]
 
 FROM base-image AS production
-EXPOSE ${PORT:-3000}
+EXPOSE ${PORT:-10001}
 RUN bun build:nextjs
 CMD ["bun", "start"]

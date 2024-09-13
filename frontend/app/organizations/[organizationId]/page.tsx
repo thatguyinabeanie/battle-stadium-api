@@ -39,8 +39,7 @@ export async function generateStaticParams() {
     next: { tags: ["organizations"] },
   });
 
-  console.log('organizations', organizations);
-  return (organizations ?? []).map((organization) => ({ organizationId: organization.id }));
+  return (organizations ?? []).map((organization) => ({ organizationId: organization.id.toString() }));
 }
 
 export default async function OrganizationDetailPage({ params }: { params: { organizationId: number } }) {
