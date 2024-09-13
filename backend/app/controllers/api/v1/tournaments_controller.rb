@@ -13,13 +13,7 @@ module Api
 
       def index
         super
-        @tournaments = ::Tournaments::Tournament
-                       .where("start_at > ?", Time.zone.now)
-                       .where(start_at: ..7.days.from_now)
-                       .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now).where(ended_at: nil))
-                       .order(start_at: :desc)
-                       .page(params[:page]).per(params[:per_page])
-
+        @tournaments = ::Tournaments::Tournament.order(start_at: :desc).page(params[:page] || 0).per(params[:per_page] || 20)
         render json: {
           tournaments: ActiveModelSerializers::SerializableResource.new(@tournaments, each_serializer: Serializers::Tournament),
           pagination: {

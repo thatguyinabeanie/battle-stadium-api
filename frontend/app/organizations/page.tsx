@@ -11,15 +11,12 @@ export const metadata: Metadata = {
 };
 
 export interface OrganizationsPageProps {
-  orgs: components["schemas"]["OrganizationDetails"][];
+  orgs: Array<components["schemas"]["OrganizationDetails"]>;
 }
 
 async function getOrgs() {
-  const { data: orgs } = await BattleStadiumAPI.GET("/organizations", {
+  const { data: orgs } = await BattleStadiumAPI(auth()).Organizations.list({
     next: { tags: ["organizations"] },
-    headers: {
-      Authorization: `Bearer ${await auth().getToken()}`,
-    },
   });
 
   return orgs;

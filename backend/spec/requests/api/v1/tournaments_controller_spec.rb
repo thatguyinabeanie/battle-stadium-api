@@ -10,8 +10,8 @@ RSpec.describe Api::V1::TournamentsController do
       operationId "listTournaments"
 
       parameter name: :organization_id, in: :body, type: :integer, description: "ID of the Organization", required: false, schema: { type: :integer }
-      parameter PAGE_PARAMETER
-      parameter PER_PAGE_PARAMETER
+      parameter name: :page, in: :query, type: :integer, description: "Page number", required: false
+      parameter name: :per_page, in: :query, type: :integer, description: "Number of items per page", required: false
 
       response(200, "Successful") do
         let(:organizations) { create_list(:organization, 5) }
@@ -25,8 +25,12 @@ RSpec.describe Api::V1::TournamentsController do
           pagination: { "$ref" => "#/components/schemas/Pagination" }
         }
 
-        OpenApi::Response.set_example_response_metadata
-        run_test!
+        # OpenApi::Response.set_example_response_metadata
+        run_test! do # rubocop:disable RSpec/MultipleExpectations
+          expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
+          expect(response.body).to include("pagination")
+          expect(response.body).to include("tournaments")
+        end
       end
     end
 

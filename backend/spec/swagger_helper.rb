@@ -421,7 +421,7 @@ PAGE_PARAMETER = {
   in: :query,
   type: :integer,
   description: "Page number for pagination",
-  required: false
+  required: true,
 }
 
 PER_PAGE_PARAMETER = {
@@ -429,9 +429,10 @@ PER_PAGE_PARAMETER = {
   in: :query,
   type: :integer,
   description: "Number of items per page for pagination",
+  required: true,
 }
 
-PAGINATION = {
+PAGINATION_RESPONSE = {
   type: :object,
   properties: {
     current_page: { type: :integer },
@@ -460,7 +461,7 @@ RSpec.configure do |config|
   # the root example_group in your specs, e.g. describe '...', openapi_spec: 'v2/swagger.json'
   config.openapi_specs = {
     "v1/openapi.yaml" => {
-      openapi: "3.1.0",
+      openapi: "3.0.1",
       info: {
         title: "Battle Stadium API V1",
         version: "v1"
@@ -493,8 +494,8 @@ RSpec.configure do |config|
         },
 
         parameters: {
-          page: PAGE_PARAMETER,
-          per_page: PER_PAGE_PARAMETER
+          Page: PAGE_PARAMETER,
+          PerPage: PER_PAGE_PARAMETER
         },
 
         schemas: {
@@ -527,7 +528,7 @@ RSpec.configure do |config|
           SessionAndUser: SESSION_AND_USER,
           Error: ERROR,
           Message: MESSAGE,
-          Pagination: PAGINATION
+          Pagination: PAGINATION_RESPONSE
         }
       }
     }

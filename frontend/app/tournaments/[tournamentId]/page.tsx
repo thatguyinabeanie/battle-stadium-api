@@ -1,44 +1,38 @@
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
+import { auth } from "@clerk/nextjs/server";
 
 export const revalidate = 300;
 export const dynamicParams = true;
 
+function getApiClient() {
+  return BattleStadiumAPI(auth());
+}
+
 export async function generateMetadata({ params }: { params: { tournamentId: string } }) {
-  const { data: tournament } = await getTournament(parseInt(params.tournamentId));
+  const tournament = await getTournament(parseInt(params.tournamentId));
 
   return { title: tournament?.name ?? "Tournament" };
 }
 
 async function getTournament(tournamentId: number) {
-  return await BattleStadiumAPI.GET("/tournaments/{id}", {
-    params: {
-      path: {
-        id: tournamentId,
-      },
-    },
-  });
+  const response = await getApiClient().Tournaments.get(tournamentId);
+  return response.data;
 }
 
+
 export async function generateStaticParams() {
-  const { data } = await BattleStadiumAPI.GET("/tournaments", {
+
+  const response = await getApiClient().Tournaments.list({
     next: {
       tags: ["tournaments"],
     },
-    params: {
-      query: {
-        per_page: 200,
-        page: 0,
-      },
-    },
-  });
+  })
 
-  const tournaments = data?.tournaments;
-
-  return (tournaments ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
+  return (response?.data?.tournaments ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }
 
 export default async function Tournament({ params }: Readonly<{ params: { tournamentId: string } }>) {
-  const { data: tournament } = await getTournament(parseInt(params.tournamentId));
+  const tournament = await getTournament(parseInt(params.tournamentId));
 
   return (
     <div>

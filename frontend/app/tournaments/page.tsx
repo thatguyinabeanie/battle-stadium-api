@@ -5,13 +5,14 @@ import React from "react";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 import TournamentsTable from "./TournamentsTable";
+import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: "Tournaments",
 };
 
 async function listTournaments() {
-  return await BattleStadiumAPI.GET("/tournaments", {
+  return await BattleStadiumAPI(auth()).Tournaments.list({
     next: {
       tags: ["tournaments"],
       // revalidate: 60*60*2,
