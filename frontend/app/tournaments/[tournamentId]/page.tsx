@@ -25,7 +25,7 @@ export async function generateStaticParams() {
     },
     params: {
       query: {
-        per_page: 40,
+        per_page: 200,
         page: 0,
       }
     },
