@@ -4,6 +4,8 @@ import type { paths } from "./openapi-v1.d";
 import createClient, { FetchOptions } from "openapi-fetch";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
 export const CACHE_TIMEOUT: number = 300;
+import { Middleware } from "openapi-fetch";
+export type Auth = ReturnType<typeof clerkAuth>;
 
 const getBaseUrl = () => {
   if (process.env.API_BASE_URL) {
@@ -22,9 +24,6 @@ export interface PaginationParams {
   page?: number;
   per_page?: number;
 }
-
-import { Middleware } from "openapi-fetch";
-export type Auth = ReturnType<typeof clerkAuth>;
 
 const clerkAuthMiddleware = (auth?: Auth): Middleware => {
   const openapiFetchMiddleware: Middleware = {
@@ -51,10 +50,11 @@ export const BattleStadiumAPI = (auth?: Auth) => {
   return {
     client,
     Tournaments: {
-      list: async (options?: FetchOptions<{ query?: PaginationParams }>) => {
-        const params = options?.params?.query;
-
-        return await client.GET("/tournaments", { params });
+      list: async (page: number = 0, per_page: number = 20) => {
+        return await client.GET("/tournaments", {
+          params: { query: { page, per_page } },
+          next: { tags: ["listTournaments"], revalidate: CACHE_TIMEOUT },
+        });
       },
       get: async (id: number, _options?: FetchOptions<unknown>) => {
         return await client.GET("/tournaments/{id}", {

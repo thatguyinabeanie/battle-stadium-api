@@ -22,11 +22,7 @@ async function getTournament(tournamentId: number) {
 }
 
 export async function generateStaticParams() {
-  const response = await getApiClient().Tournaments.list({
-    next: {
-      tags: ["tournaments"],
-    },
-  });
+  const response = await getApiClient().Tournaments.list();
 
   return (response?.data?.tournaments ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }
