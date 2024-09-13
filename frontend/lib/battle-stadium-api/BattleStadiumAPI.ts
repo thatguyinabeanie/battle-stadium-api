@@ -11,7 +11,7 @@ const getBaseUrl = () => {
   const baseUrl =
     process.env.NODE_ENV === "production"
       ? "https://api.battlestadium.gg/api/v1"
-      : `http://${process.env.BACKEND_HOST}:8080/api/v1`;
+      : `http://${process.env.BACKEND_HOST}:10000/api/v1`;
 
   return { baseUrl };
 };
