@@ -37,7 +37,7 @@ export async function generateStaticParams() {
   return (tournaments ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }
 
-export default async function Tournament({ params }: { params: { tournamentId: string } }) {
+export default async function Tournament({ params }: Readonly<{ params: { tournamentId: string } }>) {
   const { data: tournament } = await getTournament(parseInt(params.tournamentId));
 
   return (
