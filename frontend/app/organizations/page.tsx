@@ -1,5 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
 
 import { cn } from "@/lib/utils";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
@@ -14,11 +15,18 @@ export interface OrganizationsPageProps {
 }
 
 async function getOrgs() {
-  return BattleStadiumAPI.GET("/organizations");
+  const { data: orgs } = await BattleStadiumAPI.GET("/organizations", {
+    next: { tags: ["organizations"] },
+    headers: {
+      Authorization: `Bearer ${await auth().getToken()}`,
+    },
+  });
+
+  return orgs;
 }
 
 export default async function OrganizationsPage() {
-  const { data: orgs } = await getOrgs();
+  const orgs = await getOrgs();
 
   return (
     <div

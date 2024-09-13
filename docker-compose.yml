@@ -82,10 +82,7 @@ services:
       tags:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
     command: >
-      zsh -c "
-        bun install && bun dev && \
-        tail -f /dev/null
-      "
+      zsh -c "bun install && bun dev && tail -f /dev/null"
     tty: true
     depends_on:
       - postgres
