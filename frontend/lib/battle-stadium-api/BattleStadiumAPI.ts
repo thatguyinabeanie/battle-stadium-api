@@ -69,7 +69,7 @@ export const BattleStadiumAPI = (auth?: Auth) => {
         const next = {
           ...options?.next,
           revalidate: CACHE_TIMEOUT,
-        }
+        };
 
         return await client.GET("/users/me", { headers, next });
       },
