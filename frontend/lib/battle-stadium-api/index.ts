@@ -1,2 +1,2 @@
-export * from "./api-v1.d";
+export * from "./openapi-v1.d";
 export * from "./BattleStadiumAPI";

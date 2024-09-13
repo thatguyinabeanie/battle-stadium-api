@@ -1,5 +1,5 @@
 import "server-only";
-import type { paths } from "./api-v1.d";
+import type { paths } from "./openapi-v1.d";
 
 import createClient, { FetchOptions } from "openapi-fetch";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
@@ -15,30 +15,32 @@ const getBaseUrl = () => {
       ? `http://${process.env.BACKEND_HOST}:10000/api/v1`
       : "https://api.battlestadium.gg/api/v1";
 
-  return baseUrl ;
+  return baseUrl;
 };
 
 export interface PaginationParams {
   page?: number;
-  per_page?: number
-};
+  per_page?: number;
+}
 
 import { Middleware } from "openapi-fetch";
 export type Auth = ReturnType<typeof clerkAuth>;
 
 const clerkAuthMiddleware = (auth?: Auth): Middleware => {
   const openapiFetchMiddleware: Middleware = {
-    async onRequest ({ request, options }) {
+    async onRequest({ request }) {
       if (auth && auth.sessionId) {
         const token = await auth.getToken();
+
         request.headers.set("Authorization", `Bearer ${token}`);
       }
+
       return request;
     },
-  }
+  };
+
   return openapiFetchMiddleware;
 };
-
 
 export const BattleStadiumAPI = (auth?: Auth) => {
   const baseUrl = getBaseUrl();
@@ -51,33 +53,36 @@ export const BattleStadiumAPI = (auth?: Auth) => {
     Tournaments: {
       list: async (options?: FetchOptions<{ query?: PaginationParams }>) => {
         const params = options?.params?.query;
+
         return await client.GET("/tournaments", { params });
       },
-      get: async (id: number, _options?: FetchOptions<{}>) => {
+      get: async (id: number, _options?: FetchOptions<unknown>) => {
         return await client.GET("/tournaments/{id}", {
-          params: { path: { id } }
+          params: { path: { id } },
         });
-      }
+      },
     },
     Users: {
-      me: async (options?: FetchOptions<{next: NextFetchRequestConfig}>) => {
+      me: async (options?: FetchOptions<{ next: NextFetchRequestConfig }>) => {
         const headers = options?.headers;
         const next = options?.next;
+
         return await client.GET("/users/me", { headers, next });
-      }
+      },
     },
     Organizations: {
       list: async (options?: FetchOptions<{ query?: PaginationParams }>) => {
         const params = options?.params?.query;
+
         return await client.GET("/organizations", { params });
       },
-      get: async (org_id: number, _options?: FetchOptions<{ }>) => {
+      get: async (org_id: number, _options?: FetchOptions<unknown>) => {
         return await client.GET("/organizations/{org_id}", {
-          params: { path: { org_id } } });
+          params: { path: { org_id } },
+        });
       },
       Tournaments: {
         list: async (org_id: number, options?: FetchOptions<{ query?: PaginationParams }>) => {
-
           const next: NextFetchRequestConfig = {
             tags: ["listTournaments"],
             revalidate: CACHE_TIMEOUT,
@@ -90,11 +95,10 @@ export const BattleStadiumAPI = (auth?: Auth) => {
             },
             next,
           });
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  };
 };
-
 
 export default BattleStadiumAPI;

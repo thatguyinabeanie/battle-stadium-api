@@ -3,8 +3,9 @@ import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 
 import { cn } from "@/lib/utils";
-import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { BattleStadiumAPI, type components } from "@/lib/battle-stadium-api";
+
+import NewOrganizationCard from "./new-organization-card";
 
 export const metadata: Metadata = {
   title: "Organizations",
@@ -27,15 +28,13 @@ export default async function OrganizationsPage() {
 
   return (
     <div
-      className={cn(
-        "h-full w-full my-auto grid grid-flow-row-dense max-w-7xl grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
-      )}
+      className={cn("my-auto grid grid-cols-1 gap-5 p-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5")}
     >
       {orgs?.map((organization) => (
-        <OrganizationCard
+        <NewOrganizationCard
           key={organization.id}
           aria-label={`organization-card-${organization.id}`}
-          className="cursor-pointer"
+          // className="cursor-pointer"
           organization={organization}
         />
       ))}

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import React from "react";
+import { auth } from "@clerk/nextjs/server";
 
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 import TournamentsTable from "./TournamentsTable";
-import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: "Tournaments",

@@ -1,18 +1,25 @@
-// organizations/[organizationId]/page.tsx
+import "server-only";
+
+import { auth } from "@clerk/nextjs/server";
+
 import TournamentsTable from "@/app/tournaments/TournamentsTable";
 import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
-import { auth } from "@clerk/nextjs/server";
 
 export const revalidate = 300;
 export const dynamicParams = true;
 
-function getApiClient() {
-  return BattleStadiumAPI(auth());
+function getApiClient(shouldAuth = true) {
+  if (shouldAuth) {
+    return BattleStadiumAPI(auth());
+  }
+
+  return BattleStadiumAPI();
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const {data: org} = await getOrganization(parseInt(params.id));
+  const { data: org } = await getOrganization(parseInt(params.id));
+
   return { title: org?.name ?? "Organization" };
 }
 
@@ -25,9 +32,7 @@ async function getTournaments(organizationId: number) {
 }
 
 export async function generateStaticParams() {
-  const { data: orgs } = await getApiClient().Organizations.list({ next: { tags: ["organizations"] }, })
-
-  console.log('organizations', orgs);
+  const { data: orgs } = await getApiClient(false).Organizations.list({ next: { tags: ["organizations"] } });
 
   return (orgs ?? []).map((organization) => ({ organizationId: organization.id.toString() }));
 }

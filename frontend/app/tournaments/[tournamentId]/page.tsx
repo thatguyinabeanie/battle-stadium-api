@@ -1,5 +1,6 @@
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 import { auth } from "@clerk/nextjs/server";
+
+import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -16,17 +17,16 @@ export async function generateMetadata({ params }: { params: { tournamentId: str
 
 async function getTournament(tournamentId: number) {
   const response = await getApiClient().Tournaments.get(tournamentId);
+
   return response.data;
 }
 
-
 export async function generateStaticParams() {
-
   const response = await getApiClient().Tournaments.list({
     next: {
       tags: ["tournaments"],
     },
-  })
+  });
 
   return (response?.data?.tournaments ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }

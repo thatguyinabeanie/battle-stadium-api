@@ -1,7 +1,7 @@
 import { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
 
 import BattleStadiumAPI from "@/lib/battle-stadium-api/BattleStadiumAPI";
-import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -17,13 +17,15 @@ async function getMe() {
 }
 
 export default async function Dashboard() {
-  const {data: me} = await getMe();
+  const { data: me } = await getMe();
 
   if (me) {
     return (
       <div>
         <h1>Dashboard</h1>
-        <p>Welcome, {me.first_name} {me.last_name} </p>
+        <p>
+          Welcome, {me.first_name} {me.last_name}{" "}
+        </p>
       </div>
     );
   }
