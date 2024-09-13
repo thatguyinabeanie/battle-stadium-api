@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { paths } from "./api-v1";
 
 import createClient from "openapi-fetch";

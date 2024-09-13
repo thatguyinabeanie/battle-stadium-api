@@ -41,20 +41,20 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
       <html suppressHydrationWarning lang="en">
         <head />
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
-          <Providers>
-            <AwesomeParticles options={await getAwesomeParticlesOptions()} />
-            <main className="flex h-full w-full z-10">
+          <main className="flex h-full w-full z-10">
+            <Providers>
+              <AwesomeParticles options={await getAwesomeParticlesOptions()} />
               <SidebarResponsive aria-label="Responsive Sidebar" />
               <div className="w-full flex-1 flex-col p-4 z-10">
                 <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
                   <section className="flex flex-col gap-4 py-8 md:py-10 h-full w-ful items-center">{children}</section>
                 </div>
               </div>
-              <Analytics />
-              <SpeedInsights />
-            </main>
-          </Providers>
+            </Providers>
+          </main>
         </body>
+        <Analytics />
+        <SpeedInsights />
         <GoogleAnalytics gaId={process.env.MEASUREMENT_ID ?? ""} />
       </html>
     </ClerkProvider>
