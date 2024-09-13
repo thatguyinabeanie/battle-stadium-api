@@ -6,6 +6,8 @@ import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 import TournamentsTable from "./TournamentsTable";
 
+import RenderCell from "./RenderCell";
+
 export const metadata: Metadata = {
   title: "Tournaments",
 };
@@ -18,7 +20,7 @@ const Tournaments = async () => {
   const response = await listTournaments();
   const tours = response.data?.tournaments;
 
-  return <TournamentsTable tournaments={tours} />;
+  return <TournamentsTable tournaments={tours} RenderCell={RenderCell}/>;
 };
 
 export default Tournaments;

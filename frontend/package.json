@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "bun@^1",
   "scripts": {
-    "dev": "next dev --port 10001",
+    "dev": "next dev",
     "build:nextjs": "next build",
     "start": "next start",
     "lint": "next lint",

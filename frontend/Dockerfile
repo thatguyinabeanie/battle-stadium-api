@@ -6,7 +6,7 @@ RUN mkdir -p /battle-stadium/frontend
 WORKDIR /battle-stadium/frontend
 
 # Copy package.json and package-lock.json to the working directory
-ENV PORT=10001
+ENV PORT=3000
 
 RUN apt-get update -qq && \
     apt-get  --no-install-recommends install -y -q curl default-jdk git && \
@@ -23,11 +23,11 @@ RUN bun install
 COPY . .
 
 FROM base-image AS development
-EXPOSE 10001
+EXPOSE 3000
 # Start the Next.js development server
 CMD ["bun", "dev"]
 
 FROM base-image AS production
-EXPOSE ${PORT:-10001}
+EXPOSE ${PORT:-3000}
 RUN bun build:nextjs
 CMD ["bun", "start"]

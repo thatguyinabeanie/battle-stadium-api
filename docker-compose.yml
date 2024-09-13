@@ -30,8 +30,7 @@ services:
     tty: true
     stdin_open: true
     ports:
-      - 10000:10000
-      - 3000:10000
+      - 3000:3000
     depends_on:
       - postgres
     healthcheck:
@@ -88,7 +87,7 @@ services:
       - postgres
       - backend-dev
     ports:
-      - 8080:10001
+      - 3000:3000
     volumes:
       - .:/battle-stadium
       - ./frontend/.zshrc:/root/.zshenv
