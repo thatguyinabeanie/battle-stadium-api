@@ -38,14 +38,13 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
 
         <Spacer y={ 2 } />
 
-        <CardFooter className="justify-between gap-2">
+        <CardFooter className="justify-center gap-2">
           <div className="flex flex-col gap-2 px-2">
             <p className="text-large font-medium" data-testid="org-name">
               { organization.name }
             </p>
             <p className="text-small text-default-400">{ organization.description }</p>
           </div>
-          <Button className="w-auto">Continue</Button>
         </CardFooter>
       </Card>
     </Link>
