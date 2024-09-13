@@ -9,24 +9,26 @@ export const metadata: Metadata = {
 
 async function getMe() {
   return await BattleStadiumAPI.GET("/users/me", {
-    next: { revalidate: 300 },
+    next: {
+      revalidate: 60 * 60,
+      tags: ["users/me"],
+    },
+    headers: {
+      Authorization: `Bearer ${await auth().getToken()}`,
+    },
   });
 }
 
 export default async function Dashboard() {
-  const authObj = auth();
+  const { data: me } = await getMe();
 
-  if (authObj.userId) {
-    const { data: me } = await getMe();
-
-    if (me) {
-      return (
-        <div>
-          <h1>Dashboard</h1>
-          <p>Welcome, {me?.first_name}!</p>
-        </div>
-      );
-    }
+  if (me) {
+    return (
+      <div>
+        <h1>Dashboard</h1>
+        <p>Welcome, {me.first_name}!</p>
+      </div>
+    );
   }
 
   return (
