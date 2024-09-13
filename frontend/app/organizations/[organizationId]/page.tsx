@@ -43,7 +43,9 @@ export default async function OrganizationDetailPage({ params }: { params: { org
 
   return (
     <>
-      <OrganizationCard className="size-auto" organization={organization} />
+      <div className="mb-4 flex grid-flow-col grid-cols-1 md:h-28 lg:h-40 xl:h-60">
+        <OrganizationCard organization={organization} />
+      </div>
       <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
     </>
   );
