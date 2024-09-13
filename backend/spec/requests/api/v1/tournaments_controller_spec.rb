@@ -10,8 +10,8 @@ RSpec.describe Api::V1::TournamentsController do
       operationId "listTournaments"
 
       parameter name: :organization_id, in: :body, type: :integer, description: "ID of the Organization", required: false, schema: { type: :integer }
-      parameter name: :page, in: :query, type: :integer, description: "Page number", required: false
-      parameter name: :per_page, in: :query, type: :integer, description: "Number of items per page", required: false
+      parameter PAGE_PARAMETER
+      parameter PER_PAGE_PARAMETER
 
       response(200, "Successful") do
         let(:organizations) { create_list(:organization, 5) }
