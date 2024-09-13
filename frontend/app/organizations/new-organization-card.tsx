@@ -15,9 +15,9 @@ export interface OrgCardProps {
 export default function NewOrganizationCard({ organization, cardProps }: OrgCardProps) {
   return (
     <Link key={organization.id} href={`/organizations/${organization.id}`}>
-      <Card className="w-[420px] h-50 bg-transparent" {...cardProps}>
-        <CardBody className="px-3 pb-1">
-          <div className="relative overflow-hidden rounded-xl">
+      <Card className="w-[300px] h-[300px] bg-transparent" { ...cardProps }>
+        <CardBody className="px-3 pb-2">
+          <div className="relative overflow-hidden rounded-3xl">
             <div
               className="absolute inset-0 blur-xl scale-110 "
               style={{
@@ -30,15 +30,15 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
               isBlurred
               isZoomed
               alt="Card image"
-              className="relative z-10 aspect-square w-40 h-40 hover:scale-110 object-cover object-top"
+              className="relative z-10 aspect-square hover:scale-110 object-cover object-top"
               src={organization.logo_url ?? "/pokemon/vgc.png"}
             />
           </div>
-
         </CardBody>
+
         <Spacer y={ 2 } />
 
-        <CardFooter className="justify-between gap-2 w-full">
+        <CardFooter className="justify-between gap-2">
           <div className="flex flex-col gap-2 px-2">
             <p className="text-large font-medium" data-testid="org-name">
               { organization.name }

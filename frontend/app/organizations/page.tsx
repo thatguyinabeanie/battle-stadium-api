@@ -28,7 +28,7 @@ export default async function OrganizationsPage() {
 
   return (
     <div
-      className={cn("my-auto grid grid-cols-1 gap-5 p-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5")}
+      className={cn("my-auto grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 ")}
     >
       {orgs?.map((organization) => (
         <NewOrganizationCard
