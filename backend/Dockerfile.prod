@@ -24,7 +24,7 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-FROM base AS pre-production
+FROM base AS builder
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
@@ -60,7 +60,7 @@ USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # FROM thatguyinabeanie/battle-stadium:latest AS production
-FROM thatguyinabeanie/battle-stadium:1 AS production
+FROM builder AS pre-production
 USER rails:rails
 WORKDIR /rails
 COPY app ./app
@@ -79,3 +79,9 @@ COPY config.ru ./config.ru
 COPY Gemfile Gemfile.lock ./
 RUN bundle check || bundle install
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+
+FROM thatguyinabeanie/battle-stadium:1 AS production
+USER rails:rails
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
