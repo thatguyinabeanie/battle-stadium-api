@@ -111,7 +111,7 @@ DISABLE_UPDATE_PROMPT=true
 # Function to kill Rails server running on port 10000
 kill_server() {
   # Find the PID of the Next.js server running on port 10000
-  NEXT_PID=$(lsof -i :10001 -t)
+  NEXT_PID=$(lsof -i :3000 -t)
 
   # Check if the PID exists
   if [ -n "$NEXT_PID" ]; then
@@ -119,7 +119,7 @@ kill_server() {
     kill -9 $NEXT_PID
     echo "Next.js server killed."
   else
-    echo "No Next.js server running on port 10001."
+    echo "No Next.js server running on port 3000."
   fi
 }
 
