@@ -26,18 +26,16 @@ export default function NavigationBar() {
       isBordered
       shouldHideOnScroll
       classNames={{
-        base: "lg:bg-transparent lg:backdrop-blur-sm flex justify-center ",
+        base: "lg:bg-transparent lg:backdrop-blur-sm flex ",
         item: "data-[active=true]:text-primary ",
-        wrapper: "px-4 sm:px-6",
       }}
       height="64px"
-      maxWidth="2xl"
     >
       <NavbarBrand>
-        <NavbarMenuToggle className="mr-2 h-6 sm:hidden" />
+        <NavbarMenuToggle className="mr-2 h-6 xl:hidden" />
         <BattleStadium />
 
-        <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full bg-content2 px-4 dark:bg-content1 lg:flex">
+        <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full bg-content2 px-4 dark:bg-content1 xl:flex">
           <NavbarItem>
             <Link className="flex gap-2 text-inherit" href="/dashboard">
               Dashboard
