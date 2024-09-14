@@ -16,7 +16,7 @@
     "tsc:watch": "tsc --noEmit --watch",
     "fix": "bun prettier:write && bun lint:fix",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
-    "generate:api": "openapi-typescript ../backend/openapi/v1/openapi.yaml  -o ./lib/battle-stadium-api/openapi-v1.d.ts",
+    "generate:api": "openapi-typescript ../backend/openapi/v1/openapi.yaml  -o ./lib/battle-stadium-api/openapi-v1.d.ts && bun fix",
     "check:unused": "depcheck"
   },
   "dependencies": {
