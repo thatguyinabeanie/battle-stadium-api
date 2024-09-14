@@ -4,8 +4,8 @@
   "private": true,
   "packageManager": "bun@^1",
   "scripts": {
-    "dev": "next dev",
-    "build:nextjs": "next build",
+    "dev": "prisma generate && next dev",
+    "build:nextjs": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "lint:eslint": "eslint . --ext .ts,.tsx -c .eslintrc.json",
@@ -19,9 +19,7 @@
     "generate:api": "openapi-typescript ../backend/openapi/v1/openapi.yaml  -o ./lib/battle-stadium-api/openapi-v1.d.ts && bun fix",
     "check:unused": "depcheck",
     "prisma:generate": "prisma generate",
-    "prisma:pull": "prisma db pull",
-    "prisma:generate": "prisma generate",
-    "postinstall": "prisma generate"
+    "prisma:pull": "prisma db pull"
   },
   "dependencies": {
     "@clerk/backend": "^1.11.1",
@@ -69,7 +67,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@builder.io/react-hydration-overlay": "^0.1.0",
     "@eslint/js": "^9.10.0",
     "@faker-js/faker": "^8.4.1",
     "@happy-dom/global-registrator": "^15.7.4",
@@ -110,7 +107,7 @@
     "jest-fetch-mock": "^3.0.3",
     "js-yaml": "^4.1.0",
     "openapi-typescript": "^7.4.0",
-    "postcss": "^8.4.45",
+    "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "rosie": "^2.1.1",
     "tailwind-variants": "^0.2.1",
