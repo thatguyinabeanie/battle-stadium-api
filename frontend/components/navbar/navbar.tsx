@@ -12,18 +12,19 @@ import {
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
-import BattleStadium from "@/components/battle-stadium";
-
 import Breadcrumbs from "./breadcrumbs";
 import UserMenu from "./user-menu/user-menu";
 import Notifications from "./notifications";
 import Settings from "./settings";
 import Search from "./search";
 
+import BattleStadium from "@/components/battle-stadium";
+
 export default function NavigationBar() {
   return (
     <div className="w-full bg-transparent">
       <Navbar
+        isBlurred
         isBordered
         classNames={{
           item: "data-[active=true]:text-primary ",

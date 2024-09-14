@@ -37,7 +37,7 @@ export default function UserMenuDropDown() {
       </DropdownItem>
 
       <DropdownItem key="settings">
-        <Link href="/settings">My Settings</Link>
+        <Link href="/settings">Settings</Link>
       </DropdownItem>
 
       <DropdownItem key="analytics">
