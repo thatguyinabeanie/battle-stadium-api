@@ -17,6 +17,7 @@ const nextConfig = async (_phase, { defaultConfig }) => {
     },
     reactStrictMode: true,
   };
+
   return nextConfig;
 };
 
