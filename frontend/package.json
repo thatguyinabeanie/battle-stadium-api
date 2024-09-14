@@ -17,7 +17,11 @@
     "fix": "bun prettier:write && bun lint:fix",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
     "generate:api": "openapi-typescript ../backend/openapi/v1/openapi.yaml  -o ./lib/battle-stadium-api/openapi-v1.d.ts && bun fix",
-    "check:unused": "depcheck"
+    "check:unused": "depcheck",
+    "prisma:generate": "prisma generate",
+    "prisma:pull": "prisma db pull",
+    "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@clerk/backend": "^1.11.1",

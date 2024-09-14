@@ -1,0 +1,357 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+  binaryTargets   = ["native", "linux-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  type                String   @db.VarChar
+  provider            String   @db.VarChar
+  provider_account_id String   @db.VarChar
+  refresh_token       String?
+  access_token        String?
+  expires_at          Int
+  id_token            String?
+  scope               String?
+  session_state       String?
+  token_type          String?
+  created_at          DateTime @db.Timestamp(6)
+  updated_at          DateTime @db.Timestamp(6)
+  user_id             String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  @@id([provider, provider_account_id])
+  @@unique([provider, provider_account_id], map: "index_accounts_on_provider_and_provider_account_id")
+}
+
+model ar_internal_metadata {
+  key        String   @id @db.VarChar
+  value      String?  @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+}
+
+model authenticators {
+  id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  credential_id          String   @unique(map: "index_authenticators_on_credential_id")
+  provider_account_id    String
+  credential_public_key  String
+  counter                Int
+  credential_device_type String
+  credential_backed_up   Boolean  @default(false)
+  transports             String?
+  created_at             DateTime @db.Timestamp(6)
+  updated_at             DateTime @db.Timestamp(6)
+  user_id                String   @db.Uuid
+  users                  users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b3092b2ea8")
+}
+
+model clerk_users {
+  id            BigInt   @id @default(autoincrement())
+  user_id       String   @db.Uuid
+  clerk_user_id String   @unique(map: "index_clerk_users_on_clerk_user_id") @db.VarChar
+  created_at    DateTime @db.Timestamp(6)
+  updated_at    DateTime @db.Timestamp(6)
+  users         users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_982e94e92d")
+
+  @@index([user_id], map: "index_clerk_users_on_user_id")
+}
+
+model formats {
+  id                 BigInt               @id @default(autoincrement())
+  name               String?              @db.VarChar
+  game_id            BigInt?
+  created_at         DateTime             @db.Timestamp(6)
+  updated_at         DateTime             @db.Timestamp(6)
+  games              games?               @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a0e0605606")
+  tournament_formats tournament_formats[]
+
+  @@unique([name, game_id], map: "index_formats_on_name_and_game_id")
+  @@index([game_id], map: "index_formats_on_game_id")
+}
+
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model games {
+  id          BigInt        @id @default(autoincrement())
+  name        String?       @db.VarChar
+  created_at  DateTime      @db.Timestamp(6)
+  updated_at  DateTime      @db.Timestamp(6)
+  formats     formats[]
+  tournaments tournaments[]
+}
+
+model match_games {
+  id                                     BigInt    @id @default(autoincrement())
+  match_id                               BigInt
+  winner_id                              BigInt?
+  loser_id                               BigInt?
+  created_at                             DateTime  @db.Timestamp(6)
+  updated_at                             DateTime  @db.Timestamp(6)
+  game_number                            Int       @default(1)
+  reported_at                            DateTime? @db.Timestamp(6)
+  reporter_id                            String?   @db.Uuid
+  matches                                matches   @relation(fields: [match_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_76cefaebc0")
+  users                                  users?    @relation(fields: [reporter_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_85619f44a8")
+  players_match_games_loser_idToplayers  players?  @relation("match_games_loser_idToplayers", fields: [loser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a2c90fc36d")
+  players_match_games_winner_idToplayers players?  @relation("match_games_winner_idToplayers", fields: [winner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_be3d6ef1eb")
+
+  @@index([loser_id], map: "index_match_games_on_loser_id")
+  @@index([match_id], map: "index_match_games_on_match_id")
+  @@index([winner_id], map: "index_match_games_on_winner_id")
+}
+
+model matches {
+  id                                     BigInt        @id @default(autoincrement())
+  round_id                               BigInt
+  table_number                           Int?
+  player_one_id                          BigInt
+  player_two_id                          BigInt
+  winner_id                              BigInt?
+  created_at                             DateTime      @db.Timestamp(6)
+  updated_at                             DateTime      @db.Timestamp(6)
+  player_one_check_in                    DateTime?     @db.Timestamp(6)
+  player_two_check_in                    DateTime?     @db.Timestamp(6)
+  loser_id                               BigInt?
+  reported_at                            DateTime?     @db.Timestamp(6)
+  match_games                            match_games[]
+  players_matches_loser_idToplayers      players?      @relation("matches_loser_idToplayers", fields: [loser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_973a5646ac")
+  players_matches_winner_idToplayers     players?      @relation("matches_winner_idToplayers", fields: [winner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9d0deeb219")
+  players_matches_player_two_idToplayers players       @relation("matches_player_two_idToplayers", fields: [player_two_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b58c6c3513")
+  players_matches_player_one_idToplayers players       @relation("matches_player_one_idToplayers", fields: [player_one_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_bfcd6a3c9f")
+  rounds                                 rounds        @relation(fields: [round_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e7c0250650")
+
+  @@unique([round_id, player_one_id, player_two_id], map: "index_matches_on_round_and_players_unique")
+  @@index([loser_id], map: "index_matches_on_loser_id")
+  @@index([player_one_id], map: "index_matches_on_player_one_id")
+  @@index([player_two_id], map: "index_matches_on_player_two_id")
+  @@index([winner_id], map: "index_matches_on_winner_id")
+}
+
+model organization_staff_members {
+  id              BigInt        @id @default(autoincrement())
+  organization_id BigInt
+  created_at      DateTime      @db.Timestamp(6)
+  updated_at      DateTime      @db.Timestamp(6)
+  user_id         String?       @db.Uuid
+  users           users?        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_65be078ae6")
+  organizations   organizations @relation(fields: [organization_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a177a0142c")
+
+  @@index([organization_id], map: "index_organization_staff_members_on_organization_id")
+}
+
+model organizations {
+  id                         BigInt                       @id @default(autoincrement())
+  name                       String?                      @unique(map: "index_organizations_on_name") @db.VarChar
+  description                String?
+  created_at                 DateTime                     @db.Timestamp(6)
+  updated_at                 DateTime                     @db.Timestamp(6)
+  owner_id                   String?                      @db.Uuid
+  logo_url                   String?                      @db.VarChar
+  partner                    Boolean                      @default(false)
+  hidden                     Boolean                      @default(false)
+  organization_staff_members organization_staff_members[]
+  users                      users?                       @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_ab574863f6")
+  tournaments                tournaments[]
+}
+
+model phase_players {
+  id         BigInt   @id @default(autoincrement())
+  player_id  BigInt
+  phase_type String   @db.VarChar
+  phase_id   BigInt
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  players    players  @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_71fbe65d92")
+
+  @@index([player_id], map: "index_phase_players_on_player_id")
+  @@index([phase_type, phase_id], map: "index_tournament_phase_players_on_phase")
+}
+
+model phases {
+  id               BigInt      @id @default(autoincrement())
+  tournament_id    BigInt
+  number_of_rounds Int         @default(0)
+  created_at       DateTime    @db.Timestamp(6)
+  updated_at       DateTime    @db.Timestamp(6)
+  type             String      @db.VarChar
+  name             String?     @db.VarChar
+  best_of          Int         @default(3)
+  started_at       DateTime?   @db.Timestamp(6)
+  ended_at         DateTime?   @db.Timestamp(6)
+  order            Int         @default(0)
+  tournaments      tournaments @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_75e775589e")
+
+  @@index([tournament_id], map: "index_phases_on_tournament_id")
+  @@index([type], map: "index_phases_on_type")
+}
+
+model players {
+  id                                         BigInt          @id @default(autoincrement())
+  tournament_id                              BigInt
+  created_at                                 DateTime        @db.Timestamp(6)
+  updated_at                                 DateTime        @db.Timestamp(6)
+  team_sheet_submitted                       Boolean         @default(false)
+  checked_in_at                              DateTime?       @db.Timestamp(6)
+  in_game_name                               String          @default("") @db.VarChar
+  pokemon_team_id                            BigInt?
+  user_id                                    String?         @db.Uuid
+  match_games_match_games_loser_idToplayers  match_games[]   @relation("match_games_loser_idToplayers")
+  match_games_match_games_winner_idToplayers match_games[]   @relation("match_games_winner_idToplayers")
+  matches_matches_loser_idToplayers          matches[]       @relation("matches_loser_idToplayers")
+  matches_matches_winner_idToplayers         matches[]       @relation("matches_winner_idToplayers")
+  matches_matches_player_two_idToplayers     matches[]       @relation("matches_player_two_idToplayers")
+  matches_matches_player_one_idToplayers     matches[]       @relation("matches_player_one_idToplayers")
+  phase_players                              phase_players[]
+  users                                      users?          @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_224cac07ce")
+  pokemon_teams                              pokemon_teams?  @relation(fields: [pokemon_team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_aeec102047")
+  tournaments                                tournaments     @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f96ec8a72f")
+
+  @@unique([user_id, tournament_id], map: "index_players_on_user_id_and_tournament_id")
+  @@index([pokemon_team_id], map: "index_players_on_pokemon_team_id")
+  @@index([tournament_id], map: "index_players_on_tournament_id")
+}
+
+model pokemon {
+  id              BigInt        @id @default(autoincrement())
+  name            String?       @db.VarChar
+  ability         String?       @db.VarChar
+  tera_type       String?       @db.VarChar
+  nature          String?       @db.VarChar
+  held_item       String?       @db.VarChar
+  move1           String?       @db.VarChar
+  move2           String?       @db.VarChar
+  move3           String?       @db.VarChar
+  move4           String?       @db.VarChar
+  created_at      DateTime      @db.Timestamp(6)
+  updated_at      DateTime      @db.Timestamp(6)
+  nickname        String?       @db.VarChar
+  pokemon_team_id BigInt        @default(0)
+  pokemon_teams   pokemon_teams @relation(fields: [pokemon_team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_5b6022737b")
+
+  @@index([pokemon_team_id], map: "index_pokemon_on_pokemon_team_id")
+}
+
+model pokemon_teams {
+  id         BigInt    @id @default(autoincrement())
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  user_id    String?   @db.Uuid
+  players    players[]
+  pokemon    pokemon[]
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f36f55a08c")
+}
+
+model rounds {
+  id           BigInt    @id @default(autoincrement())
+  phase_id     BigInt
+  created_at   DateTime  @db.Timestamp(6)
+  updated_at   DateTime  @db.Timestamp(6)
+  round_number Int       @default(1)
+  started_at   DateTime? @db.Timestamp(6)
+  ended_at     DateTime? @db.Timestamp(6)
+  matches      matches[]
+
+  @@unique([phase_id, round_number], map: "index_rounds_on_phase_id_and_round_number")
+  @@index([phase_id], map: "index_rounds_on_phase_id")
+}
+
+model schema_migrations {
+  version String @id @db.VarChar
+}
+
+model sessions {
+  id         BigInt   @id @default(autoincrement())
+  user_id    String   @db.Uuid
+  token      String   @unique(map: "index_sessions_on_token")
+  expires_at DateTime @db.Timestamp(6)
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  jti        String   @unique(map: "index_sessions_on_jti") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_758836b4f0")
+
+  @@unique([token, jti], map: "index_sessions_on_token_and_jti")
+  @@unique([user_id, token, jti], map: "index_sessions_on_user_id_and_token_and_jti")
+}
+
+model tournament_formats {
+  id            BigInt      @id @default(autoincrement())
+  tournament_id BigInt
+  format_id     BigInt
+  created_at    DateTime    @db.Timestamp(6)
+  updated_at    DateTime    @db.Timestamp(6)
+  formats       formats     @relation(fields: [format_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_08c15d3c37")
+  tournaments   tournaments @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_c679052dc0")
+
+  @@index([format_id], map: "index_tournament_formats_on_format_id")
+  @@index([tournament_id], map: "index_tournament_formats_on_tournament_id")
+}
+
+model tournaments {
+  id                    BigInt               @id @default(autoincrement())
+  name                  String?              @db.VarChar
+  start_at              DateTime?            @db.Timestamp(6)
+  created_at            DateTime             @db.Timestamp(6)
+  updated_at            DateTime             @db.Timestamp(6)
+  organization_id       BigInt?
+  check_in_start_at     DateTime?            @db.Timestamp(6)
+  game_id               BigInt?
+  format_id             BigInt?
+  ended_at              DateTime?            @db.Timestamp(6)
+  registration_start_at DateTime?            @db.Timestamp(6)
+  registration_end_at   DateTime?            @db.Timestamp(6)
+  player_cap            Int?
+  autostart             Boolean              @default(false)
+  started_at            DateTime?            @db.Timestamp(6)
+  late_registration     Boolean              @default(true)
+  teamlists_required    Boolean              @default(true)
+  open_team_sheets      Boolean              @default(true)
+  end_at                DateTime?            @db.Timestamp(6)
+  limitless_id          BigInt?
+  phases                phases[]
+  players               players[]
+  tournament_formats    tournament_formats[]
+  organizations         organizations?       @relation(fields: [organization_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_325ccadea6")
+  games                 games?               @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_8ef7ba6258")
+
+  @@unique([name, organization_id], map: "index_tournaments_on_name_and_organization_id")
+  @@unique([organization_id, name, start_at], map: "index_tournaments_on_org_id_name_start_date")
+  @@index([format_id], map: "index_tournaments_on_format_id")
+  @@index([game_id], map: "index_tournaments_on_game_id")
+  @@index([organization_id], map: "index_tournaments_on_organization_id")
+}
+
+model users {
+  id                         String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email                      String                       @unique(map: "index_users_on_email") @default("") @db.VarChar
+  username                   String?                      @unique(map: "index_users_on_username") @default("") @db.VarChar
+  created_at                 DateTime                     @db.Timestamp(6)
+  updated_at                 DateTime                     @db.Timestamp(6)
+  first_name                 String?                      @db.VarChar
+  last_name                  String?                      @db.VarChar
+  pronouns                   String                       @default("") @db.VarChar
+  image_url                  String?
+  admin                      Boolean                      @default(false)
+  authenticators             authenticators[]
+  clerk_users                clerk_users[]
+  match_games                match_games[]
+  organization_staff_members organization_staff_members[]
+  organizations              organizations[]
+  players                    players[]
+  pokemon_teams              pokemon_teams[]
+  sessions                   sessions[]
+}
+
+model verification_tokens {
+  id         BigInt   @id @default(autoincrement())
+  identifier String
+  expires_at DateTime @db.Timestamp(6)
+  token      String
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+
+  @@unique([identifier, token], map: "index_verification_token_on_identifier_and_token")
+}
