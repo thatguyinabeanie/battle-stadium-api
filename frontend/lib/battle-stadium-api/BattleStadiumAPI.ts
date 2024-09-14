@@ -1,4 +1,3 @@
-import "server-only";
 import type { paths } from "./openapi-v1.d";
 
 import createClient, { FetchOptions } from "openapi-fetch";
