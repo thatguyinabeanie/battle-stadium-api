@@ -14,6 +14,7 @@ import AwesomeParticles from "@/components/awesome-particles/awesome-particles";
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 
 import Providers from "./providers";
+import NavigationBar from "./navbar";
 
 export const metadata: Metadata = {
   title: {
@@ -41,6 +42,8 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
           <Providers>
             <AwesomeParticles options={await getAwesomeParticlesOptions()} />
+            <div className="flex flex-col w-full h-full">
+            <NavigationBar />
             <main className="flex h-full w-full z-10">
               <div className="w-full flex-1 flex-col p-4 z-10">
                 <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
@@ -48,6 +51,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
                 </div>
               </div>
             </main>
+            </div>
           </Providers>
         </body>
         <Analytics />

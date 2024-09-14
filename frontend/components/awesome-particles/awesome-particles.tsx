@@ -4,6 +4,7 @@ import * as React from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { ISourceOptions } from "@tsparticles/engine";
+import { useTheme } from "next-themes";
 export interface AwesomeParticlesProps {
   options?: ISourceOptions;
 }
@@ -20,5 +21,12 @@ export default function AwesomeParticles({ options }: AwesomeParticlesProps) {
     return <></>;
   }
 
+  const theme = useTheme();
+
+  if (!theme.resolvedTheme?.includes("dark")) {
+    return <> </>;
+  }
+
+  // Rest of the code goes here
   return <Particles id="tsparticles" options={options} />;
 }
