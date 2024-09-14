@@ -1,38 +1,33 @@
-import { NavbarItem, Dropdown, DropdownTrigger, Badge, Avatar, AvatarIcon, useUser } from "@nextui-org/react";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { NavbarItem, Dropdown, DropdownTrigger, Avatar, AvatarIcon } from "@nextui-org/react";
 
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
-
-import UserMenuDropDown from "./user-menu-dropdown";
 import { cn } from "@/lib";
 
-async function getMe() {
-  return await BattleStadiumAPI(auth()).Users.me({
-    next: {
-      revalidate: 60 * 60,
-      tags: ["users/me"],
-    },
-  });
-}
-
-const defaultImageUrl = "https://images.unsplash.com/broken";
+import UserMenuDropDown from "./user-menu-dropdown";
 
 export default async function UserMenu() {
+  const currentUser = await import("@clerk/nextjs/server").then((mod) => mod.currentUser);
   const user = await currentUser();
 
-  console.log('user image', user?.imageUrl);
   return (
     <NavbarItem className="px-2">
       <Dropdown placement="bottom">
         <DropdownTrigger>
           <button className="h-8 w-8 transition-transform align-top">
-            <Avatar size="sm" src={ user?.imageUrl } className={ cn("", {
-              hidden: !user?.imageUrl,
-            }) } />
+            <Avatar
+              className={cn("", {
+                hidden: !user?.imageUrl,
+              })}
+              size="sm"
+              src={user?.imageUrl}
+            />
 
-            <Avatar size="sm" icon={ <AvatarIcon /> } className={cn("", {
-              hidden: user?.imageUrl,
-              })} />
+            <Avatar
+              className={cn("", {
+                hidden: user?.imageUrl,
+              })}
+              icon={<AvatarIcon />}
+              size="sm"
+            />
           </button>
         </DropdownTrigger>
         <UserMenuDropDown />
