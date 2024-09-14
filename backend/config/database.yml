@@ -26,7 +26,7 @@ default: &default
 development:
   <<: *default
   database: <%= ENV.fetch("POSTGRES_DATABASE", 'fuecoco-db-dev') %>
-  # url: <%= ENV['DATABASE_URL'] %>
+
 
 # RAILS_DB_NAME=fuecoco-db-test   bin/rails db:create && rspec
 # The specified database role being used to connect to PostgreSQL.
