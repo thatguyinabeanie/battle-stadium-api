@@ -21,7 +21,7 @@ RSpec.describe Api::V1::GamesController do
 
         OpenApi::Response.set_example_response_metadata
 
-        run_test! do
+        run_test! do # rubocop:disable RSpec/MultipleExpectations
           expect(response.body).to include("data")
           expect(response.body).to include("meta")
         end
