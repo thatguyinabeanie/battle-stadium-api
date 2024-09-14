@@ -41,7 +41,6 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
           <Providers>
             <AwesomeParticles options={await getAwesomeParticlesOptions()} />
-            <SidebarResponsive aria-label="Responsive Sidebar" />
             <main className="flex h-full w-full z-10">
               <div className="w-full flex-1 flex-col p-4 z-10">
                 <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
