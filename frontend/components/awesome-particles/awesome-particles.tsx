@@ -7,7 +7,6 @@ import { loadSlim } from "@tsparticles/slim";
 import getAwesomeParticlesOptions from "./getAwesomeParticlesOptions";
 
 export default function AwesomeParticles() {
-
   const [init, setInit] = React.useState(false);
 
   React.useEffect(() => {
