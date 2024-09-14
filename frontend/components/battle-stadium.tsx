@@ -17,7 +17,7 @@ export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, he
 export default function BattleStadium() {
   return (
     <div className="flex items-center gap-3 px-3">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
+      <div className="flex h-8 w-8 rounded-full bg-foreground">
         <Link href="/">
           <BattleStadiumIcon aria-label="Battle Stadium Logo" className="text-background" />
         </Link>

@@ -20,7 +20,7 @@ const CustomPage = () => {
 };
 
 const UserProfilePage = () => (
-  <UserProfile path="/user-profile" routing="path">
+  <UserProfile path="/players" routing="path">
     {/* You can pass the content as a component */}
     <UserProfile.Page label="Custom Page" labelIcon={<DotIcon />} url="custom-page">
       <CustomPage />

@@ -3,7 +3,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
+import { Breadcrumbs, BreadcrumbItem, NavbarItem } from "@nextui-org/react";
 
 export default function BreadcrumbsComponent() {
   const pathname = usePathname();
@@ -27,11 +27,13 @@ export default function BreadcrumbsComponent() {
   });
 
   return (
-    <Breadcrumbs>
-      <BreadcrumbItem>
-        <Link href="/">Home</Link>
-      </BreadcrumbItem>
-      {breadcrumbItems}
-    </Breadcrumbs>
+    <NavbarItem className="hidden sm:flex mr-2">
+      <Breadcrumbs>
+        <BreadcrumbItem>
+          <Link href="/">Home</Link>
+        </BreadcrumbItem>
+        {breadcrumbItems}
+      </Breadcrumbs>
+    </NavbarItem>
   );
 }
