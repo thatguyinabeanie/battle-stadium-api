@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-import dynamic from "next/dynamic";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -11,6 +10,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import getAwesomeParticlesOptions from "@/components/awesome-particles/getAwesomeParticlesOptions";
+import AwesomeParticles from "@/components/awesome-particles/awesome-particles";
 import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
 
 import Providers from "./providers";
@@ -34,8 +34,6 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: ChildrenProps & AppProps) {
-  const AwesomeParticles = dynamic(() => import("@/components/awesome-particles/awesome-particles"));
-
   return (
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">

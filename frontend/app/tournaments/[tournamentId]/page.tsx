@@ -5,8 +5,12 @@ import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 export const revalidate = 300;
 export const dynamicParams = true;
 
-function getApiClient() {
-  return BattleStadiumAPI(auth());
+function getApiClient(shouldAuth = true) {
+  if (shouldAuth) {
+    return BattleStadiumAPI(auth());
+  }
+
+  return BattleStadiumAPI();
 }
 
 export async function generateMetadata({ params }: { params: { tournamentId: string } }) {
@@ -22,7 +26,7 @@ async function getTournament(tournamentId: number) {
 }
 
 export async function generateStaticParams() {
-  const response = await getApiClient().Tournaments.list();
+  const response = await getApiClient(false).Tournaments.list();
 
   return (response?.data?.data ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }

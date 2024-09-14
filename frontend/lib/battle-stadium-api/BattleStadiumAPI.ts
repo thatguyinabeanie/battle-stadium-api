@@ -12,7 +12,7 @@ const getBaseUrl = () => {
   }
 
   const baseUrl =
-    process.env.NODE_ENV !== "production"
+    process.env.NODE_ENV === "production"
       ? `http://${process.env.BACKEND_HOST}:10000/api/v1`
       : "https://api.battlestadium.gg/api/v1";
 
@@ -80,14 +80,12 @@ export const BattleStadiumAPI = (auth?: Auth) => {
         return await client.GET("/organizations", {
           params: {
             query: {
-              page : query?.page as number || 0,
-              per_page : query?.per_page as number || 20,
-            }
-          }
-        ,
-          next: { tags: ["listOrganizations"], revalidate: CACHE_TIMEOUT }
-        }
-        );
+              page: (query?.page as number) || 0,
+              per_page: (query?.per_page as number) || 20,
+            },
+          },
+          next: { tags: ["listOrganizations"], revalidate: CACHE_TIMEOUT },
+        });
       },
       get: async (org_id: number, _options?: FetchOptions<unknown>) => {
         return await client.GET("/organizations/{org_id}", {
