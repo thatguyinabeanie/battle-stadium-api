@@ -16,14 +16,14 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
   return (
     <div className="relative overflow-hidden rounded-3xl h-[400x] w-[300px] px-2">
       <Link key={organization.id} href={`/organizations/${organization.id}`}>
-        <Card className="bg-transparent h-90 w-90" {...cardProps}>
+        <Card className="bg-transparent h-90 w-90 rounded-3xl" {...cardProps}>
           <CardBody>
             <div className="relative overflow-hidden p-1">
               <Image
                 isBlurred
                 isZoomed
                 alt="Card image"
-                className="z-10 hover:scale-105"
+                className="hover:scale-105"
                 src={organization.logo_url ?? "/pokemon/vgc.png"}
               />
             </div>
@@ -41,7 +41,7 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
           </CardFooter>
 
           <div
-            className="absolute inset-0 blur-xl scale-125 opacity-35"
+            className="absolute inset-0 blur-3xl scale-125 opacity-35 "
             style={{
               backgroundImage: `url(${organization.logo_url ?? "/pokemon/vgc.png"})`,
               backgroundPosition: "center",
