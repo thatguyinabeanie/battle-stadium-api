@@ -1,9 +1,10 @@
-import { NavbarItem, Dropdown, DropdownTrigger, Badge, Avatar } from "@nextui-org/react";
-import { auth } from "@clerk/nextjs/server";
+import { NavbarItem, Dropdown, DropdownTrigger, Badge, Avatar, AvatarIcon, useUser } from "@nextui-org/react";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 import UserMenuDropDown from "./user-menu-dropdown";
+import { cn } from "@/lib";
 
 async function getMe() {
   return await BattleStadiumAPI(auth()).Users.me({
@@ -14,35 +15,25 @@ async function getMe() {
   });
 }
 
-const defaultImageUrl = "https://i.pravatar.cc/150?u=a04258114e29526708c";
+const defaultImageUrl = "https://images.unsplash.com/broken";
 
-const getBadge = async () => {
-  const authObj = auth();
-  const sessionId = authObj.sessionId;
+export default async function UserMenu() {
+  const user = await currentUser();
 
-  const { data: me } = await getMe();
-
-  if (sessionId && me?.image_url) {
-    return (
-      <Badge color="success" content="" placement="bottom-right" shape="circle">
-        <Avatar size="sm" src={me.image_url} />
-      </Badge>
-    );
-  }
-
-  return (
-    <Badge color="success" content="" placement="bottom-right" shape="circle">
-      <Avatar size="sm" src={defaultImageUrl} />
-    </Badge>
-  );
-};
-
-export default function UserMenu() {
+  console.log('user image', user?.imageUrl);
   return (
     <NavbarItem className="px-2">
-      <Dropdown placement="bottom-end">
+      <Dropdown placement="bottom">
         <DropdownTrigger>
-          <button className="mt-1 h-8 w-8 transition-transform">{getBadge()}</button>
+          <button className="h-8 w-8 transition-transform align-top">
+            <Avatar size="sm" src={ user?.imageUrl } className={ cn("", {
+              hidden: !user?.imageUrl,
+            }) } />
+
+            <Avatar size="sm" icon={ <AvatarIcon /> } className={cn("", {
+              hidden: user?.imageUrl,
+              })} />
+          </button>
         </DropdownTrigger>
         <UserMenuDropDown />
       </Dropdown>
