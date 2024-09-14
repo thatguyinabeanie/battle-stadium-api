@@ -17,7 +17,7 @@ async function listTournaments() {
 
 const Tournaments = async () => {
   const response = await listTournaments();
-  const tours = response.data?.tournaments;
+  const tours = response.data?.data;
 
   return <TournamentsTable tournaments={tours} />;
 };
