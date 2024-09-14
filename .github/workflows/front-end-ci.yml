@@ -10,23 +10,6 @@ permissions:
   checks: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install Dependencies
-        run: bun install
-        working-directory: frontend
-
-      - name: Build
-        run: bun build:nextjs
-        working-directory: frontend
-
   test:
     runs-on: ubuntu-latest
     steps:

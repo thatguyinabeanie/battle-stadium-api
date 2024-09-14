@@ -443,6 +443,7 @@ export interface components {
     User: {
       username: string;
       pronouns: string;
+      image_url?: string | null;
       /** Format: uuid */
       id: string;
     };
@@ -450,6 +451,7 @@ export interface components {
     UserDetails: {
       username: string;
       pronouns: string;
+      image_url?: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -460,6 +462,7 @@ export interface components {
     UserMe: {
       username: string;
       pronouns: string;
+      image_url?: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -471,6 +474,7 @@ export interface components {
     UserPostRequest: {
       username: string;
       pronouns: string;
+      image_url?: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -481,6 +485,7 @@ export interface components {
     UserRequest: {
       username: string;
       pronouns: string;
+      image_url?: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -513,6 +518,7 @@ export interface components {
       description: string | null;
       /** Format: uri */
       logo_url: string | null;
+      partner?: boolean;
       /** Format: int64 */
       id: number;
       name: string;
@@ -523,6 +529,7 @@ export interface components {
       description: string | null;
       /** Format: uri */
       logo_url: string | null;
+      partner?: boolean;
       /** Format: int64 */
       id: number;
       name: string;
@@ -778,9 +785,9 @@ export interface components {
   };
   parameters: {
     /** @description Page number for pagination */
-    page: number;
+    Page: number;
     /** @description Number of items per page for pagination */
-    per_page: number;
+    PerPage: number;
   };
   requestBodies: never;
   headers: never;
@@ -803,7 +810,10 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["Game"][];
+          "application/json": {
+            data?: components["schemas"]["Game"][];
+            meta?: components["schemas"]["Pagination"];
+          };
         };
       };
     };
@@ -966,7 +976,13 @@ export interface operations {
   };
   listOrganizations: {
     parameters: {
-      query?: never;
+      query: {
+        /** @description Page number for pagination */
+        page: number;
+        /** @description Number of items per page for pagination */
+        per_page: number;
+        partner?: boolean;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -979,7 +995,10 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["Organization"][];
+          "application/json": {
+            data?: components["schemas"]["Organization"][];
+            meta?: components["schemas"]["Pagination"];
+          };
         };
       };
     };
@@ -1576,11 +1595,11 @@ export interface operations {
   };
   listTournaments: {
     parameters: {
-      query?: {
+      query: {
         /** @description Page number for pagination */
-        page?: number;
+        page: number;
         /** @description Number of items per page for pagination */
-        per_page?: number;
+        per_page: number;
       };
       header?: never;
       path?: never;
@@ -1595,8 +1614,8 @@ export interface operations {
         };
         content: {
           "application/json": {
-            tournaments?: components["schemas"]["Tournament"][];
-            pagination?: components["schemas"]["Pagination"];
+            data?: components["schemas"]["Tournament"][];
+            meta?: components["schemas"]["Pagination"];
           };
         };
       };

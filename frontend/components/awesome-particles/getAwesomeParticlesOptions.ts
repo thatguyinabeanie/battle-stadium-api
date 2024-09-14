@@ -61,6 +61,7 @@ export default async function getAwesomeParticlesOptions(options?: Partial<ISour
           enable: true,
         },
         value: 100,
+        limit: { value: 200 },
       },
       opacity: {
         value: 0.3,

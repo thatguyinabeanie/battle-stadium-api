@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-import dynamic from "next/dynamic";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -11,7 +10,9 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import getAwesomeParticlesOptions from "@/components/awesome-particles/getAwesomeParticlesOptions";
-import SidebarResponsive from "@/components/sidebar/sidebar-responsive";
+import AwesomeParticles from "@/components/awesome-particles/awesome-particles";
+
+import NavigationBar from "../components/navbar/navbar";
 
 import Providers from "./providers";
 
@@ -34,8 +35,6 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: ChildrenProps & AppProps) {
-  const AwesomeParticles = dynamic(() => import("@/components/awesome-particles/awesome-particles"));
-
   return (
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">
@@ -43,18 +42,22 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
           <Providers>
             <AwesomeParticles options={await getAwesomeParticlesOptions()} />
-            <main className="flex h-full w-full z-10">
-              <SidebarResponsive aria-label="Responsive Sidebar" />
-              <div className="w-full flex-1 flex-col p-4 z-10">
-                <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
-                  <section className="flex flex-col gap-4 py-8 md:py-10 h-full w-ful items-center">{children}</section>
+            <div className="flex flex-col w-full h-full">
+              <NavigationBar />
+              <main className="flex h-full w-full z-10">
+                <div className="w-full flex-1 flex-col px-4 z-10">
+                  <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
+                    <section className="flex flex-col gap-4 py-8 md:py-10 h-full w-ful items-center">
+                      {children}
+                    </section>
+                  </div>
                 </div>
-              </div>
-              <Analytics />
-              <SpeedInsights />
-            </main>
+              </main>
+            </div>
           </Providers>
         </body>
+        <Analytics />
+        <SpeedInsights />
         <GoogleAnalytics gaId={process.env.MEASUREMENT_ID ?? ""} />
       </html>
     </ClerkProvider>

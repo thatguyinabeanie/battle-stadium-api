@@ -1,5 +1,5 @@
 ---
-openapi: 3.1.0
+openapi: 3.0.1
 info:
   title: Battle Stadium API V1
   version: v1
@@ -17,9 +17,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Game"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Game"
+                  meta:
+                    "$ref": "#/components/schemas/Pagination"
     post:
       summary: Create Game
       tags:
@@ -138,15 +143,37 @@ paths:
       tags:
       - Organizations
       operationId: listOrganizations
+      parameters:
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: true
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Number of items per page for pagination
+        required: true
+        schema:
+          type: integer
+      - name: partner
+        in: query
+        schema:
+          type: boolean
       responses:
         '200':
           description: successful
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Organization"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Organization"
+                  meta:
+                    "$ref": "#/components/schemas/Pagination"
     post:
       summary: Create Organization
       tags:
@@ -602,12 +629,13 @@ paths:
       - name: page
         in: query
         description: Page number for pagination
-        required: false
+        required: true
         schema:
           type: integer
       - name: per_page
         in: query
         description: Number of items per page for pagination
+        required: true
         schema:
           type: integer
       responses:
@@ -618,11 +646,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  tournaments:
+                  data:
                     type: array
                     items:
                       "$ref": "#/components/schemas/Tournament"
-                  pagination:
+                  meta:
                     "$ref": "#/components/schemas/Pagination"
   "/tournaments/{id}":
     parameters:
@@ -787,17 +815,18 @@ components:
       name: Authorization
       in: header
   parameters:
-    page:
+    Page:
       name: page
       in: query
       description: Page number for pagination
-      required: false
+      required: true
       schema:
         type: integer
-    per_page:
+    PerPage:
       name: per_page
       in: query
       description: Number of items per page for pagination
+      required: true
       schema:
         type: integer
   schemas:
@@ -847,6 +876,9 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         id:
           type: string
           format: uuid
@@ -864,6 +896,9 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
@@ -888,6 +923,9 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
@@ -917,6 +955,9 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
@@ -940,6 +981,9 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
@@ -1017,6 +1061,8 @@ components:
           type: string
           nullable: true
           format: uri
+        partner:
+          type: boolean
         id:
           type: integer
           format: int64
@@ -1042,6 +1088,8 @@ components:
           type: string
           nullable: true
           format: uri
+        partner:
+          type: boolean
         id:
           type: integer
           format: int64

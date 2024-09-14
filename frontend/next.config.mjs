@@ -16,7 +16,6 @@ const nextConfig = async (_phase, { defaultConfig }) => {
       API_BASE_URL: process.env.API_BASE_URL,
     },
     reactStrictMode: true,
-    experimental: {},
   };
   return nextConfig;
 };

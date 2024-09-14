@@ -3,42 +3,44 @@ import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 
 import { cn } from "@/lib/utils";
-import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { BattleStadiumAPI, type components } from "@/lib/battle-stadium-api";
+
+import NewOrganizationCard from "./new-organization-card";
 
 export const metadata: Metadata = {
   title: "Organizations",
 };
 
 export interface OrganizationsPageProps {
-  orgs: components["schemas"]["OrganizationDetails"][];
+  orgs: Array<components["schemas"]["OrganizationDetails"]>;
 }
 
-async function getOrgs() {
-  const { data: orgs } = await BattleStadiumAPI.GET("/organizations", {
-    next: { tags: ["organizations"] },
-    headers: {
-      Authorization: `Bearer ${await auth().getToken()}`,
-    },
+async function getOrgs(_page?: number, _per_page?: number, _partner?: boolean) {
+  const { data: orgs } = await BattleStadiumAPI(auth()).Organizations.list({
+    next: { tags: ["organizations"], revalidate: 300 },
   });
 
   return orgs;
 }
 
 export default async function OrganizationsPage() {
-  const orgs = await getOrgs();
+  const allOrgs = (await getOrgs())?.data;
+
+  const partnerOrgs = (allOrgs || [])?.filter((org) => org.partner);
+  const nonPartnerOrgs = (allOrgs || [])?.filter((org) => !org.partner);
+  const organizations = [...partnerOrgs, ...nonPartnerOrgs];
 
   return (
     <div
       className={cn(
-        "h-full w-full my-auto grid grid-flow-row-dense max-w-7xl grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+        "w-100 my-auto grid gap-5 px-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
       )}
     >
-      {orgs?.map((organization) => (
-        <OrganizationCard
+      {(organizations || [])?.map((organization) => (
+        <NewOrganizationCard
           key={organization.id}
           aria-label={`organization-card-${organization.id}`}
-          className="cursor-pointer"
+          // className="cursor-pointer"
           organization={organization}
         />
       ))}

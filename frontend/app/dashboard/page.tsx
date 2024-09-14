@@ -1,5 +1,5 @@
-import { auth } from "@clerk/nextjs/server";
 import { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
 
 import BattleStadiumAPI from "@/lib/battle-stadium-api/BattleStadiumAPI";
 
@@ -8,13 +8,10 @@ export const metadata: Metadata = {
 };
 
 async function getMe() {
-  return await BattleStadiumAPI.GET("/users/me", {
+  return await BattleStadiumAPI(auth()).Users.me({
     next: {
       revalidate: 60 * 60,
       tags: ["users/me"],
-    },
-    headers: {
-      Authorization: `Bearer ${await auth().getToken()}`,
     },
   });
 }
@@ -26,7 +23,9 @@ export default async function Dashboard() {
     return (
       <div>
         <h1>Dashboard</h1>
-        <p>Welcome, {me.first_name}!</p>
+        <p>
+          Welcome, {me.first_name} {me.last_name}{" "}
+        </p>
       </div>
     );
   }

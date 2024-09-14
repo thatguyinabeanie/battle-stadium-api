@@ -57,7 +57,8 @@ SIMPLE_USER_SCHEMA = {
   title: "Simple User",
   properties: {
     username: { type: :string },
-    pronouns: { type: :string }
+    pronouns: { type: :string },
+    image_url: { type: :string, nullable: true }
   },
   required: %w[username pronouns]
 }.freeze
@@ -77,7 +78,8 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
     properties: {
       email: { type: :string },
       first_name: { type: :string },
-      last_name: { type: :string }
+      last_name: { type: :string },
+      image_url: { type: :string, nullable: true }
     },
     required: %w[email first_name last_name ] + SIMPLE_USER_SCHEMA[:required]
   }
@@ -160,7 +162,8 @@ ORGANIZATION_SCHEMA = {
   properties: {
     owner: { "$ref" => "#/components/schemas/User" , :nullable => true},
     description: { type: :string, nullable: true },
-    logo_url: { type: :string, nullable: true, format: "uri" }
+    logo_url: { type: :string, nullable: true, format: "uri" },
+    partner: { type: :boolean },
   }.merge(ID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[owner description logo_url]
 }.freeze
@@ -421,7 +424,7 @@ PAGE_PARAMETER = {
   in: :query,
   type: :integer,
   description: "Page number for pagination",
-  required: false
+  required: true,
 }
 
 PER_PAGE_PARAMETER = {
@@ -429,9 +432,10 @@ PER_PAGE_PARAMETER = {
   in: :query,
   type: :integer,
   description: "Number of items per page for pagination",
+  required: true,
 }
 
-PAGINATION = {
+PAGINATION_RESPONSE = {
   type: :object,
   properties: {
     current_page: { type: :integer },
@@ -460,7 +464,7 @@ RSpec.configure do |config|
   # the root example_group in your specs, e.g. describe '...', openapi_spec: 'v2/swagger.json'
   config.openapi_specs = {
     "v1/openapi.yaml" => {
-      openapi: "3.1.0",
+      openapi: "3.0.1",
       info: {
         title: "Battle Stadium API V1",
         version: "v1"
@@ -493,8 +497,8 @@ RSpec.configure do |config|
         },
 
         parameters: {
-          page: PAGE_PARAMETER,
-          per_page: PER_PAGE_PARAMETER
+          Page: PAGE_PARAMETER,
+          PerPage: PER_PAGE_PARAMETER
         },
 
         schemas: {
@@ -527,7 +531,7 @@ RSpec.configure do |config|
           SessionAndUser: SESSION_AND_USER,
           Error: ERROR,
           Message: MESSAGE,
-          Pagination: PAGINATION
+          Pagination: PAGINATION_RESPONSE
         }
       }
     }

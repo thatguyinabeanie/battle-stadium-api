@@ -17,12 +17,29 @@ RSpec.describe Api::V1::OrganizationsController do
       produces OpenApi::Response::JSON_CONTENT_TYPE
       operationId "listOrganizations"
 
+      parameter PAGE_PARAMETER
+      parameter PER_PAGE_PARAMETER
+      parameter name: :partner, in: :query, type: :boolean
+
       response(200, "successful") do
-        schema type: :array, items: { "$ref" => "#/components/schemas/Organization" }
+        let(:organizations) { create_list(:organization, 5) }
+
+        let(:page) { 2 }
+        let(:per_page) { 2 }
+        let(:partner) { true }
+
+        schema type: :object, properties: {
+          data: { type: :array, items: { "$ref" => ORGANIZATION_DETAIL_SCHEMA } },
+          meta: { "$ref" => "#/components/schemas/Pagination" }
+        }
 
         OpenApi::Response.set_example_response_metadata
 
-        run_test!
+        run_test! do # rubocop:disable RSpec/MultipleExpectations
+          expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
+          expect(response.body).to include("data")
+          expect(response.body).to include("meta")
+        end
       end
     end
 

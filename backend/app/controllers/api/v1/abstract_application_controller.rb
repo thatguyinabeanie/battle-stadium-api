@@ -9,20 +9,36 @@ module Api
       class_attribute :detail_serializer_klass
       class_attribute :update_params_except
       class_attribute :filter_params
+      class_attribute :enable_pagination
+      class_attribute :default_order_by
 
       before_action :set_object, only: %i[show update destroy]
 
       # GET /api/v1/:klass
       # GET /api/v1/:klass.json
       def index
-        @objects = if filter_params
-                     klass.where(filter_params)
-                    else
-                      klass.all
-                    end
-
         authorize klass, :index?
-        render json: @objects, each_serializer: index_serializer, status: :ok
+
+        @objects = klass
+
+        @objects = @objects.order(default_order_by) if default_order_by.present?
+
+        if enable_pagination
+          @objects = @objects.page(params[:page] || 0).per(params[:per_page] || 20)
+
+          render json: {
+            data: @objects.map { |object| index_serializer.new(object).attributes },
+            meta: {
+              current_page: @objects.current_page,
+              next_page: @objects.next_page,
+              prev_page: @objects.prev_page,
+              total_pages: @objects.total_pages,
+              total_count: @objects.total_count
+            }
+          }, status: :ok
+        else
+          render json: @objects, each_serializer: index_serializer, status: :ok
+        end
       end
 
       # GET /api/v1/:klass/:id

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import React from "react";
+import { auth } from "@clerk/nextjs/server";
 
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
@@ -11,23 +12,12 @@ export const metadata: Metadata = {
 };
 
 async function listTournaments() {
-  return await BattleStadiumAPI.GET("/tournaments", {
-    next: {
-      tags: ["tournaments"],
-      // revalidate: 60*60*2,
-    },
-    params: {
-      query: {
-        per_page: 10,
-        page: 0,
-      },
-    },
-  });
+  return await BattleStadiumAPI(auth()).Tournaments.list();
 }
 
 const Tournaments = async () => {
   const response = await listTournaments();
-  const tours = response.data?.tournaments;
+  const tours = response.data?.data;
 
   return <TournamentsTable tournaments={tours} />;
 };
