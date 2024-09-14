@@ -75,9 +75,19 @@ export const BattleStadiumAPI = (auth?: Auth) => {
     },
     Organizations: {
       list: async (options?: FetchOptions<{ query?: PaginationParams }>) => {
-        const params = options?.params?.query;
+        const query = options?.params?.query;
 
-        return await client.GET("/organizations", { params });
+        return await client.GET("/organizations", {
+          params: {
+            query: {
+              page : query?.page as number || 0,
+              per_page : query?.per_page as number || 20,
+            }
+          }
+        ,
+          next: { tags: ["listOrganizations"], revalidate: CACHE_TIMEOUT }
+        }
+        );
       },
       get: async (org_id: number, _options?: FetchOptions<unknown>) => {
         return await client.GET("/organizations/{org_id}", {
