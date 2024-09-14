@@ -6,7 +6,6 @@ import NewOrganizationCard from "@/components/organizations/new-organization-car
 import { cn } from "@/lib/utils";
 import { BattleStadiumAPI, type components } from "@/lib/battle-stadium-api";
 
-
 export const metadata: Metadata = {
   title: "Organizations",
 };
