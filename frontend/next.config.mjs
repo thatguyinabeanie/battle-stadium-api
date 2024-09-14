@@ -19,4 +19,4 @@ export default async function nextConfig(_phase, { defaultConfig }) {
   };
 
   return nextConfig;
-};
+}

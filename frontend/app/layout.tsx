@@ -31,7 +31,6 @@ export const viewport: Viewport = {
   ],
 };
 
-
 export default async function RootLayout({ children }: ChildrenProps & AppProps) {
   return (
     <ClerkProvider>
