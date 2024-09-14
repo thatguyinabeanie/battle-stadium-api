@@ -31,6 +31,16 @@ export const viewport: Viewport = {
   ],
 };
 
+async function getChildren(children: ChildrenProps["children"]) {
+  if (process.env.NODE_ENV === "development" && process.env.ENABLE_HYDRATION_OVERLAY === "true") {
+    const { HydrationOverlay } = await import("@builder.io/react-hydration-overlay");
+
+    return <HydrationOverlay>{children}</HydrationOverlay>;
+  }
+
+  return children;
+}
+
 export default async function RootLayout({ children }: ChildrenProps & AppProps) {
   return (
     <ClerkProvider>
@@ -45,7 +55,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
                 <div className="w-full flex-1 flex-col px-4 z-10">
                   <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
                     <section className="flex flex-col gap-4 py-8 md:py-10 h-full w-ful items-center">
-                      {children}
+                      {await getChildren(children)}
                     </section>
                   </div>
                 </div>

@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import NewOrganizationCard from "@/components/organizations/new-organization-card";
 import { cn } from "@/lib/utils";
 import { BattleStadiumAPI, type components } from "@/lib/battle-stadium-api";
-import prisma from "@/prisma/client";
+
 
 export const metadata: Metadata = {
   title: "Organizations",
@@ -21,14 +21,6 @@ async function getOrgs(_page?: number, _per_page?: number, _partner?: boolean) {
   });
 
   return orgs;
-}
-
-export async function prismaGetOrgs() {
-  const partnerOrgs = await prisma.organizations.findMany({ where: { partner: true } });
-
-  const orgs = await prisma.organizations.findMany({ where: { partner: false } });
-
-  return { partnerOrgs, orgs };
 }
 
 export default async function OrganizationsPage() {
