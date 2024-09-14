@@ -9,6 +9,7 @@ export interface AwesomeParticlesProps {
   options?: ISourceOptions;
 }
 export default function AwesomeParticles({ options }: AwesomeParticlesProps) {
+  const theme = useTheme();
   const [init, setInit] = React.useState(false);
 
   React.useEffect(() => {
@@ -17,14 +18,8 @@ export default function AwesomeParticles({ options }: AwesomeParticlesProps) {
     }).then(() => setInit(true));
   }, []);
 
-  if (!init) {
+  if (!init || !theme.resolvedTheme?.includes("dark")) {
     return <></>;
-  }
-
-  const theme = useTheme();
-
-  if (!theme.resolvedTheme?.includes("dark")) {
-    return <> </>;
   }
 
   // Rest of the code goes here

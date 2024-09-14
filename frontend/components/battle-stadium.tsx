@@ -1,10 +1,7 @@
 import type { IconSvgProps } from "@/types";
 
 import React from "react";
-import { useMediaQuery } from "usehooks-ts";
-
-import { cn } from "@/lib";
-import { Link, LinkIcon } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 
 export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, height, ...props }) => (
   <svg fill="none" height={size || height} viewBox="0 0 32 32" width={size || width} {...props}>
@@ -18,8 +15,6 @@ export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, he
 );
 
 export default function BattleStadium() {
-
-
   return (
     <div className="flex items-center gap-3 px-3">
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
@@ -28,11 +23,8 @@ export default function BattleStadium() {
         </Link>
       </div>
 
-      <Link href="/" >
-        <span
-          aria-label="Battle Stadium Name"
-          className="text-small font-bold uppercase opacity-100"
-        >
+      <Link href="/">
+        <span aria-label="Battle Stadium Name" className="text-small font-bold uppercase opacity-100">
           Battle Stadium
         </span>
       </Link>
