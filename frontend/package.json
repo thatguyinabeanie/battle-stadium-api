@@ -62,7 +62,6 @@
     "tailwindcss-animate": "^1.0.7",
     "usehooks-ts": "^3.1.0",
     "webpack-node-externals": "^3.0.0",
-    "whatwg-fetch": "^3.6.20",
     "ws": "^8.18.0",
     "zod": "^3.23.8"
   },
@@ -71,7 +70,6 @@
     "@faker-js/faker": "^8.4.1",
     "@happy-dom/global-registrator": "^15.7.4",
     "@iconify/react": "^5.0.2",
-    "@openapitools/openapi-generator-cli": "^2.13.5",
     "@tanstack/eslint-plugin-query": "^5.56.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
@@ -119,7 +117,4 @@
     "typescript-eslint": "^8.5.0",
     "yaml": "^2.5.1"
   },
-  "trustedDependencies": [
-    "@openapitools/openapi-generator-cli"
-  ]
 }
