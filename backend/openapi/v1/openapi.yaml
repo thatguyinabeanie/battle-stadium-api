@@ -17,9 +17,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Game"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Game"
+                  meta:
+                    "$ref": "#/components/schemas/Pagination"
     post:
       summary: Create Game
       tags:
@@ -894,6 +899,9 @@ components:
           type: string
         last_name:
           type: string
+        image_url:
+          type: string
+          nullable: true
         id:
           type: string
           format: uuid
@@ -918,6 +926,9 @@ components:
           type: string
         last_name:
           type: string
+        image_url:
+          type: string
+          nullable: true
         id:
           type: string
           format: uuid
@@ -947,6 +958,9 @@ components:
           type: string
         last_name:
           type: string
+        image_url:
+          type: string
+          nullable: true
         id:
           type: string
           format: uuid
@@ -970,6 +984,9 @@ components:
           type: string
         last_name:
           type: string
+        image_url:
+          type: string
+          nullable: true
         id:
           type: string
           format: uuid

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import {
   Navbar,
@@ -12,6 +10,12 @@ import {
   Link,
   Button,
   Input,
+  Avatar,
+  Badge,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 

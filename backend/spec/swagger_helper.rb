@@ -77,7 +77,8 @@ SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
     properties: {
       email: { type: :string },
       first_name: { type: :string },
-      last_name: { type: :string }
+      last_name: { type: :string },
+      image_url: { type: :string, nullable: true }
     },
     required: %w[email first_name last_name ] + SIMPLE_USER_SCHEMA[:required]
   }
