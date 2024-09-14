@@ -70,7 +70,6 @@
     "@faker-js/faker": "^8.4.1",
     "@happy-dom/global-registrator": "^15.7.4",
     "@iconify/react": "^5.0.2",
-    "@tanstack/eslint-plugin-query": "^5.56.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
