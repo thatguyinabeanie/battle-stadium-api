@@ -28,11 +28,13 @@ const users = [
   },
 ];
 
-const rolesOptions = users.reduce((options: { name: string; uid: string; }[], user) => {
+const rolesOptions = users.reduce((options: { name: string; uid: string }[], user) => {
   const existingOption = options.find((option) => option.name === user.role);
+
   if (existingOption) {
     return options;
   }
+
   return [
     ...options,
     {
@@ -42,11 +44,13 @@ const rolesOptions = users.reduce((options: { name: string; uid: string; }[], us
   ];
 }, []);
 
-const statusOptions = users.reduce((options: { name: string; uid: string; }[], user) => {
+const statusOptions = users.reduce((options: { name: string; uid: string }[], user) => {
   const existingOption = options.find((option) => option.name === user.status);
+
   if (existingOption) {
     return options;
   }
+
   return [
     ...options,
     {
