@@ -7,22 +7,21 @@ export default function Search() {
       <NavbarItem className="mr-2 hidden md:flex">
         <Input
           aria-label="Search"
-          classNames={ {
+          classNames={{
             inputWrapper: "bg-content2 dark:bg-content1",
-          } }
+          }}
           labelPlacement="outside"
           placeholder="Search..."
           radius="full"
-          startContent={ <Icon className="text-default-500" icon="solar:magnifer-linear" width={ 20 } /> }
+          startContent={<Icon className="text-default-500" icon="solar:magnifer-linear" width={20} />}
         />
-
       </NavbarItem>
 
       <NavbarItem className="md:hidden">
         <Button isIconOnly radius="full" variant="light">
-          <Icon className="text-default-500" icon="solar:magnifer-linear" width={ 20 } />
+          <Icon className="text-default-500" icon="solar:magnifer-linear" width={20} />
         </Button>
       </NavbarItem>
     </>
-  )
+  );
 }

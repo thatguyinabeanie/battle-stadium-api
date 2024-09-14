@@ -19,7 +19,6 @@ export default function BreadcrumbsComponent() {
     // /organizations/72/tournaments => "Home > Organizations > Hatterene Series > Tournaments"
     // This would require making an api call to fetch the relevant data
 
-
     return (
       <BreadcrumbItem key={href}>
         <Link href={href}>{label}</Link>

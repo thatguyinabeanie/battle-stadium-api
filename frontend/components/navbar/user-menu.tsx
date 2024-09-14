@@ -1,9 +1,11 @@
-import { NavbarItem, Dropdown, DropdownTrigger, Badge, Avatar, useUser } from "@nextui-org/react";
-import UserMenuDropDown from "./user-menu-dropdown";
+import { NavbarItem, Dropdown, DropdownTrigger, Badge, Avatar } from "@nextui-org/react";
 import { auth } from "@clerk/nextjs/server";
+
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
-async function getMe () {
+import UserMenuDropDown from "./user-menu-dropdown";
+
+async function getMe() {
   return await BattleStadiumAPI(auth()).Users.me({
     next: {
       revalidate: 60 * 60,
@@ -19,29 +21,28 @@ const getBadge = async () => {
   const sessionId = authObj.sessionId;
 
   const { data: me } = await getMe();
-  if(sessionId && me?.image_url) {
+
+  if (sessionId && me?.image_url) {
     return (
       <Badge color="success" content="" placement="bottom-right" shape="circle">
-        <Avatar size="sm" src={ me.image_url }></Avatar>
+        <Avatar size="sm" src={me.image_url} />
       </Badge>
-    )
+    );
   }
 
   return (
     <Badge color="success" content="" placement="bottom-right" shape="circle">
-      <Avatar size="sm" src={ defaultImageUrl } />
+      <Avatar size="sm" src={defaultImageUrl} />
     </Badge>
-  )
-}
+  );
+};
 
 export default function UserMenu() {
   return (
     <NavbarItem className="px-2">
       <Dropdown placement="bottom-end">
         <DropdownTrigger>
-          <button className="mt-1 h-8 w-8 transition-transform">
-            {getBadge()}
-          </button>
+          <button className="mt-1 h-8 w-8 transition-transform">{getBadge()}</button>
         </DropdownTrigger>
         <UserMenuDropDown />
       </Dropdown>

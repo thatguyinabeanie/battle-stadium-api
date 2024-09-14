@@ -9,19 +9,12 @@ import {
   NavbarMenuToggle,
   Link,
   Button,
-  Input,
-  Avatar,
-  Badge,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
 import BattleStadium from "@/components/battle-stadium";
-import Breadcrumbs from "./breadcrumbs";
 
+import Breadcrumbs from "./breadcrumbs";
 import UserMenu from "./user-menu";
 import Notifications from "./notifications";
 import Settings from "./settings";
