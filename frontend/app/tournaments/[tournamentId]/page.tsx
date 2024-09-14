@@ -24,7 +24,7 @@ async function getTournament(tournamentId: number) {
 export async function generateStaticParams() {
   const response = await getApiClient().Tournaments.list();
 
-  return (response?.data?.tournaments ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
+  return (response?.data?.data ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }
 
 export default async function Tournament({ params }: Readonly<{ params: { tournamentId: string } }>) {

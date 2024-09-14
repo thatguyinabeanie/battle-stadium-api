@@ -1,4 +1,3 @@
-
 import { auth } from "@clerk/nextjs/server";
 
 import TournamentsTable from "@/app/tournaments/TournamentsTable";
