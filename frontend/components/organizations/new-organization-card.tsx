@@ -1,5 +1,3 @@
-"use client";
-
 import type { CardProps } from "@nextui-org/react";
 
 import React from "react";
@@ -36,14 +34,14 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
               <p className="flex-col text-large font-medium sm:text-small h-[50px]" data-testid="org-name">
                 {organization.name}
               </p>
-              <p className="text-small text-default-400">{"hello world"}</p>
+              <p className="text-small text-default-400">hello world</p>
             </div>
           </CardFooter>
 
           <div
-            className="absolute inset-0 blur-3xl scale-125 opacity-35 "
+            className="absolute inset-0 blur-3xl scale-125 opacity-35"
             style={{
-              backgroundImage: `url(${organization.logo_url ?? "/pokemon/vgc.png"})`,
+              backgroundImage: organization.logo_url ? `url("${organization.logo_url}")` : "/pokemon/vgc.png",
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}

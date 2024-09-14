@@ -1,4 +1,3 @@
-"use client";
 import { title, subtitle } from "@/components/primitives";
 export default function NextJSHome() {
   return (

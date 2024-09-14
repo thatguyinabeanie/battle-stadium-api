@@ -2,10 +2,9 @@ import React from "react";
 import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 
+import NewOrganizationCard from "@/components/organizations/new-organization-card";
 import { cn } from "@/lib/utils";
 import { BattleStadiumAPI, type components } from "@/lib/battle-stadium-api";
-
-import NewOrganizationCard from "./new-organization-card";
 
 export const metadata: Metadata = {
   title: "Organizations",

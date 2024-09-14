@@ -2,11 +2,14 @@
 import { join } from "path";
 
 import dotenv from "dotenv";
+import { withHydrationOverlay } from "@builder.io/react-hydration-overlay/next";
 
 dotenv.config({ path: join(process.cwd(), ".env") });
 dotenv.config({ path: join(process.cwd(), ".env.local") });
 
-const nextConfig = async (_phase, { defaultConfig }) => {
+export default withHydrationOverlay({
+  appRootSelector: "main",
+})(async function nextConfig(_phase, { defaultConfig }) {
   const nextConfig = {
     ...defaultConfig,
     env: {
@@ -19,6 +22,4 @@ const nextConfig = async (_phase, { defaultConfig }) => {
   };
 
   return nextConfig;
-};
-
-export default nextConfig;
+});
