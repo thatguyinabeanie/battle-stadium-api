@@ -14,11 +14,17 @@ RSpec.describe Api::V1::GamesController do
       operationId "listGames"
 
       response(200, "successful") do
-        schema type: :array, items: { "$ref" => "#/components/schemas/Game" }
+        schema type: :object, properties: {
+          data: { type: :array, items: { "$ref" => "#/components/schemas/Game" } },
+          meta: { "$ref" => "#/components/schemas/Pagination" }
+        }
 
         OpenApi::Response.set_example_response_metadata
 
-        run_test!
+        run_test! do
+          expect(response.body).to include("data")
+          expect(response.body).to include("meta")
+        end
       end
     end
 

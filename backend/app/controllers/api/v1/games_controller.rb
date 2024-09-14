@@ -6,7 +6,7 @@ module Api
       self.klass = ::Game
       self.serializer_klass = Serializers::Game
       self.detail_serializer_klass = Serializers::GameDetails
-
+      self.enable_pagination = true
       protected
 
       def permitted_params

@@ -160,7 +160,8 @@ ORGANIZATION_SCHEMA = {
   properties: {
     owner: { "$ref" => "#/components/schemas/User" , :nullable => true},
     description: { type: :string, nullable: true },
-    logo_url: { type: :string, nullable: true, format: "uri" }
+    logo_url: { type: :string, nullable: true, format: "uri" },
+    partner: { type: :boolean },
   }.merge(ID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[owner description logo_url]
 }.freeze

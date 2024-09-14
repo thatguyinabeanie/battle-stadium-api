@@ -66,6 +66,7 @@ namespace :limitless do
       org = Organization.find_or_create_by(name: organizer_data['name']).tap do |organizer|
         organizer.logo_url = organizer_data['logo']
         organizer.hidden = organizer.logo_url == nil
+        organizer.partner = organizer.hidden
         # puts "Done Processing organizer: #{organizer_data['name']} (ID: #{id})"
       end
 

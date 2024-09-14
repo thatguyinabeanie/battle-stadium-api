@@ -21,15 +21,15 @@ RSpec.describe Api::V1::TournamentsController do
         let(:per_page) { 2 }
 
         schema type: :object, properties: {
-          tournaments: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
-          pagination: { "$ref" => "#/components/schemas/Pagination" }
+          data: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
+          meta: { "$ref" => "#/components/schemas/Pagination" }
         }
 
         # OpenApi::Response.set_example_response_metadata
         run_test! do # rubocop:disable RSpec/MultipleExpectations
           expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
-          expect(response.body).to include("pagination")
-          expect(response.body).to include("tournaments")
+          expect(response.body).to include("data")
+          expect(response.body).to include("meta")
         end
       end
     end
@@ -53,12 +53,17 @@ RSpec.describe Api::V1::TournamentsController do
         let(:per_page) { 2 }
 
         schema type: :object, properties: {
-          tournaments: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
-          pagination: { "$ref" => "#/components/schemas/Pagination" }
+          data: { type: :array, items: { "$ref" => "#/components/schemas/Tournament" } },
+          meta: { "$ref" => "#/components/schemas/Pagination" }
         }
 
         OpenApi::Response.set_example_response_metadata
-        run_test!
+
+        run_test! do # rubocop:disable RSpec/MultipleExpectations
+          expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
+          expect(response.body).to include("data")
+          expect(response.body).to include("meta")
+        end
       end
     end
   end

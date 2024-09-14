@@ -32,7 +32,8 @@ async function getTournaments(organizationId: number) {
 }
 
 export async function generateStaticParams() {
-  const { data: orgs } = await getApiClient(false).Organizations.list({ next: { tags: ["organizations"] } });
+  const response = await getApiClient(false).Organizations.list({ next: { tags: ["organizations"] } });
+  const orgs = response.data?.data;
 
   return (orgs ?? []).map((organization) => ({ organizationId: organization.id.toString() }));
 }
@@ -43,10 +44,10 @@ export default async function OrganizationDetailPage({ params }: { params: { org
 
   return (
     <>
-      <div className="mb-4 flex grid-flow-col grid-cols-1 md:h-28 lg:h-40 xl:h-60">
+      <div className="mb-4 flex flex-col grid-cols-1 justify-center">
         <OrganizationCard organization={organization} />
+        <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
       </div>
-      <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
     </>
   );
 }

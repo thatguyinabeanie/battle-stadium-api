@@ -513,6 +513,7 @@ export interface components {
       description: string | null;
       /** Format: uri */
       logo_url: string | null;
+      partner?: boolean;
       /** Format: int64 */
       id: number;
       name: string;
@@ -523,6 +524,7 @@ export interface components {
       description: string | null;
       /** Format: uri */
       logo_url: string | null;
+      partner?: boolean;
       /** Format: int64 */
       id: number;
       name: string;
@@ -966,7 +968,13 @@ export interface operations {
   };
   listOrganizations: {
     parameters: {
-      query?: never;
+      query: {
+        /** @description Page number for pagination */
+        page: number;
+        /** @description Number of items per page for pagination */
+        per_page: number;
+        partner?: boolean;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -979,7 +987,10 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["Organization"][];
+          "application/json": {
+            data?: components["schemas"]["Organization"][];
+            meta?: components["schemas"]["Pagination"];
+          };
         };
       };
     };
@@ -1595,8 +1606,8 @@ export interface operations {
         };
         content: {
           "application/json": {
-            tournaments?: components["schemas"]["Tournament"][];
-            pagination?: components["schemas"]["Pagination"];
+            data?: components["schemas"]["Tournament"][];
+            meta?: components["schemas"]["Pagination"];
           };
         };
       };

@@ -1,10 +1,8 @@
 import React from "react";
 
-import { Image, Link } from "@/components/client";
+import { Image } from "@/components/client";
 import { cn } from "@/lib/utils";
 import { components } from "@/lib/battle-stadium-api";
-
-import LoadingPlaceholder from "./loading-place-holder";
 
 export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
   isLoading?: boolean;
@@ -18,7 +16,7 @@ export default function OrganizationCard(props: PlaceListItemProps) {
   return (
     <div
       className={cn(
-        "relative flex flex-col gap-3",
+        "flex flex-col gap-3 h-[300px] w-[300px]",
         {
           "rounded-none bg-background shadow-none": removeWrapper,
         },
@@ -26,15 +24,15 @@ export default function OrganizationCard(props: PlaceListItemProps) {
       )}
       {...rest}
     >
-        <Image
-          isBlurred
-          isZoomed
-          alt={organization?.name}
-          aria-label={organization?.name}
-          className="aspect-square w-25"
-          isLoading={isLoading}
-          src={organization?.logo_url ?? "/pokemon/vgc.png"}
-        />
+      <Image
+        isBlurred
+        isZoomed
+        alt={organization?.name}
+        aria-label={organization?.name}
+        className="aspect-square"
+        isLoading={isLoading}
+        src={organization?.logo_url ?? "/pokemon/vgc.png"}
+      />
     </div>
   );
 }

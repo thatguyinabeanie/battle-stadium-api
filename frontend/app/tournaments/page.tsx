@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 async function listTournaments() {
-  return await BattleStadiumAPI(auth()).Tournaments.list()
+  return await BattleStadiumAPI(auth()).Tournaments.list();
 }
 
 const Tournaments = async () => {

@@ -8,7 +8,6 @@ module Api
       self.klass = ::Organization
       self.serializer_klass = Serializers::Organization
       self.detail_serializer_klass = Serializers::Organization
-      self.filter_params = { hidden: false }
 
       before_action :set_organization, only: %i[staff post_tournaments patch_tournament list_tournaments]
 
@@ -16,6 +15,25 @@ module Api
 
       def self.policy_class
         ::OrganizationPolicy
+      end
+
+      def index
+        authorize ::Organization, :index?
+
+        @objects = ::Organization.all
+        @objects = @objects.order(name: :asc)
+        @objects = @objects.page(1).per(10000)
+        render json: {
+          data: @objects.map { |object| index_serializer.new(object).attributes },
+          meta: {
+            current_page: @objects.current_page,
+            next_page: @objects.next_page,
+            prev_page: @objects.prev_page,
+            total_pages: @objects.total_pages,
+            total_count: @objects.total_count
+          }
+        }, status: :ok
+
       end
 
       def staff
@@ -66,11 +84,12 @@ module Api
       end
 
       def permitted_params
-        params.require(:organization).permit(:name, :description, :owner_id)
+        params.require(:organization).permit(:name, :description, :owner_id, :format, :logo_url, :partner, :hidden)
       end
 
       def tournaments_permitted_params
         params.require(:tournament).permit(
+          :format,
           :name,
           :start_at, :end_at,
           :game_id, :format_id,

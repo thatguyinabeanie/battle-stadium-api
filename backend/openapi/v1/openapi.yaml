@@ -138,15 +138,37 @@ paths:
       tags:
       - Organizations
       operationId: listOrganizations
+      parameters:
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: true
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Number of items per page for pagination
+        required: true
+        schema:
+          type: integer
+      - name: partner
+        in: query
+        schema:
+          type: boolean
       responses:
         '200':
           description: successful
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Organization"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Organization"
+                  meta:
+                    "$ref": "#/components/schemas/Pagination"
     post:
       summary: Create Organization
       tags:
@@ -619,11 +641,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  tournaments:
+                  data:
                     type: array
                     items:
                       "$ref": "#/components/schemas/Tournament"
-                  pagination:
+                  meta:
                     "$ref": "#/components/schemas/Pagination"
   "/tournaments/{id}":
     parameters:
@@ -1019,6 +1041,8 @@ components:
           type: string
           nullable: true
           format: uri
+        partner:
+          type: boolean
         id:
           type: integer
           format: int64
@@ -1044,6 +1068,8 @@ components:
           type: string
           nullable: true
           format: uri
+        partner:
+          type: boolean
         id:
           type: integer
           format: int64

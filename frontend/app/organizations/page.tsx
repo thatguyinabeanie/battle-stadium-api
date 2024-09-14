@@ -15,22 +15,28 @@ export interface OrganizationsPageProps {
   orgs: Array<components["schemas"]["OrganizationDetails"]>;
 }
 
-async function getOrgs() {
+async function getOrgs(_page?: number, _per_page?: number, _partner?: boolean) {
   const { data: orgs } = await BattleStadiumAPI(auth()).Organizations.list({
-    next: { tags: ["organizations"] },
+    next: { tags: ["organizations"], revalidate: 300 },
   });
 
   return orgs;
 }
 
 export default async function OrganizationsPage() {
-  const orgs = await getOrgs();
+  const allOrgs = (await getOrgs())?.data;
+
+  const partnerOrgs = (allOrgs || [])?.filter((org) => org.partner);
+  const nonPartnerOrgs = (allOrgs || [])?.filter((org) => !org.partner);
+  const organizations = [...partnerOrgs, ...nonPartnerOrgs];
 
   return (
     <div
-      className={cn("my-auto grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 ")}
+      className={cn(
+        "w-100 my-auto grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+      )}
     >
-      {orgs?.map((organization) => (
+      {(organizations || [])?.map((organization) => (
         <NewOrganizationCard
           key={organization.id}
           aria-label={`organization-card-${organization.id}`}
