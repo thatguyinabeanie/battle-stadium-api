@@ -1,5 +1,3 @@
-import { isEqual, uniqWith } from "lodash";
-
 const columns = [
   { name: "NAME", uid: "name", sortable: true },
   { name: "ROLE", uid: "role", sortable: true },
@@ -30,36 +28,32 @@ const users = [
   },
 ];
 
-/**
- * To use this function you need to install lodash in your project
- * ```bash
- * npm install lodash
- * ```
- */
-const rolesOptions = uniqWith(
-  users.map((user) => {
-    return {
+const rolesOptions = users.reduce((options: { name: string; uid: string; }[], user) => {
+  const existingOption = options.find((option) => option.name === user.role);
+  if (existingOption) {
+    return options;
+  }
+  return [
+    ...options,
+    {
       name: user.role,
       uid: user.role.toLowerCase(),
-    };
-  }),
-  isEqual,
-);
+    },
+  ];
+}, []);
 
-/**
- * To use this function you need to install lodash in your project
- * ```bash
- * npm install lodash
- * ```
- */
-const statusOptions = uniqWith(
-  users.map((user) => {
-    return {
+const statusOptions = users.reduce((options: { name: string; uid: string; }[], user) => {
+  const existingOption = options.find((option) => option.name === user.status);
+  if (existingOption) {
+    return options;
+  }
+  return [
+    ...options,
+    {
       name: user.status,
       uid: user.status.toLowerCase(),
-    };
-  }),
-  isEqual,
-);
+    },
+  ];
+}, []);
 
 export { columns, users, rolesOptions, statusOptions };
