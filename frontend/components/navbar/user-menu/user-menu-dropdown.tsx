@@ -8,17 +8,18 @@ export default function UserMenuDropDown() {
   const {user, isSignedIn, isLoaded} = useUser();
 
   return (
-    <DropdownMenu aria-label="Profile Actions" variant="flat">
+    <DropdownMenu aria-label="Profile Actions" variant="bordered" className="w-100">
 
-      <DropdownItem key="profile" color="primary" className={
-        cn("h-14 gap-2", {
+      <DropdownItem key="profile" color="success" className={
+        cn("", {
           hidden: !(user && isSignedIn) || !isLoaded,
         })}>
-          <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">{`${user?.firstName} ${user?.lastName}`}</p>
+          <Link  href="/dashboard">
+            <p>Signed in as <p className="font-semibold">{`${user?.firstName} ${user?.lastName}`}</p> </p>
+          </Link>
       </DropdownItem>
 
-        <DropdownItem key="profile" className={cn("", {
+        <DropdownItem key="sign-in" color="success" className={cn("", {
           hidden: user && isSignedIn && isLoaded,
         })}>
           <SignInButton>
