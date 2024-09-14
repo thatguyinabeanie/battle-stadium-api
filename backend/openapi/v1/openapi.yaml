@@ -876,6 +876,9 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         id:
           type: string
           format: uuid
@@ -893,15 +896,15 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
           type: string
         last_name:
           type: string
-        image_url:
-          type: string
-          nullable: true
         id:
           type: string
           format: uuid
@@ -920,15 +923,15 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
           type: string
         last_name:
           type: string
-        image_url:
-          type: string
-          nullable: true
         id:
           type: string
           format: uuid
@@ -952,15 +955,15 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
           type: string
         last_name:
           type: string
-        image_url:
-          type: string
-          nullable: true
         id:
           type: string
           format: uuid
@@ -978,15 +981,15 @@ components:
           type: string
         pronouns:
           type: string
+        image_url:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
           type: string
         last_name:
           type: string
-        image_url:
-          type: string
-          nullable: true
         id:
           type: string
           format: uuid

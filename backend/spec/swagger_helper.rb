@@ -57,7 +57,8 @@ SIMPLE_USER_SCHEMA = {
   title: "Simple User",
   properties: {
     username: { type: :string },
-    pronouns: { type: :string }
+    pronouns: { type: :string },
+    image_url: { type: :string, nullable: true }
   },
   required: %w[username pronouns]
 }.freeze
