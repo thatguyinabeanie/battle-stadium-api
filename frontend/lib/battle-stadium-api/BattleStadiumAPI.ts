@@ -7,16 +7,11 @@ import { Middleware } from "openapi-fetch";
 export type Auth = ReturnType<typeof clerkAuth>;
 
 const getBaseUrl = () => {
-  if (process.env.API_BASE_URL) {
-    return process.env.API_BASE_URL;
+  if (process.env.NODE_ENV === "production" && process.env.API_BASE_URL) {
+    return `${process.env.API_BASE_URL}/api/v1`;
   }
 
-  const baseUrl =
-    process.env.NODE_ENV !== "production"
-      ? `http://${process.env.BACKEND_HOST}:10000/api/v1`
-      : "https://api.battlestadium.gg/api/v1";
-
-  return baseUrl;
+  return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
 };
 
 export interface PaginationParams {
