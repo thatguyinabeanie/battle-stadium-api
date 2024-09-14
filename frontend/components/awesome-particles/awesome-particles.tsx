@@ -21,5 +21,5 @@ export default function AwesomeParticles() {
 
   const options = getAwesomeParticlesOptions();
 
-  return <Particles id="tsparticles" options={options} />;
+  return <Particles id="tsparticles" options={options}/>;
 }
