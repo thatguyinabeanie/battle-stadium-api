@@ -1,6 +1,21 @@
 "use client";
 
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import { DropdownItem, DropdownMenu, Link } from "@nextui-org/react";
+
+function useSignOutDropDownItem() {
+  const { user, isSignedIn } = useUser();
+
+  if (!(user && isSignedIn)) {
+    return <> </>;
+  }
+
+  return (
+    <DropdownItem key="logout" color="danger">
+      <SignOutButton> Sign out </SignOutButton>
+    </DropdownItem>
+  );
+}
 
 export default function UserMenuDropDown() {
   return (
@@ -19,9 +34,7 @@ export default function UserMenuDropDown() {
       </DropdownItem>
 
       <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-      <DropdownItem key="logout" color="danger">
-        Log Out
-      </DropdownItem>
+      {useSignOutDropDownItem()}
     </DropdownMenu>
   );
 }

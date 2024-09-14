@@ -15,7 +15,7 @@ import { Icon } from "@iconify/react";
 import BattleStadium from "@/components/battle-stadium";
 
 import Breadcrumbs from "./breadcrumbs";
-import UserMenu from "./user-menu";
+import UserMenu from "./user-menu/user-menu";
 import Notifications from "./notifications";
 import Settings from "./settings";
 import Search from "./search";
