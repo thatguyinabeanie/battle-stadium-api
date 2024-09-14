@@ -39,11 +39,11 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
           </CardFooter>
 
           <div
-            className="absolute inset-0 blur-3xl scale-125 opacity-35"
+            className="absolute inset-0 blur-3xl scale-150 opacity-50"
             style={{
-              backgroundImage: organization.logo_url ? `url("${organization.logo_url}")` : "/pokemon/vgc.png",
               backgroundPosition: "center",
               backgroundSize: "cover",
+              backdropFilter: "blur(10px)",
             }}
           />
         </Card>
