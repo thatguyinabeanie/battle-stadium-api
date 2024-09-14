@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
+import { Image } from "@nextui-org/react";
 
 import TournamentsTable from "@/app/tournaments/TournamentsTable";
-import OrganizationCard from "@/components/organizations/OrganizationCard";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 export const revalidate = 300;
@@ -41,11 +41,16 @@ export default async function OrganizationDetailPage({ params }: { params: { org
   const { data: tournaments } = await getTournaments(params.organizationId);
 
   return (
-    <>
-      <div className="mb-4 flex flex-col grid-cols-1 justify-center">
-        <OrganizationCard organization={organization} />
-        <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
-      </div>
-    </>
+    <div className="mb-4 flex flex-col grid-cols-1 justify-center">
+      <Image
+        isBlurred
+        isZoomed
+        alt={organization?.name}
+        aria-label={organization?.name}
+        className="aspect-square flex flex-col gap-3 h-[300px] w-[300px]"
+        src={organization?.logo_url ?? "/pokemon/vgc.png"}
+      />
+      <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
+    </div>
   );
 }

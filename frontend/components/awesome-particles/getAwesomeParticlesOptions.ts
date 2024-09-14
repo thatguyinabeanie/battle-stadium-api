@@ -1,8 +1,6 @@
 import { type ISourceOptions, MoveDirection, OutMode } from "@tsparticles/engine";
 
-export default async function getAwesomeParticlesOptions(options?: Partial<ISourceOptions>): Promise<ISourceOptions> {
-  "use server";
-
+export default function getAwesomeParticlesOptions(options?: Partial<ISourceOptions>): ISourceOptions {
   const defaultOptions: ISourceOptions = {
     fullScreen: {
       enable: true,

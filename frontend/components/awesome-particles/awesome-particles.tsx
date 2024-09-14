@@ -3,12 +3,13 @@
 import * as React from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import { ISourceOptions } from "@tsparticles/engine";
 import { useTheme } from "next-themes";
-export interface AwesomeParticlesProps {
-  options?: ISourceOptions;
-}
-export default function AwesomeParticles({ options }: AwesomeParticlesProps) {
+
+import getAwesomeParticlesOptions from "./getAwesomeParticlesOptions";
+
+export default function AwesomeParticles() {
+  const options = getAwesomeParticlesOptions();
+
   const theme = useTheme();
   const [init, setInit] = React.useState(false);
 
