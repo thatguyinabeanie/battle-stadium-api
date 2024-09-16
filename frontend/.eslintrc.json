@@ -22,7 +22,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": "latest",
+    "ecmaVersion": "14",
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
@@ -30,10 +30,6 @@
     "react": {
       "version": "detect"
     },
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
     }
   },
   "rules": {
