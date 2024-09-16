@@ -4,7 +4,7 @@ import { NavbarItem, Button, Input } from "@nextui-org/react";
 export default function Search() {
   return (
     <>
-      <NavbarItem className="mr-2 hidden md:flex min-w-28">
+      <NavbarItem className="mr-2 hidden md:flex min-w-20 max-w-32">
         <Input
           aria-label="Search"
           classNames={{
