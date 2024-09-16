@@ -14,7 +14,7 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
   return (
     <div className="relative overflow-hidden rounded-3xl h-[400x] w-[300px] px-2">
       <Link key={organization.id} href={`/organizations/${organization.id}`}>
-        <Card className="bg-transparent h-90 w-90 rounded-3xl" {...cardProps}>
+        <Card className="bg-transparent h-90 w-90 rounded-3xl" {...cardProps} shadow="none">
           <CardBody>
             <div className="relative overflow-hidden p-1">
               <Image
@@ -43,7 +43,7 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
             style={{
               backgroundPosition: "center",
               backgroundSize: "cover",
-              backdropFilter: "blur(10px)",
+              backdropFilter: "blur(20px)",
             }}
           />
         </Card>

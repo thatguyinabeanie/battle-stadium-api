@@ -38,7 +38,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <head />
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
           <Providers>
-            <AwesomeParticles />
+            {/* <AwesomeParticles /> */}
             <div className="flex flex-col w-full h-full">
               <NavigationBar />
               <main className="flex h-full w-full z-10">
