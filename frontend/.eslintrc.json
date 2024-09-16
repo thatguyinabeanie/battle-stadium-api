@@ -23,7 +23,7 @@
       "jsx": true
     },
     "ecmaVersion": "latest",
-    "sourceType": "module",
+    "sourceType": "module"
   },
   "settings": {
     "react": {

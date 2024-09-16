@@ -11,7 +11,6 @@ import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import NavigationBar from "@/components/navbar/navbar";
 import Providers from "@/components/providers";
-
 import AwesomeParticles from "@/components/awesome-particles";
 
 export const metadata: Metadata = {
