@@ -29,7 +29,7 @@
   "settings": {
     "react": {
       "version": "detect"
-    },
+    }
   },
   "rules": {
     "no-console": "warn",
@@ -89,7 +89,9 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
-      "reportUnusedDisableDirectives": true
+      "rules": {
+        "reportUnusedDisableDirectives": "error"
+      }
     }
   ]
 }
