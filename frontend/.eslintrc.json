@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/eslintrc.json",
   "env": {
-    "browser": false,
+    "browser": true,
     "es2021": true,
     "node": true
   },
@@ -22,7 +22,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "settings": {
@@ -43,7 +43,7 @@
     "unused-imports/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "warn",
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      "error",
       {
         "args": "after-used",
         "ignoreRestSiblings": false,
@@ -51,7 +51,7 @@
       }
     ],
     "import/order": [
-      "warn",
+      "error",
       {
         "groups": ["type", "builtin", "object", "external", "internal", "parent", "sibling", "index"],
         "pathGroups": [
@@ -66,7 +66,7 @@
     ],
     "react/self-closing-comp": "warn",
     "react/jsx-sort-props": [
-      "warn",
+      "error",
       {
         "callbacksLast": true,
         "shorthandFirst": true,
@@ -75,7 +75,7 @@
       }
     ],
     "padding-line-between-statements": [
-      "warn",
+      "error",
       { "blankLine": "always", "prev": "*", "next": "return" },
       { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
       {
