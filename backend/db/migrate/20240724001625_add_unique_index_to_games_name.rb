@@ -7,6 +7,6 @@ class AddUniqueIndexToGamesName < ActiveRecord::Migration[7.1]
   end
 
   def down
-    remove_index :games, name: 'index_games_on_lower_name'
+    remove_index :games, name: "index_games_on_lower_name"
   end
 end

@@ -6,8 +6,8 @@ import { execSync } from "child_process";
 
 import * as ts from "typescript";
 
-const apiDirPath = path.join(__dirname, "lib", "api", "apis");
-const modelsDirPath = path.join(__dirname, "lib", "api", "models");
+const apiDirPath = path.join(__dirname, "lib", "api", "generated-api-client", "apis");
+const modelsDirPath = path.join(__dirname, "lib", "api", "generated-api-client", "models");
 const outputFile = path.join(__dirname, "factories.ts");
 
 interface Property {

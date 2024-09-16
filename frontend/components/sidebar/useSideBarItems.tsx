@@ -1,10 +1,11 @@
+// import { useUser } from "@clerk/nextjs";
+
+import { components } from "@/lib/battle-stadium-api";
+
 import { SidebarItem } from "./sidebar";
 import { sectionItems } from "./sidebar-items";
 
-import { UserMe } from "@/lib/api";
-import { useCurrentUser } from "@/lib/context/current-user";
-
-const getYourOrganizations = (currentUser: UserMe) => {
+export const getYourOrganizations = (currentUser: components["schemas"]["UserMe"]) => {
   const yourOrganizations: SidebarItem = {
     key: "your-organizations",
     title: "Your Organizations",
@@ -19,11 +20,11 @@ const getYourOrganizations = (currentUser: UserMe) => {
 };
 
 export default function useSideBarItems() {
-  const currentUser = useCurrentUser();
+  // const { isSignedIn, user, isLoaded } = useUser();
 
-  if (currentUser && currentUser?.organizations?.length > 0) {
-    return [...sectionItems, getYourOrganizations(currentUser)];
-  }
+  // if (user && isSignedIn && isLoaded) {
+  //   const orgMemberships = user?.getOrganizationMemberships();
+  // }
 
   return [...sectionItems];
 }

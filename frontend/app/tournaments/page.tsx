@@ -1,35 +1,25 @@
+import type { Metadata } from "next";
+
 import React from "react";
+import { auth } from "@clerk/nextjs/server";
+
+import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 import TournamentsTable from "./TournamentsTable";
 
-import { title } from "@/components/primitives";
-import BattleStadiumAPI from "@/lib/battle-stadium-api";
+export const metadata: Metadata = {
+  title: "Tournaments",
+};
 
-const columns = [
-  {
-    key: "start_at",
-    label: "DATE",
-  },
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "organization.name",
-    label: "Organization",
-  },
-];
+async function listTournaments() {
+  return await BattleStadiumAPI(auth()).Tournaments.list();
+}
 
 const Tournaments = async () => {
-  const tournaments = await BattleStadiumAPI.Tournaments.list();
+  const response = await listTournaments();
+  const tours = response.data?.data;
 
-  return (
-    <div>
-      <h1 className={title()}>Tournaments</h1>
-
-      <TournamentsTable columns={columns} tournaments={tournaments} />
-    </div>
-  );
+  return <TournamentsTable tournaments={tours} />;
 };
 
 export default Tournaments;

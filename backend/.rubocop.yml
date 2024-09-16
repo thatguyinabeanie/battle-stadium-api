@@ -1,6 +1,9 @@
 inherit_from: .rubocop_todo.yml
 inherit_gem:
   rswag-specs: .rubocop_rspec_alias_config.yml
+  rubocop-github:
+    - config/default.yml # generic Ruby rules and cops
+    - config/rails.yml # Rails-specific rules and cops
 
 require:
   - rubocop-factory_bot
@@ -9,6 +12,7 @@ require:
   - rubocop-rspec_rails
 
 AllCops:
+  TargetRubyVersion: 3.3
   NewCops: enable
   Exclude:
     - "db/schema.rb"
@@ -17,7 +21,6 @@ AllCops:
     - "frontend/**/*"
     - "sorbet/**"
     - "sorbet/**/*"
-    - "vendir/bundle/**"
     - "frontend/**"
 Style/Documentation:
   Enabled: false

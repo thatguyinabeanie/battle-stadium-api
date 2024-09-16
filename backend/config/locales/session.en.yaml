@@ -1,0 +1,7 @@
+en:
+  session:
+    errors:
+      validation:
+        token_jti_must_be_unique: "combination of token and jti must be unique"
+        token_jti_user_id_must_be_unique: "combination of token, jti, and user id, must be unique"
+      invalid_token_or_expired: "Invalid token or expired session"

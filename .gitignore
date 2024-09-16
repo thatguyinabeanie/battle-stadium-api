@@ -8,10 +8,8 @@
 /.bundle
 
 # Ignore all environment files (except templates).
-/.env*
-**.env*
-.secret*
-!/.env*.erb
+
+
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -71,3 +69,12 @@ rails_api/tmp/*
 .turbo/
 frontend/junit.xml
 .pnpm-store
+
+.env.postgres
+backend/.env
+frontend/.env
+frontend/.env.local
+
+config/keys/*.pem
+.vercel
+.env.development.local

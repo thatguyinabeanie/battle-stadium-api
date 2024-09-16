@@ -19,7 +19,7 @@
   "testExplorer.onStart": "none",
   "testExplorer.onReload": "none",
 
-  "npm.packageManager": "pnpm",
+  "npm.packageManager": "bun",
 
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
@@ -52,5 +52,26 @@
 
   "rubyTestExplorer.rspecDirectory": "./backend/spec",
   "rubyTestExplorer.minitestDirectory": "backend/test",
-
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "backend",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "backend",
+      "group": "fuecoco-db-dev",
+      "database": "fuecoco-db-dev",
+      "username": "postgres"
+    },
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "localhost",
+      "group": "fuecoco-db-dev",
+      "database": "fuecoco-db-dev",
+      "username": "postgres"
+    }
+  ],
 }

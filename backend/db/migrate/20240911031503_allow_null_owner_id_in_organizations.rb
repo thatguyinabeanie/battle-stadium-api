@@ -1,0 +1,5 @@
+class AllowNullOwnerIdInOrganizations < ActiveRecord::Migration[7.2]
+  def change
+    change_column_null :organizations, :owner_id, true
+  end
+end

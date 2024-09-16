@@ -1,25 +1,23 @@
-require 'swagger_helper'
-require_relative '../../../support/openapi/schema_helper'
-require_relative '../../../support/openapi/response_helper'
-require_relative '../../../../app/models/concerns/secure_password'
+require "rails_helper"
+require "swagger_helper"
+require_relative "../../../support/clerk_jwt/token_verifier_mock"
 
-USER_DETAILS_SCHEMA_COMPONENT = '#/components/schemas/UserDetails'.freeze
-PASSWORD = SecurePassword.generate_secure_password
+USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 
 RSpec.describe Api::V1::UsersController do
-  include Devise::Test::IntegrationHelpers
+  include ClerkJwt::TokenVerifier::Mock
 
-  path('/api/v1/users') do
-    get('List Users') do
-      tags 'Users'
+  path("/users") do
+    get("List Users") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves a list of all Users'
-      operationId 'listUsers'
+      description "Retrieves a list of all Users"
+      operationId "listUsers"
 
-      response(200, 'successful') do
+      response(200, "successful") do
         let(:users) { create_list(:user, 10) }
 
-        schema type: :array, items: { '$ref' => '#/components/schemas/User' }
+        schema type: :array, items: { "$ref" => "#/components/schemas/User" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -27,75 +25,70 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    post('Create User') do
-      tags 'Users'
+    post("Create User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Creates a new User.'
-      operationId 'postUser'
+      description "Creates a new User."
+      operationId "postUser"
 
-      parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserPostRequest' }
+      parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserPostRequest" }
 
-      response(201, 'created') do
+      security [Bearer: []]
+
+      response(201, "created") do
+        let(:request_user) { create(:admin) }
         let(:user) do
           {
             user: {
               username: Faker::Internet.unique.username,
-              pronouns: 'he/him',
-              email: 'new_user@example.com',
-              first_name: 'New ',
-              last_name: 'User',
-              password: PASSWORD,
-              password_confirmation: PASSWORD
+              pronouns: "he/him",
+              email: "new_user@example.com",
+              first_name: "New ",
+              last_name: "User",
             }
           }
         end
 
-        schema '$ref' => USER_DETAILS_SCHEMA_COMPONENT
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
 
-      response(422, 'unprocessable entity') do
+      response(403, "forbidden") do
+        let(:request_user) { create(:user) }
+
+        let(:user) { {} }
+
+
+        include_context "with Clerk SDK Mock"
+        schema type: :object, properties: { error: { type: :string } }
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(422, "unprocessable entity") do
+        let(:request_user) { create(:admin) }
+
         let(:user) do
           {
             user: {
-              username: '',
-              email: 'new_user@example.com',
-              first_name: 'New ',
-              last_name: 'User',
-              pronouns: 'he/him',
-              password: PASSWORD,
-              password_confirmation: PASSWORD
+              username: "",
+              pronouns: "he/him",
+              email: "new_user@example.com",
+              first_name: "New ",
+              last_name: "User",
             }
           }
         end
 
-        OpenApi::Response.set_example_response_metadata
-
-        run_test!
-      end
-    end
-  end
-
-  path('/api/v1/users/me') do
-    get('Show Me') do
-      tags 'Users'
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves the current User.'
-      operationId 'getMe'
-
-      parameter name: :id, in: :body, type: :integer, description: 'ID of the User'
-      before do
-        sign_in user
-      end
-
-      response(200, 'successful') do
-        let(:user) { create(:user) }
-
-        schema '$ref' => '#/components/schemas/UserMe'
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -104,25 +97,59 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path('/api/v1/users/{id}') do
-    parameter name: :id, in: :path, type: :integer, description: 'ID of the User'
-
-    get('Show User') do
-      tags 'Users'
+  path("/users/me") do
+    get("Show Me") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves a specific User by ID.'
-      operationId 'getUser'
+      description "Retrieves the current User."
+      operationId "getMe"
 
-      response(200, 'successful') do
-        let(:id) { create(:user, first_name: 'Existing', last_name: 'User').id }
+      security [Bearer: []]
 
-        schema '$ref' => USER_DETAILS_SCHEMA_COMPONENT
+      response(200, "successful") do
+        let(:request_user) { create(:user) }
+
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => "#/components/schemas/UserMe"
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(401, NOT_FOUND) do
+        let(:request_user) { build(:user) }
+
+        include_context "with Clerk SDK Mock"
+
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+  end
+
+  path("/users/{id}") do
+    parameter name: :id, in: :path, type: :string, description: "ID of the User"
+
+    get("Show User") do
+      tags "Users"
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      description "Retrieves a specific User by ID."
+      operationId "getUser"
+
+      response(200, "successful") do
+        let(:id) { create(:user, first_name: "Existing", last_name: "User").id }
+
+        schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
+        let(:id) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -130,29 +157,34 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    patch('Update User') do
-      tags 'Users'
+    patch("Update User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Updates an existing User.'
-      operationId 'patchUser'
+      description "Updates an existing User."
+      operationId "patchUser"
 
-      parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/UserDetails' }
+      parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserDetails" }
 
-      response(200, 'successful') do
+      security [Bearer: []]
+
+      response(200, "Updated by Admin") do
+        let(:request_user) { create(:admin) }
+
         let(:user_object) { create(:user) }
         let(:id) { user_object.id }
         let(:user) do
           {
             username: Faker::Internet.unique.username,
-            pronouns: 'they/them',
-            email: 'updateduser@example.com',
-            first_name: 'Updated', last_name: 'Userrrrr',
-            current_password: user_object.password
+            pronouns: "they/them",
+            email: "updateduser@example.com",
+            first_name: "Updated", last_name: "Userrrrr",
           }
         end
 
-        schema '$ref' => USER_DETAILS_SCHEMA_COMPONENT
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
         OpenApi::Response.set_example_response_metadata
 
@@ -160,12 +192,16 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
+        let(:request_user) { create(:admin) }
+
+        let(:id) { "invalid" }
         let(:user) do
           {
-            first_name: 'Updated', last_name: 'Userrrrr'
+            first_name: "Updated", last_name: "Userrrrr"
           }
         end
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -173,15 +209,21 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    delete('Delete User') do
-      tags 'Users'
+    delete("Delete User") do
+      tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      describe 'Deletes a User by ID.'
-      operationId 'deleteUser'
+      describe "Deletes a User by ID."
+      operationId "deleteUser"
 
-      response(200, 'successful') do
+      security [Bearer: []]
+
+      response(200, "successful") do
+        let(:request_user) { create(:admin) }
+
         let(:user) { create(:user) }
         let(:id) { user.id }
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -189,7 +231,12 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
+        let(:request_user) { create(:admin) }
+
+        let(:id) { "invalid" }
+
+        include_context "with Clerk SDK Mock"
+
 
         OpenApi::Response.set_example_response_metadata
 

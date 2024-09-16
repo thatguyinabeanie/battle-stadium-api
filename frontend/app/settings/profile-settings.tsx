@@ -1,10 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Card, CardBody } from "@nextui-org/react";
-import { Avatar } from "@nextui-org/avatar";
 import { Icon } from "@iconify/react";
-import { Button, Badge, Input, Spacer, Textarea } from "@nextui-org/react";
+import { Button, Badge, Input, Spacer, Textarea, Card, CardBody, Avatar } from "@nextui-org/react";
 
 import { cn } from "@/lib/utils";
 
@@ -22,7 +20,6 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
         <CardBody>
           <div className="flex items-center gap-4">
             <Badge
-              disableOutline
               classNames={{
                 badge: "w-5 h-5",
               }}

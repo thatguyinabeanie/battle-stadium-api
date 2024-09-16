@@ -1,52 +1,35 @@
-require_relative '../../../serializer/user_serializer'
+require_relative "../../../serializers/user_serializer"
 
 module Api
   module V1
     class UsersController < AbstractApplicationController
-      self.klass = User
-      self.serializer_klass = Serializer::User
-      self.detail_serializer_klass = Serializer::UserDetails
-      self.update_params_except = %i[password password_confirmation]
+      self.klass = ::User
+      self.serializer_klass = Serializers::User
+      self.detail_serializer_klass = Serializers::UserDetails
+      self.default_order_by = { username: :asc }
 
-      before_action :set_user, only: %i[patch_password]
-      before_action :authenticate_user!, only: %i[me]
-      before_action :set_cache_headers, only: %i[me]
-
-      def patch_password
-        password_params = params.require(:user).permit(:password, :password_confirmation, :current_password)
-
-        if password_params[:password].blank?
-          render json: { errors: ["Password can't be blank"] }, status: :unprocessable_entity
-        elsif @user.update_with_password(password_params)
-          render json: { message: 'Password updated successfully' }, status: :ok
-        else
-          render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
-        end
+      def self.policy_class
+        ::UserPolicy
       end
 
       def me
-        @user = User.find_by(username: 'fuecoco-supremacy') || current_user
-        render json: @user, serializer: Serializer::UserMe, status: :ok
+        authorize @current_user, :me?
+        render json: @current_user, serializer: Serializers::UserMe, status: :ok
       rescue ActiveRecord::RecordNotFound
-        render json: { errors: ['User not found'] }, status: :not_found
+        render json: { errors: ["User not found"] }, status: :not_found
       end
 
       protected
 
       # Only allow a list of trusted parameters through.
       def permitted_params
-        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name, :password, :password_confirmation)
+        params.require(:user).permit(:id, :username, :email, :pronouns, :first_name, :last_name)
       end
 
       private
 
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user
-        @user = set_object
-      end
-
-      def set_cache_headers
-        response.headers['Cache-Control'] = 'public, max-age=300'
+      def find_user_by_email_or_username(email, username)
+        User.find_for_database_authentication(email:) || User.find_for_database_authentication(username:)
       end
     end
   end

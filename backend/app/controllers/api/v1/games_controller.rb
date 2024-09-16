@@ -1,12 +1,12 @@
-require_relative '../../../serializer/game_serializer'
+require_relative "../../../serializers/game_serializer"
 
 module Api
   module V1
     class GamesController < AbstractApplicationController
       self.klass = ::Game
-      self.serializer_klass = Serializer::Game
-      self.detail_serializer_klass = Serializer::GameDetails
-
+      self.serializer_klass = Serializers::Game
+      self.detail_serializer_klass = Serializers::GameDetails
+      self.enable_pagination = true
       protected
 
       def permitted_params

@@ -1,0 +1,1657 @@
+---
+openapi: 3.0.1
+info:
+  title: Battle Stadium API V1
+  version: v1
+paths:
+  "/games":
+    get:
+      summary: List Games
+      tags:
+      - Games
+      description: Retrieves a list of all games
+      operationId: listGames
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Game"
+                  meta:
+                    "$ref": "#/components/schemas/Pagination"
+    post:
+      summary: Create Game
+      tags:
+      - Games
+      description: Creates a new game.
+      operationId: postGame
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GameDetail"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Game"
+  "/games/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: ID of the game
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show Game
+      tags:
+      - Games
+      description: Retrieves a specific game by ID.
+      operationId: getGame
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GameDetail"
+        '404':
+          description: not found
+    patch:
+      summary: Update Game
+      tags:
+      - Games
+      description: Updates a game by ID.
+      operationId: patchGame
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GameDetail"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Game"
+    delete:
+      summary: Delete Game
+      tags:
+      - Games
+      description: Deletes a game by ID.
+      operationId: deleteGame
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Message"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: not found
+  "/organizations":
+    get:
+      summary: List Organizations
+      tags:
+      - Organizations
+      operationId: listOrganizations
+      parameters:
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: true
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Number of items per page for pagination
+        required: true
+        schema:
+          type: integer
+      - name: partner
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Organization"
+                  meta:
+                    "$ref": "#/components/schemas/Pagination"
+    post:
+      summary: Create Organization
+      tags:
+      - Organizations
+      description: Creates a new organization.
+      operationId: postOrganization
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Organization"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Organization"
+        required: true
+  "/organizations/{org_id}":
+    parameters:
+    - name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show Organization
+      tags:
+      - Organizations
+      description: Retrieves a specific organization.
+      operationId: getOrganization
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Organization"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+    patch:
+      summary: Update Organization
+      tags:
+      - Organizations
+      description: Updates an existing organization.
+      operationId: patchOrganization
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Organization"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Organization"
+    delete:
+      summary: Delete Organization
+      tags:
+      - Organizations
+      description: Deletes an organization.
+      operationId: deleteOrganization
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: Organization deleted
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Message"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: not found
+  "/organizations/{org_id}/staff":
+    parameters:
+    - name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: List Organization Staff
+      tags:
+      - Organizations
+      description: Retrieves a list of staff members for a specific organization.
+      operationId: listOrganizationStaff
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+  "/organizations/{org_id}/tournaments":
+    parameters:
+    - name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: List Organization Tournaments
+      tags:
+      - Organizations
+      description: Retrieves a list of tournaments for a specific organization.
+      operationId: listOrganizationTournaments
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/TournamentDetails"
+        '404':
+          description: not found
+    post:
+      summary: Create Tournament
+      tags:
+      - Organizations
+      description: Creates a new tournament for a given organization.
+      operationId: postOrganizationTournament
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: Created by Org Owner
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/TournamentDetails"
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TournamentDetails"
+  "/organizations/{org_id}/tournaments/{tournament_id}":
+    parameters:
+    - name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: tournament_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Update Tournament
+      tags:
+      - Organizations
+      description: Updates an existing tournament for a given organization.
+      operationId: patchOrganizationTournament
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: Updated by Organization Owner
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/TournamentDetails"
+        '404':
+          description: not found
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TournamentDetails"
+  "/tournaments/{tournament_id}/phases":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the tournament
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: List Tournament Phases
+      tags:
+      - Phases
+      description: Retrieves a list of all Phases
+      operationId: listTournamentPhases
+      responses:
+        '404':
+          description: not found
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Phase"
+    post:
+      summary: Create Tournament Phase
+      tags:
+      - Phases
+      description: Creates a new Tournament Phase.
+      operationId: postTournamentPhase
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Phase"
+  "/tournaments/{tournament_id}/phases/{id}":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the tournament
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      required: true
+      description: ID of the Phase
+      schema:
+        type: integer
+    get:
+      summary: Show Tournament Phase
+      tags:
+      - Phases
+      description: Retrieves a Tournament Phase
+      operationId: showTournamentPhase
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+    patch:
+      summary: Update Tournament Phase
+      tags:
+      - Phases
+      description: Updates a Tournament Phase.
+      operationId: patchTournamentPhase
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Phase"
+    delete:
+      summary: Delete Tournament Phase
+      tags:
+      - Phases
+      description: Deletes a Tournament Phase.
+      operationId: deleteTournamentPhase
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+  "/tournaments/{tournament_id}/players":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: List Tournament Players
+      tags:
+      - Players
+      description: Retrieves a list of all Players
+      operationId: listPlayers
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Player"
+        '404':
+          description: not found
+    post:
+      summary: Create Tournament Player
+      tags:
+      - Players
+      description: Creates a new Player.
+      operationId: postTournamentPlayer
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlayerRequest"
+  "/tournaments/{tournament_id}/players/{id}":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: ID of the Player
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show Tournament Player
+      tags:
+      - Players
+      description: Retrieves a Player
+      operationId: showTournamentPlayer
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+    patch:
+      summary: Update Tournament Player
+      tags:
+      - Players
+      description: Updates a Player.
+      operationId: putTournamentPlayer
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlayerRequest"
+    delete:
+      summary: Delete Tournament Player
+      tags:
+      - Players
+      description: Deletes a Player.
+      operationId: deleteTournamentPlayer
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+  "/tournaments":
+    get:
+      summary: List Organization Tournaments
+      tags:
+      - Tournaments
+      description: Retrieves a list of all Tournaments
+      operationId: listTournaments
+      parameters:
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: true
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Number of items per page for pagination
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Tournament"
+                  meta:
+                    "$ref": "#/components/schemas/Pagination"
+  "/tournaments/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show Tournament
+      tags:
+      - Tournaments
+      description: Retrieves a specific Tournament.
+      operationId: getTournament
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/TournamentDetails"
+        '404':
+          description: not found
+  "/users":
+    get:
+      summary: List Users
+      tags:
+      - Users
+      description: Retrieves a list of all Users
+      operationId: listUsers
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+    post:
+      summary: Create User
+      tags:
+      - Users
+      description: Creates a new User.
+      operationId: postUser
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserDetails"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserPostRequest"
+  "/users/me":
+    get:
+      summary: Show Me
+      tags:
+      - Users
+      description: Retrieves the current User.
+      operationId: getMe
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserMe"
+        '401':
+          description: not found
+  "/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: ID of the User
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show User
+      tags:
+      - Users
+      description: Retrieves a specific User by ID.
+      operationId: getUser
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserDetails"
+        '404':
+          description: not found
+    patch:
+      summary: Update User
+      tags:
+      - Users
+      description: Updates an existing User.
+      operationId: patchUser
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: Updated by Admin
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserDetails"
+    delete:
+      summary: Delete User
+      tags:
+      - Users
+      operationId: deleteUser
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+servers:
+- url: "{defaultHost}"
+  variables:
+    defaultHost:
+      default: https://api.battlestadium.gg/api/v1
+components:
+  responses:
+    NotFound:
+      description: not found
+  securitySchemes:
+    Bearer:
+      description: JWT key necessary to use API calls
+      type: apiKey
+      name: Authorization
+      in: header
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Page number for pagination
+      required: true
+      schema:
+        type: integer
+    PerPage:
+      name: per_page
+      in: query
+      description: Number of items per page for pagination
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Format:
+      type: object
+      title: Format
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Game:
+      type: object
+      title: Game
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - id
+      - name
+    GameDetail:
+      type: object
+      title: Game Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        formats:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Format"
+      required:
+      - id
+      - name
+      - formats
+    User:
+      type: object
+      title: User
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        id:
+          type: string
+          format: uuid
+      required:
+      - username
+      - pronouns
+      - id
+      - username
+      - pronouns
+    UserDetails:
+      type: object
+      title: User Details
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        id:
+          type: string
+          format: uuid
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      - username
+      - pronouns
+    UserMe:
+      type: object
+      title: User Me
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        id:
+          type: string
+          format: uuid
+        organizations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Organization"
+      required:
+      - organizations
+      - id
+      - email
+      - first_name
+      - last_name
+      - username
+      - pronouns
+    UserPostRequest:
+      type: object
+      title: User Request
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        id:
+          type: string
+          format: uuid
+      required:
+      - email
+      - first_name
+      - last_name
+      - username
+      - pronouns
+    UserRequest:
+      type: object
+      title: User Request
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        id:
+          type: string
+          format: uuid
+      required:
+      - email
+      - first_name
+      - last_name
+      - username
+      - pronouns
+    RegistrationResponse:
+      type: object
+      title: Registration Response
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        pronouns:
+          type: string
+          nullable: true
+        jti:
+          type: string
+          format: jwt
+        name:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+        admin:
+          type: boolean
+      required:
+      - id
+      - email
+      - username
+      - first_name
+      - last_name
+      - created_at
+      - updated_at
+      - pronouns
+      - jti
+      - name
+      - image
+    Organization:
+      type: object
+      title: Organization
+      properties:
+        owner:
+          "$ref": "#/components/schemas/User"
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        logo_url:
+          type: string
+          nullable: true
+          format: uri
+        partner:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - id
+      - name
+      - owner
+      - description
+      - logo_url
+    OrganizationDetails:
+      type: object
+      title: Organization Details
+      properties:
+        owner:
+          "$ref": "#/components/schemas/User"
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        logo_url:
+          type: string
+          nullable: true
+          format: uri
+        partner:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - id
+      - name
+      - owner
+      - description
+      - logo_url
+    Tournament:
+      type: object
+      title: Tournament
+      properties:
+        start_at:
+          type: string
+          format: date-time
+          nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+      required:
+      - id
+      - name
+      - player_cap
+      - organization
+      - format
+      - game
+      - start_at
+      - player_count
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+    TournamentDetails:
+      type: object
+      title: Tournament Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+          nullable: true
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        teamlists_required:
+          type: boolean
+        open_team_sheets:
+          type: boolean
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - name
+      - player_cap
+      - organization
+      - format
+      - game
+      - start_at
+      - player_count
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+      - start_at
+      - player_cap
+      - autostart
+      - teamlists_required
+      - open_team_sheets
+      - check_in_start_at
+      - late_registration
+      - registration_start_at
+      - registration_end_at
+    Pokemon:
+      type: object
+      title: Pokemon
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        nickname:
+          type: string
+          nullable: true
+        ability:
+          type: string
+        tera_type:
+          type: string
+        nature:
+          type: string
+        held_item:
+          type: string
+          nullable: true
+        move1:
+          type: string
+          nullable: true
+        move2:
+          type: string
+          nullable: true
+        move3:
+          type: string
+          nullable: true
+        move4:
+          type: string
+          nullable: true
+      required:
+      - id
+      - name
+      - ability
+      - tera_type
+      - nature
+      - held_item
+      - move1
+      - move2
+      - move3
+      - move4
+    PlayerRequest:
+      type: object
+      title: Player Request
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        in_game_name:
+          type: string
+      required:
+      - user_id
+      - in_game_name
+    Player:
+      type: object
+      title: Player
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          "$ref": "#/components/schemas/User"
+        in_game_name:
+          type: string
+      required:
+      - id
+      - user
+      - in_game_name
+    PlayerDetails:
+      type: object
+      title: Player Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          "$ref": "#/components/schemas/User"
+        in_game_name:
+          type: string
+      required:
+      - id
+      - user
+      - in_game_name
+    Round:
+      type: object
+      title: Round
+      properties:
+        id:
+          type: integer
+          format: int64
+        phase_id:
+          type: integer
+          format: int64
+        round_number:
+          type: integer
+          format: int64
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - phase_id
+      - round_number
+      - started_at
+      - ended_at
+    Phase:
+      type: object
+      title: Phase
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        order:
+          type: integer
+          format: int64
+        type:
+          type: string
+        tournament_id:
+          type: integer
+          format: int64
+        number_of_rounds:
+          type: integer
+        best_of:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - order
+      - tournament_id
+      - number_of_rounds
+      - best_of
+      - started_at
+      - ended_at
+    PhaseDetails:
+      type: object
+      title: Phase Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        order:
+          type: integer
+          format: int64
+        type:
+          type: string
+        tournament_id:
+          type: integer
+          format: int64
+        number_of_rounds:
+          type: integer
+        best_of:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        players:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Player"
+        rounds:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Round"
+      required:
+      - id
+      - name
+      - order
+      - tournament_id
+      - number_of_rounds
+      - best_of
+      - started_at
+      - ended_at
+      - players
+      - rounds
+    GameRequest:
+      type: object
+      title: GameRequest
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - name
+    TournamentRequest:
+      type: object
+      title: Tournament Request
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        game_id:
+          type: integer
+          format: int64
+        format_id:
+          type: integer
+          format: int64
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+        player_cap:
+          type: integer
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        open_team_sheets:
+          type: boolean
+        teamlists_required:
+          type: boolean
+      required:
+      - name
+      - game_id
+      - format_id
+      - autostart
+      - start_at
+      - player_cap
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+      - check_in_start_at
+      - open_team_sheets
+      - teamlists_required
+    TournamentPostRequest:
+      type: object
+      title: Tournament Post Request
+      properties:
+        organization_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        game_id:
+          type: integer
+          format: int64
+        format_id:
+          type: integer
+          format: int64
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+        player_cap:
+          type: integer
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        open_team_sheets:
+          type: boolean
+        teamlists_required:
+          type: boolean
+      required:
+      - organization_id
+      - name
+      - game_id
+      - format_id
+      - autostart
+      - player_cap
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+      - check_in_start_at
+      - open_team_sheets
+      - teamlists_required
+    GetSessionRequest:
+      type: object
+      title: Get Session Params
+      properties:
+        token:
+          type: string
+          format: jwt
+      required:
+      - token
+    CreateSession:
+      type: object
+      title: Create Session
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        session_token:
+          type: string
+          format: jwt
+        expires_at:
+          type: string
+          format: date-time
+      required:
+      - user_id
+    Session:
+      type: object
+      title: Session
+      properties:
+        username:
+          type: string
+        token:
+          type: string
+          format: jwt
+        user_id:
+          type: string
+          format: uuid
+        expires_at:
+          type: string
+          format: date-time
+      required:
+      - token
+      - user_id
+      - expires_at
+    SessionAndUser:
+      type: object
+      title: Session And User
+      properties:
+        session:
+          "$ref": "#/components/schemas/Session"
+        user:
+          "$ref": "#/components/schemas/UserDetails"
+      required:
+      - session
+      - user
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+      - error
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        next_page:
+          type: integer
+          nullable: true
+        prev_page:
+          type: integer
+          nullable: true
+        total_pages:
+          type: integer
+        total_count:
+          type: integer
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count

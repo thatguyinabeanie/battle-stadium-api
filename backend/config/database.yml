@@ -19,15 +19,15 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   timeout: <%= ENV.fetch("RAILS_DB_TIMEOUT", 5000) %>
-
-  host: <%= ENV.fetch("DB_HOST") %>
-  port: <%= ENV.fetch("DB_PORT", '5432') %>
-
-  username: <%= ENV.fetch("POSTGRES_USER") %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
+  host: <%= ENV.fetch("POSTGRES_HOST", 'postgres') %>
+  port: <%= ENV.fetch("POSTGRES_PORT", '5432') %>
+  username: <%= ENV.fetch("POSTGRES_USER", 'postgres') %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", 'postgres') %>
+  database: <%= ENV.fetch("POSTGRES_DB") %>
 development:
   <<: *default
-  database: fuecoco-db-dev
+  database: <%= ENV.fetch("POSTGRES_DATABASE", 'fuecoco-db-dev') %>
+
 
 # RAILS_DB_NAME=fuecoco-db-test   bin/rails db:create && rspec
 # The specified database role being used to connect to PostgreSQL.
@@ -62,7 +62,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: fuecoco-db-test
+
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -85,5 +85,4 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: fuecoco-db
+  url: <%= ENV['PRODUCTION_DATABASE_URL'] %>

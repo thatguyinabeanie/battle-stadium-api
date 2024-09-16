@@ -1,13 +1,13 @@
 "use client";
 
+import { Tab, Tabs, useDisclosure } from "@/components/client";
+import { Button, Icon } from "@/components/client";
+
 import ProfileSetting from "./profile-settings";
 import AppearanceSetting from "./appearance-settings";
 import AccountSetting from "./account-settings";
 import BillingSetting from "./bill-settings";
 import TeamSetting from "./team-setting";
-
-import { Tab, Tabs, useDisclosure } from "@/components/nextui-client-components";
-import { Button, Icon } from "@/components/nextui-client-components";
 
 const Settings = () => {
   const { onOpenChange } = useDisclosure();

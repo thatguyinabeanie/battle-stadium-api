@@ -1,0 +1,6 @@
+[test]
+preload = [
+  "./test-setup.ts",
+  "./api-mock-setup.ts"
+]
+coverage = true

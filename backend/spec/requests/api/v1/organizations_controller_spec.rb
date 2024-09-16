@@ -1,130 +1,198 @@
-require 'swagger_helper'
-require_relative '../../../support/openapi/schema_helper'
-require_relative '../../../support/openapi/response_helper'
+require "swagger_helper"
+require_relative "../../../support/clerk_jwt/token_verifier_mock"
 
-ORGANIZATION_DETAIL_SCHEMA = '#/components/schemas/Organization'.freeze
-DESCRIPTION = 'the bomb dot com'.freeze
+ORGANIZATION_DETAIL_SCHEMA = "#/components/schemas/Organization".freeze
+DESCRIPTION = "the bomb dot com".freeze
 
 RSpec.describe Api::V1::OrganizationsController do
-  path('/api/v1/organizations') do
-    get('List Organizations') do
-      tags 'Organizations'
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      operationId 'listOrganizations'
+  include ClerkJwt::TokenVerifier::Mock
 
-      response(200, 'successful') do
-        schema type: :array, items: { '$ref' => '#/components/schemas/Organization' }
+  let(:org) { create(:organization_with_staff, staff_count: 5) }
+  let(:owner) { org.owner }
+  let(:org_id) { org.id }
+
+  path("/organizations") do
+    get("List Organizations") do
+      tags "Organizations"
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      operationId "listOrganizations"
+
+      parameter PAGE_PARAMETER
+      parameter PER_PAGE_PARAMETER
+      parameter name: :partner, in: :query, type: :boolean
+
+      response(200, "successful") do
+        let(:organizations) { create_list(:organization, 5) }
+
+        let(:page) { 2 }
+        let(:per_page) { 2 }
+        let(:partner) { true }
+
+        schema type: :object, properties: {
+          data: { type: :array, items: { "$ref" => ORGANIZATION_DETAIL_SCHEMA } },
+          meta: { "$ref" => "#/components/schemas/Pagination" }
+        }
 
         OpenApi::Response.set_example_response_metadata
 
-        run_test!
+        run_test! do # rubocop:disable RSpec/MultipleExpectations
+          expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
+          expect(response.body).to include("data")
+          expect(response.body).to include("meta")
+        end
       end
     end
 
-    post('Create Organization') do
-      tags 'Organizations'
+    post("Create Organization") do
+      tags "Organizations"
       consumes OpenApi::Response::JSON_CONTENT_TYPE
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Creates a new organization.'
-      operationId 'postOrganization'
+      description "Creates a new organization."
+      operationId "postOrganization"
 
-      parameter name: :organization, required: true, in: :body, schema: { '$ref' => '#/components/schemas/Organization' }
+      parameter name: :organization, required: true, in: :body, schema: { "$ref" => "#/components/schemas/Organization" }
 
-      response(201, 'created') do
-        let(:owner) { create(:user) }
+      security [Bearer: []]
+
+      response(201, "created") do
+        let(:request_user) { create(:admin) }
         let(:organization) do
           {
-            name: 'New Organization',
+            name: "New Organization",
             description: DESCRIPTION,
-            owner_id: owner.id
+            owner_id: create(:user).id
           }
         end
 
-        schema '$ref' => ORGANIZATION_DETAIL_SCHEMA
+        schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
+        include_context "with Clerk SDK Mock"
+
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
+      response(403, "forbidden") do
+        let(:request_user) { create(:user) }
+        let(:organization) do
+          {
+            name: "New Organization",
+            description: DESCRIPTION,
+            owner_id: create(:user).id
+          }
+        end
+
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
     end
   end
 
-  path('/api/v1/organizations/{id}') do
-    parameter name: :id, in: :path, type: :integer, required: true
-    let(:org) { create(:organization) }
-    let(:id) { org.id }
+  path("/organizations/{org_id}") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
 
-    get('Show Organization') do
-      tags 'Organizations'
+    get("Show Organization") do
+      tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves a specific organization.'
-      operationId 'getOrganization'
+      description "Retrieves a specific organization."
+      operationId "getOrganization"
 
-      response(200, 'successful') do
-        schema '$ref' => ORGANIZATION_DETAIL_SCHEMA
+      response(200, "successful") do
+        schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
+        let(:org_id) { "invalid" }
 
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
     end
 
-    patch('Update Organization') do
-      tags 'Organizations'
+    patch("Update Organization") do
+      tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Updates an existing organization.'
-      operationId 'patchOrganization'
+      description "Updates an existing organization."
+      operationId "patchOrganization"
 
-      parameter name: :organization, in: :body, schema: { '$ref' => '#/components/schemas/Organization' }
+      parameter name: :organization, in: :body, schema: { "$ref" => "#/components/schemas/Organization" }
 
-      response(200, 'successful') do
-        let(:id) { create(:organization).id }
+      security [Bearer: []]
+
+      response(200, "successful") do
+        let(:request_user) { owner }
         let(:organization) do
           {
-            name: 'Updated Organization',
+            name: "Updated Organization",
             description: DESCRIPTION
           }
         end
 
-        schema '$ref' => ORGANIZATION_DETAIL_SCHEMA
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { -1 }
+        let(:request_user) { create(:admin) }
+
+        let(:org_id) { -1 }
         let(:organization) do
           {
-            name: 'Updated Organization',
+            name: "Updated Organization",
             description: DESCRIPTION
           }
         end
 
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
     end
 
-    delete('Delete Organization') do
-      tags 'Organizations'
+    delete("Delete Organization") do
+      tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Deletes an organization.'
-      operationId 'deleteOrganization'
+      description "Deletes an organization."
+      operationId "deleteOrganization"
 
-      response(200, 'Organization deleted') do
+      security [Bearer: []]
+
+      response(200, "Organization deleted") do
+        let(:request_user) { create(:admin) }
+
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Message"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
-      response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
+      response(403, "forbidden") do
+        let(:request_user) { create(:user) }
 
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/Error"
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(404, NOT_FOUND) do
+        let(:request_user) { create(:admin) }
+        let(:org_id) { "invalid" }
+
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -132,27 +200,25 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path('/api/v1/organizations/{id}/staff') do
-    parameter name: :id, in: :path, type: :integer, required: true
-    let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:id) { org.id }
+  path("/organizations/{org_id}/staff") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
 
-    get('List Organization Staff') do
-      tags 'Organizations'
+    get("List Organization Staff") do
+      tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Retrieves a list of staff members for a specific organization.'
-      operationId 'listOrganizationStaff'
+      description "Retrieves a list of staff members for a specific organization."
+      operationId "listOrganizationStaff"
 
-      response(200, 'successful') do
-        schema type: :array, items: { '$ref' => '#/components/schemas/User' }
+      response(200, "successful") do
+        schema type: :array, items: { "$ref" => "#/components/schemas/User" }
         OpenApi::Response.set_example_response_metadata
-
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { 'invalid' }
+        let(:org_id) { "invalid" }
 
+        schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -160,27 +226,49 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path('/api/v1/organizations/{organization_id}/tournaments') do
-    parameter name: :organization_id, in: :path, type: :integer, required: true
-    let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:organization_id) { org.id }
+  path("/organizations/{org_id}/tournaments") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
 
-    post('Create Tournament') do
-      tags 'Organizations'
+    get("List Organization Tournaments") do
+      tags "Organizations"
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      description "Retrieves a list of tournaments for a specific organization."
+      operationId "listOrganizationTournaments"
+
+      response(200, "successful") do
+        schema type: :array, items: { "$ref" => "#/components/schemas/TournamentDetails" }
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
+      response(404, NOT_FOUND) do
+        let(:org_id) { "invalid" }
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+    end
+
+    post("Create Tournament") do
+      tags "Organizations"
       consumes OpenApi::Response::JSON_CONTENT_TYPE
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Creates a new tournament for a given organization.'
-      operationId 'postOrganizationTournament'
+      description "Creates a new tournament for a given organization."
+      operationId "postOrganizationTournament"
 
-      parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentDetails' }
+      parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentDetails" }
 
-      response(201, 'created') do
+      security [Bearer: []]
+
+      response(201, "Created by Org Owner") do
+        let(:request_user) { owner }
         let(:game) { create(:game) }
         let(:format) { create(:format, game:) }
         let(:tournament) do
           {
             tournament: {
-              name: 'New Tournament',
+              name: "New Tournament",
               start_at: Time.now.iso8601,
               end_at: 1.day.from_now,
               game_id: game.id,
@@ -196,13 +284,17 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
-        schema '$ref' => '#/components/schemas/TournamentDetails'
+        include_context "with Clerk SDK Mock"
+        schema "$ref" => "#/components/schemas/TournamentDetails"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
-      response(400, 'bad request') do
+      response(400, "bad request") do
+        let(:request_user) { owner }
         let(:tournament) { {} }
+
+        include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -210,14 +302,12 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path('/api/v1/organizations/{organization_id}/tournaments/{id}') do
-    parameter name: :organization_id, in: :path, type: :integer, required: true
-    parameter name: :id, in: :path, type: :integer, required: true
+  path("/organizations/{org_id}/tournaments/{tournament_id}") do
+    parameter name: :org_id, in: :path, type: :integer, required: true
+    parameter name: :tournament_id, in: :path, type: :integer, required: true
 
-    let(:org) { create(:organization_with_staff, staff_count: 5) }
-    let(:organization_id) { org.id }
     let(:tour) { create(:tournament, organization: org) }
-    let(:id) { tour.id }
+    let(:tournament_id) { tour.id }
 
     let(:game) { create(:game) }
     let(:format) { create(:format, game:) }
@@ -225,7 +315,7 @@ RSpec.describe Api::V1::OrganizationsController do
     let(:tournament) do
       {
         tournament: {
-          name: 'Updated Tournament',
+          name: "Updated Tournament",
           start_at: Time.now.iso8601,
           end_at: 1.day.from_now,
           game_id: game.id,
@@ -241,32 +331,45 @@ RSpec.describe Api::V1::OrganizationsController do
       }
     end
 
-    patch('Update Tournament') do
-      tags 'Organizations'
+    patch("Update Tournament") do
+      tags "Organizations"
       consumes OpenApi::Response::JSON_CONTENT_TYPE
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description 'Updates an existing tournament for a given organization.'
-      operationId 'patchOrganizationTournament'
+      description "Updates an existing tournament for a given organization."
+      operationId "patchOrganizationTournament"
 
-      parameter name: :tournament, in: :body, schema: { '$ref' => '#/components/schemas/TournamentDetails' }
+      parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentDetails" }
 
-      response(200, 'successful') do
-        schema '$ref' => '#/components/schemas/TournamentDetails'
+      security [Bearer: []]
+
+      response(200, "Updated by Organization Owner") do
+        let(:request_user) { owner }
+
+        include_context "with Clerk SDK Mock"
+
+        schema "$ref" => "#/components/schemas/TournamentDetails"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
-      response(404, 'not found') do
-        let(:tour) { create(:tournament) }
-        let(:tournament_id) { tour.id }
+      response(404, "not found") do
+        let(:request_user) { owner }
+        let(:tournament_id) { -1 }
 
+        include_context "with Clerk SDK Mock"
+
+
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
 
-      response(400, 'bad request') do
+      response(400, "bad request") do
+        let(:request_user) { owner }
+
         let(:tournament) { {} }
 
+        include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

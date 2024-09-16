@@ -1,4 +1,4 @@
-require_relative '../../../../serializer/player_serializer'
+require_relative "../../../../serializers/player_serializer"
 
 module Api
   module V1
@@ -8,26 +8,36 @@ module Api
         before_action :set_players, only: %i[index create]
         before_action :set_player, only: %i[show update destroy]
 
+        def self.policy_class
+          ::Tournaments::PlayerPolicy
+        end
+
         def index
-          render json: @players, each_serializer: Serializer::Player, status: :ok
+          super
+          render json: @players, each_serializer: Serializers::Player, status: :ok
         end
 
         def show
+          super
           render json: serialize_player_details, status: :ok
         end
 
         def create
-          @player = @players.create! permitted_params.merge(tournament_id: @tournament.id)
+          @player = @players.new permitted_params.merge(tournament_id: @tournament.id)
+          authorize @player, :create?
           if @player.save
             render json: serialize_player_details, status: :created
           else
             render json: @player.errors, status: :unprocessable_entity
           end
+        rescue Pundit::NotAuthorizedError => e
+          render json: { error: e.message }, status: :forbidden
         rescue ActionController::ParameterMissing => e
           render json: { error: e.message }, status: :bad_request
         end
 
         def update
+          authorize @player, :update?
           if @player.update! permitted_params
             render json: serialize_player_details, status: :ok
           else
@@ -36,14 +46,15 @@ module Api
         end
 
         def destroy
+          authorize @player, :destroy?
           @player.destroy!
-          render json: { message: 'Player deleted' }, status: :ok
+          render json: { message: "Player deleted" }, status: :ok
         end
 
         private
 
         def serialize_player_details
-          Serializer::PlayerDetails.new(@player).serializable_hash
+          Serializers::PlayerDetails.new(@player).serializable_hash
         end
 
         def set_players
@@ -51,21 +62,23 @@ module Api
           @players = @tournament.players
           @players
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Tournament not found' }, status: :not_found
+          render json: { error: "Tournament not found" }, status: :not_found
         end
 
         def set_player
           @players ||= set_players
           @player = @players.find_by!(user_id: params[:id])
+          @object = @player
+          @player
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Player not found' }, status: :not_found
+          render json: { error: "Player not found" }, status: :not_found
         end
 
         def set_tournament
           @tournament ||= ::Tournaments::Tournament.find(params[:tournament_id])
           @tournament
         rescue ActiveRecord::RecordNotFound
-          render json: { error: 'Tournament not found' }, status: :not_found
+          render json: { error: "Tournament not found" }, status: :not_found
         end
 
         def permitted_params

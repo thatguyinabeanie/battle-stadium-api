@@ -17,15 +17,14 @@
 
   "containerEnv": {
     "RAILS_ENV": "development",
-    "HOST_ENVIRONMENT": "container",
-    "DB_HOST": "db"
+    "POSTGRES_HOST": "postgres"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3000],
+  "forwardPorts": [10000],
 
   // Uncomment the next line if you want start specific services in your Docker Compose config.
-  "runServices": ["db", "backend"],
+  "runServices": ["postgres", "backend"],
 
   // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
   "shutdownAction": "none",

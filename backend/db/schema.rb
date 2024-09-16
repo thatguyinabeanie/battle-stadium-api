@@ -10,9 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_11_145656) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
+
+  create_table "accounts", primary_key: ["provider", "provider_account_id"], force: :cascade do |t|
+    t.string "type", null: false
+    t.string "provider", null: false
+    t.string "provider_account_id", null: false
+    t.text "refresh_token"
+    t.text "access_token"
+    t.integer "expires_at", null: false
+    t.text "id_token"
+    t.text "scope"
+    t.text "session_state"
+    t.text "token_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["provider", "provider_account_id"], name: "index_accounts_on_provider_and_provider_account_id", unique: true
+  end
+
+  create_table "authenticators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "credential_id", null: false
+    t.text "provider_account_id", null: false
+    t.text "credential_public_key", null: false
+    t.integer "counter", null: false
+    t.text "credential_device_type", null: false
+    t.boolean "credential_backed_up", default: false, null: false
+    t.text "transports"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["credential_id"], name: "index_authenticators_on_credential_id", unique: true
+  end
+
+  create_table "clerk_users", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "clerk_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clerk_user_id"], name: "index_clerk_users_on_clerk_user_id", unique: true
+    t.index ["user_id"], name: "index_clerk_users_on_user_id"
+  end
 
   create_table "formats", force: :cascade do |t|
     t.string "name"
@@ -37,11 +79,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_number", default: 1, null: false
-    t.bigint "reporter_id"
     t.datetime "reported_at"
+    t.uuid "reporter_id"
     t.index ["loser_id"], name: "index_match_games_on_loser_id"
     t.index ["match_id"], name: "index_match_games_on_match_id"
-    t.index ["reporter_id"], name: "index_match_games_on_reporter_id"
     t.index ["winner_id"], name: "index_match_games_on_winner_id"
   end
 
@@ -66,11 +107,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
 
   create_table "organization_staff_members", force: :cascade do |t|
     t.bigint "organization_id", null: false
-    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id"
     t.index ["organization_id"], name: "index_organization_staff_members_on_organization_id"
-    t.index ["user_id"], name: "index_organization_staff_members_on_user_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -78,9 +118,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "owner_id"
+    t.uuid "owner_id"
+    t.string "logo_url"
+    t.boolean "partner", default: false, null: false
+    t.boolean "hidden", default: false, null: false
     t.index ["name"], name: "index_organizations_on_name", unique: true
-    t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true
+    t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true, where: "(owner_id IS NOT NULL)"
   end
 
   create_table "phase_players", force: :cascade do |t|
@@ -109,7 +152,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.bigint "tournament_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -117,10 +159,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
     t.datetime "checked_in_at", precision: nil
     t.string "in_game_name", default: "", null: false
     t.bigint "pokemon_team_id"
+    t.uuid "user_id"
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
-    t.index ["user_id", "tournament_id"], name: "index_on_user_id_and_tournament_id", unique: true
-    t.index ["user_id"], name: "index_players_on_user_id"
+    t.index ["user_id", "tournament_id"], name: "index_players_on_user_id_and_tournament_id", unique: true
   end
 
   create_table "pokemon", force: :cascade do |t|
@@ -136,15 +178,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "nickname"
-    t.bigint "pokemon_team_id", null: false
+    t.bigint "pokemon_team_id", default: 0, null: false
     t.index ["pokemon_team_id"], name: "index_pokemon_on_pokemon_team_id"
   end
 
   create_table "pokemon_teams", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_pokemon_teams_on_user_id"
+    t.uuid "user_id"
   end
 
   create_table "rounds", force: :cascade do |t|
@@ -156,6 +197,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
     t.datetime "ended_at"
     t.index ["phase_id", "round_number"], name: "index_rounds_on_phase_id_and_round_number", unique: true
     t.index ["phase_id"], name: "index_rounds_on_phase_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.text "token", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "jti", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["jti"], name: "index_sessions_on_jti", unique: true
+    t.index ["token", "jti"], name: "index_sessions_on_token_and_jti", unique: true
+    t.index ["token"], name: "index_sessions_on_token", unique: true
+    t.index ["user_id", "token", "jti"], name: "index_sessions_on_user_id_and_token_and_jti", unique: true
   end
 
   create_table "tournament_formats", force: :cascade do |t|
@@ -186,46 +240,40 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
     t.boolean "teamlists_required", default: true, null: false
     t.boolean "open_team_sheets", default: true, null: false
     t.datetime "end_at"
+    t.bigint "limitless_id"
     t.index ["format_id"], name: "index_tournaments_on_format_id"
     t.index ["game_id"], name: "index_tournaments_on_game_id"
+    t.index ["limitless_id"], name: "index_tournaments_on_limitless_id", unique: true, where: "(limitless_id IS NOT NULL)"
     t.index ["name", "organization_id"], name: "index_tournaments_on_name_and_organization_id", unique: true
     t.index ["organization_id", "name", "start_at"], name: "index_tournaments_on_org_id_name_start_date", unique: true
     t.index ["organization_id"], name: "index_tournaments_on_organization_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "username", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.integer "failed_attempts", default: 0, null: false
-    t.string "unlock_token"
-    t.datetime "locked_at"
     t.string "first_name"
     t.string "last_name"
-    t.string "pronouns"
-    t.string "jti", default: "invalid", null: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.string "pronouns", default: "", null: false
+    t.text "image_url"
+    t.boolean "admin", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["jti"], name: "index_users_on_jti", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "verification_tokens", force: :cascade do |t|
+    t.text "identifier", null: false
+    t.datetime "expires_at", null: false
+    t.text "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["identifier", "token"], name: "index_verification_token_on_identifier_and_token", unique: true
+  end
+
+  add_foreign_key "authenticators", "users"
+  add_foreign_key "clerk_users", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
   add_foreign_key "match_games", "players", column: "loser_id"
@@ -246,6 +294,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_023035) do
   add_foreign_key "players", "users"
   add_foreign_key "pokemon", "pokemon_teams"
   add_foreign_key "pokemon_teams", "users"
+  add_foreign_key "sessions", "users"
   add_foreign_key "tournament_formats", "formats"
   add_foreign_key "tournament_formats", "tournaments"
   add_foreign_key "tournaments", "games"

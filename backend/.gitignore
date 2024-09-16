@@ -8,10 +8,7 @@
 /.bundle
 
 # Ignore all environment files (except templates).
-/.env*
-**.env*
-.secret*
-!/.env*.erb
+
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -69,3 +66,4 @@ rails_api
 rails_api/tmp/*
 *.pdf
 .env.docker-compose
+.vercel

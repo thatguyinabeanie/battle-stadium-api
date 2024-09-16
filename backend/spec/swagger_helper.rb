@@ -1,88 +1,72 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-require 'support/constants'
+require "rails_helper"
+require "support/constants"
 
-ID_PROPERTY = { id: { type: :integer } }.freeze
+ID_PROPERTY = { id: { type: :integer, format: :int64 } }.freeze
+UUID_TYPE = { type: :string, format: "uuid" }.freeze
+UUID_PROPERTY = { id: UUID_TYPE }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
-PASSWORD_STRING_TYPE = { type: :string, minLength: 8, format: 'password' }.freeze
 
-COMPONENT_SCHEMA_ORGANIZATION = '#/components/schemas/Organization'
-COMPONENT_SCHEMA_FORMAT = '#/components/schemas/Format'
-COMPONENT_SCHEMA_GAME = '#/components/schemas/Game'
+COMPONENT_SCHEMA_ORGANIZATION = "#/components/schemas/Organization"
+COMPONENT_SCHEMA_FORMAT = "#/components/schemas/Format"
+COMPONENT_SCHEMA_GAME = "#/components/schemas/Game"
 
 ID_NAME_PROPERTIES = {
   id: ID_PROPERTY[:id],
   name: NAME_PROPERTY[:name]
 }.freeze
 
+UUID_NAME_PROPERTIES = {
+  id: UUID_PROPERTY[:id],
+  name: NAME_PROPERTY[:name]
+}.freeze
+
 FORMAT_SCHEMA = {
   type: :object,
-  title: 'Format',
+  title: "Format",
   properties: ID_NAME_PROPERTIES
 }.freeze
 
 GAME_SCHEMA = {
   type: :object,
-  title: 'Game',
+  title: "Game",
   properties: ID_NAME_PROPERTIES,
   required: ID_NAME_REQUIRED
 }.freeze
 
 GAME_REQUEST = {
   type: :object,
-  title: 'GameRequest',
+  title: "GameRequest",
   properties: ID_NAME_PROPERTIES,
   required: %w[name]
 }.freeze
 
 GAME_DETAILS_SCHEMA = {
   type: :object,
-  title: 'Game Details',
+  title: "Game Details",
   properties: GAME_SCHEMA[:properties].merge(
-    formats: { type: :array, items: { '$ref' => COMPONENT_SCHEMA_FORMAT } }
+    formats: { type: :array, items: { "$ref" => COMPONENT_SCHEMA_FORMAT } }
   ),
   required: (GAME_SCHEMA[:required] + %w[formats])
 }.freeze
 
-PASSWORD_REQUEST = {
-  type: :object,
-  title: 'Password Request',
-  properties: {
-    password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters'),
-    password_confirmation: PASSWORD_STRING_TYPE.merge(title: 'Password Confirmation', description: 'Must match the password.')
-  },
-  required: %w[password password_confirmation]
-}.freeze
-
-CHANGE_PASSWORD_REQUEST = {
-  allOf: [
-    { '$ref' => '#/components/schemas/PasswordRequest' },
-    {
-      title: 'Change Password Request',
-      properties: {
-        current_password: PASSWORD_STRING_TYPE.merge(title: 'Current Password', description: 'Your current password.')
-      },
-      required: %w[current_password]
-    }
-  ]
-}.freeze
-
 SIMPLE_USER_SCHEMA = {
   type: :object,
-  title: 'Simple User',
+  title: "Simple User",
   properties: {
     username: { type: :string },
-    pronouns: { type: :string }
+    pronouns: { type: :string },
+    image_url: { type: :string, nullable: true }
   },
   required: %w[username pronouns]
 }.freeze
 
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
-    title: 'User',
-    properties: ID_PROPERTY,
+    title: "User",
+    properties: UUID_PROPERTY,
     required: %w[username pronouns id] + SIMPLE_USER_SCHEMA[:required]
   }
 )
@@ -90,21 +74,22 @@ USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
 SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
     type: :object,
-    title: 'Simple User Details',
+    title: "Simple User Details",
     properties: {
       email: { type: :string },
       first_name: { type: :string },
-      last_name: { type: :string }
+      last_name: { type: :string },
+      image_url: { type: :string, nullable: true }
     },
-    required: %w[email first_name last_name] + SIMPLE_USER_SCHEMA[:required]
+    required: %w[email first_name last_name ] + SIMPLE_USER_SCHEMA[:required]
   }
 ).freeze
 
 USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: 'User Details',
-    properties: ID_PROPERTY,
+    title: "User Details",
+    properties: UUID_PROPERTY,
     required: %w[id] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -112,9 +97,9 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
 USER_ME = USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: 'User Me',
+    title: "User Me",
     properties: {
-      organizations: { type: :array, items: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION } }
+      organizations: { type: :array, items: { "$ref" => COMPONENT_SCHEMA_ORGANIZATION } }
     },
     required: %w[organizations] + USER_DETAILS_SCHEMA[:required]
   }
@@ -123,40 +108,69 @@ USER_ME = USER_DETAILS_SCHEMA.deep_merge(
 USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: 'User Request',
-    properties: {
-      current_password: PASSWORD_STRING_TYPE.merge(title: 'Current Password', description: 'Your current password.')
-    }.merge(ID_PROPERTY),
-    required: %w[current_password] + SIMPLE_USER_DETAILS_SCHEMA[:required]
+    title: "User Request",
+    properties: UUID_PROPERTY,
+    required: SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
 USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: 'User Request',
-    properties: {
-      password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters'),
-      password_confirmation: PASSWORD_STRING_TYPE.merge(title: 'Password Confirmation', description: 'Must match the password.')
-    }.merge(ID_PROPERTY),
-    required: %w[password password_confirmation] + SIMPLE_USER_DETAILS_SCHEMA[:required]
+    title: "User Request",
+    properties: UUID_PROPERTY,
+    required: SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
+USER_LOGIN_RESPONSE = {
+  type: :object,
+  title: "User Login Response",
+  properties: UUID_PROPERTY.merge(
+    username: { type: :string },
+    pronouns: { type: :string },
+    email: { type: :string, format: "email" },
+    first_name: { type: :string },
+    last_name: { type: :string },
+    token: { type: :string, format: "jwt" }
+  ),
+  required: %w[id username pronouns email token first_name last_name]
+}.freeze
+
+REGISTRATION_RESPONSE = {
+  type: :object,
+  title: "Registration Response",
+  properties: UUID_PROPERTY.merge(
+    email: { type: :string, format: "email" },
+    username: { type: :string },
+    first_name: { type: :string },
+    last_name: { type: :string },
+    created_at: { type: :string, format: DATE_TIME_TYPE },
+    updated_at: { type: :string, format: DATE_TIME_TYPE },
+    pronouns: { type: :string, nullable: true },
+    jti: { type: :string, format: "jwt" },
+    name: { type: :string, nullable: true },
+    image: { type: :string, nullable: true },
+    admin: { type: :boolean }
+  ),
+  required: %w[id email username first_name last_name created_at updated_at pronouns jti name image]
+}.freeze
+
 ORGANIZATION_SCHEMA = {
   type: :object,
-  title: 'Organization',
+  title: "Organization",
   properties: {
-    owner: { '$ref' => '#/components/schemas/User' },
-    description: { type: :string, nullable: true }
+    owner: { "$ref" => "#/components/schemas/User" , :nullable => true},
+    description: { type: :string, nullable: true },
+    logo_url: { type: :string, nullable: true, format: "uri" },
+    partner: { type: :boolean },
   }.merge(ID_NAME_PROPERTIES),
-  required: ID_NAME_REQUIRED + %w[owner description]
+  required: ID_NAME_REQUIRED + %w[owner description logo_url]
 }.freeze
 
 ORGANIZATION_DETAILS_SCHEMA = {
   type: :object,
-  title: 'Organization Details',
-
+  title: "Organization Details",
   properties: ORGANIZATION_SCHEMA[:properties],
   required: ORGANIZATION_SCHEMA[:required]
 }.freeze
@@ -174,27 +188,27 @@ TOURNAMENT_PROPERTIES = {
 
 TOURNAMENT_SCHEMA = {
   type: :object,
-  title: 'Tournament',
+  title: "Tournament",
   properties: {
     start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-    organization: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION },
-    format: { '$ref' => COMPONENT_SCHEMA_FORMAT },
-    game: { '$ref' => COMPONENT_SCHEMA_GAME }
+    organization: { "$ref" => COMPONENT_SCHEMA_ORGANIZATION },
+    format: { "$ref" => COMPONENT_SCHEMA_FORMAT },
+    game: { "$ref" => COMPONENT_SCHEMA_GAME }
   }.merge(ID_NAME_PROPERTIES).merge(TOURNAMENT_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[player_cap organization format game start_at player_count registration_start_at registration_end_at late_registration]
 }.freeze
 
 TOURNAMENT_DETAILS_SCHEMA = {
   type: :object,
-  title: 'Tournament Details',
+  title: "Tournament Details",
   properties: ID_NAME_PROPERTIES.merge(
     {
       autostart: { type: :boolean },
       start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
       end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-      organization: { '$ref' => COMPONENT_SCHEMA_ORGANIZATION },
-      format: { '$ref' => COMPONENT_SCHEMA_FORMAT },
-      game: { '$ref' => COMPONENT_SCHEMA_GAME },
+      organization: { "$ref" => COMPONENT_SCHEMA_ORGANIZATION },
+      format: { "$ref" => COMPONENT_SCHEMA_FORMAT },
+      game: { "$ref" => COMPONENT_SCHEMA_GAME },
       check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
       late_registration: { type: :boolean },
       teamlists_required: { type: :boolean },
@@ -211,10 +225,11 @@ TOURNAMENT_DETAILS_SCHEMA = {
 
 TOURNAMENT_REQUEST = {
   type: :object,
-  title: 'Tournament Request',
-  properties: ID_NAME_PROPERTIES.merge({
-                                         game_id: { type: :integer },
-                                         format_id: { type: :integer },
+  title: "Tournament Request",
+  properties: ID_NAME_PROPERTIES.merge(
+    {
+                                         game_id: { type: :integer, format: :int64 },
+                                         format_id: { type: :integer, format: :int64 },
                                          autostart: { type: :boolean },
                                          start_at: { type: :string, format: DATE_TIME_TYPE },
                                          player_cap: { type: :integer, nullable: true },
@@ -230,12 +245,12 @@ TOURNAMENT_REQUEST = {
 
 TOURNAMENT_POST_REQUEST = {
   type: :object,
-  title: 'Tournament Post Request',
+  title: "Tournament Post Request",
   properties: {
-    organization_id: { type: :integer },
+    organization_id: { type: :integer, format: :int64},
     name: { type: :string },
-    game_id: { type: :integer },
-    format_id: { type: :integer },
+    game_id: { type: :integer, format: :int64 },
+    format_id: { type: :integer, format: :int64 },
     autostart: { type: :boolean },
     start_at: { type: :string, format: DATE_TIME_TYPE },
     player_cap: { type: :integer, nullable: true },
@@ -251,7 +266,7 @@ TOURNAMENT_POST_REQUEST = {
 
 POKEMON_SCHEMA = {
   type: :object,
-  title: 'Pokemon',
+  title: "Pokemon",
   properties: ID_NAME_PROPERTIES.merge(
     nickname: { type: :string, nullable: true },
     ability: { type: :string },
@@ -268,9 +283,9 @@ POKEMON_SCHEMA = {
 
 PLAYER_REQUEST = {
   type: :object,
-  title: 'Player Request',
+  title: "Player Request",
   properties: {
-    user_id: { type: :integer },
+    user_id: UUID_TYPE,
     in_game_name: { type: :string }
   },
   required: %w[user_id in_game_name]
@@ -278,10 +293,10 @@ PLAYER_REQUEST = {
 
 PLAYER_SCHEMA = {
   type: :object,
-  title: 'Player',
+  title: "Player",
   properties: {
-    id: { type: :integer },
-    user: { '$ref' => '#/components/schemas/User' },
+    id: { type: :integer, format: :int64 },
+    user: { "$ref" => "#/components/schemas/User" },
     in_game_name: { type: :string }
     # checked_in: { type: :boolean },
     # checked_in_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
@@ -294,7 +309,7 @@ PLAYER_SCHEMA = {
 
 PLAYER_DETAILS_SCHEMA = {
   type: :object,
-  title: 'Player Details',
+  title: "Player Details",
   properties: PLAYER_SCHEMA[:properties].merge(
     {
       # pokemon: { type: :array, items: { '$ref' => '#/components/schemas/Pokemon' } }
@@ -307,10 +322,10 @@ PLAYER_DETAILS_SCHEMA = {
 
 ROUND_SCHEMA = {
   type: :object,
-  title: 'Round',
+  title: "Round",
   properties: ID_PROPERTY.merge(
-    phase_id: { type: :integer },
-    round_number: { type: :integer },
+    phase_id: { type: :integer, format: :int64 },
+    round_number: { type: :integer, format: :int64 },
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   ),
@@ -319,13 +334,13 @@ ROUND_SCHEMA = {
 
 PHASE_SCHEMA = {
   type: :object,
-  title: 'Phase',
+  title: "Phase",
   properties: ID_NAME_PROPERTIES.merge(
-    order: { type: :integer },
+    order: { type: :integer, format: :int64 },
     type: { type: :string },
-    tournament_id: { type: :integer },
-    number_of_rounds: { type: :integer },
-    best_of: { type: :integer },
+    tournament_id: { type: :integer, format: :int64 },
+    number_of_rounds: { type: :integer},
+    best_of: { type: :integer},
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     created_at: { type: :string, format: DATE_TIME_TYPE },
@@ -336,31 +351,108 @@ PHASE_SCHEMA = {
 
 PHASE_DETAILS_SCHEMA = {
   type: :object,
-  title: 'Phase Details',
+  title: "Phase Details",
   properties: PHASE_SCHEMA[:properties].merge(
-    players: { type: :array, items: { '$ref' => '#/components/schemas/Player' } },
-    rounds: { type: :array, items: { '$ref' => '#/components/schemas/Round' } }
+    players: { type: :array, items: { "$ref" => "#/components/schemas/Player" } },
+    rounds: { type: :array, items: { "$ref" => "#/components/schemas/Round" } }
   ),
   required: PHASE_SCHEMA[:required] + %w[players rounds]
 }.freeze
 
-USER_LOGIN_REQUEST = {
+GET_SESSION_REQUEST = {
   type: :object,
-  title: 'User Login Request',
+  title: "Get Session Params",
   properties: {
-
-    email: { type: :string, format: 'email' },
-    password: PASSWORD_STRING_TYPE.merge(title: 'Password', description: 'Must be at least 8 characters')
+    token: { type: :string, format: "jwt" }
   },
-  required: %w[email password]
+  required: %w[token]
 }.freeze
+
+SESSION = {
+  type: :object,
+  title: "Session",
+  properties: {
+    username: { type: :string },
+    token: { type: :string, format: "jwt" },
+    user_id: UUID_TYPE,
+    expires_at: { type: :string, format: DATE_TIME_TYPE }
+  },
+  required: %w[token user_id expires_at]
+}.freeze
+
+CREATE_SESSION = {
+  type: :object,
+  title: "Create Session",
+  properties: {
+    user_id: UUID_TYPE,
+    session_token: { type: :string, format: "jwt" },
+    expires_at: { type: :string, format: DATE_TIME_TYPE }
+  },
+  required: %w[user_id]
+}.freeze
+
+SESSION_AND_USER = {
+  type: :object,
+  title: "Session And User",
+  properties: {
+    session: { "$ref" => "#/components/schemas/Session" },
+    user: { "$ref" => "#/components/schemas/UserDetails" }
+  },
+  required: %w[session user]
+}.freeze
+
+
+ERROR = {
+  type: :object,
+  properties: {
+    error: { type: :string }
+  },
+  required: %w[error]
+}.freeze
+
+MESSAGE = {
+  type: :object,
+  properties: {
+    message: { type: :string }
+  },
+  required: %w[message]
+}.freeze
+
+
+PAGE_PARAMETER = {
+  name: :page,
+  in: :query,
+  type: :integer,
+  description: "Page number for pagination",
+  required: true,
+}
+
+PER_PAGE_PARAMETER = {
+  name: :per_page,
+  in: :query,
+  type: :integer,
+  description: "Number of items per page for pagination",
+  required: true,
+}
+
+PAGINATION_RESPONSE = {
+  type: :object,
+  properties: {
+    current_page: { type: :integer },
+    next_page: { type: :integer , nullable: true},
+    prev_page: { type: :integer, nullable: true },
+    total_pages: { type: :integer },
+    total_count: { type: :integer }
+  },
+  required: %w[current_page next_page prev_page total_pages total_count]
+}
 
 RSpec.configure do |config|
   # config.include SwaggerHelper
   # Specify a root folder where Swagger JSON files are generated
   # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
   # to ensure that it's configured to serve Swagger from the same folder
-  config.openapi_root = Rails.root.join('swagger').to_s
+  config.openapi_root = Rails.root.join("openapi").to_s
 
   config.openapi_strict_schema_validation = true
 
@@ -371,19 +463,19 @@ RSpec.configure do |config|
   # document below. You can override this behavior by adding a openapi_spec tag to the
   # the root example_group in your specs, e.g. describe '...', openapi_spec: 'v2/swagger.json'
   config.openapi_specs = {
-    'v1/openapi.yaml' => {
-      openapi: '3.0.1',
+    "v1/openapi.yaml" => {
+      openapi: "3.0.1",
       info: {
-        title: 'API V1',
-        version: 'v1'
+        title: "Battle Stadium API V1",
+        version: "v1"
       },
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: "{defaultHost}",
           variables: {
             defaultHost: {
-              default: '127.0.0.1'
+              default: "https://api.battlestadium.gg/api/v1"
             }
           }
         }
@@ -395,17 +487,30 @@ RSpec.configure do |config|
           }
         },
 
+        securitySchemes: {
+          Bearer: {
+            description: "JWT key necessary to use API calls",
+            type: :apiKey,
+            name: "Authorization",
+            in: :header
+          }
+        },
+
+        parameters: {
+          Page: PAGE_PARAMETER,
+          PerPage: PER_PAGE_PARAMETER
+        },
+
         schemas: {
           Format: FORMAT_SCHEMA,
           Game: GAME_SCHEMA,
           GameDetail: GAME_DETAILS_SCHEMA,
-          PasswordRequest: PASSWORD_REQUEST,
-          ChangePasswordRequest: CHANGE_PASSWORD_REQUEST,
           User: USER_SCHEMA,
           UserDetails: USER_DETAILS_SCHEMA,
           UserMe: USER_ME,
           UserPostRequest: USER_POST_REQUEST,
           UserRequest: USER_REQUEST,
+          RegistrationResponse: REGISTRATION_RESPONSE,
           Organization: ORGANIZATION_SCHEMA,
           OrganizationDetails: ORGANIZATION_DETAILS_SCHEMA,
           Tournament: TOURNAMENT_SCHEMA,
@@ -418,9 +523,15 @@ RSpec.configure do |config|
           Phase: PHASE_SCHEMA,
           PhaseDetails: PHASE_DETAILS_SCHEMA,
           GameRequest: GAME_REQUEST,
-          UserLoginRequest: USER_LOGIN_REQUEST,
           TournamentRequest: TOURNAMENT_REQUEST,
-          TournamentPostRequest: TOURNAMENT_POST_REQUEST
+          TournamentPostRequest: TOURNAMENT_POST_REQUEST,
+          GetSessionRequest: GET_SESSION_REQUEST,
+          CreateSession: CREATE_SESSION,
+          Session: SESSION,
+          SessionAndUser: SESSION_AND_USER,
+          Error: ERROR,
+          Message: MESSAGE,
+          Pagination: PAGINATION_RESPONSE
         }
       }
     }

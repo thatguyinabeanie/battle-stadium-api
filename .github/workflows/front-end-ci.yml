@@ -1,4 +1,4 @@
-name: Front End CI
+name: NextJS Frontend CI
 
 on:
   push:
@@ -10,86 +10,65 @@ permissions:
   checks: write
 
 jobs:
-  jest:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 9
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ./frontend/.node-version
-          cache: "pnpm"
-          cache-dependency-path: ./frontend/pnpm-lock.yaml
-          check-latest: true
+          bun-version: latest
 
       - name: Install Dependencies
-        run: pnpm install --silent
+        run: bun install
         working-directory: frontend
 
-      - name: Run Jest tests
-        run: pnpm test
+      - name: Run Tests
+        run: bun test
         working-directory: frontend
         env:
           CI: true
 
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v4
-        if: always()
-        with:
-          include_passed: true
-          report_paths: 'frontend/test-results/jest/results.xml'
+      # - name: Publish Test Report
+      #   uses: mikepenz/action-junit-report@v4
+      #   if: always()
+      #   with:
+      #     include_passed: true
+      #     report_paths: 'frontend/test-results/jest/results.xml'
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         if: ${{ !cancelled() }}
         with:
           directory: frontend/coverage
-          flags: jest
+          flags: bun
           name: codecov-umbrella
-          verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
-        with:
-          directory: frontend/test-results
-          files: '**/*.xml'
-          flags: jest
-          token: ${{ secrets.CODECOV_TOKEN }}
+      # - name: Upload test results to Codecov
+      #   if: ${{ !cancelled() }}
+      #   uses: codecov/test-results-action@v1
+      #   with:
+      #     directory: frontend/test-results
+      #     files: '**/*.xml'
+      #     flags: bun
+      #     token: ${{ secrets.CODECOV_TOKEN }}
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 9
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ./frontend/.node-version
-          cache: "pnpm"
-          cache-dependency-path: ./frontend/pnpm-lock.yaml
-          check-latest: true
+          bun-version: latest
 
       - name: Install Dependencies
-        run: pnpm install --silent
+        run: bun install
         working-directory: frontend
 
       - name: Run Lint
-        run: pnpm lint
+        run: bun lint
         working-directory: frontend
 
   prettier:
@@ -97,26 +76,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 9
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ./frontend/.node-version
-          cache: "pnpm"
-          cache-dependency-path: ./frontend/pnpm-lock.yaml
-          check-latest: true
+          bun-version: latest
 
       - name: Install Dependencies
-        run: pnpm install --silent
+        run: bun install
         working-directory: frontend
 
       - name: Run Prettier Check
-        run: pnpm prettier:check
+        run: bun prettier:check
         working-directory: frontend
 
   type-check:
@@ -124,24 +93,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 9
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ./frontend/.node-version
-          cache: "pnpm"
-          cache-dependency-path: ./frontend/pnpm-lock.yaml
-          check-latest: true
+          bun-version: latest
 
       - name: Install Dependencies
-        run: pnpm install --silent
+        run: bun install
         working-directory: frontend
 
       - name: Run Type Check
-        run: pnpm tsc
+        run: bun tsc
         working-directory: frontend

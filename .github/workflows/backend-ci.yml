@@ -1,4 +1,4 @@
-name: Backend CI
+name: Rails API CI
 on:
   push:
     branches:
@@ -10,19 +10,24 @@ permissions:
   pull-requests: write
   checks: write
 
+env:
+  RAILS_ENV: test
+  POSTGRES_HOST: ${{ secrets.DB_HOST }}
+  POSTGRES_PORT: ${{ secrets.DB_PORT }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_DATABASE: ${{ secrets.POSTGRES_DB }}
+  AUTH_SECRET: ${{ secrets.DEVISE_JWT_SECRET_KEY }}
+  BUNDLE_GEMFILE: ${{ github.workspace }}/backend/Gemfile
+  CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+  CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+  CLERK_WEBHOOK_SECRET: ${{ secrets.CLERK_WEBHOOK_SECRET }}
+
 jobs:
   rspec:
     runs-on: ubuntu-latest
-
-    env:
-      RAILS_ENV: test
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      DEVISE_JWT_SECRET_KEY: ${{ secrets.DEVISE_JWT_SECRET_KEY }}
-      BUNDLE_GEMFILE: ${{ github.workspace }}/backend/Gemfile
 
     services:
       postgres:
@@ -45,7 +50,6 @@ jobs:
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
-
         with:
           ruby-version: 3.3.4
           bundler-cache: true
@@ -55,12 +59,16 @@ jobs:
         run: bundle check || bundle install
         working-directory: ./backend
 
+      - name: Set up config/master.key
+        run: echo "${{ secrets.RAILS_MASTER_KEY }}" > ./backend/config/master.key
+
       - name: Prepare database
         run: bundle exec rake db:create db:schema:load --trace
         working-directory: ./backend
 
       - name: Run RSpec tests
-        run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml
+        run: bundle exec rspec --format RspecJunitFormatter --out test-results/rspec/results.xml --format documentation
+
         working-directory: ./backend
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -78,7 +86,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: backend/coverage
-          files: '**/.resultset.json'
+          files: '**/coverage/.resultset.json'
           flags: rspec
           name: codecov-umbrella
           verbose: true
@@ -106,6 +114,7 @@ jobs:
         with:
           ruby-version: 3.3.4
           bundler-cache: true
+          working-directory: ./backend
 
       - name: Install dependencies
         run: bundle check || bundle install
@@ -126,6 +135,7 @@ jobs:
         with:
           ruby-version: 3.3.4
           bundler-cache: true
+          working-directory: ./backend
 
       - name: Install dependencies
         run: bundle check || bundle install
@@ -137,7 +147,7 @@ jobs:
         with:
           workdir: backend
           rubocop_version: gemfile
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-rspec:gemfile
+          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-rspec:gemfile rubocop-github:gemfile
           only_changed: true
           github_token: ${{ github.token }}
           reporter: github-pr-review # Default is github-pr-check

@@ -12,27 +12,37 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-require 'faker'
+require "faker"
 
 if Rails.env.production?
-  Rails.logger.info('Seeding is disabled in production.')
+  Rails.logger.info("Seeding is disabled in production.")
   exit
 end
 
 # require 'factory_bot'
 
-def create_user(username: nil)
-  username ||= Faker::Internet.unique.username
+def create_battlestadium_bot
+  User.find_or_create_by!(username: "battlestadiumbot") do |user|
+    user.email = "battlestadium@beanie.gg"
+    user.pronouns = "they/them"
+    user.first_name = "Battle"
+    user.last_name = "Stadium"
+    user.admin = true
+  end
+end
 
+def create_user(username: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil)
+  first_name ||= Faker::Name.first_name
+  last_name ||= Faker::Name.last_name
+  email || "#{username}@beanie.com"
+  pronouns ||= "they/them"
+  username ||= Faker::Internet.unique.username
   # Check if user already exists
   User.find_or_create_by!(username:) do |user|
-    password = SecurePassword.generate_secure_password
-    user.email = "#{user.username}@example.com"
-    user.password = password
-    user.password_confirmation = password
-    user.pronouns = 'they/them'
-    user.first_name = Faker::Name.first_name
-    user.last_name = Faker::Name.last_name
+    user.email = "#{user.username}@beanie.gg"
+    user.pronouns = pronouns
+    user.first_name = last_name
+    user.last_name = first_name
   end
 end
 
@@ -59,20 +69,22 @@ def generate_organization_name
   adjective = Faker::Company.buzzword
   noun = Faker::Company.type
 
-  "#{adjective} #{noun}"
+  "#{adjective} #{noun} #{rand(1..100)}"
 end
 
 def create_format(name:, game:)
   Tournaments::Format.find_or_create_by!(name:, game:)
 end
 
-scarlet_violet = Game.find_or_create_by!(name: 'Pokemon Scarlet & Violet')
+scarlet_violet = Game.find_or_create_by!(name: "Pokemon Scarlet & Violet")
 
 (1..10).to_a.map { |series| Game.find_or_create_by!(name: "Pokemon Series #{series}") }
 
-format = Tournaments::Format.find_or_create_by!(name: 'Regulation H', game: scarlet_violet)
+format = Tournaments::Format.find_or_create_by!(name: "Regulation H", game: scarlet_violet)
 
-fuecoco_supremacy_user = create_user(username: 'fuecoco-supremacy')
+fuecoco_supremacy_user = create_user(username: "fuecoco-supremacy", first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
+fuecoco_supremacy_user.admin = true
+fuecoco_supremacy_user.save!
 
 org_owners = (1..25).to_a.map { create_user }
 
@@ -104,7 +116,11 @@ future_tournaments.flat_map do |tournament|
     next if tournament.players.exists?(user:) || !tournament.registration_open?
 
     tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
-      player.pokemon_team = PokemonTeam.create(user:).tap { |pokemon_team| pokemon_team.pokemon = (1..6).to_a.map { Pokemon.create(pokemon_team:) } }
+      player.pokemon_team = PokemonTeam.create(user:).tap do |pokemon_team|
+        pokemon_team.pokemon = (1..6).to_a.map do
+          Pokemon.create(pokemon_team:)
+        end
+      end
     end
   end
 end
@@ -119,10 +135,16 @@ in_progress_tournaments = orgs.flat_map do |organization|
       next if tournament.players.exists?(user:)
 
       tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
-        player.pokemon_team = PokemonTeam.create(user:).tap { |pokemon_team| pokemon_team.pokemon = (1..6).to_a.map { Pokemon.create(pokemon_team:) } }
+        player.pokemon_team = PokemonTeam.create(user:).tap do |pokemon_team|
+          pokemon_team.pokemon = (1..6).to_a.map do
+            Pokemon.create(pokemon_team:)
+          end
+        end
       end
     end
   end
 end
 
-in_progress_tournaments.each { |tournament| tournament.start_tournament! if tournament.players.checked_in_and_ready.count.positive? }
+in_progress_tournaments.each do |tournament|
+  tournament.start_tournament! if tournament.players.checked_in_and_ready.count.positive?
+end

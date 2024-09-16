@@ -1,6 +1,6 @@
 class UpdateUsernameOnUsers < ActiveRecord::Migration[7.1]
   def up
-    change_column :users, :username, :string, null: true, default: ''
+    change_column :users, :username, :string, null: true, default: ""
   end
 
   def down

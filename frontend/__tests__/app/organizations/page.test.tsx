@@ -3,10 +3,11 @@ import { render, screen } from "@testing-library/react";
 import OrganizationPage from "@/app/organizations/page";
 
 describe("Organizations Page", () => {
-  it.skip("renders the correct text", async () => {
+  test.skip("should render the organization page", async () => {
     render(await OrganizationPage());
-    const text = screen.getByText(/Organizations/i);
 
-    expect(text).toBeInTheDocument();
+    const orgName = screen.getAllByTestId("org-name");
+
+    expect(orgName).toBeGreaterThan(0);
   });
 });

@@ -18,10 +18,10 @@
   // "containerEnv": {},
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [8080],
+  "forwardPorts": [3000],
 
   // Uncomment the next line if you want start specific services in your Docker Compose config.
-  "runServices": ["db", "backend", "frontend"],
+  "runServices": ["postgres", "backend", "frontend"],
 
   // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
   "shutdownAction": "none",
@@ -64,7 +64,6 @@
         "vscode-icons-team.vscode-icons",
         "streetsidesoftware.code-spell-checker",
         "VisualStudioExptTeam.vscodeintellicode",
-        "Jacano.vscode-pnpm",
         "bradlc.vscode-tailwindcss",
         "rangav.vscode-thunder-client",
         "christian-kohler.path-intellisense",
@@ -73,10 +72,12 @@
         "aaron-bond.better-comments",
         "dsznajder.es7-react-js-snippets",
         "YoavBls.pretty-ts-errors",
-        "Orta.vscode-jest",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "oven.bun-vscode",
+        "Prisma.prisma"
       ],
       "settings": {
+        "bun.runtime": "/root/.bun/bin",
         "remote.containers.copyGitConfig": true,
         "terminal.integrated.defaultProfile.linux": "/bin/zsh",
         "terminal.integrated.profiles.linux": {
@@ -101,8 +102,7 @@
         "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
         "typescript.tsdk": "node_modules/typescript/lib",
         "editor.formatOnSave": false,
-        "eslint.format.enable": true,
-        "jest.jestCommandLine": "pnpm jest"
+        "eslint.format.enable": true
       }
     }
   }

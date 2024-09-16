@@ -1,8 +1,10 @@
-require 'active_support/core_ext/integer/time'
-ENV['RAILS_SERVE_STATIC_FILES'] = 'true'
+require "active_support/core_ext/integer/time"
+ENV["RAILS_SERVE_STATIC_FILES"] = "true"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+
+  config.cache_classes = true
 
   # Code is not reloaded between requests.
   config.enable_reloading = false
@@ -43,11 +45,11 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
-  config.action_cable.allowed_request_origins = ['localhost']
+  config.action_cable.allowed_request_origins = ["localhost"]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
-  # config.assume_ssl = true
+  config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
@@ -63,7 +65,7 @@ Rails.application.configure do
   # "info" includes generic and useful information about system operation, but avoids logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII). If you
   # want to log everything, set the level to "debug".
-  config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info')
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -90,13 +92,15 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-    'localhost' # Allow requests from example.com
-    # /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+    "api.battlestadium.gg",
+    "battle-stadium-api.onrender.com",
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 10000 }
 
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = false
+
+  config.secret_key_base = ENV["AUTH_SECRET"]
 end
