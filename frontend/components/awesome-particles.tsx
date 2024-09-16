@@ -5,7 +5,6 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { type ISourceOptions, MoveDirection, OutMode } from "@tsparticles/engine";
 
-
 const defaultOptions: ISourceOptions = {
   fullScreen: {
     enable: true,
@@ -93,6 +92,5 @@ export default function AwesomeParticles() {
     return <></>;
   }
 
-  return <Particles id="tsparticles" options={ defaultOptions } />;
+  return <Particles id="tsparticles" options={defaultOptions} />;
 }
-

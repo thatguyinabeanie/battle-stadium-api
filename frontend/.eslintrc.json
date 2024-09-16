@@ -85,13 +85,5 @@
         "next": ["const", "let", "var"]
       }
     ]
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "reportUnusedDisableDirectives": "error"
-      }
-    }
-  ]
+  }
 }

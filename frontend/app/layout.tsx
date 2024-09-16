@@ -9,9 +9,10 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
-import AwesomeParticles from "@/components/awesome-particles/awesome-particles";
 import NavigationBar from "@/components/navbar/navbar";
 import Providers from "@/components/providers";
+
+import AwesomeParticles from "@/components/awesome-particles/awesome-particles";
 
 export const metadata: Metadata = {
   title: {
