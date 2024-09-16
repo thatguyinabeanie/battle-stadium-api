@@ -36,6 +36,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & Push Docker Image
+        if: github.event.pull_request.user.login != 'dependabot[bot]'
         uses: docker/build-push-action@v6
         with:
           context: "{{defaultContext}}:backend"
@@ -47,3 +48,21 @@ jobs:
           tags: |
             ${{ github.repository }}:${{ github.head_ref}}
             ghcr.io/${{ github.repository }}:${{ github.head_ref}}
+
+
+      - name: Build & Push Docker Image
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        uses: docker/build-push-action@v6
+        with:
+          context: "{{defaultContext}}:backend"
+          file: Dockerfile.prod
+          target: pre-production
+          platforms: linux/amd64
+          push: true
+          cache-from: type=registry,ref=${{ github.repository }}:prod-cache-latest,modes=max
+          tags: |
+            ${{ github.repository }}:dependabot-${{ github.event.pull_request.head.sha }}
+            ghcr.io/${{ github.repository }}:dependabot-${{ github.event.pull_request.head.sha }}
+
+
+
