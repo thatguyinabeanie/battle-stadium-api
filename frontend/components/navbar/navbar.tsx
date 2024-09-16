@@ -8,14 +8,17 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Link,
+  Button,
+  Divider,
 } from "@nextui-org/react";
 
-import UserMenu from "./user-menu/user-menu";
-import Notifications from "./notifications";
-import Settings from "./settings";
-import Search from "./search";
-
 import BattleStadium from "@/components/battle-stadium";
+
+import { Icon } from "../client";
+
+import UserMenu from "./user-menu/user-menu";
+import Settings from "./settings";
+import Notifications from "./notifications";
 
 export default function NavigationBar() {
   return (
@@ -24,48 +27,55 @@ export default function NavigationBar() {
       isBordered
       shouldHideOnScroll
       classNames={{
-        base: "lg:bg-transparent lg:backdrop-blur-sm flex ",
+        content: "w-full",
+        base: "lg:bg-transparent lg:backdrop-filter-none w-full",
         item: "data-[active=true]:text-primary",
       }}
-      height="64px"
+      height="60px"
     >
       <NavbarBrand>
         <NavbarMenuToggle className="mr-2 h-6 xl:hidden" />
         <BattleStadium />
-
-        <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full bg-content2 px-4 dark:bg-content1 xl:flex">
-          <NavbarItem>
-            <Link aria-current="page" className="flex gap-2 text-inherit" href="/organizations">
-              Organizations
-            </Link>
-          </NavbarItem>
-
-          <NavbarItem>
-            <Link aria-current="page" className="flex gap-2 text-inherit" href="/tournaments">
-              Tournaments
-            </Link>
-          </NavbarItem>
-
-          <NavbarItem>
-            <Link className="flex gap-2 text-inherit" href="/players">
-              Players
-            </Link>
-          </NavbarItem>
-
-          <NavbarItem>
-            <Link className="flex gap-2 text-inherit" href="/analytics">
-              Analytics
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
       </NavbarBrand>
 
-      {/* Right Menu */}
-      <NavbarContent className="ml-auto h-12 items-center gap-0" data-justify="center">
-        <Search />
+      <NavbarContent
+        className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full bg-content2 px-4 dark:bg-content1 md:flex"
+        justify="start"
+      >
+        <NavbarItem>
+          <Link className="flex gap-2 text-inherit" href="/organizations">
+            Organizations
+          </Link>
+        </NavbarItem>
 
+        <NavbarItem>
+          <Link className="flex gap-2 text-inherit" href="/tournaments">
+            Tournaments
+          </Link>
+        </NavbarItem>
+
+        <NavbarItem>
+          <Link className="flex gap-2 text-inherit" href="/players">
+            Players
+          </Link>
+        </NavbarItem>
+
+        <NavbarItem>
+          <Link className="flex gap-2 text-inherit" href="/analytics">
+            Analytics
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
+
+      {/* Right Menu */}
+      <NavbarContent className="ml-auto h-12 items-center gap-0" justify="end">
+        <Button isIconOnly radius="full" variant="light">
+          <Icon className="text-default-500" icon="solar:magnifer-linear" width={22} />
+        </Button>
         <Settings />
         <Notifications />
+
+        <Divider orientation="vertical" />
         <UserMenu />
       </NavbarContent>
 
