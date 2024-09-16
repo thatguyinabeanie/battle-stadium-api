@@ -87,7 +87,7 @@
     "@types/web": "^0.0.157",
     "@types/ws": "^8.5.12",
     "@typescript-eslint/eslint-plugin": "7.18.0",
-    "@typescript-eslint/parser": "7.18.0",
+    "@typescript-eslint/parser": "8.5.0",
     "@typescript-eslint/typescript-estree": "^8.5.0",
     "autoprefixer": "10.4.20",
     "bun-types": "^1.1.27",
