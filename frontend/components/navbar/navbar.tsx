@@ -25,7 +25,7 @@ export default function NavigationBar() {
       shouldHideOnScroll
       classNames={{
         content: "w-full",
-        base: "lg:bg-transparent lg:backdrop-filter-none w-full",
+        base: "w-full",
         item: "data-[active=true]:text-primary",
       }}
       height="60px"

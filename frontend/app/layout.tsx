@@ -36,14 +36,14 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">
         <head />
-        <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-hidden z-10")}>
+        <body className={ clsx("min-h-screen bg-background font-sans antialiased overflow-y-scroll")}>
           <Providers>
             <AwesomeParticles />
             <div className="flex flex-col w-full h-full">
               <NavigationBar />
-              <main className="flex h-full w-full z-10">
-                <div className="w-full flex-1 flex-col px-4 z-10">
-                  <div className="h-full flex flex-col gap-4 rounded-medium border-divider overflow-auto">
+              <main className="flex h-full w-full">
+                <div className="w-full flex-1 flex-col px-4">
+                  <div className="h-full flex flex-col gap-4 rounded-medium border-divider ">
                     <section className="flex flex-col gap-4 py-4 h-full w-ful items-center">{children}</section>
                   </div>
                 </div>
