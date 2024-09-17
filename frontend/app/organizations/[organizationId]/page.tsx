@@ -43,15 +43,23 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
   return (
       <div className="w-3/4 h-100">
         <Card className="w-auto h-auto mb-2 " isBlurred shadow="md">
-          {/* <CardHeader className="justify-center">{organization?.name}</CardHeader> */}
-          <CardBody className="flex flex-row justify-evenly">
+
+          <CardBody className="flex flex-row justify-between">
             <Image
               shadow="md"
               alt={ organization?.name }
               aria-label={ organization?.name }
-              className="aspect-square flex flex-col gap-3 h-[300px] w-[300px]"
+              className="aspect-square gap-3 h-[300px] w-[300px]"
               src={ organization?.logo_url ?? "/pokemon/vgc.png" }
             />
+
+          <Image
+            shadow="md"
+            alt={ organization?.name }
+            aria-label={ organization?.name }
+            className="aspect-square gap-3 h-[300px] w-[300px]"
+            src={ organization?.logo_url ?? "/pokemon/vgc.png" }
+          />
           </CardBody>
         </Card>
 
