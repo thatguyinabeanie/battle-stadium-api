@@ -1,8 +1,8 @@
 import { NavbarItem, Dropdown, DropdownTrigger, Avatar, AvatarIcon } from "@nextui-org/react";
 
-import { cn } from "@/lib";
-
 import UserMenuDropDown from "./user-menu-dropdown";
+
+import { cn } from "@/lib";
 
 export default async function UserMenu() {
   const currentUser = await import("@clerk/nextjs/server").then((mod) => mod.currentUser);
@@ -17,16 +17,9 @@ export default async function UserMenu() {
               className={cn("", {
                 hidden: !user?.imageUrl,
               })}
+              icon={!user?.imageUrl && <AvatarIcon />}
               size="sm"
-              src={user?.imageUrl}
-            />
-
-            <Avatar
-              className={cn("", {
-                hidden: user?.imageUrl,
-              })}
-              icon={<AvatarIcon />}
-              size="sm"
+              src={user?.imageUrl || undefined}
             />
           </button>
         </DropdownTrigger>

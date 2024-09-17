@@ -1,6 +1,3 @@
-import { render } from "@testing-library/react";
-
-import OrganizationCard from "@/components/organizations/OrganizationCard";
 // import { OrganizationFactory } from "@/factories";
 
 describe.skip("OrganizationCard", () => {

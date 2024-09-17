@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:eslint": "eslint . --ext .ts,.tsx -c .eslintrc.json",
-    "lint:fix": "next lint --fix",
+    "lint:fix": "bun lint:eslint --fix",
     "prettier:write": "prettier --write .",
     "prettier:check": "prettier --check .",
     "tsc": "tsc --noEmit",
