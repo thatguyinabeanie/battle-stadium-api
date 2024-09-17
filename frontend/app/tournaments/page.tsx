@@ -22,7 +22,7 @@ const Tournaments = async () => {
 
   return (
     <div className="overflow-y-scroll pb-4">
-      <Card isBlurred>
+      <Card isBlurred shadow="none" className="my-2">
           <CardHeader>Upcoming Tournaments</CardHeader>
           <CardBody>
             <p>Here you can find all the upcoming tournaments.</p>
@@ -30,7 +30,7 @@ const Tournaments = async () => {
           </CardBody>
       </Card>
 
-      <Card isBlurred>
+      <Card isBlurred shadow="none">
           <CardHeader>Past Tournaments</CardHeader>
           <CardBody>
             <p>Here you can find all the past tournaments.</p>

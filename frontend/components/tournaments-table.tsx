@@ -114,7 +114,7 @@ const TournamentsTable = ({ tournaments, disableColumns }: TournamentsTableProps
   }
 
   return (
-    <Table isStriped aria-label="list of tournaments">
+    <Table isStriped aria-label="list of tournaments" shadow="none">
       <TableHeader columns={columns.filter((c) => !disableColumns?.includes(c.key))}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
