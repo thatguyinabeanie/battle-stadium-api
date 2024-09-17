@@ -52,10 +52,10 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
               </main>
             </div>
           </Providers>
+          <Analytics />
+          <SpeedInsights />
+          <GoogleAnalytics gaId={process.env.MEASUREMENT_ID ?? ""} />
         </body>
-        <Analytics />
-        <SpeedInsights />
-        <GoogleAnalytics gaId={process.env.MEASUREMENT_ID ?? ""} />
       </html>
     </ClerkProvider>
   );
