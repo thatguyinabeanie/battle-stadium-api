@@ -14,7 +14,7 @@ export default async function UserMenu() {
         <DropdownTrigger>
           <button className="h-8 w-8 transition-transform align-top">
             <Avatar
-              className={cn("", {
+              className={cn("bg-transparent", {
                 hidden: !user?.imageUrl,
               })}
               icon={!user?.imageUrl && <AvatarIcon />}

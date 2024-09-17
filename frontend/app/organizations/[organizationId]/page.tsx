@@ -41,7 +41,7 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
   const { data: tournaments } = await getTournaments(params.organizationId);
 
   return (
-      <div className="w-3/4 h-100">
+      <div className="flex-col md:w-90 lg:w-3/4 h-100">
         <Card className="w-auto h-auto mb-2 " isBlurred shadow="md">
 
           <CardBody className="flex flex-row justify-between">
@@ -49,26 +49,26 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
               shadow="md"
               alt={ organization?.name }
               aria-label={ organization?.name }
-              className="aspect-square gap-3 h-[300px] w-[300px]"
+            className="aspect-square gap-3  h-[100px] w-[100px] lg:h-[300px] lg:w-[300px]"
               src={ organization?.logo_url ?? "/pokemon/vgc.png" }
             />
 
-          <Image
-            shadow="md"
-            alt={ organization?.name }
-            aria-label={ organization?.name }
-            className="aspect-square gap-3 h-[300px] w-[300px]"
-            src={ organization?.logo_url ?? "/pokemon/vgc.png" }
-          />
+            <div className="flex flex-col justify-between text-center" >
+              <h1 className="text-2xl font-semibold">{ organization?.name }</h1>
+              <p >{ organization?.description }</p>
+              <p >[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
+            </div>
+
+            <Image
+              shadow="md"
+              alt={ organization?.name }
+              aria-label={ organization?.name }
+              className="aspect-square gap-3 sm:h-[100px] w-[100px] lg:h-[300px] lg:w-[300px] hidden lg:flex"
+              src={ organization?.logo_url ?? "/pokemon/vgc.png" }
+            />
           </CardBody>
         </Card>
 
-      <Card className="w-auto mb-2" isBlurred>
-        <CardBody className="flex flex-row justify-center">
-          <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
-        </CardBody>
-
-      </Card>
 
       <TournamentsTable disableColumns={ ["organization.name"] } tournaments={ tournaments } />
 

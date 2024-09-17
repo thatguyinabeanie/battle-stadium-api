@@ -8,7 +8,6 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Link,
-  Divider,
 } from "@nextui-org/react";
 
 import UserMenu from "./user-menu/user-menu";
@@ -70,8 +69,6 @@ export default function NavigationBar() {
         <Search />
         <Settings />
         <Notifications />
-
-        <Divider orientation="vertical" />
         <UserMenu />
       </NavbarContent>
 
