@@ -36,7 +36,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">
         <head />
-        <body className={ clsx("min-h-screen bg-background font-sans antialiased overflow-y-scroll")}>
+        <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-y-scroll")}>
           <Providers>
             <AwesomeParticles />
             <div className="flex flex-col w-full h-full">
