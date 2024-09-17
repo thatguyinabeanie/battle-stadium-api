@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { Image } from "@nextui-org/react";
 
-import TournamentsTable from "@/app/tournaments/TournamentsTable";
+import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
 export const revalidate = 300;
@@ -36,7 +36,7 @@ export async function generateStaticParams() {
   return (orgs ?? []).map((organization) => ({ organizationId: organization.id.toString() }));
 }
 
-export default async function OrganizationDetailPage({ params }: { params: { organizationId: number } }) {
+export default async function OrganizationDetailPage({ params }: Readonly<{ params: { organizationId: number } }>) {
   const { data: organization } = await getOrganization(params.organizationId);
   const { data: tournaments } = await getTournaments(params.organizationId);
 

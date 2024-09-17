@@ -21,7 +21,7 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
                 isBlurred
                 isZoomed
                 alt="Card image"
-                className="hover:scale-105"
+                className="hover:scale-105 hover:z-50"
                 src={organization.logo_url ?? "/pokemon/vgc.png"}
               />
             </div>

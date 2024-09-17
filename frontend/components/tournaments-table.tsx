@@ -71,6 +71,18 @@ function renderRegistration({
   }
 }
 
+const renderStartDateString = (start_at: string|null) => {
+  if (!start_at) {
+    return "TBD";
+  }
+
+  const startAt = new Date(start_at);
+  const date = startAt?.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  const time = startAt?.toLocaleString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
+
+  return `${date} ${time}`;
+}
+
 const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDetails"], columnKey) => {
   const { id, name, organization, start_at, player_count, player_cap } = row;
 
@@ -78,14 +90,7 @@ const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDe
     case "organization.name":
       return <Link href={`/organizations/${organization.id}`}>{organization.name}</Link>;
     case "start_at":
-      if (!start_at) {
-        return "TBD";
-      }
-      const startAt = new Date(start_at);
-      const date = startAt?.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
-      const time = startAt?.toLocaleString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
-
-      return `${date} ${time}`;
+      return renderStartDateString(start_at);
     case "name":
       return <Link href={`/tournaments/${id}`}>{name}</Link>;
     case "players":
