@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { Image } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 
 import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
@@ -41,16 +41,30 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
   const { data: tournaments } = await getTournaments(params.organizationId);
 
   return (
-    <div className="mb-4 flex flex-col grid-cols-1 justify-center">
-      <Image
-        isBlurred
-        isZoomed
-        alt={organization?.name}
-        aria-label={organization?.name}
-        className="aspect-square flex flex-col gap-3 h-[300px] w-[300px]"
-        src={organization?.logo_url ?? "/pokemon/vgc.png"}
-      />
-      <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
-    </div>
+      <div className="w-3/4 h-100">
+        <Card className="w-auto h-auto mb-2 " isBlurred shadow="md">
+          {/* <CardHeader className="justify-center">{organization?.name}</CardHeader> */}
+          <CardBody className="flex flex-row justify-evenly">
+            <Image
+              shadow="md"
+              alt={ organization?.name }
+              aria-label={ organization?.name }
+              className="aspect-square flex flex-col gap-3 h-[300px] w-[300px]"
+              src={ organization?.logo_url ?? "/pokemon/vgc.png" }
+            />
+          </CardBody>
+        </Card>
+
+      <Card className="w-auto mb-2" isBlurred>
+        <CardBody className="flex flex-row justify-center">
+          <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
+        </CardBody>
+
+      </Card>
+
+      <TournamentsTable disableColumns={ ["organization.name"] } tournaments={ tournaments } />
+
+      </div>
+
   );
 }
