@@ -39,7 +39,7 @@ function renderRegistration({
   player_count,
   player_cap,
   late_registration,
-}: components["schemas"]["TournamentDetails"]) {
+}: components["schemas"]["Tournament"]) {
   const currentTime = new Date();
 
   if (!registration_start_at) {
@@ -83,7 +83,7 @@ const renderStartDateString = (start_at: string | null) => {
   return `${date} ${time}`;
 };
 
-const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDetails"], columnKey) => {
+const renderCell= (row: components["schemas"]["Tournament"], columnKey: React.Key) => {
   const { id, name, organization, start_at, player_count, player_cap } = row;
 
   switch (columnKey) {
@@ -103,16 +103,6 @@ const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDe
 };
 
 const TournamentsTable = ({ tournaments, disableColumns }: TournamentsTableProps) => {
-  const [hydrated, setHydrated] = React.useState(false);
-
-  React.useEffect(() => {
-    setHydrated(true);
-  }, []);
-
-  if (!hydrated) {
-    return null; // or a loading spinner
-  }
-
   return (
     <Table isStriped aria-label="list of tournaments" shadow="none">
       <TableHeader columns={columns.filter((c) => !disableColumns?.includes(c.key))}>

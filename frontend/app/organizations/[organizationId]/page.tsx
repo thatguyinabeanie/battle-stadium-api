@@ -1,8 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
-import { Card, CardBody, Image } from "@nextui-org/react";
+import { Card, CardBody, Image, Skeleton } from "@nextui-org/react";
 
 import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI, components } from "@/lib/battle-stadium-api";
+import OrgLogo from "@/components/organizations/org-logo";
 
 export const revalidate = 200;
 export const dynamicParams = true;
@@ -36,18 +37,6 @@ export async function generateStaticParams() {
   return (orgs ?? []).map((organization) => ({ organizationId: organization.id.toString() }));
 }
 
-const organizationLogo = (
-  organization: components["schemas"]["Organization"] | undefined,
-  className: string | null = null,
-) => (
-  <Image
-    alt={organization?.name}
-    aria-label={organization?.name}
-    className={`aspect-square gap-3 sm:h-[100px] sm:w-[100px] lg:h-[200px] lg:w-[200px] ${className}`}
-    src={organization?.logo_url ?? "/pokemon/vgc.png"}
-  />
-);
-
 export default async function OrganizationDetailPage({ params }: Readonly<{ params: { organizationId: number } }>) {
   const { data: organization } = await getOrganization(params.organizationId);
   const { data: tournaments } = await getTournaments(params.organizationId);
@@ -55,17 +44,17 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
   return (
     <div className="w-100 h-100">
       <Card isBlurred shadow="none">
-        <CardBody className="flex flex-row justify-between">
-          {organizationLogo(organization)}
+          <CardBody className="flex flex-row justify-between rounded-3xl">
+            <OrgLogo organization={organization} />
 
-          <div className="flex flex-col justify-between text-center mx-4">
-            <h1 className="text-2xl font-semibold">{organization?.name}</h1>
-            <p>{organization?.description}</p>
-            <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
-          </div>
+            <div className="flex flex-col justify-between text-center mx-4">
+              <h1 className="text-2xl font-semibold">{organization?.name}</h1>
+              <p>{organization?.description}</p>
+              <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
+            </div>
 
-          {organizationLogo(organization, "hidden md:flex")}
-        </CardBody>
+            <OrgLogo organization={ organization } className="hidden sm:flex" />
+          </CardBody>
       </Card>
 
       <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
