@@ -1,27 +1,31 @@
 import type { CardProps } from "@nextui-org/react";
 
 import React from "react";
-import { Card, Image, CardBody, Spacer, Link, CardFooter } from "@nextui-org/react";
+import { Card, Image, CardBody, Spacer, Link, CardFooter, cn } from "@nextui-org/react";
 
 import { components } from "@/lib/battle-stadium-api";
 
 export interface OrgCardProps {
   organization: components["schemas"]["OrganizationDetails"];
   cardProps?: CardProps;
+  disableHover?: boolean;
 }
 
-export default function NewOrganizationCard({ organization, cardProps }: OrgCardProps) {
+export default function NewOrganizationCard({ organization, cardProps, disableHover }: Readonly<OrgCardProps>) {
   return (
-    <div className="relative overflow-hidden rounded-3xl h-[400x] w-[300px] px-2">
+    <div className="relative h-[400x] w-[300px] px-2">
       <Link key={organization.id} href={`/organizations/${organization.id}`}>
-        <Card className="bg-transparent h-90 w-90 rounded-3xl" {...cardProps}>
+        <Card className="bg-transparent h-90 w-90 rounded-3xl" {...cardProps} shadow="md">
           <CardBody>
             <div className="relative overflow-hidden p-1">
               <Image
                 isBlurred
                 isZoomed
                 alt="Card image"
-                className="hover:scale-105"
+                className={cn("", {
+                  "hover:scale-105": !disableHover,
+                  "hover:z-50": !disableHover,
+                })}
                 src={organization.logo_url ?? "/pokemon/vgc.png"}
               />
             </div>
@@ -43,7 +47,7 @@ export default function NewOrganizationCard({ organization, cardProps }: OrgCard
             style={{
               backgroundPosition: "center",
               backgroundSize: "cover",
-              backdropFilter: "blur(10px)",
+              backdropFilter: "blur(20px)",
             }}
           />
         </Card>

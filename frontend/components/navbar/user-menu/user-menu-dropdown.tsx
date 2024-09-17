@@ -18,9 +18,9 @@ export default function UserMenuDropDown() {
         color="success"
       >
         <Link href="/dashboard">
-          <p>
-            Signed in as <p className="font-semibold">{`${user?.firstName} ${user?.lastName}`}</p>{" "}
-          </p>
+          <span>
+            <p>Signed in as</p> <p className="font-semibold">{`${user?.firstName} ${user?.lastName}`}</p>{" "}
+          </span>
         </Link>
       </DropdownItem>
 

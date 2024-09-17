@@ -1,14 +1,23 @@
 import { NavbarItem, Popover, PopoverTrigger, Button, Badge, PopoverContent } from "@nextui-org/react";
+import { auth } from "@clerk/nextjs/server";
+
+import { cn } from "@/lib";
 
 import { Icon } from "../client";
 
 export default function Notifications() {
+  const { sessionId } = auth();
+
   return (
-    <NavbarItem className="flex">
+    <NavbarItem
+      className={cn("", {
+        hidden: !sessionId,
+      })}
+    >
       <Popover offset={12} placement="bottom-end">
         <PopoverTrigger>
           <Button disableRipple isIconOnly className="overflow-visible" radius="full" variant="light">
-            <Badge color="danger" content="5" showOutline={false} size="md">
+            <Badge color="danger" content="5" showOutline={false} size="sm">
               <Icon className="text-default-500" icon="solar:bell-linear" width={22} />
             </Badge>
           </Button>

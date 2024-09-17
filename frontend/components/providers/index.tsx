@@ -1,13 +1,19 @@
+"use client";
 import "@/styles/globals.css";
+
+import { useRouter } from "next/navigation";
 
 import { ChildrenProps } from "@/types";
 
 import NextUIProvider from "./next-ui-provider";
 import ThemesProvider from "./themes-provider";
 
-export default async function Providers({ children }: Readonly<ChildrenProps>) {
+// eslint-disable-next-line @next/next/no-async-client-component
+export default function Providers({ children }: Readonly<ChildrenProps>) {
+  const router = useRouter();
+
   return (
-    <NextUIProvider>
+    <NextUIProvider navigate={router.push}>
       <ThemesProvider attribute="class" defaultTheme="dark">
         <div className="flex h-dvh w-full"> {children} </div>
       </ThemesProvider>
