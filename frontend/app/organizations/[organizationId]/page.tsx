@@ -43,7 +43,7 @@ const organizationLogo = (
   <Image
     alt={organization?.name}
     aria-label={organization?.name}
-    className={`aspect-square gap-3 sm:h-[100px] sm:w-[100px] lg:h-[200px] lg:w-[200px] ${className}`}
+    className={`aspect-square gap-3 h-[100px] w-[100px] md:h-[200px] md:w-[200px] lg:w-[300px] lg:h-[300px] ${className}`}
     src={organization?.logo_url ?? "/pokemon/vgc.png"}
   />
 );
