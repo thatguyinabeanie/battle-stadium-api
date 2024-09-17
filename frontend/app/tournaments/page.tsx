@@ -21,7 +21,7 @@ const Tournaments = async () => {
   const tours = response.data?.data;
 
   return (
-    <div className="overflow-y-scroll pb-4">
+    <div className="pb-4">
       <Card isBlurred className="my-2" shadow="none">
         <CardHeader>Upcoming Tournaments</CardHeader>
         <CardBody>
