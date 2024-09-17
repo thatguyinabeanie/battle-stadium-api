@@ -19,6 +19,7 @@ import { Icon } from "../client";
 import UserMenu from "./user-menu/user-menu";
 import Settings from "./settings";
 import Notifications from "./notifications";
+import Search from "./search";
 
 export default function NavigationBar() {
   return (
@@ -69,9 +70,7 @@ export default function NavigationBar() {
 
       {/* Right Menu */}
       <NavbarContent className="ml-auto h-12 items-center gap-0" justify="end">
-        <Button isIconOnly radius="full" variant="light">
-          <Icon className="text-default-500" icon="solar:magnifer-linear" width={22} />
-        </Button>
+        <Search />
         <Settings />
         <Notifications />
 
