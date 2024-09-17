@@ -49,8 +49,6 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
   const { data: organization } = await getOrganization(params.organizationId);
   const { data: tournaments } = await getTournaments(params.organizationId);
 
-
-
   return (
     <div className="w-100 h-100">
       <Card isBlurred shadow="none">

@@ -31,7 +31,6 @@ export default function NavigationBar() {
       height="60px"
     >
       <NavbarBrand>
-        <NavbarMenuToggle className="mr-2 h-6 xl:hidden" />
         <BattleStadium />
       </NavbarBrand>
 
@@ -70,42 +69,43 @@ export default function NavigationBar() {
         <Settings />
         <Notifications />
         <UserMenu />
+        <NavbarMenuToggle className="md:hidden" />
       </NavbarContent>
 
       {/* Mobile Menu */}
-      <NavbarMenu>
+      <NavbarMenu className="text-right">
         <NavbarMenuItem>
-          <Link className="w-full" color="foreground" href="/dashboard">
+          <Link color="foreground" href="/dashboard">
             Dashboard
           </Link>
         </NavbarMenuItem>
 
         <NavbarMenuItem>
-          <Link className="w-full" color="foreground" href="/organizations">
+          <Link color="foreground" href="/organizations">
             Organizations
           </Link>
         </NavbarMenuItem>
 
         <NavbarMenuItem>
-          <Link className="w-full" color="foreground" href="/tournaments">
+          <Link color="foreground" href="/tournaments">
             Tournaments
           </Link>
         </NavbarMenuItem>
 
         <NavbarMenuItem>
-          <Link className="w-full" color="foreground" href="/players">
+          <Link color="foreground" href="/players">
             Players
           </Link>
         </NavbarMenuItem>
 
         <NavbarMenuItem>
-          <Link className="w-full" color="foreground" href="/analytics">
+          <Link color="foreground" href="/analytics">
             Analytics
           </Link>
         </NavbarMenuItem>
 
         <NavbarMenuItem>
-          <Link className="w-full" color="foreground" href="/settings">
+          <Link color="foreground" href="/settings">
             Settings
           </Link>
         </NavbarMenuItem>
