@@ -71,7 +71,7 @@ function renderRegistration({
   }
 }
 
-const renderStartDateString = (start_at: string|null) => {
+const renderStartDateString = (start_at: string | null) => {
   if (!start_at) {
     return "TBD";
   }
@@ -81,7 +81,7 @@ const renderStartDateString = (start_at: string|null) => {
   const time = startAt?.toLocaleString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
 
   return `${date} ${time}`;
-}
+};
 
 const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDetails"], columnKey) => {
   const { id, name, organization, start_at, player_count, player_cap } = row;

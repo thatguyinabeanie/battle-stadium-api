@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import { Card, CardBody, Image } from "@nextui-org/react";
 
 import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
@@ -41,36 +41,32 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
   const { data: tournaments } = await getTournaments(params.organizationId);
 
   return (
-      <div className="flex-col md:w-90 lg:w-75 h-100">
-        <Card isBlurred shadow="none">
+    <div className="flex-col md:w-90 lg:w-75 h-100">
+      <Card isBlurred shadow="none">
+        <CardBody className="flex flex-row justify-between">
+          <Image
+            alt={organization?.name}
+            aria-label={organization?.name}
+            className="aspect-square gap-3 sm:h-[100px] sm:w-[100px] lg:h-[300px] lg:w-[300px]"
+            src={organization?.logo_url ?? "/pokemon/vgc.png"}
+          />
 
-          <CardBody className="flex flex-row justify-between">
-            <Image
-              alt={ organization?.name }
-              aria-label={ organization?.name }
-              className="aspect-square gap-3 sm:h-[100px] sm:w-[100px] lg:h-[300px] lg:w-[300px]"
-              src={ organization?.logo_url ?? "/pokemon/vgc.png" }
-            />
+          <div className="flex flex-col justify-between text-center mx-4">
+            <h1 className="text-2xl font-semibold">{organization?.name}</h1>
+            <p>{organization?.description}</p>
+            <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
+          </div>
 
-            <div className="flex flex-col justify-between text-center mx-4" >
-              <h1 className="text-2xl font-semibold">{ organization?.name }</h1>
-              <p >{ organization?.description }</p>
-              <p >[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
-            </div>
+          <Image
+            alt={organization?.name}
+            aria-label={organization?.name}
+            className="aspect-square gap-3 sm:h-[100px] sm:w-[100px] lg:h-[300px] lg:w-[300px]"
+            src={organization?.logo_url ?? "/pokemon/vgc.png"}
+          />
+        </CardBody>
+      </Card>
 
-            <Image
-              alt={ organization?.name }
-              aria-label={ organization?.name }
-              className="aspect-square gap-3 sm:h-[100px] sm:w-[100px] lg:h-[300px] lg:w-[300px]"
-              src={ organization?.logo_url ?? "/pokemon/vgc.png" }
-            />
-          </CardBody>
-        </Card>
-
-
-      <TournamentsTable disableColumns={ ["organization.name"] } tournaments={ tournaments } />
-
-      </div>
-
+      <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
+    </div>
   );
 }

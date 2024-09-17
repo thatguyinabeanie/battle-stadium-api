@@ -1,8 +1,8 @@
 import { NavbarItem, Dropdown, DropdownTrigger, Avatar, AvatarIcon } from "@nextui-org/react";
 
-import UserMenuDropDown from "./user-menu-dropdown";
-
 import { cn } from "@/lib";
+
+import UserMenuDropDown from "./user-menu-dropdown";
 
 export default async function UserMenu() {
   const currentUser = await import("@clerk/nextjs/server").then((mod) => mod.currentUser);

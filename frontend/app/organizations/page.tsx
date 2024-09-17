@@ -34,7 +34,7 @@ export default async function OrganizationsPage() {
         "w-100 my-auto grid gap-5 px-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
       )}
     >
-      {([...partnerOrgs, ...nonPartnerOrgs])?.map((organization) => (
+      {[...partnerOrgs, ...nonPartnerOrgs]?.map((organization) => (
         <NewOrganizationCard
           key={organization.id}
           aria-label={`organization-card-${organization.id}`}

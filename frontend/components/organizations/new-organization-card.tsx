@@ -15,7 +15,7 @@ export default function NewOrganizationCard({ organization, cardProps, disableHo
   return (
     <div className="relative h-[400x] w-[300px] px-2">
       <Link key={organization.id} href={`/organizations/${organization.id}`}>
-        <Card className="bg-transparent h-90 w-90 rounded-3xl" { ...cardProps } shadow="md">
+        <Card className="bg-transparent h-90 w-90 rounded-3xl" {...cardProps} shadow="md">
           <CardBody>
             <div className="relative overflow-hidden p-1">
               <Image

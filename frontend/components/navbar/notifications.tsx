@@ -1,9 +1,9 @@
 import { NavbarItem, Popover, PopoverTrigger, Button, Badge, PopoverContent } from "@nextui-org/react";
 import { auth } from "@clerk/nextjs/server";
 
-import { Icon } from "../client";
-
 import { cn } from "@/lib";
+
+import { Icon } from "../client";
 
 export default function Notifications() {
   const { sessionId } = auth();

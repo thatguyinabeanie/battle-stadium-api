@@ -10,12 +10,12 @@ import {
   Link,
 } from "@nextui-org/react";
 
+import BattleStadium from "@/components/battle-stadium";
+
 import UserMenu from "./user-menu/user-menu";
 import Settings from "./settings";
 import Notifications from "./notifications";
 import Search from "./search";
-
-import BattleStadium from "@/components/battle-stadium";
 
 export default function NavigationBar() {
   return (
