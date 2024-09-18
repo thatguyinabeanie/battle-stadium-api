@@ -7,7 +7,6 @@ module Api
       self.serializer_klass = Serializers::User
       self.detail_serializer_klass = Serializers::UserDetails
       self.default_order_by = { username: :asc }
-      self.default_identifier = :username
 
       def self.policy_class
         ::UserPolicy
@@ -21,6 +20,14 @@ module Api
       end
 
       protected
+
+      def set_object
+        @object =  User.find_by!(username: params[:username])
+
+        @object
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { error: "#{klass} not found" }, status: :not_found
+      end
 
       # Only allow a list of trusted parameters through.
       def permitted_params

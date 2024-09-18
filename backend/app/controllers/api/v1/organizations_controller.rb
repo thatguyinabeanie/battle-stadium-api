@@ -78,7 +78,6 @@ module Api
       end
 
     private
-
       def set_organization
         @organization = set_object
       end

@@ -80,12 +80,12 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/organizations/{org_id}": {
+  "/organizations/{slug}": {
     parameters: {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -110,12 +110,12 @@ export interface paths {
     patch: operations["patchOrganization"];
     trace?: never;
   };
-  "/organizations/{org_id}/staff": {
+  "/organizations/{slug}/staff": {
     parameters: {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -132,12 +132,12 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/organizations/{org_id}/tournaments": {
+  "/organizations/{slug}/tournaments": {
     parameters: {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -158,12 +158,12 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/organizations/{org_id}/tournaments/{tournament_id}": {
+  "/organizations/{slug}/tournaments/{tournament_id}": {
     parameters: {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
         tournament_id: number;
       };
       cookie?: never;
@@ -519,6 +519,7 @@ export interface components {
       /** Format: uri */
       logo_url: string | null;
       partner?: boolean;
+      slug: string;
       /** Format: int64 */
       id: number;
       name: string;
@@ -530,6 +531,7 @@ export interface components {
       /** Format: uri */
       logo_url: string | null;
       partner?: boolean;
+      slug: string;
       /** Format: int64 */
       id: number;
       name: string;
@@ -1041,7 +1043,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -1072,7 +1074,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -1110,7 +1112,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -1145,7 +1147,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -1176,7 +1178,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -1205,7 +1207,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
       };
       cookie?: never;
     };
@@ -1238,7 +1240,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        org_id: number;
+        slug: string;
         tournament_id: number;
       };
       cookie?: never;

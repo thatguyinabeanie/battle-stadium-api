@@ -164,8 +164,9 @@ ORGANIZATION_SCHEMA = {
     description: { type: :string, nullable: true },
     logo_url: { type: :string, nullable: true, format: "uri" },
     partner: { type: :boolean },
+    slug: { type: :string}
   }.merge(ID_NAME_PROPERTIES),
-  required: ID_NAME_REQUIRED + %w[owner description logo_url]
+  required: ID_NAME_REQUIRED + %w[owner description logo_url slug]
 }.freeze
 
 ORGANIZATION_DETAILS_SCHEMA = {
