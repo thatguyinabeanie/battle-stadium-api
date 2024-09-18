@@ -1,4 +1,3 @@
-import "server-only";
 import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 

@@ -1,5 +1,3 @@
-import "server-only";
-
 import React from "react";
 import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
