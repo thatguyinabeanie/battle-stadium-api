@@ -20,7 +20,7 @@ const renderCell = (row: User, columnKey: React.Key) => {
     case "pronouns":
       return row.pronouns ?? "they/them";
     default:
-      return "hello";
+      return row[columnKey as keyof User] ?? "-";
   }
 };
 
