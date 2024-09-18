@@ -1,6 +1,5 @@
-import PlayersTable from "./players-table";
-
 import { BattleStadiumAPI, components } from "@/lib/battle-stadium-api";
+import PlayersTable from "@/app/players/players-table";
 
 type User = components["schemas"]["User"];
 
