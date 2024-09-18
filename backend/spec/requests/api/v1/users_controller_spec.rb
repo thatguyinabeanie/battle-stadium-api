@@ -131,8 +131,10 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path("/users/{id}") do
-    parameter name: :id, in: :path, type: :string, description: "ID of the User"
+  path("/users/{username}") do
+    parameter name: :username, in: :path, type: :string, description: "The user's username"
+    let!(:existing_user)  { create(:user) }
+    let!(:username) { existing_user.username }
 
     get("Show User") do
       tags "Users"
@@ -141,15 +143,12 @@ RSpec.describe Api::V1::UsersController do
       operationId "getUser"
 
       response(200, "successful") do
-        let(:id) { create(:user, first_name: "Existing", last_name: "User").id }
-
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
-
         run_test!
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { "invalid" }
+        let(:username) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -170,12 +169,8 @@ RSpec.describe Api::V1::UsersController do
 
       response(200, "Updated by Admin") do
         let(:request_user) { create(:admin) }
-
-        let(:user_object) { create(:user) }
-        let(:id) { user_object.id }
         let(:user) do
           {
-            username: Faker::Internet.unique.username,
             pronouns: "they/them",
             email: "updateduser@example.com",
             first_name: "Updated", last_name: "Userrrrr",
@@ -194,7 +189,7 @@ RSpec.describe Api::V1::UsersController do
       response(404, NOT_FOUND) do
         let(:request_user) { create(:admin) }
 
-        let(:id) { "invalid" }
+        let(:username) { "invalid" }
         let(:user) do
           {
             first_name: "Updated", last_name: "Userrrrr"
@@ -220,9 +215,6 @@ RSpec.describe Api::V1::UsersController do
       response(200, "successful") do
         let(:request_user) { create(:admin) }
 
-        let(:user) { create(:user) }
-        let(:id) { user.id }
-
         include_context "with Clerk SDK Mock"
 
         OpenApi::Response.set_example_response_metadata
@@ -233,10 +225,9 @@ RSpec.describe Api::V1::UsersController do
       response(404, NOT_FOUND) do
         let(:request_user) { create(:admin) }
 
-        let(:id) { "invalid" }
+        let(:username) { "invalid" }
 
         include_context "with Clerk SDK Mock"
-
 
         OpenApi::Response.set_example_response_metadata
 

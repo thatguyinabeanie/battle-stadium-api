@@ -11,8 +11,13 @@ module Api
       class_attribute :filter_params
       class_attribute :enable_pagination
       class_attribute :default_order_by
+      class_attribute :default_identifier
 
       before_action :set_object, only: %i[show update destroy]
+
+      def self.policy_class
+        ::UserPolicy
+      end
 
       # GET /api/v1/:klass
       # GET /api/v1/:klass.json
@@ -98,9 +103,16 @@ module Api
       end
 
       def set_object
-        @object = klass.find(params[:id])
+        Rails.logger.info("Setting object for #{klass} with params: #{params.inspect}")
+
+        @object = if self.default_identifier.present?
+                    klass.find_by!(self.default_identifier => params[self.default_identifier])
+                  else
+                    klass.find(params[:id])
+                  end
+
         @object
-      rescue ActiveRecord::RecordNotFound
+      rescue ActiveRecord::RecordNotFound => e
         render json: { error: "#{klass} not found" }, status: :not_found
       end
 
