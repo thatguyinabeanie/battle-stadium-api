@@ -30,10 +30,10 @@ async function getTournaments(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const response = await getApiClient(false).Organizations.list({ next: { tags: ["organizations"] } });
+  const response = await getApiClient(false).Organizations.list();
   const orgs = response.data?.data;
 
-  return (orgs ?? []).map((organization) => ({ organizationId: organization.id.toString() }));
+  return (orgs ?? []).map((organization) => ({ slug: organization.slug }));
 }
 
 const organizationLogo = (
