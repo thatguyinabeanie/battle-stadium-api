@@ -26,9 +26,7 @@ jobs:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    defaults:
-      run:
-        working-directory: ./backend
+
     name: Brakeman Scan
     runs-on: ubuntu-latest
     steps:
@@ -42,17 +40,17 @@ jobs:
         with:
           ruby-version: 3.3.4
           bundler-cache: true
+          working-directory: ./backend
 
-      - name: Setup Brakeman
-        env:
-          BRAKEMAN_VERSION: "6.1" # SARIF support is provided in Brakeman version 4.10+
-        run: gem install brakeman --version $BRAKEMAN_VERSION
+      - name: Install dependencies
+        run: bundle check || bundle install
+        working-directory: ./backend
 
       # Execute Brakeman CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Scan
         continue-on-error: true
-        run: |
-          brakeman -f sarif -o output.sarif.json .
+        working-directory: ./backend
+        run: bundle exec brakeman -f sarif -o output.sarif.json -c brakeman.yml .
 
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF
