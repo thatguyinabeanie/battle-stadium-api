@@ -133,6 +133,8 @@ RSpec.describe Api::V1::UsersController do
 
   path("/users/{username}") do
     parameter name: :username, in: :path, type: :string, description: "The user's username"
+    let!(:existing_user)  { create(:user) }
+    let!(:username) { existing_user.username }
 
     get("Show User") do
       tags "Users"
@@ -141,10 +143,7 @@ RSpec.describe Api::V1::UsersController do
       operationId "getUser"
 
       response(200, "successful") do
-        let(:username) { create(:user, first_name: "Existing", last_name: "User").username }
-
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
-
         run_test!
       end
 
@@ -170,12 +169,8 @@ RSpec.describe Api::V1::UsersController do
 
       response(200, "Updated by Admin") do
         let(:request_user) { create(:admin) }
-
-        let(:user_object) { create(:user) }
-        let(:username) { user_object.username }
         let(:user) do
           {
-            username: Faker::Internet.unique.username,
             pronouns: "they/them",
             email: "updateduser@example.com",
             first_name: "Updated", last_name: "Userrrrr",
@@ -219,8 +214,6 @@ RSpec.describe Api::V1::UsersController do
 
       response(200, "successful") do
         let(:request_user) { create(:admin) }
-        let!(:user) { create(:user) }
-        let(:username) { user.username }
 
         include_context "with Clerk SDK Mock"
 

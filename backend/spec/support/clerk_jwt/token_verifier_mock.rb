@@ -9,14 +9,14 @@ module ClerkJwt
       included do
         let(:Authorization) { "Bearer #{SecureRandom.alphanumeric(25)}" }
 
-        def session_data(user)
+        def session_data(request_user)
           {
-            "userId" => user.clerk_users.first&.clerk_user_id,
-            "email" => user.email,
-            "username" => user.username,
-            "firstName" => user.first_name,
-            "lastName" => user.last_name,
-            "imageUrl" => user.image_url,
+            "userId" => request_user.clerk_users.first&.clerk_user_id,
+            "email" => request_user.email,
+            "username" => request_user.username,
+            "firstName" => request_user.first_name,
+            "lastName" => request_user.last_name,
+            "imageUrl" => request_user.image_url,
           }
         end
 

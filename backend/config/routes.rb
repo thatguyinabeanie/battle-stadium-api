@@ -15,10 +15,9 @@ Rails.application.routes.draw do
 
       resources :users, only: %i[index create] do
         collection do
-          get ":username", to: "users#show"
-          put ":username", to: "users#update"
-          patch ":username", to: "users#update"
-          delete ":username", to: "users#destroy"
+          get ":username", to: "users#show", as: :user, constraints: { username: /[^\/]+/ }
+          patch ":username", to: "users#update", constraints: { username: /[^\/]+/ }
+          delete ":username", to: "users#destroy", constraints: { username: /[^\/]+/ }
         end
       end
 
