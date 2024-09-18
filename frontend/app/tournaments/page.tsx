@@ -4,21 +4,45 @@ import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 
+import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
-
-import TournamentsTable from "../../components/tournaments-table";
 
 export const metadata: Metadata = {
   title: "Tournaments",
 };
 
 async function listTournaments() {
-  return await BattleStadiumAPI(auth()).Tournaments.list();
+  return (await BattleStadiumAPI(auth()).Tournaments.list()).data?.data ?? [];
 }
 
+const columns: { key: string; label: string }[] = [
+  {
+    key: "start_at",
+    label: "DATE",
+  },
+  {
+    key: "name",
+    label: "NAME",
+  },
+  {
+    key: "organization.name",
+    label: "ORGANIZATION",
+  },
+  {
+    key: "players",
+    label: "PLAYERS",
+  },
+  {
+    key: "registration",
+    label: "REGISTRATION",
+  },
+];
+
 const Tournaments = async () => {
-  const response = await listTournaments();
-  const tours = response.data?.data;
+  const tours = await listTournaments();
+
+  // const rightNow = new Date();
+  // const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);
 
   return (
     <div className="pb-4">
@@ -26,7 +50,7 @@ const Tournaments = async () => {
         <CardHeader>Upcoming Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the upcoming tournaments.</p>
-          <TournamentsTable tournaments={tours} />
+          <TournamentsTable columns={columns} tournaments={tours} />
         </CardBody>
       </Card>
 
@@ -34,7 +58,7 @@ const Tournaments = async () => {
         <CardHeader>Past Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the past tournaments.</p>
-          <TournamentsTable tournaments={tours} />
+          <TournamentsTable columns={columns} tournaments={tours} />
         </CardBody>
       </Card>
     </div>

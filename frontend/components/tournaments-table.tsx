@@ -1,37 +1,14 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Link } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Link } from "@nextui-org/react";
 import * as React from "react";
 
 import { components } from "@/lib/battle-stadium-api";
 
 export interface TournamentsTableProps {
-  tournaments?: components["schemas"]["Tournament"][];
-  disableColumns?: string[];
+  columns: { key: string; label: string }[];
+  tournaments: components["schemas"]["Tournament"][] | undefined;
 }
-
-const columns = [
-  {
-    key: "start_at",
-    label: "DATE",
-  },
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "organization.name",
-    label: "ORGANIZATION",
-  },
-  {
-    key: "players",
-    label: "PLAYERS",
-  },
-  {
-    key: "registration",
-    label: "REGISTRATION",
-  },
-];
 
 function renderRegistration({
   registration_start_at,
@@ -39,7 +16,7 @@ function renderRegistration({
   player_count,
   player_cap,
   late_registration,
-}: components["schemas"]["TournamentDetails"]) {
+}: components["schemas"]["Tournament"]) {
   const currentTime = new Date();
 
   if (!registration_start_at) {
@@ -83,7 +60,7 @@ const renderStartDateString = (start_at: string | null) => {
   return `${date} ${time}`;
 };
 
-const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDetails"], columnKey) => {
+const renderCell = async (row: components["schemas"]["Tournament"], columnKey: React.Key) => {
   const { id, name, organization, start_at, player_count, player_cap } = row;
 
   switch (columnKey) {
@@ -102,20 +79,10 @@ const renderCell: typeof getKeyValue = (row: components["schemas"]["TournamentDe
   }
 };
 
-const TournamentsTable = ({ tournaments, disableColumns }: TournamentsTableProps) => {
-  const [hydrated, setHydrated] = React.useState(false);
-
-  React.useEffect(() => {
-    setHydrated(true);
-  }, []);
-
-  if (!hydrated) {
-    return null; // or a loading spinner
-  }
-
+const TournamentsTable = ({ tournaments, columns }: TournamentsTableProps) => {
   return (
     <Table isStriped aria-label="list of tournaments" shadow="none">
-      <TableHeader columns={columns.filter((c) => !disableColumns?.includes(c.key))}>
+      <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
 

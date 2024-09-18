@@ -15,18 +15,18 @@ function getApiClient(shouldAuth = true) {
   return BattleStadiumAPI();
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const { data: org } = await getOrganization(parseInt(params.id));
+export async function generateMetadata({ params }: { params: { id: number } }) {
+  const org = await getOrganization(params.id);
 
   return { title: org?.name ?? "Organization" };
 }
 
 async function getOrganization(organizationId: number) {
-  return await getApiClient().Organizations.get(organizationId);
+  return (await getApiClient().Organizations.get(organizationId)).data;
 }
 
 async function getTournaments(organizationId: number) {
-  return await getApiClient().Organizations.Tournaments.list(organizationId);
+  return (await getApiClient().Organizations.Tournaments.list(organizationId)).data;
 }
 
 export async function generateStaticParams() {
@@ -43,19 +43,44 @@ const organizationLogo = (
   <Image
     alt={organization?.name}
     aria-label={organization?.name}
-    className={`aspect-square gap-3 h-[100px] w-[100px] md:h-[200px] md:w-[200px] lg:w-[300px] lg:h-[300px] ${className}`}
+    className={`aspect-square gap-3 h-[6.25rem] w-[6.25rem] md:h-[9.375rem] md:w-[9.375rem] lg:h-[12.5rem] lg:w-[12.5rem] ${className}`}
     src={organization?.logo_url ?? "/pokemon/vgc.png"}
   />
 );
 
-export default async function OrganizationDetailPage({ params }: Readonly<{ params: { organizationId: number } }>) {
-  const { data: organization } = await getOrganization(params.organizationId);
-  const { data: tournaments } = await getTournaments(params.organizationId);
+const columns = [
+  {
+    key: "start_at",
+    label: "DATE",
+  },
+  {
+    key: "name",
+    label: "NAME",
+  },
+  {
+    key: "organization.name",
+    label: "ORGANIZATION",
+  },
+  {
+    key: "players",
+    label: "PLAYERS",
+  },
+  {
+    key: "registration",
+    label: "REGISTRATION",
+  },
+];
+
+export default async function OrganizationDetailPage({ params }: { params: { organizationId: number } }) {
+  const organization = await getOrganization(params.organizationId);
+  const tournaments = await getTournaments(params.organizationId);
+
+  const columnsToDisplay = columns.filter((c) => c.key !== "organization.name");
 
   return (
     <div className="w-100 h-100">
       <Card isBlurred shadow="none">
-        <CardBody className="flex flex-row justify-between">
+        <CardBody className="flex flex-row justify-between rounded-3xl">
           {organizationLogo(organization)}
 
           <div className="flex flex-col justify-between text-center mx-4">
@@ -64,11 +89,11 @@ export default async function OrganizationDetailPage({ params }: Readonly<{ para
             <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
           </div>
 
-          {organizationLogo(organization, "hidden md:flex")}
+          {organizationLogo(organization, "hidden sm:flex")}
         </CardBody>
       </Card>
 
-      <TournamentsTable disableColumns={["organization.name"]} tournaments={tournaments} />
+      <TournamentsTable columns={columnsToDisplay} tournaments={tournaments} />
     </div>
   );
 }
