@@ -50,8 +50,7 @@ jobs:
       - name: Scan
         continue-on-error: true
         working-directory: ./backend
-        run: |
-          brakeman -f sarif -o output.sarif.json -c brakeman.yml .
+        run: bundle brakeman -f sarif -o output.sarif.json -c brakeman.yml .
 
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF
