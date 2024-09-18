@@ -67,3 +67,5 @@ rails_api/tmp/*
 *.pdf
 .env.docker-compose
 .vercel
+
+output.sarif.json
