@@ -67,8 +67,9 @@ export const BattleStadiumAPI = (auth?: Auth) => {
 
         return await client.GET("/users/me", { headers, next });
       },
-      list: async (options?: FetchOptions<{ query?: PaginationParams }>) => {
+      list: async (options?: FetchOptions<{}>) => {
         return await client.GET("/users", {
+
           headers: {
             ...options?.headers,
           },
