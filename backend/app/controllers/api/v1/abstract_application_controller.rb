@@ -99,11 +99,11 @@ module Api
       end
 
       def set_object
-        @object = if default_identifier.present?
-                    klass.find_by(default_identifier => params[:id])
-        else
-          klass.find(params[:id])
-        end
+        @object = if self.default_identifier.present?
+                    klass.find_by(default_identifier => params[default_identifier])
+                  else
+                    klass.find(params[:id])
+                  end
 
         @object
       rescue ActiveRecord::RecordNotFound

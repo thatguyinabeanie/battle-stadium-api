@@ -218,9 +218,9 @@ RSpec.describe Api::V1::UsersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { create(:admin) }
+        let!(:request_user) { create(:admin) }
 
-        let(:user) { create(:user) }
+        let!(:user) { create(:user) }
         let(:username) { user.username }
 
         include_context "with Clerk SDK Mock"
@@ -236,7 +236,6 @@ RSpec.describe Api::V1::UsersController do
         let(:username) { "invalid" }
 
         include_context "with Clerk SDK Mock"
-
 
         OpenApi::Response.set_example_response_metadata
 

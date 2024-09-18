@@ -15,14 +15,6 @@ RSpec.describe Api::V1::UsersController do
 
   context "when /users" do
     describe "GET" do
-      it "returns a successful response" do
-        create_list(:user, 3)
-
-        get :index
-
-        expect(response).to be_successful
-      end
-
       it "returns a list of users" do
         create_list(:user, 3)
 
@@ -34,8 +26,6 @@ RSpec.describe Api::V1::UsersController do
 
     describe "POST" do
       let(:request_user) { create(:admin) }
-
-
 
       include_context "with Clerk SDK Mock"
 
@@ -55,16 +45,16 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  context "when /users/:id" do
+  context "when /users/:username" do
     let(:request_user) { create(:admin) }
     let(:user) { create(:user) }
 
-    describe "GET /users/:id" do
+    describe "GET /users/:username" do
       let(:request_user) { create(:user) }
 
       it "returns a successful response" do
         user = create(:user)
-        get :show, params: { id: user.id }
+        get :show, params: { username: user.username}
 
         expect(response).to be_successful
       end
@@ -72,9 +62,9 @@ RSpec.describe Api::V1::UsersController do
       it "returns the user" do
         user = create(:user)
 
-        get :show, params: { id: user.id }
+        get :show, params: { username: user.username }
 
-        expect(json_response[:id]).to eq(user.id)
+        expect(json_response[:username]).to eq(user.username)
       end
     end
 
@@ -88,7 +78,7 @@ RSpec.describe Api::V1::UsersController do
         user = create(:user)
         user_attributes = attributes_for(:user)
 
-        put :update, params: { id: user.id, user: user_attributes }
+        put :update, params: { username: user.username, user: user_attributes }
 
         expect(response).to be_successful
       end
@@ -96,7 +86,7 @@ RSpec.describe Api::V1::UsersController do
       it "updates the user" do
         user = create(:user)
 
-        put :update, params: { id: user.id, user: { first_name: "Jane" } }
+        put :update, params: { username: user.username, user: { first_name: "Jane" } }
 
         expect(json_response[:first_name]).to eq("Jane")
       end
@@ -110,7 +100,7 @@ RSpec.describe Api::V1::UsersController do
       it "returns a successful response" do
         user = create(:user)
 
-        patch :update, params: { id: user.id, user: { first_name: "Jane" } }
+        patch :update, params: { username: user.username, user: { first_name: "Jane" } }
 
         expect(response).to be_successful
       end
@@ -118,7 +108,7 @@ RSpec.describe Api::V1::UsersController do
       it "updates the user" do
         user = create(:user)
 
-        patch :update, params: { id: user.id, user: { first_name: "Jane" } }
+        patch :update, params: { username: user.username, user: { first_name: "Jane" } }
 
         expect(json_response[:first_name]).to eq("Jane")
       end
@@ -127,13 +117,12 @@ RSpec.describe Api::V1::UsersController do
     describe "DELETE" do
       let(:request_user) { create(:admin) }
 
-
       include_context "with Clerk SDK Mock"
 
       it "returns a successful response" do
         user = create(:user)
 
-        delete :destroy, params: { id: user.id }
+        delete :destroy, params: { username: user.username }
 
         expect(response).to be_successful
       end
@@ -141,9 +130,9 @@ RSpec.describe Api::V1::UsersController do
       it "deletes the user" do
         user = create(:user)
 
-        delete :destroy, params: { id: user.id }
+        delete :destroy, params: { username: user.username }
 
-        expect(User.find_by(id: user.id)).to be_nil
+        expect(User.find_by(username: user.username)).to be_nil
       end
     end
   end

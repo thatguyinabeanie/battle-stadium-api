@@ -13,7 +13,15 @@ Rails.application.routes.draw do
       post "clerk", to: "clerk_webhook#post"
       get "users/me", to: "users#me"
 
-      resources :users, only: %i[index show create destroy update]
+      resources :users, only: %i[index create] do
+        collection do
+          get ":username", to: "users#show"
+          put ":username", to: "users#update"
+          patch ":username", to: "users#update"
+          delete ":username", to: "users#destroy"
+        end
+      end
+
       resources :organizations, only: %i[index show create update destroy staff] do
         member do
           get "tournaments", to: "organizations#list_tournaments"
