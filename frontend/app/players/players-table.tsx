@@ -12,11 +12,11 @@ export interface PlayersTableProps {
 }
 
 const renderCell = (row: User, columnKey: React.Key) => {
-  const { id, username } = row;
+  const { username } = row;
 
   switch (columnKey) {
     case "username":
-      return <Link href={`/players/${id}`}>{username}</Link>;
+      return <Link href={`/players/${username}`}>{username}</Link>;
     case "pronouns":
       return row.pronouns ?? "they/them";
     default:

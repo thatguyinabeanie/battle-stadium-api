@@ -10,20 +10,20 @@ function getApiClient(shouldAuth = true) {
   return BattleStadiumAPI();
 }
 
-async function getPlayer(player_id: string) {
-  const response = await getApiClient().Users.get(player_id);
+async function getPlayer(username: string) {
+  const response = await getApiClient().Users.get(username);
 
   return response.data;
 }
 
-export async function generateMetadata({ params }: { params: { player_id: string } }) {
-  const player = await getPlayer(params.player_id);
+export async function generateMetadata({ params }: { params: { username: string } }) {
+  const player = await getPlayer(params.username);
 
   return { title: player?.username ?? "Player" };
 }
 
-export default async function PlayerProfilePage({ params }: { params: { player_id: string } }) {
-  const player = await getPlayer(params.player_id);
+export default async function PlayerProfilePage({ params }: { params: { username: string } }) {
+  const player = await getPlayer(params.username);
 
   return (
     <div>

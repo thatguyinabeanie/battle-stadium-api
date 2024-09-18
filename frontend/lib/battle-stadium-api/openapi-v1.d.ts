@@ -388,13 +388,13 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/users/{id}": {
+  "/users/{username}": {
     parameters: {
       query?: never;
       header?: never;
       path: {
         /** @description ID of the User */
-        id: string;
+        username: string;
       };
       cookie?: never;
     };
@@ -1746,7 +1746,7 @@ export interface operations {
       header?: never;
       path: {
         /** @description ID of the User */
-        id: string;
+        username: string;
       };
       cookie?: never;
     };
@@ -1776,7 +1776,7 @@ export interface operations {
       header?: never;
       path: {
         /** @description ID of the User */
-        id: string;
+        username: string;
       };
       cookie?: never;
     };
@@ -1804,7 +1804,7 @@ export interface operations {
       header?: never;
       path: {
         /** @description ID of the User */
-        id: string;
+        username: string;
       };
       cookie?: never;
     };

@@ -741,9 +741,9 @@ paths:
                 "$ref": "#/components/schemas/UserMe"
         '401':
           description: not found
-  "/users/{id}":
+  "/users/{username}":
     parameters:
-    - name: id
+    - name: username
       in: path
       description: ID of the User
       required: true

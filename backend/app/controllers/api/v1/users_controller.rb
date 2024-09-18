@@ -7,6 +7,7 @@ module Api
       self.serializer_klass = Serializers::User
       self.detail_serializer_klass = Serializers::UserDetails
       self.default_order_by = { username: :asc }
+      self.default_identifier = :username
 
       def self.policy_class
         ::UserPolicy
