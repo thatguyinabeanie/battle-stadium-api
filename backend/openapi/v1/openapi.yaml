@@ -745,7 +745,7 @@ paths:
     parameters:
     - name: username
       in: path
-      description: ID of the User
+      description: The user's username
       required: true
       schema:
         type: string

@@ -393,7 +393,7 @@ export interface paths {
       query?: never;
       header?: never;
       path: {
-        /** @description ID of the User */
+        /** @description The user's username */
         username: string;
       };
       cookie?: never;
@@ -1745,7 +1745,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        /** @description ID of the User */
+        /** @description The user's username */
         username: string;
       };
       cookie?: never;
@@ -1775,7 +1775,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        /** @description ID of the User */
+        /** @description The user's username */
         username: string;
       };
       cookie?: never;
@@ -1803,7 +1803,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        /** @description ID of the User */
+        /** @description The user's username */
         username: string;
       };
       cookie?: never;

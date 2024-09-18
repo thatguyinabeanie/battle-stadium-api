@@ -132,7 +132,7 @@ RSpec.describe Api::V1::UsersController do
   end
 
   path("/users/{username}") do
-    parameter name: :username, in: :path, type: :string, description: "ID of the User"
+    parameter name: :username, in: :path, type: :string, description: "The user's username"
 
     get("Show User") do
       tags "Users"
