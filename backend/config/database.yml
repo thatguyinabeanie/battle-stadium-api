@@ -23,7 +23,7 @@ default: &default
   port: <%= ENV.fetch("POSTGRES_PORT", '5432') %>
   username: <%= ENV.fetch("POSTGRES_USER", 'postgres') %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD", 'postgres') %>
-  database: <%= ENV.fetch("POSTGRES_DB") %>
+  database: <%= ENV.fetch("POSTGRES_DATABASE", 'fuecoco-db-dev') %>
 development:
   <<: *default
   database: <%= ENV.fetch("POSTGRES_DATABASE", 'fuecoco-db-dev') %>
