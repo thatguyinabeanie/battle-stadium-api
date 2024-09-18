@@ -1,32 +1,4 @@
-# Brakeman configuration file
-# For more options and details, visit: https://brakemanscanner.org/docs/configuration/
-
+---
+:output_format: :to_sarif
 :output_files:
-  - 'brakeman-output.json'
-  - 'brakeman-output.html'
-
-:output_formats:
-  - 'json'
-  - 'html'
-
-:quiet: true
-
-:skip_checks:
-  - 'CheckRender'
-  - 'CheckLinkTo'
-
-:ignore_model_output: true
-
-:ignore_methods:
-  - 'current_user'
-  - 'authenticate_user!'
-
-:skip_files:
-  - 'db/schema.rb'
-  - 'config/initializers/devise.rb'
-  - '.devcontainer'
-  - '.vscode'
-
-:additional_checks_path: 'lib/brakeman/checks'
-
-:rails3: true
+- output.sarif.json

@@ -43,16 +43,14 @@ jobs:
           ruby-version: 3.3.4
           bundler-cache: true
 
-      - name: Setup Brakeman
-        env:
-          BRAKEMAN_VERSION: "6.1" # SARIF support is provided in Brakeman version 4.10+
-        run: gem install brakeman --version $BRAKEMAN_VERSION
+      - name: Install dependencies
+        run: bundle check || bundle install
 
       # Execute Brakeman CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Scan
         continue-on-error: true
         run: |
-          brakeman -f sarif -o output.sarif.json .
+          brakeman -f sarif -o output.sarif.json -c brakeman.yml .
 
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF
