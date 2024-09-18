@@ -79,10 +79,18 @@ export const BattleStadiumAPI = (auth?: Auth) => {
           },
         });
       },
-      get: async (username: string, _options?: FetchOptions<unknown>) => {
+      get: async (username: string, options?: FetchOptions<unknown>) => {
+        const headers = options?.headers;
+
+        const next = {
+          ...options?.next,
+          revalidate: CACHE_TIMEOUT,
+        };
+
         return await client.GET("/users/{username}", {
+          headers,
           params: { path: { username } },
-          next: { revalidate: CACHE_TIMEOUT },
+          next,
         });
       },
     },
