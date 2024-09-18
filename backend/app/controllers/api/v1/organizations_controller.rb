@@ -78,14 +78,6 @@ module Api
       end
 
     private
-
-      def set_object
-        @object = ::Organization.friendly.find(params[:id])
-        @object
-      rescue ActiveRecord::RecordNotFound => e
-        render json: { error: "#{klass} not found - #{e.message}" }, status: :not_found
-      end
-
       def set_organization
         @organization = set_object
       end
