@@ -8,6 +8,7 @@ async function fetchPlayers (): Promise<User[]> {
   try {
     return (await BattleStadiumAPI().Users.list()).data ?? [];
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Failed to fetch players:", error);
     return [];
   }
