@@ -4,9 +4,8 @@ import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 
+import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
-
-import TournamentsTable from "../../components/tournaments-table";
 
 export const metadata: Metadata = {
   title: "Tournaments",
