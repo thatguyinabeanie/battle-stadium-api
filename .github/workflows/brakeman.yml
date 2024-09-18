@@ -44,6 +44,7 @@ jobs:
 
       - name: Install dependencies
         run: bundle check || bundle install
+        working-directory: ./backend
 
       # Execute Brakeman CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Scan
