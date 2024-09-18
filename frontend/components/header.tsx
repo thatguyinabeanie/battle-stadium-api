@@ -1,4 +1,3 @@
-"use client";
 import { PageTitleProps } from "@/types";
 import { title as titleClassnames } from "@/components/primitives";
 

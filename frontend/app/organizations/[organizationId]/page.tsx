@@ -1,3 +1,5 @@
+import "server-only";
+
 import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody, Image } from "@nextui-org/react";
 
