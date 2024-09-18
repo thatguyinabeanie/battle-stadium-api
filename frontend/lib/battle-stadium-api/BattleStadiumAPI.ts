@@ -67,9 +67,8 @@ export const BattleStadiumAPI = (auth?: Auth) => {
 
         return await client.GET("/users/me", { headers, next });
       },
-      list: async (options?: FetchOptions<{}>) => {
+      list: async (options?: FetchOptions<object>) => {
         return await client.GET("/users", {
-
           headers: {
             ...options?.headers,
           },
