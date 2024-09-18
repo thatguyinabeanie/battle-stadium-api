@@ -74,10 +74,11 @@ export const BattleStadiumAPI = (auth?: Auth) => {
           },
           next: {
             ...options?.next,
-            tags: ["listUsers"], revalidate: CACHE_TIMEOUT
+            tags: ["listUsers"],
+            revalidate: CACHE_TIMEOUT,
           },
         });
-      }
+      },
     },
     Organizations: {
       list: async (options?: FetchOptions<{ query?: PaginationParams }>) => {
