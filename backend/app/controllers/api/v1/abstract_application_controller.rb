@@ -11,7 +11,6 @@ module Api
       class_attribute :filter_params
       class_attribute :enable_pagination
       class_attribute :default_order_by
-      class_attribute :default_identifier
 
       before_action :set_object, only: %i[show update destroy]
 
@@ -103,14 +102,11 @@ module Api
       end
 
       def set_object
-        Rails.logger.info("Setting object for #{klass} with params: #{params.inspect}")
-
-        @object = if self.default_identifier.present?
-                    klass.find_by!(self.default_identifier => params[self.default_identifier])
+        @object = if klass.respond_to?(:friendly)
+                    klass.friendly.find(params[:id])
                   else
                     klass.find(params[:id])
                   end
-
         @object
       rescue ActiveRecord::RecordNotFound => e
         render json: { error: "#{klass} not found" }, status: :not_found

@@ -15,18 +15,18 @@ function getApiClient(shouldAuth = true) {
   return BattleStadiumAPI();
 }
 
-export async function generateMetadata({ params }: { params: { id: number } }) {
-  const org = await getOrganization(params.id);
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const org = await getOrganization(params.slug);
 
   return { title: org?.name ?? "Organization" };
 }
 
-async function getOrganization(organizationId: number) {
-  return (await getApiClient().Organizations.get(organizationId)).data;
+async function getOrganization(slug: string) {
+  return (await getApiClient().Organizations.get(slug)).data;
 }
 
-async function getTournaments(organizationId: number) {
-  return (await getApiClient().Organizations.Tournaments.list(organizationId)).data;
+async function getTournaments(slug: string) {
+  return (await getApiClient().Organizations.Tournaments.list(slug)).data;
 }
 
 export async function generateStaticParams() {
@@ -71,9 +71,9 @@ const columns = [
   },
 ];
 
-export default async function OrganizationDetailPage({ params }: { params: { organizationId: number } }) {
-  const organization = await getOrganization(params.organizationId);
-  const tournaments = await getTournaments(params.organizationId);
+export default async function OrganizationDetailPage({ params }: { params: { slug: string } }) {
+  const organization = await getOrganization(params.slug);
+  const tournaments = await getTournaments(params.slug);
 
   const columnsToDisplay = columns.filter((c) => c.key !== "organization.name");
 

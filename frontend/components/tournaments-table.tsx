@@ -65,7 +65,7 @@ const renderCell = async (row: components["schemas"]["Tournament"], columnKey: R
 
   switch (columnKey) {
     case "organization.name":
-      return <Link href={`/organizations/${organization.id}`}>{organization.name}</Link>;
+      return <Link href={`/organizations/${organization.slug}`}>{organization.name}</Link>;
     case "start_at":
       return renderStartDateString(start_at);
     case "name":

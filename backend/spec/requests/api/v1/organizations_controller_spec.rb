@@ -9,7 +9,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
   let(:org) { create(:organization_with_staff, staff_count: 5) }
   let(:owner) { org.owner }
-  let(:org_id) { org.id }
+  let(:slug) { org.slug }
 
   path("/organizations") do
     get("List Organizations") do
@@ -90,8 +90,8 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/organizations/{org_id}") do
-    parameter name: :org_id, in: :path, type: :integer, required: true
+  path("/organizations/{slug}") do
+    parameter name: :slug, in: :path, type: :string, required: true
 
     get("Show Organization") do
       tags "Organizations"
@@ -106,7 +106,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:org_id) { "invalid" }
+        let(:slug) { "invalid" }
 
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
@@ -145,7 +145,7 @@ RSpec.describe Api::V1::OrganizationsController do
       response(404, NOT_FOUND) do
         let(:request_user) { create(:admin) }
 
-        let(:org_id) { -1 }
+        let(:slug) { -1 }
         let(:organization) do
           {
             name: "Updated Organization",
@@ -190,7 +190,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
       response(404, NOT_FOUND) do
         let(:request_user) { create(:admin) }
-        let(:org_id) { "invalid" }
+        let(:slug) { "invalid" }
 
         include_context "with Clerk SDK Mock"
         OpenApi::Response.set_example_response_metadata
@@ -200,8 +200,8 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/organizations/{org_id}/staff") do
-    parameter name: :org_id, in: :path, type: :integer, required: true
+  path("/organizations/{slug}/staff") do
+    parameter name: :slug, in: :path, type: :string, required: true
 
     get("List Organization Staff") do
       tags "Organizations"
@@ -216,7 +216,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:org_id) { "invalid" }
+        let(:slug) { "invalid" }
 
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
@@ -226,8 +226,8 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/organizations/{org_id}/tournaments") do
-    parameter name: :org_id, in: :path, type: :integer, required: true
+  path("/organizations/{slug}/tournaments") do
+    parameter name: :slug, in: :path, type: :string, required: true
 
     get("List Organization Tournaments") do
       tags "Organizations"
@@ -242,7 +242,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:org_id) { "invalid" }
+        let(:slug) { "invalid" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -302,8 +302,8 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/organizations/{org_id}/tournaments/{tournament_id}") do
-    parameter name: :org_id, in: :path, type: :integer, required: true
+  path("/organizations/{slug}/tournaments/{tournament_id}") do
+    parameter name: :slug, in: :path, type: :string, required: true
     parameter name: :tournament_id, in: :path, type: :integer, required: true
 
     let(:tour) { create(:tournament, organization: org) }

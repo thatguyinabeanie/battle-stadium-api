@@ -1,6 +1,9 @@
 # typed: true
 
 class Organization < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   self.table_name = "organizations"
   belongs_to :owner, class_name: "User", optional: true
 

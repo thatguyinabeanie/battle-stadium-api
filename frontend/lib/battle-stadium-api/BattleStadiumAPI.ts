@@ -108,22 +108,22 @@ export const BattleStadiumAPI = (auth?: Auth) => {
           next: { tags: ["listOrganizations"], revalidate: CACHE_TIMEOUT },
         });
       },
-      get: async (org_id: number, _options?: FetchOptions<unknown>) => {
-        return await client.GET("/organizations/{org_id}", {
-          params: { path: { org_id } },
+      get: async (slug: string, _options?: FetchOptions<unknown>) => {
+        return await client.GET("/organizations/{slug}", {
+          params: { path: { slug } },
         });
       },
       Tournaments: {
-        list: async (org_id: number, options?: FetchOptions<{ query?: PaginationParams }>) => {
+        list: async (slug: string, options?: FetchOptions<{ query?: PaginationParams }>) => {
           const next: NextFetchRequestConfig = {
             tags: ["listTournaments"],
             revalidate: CACHE_TIMEOUT,
             ...options?.next,
           };
 
-          return await client.GET("/organizations/{org_id}/tournaments", {
+          return await client.GET("/organizations/{slug}/tournaments", {
             params: {
-              path: { org_id },
+              path: { slug },
             },
             next,
           });

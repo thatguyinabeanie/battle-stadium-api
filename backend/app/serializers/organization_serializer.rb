@@ -8,7 +8,7 @@ module Serializers
       class_attribute :owner_serializer
       attribute :owner
       attribute :logo_url
-      attributes :description, :partner
+      attributes :description, :partner, :slug
 
       include SerializerMixin::Id
       include SerializerMixin::Name

@@ -202,13 +202,13 @@ paths:
             schema:
               "$ref": "#/components/schemas/Organization"
         required: true
-  "/organizations/{org_id}":
+  "/organizations/{slug}":
     parameters:
-    - name: org_id
+    - name: slug
       in: path
       required: true
       schema:
-        type: integer
+        type: string
     get:
       summary: Show Organization
       tags:
@@ -278,13 +278,13 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '404':
           description: not found
-  "/organizations/{org_id}/staff":
+  "/organizations/{slug}/staff":
     parameters:
-    - name: org_id
+    - name: slug
       in: path
       required: true
       schema:
-        type: integer
+        type: string
     get:
       summary: List Organization Staff
       tags:
@@ -306,13 +306,13 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Error"
-  "/organizations/{org_id}/tournaments":
+  "/organizations/{slug}/tournaments":
     parameters:
-    - name: org_id
+    - name: slug
       in: path
       required: true
       schema:
-        type: integer
+        type: string
     get:
       summary: List Organization Tournaments
       tags:
@@ -353,13 +353,13 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
-  "/organizations/{org_id}/tournaments/{tournament_id}":
+  "/organizations/{slug}/tournaments/{tournament_id}":
     parameters:
-    - name: org_id
+    - name: slug
       in: path
       required: true
       schema:
-        type: integer
+        type: string
     - name: tournament_id
       in: path
       required: true
@@ -1063,6 +1063,8 @@ components:
           format: uri
         partner:
           type: boolean
+        slug:
+          type: string
         id:
           type: integer
           format: int64
@@ -1074,6 +1076,7 @@ components:
       - owner
       - description
       - logo_url
+      - slug
     OrganizationDetails:
       type: object
       title: Organization Details
@@ -1090,6 +1093,8 @@ components:
           format: uri
         partner:
           type: boolean
+        slug:
+          type: string
         id:
           type: integer
           format: int64
@@ -1101,6 +1106,7 @@ components:
       - owner
       - description
       - logo_url
+      - slug
     Tournament:
       type: object
       title: Tournament
