@@ -22,11 +22,10 @@
   - 'authenticate_user!'
 
 :skip_files:
-  - 'frontend'
-  - 'backend/db/schema.rb'
-  - 'backend/config/initializers/devise.rb'
-  - 'backend/.devcontainer'
-  - 'backend/.vscode'
+  - 'db/schema.rb'
+  - 'config/initializers/devise.rb'
+  - '.devcontainer'
+  - '.vscode'
 
 :additional_checks_path: 'lib/brakeman/checks'
 
