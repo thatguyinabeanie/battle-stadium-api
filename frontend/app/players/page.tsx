@@ -4,8 +4,13 @@ import PlayersTable from "./players-table";
 
 type User = components["schemas"]["User"];
 
-async function fetchPlayers(): Promise<User[]> {
-  return (await BattleStadiumAPI().Users.list()).data ?? [];
+async function fetchPlayers (): Promise<User[]> {
+  try {
+    return (await BattleStadiumAPI().Users.list()).data ?? [];
+  } catch (error) {
+    console.error("Failed to fetch players:", error);
+    return [];
+  }
 }
 
 const columns = [
