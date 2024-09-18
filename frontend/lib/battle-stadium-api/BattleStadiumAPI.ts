@@ -79,6 +79,12 @@ export const BattleStadiumAPI = (auth?: Auth) => {
           },
         });
       },
+      get: async (id: string, _options?: FetchOptions<unknown>) => {
+        return await client.GET("/users/{id}", {
+          params: { path: { id } },
+          next: { revalidate: CACHE_TIMEOUT },
+        });
+      },
     },
     Organizations: {
       list: async (options?: FetchOptions<{ query?: PaginationParams }>) => {

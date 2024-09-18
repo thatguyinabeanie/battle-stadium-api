@@ -1,42 +1,36 @@
-// const DotIcon = () => {
-//   return (
-//     <svg fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-//       <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-//     </svg>
-//   );
-// };
+import { auth } from "@clerk/nextjs/server";
 
-// const CustomPage = () => {
-//   return (
-//     <div>
-//       <h1>Custom Profile Page</h1>
-//       <p>This is the custom profile page</p>
-//     </div>
-//   );
-// };
+import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
 
-// const UserProfilePage = () => (
-//   <UserProfile path="/players" routing="path">
-//     {/* You can pass the content as a component */}
-//     <UserProfile.Page label="Custom Page" labelIcon={<DotIcon />} url="custom-page">
-//       <CustomPage />
-//     </UserProfile.Page>
+function getApiClient(shouldAuth = true) {
+  if (shouldAuth) {
+    return BattleStadiumAPI(auth());
+  }
 
-//     {/* You can also pass the content as direct children */}
-//     <UserProfile.Page label="Terms" labelIcon={<DotIcon />} url="terms">
-//       <div>
-//         <h1>Custom Terms Page</h1>
-//         <p>This is the custom terms page</p>
-//       </div>
-//     </UserProfile.Page>
-//   </UserProfile>
-// );
+  return BattleStadiumAPI();
+}
 
-export default function PlayerProfilePage() {
+async function getPlayer(player_id: string) {
+  const response = await getApiClient().Users.get(player_id);
+
+  return response.data;
+}
+
+export async function generateMetadata({ params }: { params: { player_id: string } }) {
+  const player = await getPlayer(params.player_id);
+
+  return { title: player?.username ?? "Player" };
+}
+
+export default async function PlayerProfilePage({ params }: { params: { player_id: string } }) {
+  const player = await getPlayer(params.player_id);
+
   return (
     <div>
-      <h1>Player Profile Page</h1>
-      <p>This is a players profile page</p>
+      <h1>{player?.username}</h1>
+      <p>
+        {player?.first_name} {player?.last_name}
+      </p>
     </div>
   );
 }
