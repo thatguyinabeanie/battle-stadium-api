@@ -15,8 +15,8 @@ function getApiClient(shouldAuth = true) {
   return BattleStadiumAPI();
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const org = await getOrganization(parseInt(params.id));
+export async function generateMetadata({ params }: { params: { id: number } }) {
+  const org = await getOrganization(params.id);
 
   return { title: org?.name ?? "Organization" };
 }
@@ -71,7 +71,7 @@ const columns = [
   },
 ];
 
-export default async function OrganizationDetailPage({ params }: Readonly<{ params: { organizationId: number } }>) {
+export default async function OrganizationDetailPage({ params }: { params: { organizationId: number } }) {
   const organization = await getOrganization(params.organizationId);
   const tournaments = await getTournaments(params.organizationId);
 
