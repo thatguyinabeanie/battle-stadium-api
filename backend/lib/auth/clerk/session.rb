@@ -14,6 +14,12 @@ module Auth
           clerk_user = ClerkUser.find_by(clerk_user_id: session["userId"])
           return clerk_user.user if clerk_user
 
+          required_attributes = ["userId", "email", "username", "firstName", "lastName"]
+          missing_attributes = required_attributes.reject { |attr| session[attr] }
+          unless session && missing_attributes.empty?
+            raise Auth::Clerk::TokenVerifier::InvalidSessionToken, "Invalid session token. Missing attributes: #{missing_attributes.join(', ')}."
+          end
+
           # If the user is not in the database, check if the user is in the database with the email or username
           user = User.find_or_create_by(email: session["email"], username: session["username"]) do |u|
             u.first_name = session["firstName"]
