@@ -9,6 +9,7 @@ module Auth
 
       included do
 
+        let(:request_user) { create(:user) }
         let(:Authorization) { "Bearer #{SecureRandom.alphanumeric(25)}, Bearer #{SecureRandom.alphanumeric(25)}" }
 
         def session_data(request_user)
@@ -22,15 +23,37 @@ module Auth
           }
         end
 
-        shared_context "with Clerk JWT + Vercel OIDC Token Verification" do
-          before do
-            allow(Auth::Vercel::TokenVerifier)
-              .to receive(:verify_token)
-              .and_return(true)
+        def allow_vercel_token_verification
+          allow(Auth::Vercel::TokenVerifier)
+            .to receive(:verify_token)
+            .and_return(true)
+        end
 
-            allow(Auth::Clerk::TokenVerifier)
-              .to receive(:verify_token)
-              .and_return(session_data(request_user))
+
+        def allow_token_verification
+          allow_vercel_token_verification
+
+          allow(Auth::Clerk::TokenVerifier)
+            .to receive(:verify_token)
+            .and_return(session_data(request_user))
+        end
+
+        shared_context "with Request Specs - Vercel OIDC Token Verification" do
+          before do
+            allow_token_verification
+          end
+        end
+
+        shared_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification" do
+          before do
+            allow_token_verification
+          end
+        end
+
+        shared_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification" do
+          before do
+            allow_token_verification
+            request.headers["Authorization"] = "Bearer #{SecureRandom.alphanumeric(25)}, Bearer #{SecureRandom.alphanumeric(25)}"
           end
         end
       end

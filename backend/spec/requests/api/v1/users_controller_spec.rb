@@ -50,7 +50,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -65,7 +65,7 @@ RSpec.describe Api::V1::UsersController do
         let(:user) { {} }
 
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema type: :object, properties: { error: { type: :string } }
 
         OpenApi::Response.set_example_response_metadata
@@ -88,7 +88,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -109,7 +109,7 @@ RSpec.describe Api::V1::UsersController do
       response(200, "successful") do
         let(:request_user) { create(:user) }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => "#/components/schemas/UserMe"
 
@@ -121,7 +121,7 @@ RSpec.describe Api::V1::UsersController do
       response(401, NOT_FOUND) do
         let(:request_user) { build(:user) }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
 
         OpenApi::Response.set_example_response_metadata
@@ -178,7 +178,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
 
@@ -197,7 +197,7 @@ RSpec.describe Api::V1::UsersController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -216,7 +216,7 @@ RSpec.describe Api::V1::UsersController do
       response(200, "successful") do
         let(:request_user) { create(:admin) }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -228,7 +228,7 @@ RSpec.describe Api::V1::UsersController do
 
         let(:username) { "invalid" }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
 

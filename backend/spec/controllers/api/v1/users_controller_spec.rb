@@ -9,13 +9,7 @@ RSpec.describe Api::V1::UsersController do
     JSON.parse(response.body, symbolize_names: true)
   end
 
-  let(:request_user) { create(:user) }
-
-  include_context "with Clerk JWT + Vercel OIDC Token Verification"
-
-  before do
-    request.headers["Authorization"] =  "Bearer #{SecureRandom.alphanumeric(25)}, Bearer #{SecureRandom.alphanumeric(25)}"
-  end
+  include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
 
   context "when /users" do
 

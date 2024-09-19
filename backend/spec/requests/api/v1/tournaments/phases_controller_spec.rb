@@ -26,19 +26,22 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       description "Retrieves a list of all Phases"
       operationId "listTournamentPhases"
 
+      security [Bearer: []]
+
       response(200, "successful") do
         let(:phases) { create_list(:swiss_phase, 2, tournament:) }
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema type: :array, items: { "$ref" => "#/components/schemas/Phase" }
-
         run_test!
+      end
 
-        response(404, NOT_FOUND) do
-          let(:tournament_id) { "invalid" }
+      response(404, NOT_FOUND) do
+        let(:tournament_id) { "invalid" }
 
-          OpenApi::Response.set_example_response_metadata
-          run_test!
-        end
+        include_context "with Request Specs - Vercel OIDC Token Verification"
+        OpenApi::Response.set_example_response_metadata
+        run_test!
       end
     end
 
@@ -64,7 +67,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PhaseDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -84,7 +87,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -106,7 +109,9 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       description "Retrieves a Tournament Phase"
       operationId "showTournamentPhase"
 
+      security [Bearer: []]
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PhaseDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -116,6 +121,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       response(404, NOT_FOUND) do
         let(:id) { "invalid" }
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -144,7 +150,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PhaseDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -163,7 +169,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -180,7 +186,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       response(200, "successful") do
         let(:request_user) { owner }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -190,7 +196,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
         let(:request_user) { owner }
         let(:id) { "invalid" }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

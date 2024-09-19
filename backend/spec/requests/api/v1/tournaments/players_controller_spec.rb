@@ -25,7 +25,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(200, "successful") do
         let(:players) { create_list(:player, 10, tournament:) }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema type: :array, items: { "$ref" => "#/components/schemas/Player" }
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -34,7 +34,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -54,7 +54,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(201, "created") do
         let(:player) { { user_id: user.id } }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PlayerDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(403, "forbidden") do
         let(:player) { { user_id: user.id } }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -75,7 +75,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
         let(:tournament_id) { "invalid" }
         let(:player) { { user_id: user.id} }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -123,7 +123,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
           }
         end
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => "#/components/schemas/PlayerDetails"
         OpenApi::Response.set_example_response_metadata
@@ -142,7 +142,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(200, "successful") do
         let(:request_user) { tournament_player.user }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -151,7 +151,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
         let(:request_user) { tournament_player.user }
         let(:id) { "invalid" }
 
-        include_context "with Clerk JWT + Vercel OIDC Token Verification"
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
