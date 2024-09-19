@@ -57,10 +57,7 @@ const columns = [
     key: "name",
     label: "NAME",
   },
-  {
-    key: "organization.name",
-    label: "ORGANIZATION",
-  },
+
   {
     key: "players",
     label: "PLAYERS",
@@ -74,8 +71,6 @@ const columns = [
 export default async function OrganizationDetailPage({ params }: { params: { slug: string } }) {
   const organization = await getOrganization(params.slug);
   const tournaments = await getTournaments(params.slug);
-
-  const columnsToDisplay = columns.filter((c) => c.key !== "organization.name");
 
   return (
     <div className="w-100 h-100">
@@ -93,7 +88,7 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
         </CardBody>
       </Card>
 
-      <TournamentsTable columns={columnsToDisplay} tournaments={tournaments} />
+      <TournamentsTable columns={columns} tournaments={tournaments} />
     </div>
   );
 }
