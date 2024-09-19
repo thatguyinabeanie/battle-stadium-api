@@ -31,6 +31,8 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     @current_user = ::Auth::Clerk::Session.authenticate!(request:)
+  rescue Auth::Clerk::TokenVerifier::InvalidSessionToken => e
+    render json: { error: e.message }, status: :unauthorized
   end
 
   def pundit_user

@@ -8,7 +8,7 @@ module Auth
         def authenticate!(request:)
           session = ::Auth::Clerk::TokenVerifier.verify(request:)
 
-          raise InvalidSessionToken, "Invalid session token. Missing attributes." unless session && session["userId"]
+          raise Auth::Clerk::TokenVerifier::InvalidSessionToken, "Invalid session token. Missing attributes." unless session && session["userId"]
 
           # First check if the user is already in the database with a clerk id
           clerk_user = ClerkUser.find_by(clerk_user_id: session["userId"])

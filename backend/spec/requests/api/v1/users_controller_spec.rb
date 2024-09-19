@@ -1,6 +1,6 @@
 require "rails_helper"
 require "swagger_helper"
-require_relative "../../../support/auth/token_verifier_mock"
+require "support/auth/token_verifier_mock"
 
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 
@@ -14,8 +14,11 @@ RSpec.describe Api::V1::UsersController do
       description "Retrieves a list of all Users"
       operationId "listUsers"
 
+      security [Bearer: []]
       response(200, "successful") do
         let(:users) { create_list(:user, 10) }
+
+        include_context "with Request Specs - Vercel OIDC Token Verification"
 
         schema type: :array, items: { "$ref" => "#/components/schemas/User" }
 
@@ -118,11 +121,10 @@ RSpec.describe Api::V1::UsersController do
         run_test!
       end
 
-      response(401, NOT_FOUND) do
+      response(401, "not authorized") do
         let(:request_user) { build(:user) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-
 
         OpenApi::Response.set_example_response_metadata
 
@@ -143,7 +145,10 @@ RSpec.describe Api::V1::UsersController do
       description "Retrieves a specific User by ID."
       operationId "getUser"
 
+      security [Bearer: []]
+
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema "$ref" => USER_DETAILS_SCHEMA_COMPONENT
         run_test!
       end
@@ -151,6 +156,7 @@ RSpec.describe Api::V1::UsersController do
       response(404, NOT_FOUND) do
         let(:username) { "invalid" }
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
