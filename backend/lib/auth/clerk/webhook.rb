@@ -7,16 +7,12 @@ module Auth
       class << self
         WEBHOOK_TOLERANCE_IN_SECONDS = 300 # 5 minutes
         def validate!(request:)
-          validate_request(request:, should_raise: true)
-        end
-
-        def validate(request:)
-          validate_request(request:, should_raise: false)
+          validate_request(request:)
         end
 
         private
 
-        def validate_request(request:, should_raise:)
+        def validate_request(request:)
           payload = request.raw_post
 
           headers = {
@@ -25,26 +21,24 @@ module Auth
             "svix-signature" => request.headers["HTTP_SVIX_SIGNATURE"]
           }
 
-          return nil unless verify_timestamp(headers["svix-timestamp"], should_raise) && verify_signature(payload, headers, should_raise)
+          return nil unless verify_timestamp(headers["svix-timestamp"]) && verify_signature(payload, headers)
 
-          JSON.parse(request.body.read)
+          JSON.parse(payload)
         end
 
-        def verify_timestamp(timestamp, should_raise)
+        def verify_timestamp(timestamp)
+          raise Error, "Invalid timestamp" if timestamp.nil? || timestamp.to_i == 0
           webhook_timestamp = timestamp.to_i
           current_timestamp = Time.now.to_i
 
           if (current_timestamp - webhook_timestamp).abs > WEBHOOK_TOLERANCE_IN_SECONDS
-            msg = "Webhook timestamp is outside of the tolerance zone"
-            Rails.logger.error(msg) unless should_raise
-            raise msg if should_raise
-            return false
+            raise "Webhook timestamp is outside of the tolerance zone"
           end
 
           true
         end
 
-        def verify_signature(payload, headers, should_raise)
+        def verify_signature(payload, headers)
           secret = ENV["CLERK_WEBHOOK_SECRET"]
           raise "Missing CLERK_WEBHOOK_SECRET environment variable" if secret.nil?
 
@@ -71,10 +65,7 @@ module Auth
           # Verify against all provided signatures
           signatures = svix_signature.split(" ")
           unless signatures.any? { |sig| verify_individual_signature(sig, signature) }
-            msg =  "No matching signature found"
-            Rails.logger.error(msg) unless should_raise
-            raise msg if should_raise
-            return false
+            raise "No matching signature found"
           end
 
           true
