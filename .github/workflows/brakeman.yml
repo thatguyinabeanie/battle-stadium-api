@@ -19,7 +19,8 @@ on:
 
 permissions:
   contents: read
-
+env:
+  RUBY_VERSION: 3.3.5
 jobs:
   brakeman-scan:
     permissions:
@@ -38,7 +39,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.4
+          ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
           working-directory: ./backend
 

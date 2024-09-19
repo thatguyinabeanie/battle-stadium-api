@@ -55,7 +55,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
     frum install  --with-openssl-dir=$(brew --prefix openssl)
     RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl)" rbenv install
     RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)" asdf install ruby
-    rvm install 3.3.4 --with-openssl-dir=$(brew --prefix openssl@3) && rvm use
+    rvm install 3.3.5 --with-openssl-dir=$(brew --prefix openssl@3) && rvm use
     ```
 
 5. Initialize .env files
