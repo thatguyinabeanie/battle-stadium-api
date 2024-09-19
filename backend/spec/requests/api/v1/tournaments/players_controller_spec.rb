@@ -62,7 +62,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       end
 
       response(403, "forbidden") do
-        let(:player) { { user_id: user.id } }
+        let(:player) { { user_id: create(:user).id } }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
@@ -96,7 +96,10 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       description "Retrieves a Player"
       operationId "showTournamentPlayer"
 
+      security [Bearer: []]
+
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PlayerDetails"
         OpenApi::Response.set_example_response_metadata
 
