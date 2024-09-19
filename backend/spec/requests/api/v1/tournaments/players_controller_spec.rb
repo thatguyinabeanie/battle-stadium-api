@@ -11,9 +11,6 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
   path("/tournaments/{tournament_id}/players") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
 
-    let(:user) { create(:user) }
-    let(:request_user) { user }
-
     get("List Tournament Players") do
       tags "Players"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -52,7 +49,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:player) { { user_id: user.id } }
+        let(:player) { { user_id: request_user.id } }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PlayerDetails"
@@ -73,7 +70,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
-        let(:player) { { user_id: user.id} }
+        let(:player) { { user_id: request_user.id} }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
