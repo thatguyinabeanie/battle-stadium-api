@@ -1,9 +1,9 @@
 require "rails_helper"
 require_relative "../../../../app/serializers/user_serializer"
-require_relative "../../../support/clerk_jwt/token_verifier_mock"
+require_relative "../../../support/auth/clerk/token_verifier_mock"
 
 RSpec.describe Api::V1::UsersController do
-  include ClerkJwt::TokenVerifier::Mock
+  include Clerk::TokenVerifier::Mock
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)

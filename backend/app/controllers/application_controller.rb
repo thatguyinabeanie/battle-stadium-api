@@ -1,13 +1,15 @@
 require "pundit"
-require_relative "../../lib/clerk_jwt/session"
+require_relative "../../lib/auth/clerk/session"
+require_relative "../../lib/auth/vercel/token_verifier"
 
 class ApplicationController < ActionController::Base
   attr_reader :current_user
   include Pundit::Authorization
 
   after_action :verify_authorized
-  before_action :authenticate_clerk_user!
-  skip_before_action :authenticate_clerk_user!, only: %i[index show]
+  before_action :authenticate_user!
+  before_action :validate_vercel_oidc_token!
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   def self.policy_class
     ::ApplicationPolicy
@@ -23,12 +25,12 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def authenticate_clerk_user!
-    @current_user = ClerkJwt::Session.authenticate!(request:)
-    @current_user
-  rescue StandardError => e
-    Rails.logger.info "Failed to authenticate user: #{e.message}"
-    render json: { error: e.message }, status: :unauthorized
+  def validate_vercel_oidc_token!
+    ::Auth::Vercel::TokenVerifier.verify_token(request:)
+  end
+
+  def authenticate_user!
+    @current_user = ::Auth::Clerk::Session.authenticate!(request:)
   end
 
   def pundit_user

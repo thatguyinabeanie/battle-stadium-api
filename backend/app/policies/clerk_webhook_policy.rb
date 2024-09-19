@@ -1,7 +1,7 @@
-require_relative "../../lib/clerk_jwt/webhook"
+require_relative "../../lib/auth/clerk/webhook"
 class ClerkWebhookPolicy < ApplicationPolicy
   def valid_request?
-    raise ::ClerkJwt::Webhook::Error("invalid webhook") if ::ClerkJwt::Webhook.validate!(request: record).nil?
+    raise ::Auth::Clerk::Webhook::Error("invalid webhook") unless ::Auth::Clerk::Webhook.validate!(request: record)
     true
   end
 end

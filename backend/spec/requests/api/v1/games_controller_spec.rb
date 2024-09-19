@@ -1,10 +1,10 @@
 require "swagger_helper"
-require_relative "../../../support/clerk_jwt/token_verifier_mock"
+require_relative "../../../support/auth/clerk/token_verifier_mock"
 
 GAME_DETAIL_SCHEMA = "#/components/schemas/GameDetail".freeze
 
 RSpec.describe Api::V1::GamesController do
-  include ClerkJwt::TokenVerifier::Mock
+  include Clerk::TokenVerifier::Mock
 
   path("/games") do
     get("List Games") do

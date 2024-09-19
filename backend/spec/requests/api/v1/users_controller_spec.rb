@@ -1,11 +1,11 @@
 require "rails_helper"
 require "swagger_helper"
-require_relative "../../../support/clerk_jwt/token_verifier_mock"
+require_relative "../../../support/auth/clerk/token_verifier_mock"
 
 USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
 
 RSpec.describe Api::V1::UsersController do
-  include ClerkJwt::TokenVerifier::Mock
+  include Clerk::TokenVerifier::Mock
 
   path("/users") do
     get("List Users") do

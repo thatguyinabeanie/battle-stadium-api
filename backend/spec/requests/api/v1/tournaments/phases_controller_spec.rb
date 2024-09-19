@@ -1,12 +1,12 @@
 require "swagger_helper"
-require_relative "../../../../support/clerk_jwt/token_verifier_mock"
+require_relative "../../../../support/auth/clerk/token_verifier_mock"
 
 PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
 PHASE_SWISS = "Phases::Swiss".freeze
 
 
 RSpec.describe Api::V1::Tournaments::PhasesController do
-  include ClerkJwt::TokenVerifier::Mock
+  include Clerk::TokenVerifier::Mock
 
   let(:tournament) { create(:tournament) }
   let(:owner) do
