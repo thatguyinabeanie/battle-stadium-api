@@ -20,24 +20,19 @@ import Search from "./search";
 export default function NavigationBar() {
   return (
     <Navbar
-      isBlurred
       isBordered
-      shouldHideOnScroll
       classNames={{
+        base: "w-full bg-transparent",
         content: "w-full",
-        base: "w-full",
         item: "data-[active=true]:text-primary",
       }}
-      height="60px"
+      height="55px"
     >
       <NavbarBrand>
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarContent
-        className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full bg-content2 px-4 dark:bg-content1 md:flex"
-        justify="start"
-      >
+      <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full px-4 md:flex" justify="start">
         <NavbarItem>
           <Link className="flex gap-2 text-inherit" href="/organizations">
             Organizations
