@@ -453,7 +453,7 @@ VERCEL_TOKEN_HEADER_PARAMETER = {
   name: "X-Vercel-OIDC-Token",
   in: :header,
   type: :string,
-  required: true,
+  required: false,
   description: "Vercel OIDC Token"
 }
 
