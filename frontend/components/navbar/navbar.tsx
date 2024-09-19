@@ -17,7 +17,6 @@ import Settings from "./settings";
 import Notifications from "./notifications";
 import Search from "./search";
 
-
 export default function NavigationBar() {
   return (
     <Navbar
