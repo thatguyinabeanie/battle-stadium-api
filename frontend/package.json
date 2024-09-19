@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "bun@^1",
   "scripts": {
-    "dev": "prisma generate && next dev --turbo",
+    "dev": "prisma generate && next dev",
     "build:nextjs": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json",
