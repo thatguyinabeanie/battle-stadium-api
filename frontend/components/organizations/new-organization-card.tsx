@@ -3,7 +3,7 @@ import type { CardProps } from "@nextui-org/react";
 import React from "react";
 import { Card, Image, CardBody, Spacer, Link, CardFooter, cn } from "@nextui-org/react";
 
-import { components } from "@/lib/battle-stadium-api";
+import { components } from "@/lib/api";
 
 export interface OrgCardProps {
   organization: components["schemas"]["OrganizationDetails"];

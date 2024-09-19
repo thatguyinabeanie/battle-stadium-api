@@ -4,8 +4,10 @@ require "base64"
 module Api
   module V1
     class ClerkWebhookController < ApiController
-      skip_before_action :verify_authenticity_token, only: [:post]
-      skip_before_action :authenticate_clerk_user!
+      skip_before_action :verify_authenticity_token
+      skip_before_action :authenticate_clerk_user_session!
+      skip_before_action :validate_vercel_oidc_token!
+
       before_action :verify_clerk_webhook
 
       def post

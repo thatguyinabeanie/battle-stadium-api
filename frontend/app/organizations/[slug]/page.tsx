@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody, Image, Spacer } from "@nextui-org/react";
 
 import TournamentsTable from "@/components/tournaments-table";
-import { BattleStadiumAPI, components } from "@/lib/battle-stadium-api";
+import { BattleStadiumAPI, components } from "@/lib/api";
 
 export const revalidate = 200;
 export const dynamicParams = true;

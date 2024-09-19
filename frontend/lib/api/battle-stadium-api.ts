@@ -1,9 +1,10 @@
-import type { paths } from "./openapi-v1.d";
+import type { paths } from "@/lib/api";
 
 import createClient, { FetchOptions, Middleware } from "openapi-fetch";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
 export const CACHE_TIMEOUT: number = 300;
 export type Auth = ReturnType<typeof clerkAuth>;
+import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 const getBaseUrl = () => {
   if (process.env.NODE_ENV === "production" && process.env.API_BASE_URL) {
@@ -18,14 +19,18 @@ export interface PaginationParams {
   per_page?: number;
 }
 
-const clerkAuthMiddleware = (auth?: Auth): Middleware => {
+const authMiddleware = (clerkAuth?: Auth): Middleware => {
   const openapiFetchMiddleware: Middleware = {
     async onRequest({ request }) {
-      if (auth && auth.sessionId) {
-        const token = await auth.getToken();
+      const vercelOidcToken = await getVercelOidcToken();
+
+      if (clerkAuth?.sessionId) {
+        const token = await clerkAuth.getToken();
 
         request.headers.set("Authorization", `Bearer ${token}`);
       }
+
+      request.headers.set("X-Vercel-OIDC-Token", `${vercelOidcToken}`);
 
       return request;
     },
@@ -38,7 +43,7 @@ export const BattleStadiumAPI = (auth?: Auth) => {
   const baseUrl = getBaseUrl();
   const client = createClient<paths>({ baseUrl });
 
-  client.use(clerkAuthMiddleware(auth));
+  client.use(authMiddleware(auth));
 
   return {
     client,

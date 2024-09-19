@@ -31,7 +31,10 @@ export interface paths {
   "/games/{id}": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the game */
         id: number;
@@ -62,7 +65,10 @@ export interface paths {
   "/organizations": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -83,7 +89,10 @@ export interface paths {
   "/organizations/{slug}": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -113,7 +122,10 @@ export interface paths {
   "/organizations/{slug}/staff": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -135,7 +147,10 @@ export interface paths {
   "/organizations/{slug}/tournaments": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -161,7 +176,10 @@ export interface paths {
   "/organizations/{slug}/tournaments/{tournament_id}": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
         tournament_id: number;
@@ -184,7 +202,10 @@ export interface paths {
   "/tournaments/{tournament_id}/phases": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the tournament */
         tournament_id: number;
@@ -211,7 +232,10 @@ export interface paths {
   "/tournaments/{tournament_id}/phases/{id}": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the tournament */
         tournament_id: number;
@@ -244,7 +268,10 @@ export interface paths {
   "/tournaments/{tournament_id}/players": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         tournament_id: number;
@@ -271,7 +298,10 @@ export interface paths {
   "/tournaments/{tournament_id}/players/{id}": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         tournament_id: number;
@@ -304,7 +334,10 @@ export interface paths {
   "/tournaments": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -324,7 +357,10 @@ export interface paths {
   "/tournaments/{id}": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         id: number;
@@ -347,7 +383,10 @@ export interface paths {
   "/users": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -371,7 +410,10 @@ export interface paths {
   "/users/me": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -391,7 +433,10 @@ export interface paths {
   "/users/{username}": {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description The user's username */
         username: string;
@@ -790,6 +835,8 @@ export interface components {
     Page: number;
     /** @description Number of items per page for pagination */
     PerPage: number;
+    /** @description Vercel OIDC Token */
+    VercelTokenHeader: string;
   };
   requestBodies: never;
   headers: never;
@@ -800,7 +847,10 @@ export interface operations {
   listGames: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -823,7 +873,10 @@ export interface operations {
   postGame: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -865,7 +918,10 @@ export interface operations {
   getGame: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the game */
         id: number;
@@ -895,7 +951,10 @@ export interface operations {
   deleteGame: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the game */
         id: number;
@@ -934,7 +993,10 @@ export interface operations {
   patchGame: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the game */
         id: number;
@@ -985,7 +1047,10 @@ export interface operations {
         per_page: number;
         partner?: boolean;
       };
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1008,7 +1073,10 @@ export interface operations {
   postOrganization: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1041,7 +1109,10 @@ export interface operations {
   getOrganization: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -1072,7 +1143,10 @@ export interface operations {
   deleteOrganization: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -1110,7 +1184,10 @@ export interface operations {
   patchOrganization: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -1145,7 +1222,10 @@ export interface operations {
   listOrganizationStaff: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -1176,7 +1256,10 @@ export interface operations {
   listOrganizationTournaments: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -1205,7 +1288,10 @@ export interface operations {
   postOrganizationTournament: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
       };
@@ -1238,7 +1324,10 @@ export interface operations {
   patchOrganizationTournament: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         slug: string;
         tournament_id: number;
@@ -1279,7 +1368,10 @@ export interface operations {
   listTournamentPhases: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the tournament */
         tournament_id: number;
@@ -1309,7 +1401,10 @@ export interface operations {
   postTournamentPhase: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the tournament */
         tournament_id: number;
@@ -1343,7 +1438,10 @@ export interface operations {
   showTournamentPhase: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the tournament */
         tournament_id: number;
@@ -1375,7 +1473,10 @@ export interface operations {
   deleteTournamentPhase: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the tournament */
         tournament_id: number;
@@ -1405,7 +1506,10 @@ export interface operations {
   patchTournamentPhase: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the tournament */
         tournament_id: number;
@@ -1441,7 +1545,10 @@ export interface operations {
   listPlayers: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         tournament_id: number;
@@ -1471,7 +1578,10 @@ export interface operations {
   postTournamentPlayer: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         tournament_id: number;
@@ -1514,7 +1624,10 @@ export interface operations {
   showTournamentPlayer: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         tournament_id: number;
@@ -1539,7 +1652,10 @@ export interface operations {
   deleteTournamentPlayer: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         tournament_id: number;
@@ -1569,7 +1685,10 @@ export interface operations {
   putTournamentPlayer: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         tournament_id: number;
@@ -1603,7 +1722,10 @@ export interface operations {
         /** @description Number of items per page for pagination */
         per_page: number;
       };
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1626,7 +1748,10 @@ export interface operations {
   getTournament: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description ID of the Tournament */
         id: number;
@@ -1656,7 +1781,10 @@ export interface operations {
   listUsers: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1676,7 +1804,10 @@ export interface operations {
   postUser: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1718,7 +1849,10 @@ export interface operations {
   getMe: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path?: never;
       cookie?: never;
     };
@@ -1733,7 +1867,7 @@ export interface operations {
           "application/json": components["schemas"]["UserMe"];
         };
       };
-      /** @description not found */
+      /** @description not authorized */
       401: {
         headers: {
           [name: string]: unknown;
@@ -1745,7 +1879,10 @@ export interface operations {
   getUser: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description The user's username */
         username: string;
@@ -1775,7 +1912,10 @@ export interface operations {
   deleteUser: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description The user's username */
         username: string;
@@ -1803,7 +1943,10 @@ export interface operations {
   patchUser: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
       path: {
         /** @description The user's username */
         username: string;

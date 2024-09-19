@@ -40,10 +40,10 @@ module Tournaments
       reasons
     end
 
-    def ready_to_start?(should_raise: false)
+    def ready_to_start?
       return true if not_ready_reasons.empty?
 
-      raise "The tournament is not ready to start. #{not_ready_reasons.join(' ')}" if should_raise
+      Rails.logger.error "The tournament is not ready to start. #{not_ready_reasons.join(' ')}"
 
       false
     end

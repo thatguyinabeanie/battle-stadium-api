@@ -11,6 +11,15 @@ paths:
       - Games
       description: Retrieves a list of all games
       operationId: listGames
+      security:
+      - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
       responses:
         '200':
           description: successful
@@ -31,7 +40,13 @@ paths:
       - Games
       description: Creates a new game.
       operationId: postGame
-      parameters: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
       security:
       - Bearer: []
       responses:
@@ -66,12 +81,27 @@ paths:
       required: true
       schema:
         type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: Show Game
       tags:
       - Games
       description: Retrieves a specific game by ID.
       operationId: getGame
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -87,7 +117,13 @@ paths:
       - Games
       description: Updates a game by ID.
       operationId: patchGame
-      parameters: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
       security:
       - Bearer: []
       responses:
@@ -122,6 +158,13 @@ paths:
       operationId: deleteGame
       security:
       - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
       responses:
         '200':
           description: successful
@@ -138,6 +181,13 @@ paths:
         '404':
           description: not found
   "/organizations":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: List Organizations
       tags:
@@ -160,6 +210,8 @@ paths:
         in: query
         schema:
           type: boolean
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -209,12 +261,20 @@ paths:
       required: true
       schema:
         type: string
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: Show Organization
       tags:
       - Organizations
       description: Retrieves a specific organization.
       operationId: getOrganization
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -285,12 +345,20 @@ paths:
       required: true
       schema:
         type: string
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: List Organization Staff
       tags:
       - Organizations
       description: Retrieves a list of staff members for a specific organization.
       operationId: listOrganizationStaff
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -313,12 +381,20 @@ paths:
       required: true
       schema:
         type: string
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: List Organization Tournaments
       tags:
       - Organizations
       description: Retrieves a list of tournaments for a specific organization.
       operationId: listOrganizationTournaments
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -365,6 +441,12 @@ paths:
       required: true
       schema:
         type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     patch:
       summary: Update Tournament
       tags:
@@ -398,15 +480,21 @@ paths:
       required: true
       schema:
         type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: List Tournament Phases
       tags:
       - Phases
       description: Retrieves a list of all Phases
       operationId: listTournamentPhases
+      security:
+      - Bearer: []
       responses:
-        '404':
-          description: not found
         '200':
           description: successful
           content:
@@ -415,6 +503,8 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Phase"
+        '404':
+          description: not found
     post:
       summary: Create Tournament Phase
       tags:
@@ -452,12 +542,20 @@ paths:
       description: ID of the Phase
       schema:
         type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: Show Tournament Phase
       tags:
       - Phases
       description: Retrieves a Tournament Phase
       operationId: showTournamentPhase
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -511,12 +609,20 @@ paths:
       required: true
       schema:
         type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: List Tournament Players
       tags:
       - Players
       description: Retrieves a list of all Players
       operationId: listPlayers
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -571,12 +677,20 @@ paths:
       required: true
       schema:
         type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: Show Tournament Player
       tags:
       - Players
       description: Retrieves a Player
       operationId: showTournamentPlayer
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -619,6 +733,13 @@ paths:
         '404':
           description: not found
   "/tournaments":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: List Organization Tournaments
       tags:
@@ -638,6 +759,8 @@ paths:
         required: true
         schema:
           type: integer
+      security:
+      - Bearer: []
       responses:
         '200':
           description: Successful
@@ -660,12 +783,20 @@ paths:
       required: true
       schema:
         type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: Show Tournament
       tags:
       - Tournaments
       description: Retrieves a specific Tournament.
       operationId: getTournament
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -676,12 +807,21 @@ paths:
         '404':
           description: not found
   "/users":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: List Users
       tags:
       - Users
       description: Retrieves a list of all Users
       operationId: listUsers
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -724,6 +864,13 @@ paths:
             schema:
               "$ref": "#/components/schemas/UserPostRequest"
   "/users/me":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: Show Me
       tags:
@@ -740,7 +887,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/UserMe"
         '401':
-          description: not found
+          description: not authorized
   "/users/{username}":
     parameters:
     - name: username
@@ -749,12 +896,20 @@ paths:
       required: true
       schema:
         type: string
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
     get:
       summary: Show User
       tags:
       - Users
       description: Retrieves a specific User by ID.
       operationId: getUser
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
@@ -829,6 +984,13 @@ components:
       required: true
       schema:
         type: integer
+    VercelTokenHeader:
+      name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
   schemas:
     Format:
       type: object
