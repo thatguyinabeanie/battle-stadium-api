@@ -13,7 +13,10 @@ RSpec.describe Api::V1::GamesController do
       description "Retrieves a list of all games"
       operationId "listGames"
 
+      security [Bearer: []]
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
+
         schema type: :object, properties: {
           data: { type: :array, items: { "$ref" => "#/components/schemas/Game" } },
           meta: { "$ref" => "#/components/schemas/Pagination" }
@@ -87,7 +90,10 @@ RSpec.describe Api::V1::GamesController do
       description "Retrieves a specific game by ID."
       operationId "getGame"
 
+      security [Bearer: []]
+
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema "$ref" => GAME_DETAIL_SCHEMA
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -96,6 +102,7 @@ RSpec.describe Api::V1::GamesController do
       response(404, NOT_FOUND) do
         let(:id) { "invalid" } # Define the id parameter here
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
 
         run_test!

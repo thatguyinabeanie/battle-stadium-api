@@ -21,6 +21,8 @@ RSpec.describe Api::V1::OrganizationsController do
       parameter PER_PAGE_PARAMETER
       parameter name: :partner, in: :query, type: :boolean
 
+      security [Bearer: []]
+
       response(200, "successful") do
         let(:organizations) { create_list(:organization, 5) }
 
@@ -28,6 +30,7 @@ RSpec.describe Api::V1::OrganizationsController do
         let(:per_page) { 2 }
         let(:partner) { true }
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema type: :object, properties: {
           data: { type: :array, items: { "$ref" => ORGANIZATION_DETAIL_SCHEMA } },
           meta: { "$ref" => "#/components/schemas/Pagination" }
@@ -99,7 +102,9 @@ RSpec.describe Api::V1::OrganizationsController do
       description "Retrieves a specific organization."
       operationId "getOrganization"
 
+      security [Bearer: []]
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -108,6 +113,7 @@ RSpec.describe Api::V1::OrganizationsController do
       response(404, NOT_FOUND) do
         let(:slug) { "invalid" }
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -209,7 +215,9 @@ RSpec.describe Api::V1::OrganizationsController do
       description "Retrieves a list of staff members for a specific organization."
       operationId "listOrganizationStaff"
 
+      security [Bearer: []]
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema type: :array, items: { "$ref" => "#/components/schemas/User" }
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -218,6 +226,7 @@ RSpec.describe Api::V1::OrganizationsController do
       response(404, NOT_FOUND) do
         let(:slug) { "invalid" }
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -235,7 +244,9 @@ RSpec.describe Api::V1::OrganizationsController do
       description "Retrieves a list of tournaments for a specific organization."
       operationId "listOrganizationTournaments"
 
+      security [Bearer: []]
       response(200, "successful") do
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         schema type: :array, items: { "$ref" => "#/components/schemas/TournamentDetails" }
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -244,6 +255,7 @@ RSpec.describe Api::V1::OrganizationsController do
       response(404, NOT_FOUND) do
         let(:slug) { "invalid" }
 
+        include_context "with Request Specs - Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
