@@ -57,10 +57,7 @@ const columns = [
     key: "name",
     label: "NAME",
   },
-  {
-    key: "organization.name",
-    label: "ORGANIZATION",
-  },
+
   {
     key: "players",
     label: "PLAYERS",
@@ -75,10 +72,8 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
   const organization = await getOrganization(params.slug);
   const tournaments = await getTournaments(params.slug);
 
-  const columnsToDisplay = columns.filter((c) => c.key !== "organization.name");
-
   return (
-    <div className="w-100 h-100">
+    <>
       <Card isBlurred shadow="none">
         <CardBody className="flex flex-row justify-between rounded-3xl">
           {organizationLogo(organization)}
@@ -93,7 +88,7 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
         </CardBody>
       </Card>
 
-      <TournamentsTable columns={columnsToDisplay} tournaments={tournaments} />
-    </div>
+      <TournamentsTable columns={columns} tournaments={tournaments} />
+    </>
   );
 }
