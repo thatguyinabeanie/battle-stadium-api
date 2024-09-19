@@ -19,7 +19,7 @@ if Rails.env.production?
   exit
 end
 
-if ENV.fetch('SEED_DATA', 'false') == 'false'
+if ENV.fetch("SEED_DATA", "false") == "false"
   Rails.logger.info("Seeding is disabled by the SEED_DATA environment variable.")
   exit
 end

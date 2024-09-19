@@ -20,6 +20,10 @@ module Auth
 
           raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
 
+          verify_token(session_token:)
+        end
+
+        def verify_token(session_token:)
 
           # Fetch the JWT verification key from Clerk
           jwks = fetch_jwks

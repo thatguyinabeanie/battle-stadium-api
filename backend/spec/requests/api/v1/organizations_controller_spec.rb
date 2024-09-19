@@ -1,11 +1,11 @@
 require "swagger_helper"
-require_relative "../../../support/auth/clerk/token_verifier_mock"
+require_relative "../../../support/auth/token_verifier_mock"
 
 ORGANIZATION_DETAIL_SCHEMA = "#/components/schemas/Organization".freeze
 DESCRIPTION = "the bomb dot com".freeze
 
 RSpec.describe Api::V1::OrganizationsController do
-  include Clerk::TokenVerifier::Mock
+  include Auth::TokenVerifier::Mock
 
   let(:org) { create(:organization_with_staff, staff_count: 5) }
   let(:owner) { org.owner }
@@ -65,7 +65,7 @@ RSpec.describe Api::V1::OrganizationsController do
         end
 
         schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -81,7 +81,7 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
@@ -135,7 +135,7 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => ORGANIZATION_DETAIL_SCHEMA
         OpenApi::Response.set_example_response_metadata
@@ -153,7 +153,7 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -172,7 +172,7 @@ RSpec.describe Api::V1::OrganizationsController do
       response(200, "Organization deleted") do
         let(:request_user) { create(:admin) }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Message"
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -181,7 +181,7 @@ RSpec.describe Api::V1::OrganizationsController do
       response(403, "forbidden") do
         let(:request_user) { create(:user) }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -192,7 +192,7 @@ RSpec.describe Api::V1::OrganizationsController do
         let(:request_user) { create(:admin) }
         let(:slug) { "invalid" }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
@@ -284,7 +284,7 @@ RSpec.describe Api::V1::OrganizationsController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/TournamentDetails"
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -294,7 +294,7 @@ RSpec.describe Api::V1::OrganizationsController do
         let(:request_user) { owner }
         let(:tournament) { {} }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -345,7 +345,7 @@ RSpec.describe Api::V1::OrganizationsController do
       response(200, "Updated by Organization Owner") do
         let(:request_user) { owner }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => "#/components/schemas/TournamentDetails"
         OpenApi::Response.set_example_response_metadata
@@ -356,10 +356,10 @@ RSpec.describe Api::V1::OrganizationsController do
         let(:request_user) { owner }
         let(:tournament_id) { -1 }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -369,7 +369,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
         let(:tournament) { {} }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

@@ -1,12 +1,12 @@
 require "swagger_helper"
-require_relative "../../../../support/auth/clerk/token_verifier_mock"
+require_relative "../../../../support/auth/token_verifier_mock"
 
 PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
 PHASE_SWISS = "Phases::Swiss".freeze
 
 
 RSpec.describe Api::V1::Tournaments::PhasesController do
-  include Clerk::TokenVerifier::Mock
+  include Auth::TokenVerifier::Mock
 
   let(:tournament) { create(:tournament) }
   let(:owner) do
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PhaseDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -144,7 +144,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PhaseDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -163,7 +163,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -180,7 +180,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       response(200, "successful") do
         let(:request_user) { owner }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -190,7 +190,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
         let(:request_user) { owner }
         let(:id) { "invalid" }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def validate_vercel_oidc_token!
-    ::Auth::Vercel::TokenVerifier.verify_token(request:)
+    ::Auth::Vercel::TokenVerifier.verify(request:)
   end
 
   def authenticate_user!

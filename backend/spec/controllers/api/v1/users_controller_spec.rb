@@ -1,33 +1,36 @@
 require "rails_helper"
 require_relative "../../../../app/serializers/user_serializer"
-require_relative "../../../support/auth/clerk/token_verifier_mock"
+require_relative "../../../support/auth/token_verifier_mock"
 
 RSpec.describe Api::V1::UsersController do
-  include Clerk::TokenVerifier::Mock
+  include Auth::TokenVerifier::Mock
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end
 
+  let(:request_user) { create(:user) }
+
+  include_context "with Clerk JWT + Vercel OIDC Token Verification"
+
   before do
-    request.headers["Authorization"] =  "Bearer #{SecureRandom.alphanumeric(25)}"
+    request.headers["Authorization"] =  "Bearer #{SecureRandom.alphanumeric(25)}, Bearer #{SecureRandom.alphanumeric(25)}"
   end
 
   context "when /users" do
+
     describe "GET" do
       it "returns a list of users" do
         create_list(:user, 3)
 
         get :index
 
-        expect(json_response.size).to eq(3)
+        expect(json_response.size).to eq(4) # 3 + 1 request_user
       end
     end
 
     describe "POST" do
       let(:request_user) { create(:admin) }
-
-      include_context "with Clerk SDK Mock"
 
       it "returns a successful response" do
         post :create, params: { user: attributes_for(:user) }
@@ -71,9 +74,6 @@ RSpec.describe Api::V1::UsersController do
     describe "PUT" do
       let(:request_user) { create(:admin) }
 
-
-      include_context "with Clerk SDK Mock"
-
       it "returns a successful response" do
         user = create(:user)
         user_attributes = attributes_for(:user)
@@ -95,8 +95,6 @@ RSpec.describe Api::V1::UsersController do
     describe "PATCH" do
       let(:request_user) { create(:admin) }
 
-      include_context "with Clerk SDK Mock"
-
       it "returns a successful response" do
         user = create(:user)
 
@@ -117,10 +115,7 @@ RSpec.describe Api::V1::UsersController do
     describe "DELETE" do
       let(:request_user) { create(:admin) }
 
-      include_context "with Clerk SDK Mock"
-
       it "returns a successful response" do
-        user = create(:user)
 
         delete :destroy, params: { username: user.username }
 
@@ -128,7 +123,6 @@ RSpec.describe Api::V1::UsersController do
       end
 
       it "deletes the user" do
-        user = create(:user)
 
         delete :destroy, params: { username: user.username }
 
@@ -139,8 +133,6 @@ RSpec.describe Api::V1::UsersController do
 
   context "when /users/me" do
     let(:request_user) { create(:user) }
-
-    include_context "with Clerk SDK Mock"
 
     describe "GET" do
       it "returns a successful response" do

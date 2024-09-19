@@ -1,7 +1,7 @@
 require "swagger_helper"
-require_relative "../../../../support/auth/clerk/token_verifier_mock"
+require_relative "../../../../support/auth/token_verifier_mock"
 RSpec.describe Api::V1::Tournaments::PlayersController do
-  include Clerk::TokenVerifier::Mock
+  include Auth::TokenVerifier::Mock
 
   let(:organization) { create(:organization) }
   let(:organization_id) { organization.id }
@@ -11,15 +11,21 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
   path("/tournaments/{tournament_id}/players") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
 
+    let(:user) { create(:user) }
+    let(:request_user) { user }
+
     get("List Tournament Players") do
       tags "Players"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       description "Retrieves a list of all Players"
       operationId "listPlayers"
 
+      security [Bearer: []]
+
       response(200, "successful") do
         let(:players) { create_list(:player, 10, tournament:) }
 
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema type: :array, items: { "$ref" => "#/components/schemas/Player" }
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -28,6 +34,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
 
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -45,11 +52,9 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:user) { create(:user) }
-        let(:request_user) { user }
         let(:player) { { user_id: user.id } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PlayerDetails"
         OpenApi::Response.set_example_response_metadata
 
@@ -57,11 +62,9 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       end
 
       response(403, "forbidden") do
-        let(:user) { create(:user) }
-        let(:request_user) { create(:user) }
         let(:player) { { user_id: user.id } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -69,12 +72,10 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:user) { create(:user) }
-        let(:request_user) { create(:user) }
         let(:tournament_id) { "invalid" }
         let(:player) { { user_id: user.id} }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!
@@ -122,7 +123,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
           }
         end
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => "#/components/schemas/PlayerDetails"
         OpenApi::Response.set_example_response_metadata
@@ -141,7 +142,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(200, "successful") do
         let(:request_user) { tournament_player.user }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -150,7 +151,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
         let(:request_user) { tournament_player.user }
         let(:id) { "invalid" }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         OpenApi::Response.set_example_response_metadata
         run_test!

@@ -1,10 +1,10 @@
 require "swagger_helper"
-require_relative "../../../support/auth/clerk/token_verifier_mock"
+require_relative "../../../support/auth/token_verifier_mock"
 
 GAME_DETAIL_SCHEMA = "#/components/schemas/GameDetail".freeze
 
 RSpec.describe Api::V1::GamesController do
-  include Clerk::TokenVerifier::Mock
+  include Auth::TokenVerifier::Mock
 
   path("/games") do
     get("List Games") do
@@ -43,7 +43,7 @@ RSpec.describe Api::V1::GamesController do
         let(:request_user) { create(:admin) }
         let(:game) { { game: { name: "New Game" } } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => GAME_DETAIL_SCHEMA
 
         OpenApi::Response.set_example_response_metadata
@@ -55,7 +55,7 @@ RSpec.describe Api::V1::GamesController do
         let(:request_user) { create(:user) }
         let(:game) { { game: { name: "New Game" } } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -66,7 +66,7 @@ RSpec.describe Api::V1::GamesController do
         let(:request_user) { create(:admin) }
         let(:game) { { title: "", genre: "" } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -118,7 +118,7 @@ RSpec.describe Api::V1::GamesController do
 
         let(:game) { { game: { name: "Updated Game" } } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => GAME_DETAIL_SCHEMA
 
         OpenApi::Response.set_example_response_metadata
@@ -130,7 +130,7 @@ RSpec.describe Api::V1::GamesController do
         let(:request_user) { create(:user) }
         let(:game) { { game: { name: "Updated Game" } } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -142,7 +142,7 @@ RSpec.describe Api::V1::GamesController do
         let(:id) { "invalid" }
         let(:game) { { game: { name: "Updated Game" } } }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
 
@@ -161,7 +161,7 @@ RSpec.describe Api::V1::GamesController do
       response(200, "successful") do
         let(:request_user) { create(:admin) }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => "#/components/schemas/Message"
         OpenApi::Response.set_example_response_metadata
@@ -172,7 +172,7 @@ RSpec.describe Api::V1::GamesController do
       response(403, "forbidden") do
         let(:request_user) { create(:user) }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
 
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
@@ -184,7 +184,7 @@ RSpec.describe Api::V1::GamesController do
         let(:request_user) { create(:admin) }
         let(:id) { "invalid" }
 
-        include_context "with Clerk SDK Mock"
+        include_context "with Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
 
         run_test!
