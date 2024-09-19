@@ -3,7 +3,6 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
@@ -12,6 +11,7 @@ import {
 
 import BattleStadium from "@/components/battle-stadium";
 
+import NavbarLinks from "./navbar-links";
 import UserMenu from "./user-menu/user-menu";
 import Settings from "./settings";
 import Notifications from "./notifications";
@@ -26,37 +26,13 @@ export default function NavigationBar() {
         content: "w-full",
         item: "data-[active=true]:text-primary",
       }}
-      height="55px"
+      height="3.5rem"
     >
       <NavbarBrand>
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full px-4 md:flex" justify="start">
-        <NavbarItem>
-          <Link className="flex gap-2 text-inherit" href="/organizations">
-            Organizations
-          </Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Link className="flex gap-2 text-inherit" href="/tournaments">
-            Tournaments
-          </Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Link className="flex gap-2 text-inherit" href="/players">
-            Players
-          </Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Link className="flex gap-2 text-inherit" href="/analytics">
-            Analytics
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
+      <NavbarLinks />
 
       {/* Right Menu */}
       <NavbarContent className="ml-auto h-12 items-center gap-0" justify="end">
