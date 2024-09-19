@@ -1,3 +1,4 @@
+require "active_support/security_utils"
 require_relative "token_verifier"
 
 module Auth
@@ -75,16 +76,7 @@ module Auth
           version, signature = provided_signature.split(",", 2)
           return false unless version == "v1"
 
-          secure_compare(signature, calculated_signature)
-        end
-
-        def secure_compare(a, b)
-          return false if a.empty? || b.empty? || a.bytesize != b.bytesize
-          l = a.unpack "C#{a.bytesize}"
-
-          res = 0
-          b.each_byte { |byte| res |= byte ^ l.shift }
-          res == 0
+          ActiveSupport::SecurityUtils.secure_compare(signature, calculated_signature)
         end
       end
     end
