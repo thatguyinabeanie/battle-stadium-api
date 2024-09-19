@@ -17,6 +17,7 @@ module Auth
             allow_token_verification
           end
         end
+
         shared_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification" do
           before do
             allow_token_verification
