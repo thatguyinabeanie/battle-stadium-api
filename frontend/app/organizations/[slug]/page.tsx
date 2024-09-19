@@ -73,7 +73,7 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
   const tournaments = await getTournaments(params.slug);
 
   return (
-    <>
+    <div className="w-100 h-100">
       <Card isBlurred shadow="none">
         <CardBody className="flex flex-row justify-between rounded-3xl">
           {organizationLogo(organization)}
@@ -89,6 +89,6 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
       </Card>
 
       <TournamentsTable columns={columns} tournaments={tournaments} />
-    </>
+    </div>
   );
 }
