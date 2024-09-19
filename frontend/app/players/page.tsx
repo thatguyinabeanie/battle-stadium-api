@@ -1,4 +1,4 @@
-import { BattleStadiumAPI, components } from "@/lib/battle-stadium-api";
+import { BattleStadiumAPI, components } from "@/lib/api";
 import PlayersTable from "@/app/players/players-table";
 
 type User = components["schemas"]["User"];

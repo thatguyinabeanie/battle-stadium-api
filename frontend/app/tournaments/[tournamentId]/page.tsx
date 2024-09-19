@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
+import { BattleStadiumAPI } from "@/lib/api";
 
 export const revalidate = 300;
 export const dynamicParams = true;

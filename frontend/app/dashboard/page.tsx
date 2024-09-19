@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 
-import BattleStadiumAPI from "@/lib/battle-stadium-api/BattleStadiumAPI";
+import { BattleStadiumAPI } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Dashboard",

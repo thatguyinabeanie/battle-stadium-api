@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 
-import { BattleStadiumAPI } from "@/lib/battle-stadium-api";
+import { BattleStadiumAPI } from "@/lib/api";
 
 function getApiClient(shouldAuth = true) {
   if (shouldAuth) {

@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 
 import NewOrganizationCard from "@/components/organizations/new-organization-card";
 import { cn } from "@/lib/utils";
-import { components, BattleStadiumAPI } from "@/lib/battle-stadium-api";
+import { components, BattleStadiumAPI } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Organizations",

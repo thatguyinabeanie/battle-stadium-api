@@ -3,7 +3,7 @@
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Link } from "@nextui-org/react";
 import * as React from "react";
 
-import { components } from "@/lib/battle-stadium-api";
+import { components } from "@/lib/api";
 
 export interface TournamentsTableProps {
   columns: { key: string; label: string }[];

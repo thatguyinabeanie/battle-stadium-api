@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Image } from "@/components/client";
-import { components } from "@/lib/battle-stadium-api";
+import { components } from "@/lib/api";
 
 export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
   isLoading?: boolean;

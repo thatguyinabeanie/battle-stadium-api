@@ -1,4 +1,4 @@
-import type { paths } from "./openapi-v1.d";
+import type { paths } from "./openapi-v1";
 
 import createClient, { FetchOptions, Middleware } from "openapi-fetch";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
