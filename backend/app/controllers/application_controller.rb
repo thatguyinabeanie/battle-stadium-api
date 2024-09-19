@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   after_action :verify_authorized
-  before_action :authenticate_user!
+  before_action :authenticate_clerk_user_session!
   before_action :validate_vercel_oidc_token!
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_clerk_user_session!, only: %i[index show]
 
   def self.policy_class
     ::ApplicationPolicy
@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     ::Auth::Vercel::TokenVerifier.verify(request:)
   end
 
-  def authenticate_user!
+  def authenticate_clerk_user_session!
     @current_user = ::Auth::Clerk::Session.authenticate!(request:)
   rescue Auth::Clerk::TokenVerifier::InvalidSessionToken => e
     render json: { error: e.message }, status: :unauthorized
