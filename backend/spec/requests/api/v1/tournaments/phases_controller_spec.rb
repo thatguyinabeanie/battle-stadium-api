@@ -1,5 +1,5 @@
 require "swagger_helper"
-require_relative "../../../../support/auth/token_verifier_mock"
+require "support/auth/token_verifier_mock"
 
 PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
 PHASE_SWISS = "Phases::Swiss".freeze
@@ -19,6 +19,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
 
   path("/tournaments/{tournament_id}/phases") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the tournament", required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     get("List Tournament Phases") do
       tags "Phases"
@@ -97,6 +98,8 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
   path("/tournaments/{tournament_id}/phases/{id}") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the tournament", required: true
     parameter name: :id, in: :path, type: :integer, required: true, description: "ID of the Phase"
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
+
 
     let(:tournament) { create(:tournament) }
     let(:tournament_id) { tournament.id }

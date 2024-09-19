@@ -6,6 +6,7 @@ RSpec.describe Api::V1::TournamentsController do
   include Auth::TokenVerifier::Mock
 
   path("/tournaments") do
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
     get("List Tournaments") do
       tags "Tournaments"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -15,7 +16,9 @@ RSpec.describe Api::V1::TournamentsController do
       parameter name: :organization_id, in: :body, type: :integer, description: "ID of the Organization", required: false, schema: { type: :integer }
       parameter PAGE_PARAMETER
       parameter PER_PAGE_PARAMETER
+
       security [Bearer: []]
+
       response(200, "Successful") do
         let(:organizations) { create_list(:organization, 5) }
         let(:tournaments) { organizations.flat_map { |org| create_list(:tournament, 10, organization: org) } }
@@ -78,6 +81,7 @@ RSpec.describe Api::V1::TournamentsController do
 
   path("/tournaments/{id}") do
     parameter name: :id, in: :path, type: :integer, description: "ID of the Tournament", required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     let(:organization) { create(:organization) }
     let(:organization_id) { organization.id }

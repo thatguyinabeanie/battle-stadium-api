@@ -30,7 +30,9 @@ module Auth
           before do
             allow_vercel_token_verification
             allow_clerk_token_verification
-            request.headers["Authorization"] = "Bearer #{SecureRandom.alphanumeric(25)}, Bearer #{SecureRandom.alphanumeric(25)}"
+            request.headers["Authorization"] = "Bearer #{SecureRandom.alphanumeric(25)}"
+            request.headers["X-Vercel-OIDC-Token"] = SecureRandom.alphanumeric(25)
+
           end
         end
 

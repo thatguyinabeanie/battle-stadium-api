@@ -8,6 +8,8 @@ RSpec.describe Api::V1::UsersController do
   include Auth::TokenVerifier::Mock
 
   path("/users") do
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
+
     get("List Users") do
       tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -101,6 +103,8 @@ RSpec.describe Api::V1::UsersController do
   end
 
   path("/users/me") do
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
+
     get("Show Me") do
       tags "Users"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -135,6 +139,7 @@ RSpec.describe Api::V1::UsersController do
 
   path("/users/{username}") do
     parameter name: :username, in: :path, type: :string, description: "The user's username"
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     let(:existing_user)  { create(:user) }
     let(:username) { existing_user.username }

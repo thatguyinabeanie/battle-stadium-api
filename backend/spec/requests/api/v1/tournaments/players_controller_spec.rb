@@ -1,5 +1,5 @@
 require "swagger_helper"
-require_relative "../../../../support/auth/token_verifier_mock"
+require "support/auth/token_verifier_mock"
 RSpec.describe Api::V1::Tournaments::PlayersController do
   include Auth::TokenVerifier::Mock
 
@@ -10,6 +10,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
   path("/tournaments/{tournament_id}/players") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     get("List Tournament Players") do
       tags "Players"
@@ -83,6 +84,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
   path("/tournaments/{tournament_id}/players/{id}") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
     parameter name: :id, in: :path, type: :integer, description: "ID of the Player", required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     let(:tournament_player) { create(:player, tournament:) }
     let(:id) { tournament_player.user_id }
