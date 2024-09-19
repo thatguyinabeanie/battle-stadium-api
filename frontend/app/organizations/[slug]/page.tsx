@@ -89,12 +89,12 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
 
         <div
           className="absolute inset-0 blur-3xl scale-200 opacity-15"
-          style={ {
+          style={{
             backgroundImage: `url(${organization?.logo_url ?? "/pokemon/vgc.png"})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
             backdropFilter: "blur(10px)",
-          } }
+          }}
         />
       </Card>
 
