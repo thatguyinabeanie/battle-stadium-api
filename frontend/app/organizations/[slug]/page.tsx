@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { Card, CardBody, Image } from "@nextui-org/react";
+import { Card, CardBody, Image, Spacer } from "@nextui-org/react";
 
 import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI, components } from "@/lib/battle-stadium-api";
@@ -36,18 +36,6 @@ export async function generateStaticParams() {
   return (orgs ?? []).map((organization) => ({ slug: organization.slug }));
 }
 
-const organizationLogo = (
-  organization: components["schemas"]["Organization"] | undefined,
-  className: string | null = null,
-) => (
-  <Image
-    alt={organization?.name}
-    aria-label={organization?.name}
-    className={`aspect-square gap-3 h-[6.25rem] w-[6.25rem] md:h-[9.375rem] md:w-[9.375rem] lg:h-[12.5rem] lg:w-[12.5rem] ${className}`}
-    src={organization?.logo_url ?? "/pokemon/vgc.png"}
-  />
-);
-
 const columns = [
   {
     key: "start_at",
@@ -68,13 +56,25 @@ const columns = [
   },
 ];
 
+const organizationLogo = (
+  organization: components["schemas"]["Organization"] | undefined,
+  className: string | null = null,
+) => (
+  <Image
+    alt={organization?.name}
+    aria-label={organization?.name}
+    className={`aspect-square gap-3 h-[6.25rem] w-[6.25rem] md:h-[9.375rem] md:w-[9.375rem] lg:h-[12.5rem] lg:w-[12.5rem] ${className}`}
+    src={organization?.logo_url ?? "/pokemon/vgc.png"}
+  />
+);
+
 export default async function OrganizationDetailPage({ params }: { params: { slug: string } }) {
   const organization = await getOrganization(params.slug);
   const tournaments = await getTournaments(params.slug);
 
   return (
     <div className="w-100 h-100">
-      <Card isBlurred shadow="none">
+      <Card className="bg-transparent h-90 w-90 rounded-3xl" shadow="md">
         <CardBody className="flex flex-row justify-between rounded-3xl">
           {organizationLogo(organization)}
 
@@ -86,7 +86,19 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
 
           {organizationLogo(organization, "hidden sm:flex")}
         </CardBody>
+
+        <div
+          className="absolute inset-0 blur-3xl scale-200 opacity-15"
+          style={{
+            backgroundImage: `url(${organization?.logo_url ?? "/pokemon/vgc.png"})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backdropFilter: "blur(10px)",
+          }}
+        />
       </Card>
+
+      <Spacer y={4} />
 
       <TournamentsTable columns={columns} tournaments={tournaments} />
     </div>

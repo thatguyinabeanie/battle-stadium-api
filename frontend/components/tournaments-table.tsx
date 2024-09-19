@@ -60,7 +60,7 @@ const renderStartDateString = (start_at: string | null) => {
   return `${date} ${time}`;
 };
 
-const renderCell = async (row: components["schemas"]["Tournament"], columnKey: React.Key) => {
+const renderCell = (row: components["schemas"]["Tournament"], columnKey: React.Key) => {
   const { id, name, organization, start_at, player_count, player_cap } = row;
 
   switch (columnKey) {
@@ -81,7 +81,7 @@ const renderCell = async (row: components["schemas"]["Tournament"], columnKey: R
 
 const TournamentsTable = ({ tournaments, columns }: TournamentsTableProps) => {
   return (
-    <Table isStriped aria-label="list of tournaments" shadow="none">
+    <Table isHeaderSticky isStriped isVirtualized aria-label="list of tournaments" shadow="md">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>

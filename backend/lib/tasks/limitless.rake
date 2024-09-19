@@ -12,7 +12,7 @@ namespace :limitless do
     Dotenv.load(env_file) if File.exist?(env_file)
 
     access_key = ENV.fetch('LIMITLESS_API_KEY')
-    limit = args[:limit] || 50000
+    limit = args[:limit] || 1000
 
     base_url = "https://play.limitlesstcg.com/api"
 
@@ -72,8 +72,9 @@ namespace :limitless do
 
       if org.logo_url.nil? && !organizer_data['logo_url'].nil?
         org.logo_url = organizer_data['logo_url']
-        org.save
       end
+
+      org.save
 
       puts "Processing Tournaments for organizer: #{organizer_data['name']} (ID: #{id})"
       organizer_data['tournaments'].each do |tournament_data|
@@ -82,18 +83,14 @@ namespace :limitless do
         organization_id = org.id
         limitless_id = tournament_data['id']
         begin
-          ::Tournaments::Tournament.find_or_create_by!(limitless_id:, name: , start_at:, organization_id:) do |tour|
+          ::Tournaments::Tournament.find_or_create_by!(limitless_id:) do |tour|
+            tour.name = name
+            tour.start_at = start_at
+            tour.organization_id = organization_id
             tour.game_id= tournament_data['bs_game_id']
             tour.format_id =tournament_data['bs_format_id']
             tour.check_in_start_at = tour.start_at - 1.hour
           end
-        rescue ActiveRecord::RecordInvalid => e
-          errors << {
-            type: 'already_processed',
-            id: tournament_data['id'],
-            data: tournament_data,
-            error: e.message
-          }
         rescue StandardError => e
           errors << {
             type: 'shrug',
