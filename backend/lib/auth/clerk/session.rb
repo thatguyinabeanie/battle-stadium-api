@@ -20,9 +20,11 @@ module Auth
             u.last_name = session["lastName"]
           end
 
-          user.clerk_users << ClerkUser.find_or_create_by!(clerk_user_id: session["userId"], user:)
-          user.save!
-          [user, nil]
+          ActiveRecord::Base.transaction do
+            user.clerk_users << ClerkUser.find_or_create_by!(clerk_user_id: session["userId"], user:)
+            user.save!
+          end
+          user
         end
       end
     end
