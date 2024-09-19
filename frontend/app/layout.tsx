@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import NavigationBar from "@/components/navbar/navbar";
 import Providers from "@/components/providers";
+import AwesomeParticles from "@/components/awesome-particles";
 
 export const metadata: Metadata = {
   title: {
@@ -37,6 +38,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <head />
         <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-y-scroll")}>
           <Providers>
+            <AwesomeParticles />
             <div className="flex flex-col w-full h-full">
               <NavigationBar />
               <main className="flex h-full w-full z-10">

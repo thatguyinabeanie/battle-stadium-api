@@ -1,9 +1,8 @@
 import type { paths } from "./openapi-v1.d";
 
-import createClient, { FetchOptions } from "openapi-fetch";
+import createClient, { FetchOptions, Middleware } from "openapi-fetch";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
 export const CACHE_TIMEOUT: number = 300;
-import { Middleware } from "openapi-fetch";
 export type Auth = ReturnType<typeof clerkAuth>;
 
 const getBaseUrl = () => {

@@ -3,7 +3,7 @@ class RemoveSlugFromTables < ActiveRecord::Migration[7.1]
     remove_column :games, :slug, :string
     remove_column :organizations, :slug, :string
     remove_column :users, :slug, :string
-    drop_table :friendly_id_slugs
+    drop_table :friendly_id_slugs if table_exists?(:friendly_id_slugs)
   end
 
   def down
