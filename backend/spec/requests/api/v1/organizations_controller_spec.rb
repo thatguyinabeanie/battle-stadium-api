@@ -1,5 +1,5 @@
 require "swagger_helper"
-require_relative "support/auth/token_verifier_mock"
+require "support/auth/token_verifier_mock"
 
 ORGANIZATION_DETAIL_SCHEMA = "#/components/schemas/Organization".freeze
 DESCRIPTION = "the bomb dot com".freeze
@@ -12,6 +12,7 @@ RSpec.describe Api::V1::OrganizationsController do
   let(:slug) { org.slug }
 
   path("/organizations") do
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
     get("List Organizations") do
       tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE
@@ -54,7 +55,6 @@ RSpec.describe Api::V1::OrganizationsController do
       operationId "postOrganization"
 
       parameter name: :organization, required: true, in: :body, schema: { "$ref" => "#/components/schemas/Organization" }
-
       security [Bearer: []]
 
       response(201, "created") do
@@ -95,6 +95,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
   path("/organizations/{slug}") do
     parameter name: :slug, in: :path, type: :string, required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     get("Show Organization") do
       tags "Organizations"
@@ -129,7 +130,6 @@ RSpec.describe Api::V1::OrganizationsController do
       operationId "patchOrganization"
 
       parameter name: :organization, in: :body, schema: { "$ref" => "#/components/schemas/Organization" }
-
       security [Bearer: []]
 
       response(200, "successful") do
@@ -174,7 +174,6 @@ RSpec.describe Api::V1::OrganizationsController do
       operationId "deleteOrganization"
 
       security [Bearer: []]
-
       response(200, "Organization deleted") do
         let(:request_user) { create(:admin) }
 
@@ -208,13 +207,14 @@ RSpec.describe Api::V1::OrganizationsController do
 
   path("/organizations/{slug}/staff") do
     parameter name: :slug, in: :path, type: :string, required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
+
 
     get("List Organization Staff") do
       tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       description "Retrieves a list of staff members for a specific organization."
       operationId "listOrganizationStaff"
-
       security [Bearer: []]
       response(200, "successful") do
         include_context "with Request Specs - Vercel OIDC Token Verification"
@@ -237,6 +237,8 @@ RSpec.describe Api::V1::OrganizationsController do
 
   path("/organizations/{slug}/tournaments") do
     parameter name: :slug, in: :path, type: :string, required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
+
 
     get("List Organization Tournaments") do
       tags "Organizations"
@@ -317,6 +319,7 @@ RSpec.describe Api::V1::OrganizationsController do
   path("/organizations/{slug}/tournaments/{tournament_id}") do
     parameter name: :slug, in: :path, type: :string, required: true
     parameter name: :tournament_id, in: :path, type: :integer, required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     let(:tour) { create(:tournament, organization: org) }
     let(:tournament_id) { tour.id }
