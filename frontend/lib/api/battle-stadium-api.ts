@@ -27,10 +27,10 @@ const authMiddleware = (clerkAuth?: Auth): Middleware => {
       if (clerkAuth && clerkAuth.sessionId) {
         const token = await clerkAuth.getToken();
 
-        request.headers.set("Authorization", `Bearer ${vercelOidcToken}, Bearer ${token}`);
-      } else {
-        request.headers.set("Authorization", `Bearer ${vercelOidcToken}`);
+        request.headers.set("Authorization", `Bearer ${token}`);
       }
+
+      request.headers.set("X-Vercel-OIDC-Token", `${vercelOidcToken}`);
 
       return request;
     },

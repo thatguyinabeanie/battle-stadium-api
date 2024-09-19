@@ -16,8 +16,7 @@ module Auth
         @jwks_cache = nil
 
         def verify(request:)
-          token = request.headers["Authorization"]&.split(",")&.first.split("Bearer ")&.last
-
+          token = request.headers["X-Vercel-OIDC-Token"]
           raise NoAuthorizationHeader, "Authorization header missing or malformed" unless token
 
           verify_token(token:)

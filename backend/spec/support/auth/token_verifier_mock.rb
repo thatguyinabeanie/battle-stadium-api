@@ -10,7 +10,8 @@ module Auth
       included do
 
         let(:request_user) { create(:user) }
-        let(:Authorization) { "Bearer #{SecureRandom.alphanumeric(25)}, Bearer #{SecureRandom.alphanumeric(25)}" }
+        let(:Authorization) { "Bearer #{SecureRandom.alphanumeric(25)}" }
+        let("X-Vercel-OIDC-Token") { SecureRandom.alphanumeric(25) }
 
         shared_context "with Request Specs - Vercel OIDC Token Verification" do
           before do

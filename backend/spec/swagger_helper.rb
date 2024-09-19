@@ -448,6 +448,15 @@ PAGINATION_RESPONSE = {
   required: %w[current_page next_page prev_page total_pages total_count]
 }
 
+
+VERCEL_TOKEN_HEADER_PARAMETER = {
+  name: "X-Vercel-OIDC-Token",
+  in: :header,
+  type: :string,
+  required: true,
+  description: "Vercel OIDC Token"
+}
+
 RSpec.configure do |config|
   # config.include SwaggerHelper
   # Specify a root folder where Swagger JSON files are generated
@@ -499,7 +508,8 @@ RSpec.configure do |config|
 
         parameters: {
           Page: PAGE_PARAMETER,
-          PerPage: PER_PAGE_PARAMETER
+          PerPage: PER_PAGE_PARAMETER,
+          VercelTokenHeader: VERCEL_TOKEN_HEADER_PARAMETER
         },
 
         schemas: {

@@ -14,6 +14,9 @@ RSpec.describe Api::V1::GamesController do
       operationId "listGames"
 
       security [Bearer: []]
+
+      parameter VERCEL_TOKEN_HEADER_PARAMETER
+
       response(200, "successful") do
         include_context "with Request Specs - Vercel OIDC Token Verification"
 
@@ -39,6 +42,7 @@ RSpec.describe Api::V1::GamesController do
       operationId "postGame"
 
       parameter name: :game, in: :body, schema: { "$ref" => "#/components/schemas/Game" }
+      parameter VERCEL_TOKEN_HEADER_PARAMETER
 
       security [Bearer: []]
 
@@ -79,8 +83,9 @@ RSpec.describe Api::V1::GamesController do
   end
 
   path("/games/{id}") do
-    # You'll want to customize the parameter types...
     parameter name: :id, in: :path, type: :integer, description: "ID of the game", required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
+
     let(:test_game) { create(:game, name: "Test Game") }
     let(:id) { test_game.id }
 
@@ -89,6 +94,8 @@ RSpec.describe Api::V1::GamesController do
       produces OpenApi::Response::JSON_CONTENT_TYPE
       description "Retrieves a specific game by ID."
       operationId "getGame"
+
+      parameter VERCEL_TOKEN_HEADER_PARAMETER
 
       security [Bearer: []]
 
@@ -117,7 +124,7 @@ RSpec.describe Api::V1::GamesController do
       operationId "patchGame"
 
       parameter name: :game, in: :body, schema: { "$ref" => "#/components/schemas/Game" }
-
+      parameter VERCEL_TOKEN_HEADER_PARAMETER
       security [Bearer: []]
 
       response(200, "successful") do
@@ -164,7 +171,7 @@ RSpec.describe Api::V1::GamesController do
       operationId "deleteGame"
 
       security [Bearer: []]
-
+      parameter VERCEL_TOKEN_HEADER_PARAMETER
       response(200, "successful") do
         let(:request_user) { create(:admin) }
 
