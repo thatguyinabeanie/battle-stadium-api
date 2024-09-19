@@ -24,7 +24,7 @@ const authMiddleware = (clerkAuth?: Auth): Middleware => {
     async onRequest({ request }) {
       const vercelOidcToken = await getVercelOidcToken();
 
-      if (clerkAuth && clerkAuth.sessionId) {
+      if (clerkAuth?.sessionId) {
         const token = await clerkAuth.getToken();
 
         request.headers.set("Authorization", `Bearer ${token}`);
