@@ -1,10 +1,10 @@
 import React from "react";
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs/server";
 
 import NewOrganizationCard from "@/components/organizations/new-organization-card";
 import { cn } from "@/lib/utils";
-import { components, BattleStadiumAPI } from "@/lib/api";
+import { components } from "@/lib/api";
+import { getOrganizations } from "../data/actions";
 
 export const metadata: Metadata = {
   title: "Organizations",
@@ -14,12 +14,8 @@ export interface OrganizationsPageProps {
   orgs: Array<components["schemas"]["OrganizationDetails"]>;
 }
 
-async function getOrgs(_page?: number, _per_page?: number, _partner?: boolean) {
-  return (await BattleStadiumAPI(auth()).Organizations.list()).data?.data;
-}
-
 export default async function OrganizationsPage() {
-  const allOrgs = await getOrgs();
+  const allOrgs = await getOrganizations();
 
   const partnerOrgs = (allOrgs || [])?.filter((org) => org.partner);
   const nonPartnerOrgs = (allOrgs || [])?.filter((org) => !org.partner);

@@ -1,5 +1,4 @@
-import { getTournament } from "@/app/data/actions";
-import { BattleStadiumAPI } from "@/lib/api";
+import { getTournament, getTournaments } from "@/app/data/actions";
 import { Card, CardBody, Spacer } from "@nextui-org/react";
 
 export const revalidate = 300;
@@ -12,9 +11,9 @@ export async function generateMetadata({ params }: { params: { tournamentId: num
 }
 
 export async function generateStaticParams() {
-  const response = await BattleStadiumAPI().Tournaments.list();
+  const tournaments = await getTournaments();
 
-  return (response?.data?.data ?? []).map((tournament) => ({ tournamentId: tournament.id.toString() }));
+  return tournaments.map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }
 
 export default async function Tournament({ params }: Readonly<{ params: { tournamentId: string } }>) {
