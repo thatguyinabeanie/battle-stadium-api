@@ -56,7 +56,7 @@ export default async function NavbarLinks() {
         })}
         path="admin"
       >
-        <Link className="flex gap-2 text-inherit" href="/settings">
+        <Link className="flex gap-2 text-inherit" href="/admin">
           Admin
         </Link>
       </NavbarClientItem>
