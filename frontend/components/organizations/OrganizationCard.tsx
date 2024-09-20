@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Image } from "@/components/client";
+import { Image } from "@nextui-org/react";
 import { components } from "@/lib/api";
 
 export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {

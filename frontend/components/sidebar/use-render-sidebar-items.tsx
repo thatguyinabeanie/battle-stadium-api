@@ -12,11 +12,9 @@ import {
 import React from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { usePathname } from "next/navigation";
-import { IconifyIcon } from "@iconify/react/dist/iconify.js";
+import { Icon, IconifyIcon } from "@iconify/react/dist/iconify.js";
 
 import { cn } from "@/lib/utils";
-
-import { Icon } from "../client";
 
 import { SidebarItem, SidebarItemType, SidebarProps } from "./sidebar";
 import useSideBarItems from "./useSideBarItems";

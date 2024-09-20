@@ -1,4 +1,4 @@
-import { Skeleton } from "../client";
+import { Skeleton } from "@nextui-org/react";
 
 export default function LoadingPlaceholder() {
   return (

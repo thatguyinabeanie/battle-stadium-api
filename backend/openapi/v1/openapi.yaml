@@ -1101,8 +1101,11 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Organization"
+        admin:
+          type: boolean
       required:
       - organizations
+      - admin
       - id
       - email
       - first_name
