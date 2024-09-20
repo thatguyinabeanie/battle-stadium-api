@@ -8,11 +8,11 @@ export const metadata: Metadata = {
   title: "Admin",
 };
 
-async function getMe () {
+async function getMe() {
   return (await BattleStadiumAPI(auth()).Users.me()).data;
 }
 
-export default async function Admin () {
+export default async function Admin() {
   const authObj = auth();
 
   if (!!authObj.sessionId) {
@@ -32,4 +32,4 @@ export default async function Admin () {
       </Text>
     </div>
   );
-};
+}
