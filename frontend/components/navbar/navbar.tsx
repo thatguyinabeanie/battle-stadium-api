@@ -32,7 +32,9 @@ export default function NavigationBar() {
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarLinks />
+      <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full px-4 md:flex" justify="start">
+        <NavbarLinks />
+      </NavbarContent>
 
       {/* Right Menu */}
       <NavbarContent className="ml-auto h-12 items-center gap-0" justify="end">

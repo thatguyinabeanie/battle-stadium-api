@@ -22,15 +22,13 @@ export interface PaginationParams {
 const authMiddleware = (clerkAuth?: Auth): Middleware => {
   const openapiFetchMiddleware: Middleware = {
     async onRequest({ request }) {
-      const vercelOidcToken = await getVercelOidcToken();
-
       if (clerkAuth?.sessionId) {
         const token = await clerkAuth.getToken();
 
         request.headers.set("Authorization", `Bearer ${token}`);
       }
 
-      request.headers.set("X-Vercel-OIDC-Token", `${vercelOidcToken}`);
+      request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
 
       return request;
     },

@@ -16,9 +16,10 @@ export default function NavbarClientItem({
   ...rest
 }: Readonly<NavbarItemClientProps & NavbarItemProps>) {
   const pathname = usePathname();
+  const firstSegment = pathname.split("/")[1];
 
   return (
-    <NavbarItem {...rest} className={className} isActive={pathname.includes(path)}>
+    <NavbarItem {...rest} className={className} isActive={firstSegment?.includes(path)}>
       {children}
     </NavbarItem>
   );

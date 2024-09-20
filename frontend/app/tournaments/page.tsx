@@ -51,7 +51,7 @@ const Tournaments = async () => {
         <CardHeader>Upcoming Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the upcoming tournaments.</p>
-          <TournamentsTable columns={columns} tournaments={upcomingTours} />
+          <TournamentsTable columns={columns} data={upcomingTours} />
         </CardBody>
       </Card>
 
@@ -59,7 +59,7 @@ const Tournaments = async () => {
         <CardHeader>Past Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the past tournaments.</p>
-          <TournamentsTable columns={columns} tournaments={pastTours} />
+          <TournamentsTable columns={columns} data={pastTours} />
         </CardBody>
       </Card>
     </div>
