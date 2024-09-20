@@ -1,17 +1,16 @@
 import React from "react";
-import { NavbarContent, Link, cn } from "@nextui-org/react";
+import { NavbarContent, Link } from "@nextui-org/react";
 import { auth } from "@clerk/nextjs/server";
 import { BattleStadiumAPI } from "@/lib/api";
 import NavbarClientItem from "@/components/navbar/navbar-client-item";
+import { cn } from "@/lib/utils";
 
 async function getMe() {
-  "use server";
-
   return (await BattleStadiumAPI(auth()).Users.me()).data;
 }
 
 export default async function NavbarLinks() {
-  const { sessionId } = await auth();
+  const { sessionId } = auth();
   const me = sessionId ? await getMe() : null;
 
   return (
