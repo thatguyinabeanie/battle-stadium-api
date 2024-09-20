@@ -1,19 +1,11 @@
-import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody, Image, Spacer } from "@nextui-org/react";
 
-import { BattleStadiumAPI, components } from "@/lib/api";
+import { components } from "@/lib/api";
 import TournamentsTable from "@/components/tournaments-table";
+import { getOrganization, getOrganizations, getOrganizationTournaments } from "@/app/data/actions";
 
 export const revalidate = 200;
 export const dynamicParams = true;
-
-function getApiClient(shouldAuth = true) {
-  if (shouldAuth) {
-    return BattleStadiumAPI(auth());
-  }
-
-  return BattleStadiumAPI();
-}
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const org = await getOrganization(params.slug);
@@ -21,19 +13,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return { title: org?.name ?? "Organization" };
 }
 
-async function getOrganization(slug: string) {
-  return (await getApiClient().Organizations.get(slug)).data;
-}
-
-async function getTournaments(slug: string): Promise<components["schemas"]["Tournament"][] | undefined> {
-  return (await getApiClient().Organizations.Tournaments.list(slug)).data;
-}
-
 export async function generateStaticParams() {
-  const response = await getApiClient(false).Organizations.list();
-  const orgs = response.data?.data;
+  const orgs = (await getOrganizations())?.data ?? [];
 
-  return (orgs ?? []).map((organization) => ({ slug: organization.slug }));
+  return orgs.map((organization) => ({ slug: organization.slug }));
 }
 
 const columns = [
@@ -70,7 +53,7 @@ const organizationLogo = (
 
 export default async function OrganizationDetailPage({ params }: { params: { slug: string } }) {
   const organization = await getOrganization(params.slug);
-  const tournaments = await getTournaments(params.slug);
+  const tournaments = await getOrganizationTournaments(params.slug);
 
   return (
     <div className="w-100 h-100">

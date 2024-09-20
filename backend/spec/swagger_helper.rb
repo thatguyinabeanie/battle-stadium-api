@@ -449,7 +449,6 @@ PAGINATION_RESPONSE = {
   required: %w[current_page next_page prev_page total_pages total_count]
 }
 
-
 VERCEL_TOKEN_HEADER_PARAMETER = {
   name: "X-Vercel-OIDC-Token",
   in: :header,
