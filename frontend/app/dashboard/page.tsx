@@ -1,15 +1,9 @@
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs/server";
-
-import { BattleStadiumAPI } from "@/lib/api";
+import { getMe } from "@/app/data/actions";
 
 export const metadata: Metadata = {
   title: "Dashboard",
 };
-
-async function getMe() {
-  return (await BattleStadiumAPI(auth()).Users.me()).data;
-}
 
 export default async function Dashboard() {
   const me = await getMe();
