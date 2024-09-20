@@ -8,7 +8,7 @@ import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 const getBaseUrl = () => {
   if (process.env.NODE_ENV === "production" && process.env.PROD_API_BASE_URL) {
-    return `${process.env.API_BASE_URL}/api/v1`;
+    return `${process.env.PROD_API_BASE_URL}/api/v1`;
   }
 
   return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
