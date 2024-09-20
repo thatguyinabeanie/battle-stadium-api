@@ -1,44 +1,47 @@
 "use server";
 
-import { Auth, paths } from "@/lib/api";
-import createBattleStadiumApiClient from "@/lib/api/client";
-import { auth } from "@clerk/nextjs/server";
-import { FetchOptions } from "openapi-fetch";
+import { paths } from "@/lib/api";
+import createClient, { Middleware, FetchOptions } from "openapi-fetch";
+import { auth as clerkAuth } from "@clerk/nextjs/server";
+import { getVercelOidcToken } from "@vercel/functions/oidc";
 
-export async function getMe() {
-  return (await BattleStadiumAPI(auth()).Users.me()).data;
+export type Auth = ReturnType<typeof clerkAuth>;
+export const CACHE_TIMEOUT: number = 300;
+
+export async function getMe(auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Users.me()).data;
 }
 
-export async function getTournament(tournamentId: number) {
-  return (await BattleStadiumAPI(auth()).Tournaments.get(tournamentId)).data;
+export async function getTournament(tournamentId: number, auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Tournaments.get(tournamentId)).data;
 }
 
-export async function getTournaments() {
-  return (await BattleStadiumAPI(auth()).Tournaments.list()).data?.data ?? [];
+export async function getTournaments(auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Tournaments.list()).data?.data ?? [];
 }
 
-export async function getOrganizations() {
-  return (await BattleStadiumAPI(auth()).Organizations.list()).data?.data ?? [];
+export async function getOrganizations(auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Organizations.list()).data?.data ?? [];
 }
 
-export async function getOrganization(slug: string) {
-  return (await BattleStadiumAPI(auth()).Organizations.get(slug)).data;
+export async function getOrganization(slug: string, auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Organizations.get(slug)).data;
 }
 
-export async function getOrganizationTournaments(slug: string) {
-  return (await BattleStadiumAPI(auth()).Organizations.Tournaments.list(slug)).data;
+export async function getOrganizationTournaments(slug: string, auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Organizations.Tournaments.list(slug)).data;
 }
 
-export async function getUser(username: string) {
-  return (await BattleStadiumAPI(auth()).Users.get(username)).data;
+export async function getUser(username: string, auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Users.get(username)).data;
 }
 
-export async function getUsers() {
-  return (await BattleStadiumAPI(auth()).Users.list()).data ?? [];
+export async function getUsers(auth?: Auth) {
+  return (await BattleStadiumAPI(auth).Users.list()).data ?? [];
 }
 
 function BattleStadiumAPI(auth?: Auth) {
-  const { client, nextConfig } = createBattleStadiumApiClient(auth);
+  const client = createBattleStadiumApiClient(auth);
 
   return {
     client,
@@ -111,4 +114,45 @@ function BattleStadiumAPI(auth?: Auth) {
       },
     },
   };
+}
+
+function getBaseUrl() {
+  if (process.env.NODE_ENV === "production" && process.env.PROD_API_BASE_URL) {
+    return `${process.env.PROD_API_BASE_URL}/api/v1`;
+  }
+
+  return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
+}
+
+function authHeadersMiddleware(auth?: Auth): Middleware {
+  const openapiFetchMiddleware: Middleware = {
+    async onRequest({ request }) {
+      if (auth?.sessionId) {
+        const token = await auth.getToken();
+
+        request.headers.set("Authorization", `Bearer ${token}`);
+      }
+
+      request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
+
+      return request;
+    },
+  };
+
+  return openapiFetchMiddleware;
+}
+
+function nextConfig(tag: string, revalidate?: number) {
+  return {
+    next: { tags: [tag], revalidate: revalidate ?? CACHE_TIMEOUT },
+  };
+}
+
+function createBattleStadiumApiClient(auth?: Auth) {
+  const baseUrl = getBaseUrl();
+  const client = createClient<paths>({ baseUrl });
+
+  client.use(authHeadersMiddleware(auth));
+
+  return client;
 }
