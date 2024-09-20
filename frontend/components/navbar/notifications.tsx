@@ -2,8 +2,7 @@ import { NavbarItem, Popover, PopoverTrigger, Button, Badge, PopoverContent } fr
 import { auth } from "@clerk/nextjs/server";
 
 import { cn } from "@/lib";
-
-import { Icon } from "../client";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Notifications() {
   const { sessionId } = auth();

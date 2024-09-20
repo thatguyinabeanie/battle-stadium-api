@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import { AvatarProps } from "@nextui-org/react";
+import { Avatar, AvatarIcon, AvatarProps, Link } from "@nextui-org/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useUser } from "@clerk/nextjs";
 
-import { Avatar, AvatarIcon, Link } from "@/components/client";
 import { cn } from "@/lib/utils";
 
 function DefaultAvatar({ classNames, className, name, ...props }: Readonly<AvatarProps>) {
