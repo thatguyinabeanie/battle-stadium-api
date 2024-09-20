@@ -1,7 +1,6 @@
 import { Link } from "@nextui-org/react";
 
 import { components } from "@/lib/api";
-import { format, parseISO } from "date-fns";
 
 type Tournament = components["schemas"]["Tournament"];
 
@@ -53,8 +52,16 @@ const renderStartDateString = (start_at: string | null) => {
     return "TBD";
   }
 
-  const startAt = parseISO(start_at);
-  const date = format(startAt, "MMM d, yyyy h:mm a");
+  const startAt = new Date(start_at);
+  const date = startAt.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: "UTC",
+  });
 
   return date;
 };
