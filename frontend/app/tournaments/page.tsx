@@ -45,8 +45,6 @@ const Tournaments = async () => {
   const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);
   const upcomingTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) >= rightNow);
 
-  console.log(pastTours, upcomingTours);
-
   return (
     <div className="pb-4">
       <Card className="my-2 bg-transparent" shadow="none">
