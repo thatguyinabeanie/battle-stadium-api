@@ -5,8 +5,8 @@ import createClient, { Middleware, FetchOptions } from "openapi-fetch";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
 import { getVercelOidcToken } from "@vercel/functions/oidc";
 
-export type Auth = ReturnType<typeof clerkAuth>;
-export const CACHE_TIMEOUT: number = 300;
+type Auth = ReturnType<typeof clerkAuth>;
+const CACHE_TIMEOUT: number = 300;
 
 export async function getMe(auth?: Auth) {
   return (await BattleStadiumAPI(auth).Users.me()).data;
