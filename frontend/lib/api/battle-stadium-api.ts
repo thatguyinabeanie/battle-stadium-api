@@ -7,7 +7,7 @@ export type Auth = ReturnType<typeof clerkAuth>;
 import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 const getBaseUrl = () => {
-  if (process.env.NODE_ENV === "production" && process.env.API_BASE_URL) {
+  if (process.env.NODE_ENV === "production" && process.env.PROD_API_BASE_URL) {
     return `${process.env.API_BASE_URL}/api/v1`;
   }
 
