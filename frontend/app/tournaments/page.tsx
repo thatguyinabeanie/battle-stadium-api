@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 
 import React from "react";
-import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 
 import TournamentsTable from "@/components/tournaments-table";
-import { BattleStadiumAPI } from "@/lib/api";
+import { getTournaments } from "../data/actions";
 
 export const metadata: Metadata = {
   title: "Tournaments",
 };
-
-async function listTournaments() {
-  return (await BattleStadiumAPI(auth()).Tournaments.list(0, 300)).data?.data ?? [];
-}
 
 const columns: { key: string; label: string }[] = [
   {
@@ -39,7 +34,7 @@ const columns: { key: string; label: string }[] = [
 ];
 
 const Tournaments = async () => {
-  const tours = await listTournaments();
+  const tours = await getTournaments();
 
   const rightNow = new Date();
   const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);

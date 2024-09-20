@@ -1,2 +1,3 @@
 export * from "./openapi-v1.d";
-export * from "./battle-stadium-api";
+export * from "./client";
+export type { Auth } from "./client";

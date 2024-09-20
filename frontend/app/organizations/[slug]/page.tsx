@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export async function generateStaticParams() {
-  const orgs = (await getOrganizations())?.data ?? [];
+  const orgs = await getOrganizations();
 
   return orgs.map((organization) => ({ slug: organization.slug }));
 }
