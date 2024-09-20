@@ -27,6 +27,7 @@ module Serializers
   class UserMe < ActiveModel::Serializer
     include UserDetailsMixin
     attribute :organizations
+    attributes :admin
 
     def organizations
       owned_organization = object.owned_organization

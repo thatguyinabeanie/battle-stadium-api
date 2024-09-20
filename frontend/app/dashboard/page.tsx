@@ -8,16 +8,11 @@ export const metadata: Metadata = {
 };
 
 async function getMe() {
-  return await BattleStadiumAPI(auth()).Users.me({
-    next: {
-      revalidate: 60 * 60,
-      tags: ["users/me"],
-    },
-  });
+  return (await BattleStadiumAPI(auth()).Users.me()).data;
 }
 
 export default async function Dashboard() {
-  const { data: me } = await getMe();
+  const me = await getMe();
 
   if (me) {
     return (

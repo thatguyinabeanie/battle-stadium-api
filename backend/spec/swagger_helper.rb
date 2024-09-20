@@ -99,9 +99,10 @@ USER_ME = USER_DETAILS_SCHEMA.deep_merge(
     type: :object,
     title: "User Me",
     properties: {
-      organizations: { type: :array, items: { "$ref" => COMPONENT_SCHEMA_ORGANIZATION } }
+      organizations: { type: :array, items: { "$ref" => COMPONENT_SCHEMA_ORGANIZATION } },
+      admin: { type: :boolean }
     },
-    required: %w[organizations] + USER_DETAILS_SCHEMA[:required]
+    required: %w[organizations admin] + USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
 

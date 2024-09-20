@@ -514,6 +514,7 @@ export interface components {
       /** Format: uuid */
       id: string;
       organizations: components["schemas"]["Organization"][];
+      admin: boolean;
     };
     /** User Request */
     UserPostRequest: {
