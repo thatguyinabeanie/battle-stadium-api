@@ -1,5 +1,5 @@
 import React from "react";
-import { NavbarContent, Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 import { auth } from "@clerk/nextjs/server";
 import { BattleStadiumAPI } from "@/lib/api";
 import NavbarClientItem from "@/components/navbar/navbar-client-item";
@@ -14,7 +14,7 @@ export default async function NavbarLinks() {
   const me = sessionId ? await getMe() : null;
 
   return (
-    <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full px-4 md:flex" justify="start">
+    <>
       <NavbarClientItem path="organizations">
         <Link className="flex gap-2 text-inherit" href="/organizations">
           Organizations
@@ -60,6 +60,6 @@ export default async function NavbarLinks() {
           Admin
         </Link>
       </NavbarClientItem>
-    </NavbarContent>
+    </>
   );
 }

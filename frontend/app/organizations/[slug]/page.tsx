@@ -1,8 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody, Image, Spacer } from "@nextui-org/react";
 
-import TournamentsTable from "@/components/tournaments-table";
 import { BattleStadiumAPI, components } from "@/lib/api";
+import TournamentsTable from "@/components/tournaments-table";
 
 export const revalidate = 200;
 export const dynamicParams = true;
@@ -25,7 +25,7 @@ async function getOrganization(slug: string) {
   return (await getApiClient().Organizations.get(slug)).data;
 }
 
-async function getTournaments(slug: string) {
+async function getTournaments(slug: string): Promise<components["schemas"]["Tournament"][] | undefined> {
   return (await getApiClient().Organizations.Tournaments.list(slug)).data;
 }
 
@@ -100,7 +100,7 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
 
       <Spacer y={4} />
 
-      <TournamentsTable columns={columns} tournaments={tournaments} />
+      <TournamentsTable columns={columns} data={tournaments} />
     </div>
   );
 }

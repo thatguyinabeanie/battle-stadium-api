@@ -45,13 +45,15 @@ const Tournaments = async () => {
   const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);
   const upcomingTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) >= rightNow);
 
+  console.log(pastTours, upcomingTours);
+
   return (
     <div className="pb-4">
       <Card className="my-2 bg-transparent" shadow="none">
         <CardHeader>Upcoming Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the upcoming tournaments.</p>
-          <TournamentsTable columns={columns} tournaments={upcomingTours} />
+          <TournamentsTable columns={columns} data={upcomingTours} />
         </CardBody>
       </Card>
 
@@ -59,7 +61,7 @@ const Tournaments = async () => {
         <CardHeader>Past Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the past tournaments.</p>
-          <TournamentsTable columns={columns} tournaments={pastTours} />
+          <TournamentsTable columns={columns} data={pastTours} />
         </CardBody>
       </Card>
     </div>
