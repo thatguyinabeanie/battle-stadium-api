@@ -225,7 +225,7 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     pundit (2.4.0)
       activesupport (>= 3.0.0)
@@ -527,7 +527,7 @@ DEPENDENCIES
   openssl (~> 3.2)
   parallel (~> 1.26)
   pg (~> 1.5.7)
-  puma (~> 6.0)
+  puma (~> 6.4)
   pundit
   rack-attack (~> 6)
   rack-cors (~> 2)
