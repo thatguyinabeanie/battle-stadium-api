@@ -13,9 +13,7 @@ async function getMe() {
 }
 
 export default async function Admin() {
-  const authObj = auth();
-
-  if (!!authObj.sessionId) {
+  if (auth().sessionId) {
     return redirect("/sign-in");
   }
 
