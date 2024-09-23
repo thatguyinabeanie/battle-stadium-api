@@ -5,13 +5,13 @@ export const revalidate = 300;
 export const dynamicParams = true;
 
 export async function generateMetadata({ params }: { params: { tournamentId: number } }) {
-  const tournament = await getTournament(params.tournamentId);
+  const tournament = (await getTournament(params.tournamentId)).data;
 
   return { title: tournament?.name ?? "Tournament" };
 }
 
 export async function generateStaticParams() {
-  const tournaments = await getTournaments();
+  const tournaments = (await getTournaments()).data?.data ?? [];
 
   return tournaments.map((tournament) => ({ tournamentId: tournament.id.toString() }));
 }

@@ -15,7 +15,7 @@ export interface OrganizationsPageProps {
 }
 
 export default async function OrganizationsPage() {
-  const allOrgs = await getOrganizations();
+  const allOrgs = (await getOrganizations()).data?.data;
 
   const partnerOrgs = (allOrgs || [])?.filter((org) => org.partner);
   const nonPartnerOrgs = (allOrgs || [])?.filter((org) => !org.partner);

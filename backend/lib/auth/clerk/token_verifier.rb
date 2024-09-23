@@ -16,7 +16,7 @@ module Auth
         @@clerk_api_key = ENV.fetch("CLERK_SECRET_KEY")
 
         def verify(request:)
-          session_token = request.headers["Authorization"]&.split(",")&.last.split("Bearer ")&.last
+          session_token = request.headers["Authorization"]&.split("Bearer ")&.last
 
           raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
 

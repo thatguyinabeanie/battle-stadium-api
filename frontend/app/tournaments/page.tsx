@@ -34,7 +34,7 @@ const columns: { key: string; label: string }[] = [
 ];
 
 const Tournaments = async () => {
-  const tours = await getTournaments();
+  const tours = (await getTournaments()).data?.data ?? [];
 
   const rightNow = new Date();
   const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);

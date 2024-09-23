@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { getMe } from "@/app/data/actions";
 
 export default async function NavbarLinks() {
-  const { sessionId } = auth();
-  const me = sessionId ? await getMe() : null;
+  const clerkAuth = auth();
+  const me = clerkAuth?.sessionId ? (await getMe()).data : null;
 
   return (
     <>
@@ -37,7 +37,7 @@ export default async function NavbarLinks() {
 
       <NavbarClientItem
         className={cn("", {
-          hidden: !sessionId,
+          hidden: !clerkAuth.sessionId,
         })}
         path="dashboard"
       >
