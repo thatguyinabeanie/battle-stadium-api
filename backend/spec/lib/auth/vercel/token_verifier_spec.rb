@@ -37,6 +37,7 @@ RSpec.describe Auth::Vercel::TokenVerifier do
   describe ".subject_environment" do
     context "when in production environment" do
       before { allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production")) }
+
       let(:request) { instance_double(ActionDispatch::Request, host: "battlestadium.gg") }
 
       it "returns production subject" do

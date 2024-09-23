@@ -24,7 +24,7 @@ module Api
         @objects = @objects.order(name: :asc)
         @objects = @objects.page(1).per(10000)
         render json: {
-          data: @objects.map { |object| index_serializer.new(object).attributes },
+          data: @objects&.map { |object| index_serializer.new(object).attributes },
           meta: {
             current_page: @objects.current_page,
             next_page: @objects.next_page,
