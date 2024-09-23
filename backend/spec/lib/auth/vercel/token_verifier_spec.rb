@@ -34,30 +34,52 @@ RSpec.describe Auth::Vercel::TokenVerifier do
     end
   end
 
-  describe ".subject_environment" do
-    context "when in production environment" do
-      before { allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production")) }
 
-      let(:request) { instance_double(ActionDispatch::Request, host: "battlestadium.gg") }
+  describe ".verify_token" do
+    context "when the token is invalid" do
+      let(:token) { "invalid.jwt.token" }
 
-      it "returns production subject" do
-        expect(described_class.subject_environment(request:)).to eq("production")
-      end
-
-      context "when in preview environment" do
-        let(:request) { instance_double(ActionDispatch::Request, host: "battle-stadium-preview-thatguyinabeanie.vercel.app") }
-
-        it "returns preview subject" do
-          expect(described_class.subject_environment(request:)).to eq("preview")
-        end
+      it "raises a JWT::DecodeError" do
+        expect { described_class.verify_token(token:, request:) }.to raise_error(RuntimeError, /Unauthorized: Failed Vercel OIDC Authentication/)
       end
     end
 
-    context "when not in production environment" do
-      before { allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("development")) }
+    context "when the token is valid" do
+      let(:token) { "valid.jwt.token" }
+      let(:decoded_token) { [{ "sub" => "your_subject" }, { "alg" => "RS256" }] }
 
-      it "returns development" do
-        expect(described_class.subject_environment(request:)).to eq("development")
+      before do
+        allow(JWT).to receive(:decode).and_return(decoded_token)
+      end
+
+      it "returns the decoded token" do
+        result = described_class.verify_token(token:, request:)
+        expect(result).to eq(decoded_token)
+      end
+    end
+  end
+
+  describe ".fetch_jwks" do
+    context "when the JWKS cache is empty" do
+      before do
+        described_class.instance_variable_set(:@jwks_cache, nil)
+      end
+
+      it "fetches the JWKS from the URL and caches it" do
+        result = described_class.send(:fetch_jwks)
+        expect(result).to eq(jwks)
+        expect(described_class.instance_variable_get(:@jwks_cache)).to eq(jwks)
+      end
+    end
+
+    context "when the JWKS cache is not empty" do
+      before do
+        described_class.instance_variable_set(:@jwks_cache, jwks)
+      end
+
+      it "returns the cached JWKS" do
+        result = described_class.send(:fetch_jwks)
+        expect(result).to eq(jwks)
       end
     end
   end

@@ -22,16 +22,10 @@ module Auth
           verify_token(token:, request:)
         end
 
-        def subject_environment(request:)
-          return "development" unless Rails.env.production?
-          return "production" if PRODUCTION_HOSTS.include?(request.host)
-          "preview"
-        end
-
         def verify_token(token:, request:)
           jwks = fetch_jwks
           jwk_loader = ->(options) { jwks["keys"] }
-          subject = "#{ENV['SUBJECT']}:#{subject_environment(request:)}"
+
           JWT.decode(token, nil, true, {
             algorithms: ["RS256"],
             jwks: jwk_loader,
@@ -39,8 +33,8 @@ module Auth
             verify_iss: true,
             aud: ENV["AUDIENCE"],
             verify_aud: true,
-            sub: subject,
-            verify_sub: true,
+            sub: ENV["SUBJECT"],
+            verify_sub: false
           })
         rescue JWT::DecodeError => e
           raise "Unauthorized: Failed Vercel OIDC Authentication - #{e.message}"
