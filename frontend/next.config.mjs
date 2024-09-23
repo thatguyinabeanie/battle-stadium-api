@@ -7,6 +7,11 @@ dotenv.config({ path: join(process.cwd(), ".env") });
 dotenv.config({ path: join(process.cwd(), ".env.local") });
 
 export default async function nextConfig(_phase, { defaultConfig }) {
+
+  if(process.env.NODE_ENV !== "production") {
+    console.log("NODE_ENV", process.env.NODE_ENV);
+  }
+
   const nextConfig = {
     ...defaultConfig,
     env: {
