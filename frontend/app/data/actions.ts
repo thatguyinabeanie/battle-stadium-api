@@ -1,7 +1,8 @@
 "use server";
 
 import { paths } from "@/lib/api";
-import createClient, { FetchOptions, Middleware } from "openapi-fetch";
+import createFetchClient, { FetchOptions, Middleware } from "openapi-fetch";
+
 import { auth } from "@clerk/nextjs/server";
 import { getVercelOidcToken } from "@vercel/functions/oidc";
 
@@ -15,7 +16,7 @@ function defaultConfig(tag: string, revalidate?: number) {
 
 function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
   const baseUrl = getBaseUrl();
-  const client = createClient<paths>({ baseUrl });
+  const fetchClient = createFetchClient<paths>({ baseUrl });
 
   const authMiddleware: Middleware = {
     async onRequest({ request }) {
@@ -29,9 +30,9 @@ function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
     },
   };
 
-  client.use(authMiddleware);
+  fetchClient.use(authMiddleware);
 
-  return client;
+  return fetchClient;
 }
 
 function getBaseUrl() {
