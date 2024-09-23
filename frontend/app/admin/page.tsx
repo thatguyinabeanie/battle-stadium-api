@@ -13,7 +13,7 @@ export default async function Admin() {
     return redirect("/sign-in");
   }
 
-  const me = await getMe();
+  const { data: me } = await getMe();
 
   if (!me?.admin) {
     return redirect("/");

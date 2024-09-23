@@ -13,7 +13,7 @@ const columns = [
 ];
 
 export default async function PlayersPage() {
-  const players = await getUsers();
+  const { data: players } = await getUsers();
 
-  return <PlayersTable columns={columns} players={players} />;
+  return <PlayersTable columns={columns} players={players ?? []} />;
 }

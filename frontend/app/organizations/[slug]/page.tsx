@@ -8,13 +8,13 @@ export const revalidate = 200;
 export const dynamicParams = true;
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const org = await getOrganization(params.slug);
+  const { data: org } = await getOrganization(params.slug);
 
   return { title: org?.name ?? "Organization" };
 }
 
 export async function generateStaticParams() {
-  const orgs = await getOrganizations();
+  const orgs = (await getOrganizations()).data?.data ?? [];
 
   return orgs.map((organization) => ({ slug: organization.slug }));
 }
@@ -52,8 +52,8 @@ const organizationLogo = (
 );
 
 export default async function OrganizationDetailPage({ params }: { params: { slug: string } }) {
-  const organization = await getOrganization(params.slug);
-  const tournaments = await getOrganizationTournaments(params.slug);
+  const { data: organization } = await getOrganization(params.slug);
+  const { data: tournaments } = await getOrganizationTournaments(params.slug);
 
   return (
     <div className="w-100 h-100">

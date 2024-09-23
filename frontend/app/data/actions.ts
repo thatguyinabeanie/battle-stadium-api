@@ -1,119 +1,37 @@
 "use server";
 
 import { paths } from "@/lib/api";
-import createClient, { Middleware, FetchOptions } from "openapi-fetch";
-import { auth as clerkAuth } from "@clerk/nextjs/server";
+import createClient, { FetchOptions, Middleware } from "openapi-fetch";
+import { auth } from "@clerk/nextjs/server";
 import { getVercelOidcToken } from "@vercel/functions/oidc";
 
-type Auth = ReturnType<typeof clerkAuth>;
-const CACHE_TIMEOUT: number = 300;
+const DEFAULT_CACHE_TIMEOUT: number = 300;
 
-export async function getMe(auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Users.me()).data;
-}
-
-export async function getTournament(tournamentId: number, auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Tournaments.get(tournamentId)).data;
-}
-
-export async function getTournaments(auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Tournaments.list()).data?.data ?? [];
-}
-
-export async function getOrganizations(auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Organizations.list()).data?.data ?? [];
-}
-
-export async function getOrganization(slug: string, auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Organizations.get(slug)).data;
-}
-
-export async function getOrganizationTournaments(slug: string, auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Organizations.Tournaments.list(slug)).data;
-}
-
-export async function getUser(username: string, auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Users.get(username)).data;
-}
-
-export async function getUsers(auth?: Auth) {
-  return (await BattleStadiumAPI(auth).Users.list()).data ?? [];
-}
-
-function BattleStadiumAPI(auth?: Auth) {
-  const client = createBattleStadiumApiClient(auth);
-
+async function defaultConfig(tag: string, revalidate?: number) {
   return {
-    client,
-    Tournaments: {
-      list: async (page: number = 0, per_page: number = 20, options?: FetchOptions<paths["/tournaments"]["get"]>) => {
-        return await client.GET("/tournaments", {
-          ...nextConfig("listTournaments"),
-          ...options,
-          params: { query: { page, per_page } },
-        });
-      },
-      get: async (id: number, options?: FetchOptions<paths["/tournaments/{id}"]["get"]>) => {
-        return await client.GET("/tournaments/{id}", {
-          ...options,
-          params: { path: { id } },
-          ...nextConfig(`getTournament-${id}`),
-        });
-      },
-    },
-    Users: {
-      me: async (options?: FetchOptions<paths["/users/me"]["get"]>) => {
-        const userId = auth?.userId;
+    next: { tags: [tag], revalidate: revalidate ?? DEFAULT_CACHE_TIMEOUT },
+  };
+}
 
-        return await client.GET("/users/me", { ...nextConfig(`getMe-${userId}`), ...options });
-      },
-      list: async (_options?: FetchOptions<paths["/users"]["get"]>) => {
-        return await client.GET("/users", {
-          ...nextConfig("listUsers"),
-        });
-      },
-      get: async (username: string, options?: FetchOptions<paths["/users/{username}"]["get"]>) => {
-        return await client.GET("/users/{username}", {
-          ...options,
-          params: { path: { username } },
-          ...nextConfig(`getUser-${username}`),
-        });
-      },
-    },
-    Organizations: {
-      list: async (options?: FetchOptions<paths["/organizations"]["get"]>) => {
-        return await client.GET("/organizations", {
-          ...nextConfig("listOrganizations"),
-          ...options,
-          params: {
-            query: {
-              page: (options?.params?.query?.page as number) || 0,
-              per_page: (options?.params?.query?.per_page as number) || 20,
-            },
-          },
-        });
-      },
-      get: async (slug: string, options?: FetchOptions<paths["/organizations/{slug}"]["get"]>) => {
-        return await client.GET("/organizations/{slug}", {
-          ...nextConfig(`getOrganization-${slug}`),
-          ...options,
-          params: { path: { slug } },
-        });
-      },
-      Tournaments: {
-        list: async (slug: string, options?: FetchOptions<paths["/organizations/{slug}/tournaments"]["get"]>) => {
-          return await client.GET("/organizations/{slug}/tournaments", {
-            ...nextConfig(`listOrganizationTournaments-${slug}`),
-            ...options,
-            params: {
-              path: { slug },
-              ...options?.params,
-            },
-          });
-        },
-      },
+function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
+  const baseUrl = getBaseUrl();
+  const client = createClient<paths>({ baseUrl });
+
+  const authMiddleware: Middleware = {
+    async onRequest({ request }) {
+      if (!skipClerkAuth) {
+        request.headers.set("Authorization", `Bearer ${await auth().getToken()}`);
+      }
+
+      request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
+
+      return request;
     },
   };
+
+  client.use(authMiddleware);
+
+  return client;
 }
 
 function getBaseUrl() {
@@ -124,35 +42,94 @@ function getBaseUrl() {
   return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
 }
 
-function authHeadersMiddleware(auth?: Auth): Middleware {
-  const openapiFetchMiddleware: Middleware = {
-    async onRequest({ request }) {
-      if (auth?.sessionId) {
-        const token = await auth.getToken();
+export async function getMe(options?: FetchOptions<paths["/users/me"]["get"]>) {
+  const userId = auth()?.userId;
 
-        request.headers.set("Authorization", `Bearer ${token}`);
-      }
+  const userMeOptions = { ...defaultConfig(`getMe(${userId})`), ...options };
 
-      request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
+  return BattleStadiumApiClient().GET("/users/me", userMeOptions);
+}
 
-      return request;
+export async function getTournament(id: number, options?: FetchOptions<paths["/tournaments/{id}"]["get"]>) {
+  const tournamentOptions = {
+    ...defaultConfig(`getTournament(${id})`),
+    ...options,
+    params: { path: { id } },
+  };
+
+  return BattleStadiumApiClient().GET("/tournaments/{id}", tournamentOptions);
+}
+
+export async function getTournaments(
+  page: number = 0,
+  per_page: number = 20,
+  options?: FetchOptions<paths["/tournaments"]["get"]>,
+) {
+  const tournamentsOptions = {
+    ...defaultConfig("getTournaments"),
+    ...options,
+    params: { query: { page, per_page } },
+  };
+
+  return BattleStadiumApiClient(true).GET("/tournaments", tournamentsOptions);
+}
+
+export async function getOrganizations(options?: FetchOptions<paths["/organizations"]["get"]>) {
+  const organizationsOptions = {
+    ...defaultConfig("getOrganizations"),
+    ...options,
+    params: {
+      query: {
+        page: (options?.params?.query?.page as number) || 0,
+        per_page: (options?.params?.query?.per_page as number) || 20,
+      },
     },
   };
 
-  return openapiFetchMiddleware;
+  return BattleStadiumApiClient(true).GET("/organizations", organizationsOptions);
 }
 
-function nextConfig(tag: string, revalidate?: number) {
-  return {
-    next: { tags: [tag], revalidate: revalidate ?? CACHE_TIMEOUT },
+export async function getOrganization(slug: string, options?: FetchOptions<paths["/organizations/{slug}"]["get"]>) {
+  const organizationOptions = {
+    ...defaultConfig(`getOrganization(${slug})`),
+    ...options,
+    params: { path: { slug } },
   };
+
+  return BattleStadiumApiClient().GET("/organizations/{slug}", organizationOptions);
 }
 
-function createBattleStadiumApiClient(auth?: Auth) {
-  const baseUrl = getBaseUrl();
-  const client = createClient<paths>({ baseUrl });
+export async function getOrganizationTournaments(
+  slug: string,
+  options?: FetchOptions<paths["/organizations/{slug}/tournaments"]["get"]>,
+) {
+  const organizationTournamentsOptions = {
+    ...defaultConfig(`getOrganizationTournaments(${slug})`),
+    ...options,
+    params: {
+      path: { slug },
+      ...options?.params,
+    },
+  };
 
-  client.use(authHeadersMiddleware(auth));
+  return BattleStadiumApiClient().GET("/organizations/{slug}/tournaments", organizationTournamentsOptions);
+}
 
-  return client;
+export async function getUser(username: string, options?: FetchOptions<paths["/users/{username}"]["get"]>) {
+  const userOptions = {
+    ...defaultConfig(`getUser-${username}`),
+    ...options,
+    params: { path: { username } },
+  };
+
+  return BattleStadiumApiClient().GET("/users/{username}", userOptions);
+}
+
+export async function getUsers(options?: FetchOptions<paths["/users"]["get"]>) {
+  const usersOptions = {
+    ...defaultConfig("listUsers"),
+    ...options,
+  };
+
+  return BattleStadiumApiClient().GET("/users", usersOptions);
 }

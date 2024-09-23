@@ -1,13 +1,13 @@
 import { getUser } from "@/app/data/actions";
 
 export async function generateMetadata({ params }: { params: { username: string } }) {
-  const player = await getUser(params.username);
+  const { data: player } = await getUser(params.username);
 
   return { title: player?.username ?? "Player" };
 }
 
 export default async function PlayerProfilePage({ params }: { params: { username: string } }) {
-  const player = await getUser(params.username);
+  const { data: player } = await getUser(params.username);
 
   return (
     <div>
