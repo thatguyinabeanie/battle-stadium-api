@@ -34,7 +34,6 @@ RSpec.describe Auth::Vercel::TokenVerifier do
     end
   end
 
-
   describe ".verify_token" do
     context "when the token is invalid" do
       let(:token) { "invalid.jwt.token" }
