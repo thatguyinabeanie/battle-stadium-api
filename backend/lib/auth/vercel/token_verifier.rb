@@ -5,6 +5,7 @@ require "uri"
 require "json"
 require "jwt"
 
+
 module Auth
   module Vercel
     module TokenVerifier
@@ -13,6 +14,8 @@ module Auth
 
 
       class << self
+        PRODUCTION_HOSTS = ["battlestadium.gg", "www.battlestadium.gg"].freeze
+
         @jwks_cache = nil
 
         def verify(request:)
@@ -22,9 +25,11 @@ module Auth
         end
 
         def subject_environment(request:)
+          Rails.logger.info("Request host: #{request.host}")
           return "development" unless Rails.env.production?
-          return "preview" if request.host.match?(/battle-stadium-[\w-]+-thatguyinabeanie\.vercel\.app/)
-          "#{ENV['SUBJECT']}:production"
+          return "production" if PRODUCTION_HOSTS.include?(request.host)
+          Rails.logger.info("Non-production host detected: #{request.host}")
+          "preview"
         end
 
         def verify_token(token:, request:)

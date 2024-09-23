@@ -1,3 +1,5 @@
+require "rails_helper"
+
 RSpec.describe Auth::Vercel::TokenVerifier do
   let(:request) { instance_double(ActionDispatch::Request, headers: { "X-Vercel-OIDC-Token" => token }, host: "example.com") }
   let(:token) { "valid.jwt.token" }
@@ -35,9 +37,10 @@ RSpec.describe Auth::Vercel::TokenVerifier do
   describe ".subject_environment" do
     context "when in production environment" do
       before { allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production")) }
+      let(:request) { instance_double(ActionDispatch::Request, host: "battlestadium.gg") }
 
       it "returns production subject" do
-        expect(described_class.subject_environment(request:)).to eq("your_subject:production")
+        expect(described_class.subject_environment(request:)).to eq("production")
       end
 
       context "when in preview environment" do
