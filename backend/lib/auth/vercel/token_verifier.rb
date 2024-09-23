@@ -23,7 +23,7 @@ module Auth
 
         def subject_environment(request:)
           return "development" unless Rails.env.production?
-          return "preview" if request.host.match(/battle-stadium-git-(?<branch>[^-]+)-/) && request.host.include?("vercel.app")
+          return "preview" if request.host.match?(/battle-stadium-[\w-]+-thatguyinabeanie\.vercel\.app/)
           "#{ENV['SUBJECT']}:production"
         end
 
