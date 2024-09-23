@@ -10,6 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     origins [
       "battlestadium.gg",
       "www.battlestadium.gg",
+      "battle-stadium-git-fix-500-error-thatguyinabeanie.vercel.app",
     ]
 
     resource "*",
