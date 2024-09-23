@@ -7,7 +7,7 @@ import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 const DEFAULT_CACHE_TIMEOUT: number = 300;
 
-async function defaultConfig(tag: string, revalidate?: number) {
+function defaultConfig(tag: string, revalidate?: number) {
   return {
     next: { tags: [tag], revalidate: revalidate ?? DEFAULT_CACHE_TIMEOUT },
   };
