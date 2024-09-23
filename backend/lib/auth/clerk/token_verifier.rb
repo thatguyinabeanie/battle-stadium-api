@@ -71,8 +71,9 @@ module Auth
 
           # Verify issuer (customize with your Clerk frontend API)
           clerk_frontend_api_string = Rails.env.production? ? "CLERK_FRONTEND_API" : "CLERK_FRONTEND_API_DEV"
-          errors << "Invalid issuer: #{claims["iss"]}" unless claims["iss"].start_with?(ENV.fetch(clerk_frontend_api_string))
-
+          if claims["iss"].nil? || !claims["iss"].start_with?(ENV.fetch(clerk_frontend_api_string))
+            errors << "Invalid issuer: #{claims["iss"]}"
+          end
           raise VerificationError, errors.join(", ") unless errors.empty?
         end
       end

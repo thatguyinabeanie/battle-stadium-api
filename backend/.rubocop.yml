@@ -42,11 +42,14 @@ Metrics/BlockLength:
   Enabled: false
 Metrics/ParameterLists:
   Enabled: false
-# RSpec/MultipleExpectations:
-# Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/ExampleLength:
+  Enabled: false
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 RSpec/NestedGroups:
   Enabled: false
 Metrics/AbcSize:
   Enabled: false
+
