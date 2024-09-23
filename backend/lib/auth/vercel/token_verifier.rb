@@ -28,6 +28,7 @@ module Auth
           Rails.logger.info("Request host: #{request.host}")
           return "development" unless Rails.env.production?
           return "production" if PRODUCTION_HOSTS.include?(request.host)
+          Rails.logger.info("Non-production host detected: #{request.host}")
           "preview"
         end
 
