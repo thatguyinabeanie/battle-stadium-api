@@ -1,6 +1,5 @@
 require "active_support/security_utils"
 require_relative "token_verifier"
-
 module Auth
   module Clerk
     module Webhook
@@ -22,6 +21,9 @@ module Auth
             "svix-signature" => request.headers["HTTP_SVIX_SIGNATURE"]
           }
 
+          # Check for missing headers first
+          raise Error, "Missing required headers" if headers.values.any?(&:nil?)
+
           return nil unless verify_timestamp(headers["svix-timestamp"]) && verify_signature(payload, headers)
 
           JSON.parse(payload)
@@ -33,7 +35,7 @@ module Auth
           current_timestamp = Time.now.to_i
 
           if (current_timestamp - webhook_timestamp).abs > WEBHOOK_TOLERANCE_IN_SECONDS
-            raise "Webhook timestamp is outside of the tolerance zone"
+            raise Error, "Webhook timestamp is outside of the tolerance zone"
           end
 
           true
@@ -41,7 +43,7 @@ module Auth
 
         def verify_signature(payload, headers)
           secret = ENV["CLERK_WEBHOOK_SECRET"]
-          raise "Missing CLERK_WEBHOOK_SECRET environment variable" if secret.nil?
+          raise Error, "Missing CLERK_WEBHOOK_SECRET environment variable" if secret.nil?
 
           # Remove 'whsec_' prefix if present
           secret = secret.sub(/^whsec_/, "")
@@ -49,8 +51,6 @@ module Auth
           svix_id = headers["svix-id"]
           svix_timestamp = headers["svix-timestamp"]
           svix_signature = headers["svix-signature"]
-
-          raise "Missing required headers" if svix_id.nil? || svix_timestamp.nil? || svix_signature.nil?
 
           # Construct the signed payload
           signed_payload = "#{svix_id}.#{svix_timestamp}.#{payload}"
@@ -66,7 +66,7 @@ module Auth
           # Verify against all provided signatures
           signatures = svix_signature.split(" ")
           unless signatures.any? { |sig| verify_individual_signature(sig, signature) }
-            raise "No matching signature found"
+            raise Error, "No matching signature found"
           end
 
           true

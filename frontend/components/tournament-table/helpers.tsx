@@ -80,7 +80,7 @@ const renderCell = ({ row, columnKey }: RenderCellProps) => {
     case "start_at":
       return renderStartDateString(start_at);
     case "name":
-      return <Link href={`/organizations/${organization.slug}/tournaments/${id}`}> {name} </Link>;
+      return <Link href={`/tournaments/${id}`}> {name} </Link>;
     case "players":
       return player_cap ? `${player_count}/${player_cap}` : player_count;
     case "registration":

@@ -34,7 +34,7 @@ RSpec.describe Api::V1::TournamentsController do
         }
 
         # OpenApi::Response.set_example_response_metadata
-        run_test! do # rubocop:disable RSpec/MultipleExpectations
+        run_test! do
           expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
           expect(response.body).to include("data")
           expect(response.body).to include("meta")
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::TournamentsController do
 
         OpenApi::Response.set_example_response_metadata
 
-        run_test! do # rubocop:disable RSpec/MultipleExpectations
+        run_test! do
           expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
           expect(response.body).to include("data")
           expect(response.body).to include("meta")
