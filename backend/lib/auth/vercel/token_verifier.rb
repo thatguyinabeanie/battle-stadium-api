@@ -18,11 +18,16 @@ module Auth
         def verify(request:)
           token = request.headers["X-Vercel-OIDC-Token"]
           raise NoAuthorizationHeader, "Authorization header missing or malformed" unless token
-
-          verify_token(token:)
+          verify_token(token:, request:)
         end
 
-        def verify_token(token:)
+        def subject_environment(request:)
+          return "development" unless Rails.env.production?
+          return "preview" if request.host.match(/battle-stadium-git-(?<branch>[^-]+)-/) && request.host.include?("vercel.app")
+          "#{ENV['SUBJECT']}:production"
+        end
+
+        def verify_token(token:, request:)
           jwks = fetch_jwks
           jwk_loader = ->(options) { jwks["keys"] }
           JWT.decode(token, nil, true, {
@@ -32,8 +37,8 @@ module Auth
             verify_iss: true,
             aud: ENV["AUDIENCE"],
             verify_aud: true,
-            sub: "#{ENV['SUBJECT']}:#{Rails.env.production? ? 'production' : 'development'}",
-            verify_sub: Rails.env.production?
+            sub: "#{ENV['SUBJECT']}:#{subject_environment(request:)}",
+            verify_sub: true,
           })
         rescue JWT::DecodeError => e
           raise "Unauthorized: Failed Vercel OIDC Authentication - #{e.message}"
