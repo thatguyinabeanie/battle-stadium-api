@@ -94,7 +94,6 @@ Rails.application.configure do
   config.hosts = [
     "api.battlestadium.gg",
     "battle-stadium-api.onrender.com",
-    "battle-stadium-api-pr-396.onrender.com",
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
