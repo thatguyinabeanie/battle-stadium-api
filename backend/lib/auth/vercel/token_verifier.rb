@@ -33,7 +33,7 @@ module Auth
             aud: ENV["AUDIENCE"],
             verify_aud: true,
             sub: "#{ENV['SUBJECT']}:#{Rails.env.production? ? 'production' : 'development'}",
-            verify_sub: true
+            verify_sub: Rails.env.production?
           })
         rescue JWT::DecodeError => e
           raise "Unauthorized: Failed Vercel OIDC Authentication - #{e.message}"
