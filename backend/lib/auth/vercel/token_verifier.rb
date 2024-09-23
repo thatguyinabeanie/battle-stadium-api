@@ -22,9 +22,10 @@ module Auth
         end
 
         def subject_environment(request:)
+          Rails.logger.info("Request host: #{request.host}")
           return "development" unless Rails.env.production?
-          return "preview" if request.host.match?(/battle-stadium-[\w-]+-thatguyinabeanie\.vercel\.app/)
-          "#{ENV['SUBJECT']}:production"
+          return "production" if request.host == "battlestadium.gg"
+          "preview"
         end
 
         def verify_token(token:, request:)
