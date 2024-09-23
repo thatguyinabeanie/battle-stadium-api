@@ -8,41 +8,6 @@ import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 const DEFAULT_CACHE_TIMEOUT: number = 300;
 
-function defaultConfig(tag: string, revalidate?: number) {
-  return {
-    next: { tags: [tag], revalidate: revalidate ?? DEFAULT_CACHE_TIMEOUT },
-  };
-}
-
-function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
-  const baseUrl = getBaseUrl();
-  const fetchClient = createFetchClient<paths>({ baseUrl });
-
-  const authMiddleware: Middleware = {
-    async onRequest({ request }) {
-      if (!skipClerkAuth) {
-        request.headers.set("Authorization", `Bearer ${await auth().getToken()}`);
-      }
-
-      request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
-
-      return request;
-    },
-  };
-
-  fetchClient.use(authMiddleware);
-
-  return fetchClient;
-}
-
-function getBaseUrl() {
-  if (process.env.NODE_ENV === "production" && process.env.PROD_API_BASE_URL) {
-    return `${process.env.PROD_API_BASE_URL}/api/v1`;
-  }
-
-  return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
-}
-
 export async function getMe(options?: FetchOptions<paths["/users/me"]["get"]>) {
   const userId = auth()?.userId;
 
@@ -133,4 +98,39 @@ export async function getUsers(options?: FetchOptions<paths["/users"]["get"]>) {
   };
 
   return BattleStadiumApiClient().GET("/users", usersOptions);
+}
+
+function defaultConfig(tag: string, revalidate?: number) {
+  return {
+    next: { tags: [tag], revalidate: revalidate ?? DEFAULT_CACHE_TIMEOUT },
+  };
+}
+
+function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
+  const baseUrl = getBaseUrl();
+  const fetchClient = createFetchClient<paths>({ baseUrl });
+
+  const authMiddleware: Middleware = {
+    async onRequest({ request }) {
+      if (!skipClerkAuth) {
+        request.headers.set("Authorization", `Bearer ${await auth().getToken()}`);
+      }
+
+      request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
+
+      return request;
+    },
+  };
+
+  fetchClient.use(authMiddleware);
+
+  return fetchClient;
+}
+
+function getBaseUrl() {
+  if (process.env.NODE_ENV === "production" && process.env.PROD_API_BASE_URL) {
+    return `${process.env.PROD_API_BASE_URL}/api/v1`;
+  }
+
+  return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
 }

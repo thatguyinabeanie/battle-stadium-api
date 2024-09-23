@@ -5,13 +5,11 @@ require "uri"
 require "json"
 require "jwt"
 
-
 module Auth
   module Vercel
     module TokenVerifier
       class NoAuthorizationHeader < StandardError; end
       class VerificationError < StandardError; end
-
 
       class << self
         PRODUCTION_HOSTS = ["battlestadium.gg", "www.battlestadium.gg"].freeze
@@ -25,16 +23,15 @@ module Auth
         end
 
         def subject_environment(request:)
-          Rails.logger.info("Request host: #{request.host}")
           return "development" unless Rails.env.production?
           return "production" if PRODUCTION_HOSTS.include?(request.host)
-          Rails.logger.info("Non-production host detected: #{request.host}")
           "preview"
         end
 
         def verify_token(token:, request:)
           jwks = fetch_jwks
           jwk_loader = ->(options) { jwks["keys"] }
+          subject = "#{ENV['SUBJECT']}:#{subject_environment(request:)}"
           JWT.decode(token, nil, true, {
             algorithms: ["RS256"],
             jwks: jwk_loader,
@@ -42,7 +39,7 @@ module Auth
             verify_iss: true,
             aud: ENV["AUDIENCE"],
             verify_aud: true,
-            sub: "#{ENV['SUBJECT']}:#{subject_environment(request:)}",
+            sub: subject,
             verify_sub: true,
           })
         rescue JWT::DecodeError => e
@@ -64,13 +61,3 @@ module Auth
     end
   end
 end
-
-# Example usage:
-# token = 'your_jwt_token_here'
-# begin
-#   if Vercel::TokenVerifier.verify_token(token)
-#     puts 'Token is valid'
-#   end
-# rescue => e
-#   puts e.message
-# end
