@@ -7,7 +7,8 @@ import { auth } from "@clerk/nextjs/server";
 import { FetchOptions } from "openapi-fetch";
 
 const DEFAULT_CACHE_TIMEOUT: number = 300;
-function defaultConfig (tag: string, revalidate?: number) {
+
+function defaultConfig(tag: string, revalidate?: number) {
   return {
     next: { tags: [tag], revalidate: revalidate ?? DEFAULT_CACHE_TIMEOUT },
   };

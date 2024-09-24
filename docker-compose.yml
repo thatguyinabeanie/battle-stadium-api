@@ -90,8 +90,6 @@ services:
       start_period: 120s
 
   frontend:
-    environment:
-      - BACKEND_HOST=backend
     hostname: nextjs-container
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     build:
