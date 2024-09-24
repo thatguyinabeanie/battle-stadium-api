@@ -4,8 +4,8 @@ import * as React from "react";
 import { RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 
-import SwitchCell from "@/components/switch-cell";
-import { ThemeCustomRadio } from "@/components/theme-custom-radio";
+import SwitchCell from "@/components/settings/switch-cell";
+import { ThemeCustomRadio } from "@/components/settings/theme-custom-radio";
 import { cn } from "@/lib/utils";
 
 interface AppearanceSettingCardProps {

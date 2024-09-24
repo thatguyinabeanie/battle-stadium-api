@@ -27,7 +27,7 @@ import { ChevronDownIcon, SearchIcon } from "@nextui-org/shared-icons";
 import { capitalize } from "@nextui-org/shared-utils";
 import { Icon } from "@iconify/react";
 
-import { columns, rolesOptions, statusOptions, users } from "@/components/team-data";
+import { columns, rolesOptions, statusOptions, users } from "@/components/settings/team-data";
 
 interface TeamManageTableProps {
   className?: string;
