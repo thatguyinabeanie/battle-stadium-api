@@ -44,7 +44,7 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  config.action_cable.url = "wss://api.battlestadium.gg/cable"
+  config.action_cable.url = "wss://ws.battlestadium.gg/cable"
 
   config.action_cable.allowed_request_origins = [
     "https://battlestadium.gg",
@@ -91,7 +91,6 @@ Rails.application.configure do
 
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
-  config.active_support.deprecation = :notify
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
