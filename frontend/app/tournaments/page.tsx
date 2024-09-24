@@ -24,6 +24,14 @@ const columns: { key: string; label: string }[] = [
     label: "ORGANIZATION",
   },
   {
+    key: "game",
+    label: "GAME",
+  },
+  {
+    key: "format",
+    label: "FORMAT",
+  },
+  {
     key: "players",
     label: "PLAYERS",
   },
