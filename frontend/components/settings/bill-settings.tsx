@@ -4,7 +4,7 @@ import * as React from "react";
 import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
-import { PlanCustomRadio } from "@/components/plan-custom-radio";
+import { PlanCustomRadio } from "@/components/settings/plan-custom-radio";
 import { cn } from "@/lib/utils";
 
 interface BillingSettingCardProps {

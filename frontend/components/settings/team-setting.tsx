@@ -4,7 +4,7 @@ import * as React from "react";
 import { Button, Card, CardBody, Divider, Input, Select, SelectItem, Spacer } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 
-import TeamManageTable from "@/components/team-manage-table";
+import TeamManageTable from "@/components/settings/team-manage-table";
 import { cn } from "@/lib/utils";
 
 interface TeamSettingCardProps {

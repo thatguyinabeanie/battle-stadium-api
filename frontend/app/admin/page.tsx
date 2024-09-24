@@ -1,6 +1,4 @@
 import { Metadata } from "next";
-
-import { Text } from "@/components/text";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getMe } from "@/app/data/actions";
@@ -21,9 +19,7 @@ export default async function Admin() {
 
   return (
     <div>
-      <Text tag="h1" variant="header">
-        Admin Pages here
-      </Text>
+      <h1>Admin Pages here</h1>
     </div>
   );
 }
