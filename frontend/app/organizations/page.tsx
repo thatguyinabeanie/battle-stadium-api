@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 
-import NewOrganizationCard from "@/components/organizations/new-organization-card";
+import NewOrganizationCard from "@/components/organizations/organization-card";
 import { cn } from "@/lib/utils";
 import { Tournament } from "@/lib/api";
 import { getOrganizations } from "../data/actions";
