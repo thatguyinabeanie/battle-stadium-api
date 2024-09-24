@@ -25,15 +25,15 @@ export default function PlayersTable({ players, columns }: PlayersTableProps) {
   );
 }
 
-function renderCell (row: User, columnKey: React.Key) {
+function renderCell(row: User, columnKey: React.Key) {
   const { username } = row;
 
   switch (columnKey) {
     case "username":
-      return <Link href={ `/players/${username}` }>{ username }</Link>;
+      return <Link href={`/players/${username}`}>{username}</Link>;
     case "pronouns":
       return row.pronouns ?? "they/them";
     default:
       return row[columnKey as keyof User] ?? "-";
   }
-};
+}

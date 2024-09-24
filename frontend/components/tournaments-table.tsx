@@ -19,15 +19,15 @@ export default function TournamentsTable({ columns, data }: TableProps) {
       <TableBody items={data}>
         {(row) => (
           <TableRow key={JSON.stringify(row)}>
-            {(columnKey) => <TableCell>{renderCell( row, columnKey )}</TableCell>}
+            {(columnKey) => <TableCell>{renderCell(row, columnKey)}</TableCell>}
           </TableRow>
         )}
       </TableBody>
     </Table>
   );
-};
+}
 
-function renderRegistration ({
+function renderRegistration({
   registration_start_at,
   registration_end_at,
   player_count,
@@ -84,16 +84,16 @@ const renderStartDateString = (start_at: string | null) => {
   return date;
 };
 
-function renderCell (row: Tournament, columnKey: React.Key )  {
+function renderCell(row: Tournament, columnKey: React.Key) {
   const { id, name, organization, start_at, player_count, player_cap } = row;
 
   switch (columnKey) {
     case "organization.name":
-      return <Link href={ `/organizations/${organization.slug}` }> { organization.name } </Link>;
+      return <Link href={`/organizations/${organization.slug}`}> {organization.name} </Link>;
     case "start_at":
       return renderStartDateString(start_at);
     case "name":
-      return <Link href={ `/organizations/${organization.slug}/tournaments/${id}` }> { name } </Link>;
+      return <Link href={`/organizations/${organization.slug}/tournaments/${id}`}> {name} </Link>;
     case "players":
       return player_cap ? `${player_count}/${player_cap}` : player_count;
     case "registration":
@@ -101,4 +101,4 @@ function renderCell (row: Tournament, columnKey: React.Key )  {
     default:
       return null;
   }
-};
+}

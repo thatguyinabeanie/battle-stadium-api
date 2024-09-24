@@ -1,6 +1,6 @@
 import { components } from "./openapi-v1";
 
-export type Schemas = components["schemas"]
+export type Schemas = components["schemas"];
 export type Format = Schemas["Format"];
 export type Game = Schemas["Game"];
 export type GameDetail = Schemas["GameDetail"];
