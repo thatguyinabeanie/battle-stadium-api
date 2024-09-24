@@ -3,7 +3,7 @@
 ##
 FROM mcr.microsoft.com/devcontainers/ruby:3.3-bookworm AS base-image
 WORKDIR /battle-stadium
-COPY .tool-versions .
+COPY .ruby-version .
 
 RUN apt-get update -qq && \
     apt-get --no-install-recommends install -y -q \
@@ -31,7 +31,8 @@ FROM base-image AS development
 WORKDIR /battle-stadium/backend
 COPY . .
 RUN bundle check || bundle install
-EXPOSE 10000
+# rails rest api port + websocket port
+EXPOSE 10000 28080
 
 ENV RAILS_ENV=development
 ENTRYPOINT ["/battle-stadium/backend/bin/docker-entrypoint"]

@@ -1,4 +1,5 @@
 import { components } from "./openapi-v1";
+export * from "./client";
 
 export type Schemas = components["schemas"];
 export type Format = Schemas["Format"];
