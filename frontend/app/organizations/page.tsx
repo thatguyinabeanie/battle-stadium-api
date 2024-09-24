@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 import NewOrganizationCard from "@/components/organizations/new-organization-card";
 import { cn } from "@/lib/utils";
-import { components } from "@/lib/api";
+import { Tournament } from "@/lib/api";
 import { getOrganizations } from "../data/actions";
 
 export const metadata: Metadata = {
@@ -11,14 +11,20 @@ export const metadata: Metadata = {
 };
 
 export interface OrganizationsPageProps {
-  orgs: Array<components["schemas"]["OrganizationDetails"]>;
+  orgs: Tournament[];
 }
 
-export default async function OrganizationsPage() {
+async function listOrganizations() {
   const allOrgs = (await getOrganizations()).data?.data;
 
   const partnerOrgs = (allOrgs || [])?.filter((org) => org.partner);
   const nonPartnerOrgs = (allOrgs || [])?.filter((org) => !org.partner);
+
+  return [...partnerOrgs, ...nonPartnerOrgs];
+}
+
+export default async function OrganizationsPage() {
+  const orgs = await listOrganizations();
 
   return (
     <div
@@ -26,7 +32,7 @@ export default async function OrganizationsPage() {
         "w-100 my-auto grid gap-5 px-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
       )}
     >
-      {[...partnerOrgs, ...nonPartnerOrgs]?.map((organization) => (
+      {orgs.map((organization) => (
         <NewOrganizationCard
           key={organization.id}
           aria-label={`organization-card-${organization.id}`}

@@ -403,7 +403,6 @@ SESSION_AND_USER = {
   required: %w[session user]
 }.freeze
 
-
 ERROR = {
   type: :object,
   properties: {
@@ -523,7 +522,6 @@ RSpec.configure do |config|
           UserRequest: USER_REQUEST,
           RegistrationResponse: REGISTRATION_RESPONSE,
           Organization: ORGANIZATION_SCHEMA,
-          OrganizationDetails: ORGANIZATION_DETAILS_SCHEMA,
           Tournament: TOURNAMENT_SCHEMA,
           TournamentDetails: TOURNAMENT_DETAILS_SCHEMA,
           Pokemon: POKEMON_SCHEMA,
