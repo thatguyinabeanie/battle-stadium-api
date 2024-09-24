@@ -84,10 +84,10 @@ const renderStartDateString = (start_at: string | null) => {
   return date;
 };
 
-function renderCell(row: Tournament, columnKey: React.Key) {
-  const { id, name, organization, start_at, player_count, player_cap } = row;
+function renderCell(tournament: Tournament, key: React.Key) {
+  const { id, name, organization, start_at, player_count, player_cap, game, format } = tournament;
 
-  switch (columnKey) {
+  switch (key) {
     case "organization.name":
       return <Link href={`/organizations/${organization.slug}`}> {organization.name} </Link>;
     case "start_at":
@@ -97,7 +97,11 @@ function renderCell(row: Tournament, columnKey: React.Key) {
     case "players":
       return player_cap ? `${player_count}/${player_cap}` : player_count;
     case "registration":
-      return renderRegistration(row);
+      return renderRegistration(tournament);
+    case "game":
+      return game.name;
+    case "format":
+      return format.name;
     default:
       return null;
   }

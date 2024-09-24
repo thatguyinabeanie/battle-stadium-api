@@ -36,6 +36,14 @@ const columns = [
     key: "registration",
     label: "REGISTRATION",
   },
+  {
+    key: "game",
+    label: "GAME",
+  },
+  {
+    key: "format",
+    label: "FORMAT",
+  },
 ];
 
 interface OrganizationDetailPageProps {

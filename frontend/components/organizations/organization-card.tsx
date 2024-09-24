@@ -11,7 +11,7 @@ export interface OrgCardProps {
   disableHover?: boolean;
 }
 
-export default function NewOrganizationCard({ organization, cardProps, disableHover }: Readonly<OrgCardProps>) {
+export default function OrganizationCard({ organization, cardProps, disableHover }: Readonly<OrgCardProps>) {
   return (
     <div className="relative h-[400x] w-[300px] px-2">
       <Link key={organization.slug} href={`/organizations/${organization.slug}`}>
