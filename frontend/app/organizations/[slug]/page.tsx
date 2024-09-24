@@ -1,8 +1,7 @@
-import { Card, CardBody, Image, Spacer } from "@nextui-org/react";
-
-import { components } from "@/lib/api";
+import { Card, CardBody, Spacer } from "@nextui-org/react";
 import TournamentsTable from "@/components/tournaments-table";
 import { getOrganization, getOrganizations, getOrganizationTournaments } from "@/app/data/actions";
+import OrganizationLogo from "@/components/organizations/organization-logo";
 
 export const revalidate = 200;
 export const dynamicParams = true;
@@ -16,7 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export async function generateStaticParams() {
   const orgs = (await getOrganizations()).data?.data ?? [];
 
-  return orgs.map((organization) => ({ slug: organization.slug }));
+  return orgs.map(({ slug }) => ({ slug }));
 }
 
 const columns = [
@@ -39,27 +38,24 @@ const columns = [
   },
 ];
 
-const organizationLogo = (
-  organization: components["schemas"]["Organization"] | undefined,
-  className: string | null = null,
-) => (
-  <Image
-    alt={organization?.name}
-    aria-label={organization?.name}
-    className={`aspect-square gap-3 h-[6.25rem] w-[6.25rem] md:h-[9.375rem] md:w-[9.375rem] lg:h-[12.5rem] lg:w-[12.5rem] ${className}`}
-    src={organization?.logo_url ?? "/pokemon/vgc.png"}
-  />
-);
+interface OrganizationDetailPageProps {
+  params: { slug: string };
+}
 
-export default async function OrganizationDetailPage({ params }: { params: { slug: string } }) {
+export default async function OrganizationDetailPage({ params }: Readonly<OrganizationDetailPageProps>) {
   const { data: organization } = await getOrganization(params.slug);
+
+  if (!organization) {
+    return <div>404 - Not Found</div>;
+  }
+
   const { data: tournaments } = await getOrganizationTournaments(params.slug);
 
   return (
     <div className="w-100 h-100">
       <Card className="bg-transparent h-90 w-90 rounded-3xl" shadow="md">
         <CardBody className="flex flex-row justify-between rounded-3xl">
-          {organizationLogo(organization)}
+          <OrganizationLogo organization={organization} />
 
           <div className="flex flex-col justify-between text-center mx-4">
             <h1 className="text-2xl font-semibold">{organization?.name}</h1>
@@ -67,7 +63,7 @@ export default async function OrganizationDetailPage({ params }: { params: { slu
             <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
           </div>
 
-          {organizationLogo(organization, "hidden sm:flex")}
+          <OrganizationLogo className="hidden sm:flex" organization={organization} />
         </CardBody>
 
         <div

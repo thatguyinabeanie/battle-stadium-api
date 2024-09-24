@@ -1242,36 +1242,6 @@ components:
       - description
       - logo_url
       - slug
-    OrganizationDetails:
-      type: object
-      title: Organization Details
-      properties:
-        owner:
-          "$ref": "#/components/schemas/User"
-          nullable: true
-        description:
-          type: string
-          nullable: true
-        logo_url:
-          type: string
-          nullable: true
-          format: uri
-        partner:
-          type: boolean
-        slug:
-          type: string
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-      required:
-      - id
-      - name
-      - owner
-      - description
-      - logo_url
-      - slug
     Tournament:
       type: object
       title: Tournament

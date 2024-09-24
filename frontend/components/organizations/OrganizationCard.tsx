@@ -1,11 +1,11 @@
 import React from "react";
 
 import { Image } from "@nextui-org/react";
-import { components } from "@/lib/api";
+import { Organization } from "@/lib/api";
 
 export type PlaceListItemProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id"> & {
   isLoading?: boolean;
-  organization?: components["schemas"]["OrganizationDetails"];
+  organization?: Organization;
 };
 
 export default function OrganizationCard(props: PlaceListItemProps) {

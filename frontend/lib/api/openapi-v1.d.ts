@@ -570,18 +570,6 @@ export interface components {
       id: number;
       name: string;
     };
-    /** Organization Details */
-    OrganizationDetails: {
-      owner: components["schemas"]["User"];
-      description: string | null;
-      /** Format: uri */
-      logo_url: string | null;
-      partner?: boolean;
-      slug: string;
-      /** Format: int64 */
-      id: number;
-      name: string;
-    };
     /** Tournament */
     Tournament: {
       /** Format: date-time */

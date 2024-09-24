@@ -1,6 +1,6 @@
 "use server";
 
-import { paths } from "@/lib/api";
+import { paths } from "@/lib/api/openapi-v1";
 import createFetchClient, { FetchOptions, Middleware } from "openapi-fetch";
 
 import { auth } from "@clerk/nextjs/server";

@@ -2,27 +2,12 @@
 
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Link } from "@nextui-org/react";
 
-import { components } from "@/lib/api";
-
-type User = components["schemas"]["User"];
+import { User } from "@/lib/api";
 
 export interface PlayersTableProps {
   players: User[];
   columns: { key: string; label: string }[];
 }
-
-const renderCell = (row: User, columnKey: React.Key) => {
-  const { username } = row;
-
-  switch (columnKey) {
-    case "username":
-      return <Link href={`/players/${username}`}>{username}</Link>;
-    case "pronouns":
-      return row.pronouns ?? "they/them";
-    default:
-      return row[columnKey as keyof User] ?? "-";
-  }
-};
 
 export default function PlayersTable({ players, columns }: PlayersTableProps) {
   return (
@@ -38,4 +23,17 @@ export default function PlayersTable({ players, columns }: PlayersTableProps) {
       </TableBody>
     </Table>
   );
+}
+
+function renderCell(row: User, columnKey: React.Key) {
+  const { username } = row;
+
+  switch (columnKey) {
+    case "username":
+      return <Link href={`/players/${username}`}>{username}</Link>;
+    case "pronouns":
+      return row.pronouns ?? "they/them";
+    default:
+      return row[columnKey as keyof User] ?? "-";
+  }
 }
