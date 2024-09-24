@@ -19,9 +19,7 @@ export default async function Admin() {
 
   return (
     <div>
-      <h1 >
-        Admin Pages here
-      </h1>
+      <h1>Admin Pages here</h1>
     </div>
   );
 }
