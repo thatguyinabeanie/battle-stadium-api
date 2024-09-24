@@ -87,7 +87,6 @@ Rails.application.configure do
   config.hosts = [
     "localhost" ,
     "backend",
-    "backend-dev",
     "api-battle-stadium-gg.onrender.com",
   ]
 end

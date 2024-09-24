@@ -21,7 +21,7 @@ function getBaseUrl() {
     return `http://${process.env.BACKEND_HOST}:10000/api/v1`;
   }
 
-  return `http://backend-dev:10000/api/v1`;
+  return `http://backend:10000/api/v1`;
 }
 
 export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {

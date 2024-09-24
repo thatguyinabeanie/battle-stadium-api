@@ -12,6 +12,7 @@ import { ChildrenProps } from "@/types";
 import NavigationBar from "@/components/navbar/navbar";
 import Providers from "@/components/providers";
 import AwesomeParticles from "@/components/awesome-particles";
+import Cookies from "@/components/cookies";
 
 export const metadata: Metadata = {
   title: {
@@ -41,7 +42,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
             <AwesomeParticles />
             <div className="flex flex-col w-full h-full">
               <NavigationBar />
-              <main className="flex h-full w-full z-10">
+              <main className="flex h-full w-full z-0">
                 <div className="w-full flex-1 flex-col px-4">
                   <div className="h-full flex flex-col gap-4 rounded-medium border-divider ">
                     <section className="flex flex-col gap-4 py-4 h-full w-ful items-center">{children}</section>
@@ -53,6 +54,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
           <Analytics />
           <SpeedInsights />
           <GoogleAnalytics gaId={process.env.MEASUREMENT_ID ?? ""} />
+          <Cookies />
         </body>
       </html>
     </ClerkProvider>
