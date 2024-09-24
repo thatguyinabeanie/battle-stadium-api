@@ -30,7 +30,6 @@ export type Error = Schemas["Error"];
 export type Message = Schemas["Message"];
 export type Pagination = Schemas["Pagination"];
 
-
 export type Responses = components["responses"];
 export type NotFound = Responses["NotFound"];
 
