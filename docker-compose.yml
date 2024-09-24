@@ -11,19 +11,6 @@ services:
     ports:
       - 5432:5432
 
-  caddy:
-    image: caddy:latest
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./backend/Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - backend-dev
-      - frontend
-
   # RAILS API - DEVELOPMENT CONTAINER
   backend-dev:
     hostname: rails-api-container
@@ -115,5 +102,3 @@ services:
 
 volumes:
   postgres-data:
-  caddy_data:
-  caddy_config:

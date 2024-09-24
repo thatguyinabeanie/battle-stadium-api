@@ -49,7 +49,6 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = [
     "https://battlestadium.gg",
     "https://www.battlestadium.gg",
-    "https://battle-stadium-api.onrender.com",
   ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
