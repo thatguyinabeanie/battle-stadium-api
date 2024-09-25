@@ -18,6 +18,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def speak(data)
+    return unless params[:room_id].present? && data["message"].present?
     message = data["message"]
     message_size = message.is_a?(String) ? message.bytesize : message.to_json.bytesize
     raise ArgumentError, "Message is too large" if message_size > MAX_MESSAGE_SIZE
