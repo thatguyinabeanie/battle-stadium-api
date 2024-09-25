@@ -1,3 +1,5 @@
+require_relative "../../../lib/auth/cookies/verifier"
+
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     identified_by :current_user
@@ -9,8 +11,8 @@ module ApplicationCable
     private
 
     def find_verified_user
-      if clerk_user = ClerkUser.find_by(clerk_user_id: cookies["userId"])
-        verified_user = User.find(clerk_user.user_id)
+      clerk_user_id = Auth::Cookies::CookieVerifier.verify_signed_cookie(cookie: cookies[:userId])
+      if verified_user = User.find_by(id: ClerkUser.find_by(clerk_user_id:).user_id)
         verified_user
       else
         reject_unauthorized_connection

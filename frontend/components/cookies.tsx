@@ -50,11 +50,26 @@ export default function Cookies() {
     if (isSignedIn && cookieConsent === "accepted" && userId) {
       const userIdCookie = cookies.get("userId");
 
-      if (!userIdCookie) {
-        cookies.set("userId", userId, cookieAttributes({ expires: 7 }));
+      callApiToSetUserId(userId);
+      if (!userIdCookie || userIdCookie.split(".")[0] !== userId) {
+        callApiToSetUserId(userId);
       }
     }
   }, [isSignedIn, cookieConsent, userId]);
+
+  async function callApiToSetUserId(userId: string) {
+    try {
+      await fetch("/api/cookies/user-id", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      });
+    } catch (error) {
+      console.error("Error setting userId cookie:", error); // eslint-disable-line no-console
+    }
+  }
 
   if (!showConsent) return null;
 
