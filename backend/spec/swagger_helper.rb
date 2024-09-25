@@ -484,7 +484,7 @@ RSpec.configure do |config|
           url: "{defaultHost}",
           variables: {
             defaultHost: {
-              default: "https://api.battlestadium.gg/api/v1"
+              default: ENV["RAILS_API_DEFAULT_HOST"]
             }
           }
         }

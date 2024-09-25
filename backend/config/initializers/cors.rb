@@ -7,10 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins [
-      "battlestadium.gg",
-      "www.battlestadium.gg",
-    ]
+    origins ENV["CORS_ALLOWED_ORIGINS"].split(",")
 
     resource "*",
              headers: :any,

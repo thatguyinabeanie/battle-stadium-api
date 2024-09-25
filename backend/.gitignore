@@ -69,3 +69,5 @@ rails_api/tmp/*
 .vercel
 
 output.sarif.json
+
+./openapi
