@@ -12,6 +12,7 @@ export function useActionCableConnection<M extends object, S extends object>(web
   const cableRef = React.useRef<Consumer | null>(null);
   const connectionRef = React.useRef<SubscriptionConnection<M> | null>(null);
 
+  // TODO: manage message history
   const [messages, setMessages] = React.useState<M[]>([]);
   const [channel, setChannel] = React.useState<string | null>(null);
   const [room, setRoom] = React.useState<string | null>(null);
