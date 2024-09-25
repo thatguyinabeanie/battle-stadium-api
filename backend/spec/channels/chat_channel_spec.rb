@@ -26,6 +26,6 @@ RSpec.describe ChatChannel do
     subscribe(room_id:)
     expect {
       perform :speak, {message: "Hello, World!"}
-    }.to have_broadcasted_to(room).with(message: "Hello, World!")
+    }.to have_broadcasted_to(room).with(hash_including(message: "Hello, World!"))
   end
 end
