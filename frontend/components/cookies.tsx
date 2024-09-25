@@ -50,7 +50,6 @@ export default function Cookies() {
     if (isSignedIn && cookieConsent === "accepted" && userId) {
       const userIdCookie = cookies.get("userId");
 
-      callApiToSetUserId(userId);
       if (!userIdCookie || userIdCookie.split(".")[0] !== userId) {
         callApiToSetUserId(userId);
       }

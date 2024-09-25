@@ -19,7 +19,7 @@
     "check:unused": "depcheck",
     "prisma:generate": "prisma generate",
     "prisma:pull": "prisma db pull",
-    "vercel:pull": "vercel env pull"
+    "vercel:pull": "vercel env pull .env.development.local"
   },
   "dependencies": {
     "@clerk/backend": "^1.13.2",

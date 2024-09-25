@@ -8,18 +8,26 @@ type SubscriptionConnection<M> = Subscription<Consumer> &
     received(data: M): void;
   };
 
-export function useActionCableConnection<M extends object, S extends object>(websocketUrl: string) {
+export function useActionCableConnection<M extends object, S extends object>(
+  websocketUrl: string,
+  channelName: string,
+  roomName: string,
+) {
   const cableRef = React.useRef<Consumer | null>(null);
   const connectionRef = React.useRef<SubscriptionConnection<M> | null>(null);
 
   // TODO: manage message history
   const [messages, setMessages] = React.useState<M[]>([]);
-  const [channel, setChannel] = React.useState<string | null>(null);
-  const [room, setRoom] = React.useState<string | null>(null);
+  const [channel, setChannel] = React.useState<string | null | undefined>(channelName);
+  const [room, setRoom] = React.useState<string | null | undefined>(roomName);
 
-  const subscribe = React.useCallback((channelName: string, roomName: string) => {
-    setChannel(channelName);
-    setRoom(roomName);
+  const subscribe = React.useCallback((channelName?: string, roomName?: string) => {
+    if (channelName) {
+      setChannel(channelName);
+    }
+    if (roomName) {
+      setRoom(roomName);
+    }
   }, []);
 
   const sendMessage = React.useCallback((speakData: S, onSuccess?: () => void) => {
@@ -34,46 +42,50 @@ export function useActionCableConnection<M extends object, S extends object>(web
     }
   }, []);
 
-  const connectToCable = React.useCallback(() => {
-    if (!channel || !room) {
-      console.warn("Channel or room not set"); // eslint-disable-line no-console
+  const connectToCable = React.useCallback(
+    (channelName?: string | null, roomName?: string | null) => {
+      if (!channelName || !roomName) {
+        console.warn("Channel or room not set"); // eslint-disable-line no-console
 
-      return;
-    }
+        return;
+      }
 
-    // Create a consumer
-    const cable = createConsumer(websocketUrl);
+      // Create a consumer
+      const cable = createConsumer(websocketUrl);
 
-    cableRef.current = cable;
+      cableRef.current = cable;
 
-    // Create a subscription to the chat channel
-    const subscription = cable.subscriptions.create(
-      { channel, room },
-      {
-        connected() {
-          console.info("Connected to the chat channel"); // eslint-disable-line no-console
+      // Create a subscription to the chat channel
+      const subscription = cable.subscriptions.create(
+        { channel: channelName, room: roomName },
+        {
+          connected() {
+            console.info("Connected to the chat channel"); // eslint-disable-line no-console
+          },
+          rejected() {
+            console.error("Rejected from the chat channel"); // eslint-disable-line no-console
+          },
+          disconnected() {
+            console.error("Disconnected from the chat channel"); // eslint-disable-line no-console
+            // Attempt to reconnect after a delay
+            setTimeout(() => {
+              connectToCable();
+            }, 5000);
+          },
+          received(data: M) {
+            console.info("Received message", data); // eslint-disable-line no-console
+            setMessages((prevMessages) => [...prevMessages, data]);
+          },
         },
-        rejected() {
-          console.error("Rejected from the chat channel"); // eslint-disable-line no-console
-        },
-        disconnected() {
-          console.error("Disconnected from the chat channel"); // eslint-disable-line no-console
-          // Attempt to reconnect after a delay
-          setTimeout(() => {
-            connectToCable();
-          }, 5000);
-        },
-        received(data: M) {
-          setMessages((prevMessages) => [...prevMessages, data]);
-        },
-      },
-    );
+      );
 
-    connectionRef.current = subscription;
-  }, [websocketUrl, channel, room]);
+      connectionRef.current = subscription;
+    },
+    [websocketUrl],
+  );
 
   React.useEffect(() => {
-    connectToCable();
+    connectToCable(channel, room);
 
     // Cleanup subscription on component unmount
     return () => {
@@ -84,7 +96,7 @@ export function useActionCableConnection<M extends object, S extends object>(web
         cableRef.current.disconnect();
       }
     };
-  }, [connectToCable]);
+  }, [channel, room]);
 
-  return { messages, sendMessage, subscribe };
+  return { messages, sendMessage, subscribe, connectToCable };
 }

@@ -19,17 +19,12 @@ export interface SpeakData {
 interface ChatComponentProps {
   websocketUrl: string;
 }
+const channelName = "ChatChannel";
+const roomName = "1";
 
 export default function ChatComponent({ websocketUrl }: ChatComponentProps) {
   const [newMessage, setNewMessage] = React.useState("");
-  const { messages, sendMessage, subscribe } = useActionCableConnection<Message, SpeakData>(websocketUrl);
-
-  React.useEffect(() => {
-    const channelName = "ChatChannel";
-    const roomName = "1";
-
-    subscribe(channelName, roomName);
-  }, []);
+  const { messages, sendMessage } = useActionCableConnection<Message, SpeakData>(websocketUrl, channelName, roomName);
 
   const handleSendMessage = async () => {
     sendMessage({ message: newMessage }, () => setNewMessage(""));

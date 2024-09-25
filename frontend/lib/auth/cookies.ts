@@ -20,9 +20,10 @@ export function useSetResponseCookies() {
   const response = NextResponse.json({ message: "Cookie set successfully" });
 
   function setCookies(key: string, value: string | number) {
-    const signedValue = `${value}.${generateSignature(value)}`;
+    const encodedValue = encodeURIComponent(`${value}`);
+    const signedEncodedValue = `${encodedValue}.${generateSignature(encodedValue)}`;
 
-    response.headers.set("Set-Cookie", cookie.serialize(key, signedValue, defaultCookieOptions));
+    response.headers.set("Set-Cookie", cookie.serialize(key, signedEncodedValue, defaultCookieOptions));
 
     const expires = new Date(Date.now() + maxAge).toUTCString();
 
