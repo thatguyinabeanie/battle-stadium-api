@@ -16,9 +16,20 @@ export interface SpeakData {
   message: string;
 }
 
-export default function ChatComponent() {
+interface ChatComponentProps {
+  websocketUrl: string;
+}
+
+export default function ChatComponent({ websocketUrl }: ChatComponentProps) {
   const [newMessage, setNewMessage] = React.useState("");
-  const { messages, sendMessage } = useActionCableConnection<Message, SpeakData>();
+  const { messages, sendMessage, subscribe } = useActionCableConnection<Message, SpeakData>(websocketUrl);
+
+  React.useEffect(() => {
+    const channelName = "ChatChannel";
+    const roomName = "1";
+
+    subscribe(channelName, roomName);
+  }, []);
 
   const handleSendMessage = async () => {
     sendMessage({ message: newMessage }, () => setNewMessage(""));

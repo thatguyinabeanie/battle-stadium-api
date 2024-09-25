@@ -8,30 +8,46 @@ type SubscriptionConnection<M> = Subscription<Consumer> &
     received(data: M): void;
   };
 
-export function useActionCableConnection<M extends object, S extends object>() {
-  const [messages, setMessages] = React.useState<M[]>([]);
+export function useActionCableConnection<M extends object, S extends object>(websocketUrl: string) {
   const cableRef = React.useRef<Consumer | null>(null);
   const connectionRef = React.useRef<SubscriptionConnection<M> | null>(null);
 
-  const sendMessage = (speakData: S, onSuccess?: () => void) => {
+  const [messages, setMessages] = React.useState<M[]>([]);
+  const [channel, setChannel] = React.useState<string | null>(null);
+  const [room, setRoom] = React.useState<string | null>(null);
+
+  const subscribe = React.useCallback((channelName: string, roomName: string) => {
+    setChannel(channelName);
+    setRoom(roomName);
+  }, []);
+
+  const sendMessage = React.useCallback((speakData: S, onSuccess?: () => void) => {
     if (!connectionRef.current) {
       throw new Error("Connection not established");
     } else if (connectionRef.current.perform("speak", speakData)) {
-      if (onSuccess) onSuccess();
+      if (onSuccess) {
+        onSuccess();
+      }
 
       return true;
     }
-  };
+  }, []);
 
-  const connectToCable = () => {
+  const connectToCable = React.useCallback(() => {
+    if (!channel || !room) {
+      console.warn("Channel or room not set"); // eslint-disable-line no-console
+
+      return;
+    }
+
     // Create a consumer
-    const cable = createConsumer("ws://localhost:10000/cable");
+    const cable = createConsumer(websocketUrl);
 
     cableRef.current = cable;
 
     // Create a subscription to the chat channel
     const subscription = cable.subscriptions.create(
-      { channel: "ChatChannel", room: "1" },
+      { channel, room },
       {
         connected() {
           console.info("Connected to the chat channel"); // eslint-disable-line no-console
@@ -50,7 +66,7 @@ export function useActionCableConnection<M extends object, S extends object>() {
     );
 
     connectionRef.current = subscription;
-  };
+  }, [websocketUrl, channel, room]);
 
   React.useEffect(() => {
     connectToCable();
@@ -64,7 +80,7 @@ export function useActionCableConnection<M extends object, S extends object>() {
         cableRef.current.disconnect();
       }
     };
-  }, []);
+  }, [connectToCable]);
 
-  return { messages, sendMessage };
+  return { messages, sendMessage, subscribe };
 }
