@@ -22,7 +22,6 @@ class ChatChannel < ApplicationCable::Channel
     message = data["message"]
     message_size = message.is_a?(String) ? message.bytesize : message.to_json.bytesize
     raise ArgumentError, "Message is too large" if message_size > MAX_MESSAGE_SIZE
-    return if message.blank?
 
     user_id = current_user.id
     timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S.%L")
