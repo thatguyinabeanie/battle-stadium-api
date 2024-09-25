@@ -90,7 +90,7 @@ RSpec.describe ChatChannel do
   it "handles trying to broadcast a message that passes the 1MB limit" do
     subscribe(room_id:)
     expect {
-      perform :speak, { message: "a" * 10000001 }  # Assuming 1MB limit
+      perform :speak, { message: "a" * 1_048_577 }  # Slightly over 1MB limit
     }.to raise_error(ArgumentError, "Message is too large")
   end
 
