@@ -3,12 +3,12 @@ import React from "react";
 
 type SubscriptionConnection<M> = Subscription<Consumer> &
   Mixin & {
-    connected (): void;
-    disconnected (): void;
-    received (data: M): void;
+    connected(): void;
+    disconnected(): void;
+    received(data: M): void;
   };
 
-export function useActionCableConnection <M extends object, S extends object> () {
+export function useActionCableConnection<M extends object, S extends object>() {
   const [messages, setMessages] = React.useState<M[]>([]);
   const cableRef = React.useRef<Consumer | null>(null);
   const connectionRef = React.useRef<SubscriptionConnection<M> | null>(null);
@@ -33,17 +33,17 @@ export function useActionCableConnection <M extends object, S extends object> ()
     const subscription = cable.subscriptions.create(
       { channel: "ChatChannel", room: "1" },
       {
-        connected () {
+        connected() {
           console.info("Connected to the chat channel"); // eslint-disable-line no-console
         },
-        disconnected () {
+        disconnected() {
           console.error("Disconnected from the chat channel"); // eslint-disable-line no-console
           // Attempt to reconnect after a delay
           setTimeout(() => {
             connectToCable();
           }, 5000);
         },
-        received (data: M) {
+        received(data: M) {
           setMessages((prevMessages) => [...prevMessages, data]);
         },
       },
@@ -67,4 +67,4 @@ export function useActionCableConnection <M extends object, S extends object> ()
   }, []);
 
   return { messages, sendMessage };
-};
+}

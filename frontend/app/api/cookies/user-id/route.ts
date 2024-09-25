@@ -6,6 +6,7 @@ const AUTH_SECRET = process.env.AUTH_SECRET;
 
 const setUserIdCookie = (setCookies: (name: string, value: string) => void, userId: string, response: NextResponse) => {
   setCookies("userId", userId);
+
   return response;
 };
 
@@ -34,11 +35,13 @@ export const POST = async (req: NextRequest) => {
     }
 
     const cookieExpiryDateValue = cookies["userId.expires"];
+
     if (!cookieExpiryDateValue) {
       return setUserIdCookie(setCookies, userId, response);
     }
 
     const cookieExpiryDate = new Date(cookieExpiryDateValue);
+
     if (cookieExpiryDate > new Date()) {
       return response;
     }
