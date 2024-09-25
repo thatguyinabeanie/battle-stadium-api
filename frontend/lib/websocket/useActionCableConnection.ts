@@ -53,7 +53,7 @@ export function useActionCableConnection<M extends object, S extends object>(web
         connected() {
           console.info("Connected to the chat channel"); // eslint-disable-line no-console
         },
-        rejected(){
+        rejected() {
           console.error("Rejected from the chat channel"); // eslint-disable-line no-console
         },
         disconnected() {

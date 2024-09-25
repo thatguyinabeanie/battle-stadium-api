@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import cookie from "cookie";
-import crypto from "crypto";
+import crypto from "node:crypto";
 const AUTH_SECRET = process.env.AUTH_SECRET;
+
+if (!AUTH_SECRET) {
+  throw new Error("AUTH_SECRET is not set.");
+}
 
 const maxAge = 60 * 60 * 24 * 1000; // 1 day in milliseconds
 const defaultCookieOptions: cookie.CookieSerializeOptions = {
@@ -30,12 +34,12 @@ export function useSetResponseCookies() {
 
 export function generateSignature(value: string | number) {
   if (!AUTH_SECRET) {
-    throw new Error("Server configuration error");
+    throw new Error("AUTH_SECRET is missing!");
   }
 
   return crypto.createHmac("sha256", AUTH_SECRET).update(`${value}`).digest("hex");
 }
 
-export function getCookies(req: NextRequest) {
+export function getCookies(req: NextRequest): { [key: string]: string } {
   return cookie.parse(req.headers.get("cookie") ?? "");
 }

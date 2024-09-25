@@ -42,6 +42,10 @@ export const POST = async (req: NextRequest) => {
 
     const cookieExpiryDate = new Date(cookieExpiryDateValue);
 
+    if (isNaN(cookieExpiryDate.getTime())) {
+      return setUserIdCookie(setCookies, userId, response);
+    }
+
     if (cookieExpiryDate > new Date()) {
       return response;
     }
