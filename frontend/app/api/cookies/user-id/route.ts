@@ -4,13 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const AUTH_SECRET = process.env.AUTH_SECRET;
 
-const setUserIdCookie = (setCookies: (name: string, value: string) => void, userId: string, response: NextResponse) => {
-  setCookies("userId", userId);
-
-  return response;
-};
-
-export const POST = async (req: NextRequest) => {
+export async function POST(req: NextRequest) {
   const { userId } = auth();
 
   const [response, setCookies] = useSetResponseCookies();
@@ -30,7 +24,7 @@ export const POST = async (req: NextRequest) => {
     const [storedUserId, signature] = userIdCookie.split(".");
     const expectedSignature = generateSignature(storedUserId ?? "");
 
-    if (signature !== expectedSignature) {
+    if (!storedUserId || !signature || signature !== expectedSignature) {
       return setUserIdCookie(setCookies, userId, response);
     }
 
@@ -42,7 +36,7 @@ export const POST = async (req: NextRequest) => {
 
     const cookieExpiryDate = new Date(cookieExpiryDateValue);
 
-    if (isNaN(cookieExpiryDate.getTime())) {
+    if (Number.isNaN(cookieExpiryDate.getTime())) {
       return setUserIdCookie(setCookies, userId, response);
     }
 
@@ -52,4 +46,10 @@ export const POST = async (req: NextRequest) => {
   }
 
   return setUserIdCookie(setCookies, userId, response);
-};
+}
+
+function setUserIdCookie(setCookies: (name: string, value: string) => void, userId: string, response: NextResponse) {
+  setCookies("userId", userId);
+
+  return response;
+}
