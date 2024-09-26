@@ -19,11 +19,11 @@ export interface SpeakData {
 
 interface ChatComponentProps {
   websocketUrl: string;
+  channelName: string;
+  roomName: string;
 }
-const channelName = "ChatChannel";
-const roomName = "1";
 
-export default function ChatComponent({ websocketUrl }: ChatComponentProps) {
+export default function ChatComponent({ websocketUrl, channelName, roomName }: Readonly<ChatComponentProps>) {
   const [newMessage, setNewMessage] = React.useState("");
   const { messages, sendMessage } = useActionCableConnection<Message, SpeakData>(websocketUrl, channelName, roomName);
 
@@ -49,7 +49,7 @@ export default function ChatComponent({ websocketUrl }: ChatComponentProps) {
   );
 }
 
-function MessageList({ messages }: { messages: Message[] }) {
+function MessageList({ messages }: Readonly<{ messages: Message[] }>) {
   const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => (
     <div className="p-2 bg-gray-800 rounded" style={style}>
       <span className="font-bold text-purple-400">{messages[index]?.user_id ?? "Unknown"}: </span>
