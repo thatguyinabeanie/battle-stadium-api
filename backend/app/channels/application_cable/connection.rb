@@ -1,4 +1,4 @@
-require_relative "../../../lib/auth/cookies/verifier"
+require_relative "../../../lib/auth/cookies/cookie_verifier.rb"
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
