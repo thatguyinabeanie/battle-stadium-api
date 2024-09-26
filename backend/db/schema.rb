@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_26_211303) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_26_214831) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -177,7 +177,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_211303) do
   create_table "pokemon_teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id"
+    t.uuid "profile_id", null: false
   end
 
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -274,7 +274,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_211303) do
   add_foreign_key "players", "profiles"
   add_foreign_key "players", "tournaments"
   add_foreign_key "pokemon", "pokemon_teams"
-  add_foreign_key "pokemon_teams", "users"
+  add_foreign_key "pokemon_teams", "profiles"
   add_foreign_key "profiles", "users"
   add_foreign_key "tournament_formats", "formats"
   add_foreign_key "tournament_formats", "tournaments"

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :player, aliases: [:tournament_player], class: "Tournaments::Player" do
-    user factory: :user
-    tournament factory: :tournament
+    association profile factory: :profile
+    association tournament factory: :tournament
     in_game_name { Faker::Name.name }
     pokemon_team { nil }
     checked_in_at { nil }
