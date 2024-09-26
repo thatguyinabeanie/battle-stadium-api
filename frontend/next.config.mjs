@@ -4,7 +4,7 @@ import { join } from "path";
 import dotenv from "dotenv";
 
 dotenv.config({ path: join(process.cwd(), ".env") });
-dotenv.config({ path: join(process.cwd(), ".env.local") });
+dotenv.config({ path: join(process.cwd(), ".env.development.local") });
 
 export default async function nextConfig(_phase, { defaultConfig }) {
   const nextConfig = {

@@ -24,7 +24,7 @@ model accounts {
   updated_at          DateTime @db.Timestamp(6)
   user_id             String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-  @@id([provider, provider_account_id])
+  @@id([provider, provider_account_id], map: "account_pkey")
   @@unique([provider, provider_account_id], map: "index_accounts_on_provider_and_provider_account_id")
 }
 
@@ -105,24 +105,25 @@ model match_games {
 }
 
 model matches {
-  id                                     BigInt        @id @default(autoincrement())
+  id                                     BigInt          @id @default(autoincrement())
   round_id                               BigInt
   table_number                           Int?
   player_one_id                          BigInt
   player_two_id                          BigInt
   winner_id                              BigInt?
-  created_at                             DateTime      @db.Timestamp(6)
-  updated_at                             DateTime      @db.Timestamp(6)
-  player_one_check_in                    DateTime?     @db.Timestamp(6)
-  player_two_check_in                    DateTime?     @db.Timestamp(6)
+  created_at                             DateTime        @db.Timestamp(6)
+  updated_at                             DateTime        @db.Timestamp(6)
+  player_one_check_in                    DateTime?       @db.Timestamp(6)
+  player_two_check_in                    DateTime?       @db.Timestamp(6)
   loser_id                               BigInt?
-  reported_at                            DateTime?     @db.Timestamp(6)
+  reported_at                            DateTime?       @db.Timestamp(6)
+  chat_messages                          chat_messages[]
   match_games                            match_games[]
-  players_matches_loser_idToplayers      players?      @relation("matches_loser_idToplayers", fields: [loser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_973a5646ac")
-  players_matches_winner_idToplayers     players?      @relation("matches_winner_idToplayers", fields: [winner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9d0deeb219")
-  players_matches_player_two_idToplayers players       @relation("matches_player_two_idToplayers", fields: [player_two_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b58c6c3513")
-  players_matches_player_one_idToplayers players       @relation("matches_player_one_idToplayers", fields: [player_one_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_bfcd6a3c9f")
-  rounds                                 rounds        @relation(fields: [round_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e7c0250650")
+  players_matches_loser_idToplayers      players?        @relation("matches_loser_idToplayers", fields: [loser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_973a5646ac")
+  players_matches_winner_idToplayers     players?        @relation("matches_winner_idToplayers", fields: [winner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9d0deeb219")
+  players_matches_player_two_idToplayers players         @relation("matches_player_two_idToplayers", fields: [player_two_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b58c6c3513")
+  players_matches_player_one_idToplayers players         @relation("matches_player_one_idToplayers", fields: [player_one_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_bfcd6a3c9f")
+  rounds                                 rounds          @relation(fields: [round_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e7c0250650")
 
   @@unique([round_id, player_one_id, player_two_id], map: "index_matches_on_round_and_players_unique")
   @@index([loser_id], map: "index_matches_on_loser_id")
@@ -153,6 +154,7 @@ model organizations {
   logo_url                   String?                      @db.VarChar
   partner                    Boolean                      @default(false)
   hidden                     Boolean                      @default(false)
+  slug                       String?                      @unique(map: "index_organizations_on_slug") @db.VarChar
   organization_staff_members organization_staff_members[]
   users                      users?                       @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_ab574863f6")
   tournaments                tournaments[]
@@ -206,9 +208,9 @@ model players {
   matches_matches_player_two_idToplayers     matches[]       @relation("matches_player_two_idToplayers")
   matches_matches_player_one_idToplayers     matches[]       @relation("matches_player_one_idToplayers")
   phase_players                              phase_players[]
+  tournaments                                tournaments     @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f96ec8a72f")
   users                                      users?          @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_224cac07ce")
   pokemon_teams                              pokemon_teams?  @relation(fields: [pokemon_team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_aeec102047")
-  tournaments                                tournaments     @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f96ec8a72f")
 
   @@unique([user_id, tournament_id], map: "index_players_on_user_id_and_tournament_id")
   @@index([pokemon_team_id], map: "index_players_on_pokemon_team_id")
@@ -325,7 +327,6 @@ model tournaments {
 }
 
 model users {
-  id                         String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email                      String                       @unique(map: "index_users_on_email") @default("") @db.VarChar
   username                   String?                      @unique(map: "index_users_on_username") @default("") @db.VarChar
   created_at                 DateTime                     @db.Timestamp(6)
@@ -334,8 +335,10 @@ model users {
   last_name                  String?                      @db.VarChar
   pronouns                   String                       @default("") @db.VarChar
   image_url                  String?
+  id                         String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   admin                      Boolean                      @default(false)
   authenticators             authenticators[]
+  chat_messages              chat_messages[]
   clerk_users                clerk_users[]
   match_games                match_games[]
   organization_staff_members organization_staff_members[]
@@ -354,4 +357,31 @@ model verification_tokens {
   updated_at DateTime @db.Timestamp(6)
 
   @@unique([identifier, token], map: "index_verification_token_on_identifier_and_token")
+}
+
+model chat_messages {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  match_id   BigInt
+  user_id    String   @db.Uuid
+  content    String?
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_918ef7acc4")
+  matches    matches  @relation(fields: [match_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f9ae4172ee")
+
+  @@index([match_id], map: "index_chat_messages_on_match_id")
+  @@index([user_id], map: "index_chat_messages_on_user_id")
+}
+
+model friendly_id_slugs {
+  id             BigInt    @id @default(autoincrement())
+  slug           String    @db.VarChar
+  sluggable_id   Int
+  sluggable_type String?   @db.VarChar(50)
+  scope          String?   @db.VarChar
+  created_at     DateTime? @db.Timestamp(6)
+
+  @@unique([slug, sluggable_type, scope], map: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope")
+  @@index([slug, sluggable_type], map: "index_friendly_id_slugs_on_slug_and_sluggable_type")
+  @@index([sluggable_type, sluggable_id], map: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id")
 }
