@@ -93,7 +93,7 @@ export default function CookiesComponent() {
           >
             Accept All
           </Button>
-          <Button className="font-medium" radius="lg" variant="light" onClick={handleReject}>
+          <Button aria-label="Reject all cookies" className="font-medium" radius="lg" variant="light" onClick={handleReject}>
             Reject
           </Button>
         </div>
