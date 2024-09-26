@@ -63,9 +63,9 @@ module Tournaments
         begin
           update!(started_at: Time.current.utc)
           phases.order(order: :asc).first.accept_players(players:)
-        rescue => e
+        rescue StandardError => e
           Rails.logger.error "Failed to start tournament: #{e.message}"
-          raise ActiveRecord::Rollback
+          raise
         end
       end
     end
