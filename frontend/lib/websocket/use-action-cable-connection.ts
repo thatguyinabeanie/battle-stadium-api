@@ -76,8 +76,6 @@ export function useActionCableConnection<M extends object, S extends object>(
             console.info("Disconnected from the chat channel"); // eslint-disable-line no-console
             // Attempt to reconnect after a delay, but only if it's not a reconnect attempt
             if (shouldReconnect) {
-
-
               const attemptReconnect = () => {
                 if (reconnectAttempts < maxReconnectAttempts) {
                   reconnectAttempts++;
