@@ -11,7 +11,7 @@ type SubscriptionConnection<M> = Subscription<Consumer> &
 export function useActionCableConnection<M extends object, S extends object>(
   websocketUrl: string,
   channelName: string,
-  roomName: string,
+  roomName: string | number,
 ) {
   const cableRef = React.useRef<Consumer | null>(null);
   const connectionRef = React.useRef<SubscriptionConnection<M> | null>(null);
@@ -19,7 +19,7 @@ export function useActionCableConnection<M extends object, S extends object>(
   // TODO: manage message history
   const [messages, setMessages] = React.useState<M[]>([]);
   const [channel, setChannel] = React.useState<string | null | undefined>(channelName);
-  const [room, setRoom] = React.useState<string | null | undefined>(roomName);
+  const [room, setRoom] = React.useState<string | number | null | undefined>(roomName);
 
   const subscribe = React.useCallback(
     (channelName?: string, roomName?: string) => {
@@ -103,7 +103,7 @@ export function useActionCableConnection<M extends object, S extends object>(
   );
 
   React.useEffect(() => {
-    connectToCable(channel, room);
+    connectToCable(channel, `${room}`);
 
     // Cleanup subscription on component unmount
     return () => {

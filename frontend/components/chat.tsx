@@ -4,7 +4,7 @@
 import * as React from "react";
 import { FixedSizeList as List } from "react-window";
 import { Button } from "@nextui-org/react";
-import { useActionCableConnection } from "@/lib/websocket/useActionCableConnection";
+import { useActionCableConnection } from "@/lib/websocket/use-action-cable-connection";
 
 export interface Message {
   key: string;
@@ -20,7 +20,7 @@ export interface SpeakData {
 interface ChatComponentProps {
   websocketUrl: string;
   channelName: string;
-  roomName: string;
+  roomName: string | number;
 }
 
 export default function ChatComponent({ websocketUrl, channelName, roomName }: Readonly<ChatComponentProps>) {
