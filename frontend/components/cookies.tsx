@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 import { useAuth } from "@clerk/clerk-react";
 import { Button, Link } from "@nextui-org/react";
@@ -16,23 +16,23 @@ const cookieAttributes = (attrs: Partial<Cookies.CookieAttributes>): Cookies.Coo
 
 const COOKIE_CONSENT = "cookieConsent";
 
-export default function Cookies() {
+export default function CookiesComponent() {
   const { isSignedIn, userId } = useAuth();
-  const cookieConsent = cookies.get(COOKIE_CONSENT);
+  const cookieConsent = Cookies.get(COOKIE_CONSENT);
   const [showConsent, setShowConsent] = React.useState(false);
 
   function handleAccept() {
-    cookies.set(COOKIE_CONSENT, "accepted", cookieAttributes({ expires: 365 }));
+    Cookies.set(COOKIE_CONSENT, "accepted", cookieAttributes({ expires: 365 }));
 
     if (isSignedIn) {
-      cookies.set("userId", userId, cookieAttributes({ expires: 7 }));
+      Cookies.set("userId", userId, cookieAttributes({ expires: 7 }));
     }
 
     setShowConsent(false);
   }
 
   function handleReject() {
-    cookies.set(COOKIE_CONSENT, "rejected", cookieAttributes({ expires: 1 }));
+    Cookies.set(COOKIE_CONSENT, "rejected", cookieAttributes({ expires: 1 }));
     setShowConsent(false);
   }
 
@@ -46,7 +46,7 @@ export default function Cookies() {
 
   React.useEffect(() => {
     if (isSignedIn && cookieConsent === "accepted" && userId) {
-      const userIdCookie = cookies.get("userId");
+      const userIdCookie = Cookies.get("userId");
 
       if (!userIdCookie || userIdCookie.split(".")[0] !== userId) {
         callApiToSetUserId(userId);
@@ -71,7 +71,7 @@ export default function Cookies() {
   if (!showConsent) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 px-[21px] pb-[26px] z-20">
+    <div aria-live="polite" className="fixed inset-x-0 bottom-0 px-[21px] pb-[26px] z-20" role="alert">
       <div className="flex w-full items-center justify-between gap-x-20 rounded-large border border-divider bg-background/15 px-6 py-4 shadow-small backdrop-blur">
         <p className="text-small font-normal text-default-700">
           We use cookies to provide the best experience. By continuing to use our site, you agree to our&nbsp;
