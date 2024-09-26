@@ -79,6 +79,8 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def authorized_to_join?(match:)
+    return true if current_user.admin?
+
     return false unless match.present? && match.round.present? && match.round.ended_at.nil?
 
     authorize match, :join_chat?
