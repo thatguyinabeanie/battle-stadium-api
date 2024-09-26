@@ -65,7 +65,7 @@ export function useActionCableConnection<M extends object, S extends object>(
           rejected() {
             console.info("Rejected from the chat channel"); // eslint-disable-line no-console
           },
-            disconnected() {
+          disconnected() {
             console.info("Disconnected from the chat channel"); // eslint-disable-line no-console
             // Attempt to reconnect after a delay, but only if it's not a reconnect attempt
             if (shouldReconnect) {
@@ -76,8 +76,8 @@ export function useActionCableConnection<M extends object, S extends object>(
                 if (reconnectAttempts < maxReconnectAttempts) {
                   reconnectAttempts++;
                   setTimeout(() => {
-                  console.info(`Reconnect attempt ${reconnectAttempts}`); // eslint-disable-line no-console
-                  connectToCable(channelName, roomName, false);
+                    console.info(`Reconnect attempt ${reconnectAttempts}`); // eslint-disable-line no-console
+                    connectToCable(channelName, roomName, false);
                   }, 5000);
                 } else {
                   console.warn("Max reconnect attempts reached"); // eslint-disable-line no-console
@@ -86,7 +86,7 @@ export function useActionCableConnection<M extends object, S extends object>(
 
               attemptReconnect();
             }
-            },
+          },
           received(data: M) {
             console.info("Received message", data); // eslint-disable-line no-console
             setMessages((prevMessages) => [...prevMessages, data]);
