@@ -80,7 +80,7 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle check || bundle install
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-FROM --platform=linux/amd64 thatguyinabeanie/battle-stadium:latest AS production
+FROM thatguyinabeanie/battle-stadium:latest AS production
 EXPOSE 10000 28080
 USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
