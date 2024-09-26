@@ -24,6 +24,7 @@ services:
     environment:
       RAILS_ENV: development
       PORT: 10000
+      AUTO_START_RAILS: "true"
     build:
       context: backend
       dockerfile: Dockerfile.dev
