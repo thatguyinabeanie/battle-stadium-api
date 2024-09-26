@@ -1,4 +1,4 @@
-require_relative "../../../lib/auth/cookies/cookie_verifier.rb"
+require_relative "../../../lib/auth/cookies/signature.rb"
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
@@ -12,11 +12,16 @@ module ApplicationCable
 
     def find_verified_user
       Rails.logger.info "Verifying user connection"
-      clerk_user_id = Auth::Cookies::CookieVerifier.verify_signed_cookie(cookie: cookies[:userId])
+
+      clerk_user_id = Auth::Cookies::Signature.verify(cookie: cookies[:userId])
+
       Rails.logger.info "Cookie verified: #{clerk_user_id}"
-      clerk_user = ClerkUser.find_by(clerk_user_id:)
+
+      clerk_user = ClerkUser.find_by!(clerk_user_id:)
+
       Rails.logger.info "Clerk user found: #{clerk_user&.user_id}"
-      verified_user = User.find_by(id: clerk_user&.user_id)
+
+      verified_user = clerk_user&.user
       Rails.logger.info "User found: #{verified_user&.id}"
 
       if verified_user
@@ -26,6 +31,9 @@ module ApplicationCable
         Rails.logger.info "User not found - clerk id: #{clerk_user_id} - user id: #{clerk_user&.user_id}"
         reject_unauthorized_connection
       end
+    rescue StandardError => e
+      Rails.logger.error "Error verifying user: #{e.message}"
+      reject_unauthorized_connection
     end
   end
 end
