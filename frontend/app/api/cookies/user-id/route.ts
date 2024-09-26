@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const expectedSignature = generateSignature(storedUserId ?? "");
 
     if (!storedUserId || !signature || signature !== expectedSignature) {
-      msg = `Signature verification failed for userId cookie. Stored userId: ${storedUserId}, Expected signature: ${expectedSignature}`;
+      const msg = `Signature verification failed for userId cookie. Stored userId: ${storedUserId}, Expected signature: ${expectedSignature}`;
       console.warn(msg); // eslint-disable-line no-console
 
       return setUserIdCookie(setCookies, userId, response);
