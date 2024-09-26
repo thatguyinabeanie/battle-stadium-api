@@ -253,7 +253,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_223125) do
   end
 
   add_foreign_key "chat_messages", "matches"
-  add_foreign_key "chat_messages", "users"
+  add_foreign_key "chat_messages", "profiles"
+  add_foreign_key "chat_messages", "users", column: "profile_id"
   add_foreign_key "clerk_users", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
