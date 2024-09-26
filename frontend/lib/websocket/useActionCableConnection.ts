@@ -43,7 +43,7 @@ export function useActionCableConnection<M extends object, S extends object>(
   }, []);
 
   const connectToCable = React.useCallback(
-    (channelName?: string | null, roomName?: string | null) => {
+    (channelName?: string | null, roomName?: string | null, shouldReconnect = true) => {
       if (!channelName || !roomName) {
         console.warn("Channel or room not set"); // eslint-disable-line no-console
 
@@ -67,10 +67,12 @@ export function useActionCableConnection<M extends object, S extends object>(
           },
           disconnected() {
             console.info("Disconnected from the chat channel"); // eslint-disable-line no-console
-            // Attempt to reconnect after a delay
-            setTimeout(() => {
-              connectToCable();
-            }, 5000);
+            // Attempt to reconnect after a delay, but only if it's not a reconnect attempt
+            if (shouldReconnect) {
+              setTimeout(() => {
+                connectToCable(channelName, roomName, false);
+              }, 5000);
+            }
           },
           received(data: M) {
             console.info("Received message", data); // eslint-disable-line no-console
