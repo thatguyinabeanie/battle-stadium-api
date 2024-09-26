@@ -31,9 +31,7 @@ FROM base-image AS development
 WORKDIR /battle-stadium/backend
 COPY . .
 RUN bundle check || bundle install
-# rails rest api port + websocket port
-EXPOSE 10000 28080
-
+EXPOSE 10000
 ENV RAILS_ENV=development
 ENTRYPOINT ["/battle-stadium/backend/bin/docker-entrypoint"]
 CMD ["/battle-stadium/backend/bin/docker-entrypoint"]
