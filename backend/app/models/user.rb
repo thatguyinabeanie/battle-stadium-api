@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true, allow_blank: false
   validate :username_uniqueness_across_users_and_profiles
+  validate :username_unchangeable, on: :update
 
   validates :email, presence: true, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :first_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
@@ -32,8 +33,12 @@ class User < ApplicationRecord
   end
 
   def username_uniqueness_across_users_and_profiles
-    if User.exists?(username:) || Profile.exists?(username:)
-      errors.add(:username, "has already been taken")
+    errors.add(:username, "has already been taken") if User.where.not(id: self.id).exists?(username:) && Profile.where.not(user_id: self.id).exists?(username:)
+  end
+
+  def username_unchangeable
+    if username_changed? && self.persisted?
+      errors.add(:username, "cannot be changed once it is created")
     end
   end
 end

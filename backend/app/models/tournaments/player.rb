@@ -6,9 +6,9 @@ module Tournaments
     belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true
 
-    validates :user_id, presence: true
+    validates :profile_id, presence: true
     validates :tournament_id, presence: true
-    validates :user_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
+    validates :profile_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
 
     accepts_nested_attributes_for :pokemon_team
 
