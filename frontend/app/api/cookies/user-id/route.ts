@@ -7,7 +7,12 @@ const AUTH_SECRET = process.env.AUTH_SECRET;
 export async function POST(req: NextRequest) {
   const { userId } = auth();
 
+
   const [response, setCookies] = useSetResponseCookies();
+
+  if (!setCookies) {
+    return NextResponse.json({ error: "Failed to set cookies" }, { status: 500 });
+  }
 
   if (!userId) {
     return NextResponse.json({ error: "Logged in user is required" }, { status: 401 });

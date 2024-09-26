@@ -7,7 +7,7 @@ if (!AUTH_SECRET) {
   throw new Error("AUTH_SECRET is not set.");
 }
 
-const maxAge = 60 * 60 * 24 * 1000; // 1 day in milliseconds
+const maxAge = 60 * 60 * 24; // 1 day in seconds
 const defaultCookieOptions: cookie.CookieSerializeOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
@@ -16,7 +16,7 @@ const defaultCookieOptions: cookie.CookieSerializeOptions = {
   maxAge,
 };
 
-export function useSetResponseCookies() {
+export function useSetResponseCookies(): readonly [NextResponse, (key: string, value: string | number) => void] {
   const response = NextResponse.json({ message: "Cookie set successfully" });
 
   function setCookies(key: string, value: string | number) {
@@ -25,17 +25,17 @@ export function useSetResponseCookies() {
 
     response.headers.set("Set-Cookie", cookie.serialize(key, signedEncodedValue, defaultCookieOptions));
 
-    const expires = new Date(Date.now() + maxAge).toUTCString();
+    const expires = new Date(Date.now() + maxAge  * 1000).toUTCString();
 
     response.headers.append("Set-Cookie", cookie.serialize(`${key}.expires`, expires, defaultCookieOptions));
   }
 
-  return [response, setCookies] as const;
+  return [response, setCookies];
 }
 
 export function generateSignature(value: string | number) {
   if (!AUTH_SECRET) {
-    throw new Error("AUTH_SECRET is missing!");
+    throw new Error("AUTH_SECRET is not set.");
   }
 
   return crypto.createHmac("sha256", AUTH_SECRET).update(`${value}`).digest("hex");
