@@ -1,5 +1,6 @@
 import { createConsumer, Consumer, Subscription, Mixin } from "@rails/actioncable";
 import React from "react";
+import { set } from "zod";
 
 type SubscriptionConnection<M> = Subscription<Consumer> &
   Mixin & {
@@ -28,7 +29,7 @@ export function useActionCableConnection<M extends object, S extends object>(
     if (roomName) {
       setRoom(roomName);
     }
-  }, []);
+  }, [setChannel, setRoom]);
 
   const sendMessage = React.useCallback((speakData: S, onSuccess?: () => void) => {
     if (!connectionRef.current) {
@@ -111,7 +112,7 @@ export function useActionCableConnection<M extends object, S extends object>(
         cableRef.current.disconnect();
       }
     };
-  }, [channel, room]);
+  }, [channel, room, connectToCable]);
 
   return { messages, sendMessage, subscribe, connectToCable };
 }
