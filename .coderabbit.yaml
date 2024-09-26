@@ -1,0 +1,19 @@
+language: "en-US"
+early_access: true
+enable_free_tier: true
+tone_instructions: "You must use a casual yet friendly tone in your writing."
+reviews:
+  profile: "assertive"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    auto_incremental_review: true
+    labels:
+      - "CodeRabbit Auto-Review"
+chat:
+  auto_reply: true
