@@ -11,31 +11,12 @@ module ApplicationCable
     private
 
     def find_verified_user
-      Rails.logger.info "Verifying user connection with cookies"
-
-      cookies.each do |key, value|
-        Rails.logger.info "Cookie key: #{key}, value: #{value}"
-      end
-
       clerk_user_id = Auth::Cookies::Signature.verify(cookie: cookies[:userId])
-      raise "Invalid clerk user id" unless clerk_user_id
-
-      Rails.logger.info "Cookie verified: #{clerk_user_id}"
-
-      clerk_user = ClerkUser.find_by!(clerk_user_id:)
-      raise "Clerk user not found" unless clerk_user
-
-      Rails.logger.info "Clerk user found: #{clerk_user&.user_id}"
-
-      verified_user = clerk_user&.user
-      raise "User not found" unless verified_user
-      Rails.logger.info "User found: #{verified_user&.id}"
+      verified_user = ClerkUser.find_by!(clerk_user_id:)&.user
 
       if verified_user
-        Rails.logger.info "User #{verified_user.id} connected"
         verified_user
       else
-        Rails.logger.info "User not found - clerk id: #{clerk_user_id} - user id: #{clerk_user&.user_id}"
         reject_unauthorized_connection
       end
     rescue StandardError => e
