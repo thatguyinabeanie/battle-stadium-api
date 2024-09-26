@@ -39,7 +39,7 @@ RSpec.describe ChatChannel do
 
   it "sets correct subscription data" do
     subscribe(room:)
-    expect(subscription.subscription_data).to eq({ room: })
+    expect(subscription.chat_channel).to eq("chat_#{room}")
   end
 
   it "handles multiple subscriptions" do

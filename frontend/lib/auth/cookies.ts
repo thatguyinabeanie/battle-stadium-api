@@ -20,7 +20,7 @@ export function useSetResponseCookies(): readonly [NextResponse, (key: string, v
   const response = NextResponse.json({ message: "Cookie set successfully" });
 
   function setCookies(key: string, value: string | number) {
-    const encodedValue = encodeURIComponent(`${value}`);
+    const encodedValue = encodeURIComponent(`${value}`).replace(/\./g, "%2E");
     const signedEncodedValue = `${encodedValue}.${generateSignature(encodedValue)}`;
 
     response.headers.set("Set-Cookie", cookie.serialize(key, signedEncodedValue, defaultCookieOptions));

@@ -16,7 +16,7 @@
 require "factory_bot_rails"
 # require_relative 'support/openapi_helper'
 ENV["RAILS_ENV"] = "test"
-
+ENV["AUTH_SECRET"] = "test_secret"
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

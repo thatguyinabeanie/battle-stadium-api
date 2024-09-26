@@ -8,20 +8,20 @@ class ChatChannel < ApplicationCable::Channel
   class MessageTooLargeError < StandardError; end
 
   def subscribed
-    the_match = match(match_id: params[:room])
-    if authorized_to_join?(match: the_match)
-      @subscription_data = { room: params[:room] }
+    if authorized_to_join?(match: match(match_id: params[:room]))
       stream_from chat_channel
       Rails.logger.info "Subscribed to #{chat_channel}"
     else
       Rails.logger.warn "Subscription rejected for invalid room ID: #{params[:room]}"
       reject
     end
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger.error "Subscription rejected for invalid room ID: #{params[:room]}"
   end
 
   def unsubscribed
     # Ensure params[:room] is not nil before accessing it
-    if @subscription_data && @subscription_data[:room].present?
+    if params[:room].present?
       Rails.logger.info "Unsubscribed from #{chat_channel}"
       stop_all_streams
     else
@@ -32,12 +32,11 @@ class ChatChannel < ApplicationCable::Channel
   def speak(data)
     return unless params[:room].present? && data["message"].present? && current_user.present?
 
-    user_id = current_user.id
-
+    user_id = current_user.username
     timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S.%L")
 
-    match.reload
-    if match.round.ended_at != nil
+    @match&.reload
+    if @match&.round&.ended_at.present?
       message = "Match completed. No further messages allowed."
       Rails.logger.warn "Message rejected because the match is completed: #{params[:room]}"
       ActionCable.server.broadcast(chat_channel, {
@@ -63,6 +62,11 @@ class ChatChannel < ApplicationCable::Channel
     })
   end
 
+
+  def chat_channel
+    "chat_#{params[:room]}"
+  end
+
   private
 
   def match(match_id: nil)
@@ -70,22 +74,19 @@ class ChatChannel < ApplicationCable::Channel
     @match
   end
 
-  def chat_channel
-    "chat_#{@subscription_data[:room]}"
+  def authorized_to_join?(match:)
+    return true if current_user.present? && current_user.admin? if ENV.fetch("ADMIN_BYPASS", "false") == "true"
+    return false unless @match.present? && @match.round.present? && @match.round.ended_at.nil?
+
+    authorize @match, :join_chat?
+    true
   end
+
 
   def unique_key(user_id:, timestamp: nil, message:, type:)
     Digest::SHA256.hexdigest("#{chat_channel}-#{user_id}-#{timestamp}-#{message}-#{type}")
   end
 
-  def authorized_to_join?(match:)
-    return true if current_user.admin?
-
-    return false unless match.present? && match.round.present? && match.round.ended_at.nil?
-
-    authorize match, :join_chat?
-    true
-  end
 
   def load_previous_messages(match_id:)
     messages = match.chat_messages.order(created_at: :asc)
