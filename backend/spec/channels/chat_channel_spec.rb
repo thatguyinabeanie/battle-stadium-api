@@ -69,8 +69,7 @@ RSpec.describe ChatChannel do
   end
 
   it "handles unsubscription without prior subscription" do
-    subscribe(room:)
-    expect { unsubscribe }.not_to raise_error
+    expect { unsubscribe }.to raise_error(RuntimeError, "Must be subscribed!")
   end
 
   it "unsubscribes from multiple rooms" do
