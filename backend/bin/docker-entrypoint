@@ -12,6 +12,13 @@ bundle exec rails db:prepare && \
 echo "== Running migrations ==" && \
 bundle exec rails db:migrate && \
 echo "== Starting server ==" && \
-# bundle exec rails server -b 0.0.0.0 -p $PORT
-sleep infinity
+
+if [ "$RAILS_ENV" = "production" ]; then
+  echo "== Running in production mode =="
+  bundle exec rails server -b 0.0.0.0 -p $PORT
+else
+  echo "== Running in development mode =="
+  sleep infinity
+fi
+
 exec "${@}"
