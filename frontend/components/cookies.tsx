@@ -22,14 +22,12 @@ export default function Cookies() {
   const [showConsent, setShowConsent] = React.useState(false);
 
   function handleAccept() {
+    cookies.set(COOKIE_CONSENT, "accepted", cookieAttributes({ expires: 365 }));
+
     if (isSignedIn) {
-      // Handle the case when the user is logged in
-      cookies.set(COOKIE_CONSENT, "accepted", cookieAttributes({ expires: 365 }));
       cookies.set("userId", userId, cookieAttributes({ expires: 7 }));
-    } else {
-      // Handle the case when the user is not logged in
-      cookies.set(COOKIE_CONSENT, "accepted", cookieAttributes({ expires: 365 }));
     }
+
     setShowConsent(false);
   }
 
