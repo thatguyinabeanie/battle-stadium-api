@@ -16,8 +16,10 @@ module ApplicationCable
       verified_user = User.find_by(id: clerk_user&.user_id)
 
       if verified_user
+        Rails.logger.info "User #{verified_user.id} connected"
         verified_user
       else
+        Rails.logger.info "User not found - clerk id: #{clerk_user_id} - user id: #{clerk_user&.user_id}"
         reject_unauthorized_connection
       end
     end
