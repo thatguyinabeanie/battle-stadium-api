@@ -12,12 +12,10 @@ module Auth
 
       class << self
         def verify(cookie:)
-          Rails.logger.info("Verifying cookie: #{cookie}")
           raise Auth::Cookies::Signature::CookieMissingError, "Cookie is missing" unless cookie
           raise Auth::Cookies::Signature::InvalidCookieError, "Cookie does not include a '.'" unless cookie.include?(".")
 
           value, signature =  cookie.split(".")
-          Rails.logger.info("\n\n*****\nCookie value: #{value} - Signature: #{signature}\n*****\n\n")
           errors = []
           errors << "Missing cookie value" unless value.present?
           errors << "Missing cookie signature" unless signature.present?
@@ -27,7 +25,6 @@ module Auth
           expected_signature = OpenSSL::HMAC.hexdigest("SHA256", AUTH_SECRET, value)
 
           if signature == expected_signature
-            Rails.logger.info("Signature matches expected signature")
             value
           else
             raise Auth::Cookies::Signature::InvalidSignatureError, "Signature does not match expected signature"
