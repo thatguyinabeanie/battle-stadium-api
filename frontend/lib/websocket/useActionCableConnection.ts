@@ -63,10 +63,10 @@ export function useActionCableConnection<M extends object, S extends object>(
             console.info("Connected to the chat channel"); // eslint-disable-line no-console
           },
           rejected() {
-            console.error("Rejected from the chat channel"); // eslint-disable-line no-console
+            console.info("Rejected from the chat channel"); // eslint-disable-line no-console
           },
           disconnected() {
-            console.error("Disconnected from the chat channel"); // eslint-disable-line no-console
+            console.info("Disconnected from the chat channel"); // eslint-disable-line no-console
             // Attempt to reconnect after a delay
             setTimeout(() => {
               connectToCable();
