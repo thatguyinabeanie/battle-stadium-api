@@ -1,6 +1,5 @@
 # backend/lib/auth/cookies/signature_test.rb
 require "rails_helper"
-require "minitest/autorun"
 require "openssl"
 require "cgi"
 require_relative "../../../../lib/auth/cookies/signature"
