@@ -8,6 +8,8 @@ type SubscriptionConnection<M> = Subscription<Consumer> &
     received(data: M): void;
   };
 
+const maxReconnectAttempts = 5;
+
 export function useActionCableConnection<M extends object, S extends object>(
   websocketUrl: string,
   channelName: string,
@@ -58,6 +60,8 @@ export function useActionCableConnection<M extends object, S extends object>(
 
       cableRef.current = cable;
 
+      let reconnectAttempts = 0;
+
       // Create a subscription to the chat channel
       const subscription = cable.subscriptions.create(
         { channel: channelName, room: roomName },
@@ -72,8 +76,7 @@ export function useActionCableConnection<M extends object, S extends object>(
             console.info("Disconnected from the chat channel"); // eslint-disable-line no-console
             // Attempt to reconnect after a delay, but only if it's not a reconnect attempt
             if (shouldReconnect) {
-              let reconnectAttempts = 0;
-              const maxReconnectAttempts = 5;
+
 
               const attemptReconnect = () => {
                 if (reconnectAttempts < maxReconnectAttempts) {
