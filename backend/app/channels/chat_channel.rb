@@ -1,5 +1,6 @@
 # app/channels/chat_channel.rb
 class ChatChannel < ApplicationCable::Channel
+  include Pundit::Authorization
   attr_reader :subscription_data
 
   MAX_MESSAGE_SIZE = 1.megabyte
@@ -78,9 +79,12 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def authorized_to_join?(match:)
+    return true if current_user.admin?
+
     return false unless match.present? && match.round.present? && match.round.ended_at.nil?
 
-    match.can_access?(user: current_user)
+    authorize match, :join_chat?
+    true
   end
 
   def load_previous_messages(match_id:)

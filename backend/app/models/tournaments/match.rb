@@ -46,9 +46,5 @@ module Tournaments
         raise ArgumentError, "Cannot check in a player that is not part of the match."
       end
     end
-
-    def can_access?(user:)
-      [player_one, player_two].any? { |player| player.user == user } || organization.has_staff_member?(user:)
-    end
   end
 end

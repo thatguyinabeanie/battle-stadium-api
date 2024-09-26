@@ -17,8 +17,13 @@ if [ "$RAILS_ENV" = "production" ] || [ "$AUTO_START_RAILS" = "true" ]; then
   echo "== Running in production mode =="
   bundle exec rails server -b 0.0.0.0 -p $PORT
 else
-  echo "== Running in development mode =="
-  sleep infinity
+  if [ "$AUTO_START_RAILS" = "true" ]; then
+    echo "== Running in development mode =="
+    bundle exec rails server -b 0.0.0.0 -p $PORT
+  else
+    echo "== Sleep Infinity =="
+    sleep infinity
+  fi
 fi
 
 exec "${@}"
