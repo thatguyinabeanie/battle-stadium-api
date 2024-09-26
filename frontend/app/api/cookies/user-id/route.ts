@@ -7,7 +7,6 @@ const AUTH_SECRET = process.env.AUTH_SECRET;
 export async function POST(req: NextRequest) {
   const { userId } = auth();
 
-
   const [response, setCookies] = useSetResponseCookies();
 
   if (!setCookies) {
