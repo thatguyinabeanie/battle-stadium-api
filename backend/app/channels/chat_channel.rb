@@ -4,6 +4,8 @@ class ChatChannel < ApplicationCable::Channel
 
   MAX_MESSAGE_SIZE = 1.megabyte
 
+  class MessageTooLargeError < StandardError; end
+
   def subscribed
     match_id = params[:room]
     if authorized_to_join?(match_id:)
@@ -11,8 +13,8 @@ class ChatChannel < ApplicationCable::Channel
       stream_from "chat_#{params[:room]}"
       Rails.logger.info "Subscribed to chat_#{params[:room]}"
     else
-      reject
       Rails.logger.warn "Subscription rejected for invalid room ID: #{params[:room]}"
+      reject
     end
   end
 
@@ -49,7 +51,7 @@ class ChatChannel < ApplicationCable::Channel
 
     message = data["message"]
     message_size = message.is_a?(String) ? message.bytesize : message.to_json.bytesize
-    raise ArgumentError, "Message is too large" if message_size > MAX_MESSAGE_SIZE
+    raise MessageTooLargeError, "Message size exceeds the maximum limit of 1MB" if message_size > MAX_MESSAGE_SIZE
 
     ActionCable.server.broadcast(chat_channel, {
       user_id:,
@@ -57,7 +59,7 @@ class ChatChannel < ApplicationCable::Channel
       message:,
       type: "text",
       key: unique_key(user_id:, timestamp:, message:, type: "text"),
-    });
+    })
   end
 
   private

@@ -107,7 +107,7 @@ RSpec.describe ChatChannel do
     subscribe(room:)
     expect {
       perform :speak, { message: "a" * 1_048_577 }  # Slightly over 1MB limit
-    }.to raise_error(ArgumentError, "Message is too large")
+    }.to raise_error(ChatChannel::MessageTooLargeError, "Message size exceeds the maximum limit of 1MB")
   end
 
   it "handles malformed data gracefully" do
