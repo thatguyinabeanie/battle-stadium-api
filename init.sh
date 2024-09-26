@@ -41,17 +41,6 @@ if [ -f frontend/.env ]; then
 else
   echo "Creating frontend/.env ..."
   touch frontend/.env
-  echo "AUTH_TWITTER_ID=" >> frontend/.env
-  echo "AUTH_TWITTER_SECRET=" >> frontend/.env
-
-  echo "AUTH_DISCORD_ID=" >> frontend/.env
-  echo "AUTH_DISCORD_SECRET=" >> frontend/.env
-
-  echo "AUTH_GITHUB_ID=" >> frontend/.env
-  echo "AUTH_GITHUB_SECRET=" >> frontend/.env
-
-  echo "AUTH_TWITCH_ID=" >> frontend/.env
-  echo "AUTH_TWITCH_SECRET=" >> frontend/.env
   echo "AUTH_SECRET='$SECRET'" >> frontend/.env
   echo "done creating frontend/.env\n"
 fi
