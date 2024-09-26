@@ -84,6 +84,7 @@ class ChatChannel < ApplicationCable::Channel
     return false unless match.present? && match.round.present? && match.round.ended_at.nil?
 
     authorize match, :join_chat?
+    true
   end
 
   def load_previous_messages(match_id:)
