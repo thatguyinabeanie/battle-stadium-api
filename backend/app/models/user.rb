@@ -10,8 +10,6 @@ class User < ApplicationRecord
                                inverse_of: :owner
   has_many :organization_staff_members, class_name: "OrganizationStaffMember", dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :user
-  has_many :accounts, inverse_of: :user, dependent: :destroy, class_name: "Auth::Account"
-  has_many :sessions, inverse_of: :user, dependent: :destroy, class_name: "Auth::Session"
   has_many :clerk_users, dependent: :destroy, inverse_of: :user, class_name: "ClerkUser"
 
   def staff_member_of?(organization)
