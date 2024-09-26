@@ -7,13 +7,13 @@ if (!AUTH_SECRET) {
   throw new Error("AUTH_SECRET is not set.");
 }
 
-
-const getCookieDomain = () {
+function getCookieDomain() {
   if (process.env.NODE_ENV === "production") {
     return process.env.COOKIE_DOMAIN;
   }
+
   return "localhost";
-};
+}
 
 const maxAge = 60 * 60 * 24; // 1 day in seconds
 const defaultCookieOptions: cookie.CookieSerializeOptions = {
