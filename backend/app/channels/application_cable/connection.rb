@@ -14,14 +14,17 @@ module ApplicationCable
       Rails.logger.info "Verifying user connection"
 
       clerk_user_id = Auth::Cookies::Signature.verify(cookie: cookies[:userId])
+      raise "Invalid clerk user id" unless clerk_user_id
 
       Rails.logger.info "Cookie verified: #{clerk_user_id}"
 
       clerk_user = ClerkUser.find_by!(clerk_user_id:)
+      raise "Clerk user not found" unless clerk_user
 
       Rails.logger.info "Clerk user found: #{clerk_user&.user_id}"
 
       verified_user = clerk_user&.user
+      raise "User not found" unless verified_user
       Rails.logger.info "User found: #{verified_user&.id}"
 
       if verified_user
