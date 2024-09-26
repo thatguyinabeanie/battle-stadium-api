@@ -2,6 +2,7 @@
 "use client";
 
 import * as React from "react";
+import { FixedSizeList as List } from "react-window";
 import { Button } from "@nextui-org/react";
 import { useActionCableConnection } from "@/lib/websocket/useActionCableConnection";
 
@@ -35,11 +36,7 @@ export default function ChatComponent({ websocketUrl }: ChatComponentProps) {
   return (
     <div>
       <h1>Chat</h1>
-      <ul>
-        {messages.map((msg) => (
-          <li key={msg.key}>{msg.message}</li>
-        ))}
-      </ul>
+      <MessageList messages={messages} />
       <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
       <Button
         color={disableSendButton ? "default" : "primary"}
@@ -49,5 +46,20 @@ export default function ChatComponent({ websocketUrl }: ChatComponentProps) {
         Send
       </Button>
     </div>
+  );
+}
+
+function MessageList({ messages }: { messages: Message[] }) {
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => (
+    <div className="p-2 bg-gray-800 rounded" style={style}>
+      <span className="font-bold text-purple-400">{messages[index]?.user_id ?? "Unknown"}: </span>
+      {messages[index]?.message}
+    </div>
+  );
+
+  return (
+    <List className="mb-4" height={400} itemCount={messages.length} itemSize={35} width="100%">
+      {Row}
+    </List>
   );
 }

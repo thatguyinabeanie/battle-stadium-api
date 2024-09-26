@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
   }
 
   if (!AUTH_SECRET) {
+    console.error("AUTH_SECRET environment variable is not set."); // eslint-disable-line no-console
+
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
@@ -25,18 +27,25 @@ export async function POST(req: NextRequest) {
     const expectedSignature = generateSignature(storedUserId ?? "");
 
     if (!storedUserId || !signature || signature !== expectedSignature) {
+      msg = `Signature verification failed for userId cookie. Stored userId: ${storedUserId}, Expected signature: ${expectedSignature}`;
+      console.warn(msg); // eslint-disable-line no-console
+
       return setUserIdCookie(setCookies, userId, response);
     }
 
     const cookieExpiryDateValue = cookies["userId.expires"];
 
     if (!cookieExpiryDateValue) {
+      console.warn("Missing 'userId.expires' cookie."); // eslint-disable-line no-console
+
       return setUserIdCookie(setCookies, userId, response);
     }
 
     const cookieExpiryDate = new Date(cookieExpiryDateValue);
 
     if (Number.isNaN(cookieExpiryDate.getTime())) {
+      console.warn("Invalid date in 'userId.expires' cookie."); // eslint-disable-line no-console
+
       return setUserIdCookie(setCookies, userId, response);
     }
 
