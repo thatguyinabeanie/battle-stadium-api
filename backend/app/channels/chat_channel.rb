@@ -36,7 +36,7 @@ class ChatChannel < ApplicationCable::Channel
     timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S.%L")
 
     @match&.reload
-    unless @match&.round&.ended_at
+    if @match&.round&.ended_at.present?
       message = "Match completed. No further messages allowed."
       Rails.logger.warn "Message rejected because the match is completed: #{params[:room]}"
       ActionCable.server.broadcast(chat_channel, {
@@ -62,6 +62,11 @@ class ChatChannel < ApplicationCable::Channel
     })
   end
 
+
+  def chat_channel
+    "chat_#{params[:room]}"
+  end
+
   private
 
   def match(match_id: nil)
@@ -77,10 +82,6 @@ class ChatChannel < ApplicationCable::Channel
     true
   end
 
-
-  def chat_channel
-    "chat_#{params[:room]}"
-  end
 
   def unique_key(user_id:, timestamp: nil, message:, type:)
     Digest::SHA256.hexdigest("#{chat_channel}-#{user_id}-#{timestamp}-#{message}-#{type}")
