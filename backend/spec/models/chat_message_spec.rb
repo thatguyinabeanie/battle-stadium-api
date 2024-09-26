@@ -17,7 +17,7 @@ RSpec.describe ChatMessage do
         staff_member: organization.staff.first }
     end
 
-    let(:user_id) { match_hash[:player_one].user.id }
+    let(:profile_id) { match_hash[:player_one].profile.id }
     let(:match_id) { match_hash[:match].id }
 
     it "is valid with valid attributes" do
