@@ -1,5 +1,5 @@
 module Phases
-  class BasePhase < ApplicationRecord
+  class BasePhase < ::ApplicationRecord
     def self.policy_class
       ::Tournaments::PhasePolicy
     end

@@ -14,10 +14,15 @@ module Tournaments
     delegate :started_at, :ended_at, to: :round
 
     has_many :match_games, class_name: "Tournaments::MatchGame", dependent: :destroy, inverse_of: :match
+    has_many :chat_messages, dependent: :nullify, inverse_of: :match, class_name: "ChatMessage"
 
     validates :player_one, presence: true
     validates :player_two, presence: true
     validates :round, presence: true, uniqueness: { scope: %i[player_one_id player_two_id] }
+
+    delegate :phase, to: :round
+    delegate :tournament, to: :phase
+    delegate :organization, to: :tournament
 
     def check_in(player:)
       raise ArgumentError, "Cannot check in a player that is not part of the match." if [player_one, player_two].exclude?(player)
@@ -40,6 +45,10 @@ module Tournaments
       else
         raise ArgumentError, "Cannot check in a player that is not part of the match."
       end
+    end
+
+    def can_access?(user:)
+      [player_one, player_two].any? { |player| player.user == user } || organization.has_staff_member?(user:)
     end
   end
 end

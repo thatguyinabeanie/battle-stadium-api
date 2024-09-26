@@ -23,4 +23,8 @@ class Organization < ApplicationRecord
 
     errors.add(:owner_id, "has already been taken") if Organization.where(owner_id:).where.not(id:).exists?
   end
+
+  def has_staff_member?(user:)
+    staff.exists?(user.id) || owner == user
+  end
 end

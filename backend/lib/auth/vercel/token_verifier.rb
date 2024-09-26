@@ -12,7 +12,6 @@ module Auth
       class VerificationError < StandardError; end
 
       class << self
-        PRODUCTION_HOSTS = ["battlestadium.gg", "www.battlestadium.gg"].freeze
 
         @jwks_cache = nil
 

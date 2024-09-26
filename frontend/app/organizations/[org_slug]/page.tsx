@@ -6,8 +6,8 @@ import OrganizationLogo from "@/components/organizations/organization-logo";
 export const revalidate = 200;
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { data: org } = await getOrganization(params.slug);
+export async function generateMetadata({ params }: { params: { org_slug: string } }) {
+  const { data: org } = await getOrganization(params.org_slug);
 
   return { title: org?.name ?? "Organization" };
 }
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export async function generateStaticParams() {
   const orgs = (await getOrganizations()).data?.data ?? [];
 
-  return orgs.map(({ slug }) => ({ slug }));
+  return orgs.map(({ slug }) => ({ org_slug: slug }));
 }
 
 const columns = [
@@ -47,17 +47,17 @@ const columns = [
 ];
 
 interface OrganizationDetailPageProps {
-  params: { slug: string };
+  params: { org_slug: string };
 }
 
 export default async function OrganizationDetailPage({ params }: Readonly<OrganizationDetailPageProps>) {
-  const { data: organization } = await getOrganization(params.slug);
+  const { data: organization } = await getOrganization(params.org_slug);
 
   if (!organization) {
     return <div>404 - Not Found</div>;
   }
 
-  const { data: tournaments } = await getOrganizationTournaments(params.slug);
+  const { data: tournaments } = await getOrganizationTournaments(params.org_slug);
 
   return (
     <div className="w-100 h-100">

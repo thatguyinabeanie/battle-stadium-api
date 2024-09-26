@@ -40,7 +40,6 @@ COPY lib ./lib
 COPY public ./public
 COPY scripts ./scripts
 COPY storage ./storage
-COPY openapi ./openapi
 COPY vendor ./vendor
 COPY Rakefile ./Rakefile
 COPY config.ru ./config.ru
@@ -71,7 +70,6 @@ COPY lib ./lib
 COPY public ./public
 COPY scripts ./scripts
 COPY storage ./storage
-COPY openapi ./openapi
 COPY vendor ./vendor
 COPY Rakefile ./Rakefile
 COPY config.ru ./config.ru
@@ -80,8 +78,7 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle check || bundle install
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-
 FROM thatguyinabeanie/battle-stadium:latest AS production
+EXPOSE 10000
 USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
-

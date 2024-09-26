@@ -74,6 +74,12 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+  config.action_cable.allowed_request_origins = [
+    "http://localhost:10000",
+    "http://localhost:8080"
+  ]
+
+  config.action_cable.url = "ws://localhost:10000/cable"
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
@@ -81,8 +87,6 @@ Rails.application.configure do
   config.hosts = [
     "localhost" ,
     "backend",
-    "backend-dev:10000",
     "api-battle-stadium-gg.onrender.com",
-    "a5c4-2600-1700-4b40-2c60-bc7f-e8b9-c73a-f56a.ngrok-free.app"
   ]
 end
