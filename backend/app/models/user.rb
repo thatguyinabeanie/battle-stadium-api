@@ -15,6 +15,6 @@ class User < ApplicationRecord
   has_many :clerk_users, dependent: :destroy, inverse_of: :user, class_name: "ClerkUser"
 
   def staff_member_of?(organization)
-    organization.staff.exists?(id:)
+    organization.staff.exists?(id:) || organization.owner == self
   end
 end

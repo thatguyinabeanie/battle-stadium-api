@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_18_224400) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_25_224127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -45,6 +45,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_18_224400) do
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["credential_id"], name: "index_authenticators_on_credential_id", unique: true
+  end
+
+  create_table "chat_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.uuid "user_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_chat_messages_on_match_id"
+    t.index ["user_id"], name: "index_chat_messages_on_user_id"
   end
 
   create_table "clerk_users", force: :cascade do |t|
@@ -286,6 +296,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_18_224400) do
   end
 
   add_foreign_key "authenticators", "users"
+  add_foreign_key "chat_messages", "matches"
+  add_foreign_key "chat_messages", "users"
   add_foreign_key "clerk_users", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"

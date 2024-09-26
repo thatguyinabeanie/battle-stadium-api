@@ -58,8 +58,16 @@ module Tournaments
       raise "The tournament has no players. #{cannot_start}" if players.empty?
       raise "The tournament does not have the minimum required number of players. #{cannot_start}" if players.count < MINIMUM_PLAYER_COUNT
 
-      update!(started_at: Time.current.utc)
-      phases.order(order: :asc).first.accept_players(players:)
+
+      transaction do
+        begin
+          update!(started_at: Time.current.utc)
+          phases.order(order: :asc).first.accept_players(players:)
+        rescue => e
+          Rails.logger.error "Failed to start tournament: #{e.message}"
+          raise ActiveRecord::Rollback
+        end
+      end
     end
 
     def registration_open?

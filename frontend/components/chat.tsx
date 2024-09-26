@@ -7,7 +7,7 @@ import { useActionCableConnection } from "@/lib/websocket/useActionCableConnecti
 
 export interface Message {
   key: string;
-  user_id: string;
+  user_id: string | null;
   timestamp: string;
   message: string;
 }

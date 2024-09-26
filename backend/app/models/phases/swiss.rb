@@ -1,5 +1,5 @@
 module Phases
-  class Swiss < Phases::BasePhase
+  class Swiss < BasePhase
     self.table_name = "phases"
 
     validates :number_of_rounds, numericality: { greater_than: 0, only_integer: true }, presence: true
