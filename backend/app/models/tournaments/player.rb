@@ -12,8 +12,7 @@ module Tournaments
 
     accepts_nested_attributes_for :pokemon_team
 
-    delegate :username, to: :profile
-
+    delegate :username, :user, to: :profile
     # def pokemon_team=(team)
 
     #   raise 'You cannot submit more than 6 Pokemon.' if team.present? && team.pokemon.count > MAX_POKEMON_SUBMISSIONS
