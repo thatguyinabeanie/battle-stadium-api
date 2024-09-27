@@ -77,11 +77,15 @@ module Tournaments
     end
 
     def register_user(user: nil, profile: nil, pokemon_team: nil)
-      raise "User or profile must be provided." if user.nil? && profile.nil?
-      raise "Profile does not belong to the user." if user.present? && profile.present? && profile.user_id != user.id
+      register(user:, profile:, pokemon_team:)
+    end
 
-      return false if players.exists?(profile_id: profile.id)
-      return false if players.joins(:profile).where(profiles: { user_id: user.id }).exists?
+    def register(user: nil, profile: nil, pokemon_team: nil)
+      raise "User or profile must be provided." if user.nil? && profile.nil?
+      raise "Profile does not belong to the user." if user.present? && profile.present? && profile.user_id != user&.id
+
+      return false if profile.present? && players.exists?(profile_id: profile.id)
+      return false if user.present? && players.joins(:profile).where(profiles: { user_id: user.id }).exists?
       return false unless registration_open?
 
       profile ||= user.default_profile if user.present?

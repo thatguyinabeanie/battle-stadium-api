@@ -7,6 +7,7 @@ FactoryBot.define do
     pronouns { "they/them" }
     admin { false }
     clerk_users { [] }
+    default_profile { nil }
 
     after(:create) do |user|
       user.clerk_users << create(:clerk_user, user:)

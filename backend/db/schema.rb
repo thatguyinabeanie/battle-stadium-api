@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_26_223125) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_27_011339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -185,6 +185,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_223125) do
     t.string "username", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_url"
     t.index ["user_id"], name: "index_profiles_on_user_id"
     t.index ["username"], name: "index_profiles_on_username", unique: true
   end
@@ -254,7 +255,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_223125) do
 
   add_foreign_key "chat_messages", "matches"
   add_foreign_key "chat_messages", "profiles"
-  add_foreign_key "chat_messages", "users", column: "profile_id"
   add_foreign_key "clerk_users", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
