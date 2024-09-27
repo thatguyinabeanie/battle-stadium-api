@@ -44,6 +44,10 @@ module MatchPlayersConcern
 
   private
 
+  def match_player?(user:)
+    [player_one.user, player_two.user].include?(user)
+  end
+
   def winner_is_match_player
     return if winner.nil? && loser.nil?
 

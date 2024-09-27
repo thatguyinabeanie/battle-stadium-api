@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_27_011339) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_27_035127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -260,7 +260,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_27_011339) do
   add_foreign_key "match_games", "matches"
   add_foreign_key "match_games", "players", column: "loser_id"
   add_foreign_key "match_games", "players", column: "winner_id"
-  add_foreign_key "match_games", "users", column: "reporter_id"
+  add_foreign_key "match_games", "profiles", column: "reporter_id", on_delete: :nullify
   add_foreign_key "matches", "players", column: "loser_id"
   add_foreign_key "matches", "players", column: "player_one_id"
   add_foreign_key "matches", "players", column: "player_two_id"
