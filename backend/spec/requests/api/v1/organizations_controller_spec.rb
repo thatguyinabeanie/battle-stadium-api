@@ -283,13 +283,13 @@ RSpec.describe Api::V1::OrganizationsController do
           {
             tournament: {
               name: "New Tournament",
-              start_at: Time.now.iso8601,
+              start_at: Time.current.iso8601,
               end_at: 1.day.from_now,
               game_id: game.id,
               format_id: format.id,
               autostart: false,
               player_cap: 32,
-              registration_start_at: Time.now.iso8601,
+              registration_start_at: Time.current.iso8601,
               registration_end_at: 1.day.from_now.iso8601,
               late_registration: false,
               open_team_sheets: false,
@@ -331,13 +331,13 @@ RSpec.describe Api::V1::OrganizationsController do
       {
         tournament: {
           name: "Updated Tournament",
-          start_at: Time.now.iso8601,
+          start_at: Time.current.iso8601,
           end_at: 1.day.from_now,
           game_id: game.id,
           format_id: format.id,
           autostart: false,
           player_cap: 32,
-          registration_start_at: Time.now.iso8601,
+          registration_start_at: Time.current.iso8601,
           registration_end_at: 1.day.from_now.iso8601,
           late_registration: false,
           open_team_sheets: false,

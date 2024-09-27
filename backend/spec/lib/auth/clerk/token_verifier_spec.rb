@@ -44,7 +44,7 @@ RSpec.describe Auth::Clerk::TokenVerifier do
 
     context "when the token is expired" do
       it "raises VerificationError" do
-        allow(JWT).to receive(:decode).and_return([{ "exp" => Time.now.to_i - 10 }])
+        allow(JWT).to receive(:decode).and_return([{ "exp" => Time.current.to_i - 10 }])
         expect { described_class.verify_token(session_token: expired_token) }.to raise_error(Auth::Clerk::TokenVerifier::VerificationError, /Token has expired/)
       end
     end

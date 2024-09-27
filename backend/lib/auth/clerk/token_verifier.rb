@@ -67,7 +67,7 @@ module Auth
         def verify_claims(claims)
           errors = []
           # Verify expiration time
-          errors << "Token has expired" if Time.now.to_i > claims["exp"]
+          errors << "Token has expired" if Time.current.to_i > claims["exp"]
 
           # Verify issuer (customize with your Clerk frontend API)
           clerk_frontend_api_string = Rails.env.production? ? "CLERK_FRONTEND_API" : "CLERK_FRONTEND_API_DEV"

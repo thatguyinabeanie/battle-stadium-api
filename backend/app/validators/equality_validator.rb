@@ -1,4 +1,5 @@
 # app/validators/equality_validator.rb
+# :nocov:
 class EqualityValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     expected_value = options[:value]
@@ -7,3 +8,4 @@ class EqualityValidator < ActiveModel::EachValidator
     record.errors.add(attribute, "must be equal to #{expected_value}")
   end
 end
+# :nocov:

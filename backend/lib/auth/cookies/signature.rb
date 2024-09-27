@@ -30,6 +30,12 @@ module Auth
             raise Auth::Cookies::Signature::InvalidSignatureError, "Signature does not match expected signature"
           end
         end
+
+        def sign(cookie:)
+          cookie = CGI.escape(cookie).gsub(".", "%2E")
+          signature = OpenSSL::HMAC.hexdigest("SHA256", AUTH_SECRET, cookie)
+          "#{cookie}.#{signature}"
+        end
       end
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_27_035127) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_27_153731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -20,10 +20,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_27_035127) do
     t.bigint "match_id", null: false
     t.uuid "profile_id", null: false
     t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.uuid "user_id"
+    t.string "message_type"
+    t.datetime "sent_at"
     t.index ["match_id"], name: "index_chat_messages_on_match_id"
     t.index ["profile_id"], name: "index_chat_messages_on_profile_id"
+    t.index ["user_id"], name: "index_chat_messages_on_user_id"
   end
 
   create_table "clerk_users", force: :cascade do |t|
@@ -255,6 +257,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_27_035127) do
 
   add_foreign_key "chat_messages", "matches"
   add_foreign_key "chat_messages", "profiles"
+  add_foreign_key "chat_messages", "users"
   add_foreign_key "clerk_users", "users"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"

@@ -31,4 +31,10 @@ RSpec.describe Phases::SingleEliminationBracket do
       expect(described_class).not_to exist(phase.id)
     end
   end
+
+  describe "inheritance" do
+    it "inherits from Phases::BasePhase" do
+      expect(described_class < Phases::BasePhase).to be true
+    end
+  end
 end

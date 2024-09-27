@@ -74,7 +74,8 @@
         "YoavBls.pretty-ts-errors",
         "esbenp.prettier-vscode",
         "oven.bun-vscode",
-        "Prisma.prisma"
+        "Prisma.prisma",
+        "ryanluker.vscode-coverage-gutters"
       ],
       "settings": {
         "bun.runtime": "/root/.bun/bin",

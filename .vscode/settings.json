@@ -26,5 +26,6 @@
   "editor.quickSuggestions": {
     "comments": "on",
     "strings": "inline"
-  }
+  },
+  "coverage-gutters.manualCoverageFilePaths": []
 }

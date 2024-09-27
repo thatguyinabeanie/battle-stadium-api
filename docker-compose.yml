@@ -1,5 +1,8 @@
 services:
   postgres:
+    profiles:
+      - production
+      - development
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -17,14 +20,28 @@ services:
     ports:
       - 6379:6379
 
+  # ngrok:
+  #   platform: linux/amd64
+  #   profiles:
+  #     - development
+  #     - production
+  #   image: wernight/ngrok
+  #   ports:
+  #     - "4040:4040" # Port for ngrok web interface
+  #   env_file:
+  #     - .env.ngrok
+
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
+    profiles:
+      - development
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
       RAILS_ENV: development
       PORT: 10000
       AUTO_START_RAILS: "true"
+      ADMIN_BYPASS: "true"
     build:
       context: backend
       dockerfile: Dockerfile.dev
@@ -55,10 +72,10 @@ services:
 
   # RAILS API - PRODUCTION CONTAINER
   backend-prod:
-    hostname: rails-api-container
-    platform: linux/amd64
     profiles:
       - production
+    hostname: rails-api-container
+    platform: linux/amd64
     environment:
       RAILS_ENV: production
       PORT: 10000
@@ -73,7 +90,7 @@ services:
     tty: true
     stdin_open: true
     ports:
-      - 10001:10000
+      - 10000:10000
     env_file:
       - backend/.env
     depends_on:
@@ -87,6 +104,9 @@ services:
       start_period: 120s
 
   frontend:
+    profiles:
+      - development
+      - production
     hostname: nextjs-container
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     build:

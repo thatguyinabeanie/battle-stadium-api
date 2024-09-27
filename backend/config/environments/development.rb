@@ -89,4 +89,6 @@ Rails.application.configure do
     "backend",
     "api-battle-stadium-gg.onrender.com",
   ]
+
+  config.hosts << /.*\.ngrok-free\.app/ if ENV["NGROK_HOST"] == "true"
 end

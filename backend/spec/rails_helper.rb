@@ -13,6 +13,11 @@ require "simplecov"
 require "support/openapi/schema_helper"
 require "support/openapi/response_helper"
 
+abort("The Rails environment is running in not running in test mode!") unless Rails.env.test?
+
+# This outputs the coverage report to the console
+# SimpleCov.formatter = SimpleCov::Formatter::Console
+
 SimpleCov.start "rails" do
   add_filter "/spec/"
   add_filter "/config/"
@@ -59,7 +64,7 @@ RSpec.configure do |config|
   ]
 
   config.before(:suite) do
-    Faker::Config.random = Random.new(Time.now.to_i)
+    Faker::Config.random = Random.new(Time.current.to_i)
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

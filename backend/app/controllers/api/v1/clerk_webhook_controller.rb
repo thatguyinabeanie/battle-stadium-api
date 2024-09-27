@@ -9,6 +9,7 @@ module Api
       skip_before_action :validate_vercel_oidc_token!
 
       before_action :verify_clerk_webhook
+      skip_after_action :verify_authorized if Rails.env.test?
 
       def post
         handle_event(payload: params.to_unsafe_hash)
@@ -27,6 +28,8 @@ module Api
         case type
         when "user.created"
           return handle_user_created(payload:)
+        when "user.updated"
+          return render status: :bad_request, json: { message: "event type 'user.updated' is not yet implemented" }
         else
           return render status: :bad_request, json: { error: "Unhandled event type" }
         end

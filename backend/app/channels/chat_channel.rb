@@ -16,7 +16,8 @@ class ChatChannel < ApplicationCable::Channel
       reject
     end
   rescue ActiveRecord::RecordNotFound => e
-    Rails.logger.error "Subscription rejected for invalid room ID: #{params[:room]}"
+    Rails.logger.error "Subscription rejected for invalid room ID: #{params[:room]}- #{e.message}"
+    reject
   end
 
   def unsubscribed
@@ -32,7 +33,7 @@ class ChatChannel < ApplicationCable::Channel
   def speak(data)
     return unless params[:room].present? && data["message"].present? && current_user.present?
 
-    timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S.%L")
+    sent_at = Time.current.utc.to_s
 
     @match&.reload
     if @match&.round&.ended_at.present?
@@ -40,10 +41,10 @@ class ChatChannel < ApplicationCable::Channel
       Rails.logger.warn "Message rejected because the match is completed: #{params[:room]}"
       ActionCable.server.broadcast(chat_channel, {
         username: "SYSTEM",
-        timestamp:,
+        sent_at:,
         message:,
-        type: "system",
-        key: unique_key(username: "SYSTEM", timestamp:, type: "system")
+        message_type: "system",
+        key: unique_key(username: "SYSTEM", sent_at:, message_type: "system")
       })
       return
     end
@@ -53,25 +54,47 @@ class ChatChannel < ApplicationCable::Channel
     raise MessageTooLargeError, "Message size exceeds the maximum limit of 1MB" if message_size > MAX_MESSAGE_SIZE
 
     username = get_username(user: current_user)
+    profile = get_profile(user: current_user)
+
     ActionCable.server.broadcast(chat_channel, {
       username: ,
-      timestamp:,
+      sent_at:,
       message:,
-      type: "text",
-      key: unique_key(username:, timestamp:, type: "text"),
+      message_type: "text",
+      key: unique_key(username:, sent_at:, message_type: "text"),
     })
+
+    SaveChatMessageJob.perform_later(
+      match_id: @match.id,
+      profile_id: profile.id,
+      user_id: current_user.id,
+      content: message,
+      message_type: "text",
+      sent_at:
+    )
   end
+
+  def chat_channel
+    "chat_#{params[:room]}"
+  end
+
+  private
 
   def get_username(user:)
     return match.player_one.username if match.player_one.user == user
     return match.player_two.username if match.player_two.user == user
     user.username
   end
-  def chat_channel
-    "chat_#{params[:room]}"
+
+  def get_profile(user:)
+    return match.player_one.profile if match.player_one.user == user
+    return match.player_two.profile if match.player_two.user == user
+    user.profile
   end
 
-  private
+  def format_timestr(time:)
+    time.strftime("%Y-%m-%d %H:%M:%S.%L")
+  end
 
   def match(match_id: nil)
     @match ||= Tournaments::Match.find_by(id: match_id)
@@ -86,21 +109,24 @@ class ChatChannel < ApplicationCable::Channel
     true
   end
 
-  def unique_key(username:, timestamp:, type:)
-    Digest::SHA256.hexdigest("#{chat_channel}-#{username}-#{timestamp}-#{type}")
+  def unique_key(username:, sent_at:, message_type:)
+    Digest::SHA256.hexdigest("#{chat_channel}-#{username}-#{sent_at}-#{message_type}")
   end
 
-  def load_previous_messages(match_id:)
-    messages = match.chat_messages.order(created_at: :asc)
+  # def load_previous_messages(match_id:)
+  #   messages = match.chat_messages.order(created_at: :asc)
 
-    messages.each do |message|
-      transmit({
-        user_id: message.user_id,
-        message: message.content,
-        timestamp: message.created_at.strftime("%Y-%m-%d %H:%M:%S.%L"),
-        type: "text",
-        key: message.id,
-      })
-    end
-  end
+  #   messages.each do |message|
+  #     sent_at = format_timestr(time: message.created_at)
+  #     username = message.profile.username
+  #     message = message.sent_at
+  #     transmit({
+  #       username:,
+  #       message:,
+  #       sent_at:,
+  #       type: "text",
+  #       key: unique_key(username:, sent_at:, type: "text")
+  #     })
+  #   end
+  # end
 end
