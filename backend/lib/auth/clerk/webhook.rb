@@ -32,7 +32,7 @@ module Auth
         def verify_timestamp(timestamp)
           raise Error, "Invalid timestamp" if timestamp.nil? || timestamp.to_i == 0
           webhook_timestamp = timestamp.to_i
-          current_timestamp = Time.now.to_i
+          current_timestamp = Time.current.to_i
 
           if (current_timestamp - webhook_timestamp).abs > WEBHOOK_TOLERANCE_IN_SECONDS
             raise Error, "Webhook timestamp is outside of the tolerance zone"

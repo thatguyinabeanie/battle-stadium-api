@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Auth::Clerk::Webhook do
   let(:secret) { "whsec_testsecret" }
   let(:payload) { { "test" => "data" }.to_json }
-  let(:timestamp) { Time.now.to_i.to_s }
+  let(:timestamp) { Time.current.to_i.to_s }
   let(:svix_id) { "test_id" }
   let(:signature) do
     signed_payload = "#{svix_id}.#{timestamp}.#{payload}"
@@ -33,7 +33,7 @@ RSpec.describe Auth::Clerk::Webhook do
     end
 
     context "when the timestamp is invalid" do
-      let(:timestamp) { (Time.now.to_i - 600).to_s } # 10 minutes ago
+      let(:timestamp) { (Time.current.to_i - 600).to_s } # 10 minutes ago
 
       it "raises an error" do
         expect { described_class.validate!(request:) }.to raise_error("Webhook timestamp is outside of the tolerance zone")

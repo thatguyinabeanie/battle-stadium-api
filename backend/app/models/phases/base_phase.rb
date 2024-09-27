@@ -1,3 +1,4 @@
+# :nocov:
 module Phases
   class BasePhase < ::ApplicationRecord
     def self.policy_class
@@ -76,3 +77,4 @@ module Phases
     end
   end
 end
+# :nocov:

@@ -3,7 +3,7 @@ ENV["RAILS_SERVE_STATIC_FILES"] = "true"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  config.time_zone = "UTC"
   config.cache_classes = true
 
   # Code is not reloaded between requests.

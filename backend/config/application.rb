@@ -12,7 +12,10 @@ Bundler.require(*Rails.groups)
 module BattleStadium
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 7.2
+
+    config.time_zone = "UTC"
+    config.active_record.default_timezone = :utc
 
     config.before_configuration do
       env_file = ".env"
@@ -45,6 +48,8 @@ module BattleStadium
 
       puts errors.join("\n") if errors.any?
     end
+
+    config.active_job.queue_adapter = :sidekiq
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

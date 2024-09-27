@@ -74,4 +74,12 @@
       "username": "postgres"
     }
   ],
+  "coverage-gutters.coverageFileNames": [
+    ".resultset.json",
+    "lcov.info",
+    "cov.xml",
+    "coverage.xml",
+    "jacoco.xml",
+    "coverage.cobertura.xml"
+  ],
 }

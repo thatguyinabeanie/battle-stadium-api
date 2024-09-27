@@ -74,6 +74,7 @@
         "christian-kohler.path-intellisense",
         "Gruntfuggly.todo-tree",
         "aaron-bond.better-comments",
+        "ryanluker.vscode-coverage-gutters"
       ],
       "settings": {
         "remote.containers.copyGitConfig": true,

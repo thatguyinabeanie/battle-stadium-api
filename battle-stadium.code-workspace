@@ -34,6 +34,12 @@
         "database": "fuecoco-db-dev",
         "username": "postgres"
       }
+    ],
+    "testing.coverageToolbarEnabled": true
+  },
+  "extensions": {
+    "recommendations": [
+      "ryanluker.vscode-coverage-gutters"
     ]
   }
 }

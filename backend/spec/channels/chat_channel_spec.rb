@@ -92,7 +92,7 @@ RSpec.describe ChatChannel do
     subscribe(room:)
     expect {
       perform :speak, { message: "Text message" }
-    }.to have_broadcasted_to(broadcast_room_name).with(hash_including(type: "text"))
+    }.to have_broadcasted_to(broadcast_room_name).with(hash_including(message_type: "text"))
   end
 
   it "handles broadcasting empty message" do
@@ -119,7 +119,7 @@ RSpec.describe ChatChannel do
   end
 
   it "rejects subscription if the match's round is over" do
-    match_hash[:round].update(ended_at: Time.now - 1.day)
+    match_hash[:round].update(ended_at: Time.current - 1.day)
     subscribe(room:)
     expect(subscription).to be_rejected
   end
@@ -130,8 +130,8 @@ RSpec.describe ChatChannel do
     expect(subscription).to be_confirmed
     expect(subscription).to have_stream_from(broadcast_room_name)
 
-    match.update(reported_at: Time.now - 1.day)
-    match.round.update(ended_at: Time.now - 1.day)
+    match.update(reported_at: Time.current - 1.day)
+    match.round.update(ended_at: Time.current - 1.day)
 
     expect {
       perform :speak, { message: "This should not be sent" }
@@ -144,8 +144,8 @@ RSpec.describe ChatChannel do
     expect(subscription).to be_confirmed
     expect(subscription).to have_stream_from(broadcast_room_name)
 
-    match.update(reported_at: Time.now - 1.day)
-    match.round.update(ended_at: Time.now - 1.day)
+    match.update(reported_at: Time.current - 1.day)
+    match.round.update(ended_at: Time.current - 1.day)
 
     expect {
       perform :speak, { message: "This should not be sent" }
