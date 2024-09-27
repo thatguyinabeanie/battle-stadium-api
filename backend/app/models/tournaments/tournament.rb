@@ -76,15 +76,30 @@ module Tournaments
       players.count < player_cap && check_registration_window
     end
 
-    def register_user(user:, pokemon_team: nil)
-      return false if players.exists?(user_id: user.id)
-      return false unless registration_open?
-
-      players.create(user:, pokemon_team_id: pokemon_team&.id)
+    def register_user(user: nil, profile: nil, pokemon_team: nil)
+      register(user:, profile:, pokemon_team:)
     end
 
-    def unregister_user(user:)
-      players.find_by(user:)&.destroy
+    def register(user: nil, profile: nil, pokemon_team: nil)
+      raise "User or profile must be provided." if user.nil? && profile.nil?
+      raise "Profile does not belong to the user." if user.present? && profile.present? && profile.user_id != user&.id
+
+      return false if profile.present? && players.exists?(profile_id: profile.id)
+      return false if user.present? && players.joins(:profile).where(profiles: { user_id: user.id }).exists?
+      return false unless registration_open?
+
+      profile ||= user.default_profile if user.present?
+      players.create(profile:, pokemon_team_id: pokemon_team&.id)
+    end
+
+    def unregister_user(user: nil, profile: nil)
+      raise "User or profile must be provided." if user.nil? && profile.nil?
+      raise "Profile does not belong to the user." if user.present? && profile.present? && profile.user_id != user.id
+
+      profile ||= user.default_profile if user.present?
+      player = players.find_by(profile_id: profile.id)
+
+      player.destroy
     end
 
     private

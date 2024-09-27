@@ -68,19 +68,21 @@ RSpec.describe Api::V1::UsersController do
     describe "PUT" do
       let(:request_user) { create(:admin) }
 
-      it "returns a successful response" do
+      it "returns 422 because username cannot be changed once created" do
         user = create(:user)
         user_attributes = attributes_for(:user)
 
         put :update, params: { username: user.username, user: user_attributes }
 
-        expect(response).to be_successful
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(response).not_to be_successful
       end
 
       it "updates the user" do
         user = create(:user)
 
         put :update, params: { username: user.username, user: { first_name: "Jane" } }
+        expect(response).to be_successful
 
         expect(json_response[:first_name]).to eq("Jane")
       end

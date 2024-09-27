@@ -72,7 +72,8 @@ module Api
       # PATCH/PUT /api/v1/:klass/:id.json
       def update
         authorize @object, :update?
-        if @object.update permitted_params.except(update_params_except)
+        @object.assign_attributes(permitted_params.except(update_params_except))
+        if @object.save
           render json: serialize_details, status: :ok
         else
           render json: @object.errors, status: :unprocessable_entity

@@ -32,7 +32,6 @@ class ChatChannel < ApplicationCable::Channel
   def speak(data)
     return unless params[:room].present? && data["message"].present? && current_user.present?
 
-    user_id = current_user.username
     timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S.%L")
 
     @match&.reload
@@ -40,11 +39,11 @@ class ChatChannel < ApplicationCable::Channel
       message = "Match completed. No further messages allowed."
       Rails.logger.warn "Message rejected because the match is completed: #{params[:room]}"
       ActionCable.server.broadcast(chat_channel, {
-        user_id: nil,
+        username: "SYSTEM",
         timestamp:,
         message:,
         type: "system",
-        key: unique_key(user_id:, timestamp:, message:, type: "system")
+        key: unique_key(username: "SYSTEM", timestamp:, type: "system")
       })
       return
     end
@@ -53,16 +52,21 @@ class ChatChannel < ApplicationCable::Channel
     message_size = message.is_a?(String) ? message.bytesize : message.to_json.bytesize
     raise MessageTooLargeError, "Message size exceeds the maximum limit of 1MB" if message_size > MAX_MESSAGE_SIZE
 
+    username = get_username(user: current_user)
     ActionCable.server.broadcast(chat_channel, {
-      user_id:,
+      username: ,
       timestamp:,
       message:,
       type: "text",
-      key: unique_key(user_id:, timestamp:, message:, type: "text"),
+      key: unique_key(username:, timestamp:, type: "text"),
     })
   end
 
-
+  def get_username(user:)
+    return match.player_one.username if match.player_one.user == user
+    return match.player_two.username if match.player_two.user == user
+    user.username
+  end
   def chat_channel
     "chat_#{params[:room]}"
   end
@@ -82,11 +86,9 @@ class ChatChannel < ApplicationCable::Channel
     true
   end
 
-
-  def unique_key(user_id:, timestamp: nil, message:, type:)
-    Digest::SHA256.hexdigest("#{chat_channel}-#{user_id}-#{timestamp}-#{message}-#{type}")
+  def unique_key(username:, timestamp:, type:)
+    Digest::SHA256.hexdigest("#{chat_channel}-#{username}-#{timestamp}-#{type}")
   end
-
 
   def load_previous_messages(match_id:)
     messages = match.chat_messages.order(created_at: :asc)

@@ -1,5 +1,6 @@
 require_relative "user_serializer"
 require_relative "pokemon_serializer"
+require_relative "profile_serializer"
 
 module Serializers
   module PlayerMixin
@@ -10,7 +11,7 @@ module Serializers
       attributes :in_game_name
       # attributes :checked_in_at, :checked_in
       # attributes :team_sheet_submitted, :team_sheet_submitted_at
-      belongs_to :user, serializer: Serializers::User
+      belongs_to :profile, serializer: Serializers::Profile
 
       def checked_in
         object.checked_in_at.present?

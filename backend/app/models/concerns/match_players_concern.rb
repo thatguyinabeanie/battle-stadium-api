@@ -16,7 +16,7 @@ module MatchPlayersConcern
   end
 
   def reporter_user(reporter:)
-    return reporter.user if reporter.is_a?(Tournaments::Player) && [player_one, player_two].include?(reporter)
+    return reporter.profile if reporter.is_a?(Tournaments::Player) && [player_one, player_two].include?(reporter)
 
     reporter
   end
@@ -43,6 +43,10 @@ module MatchPlayersConcern
   end
 
   private
+
+  def match_player?(user:)
+    [player_one.user, player_two.user].include?(user)
+  end
 
   def winner_is_match_player
     return if winner.nil? && loser.nil?

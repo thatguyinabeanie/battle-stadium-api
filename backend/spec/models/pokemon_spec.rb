@@ -8,7 +8,7 @@ RSpec.describe Pokemon do
   describe "validations" do
     subject do
       described_class.create(
-        pokemon_team_id: pokemon_team.id,
+        pokemon_team_id: create(:pokemon_team).id,
         name: "Pikachu",
         ability: "Static",
         tera_type: "Electric",
@@ -20,9 +20,6 @@ RSpec.describe Pokemon do
         move4: "Volt Tackle"
       )
     end
-
-    let(:user) { create(:user) }
-    let(:pokemon_team) { create(:pokemon_team, user:) }
 
     it { is_expected.to validate_presence_of(:pokemon_team_id) }
     it { is_expected.to validate_presence_of(:name) }

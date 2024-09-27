@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :pokemon_team, class: "PokemonTeam" do
-    user factory: :user
+    profile
+
     pokemon { [] }
 
     trait :with_pokemon do

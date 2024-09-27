@@ -63,6 +63,17 @@ SIMPLE_USER_SCHEMA = {
   required: %w[username pronouns]
 }.freeze
 
+PROFILE_SCHEMA = {
+  type: :object,
+  title: "Profile",
+  properties: {
+    id: { type: :string, format: "uuid" },
+    username: { type: :string },
+    image_url: { type: :string, nullable: true }
+  },
+  required: %w[username image_url id]
+}
+
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
     title: "User",
@@ -298,7 +309,7 @@ PLAYER_SCHEMA = {
   title: "Player",
   properties: {
     id: { type: :integer, format: :int64 },
-    user: { "$ref" => "#/components/schemas/User" },
+    profile: { "$ref" => "#/components/schemas/Profile" },
     in_game_name: { type: :string }
     # checked_in: { type: :boolean },
     # checked_in_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
@@ -306,7 +317,7 @@ PLAYER_SCHEMA = {
     # team_sheet_submitted_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   },
   # required: %w[id user in_game_name checked_in checked_in_at team_sheet_submitted team_sheet_submitted_at]
-  required: %w[id user in_game_name]
+  required: %w[id profile in_game_name]
 }.freeze
 
 PLAYER_DETAILS_SCHEMA = {
@@ -359,48 +370,6 @@ PHASE_DETAILS_SCHEMA = {
     rounds: { type: :array, items: { "$ref" => "#/components/schemas/Round" } }
   ),
   required: PHASE_SCHEMA[:required] + %w[players rounds]
-}.freeze
-
-GET_SESSION_REQUEST = {
-  type: :object,
-  title: "Get Session Params",
-  properties: {
-    token: { type: :string, format: "jwt" }
-  },
-  required: %w[token]
-}.freeze
-
-SESSION = {
-  type: :object,
-  title: "Session",
-  properties: {
-    username: { type: :string },
-    token: { type: :string, format: "jwt" },
-    user_id: UUID_TYPE,
-    expires_at: { type: :string, format: DATE_TIME_TYPE }
-  },
-  required: %w[token user_id expires_at]
-}.freeze
-
-CREATE_SESSION = {
-  type: :object,
-  title: "Create Session",
-  properties: {
-    user_id: UUID_TYPE,
-    session_token: { type: :string, format: "jwt" },
-    expires_at: { type: :string, format: DATE_TIME_TYPE }
-  },
-  required: %w[user_id]
-}.freeze
-
-SESSION_AND_USER = {
-  type: :object,
-  title: "Session And User",
-  properties: {
-    session: { "$ref" => "#/components/schemas/Session" },
-    user: { "$ref" => "#/components/schemas/UserDetails" }
-  },
-  required: %w[session user]
 }.freeze
 
 ERROR = {
@@ -534,13 +503,10 @@ RSpec.configure do |config|
           GameRequest: GAME_REQUEST,
           TournamentRequest: TOURNAMENT_REQUEST,
           TournamentPostRequest: TOURNAMENT_POST_REQUEST,
-          GetSessionRequest: GET_SESSION_REQUEST,
-          CreateSession: CREATE_SESSION,
-          Session: SESSION,
-          SessionAndUser: SESSION_AND_USER,
           Error: ERROR,
           Message: MESSAGE,
-          Pagination: PAGINATION_RESPONSE
+          Pagination: PAGINATION_RESPONSE,
+          Profile: PROFILE_SCHEMA,
         }
       }
     }
