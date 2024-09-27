@@ -2,13 +2,13 @@ require "rails_helper"
 
 RSpec.describe Tournaments::MatchGame do
   let(:match_hash) do
-    user_one = create(:user)
-    user_two = create(:user)
+    user_one_profile = create(:profile)
+    user_two_profile = create(:profile)
     organization = create(:organization)
     organization.staff << create(:user)
     tournament = create(:tournament, organization:)
-    player_one = create(:player, user: user_one, tournament:)
-    player_two = create(:player, user: user_two, tournament:)
+    player_one = create(:player, profile: user_one_profile, tournament:)
+    player_two = create(:player, profile: user_two_profile, tournament:)
     phase = create(:swiss_phase, tournament:)
     round = create(:round, phase:)
     match = create(:match, round:, player_one:, player_two:)
@@ -105,7 +105,7 @@ RSpec.describe Tournaments::MatchGame do
     end
 
     it "does not add any errors when reporter is one of the players" do
-      match_game.reporter = player_one.user
+      match_game.reporter = player_one.profile.user
       match_game.send(:reporter_role_validation)
       expect(match_game.errors).to be_empty
     end
