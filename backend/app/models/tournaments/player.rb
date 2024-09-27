@@ -2,8 +2,8 @@ module Tournaments
   class Player < ApplicationRecord
     MAX_POKEMON_SUBMISSIONS = 6
     self.table_name = "players"
-    belongs_to :profile, class_name: "Profile", inverse_of: :players, optional: false
-    belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false
+    belongs_to :profile, class_name: "Profile", inverse_of: :players, optional: false, validate: true
+    belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false, validate: true
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true
 
     validates :profile_id, presence: true
@@ -12,7 +12,7 @@ module Tournaments
 
     accepts_nested_attributes_for :pokemon_team
 
-    delegate :username, to: :user
+    delegate :username, to: :profile
 
     # def pokemon_team=(team)
 
