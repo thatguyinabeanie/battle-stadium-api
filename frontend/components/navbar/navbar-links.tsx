@@ -3,11 +3,9 @@ import { Link } from "@nextui-org/react";
 import { auth } from "@clerk/nextjs/server";
 import NavbarClientItem from "@/components/navbar/navbar-client-item";
 import { cn } from "@/lib/utils";
-import { getMe } from "@/app/data/actions";
 
 export default async function NavbarLinks() {
   const clerkAuth = auth();
-  const me = clerkAuth?.sessionId ? (await getMe()).data : null;
 
   return (
     <>
@@ -43,17 +41,6 @@ export default async function NavbarLinks() {
       >
         <Link className="flex gap-2 text-inherit" href="/dashboard">
           Dashboard
-        </Link>
-      </NavbarClientItem>
-
-      <NavbarClientItem
-        className={cn("", {
-          hidden: !me?.admin,
-        })}
-        path="admin"
-      >
-        <Link className="flex gap-2 text-inherit" href="/admin">
-          Admin
         </Link>
       </NavbarClientItem>
     </>

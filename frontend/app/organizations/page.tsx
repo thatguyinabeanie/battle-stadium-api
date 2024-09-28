@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 
-import NewOrganizationCard from "@/components/organizations/organization-card";
+import OrganizationCard from "@/components/organizations/organization-card";
 import { cn } from "@/lib/utils";
 import { Tournament } from "@/lib/api";
 import { getOrganizations } from "../data/actions";
@@ -33,7 +33,7 @@ export default async function OrganizationsPage() {
       )}
     >
       {orgs.map((organization) => (
-        <NewOrganizationCard
+        <OrganizationCard
           key={organization.id}
           aria-label={`organization-card-${organization.id}`}
           // className="cursor-pointer"

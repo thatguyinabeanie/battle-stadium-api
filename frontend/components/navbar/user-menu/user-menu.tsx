@@ -2,6 +2,7 @@ import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@next
 
 import UserMenuDropDown from "./user-menu-dropdown";
 import { currentUser } from "@clerk/nextjs/server";
+import { getMe } from "@/app/data/actions";
 
 async function SmartAvatar() {
   const user = await currentUser();
@@ -14,6 +15,8 @@ async function SmartAvatar() {
 }
 
 export default async function UserMenu() {
+  const me = (await getMe()).data;
+
   return (
     <NavbarItem className="px-2">
       <Dropdown placement="bottom">
@@ -22,7 +25,7 @@ export default async function UserMenu() {
             <SmartAvatar />
           </button>
         </DropdownTrigger>
-        <UserMenuDropDown />
+        <UserMenuDropDown admin={me?.admin} />
       </Dropdown>
     </NavbarItem>
   );

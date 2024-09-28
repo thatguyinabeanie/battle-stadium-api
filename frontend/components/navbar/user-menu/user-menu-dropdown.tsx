@@ -1,15 +1,19 @@
 "use client";
 
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import { DropdownItem, DropdownMenu, Link } from "@nextui-org/react";
+import { Divider, DropdownItem, DropdownMenu, Link } from "@nextui-org/react";
 
 import { cn } from "@/lib";
 
-export default function UserMenuDropDown() {
+interface UserMenuDropDownProps {
+  admin?: boolean;
+}
+
+export default function UserMenuDropDown({ admin }: Readonly<UserMenuDropDownProps>) {
   const { user, isSignedIn, isLoaded } = useUser();
 
   return (
-    <DropdownMenu aria-label="Profile Actions" className="w-100" variant="bordered">
+    <DropdownMenu aria-label="Profile Actions" variant="bordered">
       <DropdownItem
         key="profile"
         className={cn("", {
@@ -19,7 +23,8 @@ export default function UserMenuDropDown() {
       >
         <Link href="/dashboard">
           <span>
-            <p>Signed in as</p> <p className="font-semibold">{`${user?.firstName} ${user?.lastName}`}</p>{" "}
+            <p className="font-normal text-default-400">Signed in as</p>
+            <p className="truncate font-semibold">{`${user?.firstName} ${user?.lastName}`}</p>{" "}
           </span>
         </Link>
       </DropdownItem>
@@ -34,6 +39,20 @@ export default function UserMenuDropDown() {
         <SignInButton>
           <p className="font-semibold">Sign In</p>
         </SignInButton>
+      </DropdownItem>
+
+      <DropdownItem key="divider" disa>
+        <Divider />
+      </DropdownItem>
+
+      <DropdownItem
+        key="admin"
+        className={cn("", {
+          hidden: !(user && isSignedIn) || !isLoaded || !admin,
+        })}
+        color="success"
+      >
+        <Link href="/admin">Admin</Link>
       </DropdownItem>
 
       <DropdownItem key="settings">

@@ -41,6 +41,8 @@ const columns: { key: string; label: string }[] = [
   },
 ];
 
+const cardClassNames = "bg-transparent backdrop-blur-md";
+
 const Tournaments = async () => {
   const tours = (await getTournaments()).data?.data ?? [];
 
@@ -50,7 +52,7 @@ const Tournaments = async () => {
 
   return (
     <div className="pb-4">
-      <Card className="my-2 bg-transparent" shadow="none">
+      <Card className={`${cardClassNames}`} shadow="lg">
         <CardHeader>Upcoming Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the upcoming tournaments.</p>
@@ -58,7 +60,7 @@ const Tournaments = async () => {
         </CardBody>
       </Card>
 
-      <Card isBlurred shadow="none">
+      <Card className={`mt-4 ${cardClassNames}`} shadow="lg">
         <CardHeader>Past Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the past tournaments.</p>
