@@ -1,7 +1,7 @@
 "use client";
 
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import { Divider, DropdownItem, DropdownMenu, Link } from "@nextui-org/react";
+import { DropdownItem, DropdownMenu, Link } from "@nextui-org/react";
 
 import { cn } from "@/lib";
 
@@ -39,10 +39,6 @@ export default function UserMenuDropDown({ admin }: Readonly<UserMenuDropDownPro
         <SignInButton>
           <p className="font-semibold">Sign In</p>
         </SignInButton>
-      </DropdownItem>
-
-      <DropdownItem key="divider" disa>
-        <Divider />
       </DropdownItem>
 
       <DropdownItem
