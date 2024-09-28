@@ -20,8 +20,8 @@ import Search from "./search";
 export default function NavigationBar() {
   return (
     <Navbar
-      isBordered
       classNames={{
+        wrapper: "min-w-full bg-transparent shadow-md",
         base: "w-full bg-transparent",
         content: "w-full",
         item: "data-[active=true]:text-primary",
