@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :tournament, class: "Tournaments::Tournament" do
     organization factory: :organization
 
-
     format { create(:format) }
     game { format.game }
 

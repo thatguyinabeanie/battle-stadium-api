@@ -8,10 +8,10 @@ module Tournaments
     belongs_to :game, class_name: "Game"
     belongs_to :format, class_name: "Tournaments::Format"
 
-    validates :name, uniqueness: { scope: :organization_id, message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }, presence: true
+    validates :name, presence: true
 
     validates :organization, presence: true
-    validates :organization_id, uniqueness: { scope: %i[name start_at], message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }
+    validates :organization_id, presence: true
     validates :game, presence: true
     validates :format, presence: true, if: -> { game.present? }
     has_many :phases, class_name: "Phases::BasePhase", dependent: :destroy_async
@@ -92,7 +92,7 @@ module Tournaments
     end
 
     def set_defaults
-      self.name ||= "#{organization.name}'s Tournament # #{organization.tournaments.count + 1}" if organization.present?
+      self.name ||= "#{organization.name}'s Tournament ##{organization.tournaments.count + 1}" if organization.present?
 
       self.format ||= game.formats.last if game.present?
 
