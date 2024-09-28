@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="inline-block max-w-lg text-center justify-center m-20">
+    <div className="inline-block max-w-lg text-center justify-center p-10 m-20 backdrop-blur-sm border-small rounded-3xl border-opacity-5 border-neutral-400">
       <h1 className={title({ color: "violet", size: "lg" })}>battlestadium.gg&nbsp;</h1>
 
       <br />

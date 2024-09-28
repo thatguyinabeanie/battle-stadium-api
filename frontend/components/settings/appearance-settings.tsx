@@ -3,6 +3,7 @@
 import * as React from "react";
 import { RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 import SwitchCell from "@/components/settings/switch-cell";
 import { ThemeCustomRadio } from "@/components/settings/theme-custom-radio";
@@ -21,6 +22,13 @@ const fontSizeOptions = [
 const AppearanceSetting = React.forwardRef<HTMLDivElement, AppearanceSettingCardProps>(
   ({ className, ...props }, ref) => {
     const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+      setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
 
     return (
       <div ref={ref} className={cn("p-2", className)} {...props}>
@@ -33,11 +41,13 @@ const AppearanceSetting = React.forwardRef<HTMLDivElement, AppearanceSettingCard
             <ThemeCustomRadio value="light" variant="light">
               Light
             </ThemeCustomRadio>
-            <ThemeCustomRadio value="dark" variant="dark">
-              Dark
-            </ThemeCustomRadio>
+
             <ThemeCustomRadio value="purple-dark" variant="purple-dark">
               Dark Purple
+            </ThemeCustomRadio>
+
+            <ThemeCustomRadio value="dark" variant="dark">
+              Dark
             </ThemeCustomRadio>
           </RadioGroup>
         </div>

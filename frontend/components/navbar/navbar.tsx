@@ -46,7 +46,7 @@ export default function NavigationBar() {
       </NavbarContent>
 
       {/* Mobile Menu */}
-      <NavbarMenu className="text-right">
+      <NavbarMenu className="text-right bg-transparent backdrop-blur-sm">
         <NavbarMenuItem>
           <Link color="foreground" href="/dashboard">
             Dashboard

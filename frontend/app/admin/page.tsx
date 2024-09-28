@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Admin() {
-  if (auth().sessionId) {
+  if (!auth().sessionId) {
     return redirect("/sign-in");
   }
 
@@ -19,7 +19,7 @@ export default async function Admin() {
 
   return (
     <div>
-      <h1>Admin Pages here</h1>
+      <h1>You are an admin</h1>
     </div>
   );
 }
