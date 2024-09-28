@@ -38,7 +38,7 @@ module Api
 
         def update
           authorize @player, :update?
-          if @player.update! permitted_params
+          if @player.update permitted_params
             render json: serialize_player_details, status: :ok
           else
             render json: @player.errors, status: :unprocessable_entity
@@ -82,7 +82,7 @@ module Api
         end
 
         def permitted_params
-          params.require(:player).permit(:profile_id, :username, :in_game_name, organization_id: params[:organization_id])
+          params.require(:player).permit(:profile_id, :profile, :in_game_name, organization_id: params[:organization_id])
         end
       end
     end

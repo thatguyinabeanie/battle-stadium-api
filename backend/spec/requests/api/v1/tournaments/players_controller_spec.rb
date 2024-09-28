@@ -50,7 +50,9 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:player) { { profile_id: request_user.default_profile_id } }
+        let(:player) do
+          { profile_id: request_user.default_profile_id, in_game_name: "pablo escobar" }
+        end
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PlayerDetails"

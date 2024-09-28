@@ -9,6 +9,7 @@ module Tournaments
     end
 
     def destroy?
+
       admin? || user == record.profile.user || Pundit.policy(user, record.tournament).update?
     end
   end

@@ -34,7 +34,7 @@ RSpec.describe Tournaments::Player do
   end
 
   describe "#checked_in?" do
-    subject(:player) { described_class.new(tournament:, profile:) }
+    subject(:player) { create(:player) }
 
     let(:profile) { create(:profile) }
     let(:tournament) { create(:tournament, start_at: 1.hour.from_now, check_in_start_at: 1.hour.ago) }

@@ -6,6 +6,7 @@ module Tournaments
     belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false, validate: true
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true
 
+    validates :in_game_name, presence: true
     validates :profile_id, presence: true
     validates :tournament_id, presence: true
     validates :profile_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
