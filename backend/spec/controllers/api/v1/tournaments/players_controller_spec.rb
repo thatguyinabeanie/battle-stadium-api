@@ -48,8 +48,9 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
         count_before = Tournaments::Player.count
 
         post :create, params: { tournament_id: tournament.id, player: player_params }
-        expect(response).to have_http_status(:created)
+
         expect(response.body).to include(player_params[:profile_id])
+        expect(response).to have_http_status(:created)
         count_after = Tournaments::Player.count
         expect(count_after).to eq(count_before + 1)
 
@@ -64,7 +65,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
     context "with invalid parameters" do
       it "does not create a new player" do
         expect {
-          post :create, params: { tournament_id: tournament.id, player: { username: nil } }
+          post :create, params: { tournament_id: tournament.id, player: { profile_id: -1 } }
         }.not_to change(Tournaments::Player, :count)
       end
 
