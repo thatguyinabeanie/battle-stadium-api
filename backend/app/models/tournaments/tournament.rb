@@ -8,7 +8,7 @@ module Tournaments
     belongs_to :game, class_name: "Game"
     belongs_to :format, class_name: "Tournaments::Format"
 
-    validates :name, uniqueness: { scope: :organization_id, message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }
+    validates :name, uniqueness: { scope: :organization_id, message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }, presence: true
 
     validates :organization, presence: true
     validates :organization_id, uniqueness: { scope: %i[name start_at], message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }
