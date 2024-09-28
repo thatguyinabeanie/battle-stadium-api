@@ -1,7 +1,7 @@
 import type { CardProps } from "@nextui-org/react";
 
 import React from "react";
-import { Card, Image, CardBody, Spacer, Link, CardFooter, cn } from "@nextui-org/react";
+import { Card, Image, CardBody, Link, CardFooter, cn } from "@nextui-org/react";
 
 import { Organization } from "@/lib/api";
 
@@ -13,13 +13,16 @@ export interface OrgCardProps {
 
 export default function OrganizationCard({ organization, cardProps, disableHover }: Readonly<OrgCardProps>) {
   return (
-    <div className="relative h-[400x] w-[300px] px-2">
+    <Card
+      className="bg-transparent relative h-[400px] w-[300px] px-2 backdrop-blur-md rounded-3xl "
+      {...cardProps}
+      shadow="md"
+    >
       <Link key={organization.slug} href={`/organizations/${organization.slug}`}>
-        <Card className="bg-transparent h-90 w-90 rounded-3xl" {...cardProps} shadow="md">
+        <div className="flex flex-col">
           <CardBody>
-            <div className="relative overflow-hidden p-1">
+            <div className="overflow-hidden p-1">
               <Image
-                isBlurred
                 isZoomed
                 alt="Card image"
                 className={cn("", {
@@ -31,27 +34,16 @@ export default function OrganizationCard({ organization, cardProps, disableHover
             </div>
           </CardBody>
 
-          <Spacer y={2} />
-
           <CardFooter className="justify-center align-bottom h-full w-full">
             <div className="flex flex-col grid-cols-1 gap-2 px-3 pb-3 text-center">
-              <p className="flex-col text-large font-medium sm:text-small h-[50px]" data-testid="org-name">
+              <p className="flex-col text-large font-medium sm:text-small" data-testid="org-name">
                 {organization.name}
               </p>
               <p className="text-small text-default-400">hello world</p>
             </div>
           </CardFooter>
-
-          <div
-            className="absolute inset-0 blur-3xl scale-150 opacity-50"
-            style={{
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              backdropFilter: "blur(20px)",
-            }}
-          />
-        </Card>
+        </div>
       </Link>
-    </div>
+    </Card>
   );
 }

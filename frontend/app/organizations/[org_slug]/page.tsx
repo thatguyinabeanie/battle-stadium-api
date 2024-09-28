@@ -60,7 +60,7 @@ export default async function OrganizationDetailPage({ params }: Readonly<Organi
   const { data: tournaments } = await getOrganizationTournaments(params.org_slug);
 
   return (
-    <div className="w-100 h-100">
+    <div className="w-100 h-100 backdrop-blur-md">
       <Card className="bg-transparent h-90 w-90 rounded-3xl" shadow="md">
         <CardBody className="flex flex-row justify-between rounded-3xl">
           <OrganizationLogo organization={organization} />
@@ -73,16 +73,6 @@ export default async function OrganizationDetailPage({ params }: Readonly<Organi
 
           <OrganizationLogo className="hidden sm:flex" organization={organization} />
         </CardBody>
-
-        <div
-          className="absolute inset-0 blur-3xl scale-200 opacity-15"
-          style={{
-            backgroundImage: `url(${organization?.logo_url ?? "/pokemon/vgc.png"})`,
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            backdropFilter: "blur(10px)",
-          }}
-        />
       </Card>
 
       <Spacer y={4} />

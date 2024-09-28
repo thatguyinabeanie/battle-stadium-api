@@ -42,6 +42,10 @@ const AppearanceSetting = React.forwardRef<HTMLDivElement, AppearanceSettingCard
               Light
             </ThemeCustomRadio>
 
+            <ThemeCustomRadio value="light-purple" variant="light">
+              Light Purple
+            </ThemeCustomRadio>
+
             <ThemeCustomRadio value="purple-dark" variant="purple-dark">
               Dark Purple
             </ThemeCustomRadio>

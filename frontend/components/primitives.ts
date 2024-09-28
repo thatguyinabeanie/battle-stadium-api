@@ -13,9 +13,14 @@ export const title = tv({
       foreground: "dark:from-[#FFFFFF] dark:to-[#4B4B4B]",
     },
     size: {
+      xs: "text-2xl lg:text-3xl",
       sm: "text-3xl lg:text-4xl",
       md: "text-[2.3rem] lg:text-5xl leading-9",
       lg: "text-4xl lg:text-6xl",
+      xl: "text-5xl lg:text-7xl",
+      "2xl": "text-6xl lg:text-8xl",
+      "3xl": "text-7xl lg:text-9xl",
+      "4xl": "text-8xl lg:text-10xl",
     },
     fullWidth: {
       true: "w-full block",

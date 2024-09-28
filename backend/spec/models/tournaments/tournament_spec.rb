@@ -14,7 +14,9 @@ RSpec.describe Tournaments::Tournament do
       tournament.format = format
     end
 
-    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:organization_id).with_message(I18n.t("tournament.errors.validations.unique_per_org_name_start_at")) }
+
+
+    it { is_expected.to validate_presence_of(:organization_id) }
     it { is_expected.to validate_presence_of(:organization) }
     it { is_expected.to validate_presence_of(:game) }
 
@@ -51,6 +53,19 @@ RSpec.describe Tournaments::Tournament do
     it { is_expected.to belong_to(:format).class_name("Tournaments::Format") }
     it { is_expected.to have_many(:phases).class_name("Phases::BasePhase").dependent(:destroy_async) }
     it { is_expected.to have_many(:players).class_name("Tournaments::Player").dependent(:destroy_async) }
+  end
+
+  describe "callbacks" do
+    context "when before_validation" do
+      let(:organization) { create(:organization) }
+      let(:tournament) { build(:tournament, organization:) }
+
+      it "calls #set_defaults and sets the tournaments name" do
+        tournament.name = nil
+        expect(tournament.valid?).to be true
+        expect(tournament.name).not_to be_nil
+      end
+    end
   end
 
   describe "#ready_to_start?" do

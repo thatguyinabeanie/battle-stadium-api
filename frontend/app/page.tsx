@@ -7,13 +7,14 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="inline-block max-w-lg text-center justify-center p-10 m-20 backdrop-blur-sm border-small rounded-3xl border-opacity-5 border-neutral-400">
-      <h1 className={title({ color: "violet", size: "lg" })}>battlestadium.gg&nbsp;</h1>
+    <div className="inline-block max-w-fit text-center justify-center p-10 m-20 backdrop-blur-md border-small rounded-3xl border-opacity-15 border-neutral-400">
+      <h1 className={title({ color: "violet", size: "2xl" })}>battlestadium.gg&nbsp;</h1>
 
       <br />
 
-      <h2 className={title({ size: "sm" })}>a next-gen tournament website.</h2>
-      <h2 className={subtitle({ class: "mt-4" })}>Beautiful, fast and modern. Coming Soon...</h2>
+      <h2 className={title({ size: "xs" })}>a next-gen tournament website.</h2>
+      <h2 className={subtitle({ class: "mt-4" })}>beautiful, fast and modern.</h2>
+      <h2 className={title({ color: "violet", size: "xs" })}>Coming Soon...</h2>
     </div>
   );
 }

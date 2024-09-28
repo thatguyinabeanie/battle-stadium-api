@@ -9,17 +9,32 @@ interface TableProps {
   columns: { key: string; label: string }[];
   data: Tournament[] | undefined;
 }
-export default function TournamentsTable({ columns, data }: TableProps) {
+
+export default function TournamentsTable({ columns, data }: Readonly<TableProps>) {
   return (
-    <Table isHeaderSticky isStriped isVirtualized aria-label="list of tournaments" shadow="md">
+    <Table
+      isHeaderSticky
+      isVirtualized
+      aria-label="list of tournaments"
+      classNames={{
+        wrapper: "bg-transparent backdrop-blur-lg",
+      }}
+      selectionMode="single"
+      shadow="md"
+    >
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
 
       <TableBody items={data}>
-        {(row) => (
-          <TableRow key={JSON.stringify(row)}>
-            {(columnKey) => <TableCell>{renderCell(row, columnKey)}</TableCell>}
+        {(tournament) => (
+          <TableRow
+            key={tournament.id}
+            as={Link}
+            href={`/organizations/${tournament.organization.slug}/tournaments/${tournament.id}`}
+            style={{ cursor: "pointer" }}
+          >
+            {(columnKey) => <TableCell>{renderCell(tournament, columnKey)}</TableCell>}
           </TableRow>
         )}
       </TableBody>

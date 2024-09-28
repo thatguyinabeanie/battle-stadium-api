@@ -5,6 +5,14 @@ require 'dotenv/load'
 require 'retries'
 require 'date'
 
+organization_id_allow_list = [
+  653,  # Thomas Hayden
+  1066, # Himmy Turner INC
+  493,  # Hatterene Series
+  661, # thatguyinabeanie
+  327, # NinoPokeBros
+]
+
 namespace :limitless do
   desc "Import tournaments and organizers from the Limitless TCG API"
   task :import, [:limit] => :environment do |t, args|
@@ -37,10 +45,12 @@ namespace :limitless do
     puts "Fetching #{tournaments.count} tournaments..."
     Parallel.map(tournaments, in_threads: 10) do |tournament|
       tour_details = fetch_data("#{base_url}/tournaments/#{tournament['id']}/details", access_key)
-      organizer =  tour_details['organizer']
+      organizer = tour_details['organizer']
+
+      next unless organization_id_allow_list.include?(organizer['id'])
 
       if organizers[organizer['id']].nil?
-        game_id =  get_game_id(tour_details['game'])
+        game_id = get_game_id(tour_details['game'])
 
         organizers[organizer['id']] =
         {
@@ -61,6 +71,7 @@ namespace :limitless do
     errors = []
     puts "Processing Organizers..."
     Parallel.map(organizers, in_threads: 10) do |id, organizer_data|
+      next unless organization_id_allow_list.include?(id)
 
       puts "Processing organizer: #{organizer_data['name']} (ID: #{id})"
       org = Organization.find_or_create_by(name: organizer_data['name']).tap do |organizer|
@@ -83,12 +94,12 @@ namespace :limitless do
         organization_id = org.id
         limitless_id = tournament_data['id']
         begin
-          ::Tournaments::Tournament.find_or_create_by!(limitless_id:) do |tour|
+          ::Tournaments::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
             tour.name = name
             tour.start_at = start_at
             tour.organization_id = organization_id
-            tour.game_id= tournament_data['bs_game_id']
-            tour.format_id =tournament_data['bs_format_id']
+            tour.game_id = tournament_data['bs_game_id']
+            tour.format_id = tournament_data['bs_format_id']
             tour.check_in_start_at = tour.start_at - 1.hour
           end
         rescue StandardError => e
