@@ -1,7 +1,7 @@
 "use client";
 
 import { ChildrenProps } from "@/types";
-import { NavbarItem, NavbarItemProps } from "@nextui-org/react";
+import { Link, NavbarItem, NavbarItemProps } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 
 interface NavbarItemClientProps extends ChildrenProps {
@@ -18,9 +18,17 @@ export default function NavbarClientItem({
   const pathname = usePathname();
   const firstSegment = pathname.split("/")[1];
 
+  const isActive = firstSegment?.includes(path);
+
   return (
-    <NavbarItem {...rest} className={className} isActive={firstSegment?.includes(path)}>
-      {children}
+    <NavbarItem className={`hover: ${className}`} isActive={isActive} {...rest}>
+      <Link
+        className={`flex text-inherit transition-transform duration-200 ease-in-out transform hover:scale-105`}
+        href={`/${path}`}
+        size={isActive ? "md" : "sm"}
+      >
+        {children}
+      </Link>
     </NavbarItem>
   );
 }
