@@ -44,7 +44,7 @@ const columns: { key: string; label: string }[] = [
 const cardClassNames = "bg-transparent backdrop-blur-md";
 
 const Tournaments = async () => {
-  const tours = (await getTournaments()).data?.data ?? [];
+  const tours = (await getTournaments(0, 10000)).data?.data ?? [];
 
   const rightNow = new Date();
   const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);
@@ -52,7 +52,7 @@ const Tournaments = async () => {
 
   return (
     <div className="pb-4">
-      <Card className={`${cardClassNames}`} shadow="lg">
+      <Card className={`${cardClassNames}`} shadow="md">
         <CardHeader>Upcoming Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the upcoming tournaments.</p>
@@ -60,7 +60,7 @@ const Tournaments = async () => {
         </CardBody>
       </Card>
 
-      <Card className={`mt-4 ${cardClassNames}`} shadow="lg">
+      <Card className={`mt-4 ${cardClassNames}`} shadow="md">
         <CardHeader>Past Tournaments</CardHeader>
         <CardBody>
           <p>Here you can find all the past tournaments.</p>

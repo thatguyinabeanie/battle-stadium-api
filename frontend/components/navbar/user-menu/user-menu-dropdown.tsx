@@ -1,23 +1,24 @@
 "use client";
 
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { SignInButton, SignOutButton } from "@clerk/nextjs";
 import { DropdownItem, DropdownMenu, Link } from "@nextui-org/react";
 
 import { cn } from "@/lib";
 
 interface UserMenuDropDownProps {
   admin?: boolean;
+  // user: User;
+  user: { firstName?: string; lastName?: string };
+  isSignedIn: boolean;
 }
 
-export default function UserMenuDropDown({ admin }: Readonly<UserMenuDropDownProps>) {
-  const { user, isSignedIn, isLoaded } = useUser();
-
+export default function UserMenuDropDown({ admin, user, isSignedIn }: Readonly<UserMenuDropDownProps>) {
   return (
     <DropdownMenu aria-label="Profile Actions" variant="bordered">
       <DropdownItem
         key="profile"
         className={cn("", {
-          hidden: !(user && isSignedIn) || !isLoaded,
+          hidden: !(user && isSignedIn),
         })}
         color="success"
       >
@@ -32,7 +33,7 @@ export default function UserMenuDropDown({ admin }: Readonly<UserMenuDropDownPro
       <DropdownItem
         key="sign-in"
         className={cn("", {
-          hidden: user && isSignedIn && isLoaded,
+          hidden: user && isSignedIn,
         })}
         color="success"
       >
@@ -44,9 +45,8 @@ export default function UserMenuDropDown({ admin }: Readonly<UserMenuDropDownPro
       <DropdownItem
         key="admin"
         className={cn("", {
-          hidden: !(user && isSignedIn) || !isLoaded || !admin,
+          hidden: !(user && isSignedIn) || !admin,
         })}
-        color="success"
       >
         <Link href="/admin">Admin</Link>
       </DropdownItem>
@@ -55,16 +55,12 @@ export default function UserMenuDropDown({ admin }: Readonly<UserMenuDropDownPro
         <Link href="/settings">Settings</Link>
       </DropdownItem>
 
-      <DropdownItem key="analytics">
-        <Link href="/analytics">Analytics</Link>
-      </DropdownItem>
-
       <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
 
       <DropdownItem
         key="logout"
         className={cn("", {
-          hidden: !(user && isSignedIn) || !isLoaded,
+          hidden: !(user && isSignedIn),
         })}
         color="danger"
       >

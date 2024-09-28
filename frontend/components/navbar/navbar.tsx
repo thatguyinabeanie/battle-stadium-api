@@ -22,22 +22,23 @@ export default function NavigationBar() {
     <Navbar
       isBordered
       classNames={{
-        base: "w-full bg-transparent",
-        content: "w-full",
+        wrapper: "bg-transparent justify-between backdrop-blur-2xl min-w-full",
+        base: " bg-transparent",
         item: "data-[active=true]:text-primary",
+        content: "flex-grow-0 h-12 items-center",
       }}
       height="3.5rem"
     >
-      <NavbarBrand>
+      <NavbarBrand className="rounded-full h-12 flex flex-row flex-grow-0">
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full px-4 md:flex" justify="start">
+      <NavbarContent className="hidden md:flex gap-2 m-x4" data-justify={"center"}>
         <NavbarLinks />
       </NavbarContent>
 
       {/* Right Menu */}
-      <NavbarContent className="ml-auto h-12 items-center gap-0" justify="end">
+      <NavbarContent className="gap-0" justify="center">
         <Search />
         <Settings />
         <Notifications />
@@ -46,7 +47,7 @@ export default function NavigationBar() {
       </NavbarContent>
 
       {/* Mobile Menu */}
-      <NavbarMenu className="text-right bg-transparent backdrop-blur-md">
+      <NavbarMenu className="text-right bg-transparent backdrop-blur-2xl">
         <NavbarMenuItem>
           <Link color="foreground" href="/dashboard">
             Dashboard
@@ -74,12 +75,6 @@ export default function NavigationBar() {
         <NavbarMenuItem>
           <Link color="foreground" href="/analytics">
             Analytics
-          </Link>
-        </NavbarMenuItem>
-
-        <NavbarMenuItem>
-          <Link color="foreground" href="/settings">
-            Settings
           </Link>
         </NavbarMenuItem>
       </NavbarMenu>

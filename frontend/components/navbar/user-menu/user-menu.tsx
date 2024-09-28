@@ -25,7 +25,11 @@ export default async function UserMenu() {
             <SmartAvatar />
           </button>
         </DropdownTrigger>
-        <UserMenuDropDown admin={me?.admin} />
+        <UserMenuDropDown
+          admin={me?.admin}
+          isSignedIn={!!me}
+          user={{ firstName: me?.first_name, lastName: me?.last_name }}
+        />
       </Dropdown>
     </NavbarItem>
   );

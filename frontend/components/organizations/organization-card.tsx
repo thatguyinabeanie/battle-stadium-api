@@ -25,7 +25,7 @@ export default function OrganizationCard({ organization, cardProps, disableHover
               <Image
                 isZoomed
                 alt="Card image"
-                className={cn("", {
+                className={cn("rounded-3xl", {
                   "hover:scale-105": !disableHover,
                   "hover:z-50": !disableHover,
                 })}

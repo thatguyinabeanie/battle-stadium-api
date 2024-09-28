@@ -64,7 +64,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
           enable: true,
         },
         value: 500,
-        limit: { value: 1000 },
+        limit: { value: 600 },
       },
       opacity: {
         value: 1,

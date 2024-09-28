@@ -2,12 +2,13 @@ import { Metadata } from "next";
 import { getMe } from "@/app/data/actions";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import Dashboard from "./dashboard";
 
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function Dashboard() {
+export default async function DashboardPage() {
   const clerkAuth = auth();
 
   if (!clerkAuth.sessionId) {
@@ -20,12 +21,5 @@ export default async function Dashboard() {
     redirect("/error");
   }
 
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>
-        Welcome, {me?.first_name} {me?.last_name}{" "}
-      </p>
-    </div>
-  );
+  return <Dashboard me={me} />;
 }

@@ -5,12 +5,16 @@ require 'dotenv/load'
 require 'retries'
 require 'date'
 
+organization_id_allow_list=[]
 organization_id_allow_list = [
   653,  # Thomas Hayden
   1066, # Himmy Turner INC
   493,  # Hatterene Series
   661, # thatguyinabeanie
   327, # NinoPokeBros
+  637, # The Wide League
+  405, # Rose Tower
+  322, # Desafío LATAM
 ]
 
 namespace :limitless do
@@ -71,10 +75,11 @@ namespace :limitless do
     errors = []
     puts "Processing Organizers..."
     Parallel.map(organizers, in_threads: 10) do |id, organizer_data|
-      next unless organization_id_allow_list.include?(id)
+      next unless  organization_id_allow_list.include?(id)
 
       puts "Processing organizer: #{organizer_data['name']} (ID: #{id})"
       org = Organization.find_or_create_by(name: organizer_data['name']).tap do |organizer|
+        organizer.limitless_org_id = id
         organizer.logo_url = organizer_data['logo']
         organizer.hidden = organizer.logo_url == nil
         organizer.partner = organizer.hidden
