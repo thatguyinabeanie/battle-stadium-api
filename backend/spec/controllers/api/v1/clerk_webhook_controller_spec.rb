@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::ClerkWebhookController, type: :controller do
+RSpec.describe Api::V1::ClerkWebhookController do
   describe "POST #post" do
     let(:valid_headers) { { "Content-Type" => "application/json" } }
     let(:valid_payload) do

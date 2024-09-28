@@ -39,6 +39,16 @@ RSpec.configure do |config|
     # a real object. This is generally recommended, and will default to
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
+    mocks.allow_message_expectations_on_nil = true
+
+  end
+
+  config.before(:suite) do
+    Sidekiq::Testing.inline!
+  end
+
+  config.after(:suite) do
+    Sidekiq::Testing.fake!
   end
 
   # This option will default to `:apply_to_host_groups` in RSpec 4 (and will

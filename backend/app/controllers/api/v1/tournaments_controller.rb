@@ -45,7 +45,7 @@ module Api
 
       def update
         authorize @tournament, :update?
-        if @tournament.update! permitted_params
+        if @tournament.update permitted_params
           render json: serialize_details, status: :ok
         else
           render json: @tournament.errors, status: :unprocessable_entity

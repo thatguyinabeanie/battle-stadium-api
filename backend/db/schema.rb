@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_27_153731) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_28_022258) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -154,9 +154,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_27_153731) do
     t.string "in_game_name", default: "", null: false
     t.bigint "pokemon_team_id"
     t.uuid "profile_id", null: false
+    t.uuid "user_id", null: false
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["profile_id"], name: "index_players_on_profile_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
+    t.index ["user_id", "tournament_id"], name: "index_players_on_user_id_and_tournament_id", unique: true
   end
 
   create_table "pokemon", force: :cascade do |t|
@@ -277,6 +279,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_27_153731) do
   add_foreign_key "players", "pokemon_teams"
   add_foreign_key "players", "profiles"
   add_foreign_key "players", "tournaments"
+  add_foreign_key "players", "users"
   add_foreign_key "pokemon", "pokemon_teams"
   add_foreign_key "pokemon_teams", "profiles"
   add_foreign_key "profiles", "users"

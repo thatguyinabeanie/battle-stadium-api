@@ -2,22 +2,20 @@ module Tournaments
   class Player < ApplicationRecord
     MAX_POKEMON_SUBMISSIONS = 6
     self.table_name = "players"
+    belongs_to :user, class_name: "User", optional: false, validate: true
     belongs_to :profile, class_name: "Profile", inverse_of: :players, optional: false, validate: true
     belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false, validate: true
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true
 
+    validates :in_game_name, presence: true
     validates :profile_id, presence: true
     validates :tournament_id, presence: true
     validates :profile_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
+    validates :user_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
 
-    accepts_nested_attributes_for :pokemon_team
+    delegate :username, to: :profile
 
-    delegate :username, :user, to: :profile
-    # def pokemon_team=(team)
-
-    #   raise 'You cannot submit more than 6 Pokemon.' if team.present? && team.pokemon.count > MAX_POKEMON_SUBMISSIONS
-    #   update!(pokemon_team: team)
-    # end
+    before_create :set_user_id_from_profile
 
     def self.checked_in_and_ready
       where.not(pokemon_team_id: nil).where.not(checked_in_at: nil)
@@ -25,9 +23,7 @@ module Tournaments
     end
 
     def ready?
-      return false if !checked_in? || pokemon_team.blank?
-
-      true
+      checked_in? && pokemon_team.present?
     end
 
     def check_in!
@@ -44,6 +40,12 @@ module Tournaments
 
     def checked_in?
       checked_in_at.present?
+    end
+
+    private
+
+    def set_user_id_from_profile
+      self.user_id ||= profile.user_id
     end
   end
 end

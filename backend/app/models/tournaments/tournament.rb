@@ -8,7 +8,7 @@ module Tournaments
     belongs_to :game, class_name: "Game"
     belongs_to :format, class_name: "Tournaments::Format"
 
-    validates :name, uniqueness: { scope: :organization_id, message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }
+    validates :name, uniqueness: { scope: :organization_id, message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }, presence: true
 
     validates :organization, presence: true
     validates :organization_id, uniqueness: { scope: %i[name start_at], message: I18n.t("tournament.errors.validations.unique_per_org_name_start_at") }
@@ -76,33 +76,20 @@ module Tournaments
       players.count < player_cap && check_registration_window
     end
 
-    def register_user(user: nil, profile: nil, pokemon_team: nil)
-      register(user:, profile:, pokemon_team:)
+    def register(profile: , pokemon_team_id: nil)
+      raise "User profile must be provided." if profile.nil?
+      raise "User profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
+      raise "Tournament registration is closed." unless registration_open?
+
+      players.create(profile:, pokemon_team_id:)
     end
 
-    def register(user: nil, profile: nil, pokemon_team: nil)
-      raise "User or profile must be provided." if user.nil? && profile.nil?
-      raise "Profile does not belong to the user." if user.present? && profile.present? && profile.user_id != user&.id
+    def unregister(profile:)
+      raise "Profile must be provided." if profile.nil?
+      raise "Profile is not registered for the tournament." unless players.exists?(profile_id: profile.id)
 
-      return false if profile.present? && players.exists?(profile_id: profile.id)
-      return false if user.present? && players.joins(:profile).where(profiles: { user_id: user.id }).exists?
-      return false unless registration_open?
-
-      profile ||= user.default_profile if user.present?
-      players.create(profile:, pokemon_team_id: pokemon_team&.id)
+      players.find_by(profile_id: profile.id).destroy
     end
-
-    def unregister_user(user: nil, profile: nil)
-      raise "User or profile must be provided." if user.nil? && profile.nil?
-      raise "Profile does not belong to the user." if user.present? && profile.present? && profile.user_id != user.id
-
-      profile ||= user.default_profile if user.present?
-      player = players.find_by(profile_id: profile.id)
-
-      player.destroy
-    end
-
-    private
 
     def set_defaults
       self.name ||= "#{organization.name}'s Tournament # #{organization.tournaments.count + 1}" if organization.present?

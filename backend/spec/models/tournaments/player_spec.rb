@@ -25,16 +25,12 @@ RSpec.describe Tournaments::Player do
     end
   end
 
-  describe "nested attributes" do
-    it { is_expected.to accept_nested_attributes_for(:pokemon_team) }
-  end
-
   describe "delegations" do
     it { is_expected.to delegate_method(:username).to(:profile) }
   end
 
   describe "#checked_in?" do
-    subject(:player) { described_class.new(tournament:, profile:) }
+    subject(:player) { create(:player) }
 
     let(:profile) { create(:profile) }
     let(:tournament) { create(:tournament, start_at: 1.hour.from_now, check_in_start_at: 1.hour.ago) }
@@ -46,6 +42,58 @@ RSpec.describe Tournaments::Player do
 
     it "returns false if checked_in_at is not present" do
       expect(player.checked_in?).to be false
+    end
+  end
+
+  describe "#ready?" do
+    subject(:player) { create(:player) }
+
+    context "when player is checked in and has a pokemon team" do
+      before do
+        player.check_in!
+        player.update!(pokemon_team: create(:pokemon_team))
+      end
+
+      it "returns true" do
+        expect(player.ready?).to be true
+      end
+    end
+
+    context "when player is not checked in" do
+      it "returns false" do
+        expect(player.ready?).to be false
+      end
+    end
+
+    context "when player does not have a pokemon team" do
+      before { player.check_in! }
+
+      it "returns false" do
+        expect(player.ready?).to be false
+      end
+    end
+  end
+
+  describe ".checked_in_and_ready" do
+    let!(:checked_in_player_with_team) { create(:player, :checked_in, pokemon_team: create(:pokemon_team)) }
+    let!(:checked_in_player_without_team) { create(:player, :checked_in) }
+    let!(:not_checked_in_player_with_team) { create(:player, pokemon_team: create(:pokemon_team)) }
+
+    it "returns players who are checked in and have a pokemon team" do
+      expect(described_class.checked_in_and_ready).to include(checked_in_player_with_team)
+      expect(described_class.checked_in_and_ready).not_to include(checked_in_player_without_team)
+      expect(described_class.checked_in_and_ready).not_to include(not_checked_in_player_with_team)
+    end
+  end
+
+  describe "#submit_team!" do
+    subject(:player) { create(:player) }
+
+    let(:pokemon_team) { create(:pokemon_team) }
+
+    it "updates the player's pokemon team" do
+      player.submit_team!(pokemon_team:)
+      expect(player.pokemon_team).to eq(pokemon_team)
     end
   end
 end

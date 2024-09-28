@@ -1,35 +1,96 @@
 require "rails_helper"
-
-# Define the DummyController for testing purposes
-class DummyController < ApplicationController
-  def index
-    # authorize self.class, :index?
-    head :ok
-  end
-end
-
+require_relative "../../lib/auth/clerk/session"
+require_relative "../../lib/auth/vercel/token_verifier"
+require "support/auth/token_verifier_mock"
 RSpec.describe ApplicationController do
-  controller(DummyController) do
-    def self.policy_class
-      ApplicationPolicy
+
+  include Auth::TokenVerifier::Mock
+
+  include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
+
+  controller(described_class) do
+    def index
+      authorize :application, :index?
+      head :ok
     end
 
-    def index
-      # authorize self.class, :index?
+    def show
+      authorize :application, :show?
       head :ok
     end
   end
 
-  pending "#authenticate_user"
+  describe "GET #index" do
+    let(:user) { create(:user) }
 
-    # it "authenticates the user" do
-    #   get :index
-    #   expect(response).to have_http_status(:success)
-    # end
+    context "with valid session and oidc token" do
+      before do
+        allow(Auth::Clerk::Session).to receive(:authenticate!).and_return(user)
+        allow(Auth::Vercel::TokenVerifier).to receive(:verify).and_return(true)
+      end
 
-    # it "handles invalid or expired session" do
-    #   get :index
-    #   expect(response).to have_http_status(:unauthorized)
-    # end
-  # end
+      it "returns http success" do
+        get :index
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context "with invalid session" do
+      before do
+        allow(Auth::Clerk::Session).to receive(:authenticate!).and_raise(StandardError.new("Invalid session"))
+      end
+
+      it "returns http ok" do
+        get :index
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "with invalid OIDC token" do
+      before do
+        allow(Auth::Vercel::TokenVerifier).to receive(:verify).and_return(false)
+      end
+
+      it "returns http unauthorized" do
+        get :index
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe "GET #show" do
+    context "with valid session and OIDC token" do
+      before do
+        allow(Auth::Clerk::Session).to receive(:authenticate!).and_return(:user)
+        allow(Auth::Vercel::TokenVerifier).to receive(:verify).and_return(true)
+      end
+
+      it "returns http success" do
+        get :show, params: { id: 1 }
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context "with invalid session" do
+      before do
+        allow(Auth::Clerk::Session).to receive(:authenticate!).and_raise(StandardError.new("Invalid session"))
+      end
+
+      it "returns http ok" do
+        get :show, params: { id: 1 }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "with invalid OIDC token" do
+      before do
+        allow(Auth::Vercel::TokenVerifier).to receive(:verify).and_return(false)
+      end
+
+      it "returns http unauthorized" do
+        get :show, params: { id: 1 }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

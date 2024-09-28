@@ -1,9 +1,12 @@
 FactoryBot.define do
   factory :tournament, class: "Tournaments::Tournament" do
-    sequence(:name) { |n| "#{organization.name} #{game.name} #{format.name} Tournament ##{n}" }
     organization factory: :organization
-    game factory: :game
-    format { create(:format, game:) }
+
+
+    format { create(:format) }
+    game { format.game }
+
+    name { "#{Faker::Game.title} - #{Faker::Internet.unique.username} - Tournament ##{Faker::Number.unique}" }
     phases { [] }
     start_at   { 1.hour.from_now }
     started_at { nil }
