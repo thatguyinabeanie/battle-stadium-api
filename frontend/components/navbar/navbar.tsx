@@ -32,7 +32,7 @@ export default function NavigationBar() {
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarContent className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full px-4 md:flex" justify="start">
+      <NavbarContent className="hidden h-12 w-full max-w-fit rounded-full md:flex" justify="start">
         <NavbarLinks />
       </NavbarContent>
 
@@ -46,7 +46,7 @@ export default function NavigationBar() {
       </NavbarContent>
 
       {/* Mobile Menu */}
-      <NavbarMenu className="text-right bg-transparent backdrop-blur-md">
+      <NavbarMenu className="text-right bg-transparent backdrop-blur-2xl">
         <NavbarMenuItem>
           <Link color="foreground" href="/dashboard">
             Dashboard
@@ -74,12 +74,6 @@ export default function NavigationBar() {
         <NavbarMenuItem>
           <Link color="foreground" href="/analytics">
             Analytics
-          </Link>
-        </NavbarMenuItem>
-
-        <NavbarMenuItem>
-          <Link color="foreground" href="/settings">
-            Settings
           </Link>
         </NavbarMenuItem>
       </NavbarMenu>
