@@ -9,17 +9,6 @@ export default async function NavbarLinks() {
 
   return (
     <>
-      <NavbarClientItem
-        className={cn("", {
-          hidden: !clerkAuth.sessionId,
-        })}
-        path="dashboard"
-      >
-        <Link className="flex gap-2 text-inherit" href="/dashboard">
-          Dashboard
-        </Link>
-      </NavbarClientItem>
-
       <NavbarClientItem path="organizations">
         <Link className="flex gap-2 text-inherit" href="/organizations">
           Organizations
@@ -41,6 +30,17 @@ export default async function NavbarLinks() {
       <NavbarClientItem path="analytics">
         <Link className="flex gap-2 text-inherit" href="/analytics">
           Analytics
+        </Link>
+      </NavbarClientItem>
+
+      <NavbarClientItem
+        className={cn("", {
+          hidden: !clerkAuth.sessionId,
+        })}
+        path="dashboard"
+      >
+        <Link className="flex gap-2 text-inherit" href="/dashboard">
+          Dashboard
         </Link>
       </NavbarClientItem>
     </>
