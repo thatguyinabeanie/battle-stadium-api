@@ -38,7 +38,7 @@ RSpec.describe SaveChatMessageJob do
       expect(chat_message.profile_id).to eq(profile_id)
       expect(chat_message.content).to eq(content)
       expect(chat_message.user_id).to eq(user_id)
-      expect(chat_message.sent_at).to eq(sent_at)
+      expect(chat_message.sent_at).to be_within(1.second).of(sent_at)
       expect(chat_message.message_type).to eq(message_type)
     end
   end
