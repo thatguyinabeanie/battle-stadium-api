@@ -1,8 +1,5 @@
 services:
   postgres:
-    profiles:
-      - production
-      - development
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -19,17 +16,6 @@ services:
     restart: unless-stopped
     ports:
       - 6379:6379
-
-  # ngrok:
-  #   platform: linux/amd64
-  #   profiles:
-  #     - development
-  #     - production
-  #   image: wernight/ngrok
-  #   ports:
-  #     - "4040:4040" # Port for ngrok web interface
-  #   env_file:
-  #     - .env.ngrok
 
   # RAILS API - DEVELOPMENT CONTAINER
   backend:

@@ -30,6 +30,8 @@ class ApplicationController < ActionController::Base
     unless ::Auth::Vercel::TokenVerifier.verify(request:)
       render json: { error: "Invalid OIDC token" }, status: :unauthorized
     end
+  rescue
+    render json: { error: "Invalid OIDC token" }, status: :unauthorized
   end
 
   def authenticate_clerk_user_session!
