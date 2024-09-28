@@ -108,7 +108,7 @@ module Tournaments
     def unique_limitless_id
       return if limitless_id.nil?
 
-      errors.add(:limitless_id, "has already been taken") if self.class.where(limitless_id:).where.not(id:).exists?
+      errors.add(:limitless_id, "has already been taken") if self.class.where(limitless_id:).exists?
     end
   end
 end

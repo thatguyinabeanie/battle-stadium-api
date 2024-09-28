@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_28_185747) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_28_195251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -115,6 +115,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_185747) do
     t.boolean "partner", default: false, null: false
     t.boolean "hidden", default: false, null: false
     t.string "slug"
+    t.bigint "limitless_org_id"
     t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true, where: "(owner_id IS NOT NULL)"
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
