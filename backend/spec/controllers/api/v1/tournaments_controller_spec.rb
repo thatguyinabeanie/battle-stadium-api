@@ -8,7 +8,6 @@ RSpec.describe Api::V1::TournamentsController do
 
   describe "GET #index" do
 
-
     it "returns a successful response" do
       get :index
       expect(response).to have_http_status(:ok)
@@ -19,6 +18,13 @@ RSpec.describe Api::V1::TournamentsController do
       get :index
       json_response = response.parsed_body
       expect(json_response["data"].size).to eq(3)
+    end
+
+    it "does not return unpublished tournaments" do
+      create(:tournament, published: false)
+      get :index
+      json_response = response.parsed_body
+      expect(json_response["data"].size).to eq(0)
     end
   end
 
