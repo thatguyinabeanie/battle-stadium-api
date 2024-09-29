@@ -1,6 +1,15 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableCell, TableRow, Link } from "@nextui-org/react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableCell,
+  TableRow,
+  Link,
+  Image,
+} from "@/components/nextui-use-client";
 import * as React from "react";
 
 import { Tournament } from "@/lib/api";
@@ -104,7 +113,17 @@ function renderCell(tournament: Tournament, key: React.Key) {
 
   switch (key) {
     case "organization.name":
-      return <Link href={`/organizations/${organization.slug}`}> {organization.name} </Link>;
+      return (
+        <Link href={`/organizations/${organization.slug}`}>
+          <Image
+            alt="Organization Logo"
+            className="rounded-small"
+            height={40}
+            src={organization.logo_url ?? "/pokemon/vgc.png"}
+            width={40}
+          />
+        </Link>
+      );
     case "start_at":
       return renderStartDateString(start_at);
     case "name":

@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { NavbarItem, Button } from "@nextui-org/react";
+import { NavbarItem, Button } from "@/components/nextui-use-client";
 import Link from "next/link";
 
 export default function Settings() {
