@@ -20,6 +20,8 @@ FactoryBot.define do
 
     check_in_start_at { start_at - 2.hours }
 
+    published { true }
+
     trait :with_phases do
       after(:create) do |tournament|
         tournament.phases = create_list(:swiss_phase, 3, tournament:)

@@ -196,7 +196,8 @@ TOURNAMENT_PROPERTIES = {
   ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
   registration_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
   registration_end_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
-  late_registration: { type: :boolean }
+  late_registration: { type: :boolean },
+  published: { type: :boolean }
 }.freeze
 
 TOURNAMENT_SCHEMA = {
@@ -208,7 +209,7 @@ TOURNAMENT_SCHEMA = {
     format: { "$ref" => COMPONENT_SCHEMA_FORMAT },
     game: { "$ref" => COMPONENT_SCHEMA_GAME }
   }.merge(ID_NAME_PROPERTIES).merge(TOURNAMENT_PROPERTIES),
-  required: ID_NAME_REQUIRED + %w[player_cap organization format game start_at player_count registration_start_at registration_end_at late_registration]
+  required: ID_NAME_REQUIRED + %w[player_cap organization format game start_at player_count published registration_start_at registration_end_at late_registration]
 }.freeze
 
 TOURNAMENT_DETAILS_SCHEMA = {

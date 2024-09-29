@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_28_195251) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -235,6 +235,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_195251) do
     t.boolean "open_team_sheets", default: true, null: false
     t.datetime "end_at"
     t.bigint "limitless_id"
+    t.boolean "published", default: false, null: false
     t.index ["format_id"], name: "index_tournaments_on_format_id"
     t.index ["game_id"], name: "index_tournaments_on_game_id"
     t.index ["limitless_id"], name: "index_tournaments_on_limitless_id", unique: true, where: "(limitless_id IS NOT NULL)"

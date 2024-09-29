@@ -15,7 +15,7 @@ module Serializers
       attributes :game, :format
       attributes :organization
       attributes :registration_start_at, :registration_end_at, :late_registration
-      attributes :start_at, :started_at, :end_at, :ended_at
+      attributes :start_at, :started_at, :end_at, :ended_at, :published
       belongs_to :game, serializer: Serializers::Game
       belongs_to :format, serializer: Serializers::Format
 
