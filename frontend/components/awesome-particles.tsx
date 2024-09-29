@@ -33,8 +33,8 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
           quantity: 20,
         },
         repulse: {
-          distance: 100,
-          quantity: 4,
+          distance: 60,
+          quantity: 3,
         },
       },
     },
