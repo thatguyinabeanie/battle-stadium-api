@@ -21,7 +21,7 @@ export default function UserMenuDropDown({ me }: Readonly<UserMenuDropDownProps>
         className={cn("", {
           hidden: !(me && isSignedIn),
         })}
-        color="success"
+        color="primary"
       >
         <Link href="/dashboard">
           <span>
@@ -35,7 +35,7 @@ export default function UserMenuDropDown({ me }: Readonly<UserMenuDropDownProps>
         key="sign-in"
         aria-label="sign-in"
         className={cn("", {
-          hidden: me && isSignedIn,
+          hidden: isSignedIn,
         })}
         color="success"
       >
