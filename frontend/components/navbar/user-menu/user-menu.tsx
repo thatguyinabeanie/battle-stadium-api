@@ -1,8 +1,7 @@
-import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@nextui-org/react";
-
+import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@/components/nextui-use-client";
 import UserMenuDropDown from "./user-menu-dropdown";
 import { currentUser } from "@clerk/nextjs/server";
-import { getMe } from "@/app/data/actions";
+import { components } from "@/lib/api/openapi-v1";
 
 async function SmartAvatar() {
   const user = await currentUser();
@@ -14,9 +13,11 @@ async function SmartAvatar() {
   return <Avatar className="bg-transparent" icon={<AvatarIcon />} size="sm" />;
 }
 
-export default async function UserMenu() {
-  const me = (await getMe()).data;
+interface UserMenuProps {
+  me?: components["schemas"]["UserMe"];
+}
 
+export default async function UserMenu({ me }: Readonly<UserMenuProps>) {
   return (
     <NavbarItem className="px-2">
       <Dropdown placement="bottom">

@@ -1,7 +1,7 @@
 "use client";
 
 import { components } from "@/lib/api/openapi-v1";
-import { Tabs, Tab } from "@nextui-org/react";
+import { Tabs, Tab } from "@/components/nextui-use-client";
 
 interface DashboardProps {
   me: components["schemas"]["UserMe"];

@@ -1,4 +1,4 @@
-import { NavbarItem, Popover, PopoverTrigger, Button, Badge, PopoverContent } from "@nextui-org/react";
+import { NavbarItem, Popover, PopoverTrigger, Button, Badge, PopoverContent } from "@/components/nextui-use-client";
 import { auth } from "@clerk/nextjs/server";
 
 import { cn } from "@/lib";

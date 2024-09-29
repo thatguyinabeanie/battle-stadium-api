@@ -7,7 +7,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Link,
-} from "@nextui-org/react";
+} from "@/components/nextui-use-client";
 
 import BattleStadium from "@/components/battle-stadium";
 
@@ -16,8 +16,13 @@ import UserMenu from "./user-menu/user-menu";
 import Settings from "./settings";
 import Notifications from "./notifications";
 import Search from "./search";
+import { getMe } from "@/app/data/actions";
+import { auth } from "@clerk/nextjs/server";
 
-export default function NavigationBar() {
+export default async function NavigationBar() {
+  const me = (await getMe()).data;
+  const clerkAuth = auth();
+
   return (
     <Navbar
       isBordered
@@ -34,7 +39,7 @@ export default function NavigationBar() {
       </NavbarBrand>
 
       <NavbarContent className="hidden md:flex gap-2 m-x4" data-justify={"center"}>
-        <NavbarLinks />
+        <NavbarLinks isSignedIn={!!clerkAuth.sessionId} />
       </NavbarContent>
 
       {/* Right Menu */}
@@ -42,7 +47,7 @@ export default function NavigationBar() {
         <Search />
         <Settings />
         <Notifications />
-        <UserMenu />
+        <UserMenu me={me} />
         <NavbarMenuToggle className="md:hidden" />
       </NavbarContent>
 

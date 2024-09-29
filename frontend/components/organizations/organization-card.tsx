@@ -1,9 +1,8 @@
-import type { CardProps } from "@nextui-org/react";
-
 import React from "react";
-import { Card, Image, CardBody, Link, CardFooter, cn } from "@nextui-org/react";
+import { Card, Image, CardBody, Link, CardFooter, CardProps } from "@/components/nextui-use-client";
 
 import { Organization } from "@/lib/api";
+import { cn } from "@/lib/utils";
 
 export interface OrgCardProps {
   organization: Organization;

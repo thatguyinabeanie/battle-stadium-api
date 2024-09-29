@@ -1,11 +1,12 @@
 import React from "react";
 import NavbarLinkClientItem from "@/components/navbar/navbar-client-item";
 import { cn } from "@/lib/utils";
-import { auth } from "@clerk/nextjs/server";
 
-export default async function NavbarLinks() {
-  const clerkAuth = auth();
+interface NavbarLinksProps {
+  isSignedIn: boolean | null;
+}
 
+export default async function NavbarLinks({ isSignedIn }: Readonly<NavbarLinksProps>) {
   return (
     <>
       <NavbarLinkClientItem path="organizations">Organizations</NavbarLinkClientItem>
@@ -18,7 +19,7 @@ export default async function NavbarLinks() {
 
       <NavbarLinkClientItem
         className={cn("", {
-          hidden: !clerkAuth.sessionId,
+          hidden: !isSignedIn,
         })}
         path="dashboard"
       >
