@@ -48,7 +48,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
               <main className="flex h-full w-full z-0">
                 <div className="w-full flex-1 flex-col px-4">
                   <div className="h-full flex flex-col gap-4 rounded-medium border-divider ">
-                    <section className="flex flex-col gap-4 py-4 h-full w-ful items-center">{children}</section>
+                    <section className="flex flex-col gap-4 py-2 h-full w-ful items-center">{children}</section>
                   </div>
                 </div>
               </main>

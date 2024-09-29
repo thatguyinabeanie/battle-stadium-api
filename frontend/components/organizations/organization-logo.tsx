@@ -1,5 +1,5 @@
 import { Organization } from "@/lib/api";
-import { Image } from "@nextui-org/react";
+import { Image } from "@/components/nextui-use-client";
 
 interface OrganizationLogoProps {
   organization: Organization;

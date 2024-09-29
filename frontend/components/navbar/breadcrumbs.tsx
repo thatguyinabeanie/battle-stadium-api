@@ -3,7 +3,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumbs, BreadcrumbItem, NavbarItem } from "@nextui-org/react";
+import { Breadcrumbs, BreadcrumbItem, NavbarItem } from "@/components/nextui-use-client";
 
 export default function BreadcrumbsComponent() {
   const pathname = usePathname();

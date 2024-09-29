@@ -27,10 +27,10 @@ export default async function NavigationBar() {
     <Navbar
       isBordered
       classNames={{
-        wrapper: "bg-transparent justify-between backdrop-blur-2xl min-w-full",
-        base: " bg-transparent",
+        wrapper: "bg-transparent justify-between backdrop-blur-sm min-w-full",
+        base: "bg-transparent",
         item: "data-[active=true]:text-primary",
-        content: "flex-grow-0 h-12 items-center",
+        content: "flex-grow-0 h-12 items-center text-default-500",
       }}
       height="3.5rem"
     >

@@ -1,23 +1,21 @@
 "use client";
 
 import { ChildrenProps } from "@/types";
-import { Link, NavbarItem, NavbarItemProps } from "@nextui-org/react";
-import { usePathname } from "next/navigation";
+import { Link, NavbarItem, NavbarItemProps } from "@/components/nextui-use-client";
 
 interface NavbarItemClientProps extends ChildrenProps {
   path: string;
   className?: string;
+  firstSegment?: string;
 }
 
 export default function NavbarClientItem({
   path,
   children,
   className,
+  firstSegment,
   ...rest
 }: Readonly<NavbarItemClientProps & NavbarItemProps>) {
-  const pathname = usePathname();
-  const firstSegment = pathname.split("/")[1];
-
   const isActive = firstSegment?.includes(path);
 
   return (

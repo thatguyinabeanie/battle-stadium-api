@@ -5,7 +5,7 @@ import AppearanceSetting from "../../components/settings/appearance-settings";
 import AccountSetting from "../../components/settings/account-settings";
 import BillingSetting from "../../components/settings/bill-settings";
 import TeamSetting from "../../components/settings/team-setting";
-import { Button, Tab, Tabs, useDisclosure } from "@nextui-org/react";
+import { Button, Tab, Tabs, useDisclosure } from "@/components/nextui-use-client";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 const Settings = () => {

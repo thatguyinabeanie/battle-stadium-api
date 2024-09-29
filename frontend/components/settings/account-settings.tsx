@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button, Input, Select, SelectItem, Spacer } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem, Spacer } from "@/components/nextui-use-client";
 
 import { cn } from "@/lib/utils";
 
