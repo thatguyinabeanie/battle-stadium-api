@@ -13,10 +13,12 @@ module Api
       end
 
       def me
+        if @current_user.nil?
+          skip_authorization
+          return render json: { error: "Not authorized" }, status: :unauthorized
+        end
         authorize @current_user, :me?
         render json: @current_user, serializer: Serializers::UserMe, status: :ok
-      rescue ActiveRecord::RecordNotFound
-        render json: { errors: ["User not found"] }, status: :not_found
       end
 
       protected

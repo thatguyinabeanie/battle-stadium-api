@@ -25,15 +25,39 @@ RSpec.describe Api::V1::TournamentsController do
   describe "GET #show" do
     let(:tournament) { create(:tournament) }
 
-    it "returns a successful response" do
-      get :show, params: { id: tournament.id }
-      expect(response).to have_http_status(:ok)
+    context("when the user is authorized") do
+      let(:request_user) { tournament.organization.owner }
+
+      it "returns a successful response" do
+        get :show, params: { id: tournament.id }
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns the tournament details" do
+        get :show, params: { id: tournament.id }
+        json_response = response.parsed_body
+        expect(json_response["id"]).to eq(tournament.id)
+      end
+
+      it "returns the unpublished tournament" do
+        tournament.update!(published: false)
+        get :show, params: { id: tournament.id }
+        expect(response).to have_http_status(:ok)
+      end
     end
 
-    it "returns the tournament details" do
-      get :show, params: { id: tournament.id }
-      json_response = response.parsed_body
-      expect(json_response["id"]).to eq(tournament.id)
+    context("when the user is not authorized") do
+
+      it "returns the publushed tournament" do
+        get :show, params: { id: tournament.id }
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns unauthorized if the tournament is not published" do
+        tournament.update!(published: false)
+        get :show, params: { id: tournament.id }
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 

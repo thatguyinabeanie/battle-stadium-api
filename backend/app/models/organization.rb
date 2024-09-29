@@ -25,6 +25,6 @@ class Organization < ApplicationRecord
   end
 
   def has_staff_member?(user:)
-    staff.exists?(user.id) || owner == user
+    user && (staff.exists?(user.id) || owner == user)
   end
 end

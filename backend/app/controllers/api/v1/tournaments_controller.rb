@@ -6,14 +6,14 @@ module Api
       before_action :set_tournaments, only: %i[show]
       before_action :set_tournament, only: %i[show update destroy]
       before_action :set_organization, only: %i[create update]
-
+      before_action :authenticate_clerk_user_session!
       def self.policy_class
         ::Tournaments::TournamentPolicy
       end
 
       def index
         authorize self.class, :index?
-        @tournaments = ::Tournaments::Tournament.order(start_at: :desc).page(params[:page] || 0).per(params[:per_page] || 20)
+        @tournaments = ::Tournaments::Tournament.where(published: true).order(start_at: :desc).page(params[:page] || 0).per(params[:per_page] || 20)
         render json: {
           data: ActiveModelSerializers::SerializableResource.new(@tournaments, each_serializer: Serializers::Tournament),
           meta: {
@@ -27,8 +27,13 @@ module Api
       end
 
       def show
+
+        @object = @tournament
         super
+        authorize @tournament, :show?
         render json: serialize_details, status: :ok
+      rescue Pundit::NotAuthorizedError => e
+        render json: { error: e.message }, status: :unauthorized
       end
 
       def create

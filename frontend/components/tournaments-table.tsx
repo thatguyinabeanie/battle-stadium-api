@@ -114,7 +114,7 @@ function renderCell(tournament: Tournament, key: React.Key) {
   switch (key) {
     case "organization.name":
       return (
-        <Link href={`/organizations/${organization.slug}`}>
+        <Link className="flex justify-center items-center" href={`/organizations/${organization.slug}`}>
           <Image
             alt="Organization Logo"
             className="rounded-small"

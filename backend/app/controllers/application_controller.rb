@@ -36,9 +36,10 @@ class ApplicationController < ActionController::Base
 
   def authenticate_clerk_user_session!
     @current_user = ::Auth::Clerk::Session.authenticate!(request:)
+
+    @current_user
   rescue StandardError => e
     Rails.logger.error(e.message)
-    render json: { error: e.message }, status: :unauthorized
   end
 
   def pundit_user
