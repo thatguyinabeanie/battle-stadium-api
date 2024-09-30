@@ -14,10 +14,6 @@ require "support/openapi/response_helper"
 
 abort("The Rails environment is running in not running in test mode!") unless Rails.env.test?
 
-# This outputs the coverage report to the console
-# SimpleCov.formatter = SimpleCov::Formatter::Console
-
-
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
