@@ -17,6 +17,25 @@ require "factory_bot_rails"
 # require_relative 'support/openapi_helper'
 ENV["RAILS_ENV"] = "test"
 ENV["AUTH_SECRET"] = "test_secret"
+
+require "simplecov"
+
+SimpleCov.start "rails" do
+  add_filter "/spec/"
+  add_filter "/config/"
+  add_filter "/vendor/"
+  add_filter "/lib/tasks/"
+  add_filter "/tmp/"
+  add_filter "/log/"
+  add_filter "/db/"
+  add_filter "/.devcontainer/"
+  add_filter "/.github/"
+  add_filter "/.vscode/"
+  add_filter "/.turbo/"
+  add_filter "/test-results/"
+  add_filter "/coverage/"
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
