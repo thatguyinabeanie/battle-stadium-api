@@ -97,7 +97,7 @@
     "@types/rosie": "^0.0.45",
     "@types/web": "^0.0.163",
     "@types/ws": "^8.5.12",
-    "@typescript-eslint/eslint-plugin": "8.6.0",
+    "@typescript-eslint/eslint-plugin": "8.7.0",
     "@typescript-eslint/parser": "8.6.0",
     "@typescript-eslint/typescript-estree": "^8.7.0",
     "autoprefixer": "10.4.20",
