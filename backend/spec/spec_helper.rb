@@ -17,6 +17,26 @@ require "factory_bot_rails"
 # require_relative 'support/openapi_helper'
 ENV["RAILS_ENV"] = "test"
 ENV["AUTH_SECRET"] = "test_secret"
+
+require "simplecov"
+require "simplecov-console"
+SimpleCov.formatter = SimpleCov::Formatter::Console
+SimpleCov.start "rails" do
+  add_filter "/spec/"
+  add_filter "/config/"
+  add_filter "/vendor/"
+  add_filter "/lib/tasks/"
+  add_filter "/tmp/"
+  add_filter "/log/"
+  add_filter "/db/"
+  add_filter "/.devcontainer/"
+  add_filter "/.github/"
+  add_filter "/.vscode/"
+  add_filter "/.turbo/"
+  add_filter "/test-results/"
+  add_filter "/coverage/"
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -91,7 +111,7 @@ RSpec.configure do |config|
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
-  config.profile_examples = 10
+  config.profile_examples = false
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing

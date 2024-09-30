@@ -55,6 +55,7 @@ group :test do
   gem "selenium-webdriver", "~> 4", require: false
   gem "shoulda-matchers", "~> 6"
   gem "simplecov"
+  gem "simplecov-console", require: false
   gem "timecop", "~> 0"
 end
 
