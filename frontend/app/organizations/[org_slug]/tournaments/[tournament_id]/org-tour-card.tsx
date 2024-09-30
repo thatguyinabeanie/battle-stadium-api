@@ -9,7 +9,7 @@ interface OrgTourCardProps {
 
 export default function OrgTourCard({ organization, tournament }: Readonly<OrgTourCardProps>) {
   return (
-    <Card className="bg-transparent h-90 w-90 rounded-3x backdrop-blur-sm " shadow="md">
+    <Card className="bg-transparent h-90 w-90 rounded-3x backdrop-blur-md " shadow="md">
       <CardBody className="bg-transparent flex flex-row justify-between rounded-3xl">
         <OrganizationLogo organization={organization} />
 

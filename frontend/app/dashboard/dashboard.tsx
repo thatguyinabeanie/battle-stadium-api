@@ -12,8 +12,8 @@ export default function Dashboard({ me }: Readonly<DashboardProps>) {
       aria-label="Navigation Tabs"
       classNames={{
         tabList:
-          "w-full relative rounded-full px-1 border-b backdrop-blur-lg mx-8 bg-transparent border-small border-neutral-400/20 shadow-md",
-        tab: "border-none text-primary",
+          "w-full relative rounded-full px-1 border-b backdrop-blur-md mx-8 bg-transparent border-small border-neutral-400/20 shadow-md",
+        // tab: "border-small text-primary border-neutral-500/50",
         tabContent: "text-default-500",
       }}
       radius="full"
@@ -24,7 +24,7 @@ export default function Dashboard({ me }: Readonly<DashboardProps>) {
         key="deployments"
         title={
           <div className="flex items-center gap-1">
-            <p>Deployments</p>
+            <p>Previous Tournaments</p>
             <Chip size="sm">9</Chip>
           </div>
         }

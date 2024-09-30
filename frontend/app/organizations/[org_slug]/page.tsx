@@ -61,7 +61,7 @@ export default async function OrganizationDetailPage({ params }: Readonly<Organi
   const { data: tournaments } = await getOrganizationTournaments(params.org_slug);
 
   return (
-    <div className="w-100 h-100 backdrop-blur-md">
+    <div className="w-100 h-100 bg-transparent">
       <OrgDetailCard organization={organization} />
 
       <Spacer y={4} />
