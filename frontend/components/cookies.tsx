@@ -4,7 +4,7 @@ import React from "react";
 import Cookies from "js-cookie";
 
 import { useAuth } from "@clerk/clerk-react";
-import { Button, Link } from "@nextui-org/react";
+import { Button, Link } from "@/components/nextui-use-client";
 
 const cookieAttributes = (attrs: Partial<Cookies.CookieAttributes>): Cookies.CookieAttributes => ({
   expires: 7,

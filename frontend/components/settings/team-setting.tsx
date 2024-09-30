@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button, Card, CardBody, Divider, Input, Select, SelectItem, Spacer } from "@nextui-org/react";
+import { Button, Card, CardBody, Divider, Input, Select, SelectItem, Spacer } from "@/components/nextui-use-client";
 import { Icon } from "@iconify/react";
 
 import TeamManageTable from "@/components/settings/team-manage-table";

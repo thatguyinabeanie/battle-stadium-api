@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Icon } from "@iconify/react";
-import { Button, Badge, Input, Spacer, Textarea, Card, CardBody, Avatar } from "@nextui-org/react";
+import { Button, Badge, Input, Spacer, Textarea, Card, CardBody, Avatar } from "@/components/nextui-use-client";
 
 import { cn } from "@/lib/utils";
 

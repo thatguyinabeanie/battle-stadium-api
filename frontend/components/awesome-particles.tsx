@@ -3,7 +3,7 @@
 import * as React from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import { type ISourceOptions, MoveDirection, OutMode } from "@tsparticles/engine";
+import { type ISourceOptions, MoveDirection } from "@tsparticles/engine";
 import { useTheme } from "next-themes";
 
 const useAwesomeParticlesOptions = (): ISourceOptions => {
@@ -20,11 +20,11 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
     interactivity: {
       events: {
         onClick: {
-          enable: true,
+          enable: false,
           mode: "push",
         },
         onHover: {
-          enable: true,
+          enable: false,
           mode: "repulse",
         },
       },
@@ -33,8 +33,8 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
           quantity: 20,
         },
         repulse: {
-          distance: 100,
-          quantity: 4,
+          distance: 60,
+          quantity: 3,
         },
       },
     },
@@ -46,15 +46,15 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         color: isLight ? "#555" : "#fff",
         distance: 150,
         enable: true,
-        opacity: isLight ? 0.5 : 0.1,
+        opacity: isLight ? 0.5 : 0.2,
         width: 1,
       },
       move: {
         direction: MoveDirection.none,
         enable: true,
-        outModes: {
-          default: OutMode.out,
-        },
+        // outModes: {
+        //   default: OutMode.out,
+        // },
         random: true,
         speed: 0.5,
         straight: false,

@@ -1,37 +1,41 @@
-import { SignInButton, SignOutButton } from "@clerk/nextjs";
+"use client";
+
+import { SignInButton, SignOutButton } from "@/components/clerk-use-client";
 import { DropdownItem, DropdownMenu, Link } from "@/components/nextui-use-client";
 
 import { cn } from "@/lib";
+import { components } from "@/lib/api/openapi-v1";
 
 interface UserMenuDropDownProps {
-  admin?: boolean;
-  // user: User;
-  user: { firstName?: string; lastName?: string };
-  isSignedIn: boolean;
+  me?: components["schemas"]["UserMe"];
 }
 
-export default function UserMenuDropDown({ admin, user, isSignedIn }: Readonly<UserMenuDropDownProps>) {
+export default function UserMenuDropDown({ me }: Readonly<UserMenuDropDownProps>) {
+  const isSignedIn = !!me;
+
   return (
     <DropdownMenu aria-label="Profile Actions" variant="bordered">
       <DropdownItem
         key="profile"
+        aria-label="dashboard"
         className={cn("", {
-          hidden: !(user && isSignedIn),
+          hidden: !(me && isSignedIn),
         })}
-        color="success"
+        color="primary"
       >
         <Link href="/dashboard">
           <span>
             <p className="font-normal text-default-400">Signed in as</p>
-            <p className="truncate font-semibold">{`${user?.firstName} ${user?.lastName}`}</p>{" "}
+            <p className="truncate font-semibold">{`${me?.first_name} ${me?.last_name}`}</p>{" "}
           </span>
         </Link>
       </DropdownItem>
 
       <DropdownItem
         key="sign-in"
+        aria-label="sign-in"
         className={cn("", {
-          hidden: user && isSignedIn,
+          hidden: isSignedIn,
         })}
         color="success"
       >
@@ -42,14 +46,15 @@ export default function UserMenuDropDown({ admin, user, isSignedIn }: Readonly<U
 
       <DropdownItem
         key="admin"
+        aria-label="Admin"
         className={cn("", {
-          hidden: !(user && isSignedIn) || !admin,
+          hidden: !(me && isSignedIn) || !me.admin,
         })}
       >
         <Link href="/admin">Admin</Link>
       </DropdownItem>
 
-      <DropdownItem key="settings">
+      <DropdownItem key="settings" aria-label="Settings">
         <Link href="/settings">Settings</Link>
       </DropdownItem>
 
@@ -57,8 +62,9 @@ export default function UserMenuDropDown({ admin, user, isSignedIn }: Readonly<U
 
       <DropdownItem
         key="logout"
+        aria-label="Sign Out"
         className={cn("", {
-          hidden: !(user && isSignedIn),
+          hidden: !(me && isSignedIn),
         })}
         color="danger"
       >

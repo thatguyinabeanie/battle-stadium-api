@@ -3,18 +3,18 @@ import UserMenuDropDown from "./user-menu-dropdown";
 import { currentUser } from "@clerk/nextjs/server";
 import { components } from "@/lib/api/openapi-v1";
 
+interface UserMenuProps {
+  me?: components["schemas"]["UserMe"];
+}
+
 async function SmartAvatar() {
   const user = await currentUser();
 
   if (user?.imageUrl) {
-    return <Avatar className="bg-transparent" size="sm" src={user.imageUrl} />;
+    return <Avatar aria-label="User's profile image" className="bg-transparent" size="sm" src={user.imageUrl} />;
   }
 
-  return <Avatar className="bg-transparent" icon={<AvatarIcon />} size="sm" />;
-}
-
-interface UserMenuProps {
-  me?: components["schemas"]["UserMe"];
+  return <Avatar aria-label="default profile image" className="bg-transparent" icon={<AvatarIcon />} size="sm" />;
 }
 
 export default async function UserMenu({ me }: Readonly<UserMenuProps>) {
@@ -26,11 +26,7 @@ export default async function UserMenu({ me }: Readonly<UserMenuProps>) {
             <SmartAvatar />
           </button>
         </DropdownTrigger>
-        <UserMenuDropDown
-          admin={me?.admin}
-          isSignedIn={!!me}
-          user={{ firstName: me?.first_name, lastName: me?.last_name }}
-        />
+        <UserMenuDropDown me={me} />
       </Dropdown>
     </NavbarItem>
   );

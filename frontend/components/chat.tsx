@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { FixedSizeList as List } from "react-window";
-import { Button } from "@nextui-org/react";
+import { Button } from "@/components/nextui-use-client";
 import { useActionCableConnection } from "@/lib/websocket/use-action-cable-connection";
 
 export interface Message {

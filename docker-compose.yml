@@ -19,8 +19,6 @@ services:
 
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
-    profiles:
-      - development
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
@@ -90,9 +88,6 @@ services:
       start_period: 120s
 
   frontend:
-    profiles:
-      - development
-      - production
     hostname: nextjs-container
     image: thatguyinabeanie/battle-stadium:frontend-dev-latest
     build:

@@ -1,4 +1,4 @@
-import { ConfigTheme } from "@nextui-org/react";
+import { ConfigTheme } from "@/components/nextui-use-client";
 import { CommonTheme } from "./common";
 
 const LightPurple: ConfigTheme = {

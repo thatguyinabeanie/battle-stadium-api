@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@nextui-org/react";
+import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui-use-client";
 import { Icon } from "@iconify/react";
 
 import { PlanCustomRadio } from "@/components/settings/plan-custom-radio";

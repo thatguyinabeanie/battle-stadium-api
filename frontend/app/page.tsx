@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <Card
-      className="bg-transparent  inline-block max-w-fit text-center justify-center p-10 m-20 backdrop-blur-lg rounded-3xl"
+      className="bg-transparent  inline-block max-w-fit text-center justify-center p-10 m-20 backdrop-blur-md rounded-3xl"
       shadow="md"
     >
       <h1 className={title({ color: "violet", size: "2xl" })}>battlestadium.gg</h1>
