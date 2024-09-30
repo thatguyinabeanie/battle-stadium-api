@@ -144,11 +144,10 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.1.1)
-    hirb (0.7.3)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
-    irb (1.14.0)
+    irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.7.2)
@@ -288,7 +287,7 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rb-readline (0.5.5)
-    rbs (3.5.3)
+    rbs (3.6.0)
       logger
     rdoc (6.7.0)
       psych (>= 4.0.0)
@@ -300,7 +299,7 @@ GEM
     reline (0.5.10)
       io-console (~> 0.5)
     retries (0.0.5)
-    rexml (3.3.7)
+    rexml (3.3.8)
     rspec-core (3.13.1)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.3)
@@ -404,7 +403,7 @@ GEM
       rubocop (>= 0.90.0)
     ruby-graphviz (1.2.5)
       rexml
-    ruby-lsp (0.18.3)
+    ruby-lsp (0.18.4)
       language_server-protocol (~> 3.17.0)
       prism (~> 1.0)
       rbs (>= 3, < 4)
@@ -439,7 +438,7 @@ GEM
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
     smart_properties (1.17.0)
-    sorbet-runtime (0.5.11581)
+    sorbet-runtime (0.5.11589)
     spring (4.2.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
@@ -477,7 +476,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webmock (3.23.1)
+    webmock (3.24.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -517,9 +516,7 @@ DEPENDENCIES
   factory_bot_rails (~> 6)
   faker (~> 3)
   friendly_id
-  hirb
   i18n
-  irb
   json (~> 2.7)
   jsonapi-serializer (~> 2)
   jwt (~> 2.8)

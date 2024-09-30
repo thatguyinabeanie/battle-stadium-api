@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "@aws-sdk/credential-provider-web-identity": "^3.654.0",
-    "@clerk/backend": "^1.13.5",
-    "@clerk/nextjs": "^5.6.3",
+    "@clerk/backend": "^1.13.6",
+    "@clerk/nextjs": "^5.6.4",
     "@internationalized/date": "^3.5.5",
     "@neondatabase/serverless": "^0.9.5",
     "@next/third-parties": "^14.2.13",
@@ -99,7 +99,7 @@
     "@types/ws": "^8.5.12",
     "@typescript-eslint/eslint-plugin": "8.6.0",
     "@typescript-eslint/parser": "8.6.0",
-    "@typescript-eslint/typescript-estree": "^8.7.0",
+    "@typescript-eslint/typescript-estree": "^8.8.0",
     "autoprefixer": "10.4.20",
     "bun-types": "^1.1.29",
     "depcheck": "^1.4.7",
@@ -126,7 +126,7 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.7.0",
+    "typescript-eslint": "^8.8.0",
     "vercel": "^37.6.0",
     "yaml": "^2.5.1"
   }
