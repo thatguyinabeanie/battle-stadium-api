@@ -18,17 +18,16 @@ function getBaseUrl() {
   return `http://${host}:${port}/api/v1`;
 }
 
-export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
+export function BattleStadiumApiClient() {
   const baseUrl = getBaseUrl();
   const fetchClient = createFetchClient<paths>({ baseUrl });
 
   const authMiddleware: Middleware = {
     async onRequest({ request }) {
-      if (!skipClerkAuth) {
+      if (process.env.NODE_ENV !== "development") {
         request.headers.set("Authorization", `Bearer ${await auth().getToken()}`);
+        request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
       }
-
-      request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
 
       return request;
     },

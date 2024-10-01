@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   after_action :verify_authorized
-  before_action :authenticate_clerk_user_session!
-  before_action :validate_vercel_oidc_token!
-  skip_before_action :authenticate_clerk_user_session!, only: %i[index show]
+  before_action :authenticate_clerk_user_session! unless Rails.env.development?
+  before_action :validate_vercel_oidc_token! unless Rails.env.development?
+  skip_before_action :authenticate_clerk_user_session!, only: %i[index show] unless Rails.env.development?
 
   def self.policy_class
     ::ApplicationPolicy
