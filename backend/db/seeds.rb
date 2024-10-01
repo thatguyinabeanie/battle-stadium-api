@@ -42,7 +42,6 @@ def create_user(username: nil, first_name: nil, last_name: nil, email: nil, pron
   email || "#{username}@beanie.com"
   pronouns ||= "they/them"
   username ||= Faker::Internet.unique.username
-
   # Check if user already exists
   user = User.find_or_create_by!(username:) do |user|
     user.email = "#{user.username}@beanie.gg"
@@ -62,6 +61,7 @@ end
 
 def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
   Tournaments::Tournament.find_or_create_by!(name:, organization:, format:, game:) do |tournament|
+    tournament.published = true
     tournament.start_at = start_at
     tournament.check_in_start_at = start_at - 1.hour
     tournament.end_at = end_at
