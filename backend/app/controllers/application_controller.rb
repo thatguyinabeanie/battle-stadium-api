@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   after_action :verify_authorized
   before_action :authenticate_clerk_user_session!
-  before_action :validate_vercel_oidc_token!
+  before_action :validate_vercel_oidc_token! unless Rails.env.development?
   skip_before_action :authenticate_clerk_user_session!, only: %i[index show]
 
   def self.policy_class

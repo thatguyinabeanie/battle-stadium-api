@@ -43,16 +43,25 @@ def create_user(username: nil, first_name: nil, last_name: nil, email: nil, pron
   pronouns ||= "they/them"
   username ||= Faker::Internet.unique.username
   # Check if user already exists
-  User.find_or_create_by!(username:) do |user|
+  user = User.find_or_create_by!(username:) do |user|
     user.email = "#{user.username}@beanie.gg"
     user.pronouns = pronouns
     user.first_name = last_name
     user.last_name = first_name
   end
+
+  # Check if profile with the given username already exists
+  profile = Profile.find_or_create_by!(username:) do |p|
+    p.user = user
+  end
+
+  user.update!(default_profile: profile)
+  user
 end
 
 def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
   Tournaments::Tournament.find_or_create_by!(name:, organization:, format:, game:) do |tournament|
+    tournament.published = true
     tournament.start_at = start_at
     tournament.check_in_start_at = start_at - 1.hour
     tournament.end_at = end_at
@@ -120,8 +129,8 @@ future_tournaments.flat_map do |tournament|
   users.map do |user|
     next if tournament.players.exists?(user:) || !tournament.registration_open?
 
-    tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
-      player.pokemon_team = PokemonTeam.create(user:).tap do |pokemon_team|
+    tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name, profile: user.default_profile).tap do |player|
+      player.pokemon_team = PokemonTeam.create(profile: player.profile).tap do |pokemon_team|
         pokemon_team.pokemon = (1..6).to_a.map do
           Pokemon.create(pokemon_team:)
         end
@@ -139,8 +148,8 @@ in_progress_tournaments = orgs.flat_map do |organization|
     tournament.players = users.map do |user|
       next if tournament.players.exists?(user:)
 
-      tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name).tap do |player|
-        player.pokemon_team = PokemonTeam.create(user:).tap do |pokemon_team|
+      tournament.players.create!(user:, in_game_name: Faker::Games::Pokemon.name, profile: user.default_profile).tap do |player|
+        player.pokemon_team = PokemonTeam.create(profile: player.profile).tap do |pokemon_team|
           pokemon_team.pokemon = (1..6).to_a.map do
             Pokemon.create(pokemon_team:)
           end

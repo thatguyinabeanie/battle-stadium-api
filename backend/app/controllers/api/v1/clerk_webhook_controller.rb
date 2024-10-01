@@ -6,7 +6,7 @@ module Api
     class ClerkWebhookController < ApiController
       skip_before_action :verify_authenticity_token
       skip_before_action :authenticate_clerk_user_session!
-      skip_before_action :validate_vercel_oidc_token!
+      skip_before_action :validate_vercel_oidc_token! unless Rails.env.development?
 
       before_action :verify_clerk_webhook
       skip_after_action :verify_authorized if Rails.env.test?

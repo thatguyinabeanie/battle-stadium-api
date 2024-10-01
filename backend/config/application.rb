@@ -34,19 +34,20 @@ module BattleStadium
       ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
       ENV["DATABASE_URL"] = nil
 
+      ENV["REDIS_URL"] ||= "redis://redis:6379/1"
+
       errors = []
 
       errors << "Missing CLERK_SECRET_KEY environment variable" if ENV.fetch("CLERK_SECRET_KEY", nil).nil?
 
       errors << "Missing CLERK_WEBHOOK_SECRET environment variable" if ENV.fetch("CLERK_WEBHOOK_SECRET", nil).nil?
 
-      errors << "Missing CLERK_PUBLISHABLE_KEY environment variable" if ENV.fetch("CLERK_PUBLISHABLE_KEY", nil).nil?
+      errors << "Missing AUTH_SECRET environment variable" if ENV.fetch("AUTH_SECRET", nil).nil?
 
       errors << "Missing PRODUCTION_DATABASE_URL environment variable" if ENV.fetch("PRODUCTION_DATABASE_URL", nil).nil? && Rails.env.production?
 
-      errors << "Missing AUTH_SECRET environment variable" if ENV.fetch("AUTH_SECRET", nil).nil?
+      raise errors.join("\n") if errors.any?
 
-      puts errors.join("\n") if errors.any?
     end
 
     config.active_job.queue_adapter = :sidekiq
