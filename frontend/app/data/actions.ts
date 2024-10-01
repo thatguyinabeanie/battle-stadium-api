@@ -43,7 +43,7 @@ export async function getTournaments(
     params: { query: { page, per_page } },
   };
 
-  return BattleStadiumApiClient(true).GET("/tournaments", tournamentsOptions);
+  return BattleStadiumApiClient().GET("/tournaments", tournamentsOptions);
 }
 
 export async function getOrganizations(options?: FetchOptions<paths["/organizations"]["get"]>) {
@@ -58,7 +58,7 @@ export async function getOrganizations(options?: FetchOptions<paths["/organizati
     },
   };
 
-  return BattleStadiumApiClient(true).GET("/organizations", organizationsOptions);
+  return BattleStadiumApiClient().GET("/organizations", organizationsOptions);
 }
 
 export async function getOrganization(slug: string, options?: FetchOptions<paths["/organizations/{slug}"]["get"]>) {
