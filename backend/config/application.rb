@@ -40,8 +40,6 @@ module BattleStadium
 
       errors << "Missing CLERK_WEBHOOK_SECRET environment variable" if ENV.fetch("CLERK_WEBHOOK_SECRET", nil).nil?
 
-      errors << "Missing CLERK_PUBLISHABLE_KEY environment variable" if ENV.fetch("CLERK_PUBLISHABLE_KEY", nil).nil?
-
       errors << "Missing PRODUCTION_DATABASE_URL environment variable" if ENV.fetch("PRODUCTION_DATABASE_URL", nil).nil? && Rails.env.production?
 
       errors << "Missing AUTH_SECRET environment variable" if ENV.fetch("AUTH_SECRET", nil).nil?

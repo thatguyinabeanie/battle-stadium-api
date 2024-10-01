@@ -24,10 +24,12 @@ export function BattleStadiumApiClient() {
 
   const authMiddleware: Middleware = {
     async onRequest({ request }) {
+
       if (process.env.NODE_ENV !== "development") {
-        request.headers.set("Authorization", `Bearer ${await auth().getToken()}`);
         request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
       }
+
+      request.headers.set("Authorization", `Bearer ${await auth().getToken()}`);
 
       return request;
     },
