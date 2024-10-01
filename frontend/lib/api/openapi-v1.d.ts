@@ -593,6 +593,7 @@ export interface components {
       /** Format: date-time */
       registration_end_at: string | null;
       late_registration: boolean;
+      published: boolean;
     };
     /** Tournament Details */
     TournamentDetails: {
@@ -622,6 +623,7 @@ export interface components {
       registration_start_at: string | null;
       /** Format: date-time */
       registration_end_at: string | null;
+      published: boolean;
     };
     /** Pokemon */
     Pokemon: {
@@ -648,14 +650,14 @@ export interface components {
     Player: {
       /** Format: int64 */
       id: number;
-      user: components["schemas"]["User"];
+      profile: components["schemas"]["Profile"];
       in_game_name: string;
     };
     /** Player Details */
     PlayerDetails: {
       /** Format: int64 */
       id: number;
-      user: components["schemas"]["User"];
+      profile: components["schemas"]["Profile"];
       in_game_name: string;
     };
     /** Round */
@@ -767,35 +769,6 @@ export interface components {
       open_team_sheets: boolean;
       teamlists_required: boolean;
     };
-    /** Get Session Params */
-    GetSessionRequest: {
-      /** Format: jwt */
-      token: string;
-    };
-    /** Create Session */
-    CreateSession: {
-      /** Format: uuid */
-      user_id: string;
-      /** Format: jwt */
-      session_token?: string;
-      /** Format: date-time */
-      expires_at?: string;
-    };
-    /** Session */
-    Session: {
-      username?: string;
-      /** Format: jwt */
-      token: string;
-      /** Format: uuid */
-      user_id: string;
-      /** Format: date-time */
-      expires_at: string;
-    };
-    /** Session And User */
-    SessionAndUser: {
-      session: components["schemas"]["Session"];
-      user: components["schemas"]["UserDetails"];
-    };
     Error: {
       error: string;
     };
@@ -808,6 +781,13 @@ export interface components {
       prev_page: number | null;
       total_pages: number;
       total_count: number;
+    };
+    /** Profile */
+    Profile: {
+      /** Format: uuid */
+      id: string;
+      username: string;
+      image_url: string | null;
     };
   };
   responses: {
@@ -1592,21 +1572,21 @@ export interface operations {
           "application/json": components["schemas"]["PlayerDetails"];
         };
       };
-      /** @description forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Error"];
-        };
-      };
       /** @description not found */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Already registered */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
       };
     };
   };
