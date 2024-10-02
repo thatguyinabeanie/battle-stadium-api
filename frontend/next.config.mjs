@@ -15,6 +15,14 @@ export default async function nextConfig(_phase, { defaultConfig }) {
       API_BASE_URL: process.env.API_BASE_URL,
     },
     reactStrictMode: true,
+    webpack: (config, _options) => {
+      config.module.rules.push({
+        test: /\.node/,
+        use: "node-loader",
+      });
+
+      return config;
+    },
   };
 
   return nextConfig;

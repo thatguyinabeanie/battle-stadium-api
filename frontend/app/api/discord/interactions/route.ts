@@ -1,111 +1,180 @@
-import { NextRequest, NextResponse } from "next/server";
-import { InteractionType, InteractionResponseType, verifyKey } from "discord-interactions";
-import { auth } from "@clerk/nextjs/server";
-import { getMe } from "@/app/data/actions";
+import { commands, RandomPicType } from "@/lib/discord/commands"
+import { verifyInteractionRequest } from "@/lib/discord/verify-incoming-request"
+import { env } from "@/env.mjs"
+import {
+  APIEmbed,
+  APIInteractionDataOptionBase,
+  ApplicationCommandOptionType,
+  InteractionResponseType,
+  InteractionType,
+  MessageFlags,
+} from "discord-api-types/v10"
+import { NextResponse } from "next/server"
+import ky from "ky"
+import { nanoid } from "nanoid"
 
-const DISCORD_API = "https://discord.com/api/v10";
 
-const DISCORD_APP_ID = process.env.DISCORD_APP_ID;
-const DISCORD_APP_TOKEN = process.env.DISCORD_APP_TOKEN;
-const DISCORD_APP_PUBLIC_KEY = process.env.DISCORD_APP_PUBLIC_KEY;
+/**
+ * Use edge runtime which is faster, cheaper, and has no cold-boot.
+ * If you want to use node runtime, you can change this to `node`, but you'll also have to polyfill fetch (and maybe other things).
+ *
+ * @see https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes
+ */
+export const runtime = "edge"
 
-if (!DISCORD_APP_ID || !DISCORD_APP_TOKEN) {
-  throw new Error("Missing Discord application ID or bot token");
+const ROOT_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : env.ROOT_URL
+
+function capitalizeFirstLetter (s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-if (!DISCORD_APP_PUBLIC_KEY) {
-  throw new Error("DISCORD_APP_PUBLIC_KEY is not set");
-}
+/**
+ * Handle Discord interactions. Discord will send interactions to this endpoint.
+ *
+ * @see https://discord.com/developers/docs/interactions/receiving-and-responding#receiving-an-interaction
+ */
+export async function POST (request: Request) {
+  const verifyResult = await verifyInteractionRequest(request, env.DISCORD_APP_PUBLIC_KEY)
+  if (!verifyResult.isValid || !verifyResult.interaction) {
+    return new NextResponse("Invalid request", { status: 401 })
+  }
+  const { interaction } = verifyResult
 
-// Array of emojis to choose from
-const EMOJIS = ["😊", "👋", "🎉", "✨", "🌟", "🚀", "🌈", "🦄", "🍕", "🎈"];
-
-// Function to get a random emoji
-function getRandomEmoji() {
-  return EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-}
-
-export async function POST(req: NextRequest) {
-  const signature = req.headers.get("x-signature-ed25519");
-  const timestamp = req.headers.get("x-signature-timestamp");
-
-  if (!signature || !timestamp) {
-    return new NextResponse("Invalid signature", { status: 401 });
+  if (interaction.type === InteractionType.Ping) {
+    // The `PING` message is used during the initial webhook handshake, and is
+    // required to configure the webhook in the developer portal.
+    return NextResponse.json({ type: InteractionResponseType.Pong })
   }
 
-  const rawBody = await req.text();
+  if (interaction.type === InteractionType.ApplicationCommand) {
+    const { name } = interaction.data
 
-  const isValidRequest = await verifyKey(rawBody, signature, timestamp, DISCORD_APP_PUBLIC_KEY as string);
-
-  if (!isValidRequest) {
-    return new NextResponse("Invalid signature", { status: 401 });
-  }
-
-  const interaction = JSON.parse(rawBody);
-
-  if (interaction.type === InteractionType.PING) {
-    return NextResponse.json({ type: InteractionResponseType.PONG });
-  }
-
-  if (interaction.type === InteractionType.APPLICATION_COMMAND) {
-    switch (interaction.data.name.toLowerCase()) {
-      case "greet":
+    switch (name) {
+      case commands.ping.name:
         return NextResponse.json({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          type: InteractionResponseType.ChannelMessageWithSource,
+          data: { content: `Pong` },
+        })
+
+      case commands.invite.name:
+        return NextResponse.json({
+          type: InteractionResponseType.ChannelMessageWithSource,
           data: {
-            content: `Hello World ${getRandomEmoji()}`,
+            content: `Click this link to add NextBot to your server: https://discord.com/api/oauth2/authorize?client_id=${env.DISCORD_APP_ID}&permissions=2147485696&scope=bot%20applications.commands`,
+            flags: MessageFlags.Ephemeral,
           },
-        });
+        })
+
+      case commands.pokemon.name:
+        if (!interaction.data.options || interaction.data.options?.length < 1) {
+          return NextResponse.json({
+            type: InteractionResponseType.ChannelMessageWithSource,
+            data: {
+              content: "Oops! Please enter a Pokemon name or Pokedex number.",
+              flags: MessageFlags.Ephemeral,
+            },
+          })
+        }
+
+        const option = interaction.data.options[0]
+        // @ts-ignore
+        const idOrName = String(option.value).toLowerCase()
+
+        try {
+          const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${idOrName}`).then((res) => {
+            return res.json()
+          })
+          const types = pokemon.types.reduce(
+            (prev: string[], curr: { type: { name: string } }) => [...prev, capitalizeFirstLetter(curr.type.name)],
+            []
+          )
+
+          return NextResponse.json({
+            type: InteractionResponseType.ChannelMessageWithSource,
+            data: {
+              embeds: [
+                {
+                  title: capitalizeFirstLetter(pokemon.name),
+                  image: {
+                    url: `${ROOT_URL}/api/pokemon/${idOrName}`,
+                  },
+                  fields: [
+                    {
+                      name: "Pokedex",
+                      value: `#${String(pokemon.id).padStart(3, "0")}`,
+                    },
+                    {
+                      name: "Type",
+                      value: types.join("/"),
+                    },
+                  ],
+                },
+              ],
+            },
+          })
+        } catch (error) {
+          throw new Error("Something went wrong :(")
+        }
+
+      case commands.randompic.name:
+        const { options } = interaction.data
+        if (!options) {
+          return new NextResponse("Invalid request", { status: 400 })
+        }
+
+        const { value } = options[0] as APIInteractionDataOptionBase<ApplicationCommandOptionType.String, RandomPicType>
+        const embed = await getRandomPic(value)
+        return NextResponse.json({
+          type: InteractionResponseType.ChannelMessageWithSource,
+          data: { embeds: [embed] },
+        })
+
       default:
-        return new NextResponse("Unknown command", { status: 400 });
+      // Pass through, return error at end of function
     }
   }
 
-  return new NextResponse("Unhandled interaction type", { status: 400 });
+  return new NextResponse("Unknown command", { status: 400 })
 }
 
-// Register commands with Discord
-export async function PUT (_req: NextRequest) {
-  const clerkAuth = auth();
 
-  if (!clerkAuth.userId) {
-    return new NextResponse("Unauthorized", { status: 401 });
+const baseRandomPicEmbed = {
+  title: "Random Pic",
+  description: "Here's your random pic!",
+}
+
+/**
+ * @see https://discord.com/developers/docs/resources/channel#embed-object
+ */
+const createEmbedObject = (source: string, path: string): APIEmbed => {
+  return {
+    ...baseRandomPicEmbed,
+    fields: [{ name: "source", value: source }],
+    image: {
+      url: `${source}${path}`,
+    },
   }
+}
 
-  const me = (await getMe()).data;
+/**
+ * Fetches a random picture and returns it as a Discord image embed.
+ */
+const getRandomPic = async (value: RandomPicType) => {
+  switch (value) {
+    case "cat":
+      const { url } = await ky.get("https://cataas.com/cat?json=true").json<{ url: string }>()
+      return { ...createEmbedObject("https://cataas.com", url), description: "Here's a random cat picture!" }
 
-  if (!me || !me.admin) {
-    return new NextResponse("Forbidden", { status: 403 });
-  }
+    case "dog":
+      const { message } = await ky.get("https://dog.ceo/api/breeds/image/random").json<{ message: string }>()
+      return {
+        ...baseRandomPicEmbed,
+        description: "Here's a random dog picture!",
+        fields: [{ name: "source", value: "https://dog.ceo/api" }],
+        image: { url: message },
+      }
 
-  try {
-    const command = {
-      name: "greet",
-      description: "Responds with a greeting and a random emoji",
-      type: 1, // CHAT_INPUT
-    };
-
-    const response = await fetch(`${DISCORD_API}/applications/${DISCORD_APP_ID}/commands`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bot ${DISCORD_APP_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(command),
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-
-      return NextResponse.json({ error }, { status: response.status });
-    }
-
-    const data = await response.json();
-
-    return NextResponse.json({ message: "Command registered successfully", data });
-  } catch (error) {
-    console.error("Error registering command:", error); // eslint-disable-line no-console
-
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    default:
+      return createEmbedObject("https://picsum.photos", `/seed/${nanoid()}/500`)
   }
 }

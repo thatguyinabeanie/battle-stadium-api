@@ -23,6 +23,10 @@
   },
   "dependencies": {
     "@aws-sdk/credential-provider-web-identity": "^3.654.0",
+    "@t3-oss/env-nextjs": "^0.7.1",
+    "discord-api-types": "^0.37.54",
+    "ky": "^0.33.3",
+    "nanoid": "^4.0.2",
     "@clerk/backend": "^1.13.6",
     "@clerk/nextjs": "^5.6.4",
     "@internationalized/date": "^3.5.5",
@@ -50,6 +54,7 @@
     "crypto-browserify": "^3.12.0",
     "date-fns": "^4.1.0",
     "discord-interactions": "^4.1.0",
+    "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.9.0",
     "intl-messageformat": "^10.5.14",
@@ -58,6 +63,7 @@
     "lucide-react": "^0.446.0",
     "next": "^14.2.13",
     "next-themes": "^0.3.0",
+    "node-loader": "^2.0.0",
     "openapi-fetch": "^0.12.2",
     "openapi-typescript-helpers": "^0.0.13",
     "prisma": "^5.20.0",
@@ -72,6 +78,7 @@
     "usehooks-ts": "^3.1.0",
     "webpack-node-externals": "^3.0.0",
     "ws": "^8.18.0",
+    "zlib-sync": "^0.1.9",
     "zod": "^3.23.8"
   },
   "devDependencies": {
