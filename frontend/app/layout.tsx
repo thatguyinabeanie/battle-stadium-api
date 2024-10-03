@@ -35,7 +35,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default async function RootLayout({ children }: ChildrenProps & AppProps) {
+export default function RootLayout({ children }: ChildrenProps & AppProps) {
   return (
     <ClerkProvider>
       <html suppressHydrationWarning lang="en">

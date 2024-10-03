@@ -129,6 +129,109 @@ namespace :limitless do
     puts "Import completed. Total tournaments processed: #{tournaments.count}"
   end
 
+
+  desc "Import a single tournament from the Limitless TCG API"
+  task :import_single, [:tournament_id] => :environment do |t, args|
+    env_file = '.env'
+    Dotenv.load(env_file) if File.exist?(env_file)
+
+    access_key = ENV.fetch('LIMITLESS_API_KEY')
+    tournament_id = args[:tournament_id]
+
+    if tournament_id.nil?
+      puts "Error: You must provide a tournament ID."
+      exit 1
+    end
+
+    base_url = "https://play.limitlesstcg.com/api"
+
+    # Fetch tournament details
+    puts "Fetching tournament details for ID: #{tournament_id}..."
+    tour_details = fetch_data("#{base_url}/tournaments/#{tournament_id}/details", access_key)
+    organizer = tour_details['organizer']
+
+    if organizer.nil? || !organization_id_allow_list.include?(organizer['id'])
+      puts "Error: Organizer not allowed or not found for tournament ID: #{tournament_id}."
+      exit 1
+    end
+
+    organizers = {}
+    @games = {}
+    @formats = {}
+
+    def get_game_id(game_name)
+      @games[game_name] ||= Game.find_or_create_by(name: game_name).id
+      @games[game_name]
+    end
+
+    def get_format_id(format_name, game_id)
+      @formats[format_name] ||= Tournaments::Format.find_or_create_by(name: format_name, game_id: game_id).id
+      @formats[format_name]
+    end
+
+    game_id = get_game_id(tour_details['game'])
+
+    organizers[organizer['id']] = {
+      'id' => organizer['id'],
+      'name' => organizer['name'],
+      'logo_url' => organizer['logo'],
+      'tournaments' => [tour_details.merge(
+        'bs_game_id' => game_id,
+        'bs_format_id' => get_format_id(tour_details['format'], game_id))
+      ],
+    }
+
+    errors = []
+    puts "Processing organizer: #{organizer['name']} (ID: #{organizer['id']})"
+    org = Organization.find_or_create_by(name: organizer['name']).tap do |organizer|
+      organizer.limitless_org_id = organizer['id']
+      organizer.logo_url = organizer['logo']
+      organizer.hidden = organizer.logo_url == nil
+      organizer.partner = organizer.hidden
+    end
+
+    if org.logo_url.nil? && !organizer['logo_url'].nil?
+      org.logo_url = organizer['logo_url']
+    end
+
+    org.save
+
+    puts "Processing Tournaments for organizer: #{organizer['name']} (ID: #{organizer['id']})"
+    organizers[organizer['id']]['tournaments'].each do |tournament_data|
+      start_at = DateTime.parse(tournament_data['date'])
+      name = tournament_data['name']
+      organization_id = org.id
+      limitless_id = tournament_data['id']
+      begin
+        ::Tournaments::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
+          tour.name = name
+          tour.start_at = start_at
+          tour.organization_id = organization_id
+          tour.game_id = tournament_data['bs_game_id']
+          tour.format_id = tournament_data['bs_format_id']
+          tour.check_in_start_at = tour.start_at - 1.hour
+        end
+      rescue StandardError => e
+        errors << {
+          type: 'shrug',
+          id: tournament_data['id'],
+          data: tournament_data,
+          error: e.message
+        }
+      end
+    end
+
+    if errors.any?
+      puts "Errors occurred while processing tournaments: #{errors.count}"
+      errors.each do |error|
+        puts "Tournament ID: #{error[:id]} - Error: #{error[:error]}"
+        puts "Tournament ID: #{error[:id]} - Data: #{error[:data].to_json}"
+      end
+    end
+
+    puts "Import completed for tournament ID: #{tournament_id}"
+  end
+
   def fetch_data(url, access_key)
     uri = URI(url)
     http = Net::HTTP.new(uri.host, uri.port)

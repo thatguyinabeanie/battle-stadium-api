@@ -9,7 +9,7 @@ import {
   InteractionType,
   MessageFlags,
 } from "discord-api-types/v10";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import ky from "ky";
 import { nanoid } from "nanoid";
 
@@ -32,7 +32,7 @@ function capitalizeFirstLetter(s: string) {
  *
  * @see https://discord.com/developers/docs/interactions/receiving-and-responding#receiving-an-interaction
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const verifyResult = await verifyInteractionRequest(request, env.DISCORD_APP_PUBLIC_KEY);
 
   if (!verifyResult.isValid || !verifyResult.interaction) {
