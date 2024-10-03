@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import cookie from "cookie";
 import crypto from "node:crypto";
-const AUTH_SECRET = process.env.AUTH_SECRET;
+const AUTH_SECRET = env.AUTH_SECRET;
+
+import { env } from "@/env.mjs";
 
 if (!AUTH_SECRET) {
   throw new Error("AUTH_SECRET is not set.");
 }
 
 function getCookieDomain() {
-  if (process.env.NODE_ENV === "production") {
-    return process.env.COOKIE_DOMAIN;
+  if (env.NODE_ENV === "production") {
+    return env.COOKIE_DOMAIN;
   }
 
   return "localhost";
@@ -18,7 +20,7 @@ function getCookieDomain() {
 const maxAge = 60 * 60 * 24; // 1 day in seconds
 const defaultCookieOptions: cookie.CookieSerializeOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  secure: env.NODE_ENV === "production",
   sameSite: "none",
   domain: getCookieDomain(),
   path: "/",

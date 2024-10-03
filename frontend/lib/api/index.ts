@@ -1,5 +1,5 @@
-import { components } from "./openapi-v1";
-export * from "./client";
+import { components } from "@/lib/api/openapi-v1";
+export * from "@/lib/api/client";
 
 export type Schemas = components["schemas"];
 export type Format = Schemas["Format"];
@@ -24,9 +24,6 @@ export type PhaseDetails = Schemas["PhaseDetails"];
 export type GameRequest = Schemas["GameRequest"];
 export type TournamentRequest = Schemas["TournamentRequest"];
 export type TournamentPostRequest = Schemas["TournamentPostRequest"];
-export type GetSessionRequest = Schemas["GetSessionRequest"];
-export type Session = Schemas["Session"];
-export type SessionAndUser = Schemas["SessionAndUser"];
 export type Error = Schemas["Error"];
 export type Message = Schemas["Message"];
 export type Pagination = Schemas["Pagination"];

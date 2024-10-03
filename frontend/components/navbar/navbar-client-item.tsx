@@ -21,7 +21,7 @@ export default function NavbarClientItem({
   return (
     <NavbarItem className={`hover: ${className}`} isActive={isActive} {...rest}>
       <Link
-        className={`flex text-inherit transition-transform duration-200 ease-in-out transform hover:scale-105`}
+        className={`flex text-lg transition-transform duration-200 ease-in-out transform hover:scale-105`}
         href={`/${path}`}
         size={isActive ? "md" : "sm"}
       >

@@ -1,24 +1,17 @@
 import { Metadata } from "next";
 import { getMe } from "@/app/data/actions";
-import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Dashboard from "./dashboard";
+import Dashboard from "@/app/dashboard/dashboard";
 
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 
 export default async function DashboardPage() {
-  const clerkAuth = auth();
-
-  if (!clerkAuth.sessionId) {
-    redirect("/sign-in");
-  }
-
-  const { data: me } = await getMe();
+  const me = (await getMe())?.data;
 
   if (!me) {
-    redirect("/error");
+    redirect("/sign-in");
   }
 
   return <Dashboard me={me} />;
