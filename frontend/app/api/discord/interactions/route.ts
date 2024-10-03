@@ -21,7 +21,7 @@ import { nanoid } from "nanoid";
  */
 export const runtime = "edge";
 
-const ROOT_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : env.ROOT_URL;
+const ROOT_URL = env.VERCEL_URL ? `https://${env.VERCEL_URL}` : env.ROOT_URL;
 
 function capitalizeFirstLetter(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);

@@ -1,19 +1,19 @@
 import createFetchClient, { Middleware } from "openapi-fetch";
-
+import { env } from "@/env.mjs";
 import { getVercelOidcToken } from "@vercel/functions/oidc";
 import { auth } from "@clerk/nextjs/server";
 import { paths } from "@/lib/api/openapi-v1";
 
 function getBaseUrl() {
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = env.NODE_ENV === "production";
 
-  if (isProduction && process.env.PROD_API_BASE_URL) {
-    return `${process.env.PROD_API_BASE_URL}/api/v1`;
+  if (isProduction && env.PROD_API_BASE_URL) {
+    return `${env.PROD_API_BASE_URL}/api/v1`;
   }
 
   const port = isProduction ? "10001" : "10000";
   const defaultHost = isProduction ? "backend-prod" : "backend";
-  const host = process.env.BACKEND_HOST ?? defaultHost;
+  const host = env.BACKEND_HOST ?? defaultHost;
 
   return `http://${host}:${port}/api/v1`;
 }
@@ -24,7 +24,7 @@ export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
 
   const authMiddleware: Middleware = {
     async onRequest({ request }) {
-      if (process.env.NODE_ENV !== "development") {
+      if (env.VERCEL_OIDC_TOKEN) {
         request.headers.set("X-Vercel-OIDC-Token", `${await getVercelOidcToken()}`);
       }
 

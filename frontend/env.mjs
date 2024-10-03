@@ -3,11 +3,18 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
+    VERCEL_URL: z.string().optional(),
+    VERCEL_ENVIRONMENT: z.string().optional(),
+    VERCEL_OIDC_TOKEN: z.string().optional(),
+    COOKIE_DOMAIN: z.string().optional(),
+    NODE_ENV: z.string().default("development"),
     MEASUREMENT_ID: z.string().optional().default("G-XXXXXXXXXX"),
-    VERCEL_OIDC_TOKEN: z.string().optional().default(""),
-    PROD_API_BASE_URL: z.string().optional().default("https://api.battlestadium.gg"),
-    BACKEND_HOST: z.string().optional().default("backed"),
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().optional().default("pk_test-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"),
+    PROD_API_BASE_URL: z.string().optional(),
+    WEBSOCKET_URL: z.string().optional(),
+    NEON_DATABASE_URL: z.string().optional(),
+
+    BACKEND_HOST: z.string().optional().default("backend"),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().optional(),
     NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().optional().default("/sign-in"),
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().optional().default("/sign-up"),
     EDGE_CONFIG: z.string().url().optional().default("https://edge.clerk.dev"),

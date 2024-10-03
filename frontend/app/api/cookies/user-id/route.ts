@@ -1,8 +1,8 @@
 import { generateSignature, getCookies, useSetResponseCookies } from "@/lib/auth/cookies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-
-const AUTH_SECRET = process.env.AUTH_SECRET;
+import { env } from "@/env.mjs";
+const AUTH_SECRET = env.AUTH_SECRET;
 
 export async function POST(req: NextRequest) {
   const { userId } = auth();
