@@ -2,7 +2,7 @@ import { Spacer } from "@/components/nextui-use-client";
 import TournamentsTable from "@/components/tournaments-table";
 import { getOrganization, getOrganizations, getOrganizationTournaments } from "@/app/data/actions";
 
-import OrgDetailCard from "./org-detail-card";
+import OrgDetailCard from "@/app/organizations/[org_slug]/org-detail-card";
 
 export const revalidate = 200;
 export const dynamicParams = true;

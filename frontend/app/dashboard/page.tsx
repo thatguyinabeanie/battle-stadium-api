@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { getMe } from "@/app/data/actions";
 import { redirect } from "next/navigation";
-import Dashboard from "./dashboard";
+import Dashboard from "@/app/dashboard/dashboard";
 
 export const metadata: Metadata = {
   title: "Dashboard",

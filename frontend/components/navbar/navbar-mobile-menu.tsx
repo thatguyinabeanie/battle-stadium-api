@@ -1,4 +1,4 @@
-import { Link, NavbarMenu, NavbarMenuItem } from "../nextui-use-client";
+import { Link, NavbarMenu, NavbarMenuItem } from "@/components/nextui-use-client";
 
 export default async function NavbarMobileMenu() {
   return (

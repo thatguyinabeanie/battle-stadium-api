@@ -3,11 +3,11 @@ import { Navbar, NavbarBrand, NavbarContent } from "@/components/nextui-use-clie
 
 import BattleStadium from "@/components/battle-stadium";
 
-import NavbarLinks from "./navbar-links";
+import NavbarLinks from "@/components/navbar/navbar-links";
 import { getMe } from "@/app/data/actions";
 import { auth } from "@clerk/nextjs/server";
-import NavbarRightMenu from "./navbar-right-menu";
-import NavbarMobileMenu from "./navbar-mobile-menu";
+import NavbarRightMenu from "@/components/navbar/navbar-right-menu";
+import NavbarMobileMenu from "@/components/navbar/navbar-mobile-menu";
 
 const navbarClassNames = {
   wrapper: "bg-transparent justify-between backdrop-blur-md min-w-full shadow-md",

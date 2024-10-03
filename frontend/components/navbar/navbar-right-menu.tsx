@@ -1,9 +1,9 @@
 import { components } from "@/lib/api/openapi-v1";
-import { NavbarContent, NavbarMenuToggle } from "../nextui-use-client";
-import Notifications from "./notifications";
-import Search from "./search";
-import Settings from "./settings";
-import UserMenu from "./user-menu/user-menu";
+import { NavbarContent, NavbarMenuToggle } from "@/components/nextui-use-client";
+import Notifications from "@/components/navbar/notifications";
+import Search from "@/components/navbar/search";
+import Settings from "@/components/navbar/settings";
+import UserMenu from "@/components/navbar/user-menu/user-menu";
 interface NavbarMobileMenuProps {
   me?: components["schemas"]["UserMe"];
 }

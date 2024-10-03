@@ -1,5 +1,5 @@
 import { getTournament, getTournaments } from "@/app/data/actions";
-import OrgTourCard from "./org-tour-card";
+import OrgTourCard from "@/app/organizations/[org_slug]/tournaments/[tournament_id]/org-tour-card";
 
 export const revalidate = 300;
 export const dynamicParams = true;
