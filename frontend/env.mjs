@@ -58,7 +58,7 @@ export const env = createEnv({
     //     1,
     //     "DISCORD_BOT_TOKEN is required. Visit https://discord.com/developers/applications -> Bot -> Token. This variable used only for register commands",
     //   ),
-    ROOT_URL: z.string().url("ROOT_URL must be a valid URL").optional().default("http://localhost:3000"),
+    ROOT_URL: z.string().url("ROOT_URL must be a valid URL").optional().default("http://localhost:8080"),
   },
   onInvalidAccess: (error) => {
     throw new Error(`❌ Attempted to access a server-side environment variable on the client: ${error}`);
