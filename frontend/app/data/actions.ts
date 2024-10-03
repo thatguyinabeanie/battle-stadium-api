@@ -7,7 +7,6 @@ import { auth } from "@clerk/nextjs/server";
 import { FetchOptions } from "openapi-fetch";
 
 const DEFAULT_CACHE_TIMEOUT: number = 300;
-const skipClerkAuth = true;
 
 function defaultConfig(tag: string, revalidate?: number) {
   return {
@@ -16,7 +15,11 @@ function defaultConfig(tag: string, revalidate?: number) {
 }
 
 export async function getMe(options?: FetchOptions<paths["/users/me"]["get"]>) {
-  const userId = auth()?.userId;
+  const { userId } = auth();
+
+  if (!userId) {
+    return null;
+  }
 
   const userMeOptions = { ...defaultConfig(`getMe(${userId})`), ...options };
 
@@ -44,6 +47,8 @@ export async function getTournaments(
     params: { query: { page, per_page } },
   };
 
+  const skipClerkAuth = true;
+
   return BattleStadiumApiClient(skipClerkAuth).GET("/tournaments", tournamentsOptions);
 }
 
@@ -58,6 +63,7 @@ export async function getOrganizations(options?: FetchOptions<paths["/organizati
       },
     },
   };
+  const skipClerkAuth = true;
 
   return BattleStadiumApiClient(skipClerkAuth).GET("/organizations", organizationsOptions);
 }

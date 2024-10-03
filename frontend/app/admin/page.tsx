@@ -11,7 +11,7 @@ export default async function Admin() {
     return redirect("/sign-in");
   }
 
-  const { data: me } = await getMe();
+  const me = (await getMe())?.data;
 
   if (!me?.admin) {
     return redirect("/");

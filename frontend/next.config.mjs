@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 import { join } from "path";
-
+import { env } from "./env.mjs";
 import dotenv from "dotenv";
 
 dotenv.config({ path: join(process.cwd(), ".env") });
@@ -10,9 +10,7 @@ export default async function nextConfig(_phase, { defaultConfig }) {
   const nextConfig = {
     ...defaultConfig,
     env: {
-      MEASUREMENT_ID: process.env.MEASUREMENT_ID,
-      ENABLE_PARTICLES: process.env.ENABLE_PARTICLES,
-      API_BASE_URL: process.env.API_BASE_URL,
+      MEASUREMENT_ID: env.MEASUREMENT_ID,
     },
     reactStrictMode: true,
     webpack: (config, _options) => {

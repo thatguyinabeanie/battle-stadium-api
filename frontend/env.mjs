@@ -1,11 +1,12 @@
-import { createEnv } from "@t3-oss/env-nextjs"
-import { z } from "zod"
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
 
 export const env = createEnv({
   server: {
     MEASUREMENT_ID: z.string().optional().default("G-XXXXXXXXXX"),
     VERCEL_OIDC_TOKEN: z.string().optional().default(""),
-    API_BASE_URL_PATH: z.string().optional().default("http://localhost:10000/api/v1"),
+    PROD_API_BASE_URL: z.string().optional().default("https://api.battlestadium.gg"),
+    BACKEND_HOST: z.string().optional().default("backed"),
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().optional().default("pk_test-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"),
     NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().optional().default("/sign-in"),
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().optional().default("/sign-up"),
@@ -41,15 +42,15 @@ export const env = createEnv({
         1,
         "DISCORD_APP_PUBLIC_KEY is required. Visit https://discord.com/developers/applications -> General information -> PUBLIC KEY",
       ),
-    DISCORD_BOT_TOKEN: z
-      .string({
-        required_error:
-          "DISCORD_BOT_TOKEN is required. Visit https://discord.com/developers/applications -> Bot -> Token. This variable used only for register commands",
-      })
-      .min(
-        1,
-        "DISCORD_BOT_TOKEN is required. Visit https://discord.com/developers/applications -> Bot -> Token. This variable used only for register commands",
-      ),
+    // DISCORD_BOT_TOKEN: z
+    //   .string({
+    //     required_error:
+    //       "DISCORD_BOT_TOKEN is required. Visit https://discord.com/developers/applications -> Bot -> Token. This variable used only for register commands",
+    //   })
+    //   .min(
+    //     1,
+    //     "DISCORD_BOT_TOKEN is required. Visit https://discord.com/developers/applications -> Bot -> Token. This variable used only for register commands",
+    //   ),
     ROOT_URL: z.string().url("ROOT_URL must be a valid URL").optional().default("http://localhost:3000"),
   },
   onInvalidAccess: (error) => {

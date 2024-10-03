@@ -20,17 +20,29 @@ import { getMe } from "@/app/data/actions";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function NavigationBar() {
-  const me = (await getMe()).data;
   const clerkAuth = auth();
+  const me = (await getMe())?.data;
 
   return (
     <Navbar
-      isBordered
+      shouldHideOnScroll
       classNames={{
-        wrapper: "bg-transparent justify-between backdrop-blur-md min-w-full",
+        wrapper: "bg-transparent justify-between backdrop-blur-md min-w-full shadow-md",
         base: "bg-transparent",
-        item: "data-[active=true]:text-primary",
-        content: "flex-grow-0 h-12 items-center text-default-500",
+        item: [
+          "flex",
+          "relative",
+          "h-full",
+          "items-center",
+          "data-[active=true]:after:content-['']",
+          "data-[active=true]:after:absolute",
+          "data-[active=true]:after:bottom-0",
+          "data-[active=true]:after:left-0",
+          "data-[active=true]:after:right-0",
+          "data-[active=true]:after:h-[3px]",
+          "data-[active=true]:after:rounded-full",
+          "data-[active=true]:after:bg-primary",
+        ],
       }}
       height="3.5rem"
     >
@@ -39,7 +51,7 @@ export default async function NavigationBar() {
       </NavbarBrand>
 
       <NavbarContent className="hidden md:flex gap-2 m-x4" data-justify={"center"}>
-        <NavbarLinks isSignedIn={!!clerkAuth.sessionId} />
+        <NavbarLinks isSignedIn={!!clerkAuth?.sessionId} />
       </NavbarContent>
 
       {/* Right Menu */}
