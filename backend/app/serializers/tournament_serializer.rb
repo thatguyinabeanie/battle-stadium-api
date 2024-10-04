@@ -2,6 +2,7 @@ require_relative "serializer_mixin"
 require_relative "game_serializer"
 require_relative "format_serializer"
 require_relative "organization_serializer"
+require_relative "phase_serializer"
 
 module Serializers
   module TournamentMixin
@@ -18,6 +19,7 @@ module Serializers
       attributes :start_at, :started_at, :end_at, :ended_at, :published
       belongs_to :game, serializer: Serializers::Game
       belongs_to :format, serializer: Serializers::Format
+      has_many :phases, serializer: Serializers::Phase
 
       def player_count
         object.players.count

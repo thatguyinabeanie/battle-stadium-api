@@ -31,9 +31,8 @@ module Tournaments
 
     def not_ready_reasons
       reasons = []
-      reasons << "The tournament has no phases." if phases.empty?
-      if players.empty? || players.count < MINIMUM_PLAYER_COUNT
-        reasons << "The tournament does not have the minimum required number of registered players that are checked in and submitted team sheets."
+      if players.checked_in_and_submitted_team_sheet.count < MINIMUM_PLAYER_COUNT
+        reasons << "The tournament does not have the minimum required number of players that are both checked in and have submitted a team sheet"
       end
       reasons << "The tournament does not have any phases." if phases.empty?
       reasons << "The tournament's first phase is not valid." unless !phases.empty? && phases.order(order: :asc).first.valid?
@@ -52,7 +51,7 @@ module Tournaments
       errors.add(:check_in_start_at, "must be before start_at") if check_in_start_at >= start_at
     end
 
-    def start_tournament!
+    def start!
       cannot_start = "Cannot start tournament."
       raise "The tournament has no phases. #{cannot_start}" if phases.empty?
       raise "The tournament has no players. #{cannot_start}" if players.empty?

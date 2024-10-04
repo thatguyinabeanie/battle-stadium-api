@@ -89,7 +89,7 @@ RSpec.describe Phases::BasePhase do
 
     it "sets the players" do
       phase.accept_players(players: tournament.players)
-      expect(phase.players).to match_array(tournament.players.checked_in_and_ready)
+      expect(phase.players).to match_array(tournament.players.checked_in_and_submitted_team_sheet)
     end
   end
 end

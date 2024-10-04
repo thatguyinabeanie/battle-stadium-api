@@ -429,49 +429,6 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
-  "/organizations/{slug}/tournaments/{tournament_id}":
-    parameters:
-    - name: slug
-      in: path
-      required: true
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    patch:
-      summary: Update Tournament
-      tags:
-      - Organizations
-      description: Updates an existing tournament for a given organization.
-      operationId: patchOrganizationTournament
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: Updated by Organization Owner
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/TournamentDetails"
-        '404':
-          description: not found
-        '400':
-          description: bad request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/TournamentDetails"
   "/tournaments/{tournament_id}/phases":
     parameters:
     - name: tournament_id
@@ -775,9 +732,9 @@ paths:
                       "$ref": "#/components/schemas/Tournament"
                   meta:
                     "$ref": "#/components/schemas/Pagination"
-  "/tournaments/{id}":
+  "/tournaments/{tournament_id}":
     parameters:
-    - name: id
+    - name: tournament_id
       in: path
       description: ID of the Tournament
       required: true
@@ -795,6 +752,37 @@ paths:
       - Tournaments
       description: Retrieves a specific Tournament.
       operationId: getTournament
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/TournamentDetails"
+        '404':
+          description: not found
+  "/tournaments/{tournament_id}/start":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    post:
+      summary: Start Tournament
+      tags:
+      - Tournaments
+      description: Starts a specific Tournament.
+      operationId: startTournament
       security:
       - Bearer: []
       responses:
@@ -1338,6 +1326,10 @@ components:
           type: boolean
         open_team_sheets:
           type: boolean
+        phases:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Phase"
         player_cap:
           type: integer
           nullable: true

@@ -9,7 +9,7 @@ module Api
       self.serializer_klass = Serializers::Organization
       self.detail_serializer_klass = Serializers::Organization
 
-      before_action :set_organization, only: %i[staff post_tournaments patch_tournament list_tournaments]
+      before_action :set_organization, only: %i[staff post_tournament list_tournaments]
 
       skip_before_action :authenticate_clerk_user_session!, only: %i[staff list_tournaments]
 
@@ -51,7 +51,7 @@ module Api
         render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end
 
-      def post_tournaments
+      def post_tournament
         authorize @organization, :create_tournament?
 
         @tournament = @organization.tournaments.new tournaments_permitted_params
@@ -65,18 +65,6 @@ module Api
         render json: { error: e.message }, status: :bad_request
       end
 
-      def patch_tournament
-        authorize @organization, :update_tournament?
-        @tournament = @organization.tournaments.find(params[:tournament_id])
-        if @tournament.update! tournaments_permitted_params
-          render json: @tournament, status: :ok, serializer: Serializers::TournamentDetails
-        else
-          render json: @tournament.errors, status: :unprocessable_entity
-        end
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "Tournament not found" }, status: :not_found
-      end
-
     private
       def set_organization
         @organization = set_object
@@ -88,6 +76,7 @@ module Api
 
       def tournaments_permitted_params
         params.require(:tournament).permit(
+          :tournament_id,
           :format,
           :name,
           :start_at, :end_at,

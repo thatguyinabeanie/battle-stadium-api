@@ -345,49 +345,5 @@ RSpec.describe Api::V1::OrganizationsController do
         }
       }
     end
-
-    patch("Update Tournament") do
-      tags "Organizations"
-      consumes OpenApi::Response::JSON_CONTENT_TYPE
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      description "Updates an existing tournament for a given organization."
-      operationId "patchOrganizationTournament"
-
-      parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentDetails" }
-
-      security [Bearer: []]
-
-      response(200, "Updated by Organization Owner") do
-        let(:request_user) { owner }
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-
-        schema "$ref" => "#/components/schemas/TournamentDetails"
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-
-      response(404, "not found") do
-        let(:request_user) { owner }
-        let(:tournament_id) { -1 }
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-
-      response(400, "bad request") do
-        let(:request_user) { owner }
-
-        let(:tournament) { {} }
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-    end
   end
 end

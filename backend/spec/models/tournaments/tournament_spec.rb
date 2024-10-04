@@ -107,7 +107,7 @@ RSpec.describe Tournaments::Tournament do
       let(:tournament) { create(:tournament, :with_phases) }
 
       it "raises an error" do
-        expect { tournament.start_tournament! }.to raise_error(RuntimeError)
+        expect { tournament.start! }.to raise_error(RuntimeError)
       end
     end
 
@@ -115,23 +115,23 @@ RSpec.describe Tournaments::Tournament do
       let(:tournament) { create(:tournament, :with_phases, :with_players_with_team, :with_players_checked_in, :with_players_with_team_and_checked_in) }
 
       it "starts the tournament" do
-        expect { tournament.start_tournament! }.to change(tournament, :started_at).from(nil)
+        expect { tournament.start! }.to change(tournament, :started_at).from(nil)
       end
 
       it "accepts players into the first phase" do
-        expect { tournament.start_tournament! }.to change { tournament.phases.first.players.count }.from(0).to(5)
+        expect { tournament.start! }.to change { tournament.phases.first.players.count }.from(0).to(5)
       end
 
       it "only accepts players into the first phase that are checked in and have submitted a team." do
-        tournament.start_tournament!
-        eligible_players = tournament.players.checked_in_and_ready
+        tournament.start!
+        eligible_players = tournament.players.checked_in_and_submitted_team_sheet
 
         expect(eligible_players).to match_array(tournament.phases.first.players)
       end
 
       it "does not accept players into the first phase if they are not checked in or have not submitted a team." do
-        tournament.start_tournament!
-        not_eligible_players = tournament.players - tournament.players.checked_in_and_ready
+        tournament.start!
+        not_eligible_players = tournament.players - tournament.players.checked_in_and_submitted_team_sheet
         expect(not_eligible_players).not_to match_array(tournament.phases.first.players)
       end
     end

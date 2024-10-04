@@ -173,32 +173,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/organizations/{slug}/tournaments/{tournament_id}": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        slug: string;
-        tournament_id: number;
-      };
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * Update Tournament
-     * @description Updates an existing tournament for a given organization.
-     */
-    patch: operations["patchOrganizationTournament"];
-    trace?: never;
-  };
   "/tournaments/{tournament_id}/phases": {
     parameters: {
       query?: never;
@@ -354,7 +328,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/tournaments/{id}": {
+  "/tournaments/{tournament_id}": {
     parameters: {
       query?: never;
       header?: {
@@ -363,7 +337,7 @@ export interface paths {
       };
       path: {
         /** @description ID of the Tournament */
-        id: number;
+        tournament_id: number;
       };
       cookie?: never;
     };
@@ -374,6 +348,32 @@ export interface paths {
     get: operations["getTournament"];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/tournaments/{tournament_id}/start": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description ID of the Tournament */
+        tournament_id: number;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Start Tournament
+     * @description Starts a specific Tournament.
+     */
+    post: operations["startTournament"];
     delete?: never;
     options?: never;
     head?: never;
@@ -613,6 +613,7 @@ export interface components {
       late_registration: boolean;
       teamlists_required: boolean;
       open_team_sheets: boolean;
+      phases?: components["schemas"]["Phase"][];
       player_cap: number | null;
       player_count: number;
       /** Format: date-time */
@@ -1290,50 +1291,6 @@ export interface operations {
       };
     };
   };
-  patchOrganizationTournament: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        slug: string;
-        tournament_id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["TournamentDetails"];
-      };
-    };
-    responses: {
-      /** @description Updated by Organization Owner */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TournamentDetails"];
-        };
-      };
-      /** @description bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   listTournamentPhases: {
     parameters: {
       query?: never;
@@ -1723,7 +1680,40 @@ export interface operations {
       };
       path: {
         /** @description ID of the Tournament */
-        id: number;
+        tournament_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TournamentDetails"];
+        };
+      };
+      /** @description not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  startTournament: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description ID of the Tournament */
+        tournament_id: number;
       };
       cookie?: never;
     };

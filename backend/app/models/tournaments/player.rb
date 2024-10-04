@@ -17,7 +17,7 @@ module Tournaments
 
     before_create :set_user_id_from_profile
 
-    def self.checked_in_and_ready
+    def self.checked_in_and_submitted_team_sheet
       where.not(pokemon_team_id: nil).where.not(checked_in_at: nil)
       # .where.not(in_game_name: nil)
     end

@@ -28,7 +28,7 @@ module Phases
     before_validation :set_default_name, if: -> { :name.nil? }
 
     def accept_players(players:)
-      players = players.checked_in_and_ready
+      players = players.checked_in_and_submitted_team_sheet
       number_of_players = players.count
 
       raise "Number of players must be greater than zero" if number_of_players <= 0

@@ -79,14 +79,14 @@ RSpec.describe Api::V1::TournamentsController do
     end
   end
 
-  path("/tournaments/{id}") do
-    parameter name: :id, in: :path, type: :integer, description: "ID of the Tournament", required: true
+  path("/tournaments/{tournament_id}") do
+    parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
     parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     let(:organization) { create(:organization) }
     let(:organization_id) { organization.id }
     let(:org_tournament) { create(:tournament, organization:) }
-    let(:id) { org_tournament.id }
+    let(:tournament_id) { org_tournament.id }
 
     get("Show Tournament") do
       tags "Tournaments"
@@ -103,9 +103,44 @@ RSpec.describe Api::V1::TournamentsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:id) { "invalid" }
+        let(:tournament_id) { "invalid" }
 
         include_context "with Request Specs - Vercel OIDC Token Verification"
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+    end
+  end
+
+  path("/tournaments/{tournament_id}/start") do
+    parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
+    parameter VERCEL_TOKEN_HEADER_PARAMETER
+
+    let(:organization) { create(:organization) }
+    let(:organization_id) { organization.id }
+    let(:org_tournament) { create(:tournament, :with_phases, :with_players_with_team_and_checked_in, organization:) }
+    let(:tournament_id) { org_tournament.id }
+
+    post("Start Tournament") do
+      tags "Tournaments"
+      produces OpenApi::Response::JSON_CONTENT_TYPE
+      description "Starts a specific Tournament."
+      operationId "startTournament"
+
+      security [Bearer: []]
+      response(200, "successful") do
+        let(:request_user) { organization.owner }
+
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
+        schema "$ref" => TOURNAMENT_DETAILS_SCHEMA_COMPONENT
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
+      response(404, NOT_FOUND) do
+        let(:tournament_id) { "invalid" }
+
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
         run_test!
       end

@@ -8,6 +8,10 @@ module Tournaments
       user && (user.admin? || Pundit.policy(user, record.organization).update_tournament?)
     end
 
+    def start_tournament?
+      update?
+    end
+
     def destroy?
       user && (user.admin? || Pundit.policy(user, record.organization).delete_tournament?)
     end
