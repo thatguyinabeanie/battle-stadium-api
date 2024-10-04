@@ -35,7 +35,7 @@ module Api
                     raise ActionController::BadRequest, "Invalid phase type"
                   end
 
-          @phase = klass.new permitted_params.merge(tournament_id: @tournament.id)
+          @phase = klass.new permitted_params.merge(tournament_id: @tournament.id, order: @phases.count + 1)
 
           if @phase.save
             render json: serialize_phase_details, status: :created

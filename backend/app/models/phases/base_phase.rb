@@ -20,6 +20,8 @@ module Phases
     validates :name, presence: true
     validates :best_of, numericality: { greater_than: 0, only_integer: true }, presence: true
 
+    validates :order, uniqueness: { scope: :tournament_id }
+
     validate :best_of_must_be_odd
     validates :type, presence: true
     validates :tournament, presence: true
@@ -28,10 +30,9 @@ module Phases
     before_validation :set_default_name, if: -> { :name.nil? }
 
     def accept_players(players:)
+      raise "Number of players must be greater than zero" unless players&.checked_in_and_submitted_team_sheet&.count&.positive?
       players = players.checked_in_and_submitted_team_sheet
       number_of_players = players.count
-
-      raise "Number of players must be greater than zero" if number_of_players <= 0
 
       number_of_rounds = Math.log2(number_of_players).ceil
       update!(players:, started_at: Time.current.utc, number_of_rounds:)
@@ -68,6 +69,7 @@ module Phases
       self.type = self.class.name if type.blank?
       self.number_of_rounds ||= 0
       self.name ||= self.class.name
+      self.order ||= tournament.phases.count ? tournament.phases.count + 1 : 0
     end
 
     private

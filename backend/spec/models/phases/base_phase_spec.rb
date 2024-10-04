@@ -28,15 +28,19 @@ RSpec.describe Phases::BasePhase do
   end
 
   describe "validations" do
-    subject { Phases::Test.new(name: "Test Phase", tournament: create(:tournament), number_of_rounds: 5) }
+    subject { Phases::Test.new(name: "Test Phase", tournament: create(:tournament), number_of_rounds: 5, type: "Phases::Test") }
+
+    it { is_expected.to validate_uniqueness_of(:order).scoped_to(:tournament_id) }
 
     it { is_expected.to validate_numericality_of(:best_of).is_greater_than(0).only_integer }
   end
 
   describe "additional validation" do
-    subject(:phase) { Phases::Test.new(best_of:, tournament:, name: "BassFace", type: "Phases::Test") }
+    subject(:phase) { Phases::Test.new(best_of:, tournament:, name:, type: "Phases::Test") }
 
+    let(:best_of) { 3 }
     let(:tournament) { create(:tournament) }
+    let(:name) { "BassFace" }
 
     context "when best_of is odd" do
       let(:best_of) { 5 }
@@ -83,13 +87,70 @@ RSpec.describe Phases::BasePhase do
     end
   end
 
+  describe "delegations" do
+    subject(:phase) { Phases::Test.new }
+
+    it { is_expected.to delegate_method(:organization).to(:tournament) }
+  end
+
   describe "#accept_players" do
     let(:tournament) { create(:tournament, :with_phases, :with_players_with_team, :with_players_checked_in, :with_players_with_team_and_checked_in) }
     let(:phase) { tournament.phases.first }
 
-    it "sets the players" do
-      phase.accept_players(players: tournament.players)
-      expect(phase.players).to match_array(tournament.players.checked_in_and_submitted_team_sheet)
+    context "when players are checked in and have submitted team sheets" do
+      it "sets the players and updates the phase" do
+        expect { phase.accept_players(players: tournament.players) }
+          .to change { phase.players.count }.to(tournament.players&.checked_in_and_submitted_team_sheet.count)
+          .and change(phase, :started_at).from(nil)
+          .and change(phase, :number_of_rounds).from(5)
+      end
+    end
+
+    context "when no players are checked in" do
+      it "raises an error" do
+        expect { phase.accept_players(players: nil) }.to raise_error("Number of players must be greater than zero")
+      end
+    end
+  end
+
+  describe "player scopes" do
+    let(:tournament) { create(:tournament, :with_phases, :with_players_with_team, :with_players_checked_in, :with_players_with_team_and_checked_in) }
+    let(:phase) { tournament.phases.first }
+
+    describe "#players_ready" do
+      it "returns players who are checked in and have submitted team sheets" do
+        expect(phase.players_ready).to match_array(tournament.players&.checked_in_and_submitted_team_sheet)
+      end
+    end
+
+    describe "#players_checked_in" do
+      it "returns players who are checked in" do
+        expect(phase.players_checked_in).to match_array(tournament.players.checked_in)
+      end
+    end
+
+    describe "#players_not_checked_in_has_team_sheet" do
+      it "returns players who are not checked in but have submitted team sheets" do
+        expect(phase.players_not_checked_in_has_team_sheet).to match_array(tournament.players.not_checked_in_and_submitted_team_sheet)
+      end
+    end
+
+    describe "#players_not_checked_in" do
+      it "returns players who are not checked in" do
+        expect(phase.players_not_checked_in).to match_array(tournament.players.not_checked_in)
+      end
+    end
+
+    describe "#players_checked_in_no_team_sheet" do
+      it "returns players who are checked in but have not submitted team sheets" do
+        expect(phase.players_checked_in_no_team_sheet).to match_array(tournament.players.checked_in_and_not_submitted_team_sheet)
+      end
+    end
+
+    describe "#players_not_checked_in_or_no_team_sheet" do
+      it "returns players who are not checked in or have not submitted team sheets" do
+        expect(phase.players_not_checked_in_or_no_team_sheet).to match_array(tournament.players.not_checked_in_or_not_submitted_team_sheet)
+      end
     end
   end
 end

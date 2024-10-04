@@ -2,3 +2,5 @@ en:
   errors:
     phase:
       best_of_must_be_odd: "Best of X must be an odd number."
+      name:
+        blank: "Name can't be blank."

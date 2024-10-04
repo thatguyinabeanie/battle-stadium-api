@@ -3,7 +3,8 @@ FactoryBot.define do
     name { "Epic Swiss Rounds" }
     tournament factory: :tournament
     type { "Phases::BasePhase" }
-    number_of_rounds { 5 }
+    number_of_rounds { 0 }
+    sequence(:order)
 
     # Define specific factories that inherit from the abstract phase
     factory :swiss_phase, class: "Phases::Swiss" do

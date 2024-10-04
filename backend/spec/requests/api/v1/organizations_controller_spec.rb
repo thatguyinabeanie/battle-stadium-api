@@ -316,34 +316,4 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/organizations/{slug}/tournaments/{tournament_id}") do
-    parameter name: :slug, in: :path, type: :string, required: true
-    parameter name: :tournament_id, in: :path, type: :integer, required: true
-    parameter VERCEL_TOKEN_HEADER_PARAMETER
-
-    let(:tour) { create(:tournament, organization: org) }
-    let(:tournament_id) { tour.id }
-
-    let(:game) { create(:game) }
-    let(:format) { create(:format, game:) }
-
-    let(:tournament) do
-      {
-        tournament: {
-          name: "Updated Tournament",
-          start_at: Time.current.iso8601,
-          end_at: 1.day.from_now,
-          game_id: game.id,
-          format_id: format.id,
-          autostart: false,
-          player_cap: 32,
-          registration_start_at: Time.current.iso8601,
-          registration_end_at: 1.day.from_now.iso8601,
-          late_registration: false,
-          open_team_sheets: false,
-          teamlists_required: false
-        }
-      }
-    end
-  end
 end

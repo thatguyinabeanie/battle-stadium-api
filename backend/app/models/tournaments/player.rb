@@ -12,14 +12,20 @@ module Tournaments
     validates :tournament_id, presence: true
     validates :profile_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
     validates :user_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
-
     delegate :username, to: :profile
 
     before_create :set_user_id_from_profile
 
-    def self.checked_in_and_submitted_team_sheet
-      where.not(pokemon_team_id: nil).where.not(checked_in_at: nil)
-      # .where.not(in_game_name: nil)
+    scope :checked_in, -> { where.not(checked_in_at: nil) }
+    scope :checked_in_and_submitted_team_sheet, -> { where.not(pokemon_team_id: nil).where.not(checked_in_at: nil) }
+    scope :not_checked_in_and_submitted_team_sheet, -> { where(pokemon_team_id: nil).where(checked_in_at: nil) }
+    scope :checked_in_and_not_submitted_team_sheet, -> { where(pokemon_team_id: nil).where.not(checked_in_at: nil) }
+    scope :not_checked_in_or_not_submitted_team_sheet, -> { where(pokemon_team_id: nil).where(checked_in_at: nil) }
+    scope :checked_in, -> { where.not(checked_in_at: nil) }
+    scope :not_checked_in, -> { where(checked_in_at: nil) }
+
+    def checked_in?
+      checked_in_at.present?
     end
 
     def ready?
@@ -36,10 +42,6 @@ module Tournaments
 
     def submit_team!(pokemon_team:)
       update!(pokemon_team:)
-    end
-
-    def checked_in?
-      checked_in_at.present?
     end
 
     private
