@@ -9,7 +9,7 @@ module Tournaments
     belongs_to :reporter, class_name: "Profile", optional: true
 
     validates :game_number, presence: true
-    validates :reporter, presence: true, if: -> { reported_at.present? && (winner.present? || loser.present?) }
+    validates :reporter, presence: true, if: -> { ended_at.present? && (winner.present? || loser.present?) }
     validate :reporter_role_validation
     validates :match, presence: true
 

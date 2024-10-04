@@ -130,7 +130,7 @@ RSpec.describe ChatChannel do
     expect(subscription).to be_confirmed
     expect(subscription).to have_stream_from(broadcast_room_name)
 
-    match.update(reported_at: Time.current - 1.day)
+    match.update(ended_at: Time.current - 1.day)
     match.round.update(ended_at: Time.current - 1.day)
 
     expect {
@@ -144,7 +144,7 @@ RSpec.describe ChatChannel do
     expect(subscription).to be_confirmed
     expect(subscription).to have_stream_from(broadcast_room_name)
 
-    match.update(reported_at: Time.current - 1.day)
+    match.update(ended_at: Time.current - 1.day)
     match.round.update(ended_at: Time.current - 1.day)
 
     expect {

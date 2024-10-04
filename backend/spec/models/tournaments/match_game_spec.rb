@@ -48,30 +48,30 @@ RSpec.describe Tournaments::MatchGame do
     end
 
     it "validates presence of :reporter" do
-      match_game.reported_at = Time.current.utc
+      match_game.ended_at = Time.current.utc
       match_game.winner = player_one
       match_game.valid?(:report!)
       expect(match_game.errors[:reporter]).to include(cannot_be_black_error)
     end
 
     it "validates presence of :winner" do
-      match_game.reported_at = Time.current.utc
+      match_game.ended_at = Time.current.utc
       match_game.loser = player_two
       match_game.valid?(:report!)
       expect(match_game.errors[:winner]).to include(cannot_be_black_error)
     end
 
     it "validates presence of :loser" do
-      match_game.reported_at = Time.current.utc
+      match_game.ended_at = Time.current.utc
       match_game.winner = player_one
       match_game.valid?(:report!)
       expect(match_game.errors[:loser]).to include(cannot_be_black_error)
     end
 
-    it "validates presence of :reported_at" do
+    it "validates presence of :ended_at" do
       match_game.winner = player_one
       match_game.valid?(:report!)
-      expect(match_game.errors[:reported_at]).to include(cannot_be_black_error)
+      expect(match_game.errors[:ended_at]).to include(cannot_be_black_error)
     end
 
     it "validates that winner must be either player 1 or player 2" do
@@ -159,9 +159,9 @@ RSpec.describe Tournaments::MatchGame do
       end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: #{I18n.t('errors.match_game.reporter_must_be_match_player_or_staff')}")
     end
 
-    it "sets the reported_at attribute" do
+    it "sets the ended_at attribute" do
       match_game.report!(winner: player_one, loser: player_two, reporter: staff_member.default_profile)
-      expect(match_game.reported_at).to be_within(10.seconds).of(Time.current.utc)
+      expect(match_game.ended_at).to be_within(10.seconds).of(Time.current.utc)
     end
   end
 end

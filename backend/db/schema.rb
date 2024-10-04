@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_04_223736) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_04_230537) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -71,7 +71,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_04_223736) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_number", default: 1, null: false
-    t.datetime "reported_at"
+    t.datetime "ended_at"
     t.uuid "reporter_id"
     t.index ["loser_id"], name: "index_match_games_on_loser_id"
     t.index ["match_id"], name: "index_match_games_on_match_id"
@@ -89,7 +89,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_04_223736) do
     t.datetime "player_one_check_in"
     t.datetime "player_two_check_in"
     t.bigint "loser_id"
-    t.datetime "reported_at"
+    t.datetime "ended_at"
     t.index ["loser_id"], name: "index_matches_on_loser_id"
     t.index ["player_one_id"], name: "index_matches_on_player_one_id"
     t.index ["player_two_id"], name: "index_matches_on_player_two_id"
@@ -158,6 +158,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_04_223736) do
     t.bigint "pokemon_team_id"
     t.uuid "profile_id", null: false
     t.uuid "user_id", null: false
+    t.boolean "dropped", default: false, null: false
+    t.boolean "disqualified", default: false, null: false
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["profile_id"], name: "index_players_on_profile_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"

@@ -11,7 +11,7 @@ module Tournaments
 
     belongs_to :round, class_name: "Tournaments::Round", inverse_of: :matches
     delegate :phase, to: :round
-    delegate :started_at, :ended_at, to: :round
+    delegate :started_at, to: :round
 
     has_many :match_games, class_name: "Tournaments::MatchGame", dependent: :destroy, inverse_of: :match
     has_many :chat_messages, dependent: :nullify, inverse_of: :match, class_name: "ChatMessage"
@@ -24,16 +24,16 @@ module Tournaments
     delegate :tournament, to: :phase
     delegate :organization, to: :tournament
 
+    scope :in_progress, -> { where(ended_at: nil) }
+
     def check_in(player:)
       raise ArgumentError, "Cannot check in a player that is not part of the match." if [player_one, player_two].exclude?(player)
-
       time_now = Time.current.utc
       if player == player_one
         self.player_one_check_in = time_now
       else
         self.player_two_check_in = time_now
       end
-
       save!
     end
 

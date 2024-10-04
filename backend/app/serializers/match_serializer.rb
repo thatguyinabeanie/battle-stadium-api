@@ -18,6 +18,6 @@ module Serializers
 
     attributes :winner_id, :loser_id
     attributes :player_one_check_in, :player_two_check_in
-    attributes :created_at, :updated_at, :reported_at
+    attributes :created_at, :updated_at, :ended_at
   end
 end

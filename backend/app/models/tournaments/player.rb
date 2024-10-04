@@ -49,5 +49,6 @@ module Tournaments
     def set_user_id_from_profile
       self.user_id ||= profile.user_id
     end
+
   end
 end
