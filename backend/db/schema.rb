@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_04_221539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -142,6 +142,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
     t.datetime "started_at"
     t.datetime "ended_at"
     t.integer "order", default: 0, null: false
+    t.bigint "current_round_id"
+    t.index ["current_round_id"], name: "index_phases_on_current_round_id"
     t.index ["tournament_id"], name: "index_phases_on_tournament_id"
     t.index ["type"], name: "index_phases_on_type"
   end
@@ -236,6 +238,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
     t.datetime "end_at"
     t.bigint "limitless_id"
     t.boolean "published", default: false, null: false
+    t.bigint "current_phase_id"
+    t.index ["current_phase_id"], name: "index_tournaments_on_current_phase_id"
     t.index ["format_id"], name: "index_tournaments_on_format_id"
     t.index ["game_id"], name: "index_tournaments_on_game_id"
     t.index ["limitless_id"], name: "index_tournaments_on_limitless_id", unique: true, where: "(limitless_id IS NOT NULL)"
@@ -275,6 +279,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
   add_foreign_key "organization_staff_members", "users"
   add_foreign_key "organizations", "users", column: "owner_id"
   add_foreign_key "phase_players", "players"
+  add_foreign_key "phases", "rounds", column: "current_round_id"
   add_foreign_key "phases", "tournaments"
   add_foreign_key "players", "pokemon_teams"
   add_foreign_key "players", "profiles"
@@ -287,5 +292,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
   add_foreign_key "tournament_formats", "tournaments"
   add_foreign_key "tournaments", "games"
   add_foreign_key "tournaments", "organizations"
+  add_foreign_key "tournaments", "phases", column: "current_phase_id"
   add_foreign_key "users", "profiles", column: "default_profile_id"
 end

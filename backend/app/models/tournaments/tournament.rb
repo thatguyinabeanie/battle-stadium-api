@@ -15,6 +15,7 @@ module Tournaments
     validates :game, presence: true
     validates :format, presence: true, if: -> { game.present? }
     has_many :phases, class_name: "Phases::BasePhase", dependent: :destroy_async
+    belongs_to :current_phase, class_name: "Phases::BasePhase", optional: true
 
     # Tournament Logistics Information
     validates :registration_end_at, presence: true, allow_nil: true, if: -> { late_registration == false }
@@ -28,6 +29,23 @@ module Tournaments
 
     before_validation :set_defaults
     before_save :ready_to_start?, if: -> { saved_change_to_started_at?(from: nil) }
+
+    def start!
+      cannot_start = "Cannot start tournament."
+      raise "The tournament has no phases. #{cannot_start}" if phases.empty?
+      raise "The tournament has no players. #{cannot_start}" if players.empty?
+      raise "The tournament does not have the minimum required number of players. #{cannot_start}" if players.count < MINIMUM_PLAYER_COUNT
+
+      self.current_phase = self.phases.order(order: :asc).first
+      self.started_at = Time.current.utc
+      self.save!
+
+      self.current_phase.accept_players(players:)
+      self.current_phase.start!
+    rescue StandardError => e
+      Rails.logger.error { "Failed to start tournament: #{e.full_message(highlight: false)}" }
+      raise
+    end
 
     def not_ready_reasons
       reasons = []
@@ -51,20 +69,6 @@ module Tournaments
       errors.add(:check_in_start_at, "must be before start_at") if check_in_start_at >= start_at
     end
 
-    def start!
-      cannot_start = "Cannot start tournament."
-      raise "The tournament has no phases. #{cannot_start}" if phases.empty?
-      raise "The tournament has no players. #{cannot_start}" if players.empty?
-      raise "The tournament does not have the minimum required number of players. #{cannot_start}" if players.count < MINIMUM_PLAYER_COUNT
-
-      transaction do
-        update!(started_at: Time.current.utc)
-        phases.order(order: :asc).first.accept_players(players:)
-      end
-    rescue StandardError => e
-      Rails.logger.error { "Failed to start tournament: #{e.full_message(highlight: false)}" }
-      raise
-    end
 
     def registration_open?
       return false if registration_start_at.blank?
