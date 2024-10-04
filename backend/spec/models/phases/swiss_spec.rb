@@ -33,22 +33,41 @@ RSpec.describe Phases::Swiss do
     end
   end
 
-  describe "#create_initial_round" do
-    it "creates the first round with round_number 1" do
-
-      swiss_phase = create(:swiss_phase, tournament:)
-      swiss_phase.create_initial_round
-      expect(swiss_phase.rounds.first.round_number).to eq(1)
-    end
-  end
-
   describe "#create_next_round" do
     it "creates the next round with incremented round_number" do
-
       swiss_phase = create(:swiss_phase, tournament:)
-      swiss_phase.create_initial_round
+      swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.started_at = Time.current.utc
       swiss_phase.create_next_round
-      expect(swiss_phase.rounds.last.round_number).to eq(2)
+      expect(swiss_phase.rounds.last.round_number).to eq(1)
+    end
+
+    it "raises an error if the phase has not started" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      expect { swiss_phase.create_next_round }.to raise_error("The phase has not started")
+    end
+
+    it "raises an error if the phase has not accepted players" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      swiss_phase.started_at = Time.current.utc
+      expect { swiss_phase.create_next_round }.to raise_error("The phase has not accepted players")
+    end
+
+    it "raises an error if the phase has not set the number of rounds" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.number_of_rounds = nil
+      swiss_phase.started_at = Time.current.utc
+      expect { swiss_phase.create_next_round }.to raise_error("The phase has not set the number of rounds")
+    end
+
+    it "raises an error if the phase has already completed all rounds" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.started_at = Time.current.utc
+      swiss_phase.number_of_rounds = 1
+      swiss_phase.create_next_round
+      expect { swiss_phase.create_next_round }.to raise_error("The phase has already completed all rounds")
     end
   end
 
@@ -84,6 +103,4 @@ RSpec.describe Phases::Swiss do
       expect { swiss_phase.start! }.to change { swiss_phase.rounds.count }.by(1)
     end
   end
-
-
 end

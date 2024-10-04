@@ -18,5 +18,11 @@ FactoryBot.define do
       type { "Phases::SingleEliminationBracket" }
       number_of_rounds { 3 }
     end
+
+    trait :with_rounds do
+      after(:create) do |phase|
+        create_list(:round, 2, phase:)
+      end
+    end
   end
 end
