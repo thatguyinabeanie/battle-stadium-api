@@ -119,7 +119,8 @@ RSpec.describe Phases::BasePhase do
 
     describe "#players_ready" do
       it "returns players who are checked in and have submitted team sheets" do
-        expect(phase.players_ready).to match_array(tournament.players&.checked_in_and_submitted_team_sheet)
+        phase.accept_players(players: tournament.players)
+        expect(phase.players_ready).to match_array(tournament.players.checked_in_and_submitted_team_sheet)
       end
     end
 
