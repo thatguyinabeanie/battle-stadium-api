@@ -38,7 +38,7 @@
     "@react-aria/visually-hidden": "3.8.15",
     "@react-stately/data": "^3.11.7",
     "@swc/helpers": "^0.5.13",
-    "@t3-oss/env-nextjs": "^0.7.3",
+    "@t3-oss/env-nextjs": "^0.11.1",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
     "@vercel/analytics": "^1.3.1",
