@@ -1,20 +1,20 @@
 require "rails_helper"
 
 RSpec.describe Tournaments::MatchGame do
+  let(:organization)  { create(:organization, :with_staff, staff_count: 2) }
+  let(:staff_member)  { organization.staff.first }
+
   let(:match_hash) do
-    user_one_profile = create(:profile)
-    user_two_profile = create(:profile)
-    organization = create(:organization)
-    organization.staff << create(:user)
     tournament = create(:tournament, organization:)
-    player_one = create(:player, profile: user_one_profile, tournament:)
-    player_two = create(:player, profile: user_two_profile, tournament:)
     phase = create(:swiss_phase, tournament:)
     round = create(:round, phase:)
-    match = create(:match, round:, player_one:, player_two:)
+    match = create(:match, round:, phase:, tournament:)
+
+    player_one = match.player_one
+    player_two = match.player_two
+
     match_game = create(:match_game, match:)
-    { match_game:, tournament:, organization:, match:, phase:, round:, player_one: match.player_one, player_two: match.player_two,
-      staff_member: organization.staff.first }
+    { match_game:, tournament:, organization:, match:, phase:, round:, player_one:, player_two: }
   end
 
   let(:match_game) { match_hash[:match_game] }
@@ -117,15 +117,13 @@ RSpec.describe Tournaments::MatchGame do
     end
 
     it "adds an error when reporter is not a player or staff member" do
-      match_game.reporter = create(:profile)
+      match_game.reporter = create(:user).default_profile
       match_game.send(:reporter_role_validation)
       expect(match_game.errors[:base]).to include(I18n.t("errors.match_game.reporter_must_be_match_player_or_staff"))
     end
   end
 
   describe "#report!" do
-    let(:staff_member) { match_hash[:staff_member] }
-
     it "reports the game with the winner as the winner" do
       match_game.report!(winner: player_one, loser: player_two, reporter: staff_member)
       expect(match_game.winner).to eq(player_one)
