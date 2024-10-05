@@ -37,9 +37,10 @@ RSpec.describe Phases::Swiss do
     it "creates the next round with incremented round_number" do
       swiss_phase = create(:swiss_phase, tournament:)
       swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.current_round = create(:round, phase: swiss_phase, round_number: 1)
       swiss_phase.started_at = Time.current.utc
       swiss_phase.create_next_round
-      expect(swiss_phase.rounds.last.round_number).to eq(1)
+      expect(swiss_phase.rounds.last.round_number).to eq(2)
     end
 
     it "raises an error if the phase has not started" do
@@ -66,7 +67,7 @@ RSpec.describe Phases::Swiss do
       swiss_phase.accept_players(players: tournament.players)
       swiss_phase.started_at = Time.current.utc
       swiss_phase.number_of_rounds = 1
-      swiss_phase.create_next_round
+      swiss_phase.current_round = create(:round, phase: swiss_phase, round_number: 1)
       expect { swiss_phase.create_next_round }.to raise_error("The phase has already completed all rounds")
     end
   end

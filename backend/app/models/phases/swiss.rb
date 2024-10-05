@@ -14,7 +14,7 @@ module Phases
       raise "The phase has no players" if players.empty?
 
       self.started_at = Time.current.utc
-      self.current_round = create_next_round
+      self.current_round = self.current_round = Tournaments::Round.create_initial_round(self)
       self.save!
     end
 
@@ -37,11 +37,11 @@ module Phases
       raise "The phase has not started" if started_at.blank?
       raise "The phase has not accepted players" if players.empty?
       raise "The phase has not set the number of rounds" if number_of_rounds.nil?
+      raise "The phase has not set the current round" if current_round.blank?
+      raise "The phase has not ended the current round" unless current_round&.matches&.in_progress&.empty?
       raise "The phase has already completed all rounds" if current_round&.round_number == number_of_rounds
 
-      next_round_number = current_round ? current_round.round_number + 1 : 1
-
-      self.current_round = rounds.create(round_number: next_round_number)
+      self.current_round = Tournaments::Round.create_next_round(self)
     end
 
     protected

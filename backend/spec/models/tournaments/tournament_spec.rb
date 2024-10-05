@@ -15,7 +15,6 @@ RSpec.describe Tournaments::Tournament do
     end
 
 
-
     it { is_expected.to validate_presence_of(:organization_id) }
     it { is_expected.to validate_presence_of(:organization) }
     it { is_expected.to validate_presence_of(:game) }

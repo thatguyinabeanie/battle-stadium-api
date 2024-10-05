@@ -12,5 +12,8 @@ FactoryBot.define do
 
     winner { nil }
     loser { nil }
+    bye { nil }
+
+    match_games { [] }
   end
 end

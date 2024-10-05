@@ -23,6 +23,7 @@ module Tournaments
     scope :not_checked_in_or_not_submitted_team_sheet, -> { where(pokemon_team_id: nil).where(checked_in_at: nil) }
     scope :checked_in, -> { where.not(checked_in_at: nil) }
     scope :not_checked_in, -> { where(checked_in_at: nil) }
+    scope :not_dropped_and_not_disqualified, -> { where(dropped: false, disqualified: false) }
 
     def checked_in?
       checked_in_at.present?
@@ -42,6 +43,20 @@ module Tournaments
 
     def submit_team!(pokemon_team:)
       update!(pokemon_team:)
+    end
+
+    def calculate_resistance
+      opponents = self.matches.flat_map { |match| [match.player1, match.player2] }.uniq - [self]
+      total_opponent_wins = opponents.sum(&:wins)
+      total_opponent_matches = opponents.sum { |opponent| opponent.wins + opponent.losses }
+
+      if total_opponent_matches > 0
+        self.resistance = (total_opponent_wins.to_f / total_opponent_matches) * 100
+      else
+        self.resistance = 0
+      end
+
+      save!
     end
 
     private

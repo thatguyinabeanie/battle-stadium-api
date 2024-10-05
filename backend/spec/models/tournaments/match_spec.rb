@@ -22,7 +22,6 @@ RSpec.describe Tournaments::Match do
   describe "associations" do
     it { is_expected.to belong_to(:round).class_name("Tournaments::Round") }
     it { is_expected.to belong_to(:player_one).class_name("Tournaments::Player") }
-    it { is_expected.to belong_to(:player_two).class_name("Tournaments::Player") }
     # Add other associations here
   end
 

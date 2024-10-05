@@ -13,7 +13,7 @@ module Tournaments
     validate :reporter_role_validation
     validates :match, presence: true
 
-    delegate :player_one, :player_two, :phase, to: :match
+    delegate :phase, :player_one, :player_two, to: :match
     delegate :tournament, to: :phase
     delegate :organization, to: :tournament
 
