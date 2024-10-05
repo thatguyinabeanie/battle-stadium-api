@@ -1,8 +1,10 @@
 # Assuming you have factories for tournament, player, and round defined elsewhere
 FactoryBot.define do
   factory :match, class: "Tournaments::Match" do
-    round factory: :swiss_round
-    table_number { 1 }
+    sequence(:table_number) { |n| n }
+    tournament { create(:tournament, :with_phases) }
+    phase { tournament.phases.first }
+    round { create(:round, phase:) }
 
     player_one factory: :player
     player_two factory: :player
@@ -11,9 +13,23 @@ FactoryBot.define do
     player_two_check_in { nil }
 
     winner { nil }
-    loser { nil }
-    bye { nil }
+    loser do
+      if winner.present?
+        player_one == winner ? player_two : player_one
+      end
+    end
+    bye { false }
 
     match_games { [] }
+
+    trait :with_match_games do
+      transient do
+        match_game_count { 1 }
+      end
+
+      after(:create) do |match, evaluator|
+        create_list(:match_game, evaluator.match_game_count, match:)
+      end
+    end
   end
 end

@@ -40,11 +40,11 @@ RSpec.describe Tournaments::Round do
       end
     end
 
-    describe ".create_next_round" do
+    describe ".create_round" do
       it "creates the next round with matches based on player records" do
         phase.accept_players(players: tournament.players)
         described_class.create_initial_round(phase)
-        round = described_class.create_next_round(phase)
+        round = described_class.create_round(phase)
 
         expect(round.round_number).to eq(2)
         expect(phase.players.count).to eq(5)

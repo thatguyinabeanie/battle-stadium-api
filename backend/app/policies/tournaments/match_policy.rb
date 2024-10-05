@@ -16,7 +16,7 @@ module Tournaments
     end
 
     def join_chat?
-      admin? || Pundit.policy(user, record.tournament.organization).staff? || is_match_player?
+      Pundit.policy(user, record.tournament.organization).staff? || is_match_player?
     end
 
     private

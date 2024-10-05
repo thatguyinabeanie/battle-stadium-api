@@ -20,7 +20,7 @@ module Tournaments
         round
       end
 
-      def create_next_round(phase)
+      def create_round(phase)
         round_number = phase.rounds.count + 1
         round = phase.rounds.create!(round_number:)
         players_by_record = phase.players.not_dropped_and_not_disqualified
@@ -79,7 +79,7 @@ module Tournaments
 
         # Create matches in the round
         matches.each do |match|
-          round.matches.create!(player_one: match[:player_one], player_two: match[:player_two], bye: match[:player_two].nil? ? match[:player_one] : nil)
+          round.matches.create!(player_one: match[:player_one], player_two: match[:player_two], bye: match[:player_two].nil?)
         end
       end
     end

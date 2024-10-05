@@ -10,7 +10,13 @@ FactoryBot.define do
     factory :swiss_phase, class: "Phases::Swiss" do
       name { "Epic Swiss Rounds" }
       type { "Phases::Swiss" }
-      number_of_rounds { 5 }
+
+      trait :with_accepted_players do
+        after(:create) do |phase|
+          create_list(:player_with_team_and_checked_in, 5, tournament: phase.tournament)
+          phase.accept_players(players: phase.tournament.players)
+        end
+      end
     end
 
     factory :elimination_phase, class: "Phases::SingleEliminationBracket" do

@@ -8,7 +8,7 @@ class ChatChannel < ApplicationCable::Channel
   class MessageTooLargeError < StandardError; end
 
   def subscribed
-    if authorized_to_join?(match: match(match_id: params[:room]))
+    if authorized_to_join?
       stream_from chat_channel
       Rails.logger.info "Subscribed to #{chat_channel}"
     else
@@ -35,8 +35,8 @@ class ChatChannel < ApplicationCable::Channel
 
     sent_at = Time.current.utc.to_s
 
-    @match&.reload
-    if @match&.round&.ended_at.present?
+    match&.reload
+    if match&.round&.ended_at.present?
       message = "Match completed. No further messages allowed."
       Rails.logger.warn "Message rejected because the match is completed: #{params[:room]}"
       ActionCable.server.broadcast(chat_channel, {
@@ -65,7 +65,7 @@ class ChatChannel < ApplicationCable::Channel
     })
 
     SaveChatMessageJob.perform_later(
-      match_id: @match.id,
+      match_id: match.id,
       profile_id: profile.id,
       user_id: current_user.id,
       content: message,
@@ -96,16 +96,18 @@ class ChatChannel < ApplicationCable::Channel
     time.strftime("%Y-%m-%d %H:%M:%S.%L")
   end
 
-  def match(match_id: nil)
-    @match ||= Tournaments::Match.find_by(id: match_id)
+  def match
+    @match ||= Tournaments::Match.find_by(id: params[:room])
     @match
   end
 
-  def authorized_to_join?(match:)
-    return true if current_user.present? && current_user.admin? if ENV.fetch("ADMIN_BYPASS", "false") == "true"
-    return false unless @match.present? && @match.round.present? && @match.round.ended_at.nil?
+  def authorized_to_join?
 
-    authorize @match, :join_chat?
+    return true if current_user.present? && current_user.admin? if ENV.fetch("ADMIN_BYPASS", "false") == "true"
+    return false unless match.present? && match.round.present? && match.round.ended_at.nil?
+
+
+    Pundit.policy(current_user, match).join_chat?
     true
   end
 

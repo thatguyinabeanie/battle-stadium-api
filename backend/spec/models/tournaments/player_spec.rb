@@ -108,10 +108,8 @@ RSpec.describe Tournaments::Player do
 
     before do
       allow(phase).to receive(:matches).and_return([match_one, match_two])
-      allow(opponent_one).to receive(:wins).and_return(3)
-      allow(opponent_one).to receive(:losses).and_return(2)
-      allow(opponent_two).to receive(:wins).and_return(2)
-      allow(opponent_two).to receive(:losses).and_return(3)
+      allow(opponent_one).to receive_messages(wins: 3, losses: 2)
+      allow(opponent_two).to receive_messages(wins: 2, losses: 3)
     end
 
     it "calculates the correct resistance" do
@@ -121,10 +119,8 @@ RSpec.describe Tournaments::Player do
 
     context "when opponents have no matches" do
       before do
-        allow(opponent_one).to receive(:wins).and_return(0)
-        allow(opponent_one).to receive(:losses).and_return(0)
-        allow(opponent_two).to receive(:wins).and_return(0)
-        allow(opponent_two).to receive(:losses).and_return(0)
+        allow(opponent_one).to receive_messages(wins: 0, losses: 0)
+        allow(opponent_two).to receive_messages(wins: 0, losses: 0)
       end
 
       it "sets resistance to 0" do

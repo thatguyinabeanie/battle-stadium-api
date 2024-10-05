@@ -17,6 +17,7 @@ module Tournaments
     has_many :phases, class_name: "Phases::BasePhase", dependent: :destroy_async
     belongs_to :current_phase, class_name: "Phases::BasePhase", optional: true
 
+    has_many :matches, class_name: "Tournaments::Match", dependent: :destroy_async
     # Tournament Logistics Information
     validates :registration_end_at, presence: true, allow_nil: true, if: -> { late_registration == false }
     validates :late_registration, inclusion: { in: [true, false] }
@@ -27,7 +28,7 @@ module Tournaments
     validates :player_cap, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
     validate :unique_limitless_id
 
-    before_validation :set_defaults
+    before_validation :set_defaults, on: :create
     before_save :ready_to_start?, if: -> { saved_change_to_started_at?(from: nil) }
 
     def start!

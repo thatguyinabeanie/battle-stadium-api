@@ -3,30 +3,29 @@ module Tournaments
   class Match < ApplicationRecord
     include ::MatchPlayersConcern
     self.table_name = "matches"
-    belongs_to :player_one, class_name: "Tournaments::Player"
-    belongs_to :player_two, class_name: "Tournaments::Player", optional: true
-    belongs_to :bye, class_name: "Tournaments::Player", optional: true
 
+    belongs_to :phase, class_name: "Phases::BasePhase", inverse_of: :matches
+    belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :matches
+    belongs_to :round, class_name: "Tournaments::Round", inverse_of: :matches
+    belongs_to :player_one, class_name: "Tournaments::Player", required: true
+    belongs_to :player_two, class_name: "Tournaments::Player", optional: true
     belongs_to :winner, class_name: "Tournaments::Player", optional: true
     belongs_to :loser, class_name: "Tournaments::Player", optional: true
-
-    belongs_to :round, class_name: "Tournaments::Round", inverse_of: :matches
-    delegate :phase, to: :round
-    delegate :started_at, to: :round
 
     has_many :match_games, class_name: "Tournaments::MatchGame", dependent: :destroy, inverse_of: :match
     has_many :chat_messages, dependent: :nullify, inverse_of: :match, class_name: "ChatMessage"
 
-    validates :round, presence: true, uniqueness: { scope: %i[player_one_id player_two_id] }
-
-    delegate :phase, to: :round
-    delegate :tournament, to: :phase
+    delegate :started_at, to: :round
     delegate :organization, to: :tournament
     delegate :best_of, to: :phase
 
+    validates :round, presence: true, uniqueness: { scope: %i[player_one_id player_two_id] }
     validates :winner, inclusion: { in: ->(match) { [match.player_one, match.player_two, nil] }, message: "must be either player one, player two, or null" }
-
     validates :loser, inclusion: { in: ->(match) { [match.player_one, match.player_two, nil] }, message: "must be either player one, player two, or null" }
+    validates :bye, inclusion: { in: [true, false] }
+    validates :bye, inclusion: { in: [true] }, if: -> { player_two.nil? }
+
+    before_validation :set_defaults, on: :create
 
     scope :in_progress, -> { where(ended_at: nil) }
 
@@ -70,6 +69,11 @@ module Tournaments
       else
         raise ArgumentError, "Cannot check in a player that is not part of the match."
       end
+    end
+
+    def set_defaults
+      self.phase_id ||= round.phase_id if round.present?
+      self.tournament_id ||= round.phase.tournament_id if round.present?
     end
   end
 end

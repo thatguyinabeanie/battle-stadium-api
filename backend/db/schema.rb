@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_05_011030) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_05_150550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -91,12 +91,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_011030) do
     t.datetime "player_two_check_in"
     t.bigint "loser_id"
     t.datetime "ended_at"
-    t.bigint "bye_id"
-    t.index ["bye_id"], name: "index_matches_on_bye_id"
+    t.bigint "tournament_id"
+    t.bigint "phase_id"
+    t.boolean "bye", default: false, null: false
     t.index ["loser_id"], name: "index_matches_on_loser_id"
+    t.index ["phase_id"], name: "index_matches_on_phase_id"
     t.index ["player_one_id"], name: "index_matches_on_player_one_id"
     t.index ["player_two_id"], name: "index_matches_on_player_two_id"
     t.index ["round_id", "player_one_id", "player_two_id"], name: "index_matches_on_round_and_players_unique", unique: true
+    t.index ["tournament_id"], name: "index_matches_on_tournament_id"
     t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
@@ -280,12 +283,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_011030) do
   add_foreign_key "match_games", "players", column: "loser_id"
   add_foreign_key "match_games", "players", column: "winner_id"
   add_foreign_key "match_games", "profiles", column: "reporter_id", on_delete: :nullify
-  add_foreign_key "matches", "players", column: "bye_id"
+  add_foreign_key "matches", "phases"
   add_foreign_key "matches", "players", column: "loser_id"
   add_foreign_key "matches", "players", column: "player_one_id"
   add_foreign_key "matches", "players", column: "player_two_id"
   add_foreign_key "matches", "players", column: "winner_id"
   add_foreign_key "matches", "rounds"
+  add_foreign_key "matches", "tournaments"
   add_foreign_key "organization_staff_members", "organizations"
   add_foreign_key "organization_staff_members", "users"
   add_foreign_key "organizations", "users", column: "owner_id"

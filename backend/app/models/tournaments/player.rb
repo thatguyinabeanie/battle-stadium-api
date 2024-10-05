@@ -45,22 +45,6 @@ module Tournaments
       update!(pokemon_team:)
     end
 
-    def calculate_resistance(phase:)
-      player_matches = phases.matches.where(player_one: self).or(phases.matches.where(player_two: self))
-      opponents = player_matches.flat_map { |match| [match.player1, match.player2] }.uniq - [player]
-      opponents = self.matches.flat_map { |match| [match.player1, match.player2] }.uniq - [self]
-      total_opponent_wins = opponents.sum(&:wins)
-      total_opponent_matches = opponents.sum { |opponent| opponent.wins + opponent.losses }
-
-      if total_opponent_matches > 0
-        self.resistance = (total_opponent_wins.to_f / total_opponent_matches) * 100
-      else
-        self.resistance = 0
-      end
-
-      save!
-    end
-
     private
 
     def set_user_id_from_profile

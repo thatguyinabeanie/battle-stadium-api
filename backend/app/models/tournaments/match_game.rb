@@ -16,6 +16,7 @@ module Tournaments
     delegate :phase, :player_one, :player_two, to: :match
     delegate :tournament, to: :phase
     delegate :organization, to: :tournament
+    delegate :staff, to: :organization
 
     def report!(winner:, loser:, reporter:)
       profile = if reporter == player_one || reporter == player_two

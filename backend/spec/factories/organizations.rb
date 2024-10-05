@@ -5,7 +5,8 @@ FactoryBot.define do
     owner factory: :user
   end
 
-  factory :organization_with_staff, parent: :organization do
+
+  trait :with_staff do
     transient do
       staff_count { 5 }
     end

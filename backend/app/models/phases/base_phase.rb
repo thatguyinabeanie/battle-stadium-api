@@ -13,7 +13,7 @@ module Phases
     delegate :organization, to: :tournament
 
     has_many :rounds, class_name: "Tournaments::Round", inverse_of: :phase, dependent: :destroy
-
+    has_many :matches, class_name: "Tournaments::Match", inverse_of: :phase
     has_many :phase_players, class_name: "Tournaments::PhasePlayer", inverse_of: :phase, dependent: :destroy
     has_many :players, through: :phase_players, source: :player, class_name: "Tournaments::Player"
 
@@ -26,7 +26,7 @@ module Phases
     validates :type, presence: true
     validates :tournament, presence: true
 
-    before_validation :set_defaults
+    before_validation :set_defaults, on: :create
 
     def start!
       raise NotImplementedError, "Subclasses must implement the start! method"

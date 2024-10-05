@@ -21,8 +21,12 @@ RSpec.describe Tournaments::Match do
 
   describe "associations" do
     it { is_expected.to belong_to(:round).class_name("Tournaments::Round") }
-    it { is_expected.to belong_to(:player_one).class_name("Tournaments::Player") }
-    # Add other associations here
+    it { is_expected.to belong_to(:player_one).class_name("Tournaments::Player").required(true) }
+    it { is_expected.to belong_to(:player_two).class_name("Tournaments::Player").optional(true) }
+    it { is_expected.to belong_to(:winner).class_name("Tournaments::Player").optional(true) }
+    it { is_expected.to belong_to(:loser).class_name("Tournaments::Player").optional(true) }
+    it { is_expected.to have_many(:match_games).class_name("Tournaments::MatchGame").dependent(:destroy).inverse_of(:match) }
+    it { is_expected.to have_many(:chat_messages).class_name("ChatMessage").dependent(:nullify).inverse_of(:match) }
   end
 
   describe "validations" do
@@ -75,32 +79,61 @@ RSpec.describe Tournaments::Match do
     end
   end
 
-  describe "match reporting" do
-    # Example: Testing a method that determines the winner
-    describe "#report_winner!" do
-      it "correctly identifies the winner" do
-        # Assuming there's a method to set a match's outcome
-        match.report_winner!(player: player_one, reporter: player_one)
-        expect(match.winner).to eq(player_one)
-      end
+  describe "#update_status" do
+    let(:match_game_one) { create(:match_game, :with_winner_player_one, match:, game_number: 1) }
+    let(:match_game_two) { create(:match_game, :with_winner_player_two, match:, game_number: 2) }
 
-      it "correctly identifies the loser" do
-        match.report_winner!(player: player_one, reporter: player_one)
-        expect(match.loser).to eq(player_two)
-      end
+    before do
+      match_game_one
+      match_game_two
     end
 
-    describe "report_loser!" do
-      it "correctly identifies the winner" do
-        # Assuming there's a method to set a match's outcome
-        match.report_loser!(player: player_one, reporter: player_one)
-        expect(match.winner).to eq(player_two)
-      end
+    it "sets the winner and loser when player one wins enough games" do
+      allow(match).to receive(:best_of).and_return(3)
+      create(:match_game, :with_winner_player_one, match:)
+      match.update_status
+      expect(match.winner).to eq(player_one)
+      expect(match.loser).to eq(player_two)
+      expect(match.ended_at).not_to be_nil
+    end
 
-      it "correctly identifies the loser" do
-        match.report_loser!(player: player_one, reporter: player_one)
-        expect(match.loser).to eq(player_one)
-      end
+    it "sets the winner and loser when player two wins enough games" do
+      allow(match).to receive(:best_of).and_return(3)
+      create(:match_game, :with_winner_player_two, match:)
+      create(:match_game, :with_winner_player_two, match:)
+      match.update_status
+      expect(match.winner).to eq(player_two)
+      expect(match.loser).to eq(player_one)
+      expect(match.ended_at).not_to be_nil
+    end
+
+    it "creates a new match game if the match is not yet decided" do
+      allow(match).to receive(:best_of).and_return(3)
+      expect { match.update_status }.to change { match.match_games.count }.by(1)
+    end
+  end
+
+  describe "#checked_in?" do
+    it "returns true if player one is checked in" do
+      match.check_in(player: player_one)
+      expect(match.checked_in?(player: player_one)).to be true
+    end
+
+    it "returns false if player one is not checked in" do
+      expect(match.checked_in?(player: player_one)).to be false
+    end
+
+    it "returns true if player two is checked in" do
+      match.check_in(player: player_two)
+      expect(match.checked_in?(player: player_two)).to be true
+    end
+
+    it "returns false if player two is not checked in" do
+      expect(match.checked_in?(player: player_two)).to be false
+    end
+
+    it "raises an error if the player is not part of the match" do
+      expect { match.checked_in?(player: create(:user)) }.to raise_error(ArgumentError)
     end
   end
 end
