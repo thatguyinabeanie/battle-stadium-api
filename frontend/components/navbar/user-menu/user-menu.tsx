@@ -1,5 +1,5 @@
 import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@/components/nextui-use-client";
-import UserMenuDropDown from "@/components/navbar/user-menu/user-menu";
+import UserMenuDropDown from "@/components/navbar/user-menu/user-menu-dropdown";
 import { currentUser } from "@clerk/nextjs/server";
 import { components } from "@/lib/api/openapi-v1";
 
