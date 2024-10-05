@@ -51,12 +51,12 @@ module Phases
       player_matches = swiss_matches.where(player_one: player).or(swiss_matches.where(player_two: player))
 
       opponents = player_matches.flat_map { |match| [match.player_one, match.player_two] }.uniq - [player]
-      opponents = matches.flat_map { |match| [match.player_one, match.player_two] }.uniq - [player]
-      total_opponent_wins = opponents.sum(&:wins)
-      total_opponent_matches = opponents.sum { |opponent| opponent.wins + opponent.losses }
+      opponents = matches.flat_map { |match| [match.player_one, match.player_two] }.uniq.compact - [player]
+      total_opponent_game_wins = opponents.sum(&:game_wins)
+      total_opponent_match_games = opponents.sum { |opponent| opponent.game_wins + opponent.game_losses }
 
-      if total_opponent_matches > 0
-        player.resistance = (total_opponent_wins.to_f / total_opponent_matches) * 100
+      if total_opponent_match_games > 0
+        player.resistance = (total_opponent_game_wins.to_f / total_opponent_match_games) * 100
       else
         player.resistance = 0
       end

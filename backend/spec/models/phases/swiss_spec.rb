@@ -76,15 +76,16 @@ RSpec.describe Phases::Swiss do
 
     context "when players are checked in and have submitted team sheets" do
       it "sets the players and updates the phase" do
+        expect(tournament.players&.checked_in_and_submitted_team_sheet.count).to eq(5)
         expect { phase.accept_players(players: tournament.players) }
           .to change { phase.players.count }.to(tournament.players&.checked_in_and_submitted_team_sheet.count)
-          .and change(phase, :number_of_rounds).from(5)
+          .and change(phase, :number_of_rounds).from(0).to(3)
       end
     end
 
     context "when no players are checked in" do
       it "raises an error" do
-        expect { phase.accept_players(players: nil) }.to raise_error("Number of players must be greater than zero")
+        expect { phase.accept_players(players: tournament.players.not_checked_in) }.to raise_error("Number of players must be greater than zero")
       end
     end
   end
