@@ -17,7 +17,7 @@ module Auth
 
         def verify(request:)
           token = request.headers["X-Vercel-OIDC-Token"]
-          raise NoAuthorizationHeader, "Authorization header missing or malformed" unless token
+          raise NoAuthorizationHeader, "X-Vercel-OIDC-Token Header missing or malformed" unless token
           verify_token(token:, request:)
         end
 
