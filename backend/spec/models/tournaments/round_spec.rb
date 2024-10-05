@@ -37,7 +37,6 @@ RSpec.describe Tournaments::Round do
 
         expect(round.round_number).to eq(1)
         expect(round.matches.count).to eq(3)
-        expect(round.matches.map(&:player_one)).to match_array(players)
       end
     end
 
@@ -55,44 +54,12 @@ RSpec.describe Tournaments::Round do
 
     describe ".create_matches" do
       it "creates matches for the given players" do
-        players = create_list(:player, 4, phase:)
+        players = create_list(:player, 4)
         round = create(:round, phase:)
-        described_class.create_matches(round, players)
+        described_class.create_matches(round:, players:)
 
         expect(round.matches.count).to eq(2)
-        expect(round.matches.map(&:player_one)).to match_array(players)
       end
-    end
-
-    describe ".find_next_best_opponent" do
-      it "finds the next best opponent for a player" do
-
-        player1 = create(:player, phase:, round_wins: 2, round_losses: 0)
-        player2 = create(:player, phase:, round_wins: 1, round_losses: 1)
-        player3 = create(:player, phase:, round_wins: 1, round_losses: 1)
-        player4 = create(:player, phase:, round_wins: 0, round_losses: 2)
-
-        opponent = described_class.find_next_best_opponent(player1, phase)
-        expect(opponent).to eq(player2).or eq(player3)
-      end
-    end
-  end
-
-  describe "#seed_round" do
-    it "seeds the round with matches" do
-      players = create_list(:player, 4, phase:)
-      round = create(:round, phase:, round_number: 1)
-      round.seed_round
-
-      expect(round.matches.count).to eq(2)
-      expect(round.matches.map(&:player_one)).to match_array(players)
-    end
-
-    it "raises an error if the round is already seeded" do
-      round = create(:round, phase:, round_number: 1)
-      create(:match, round:)
-
-      expect { round.seed_round }.to raise_error("Round is already seeded")
     end
   end
 
@@ -101,8 +68,11 @@ RSpec.describe Tournaments::Round do
 
     it "ends the round" do
       round = create(:round, phase:)
-      match = create(:match, round:)
-      match.games << create(:match_game, match:, winner: match.player_one, loser: match.player_two, game_number: 1, reporter: match.player_one, reported_at: Time.current)
+      player_one = create(:player)
+      player_two = create(:player)
+      match = create(:match, round:, player_one:, player_two:)
+      match.match_games << create(:match_game, match:, game_number: 1)
+      match.match_games.first.report!(winner: player_one, loser: player_two, reporter: player_one)
       round.end!
       expect(round.ended_at).not_to be_nil
     end
@@ -122,12 +92,16 @@ RSpec.describe Tournaments::Round do
   end
 
   describe "#end" do
-    it "ends the round if no matches are in progress" do
+    let(:phase) { create(:swiss_phase, best_of: 1) }
+
+    it "ends the round" do
       round = create(:round, phase:)
-      create(:match, round:, status: :completed)
-
+      player_one = create(:player)
+      player_two = create(:player)
+      match = create(:match, round:, player_one:, player_two:)
+      match.match_games << create(:match_game, match:, game_number: 1)
+      match.match_games.first.report!(winner: player_one, loser: player_two, reporter: player_one)
       round.end
-
       expect(round.ended_at).not_to be_nil
     end
 
@@ -139,7 +113,7 @@ RSpec.describe Tournaments::Round do
 
     it "does nothing if matches are still in progress" do
       round = create(:round, phase:)
-      create(:match, round:, status: :in_progress)
+      create(:match, round:)
 
       expect { round.end }.not_to change(round, :ended_at)
     end

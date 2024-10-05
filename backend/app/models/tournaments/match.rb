@@ -3,7 +3,7 @@ module Tournaments
   class Match < ApplicationRecord
     include ::MatchPlayersConcern
     self.table_name = "matches"
-    belongs_to :player_one, class_name: "Tournaments::Player", optional: true
+    belongs_to :player_one, class_name: "Tournaments::Player"
     belongs_to :player_two, class_name: "Tournaments::Player", optional: true
     belongs_to :bye, class_name: "Tournaments::Player", optional: true
 
@@ -30,12 +30,25 @@ module Tournaments
 
     scope :in_progress, -> { where(ended_at: nil) }
 
-    def completed?
+    def update_status
       player_one_wins = match_games.where(winner: player_one).count
       player_two_wins = match_games.where(winner: player_two).count
       required_wins = (best_of / 2.0).ceil
 
-      player_one_wins >= required_wins || player_two_wins >= required_wins
+      if player_one_wins >= required_wins
+        self.winner = player_one
+        self.loser = player_two
+        self.ended_at = Time.current
+      elsif player_two_wins >= required_wins
+        self.winner = player_two
+        self.loser = player_one
+        self.ended_at = Time.current
+      else
+        # Start a new match game if the match is not yet decided
+        match_games.create!(game_number: match_games.count + 1)
+      end
+
+      save!
     end
 
     def check_in(player:)

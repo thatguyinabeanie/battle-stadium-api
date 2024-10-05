@@ -16,7 +16,7 @@ module Tournaments
       def create_initial_round(phase)
         round = phase.rounds.create!(round_number: 1)
         players = phase.players.not_dropped_and_not_disqualified
-        create_matches_by_record(round:, players:)
+        create_matches(round:, players:)
         round
       end
 
@@ -33,11 +33,11 @@ module Tournaments
           players.concat(group.sort_by { |player| -(player.resistance || 0) })
         end
 
-        create_matches_by_record(round:, players:)
+        create_matches(round:, players:)
         round
       end
 
-      def create_matches_by_record(round:, players:)
+      def create_matches(round:, players:)
         # Group players by their records
         players_by_record = players.group_by { |player| [player.round_wins, player.round_losses] }
 
@@ -81,18 +81,6 @@ module Tournaments
         matches.each do |match|
           round.matches.create!(player_one: match[:player_one], player_two: match[:player_two], bye: match[:player_two].nil? ? match[:player_one] : nil)
         end
-      end
-    end
-
-    def seed_round
-      raise "Round is already seeded" if matches.any?
-      if round_number == 1
-        players = phase.players.shuffle
-        players.each_slice(2) do |player_one, player_two|
-          matches.create!(player_one:, player_two:)
-        end
-      else
-
       end
     end
 

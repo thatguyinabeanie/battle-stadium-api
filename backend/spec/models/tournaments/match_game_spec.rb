@@ -127,40 +127,40 @@ RSpec.describe Tournaments::MatchGame do
     let(:staff_member) { match_hash[:staff_member] }
 
     it "reports the game with the winner as the winner" do
-      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member.default_profile)
+      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member)
       expect(match_game.winner).to eq(player_one)
     end
 
     it "reports the game with the loser as the loser" do
-      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member.default_profile)
+      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member)
       expect(match_game.loser).to eq(player_two)
     end
 
     it "does not allow a third person to be the winner" do
       expect do
-        match_game.report!(winner: player_one, loser: create(:player), reporter: staff_member.default_profile)
-      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: #{I18n.t('errors.match_game.loser_must_be_match_player')}")
+        match_game.report!(winner: create(:player), loser: player_one , reporter: staff_member)
+      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: #{I18n.t('errors.match_game.winner_must_be_match_player')}")
     end
 
     it "does not allow a third person to be the loser" do
       expect do
-        match_game.report!(winner: create(:player), loser: player_two, reporter: staff_member.default_profile)
-      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: #{I18n.t('errors.match_game.winner_must_be_match_player')}")
+        match_game.report!(winner: player_two, loser: create(:player), reporter: staff_member)
+      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: #{I18n.t('errors.match_game.loser_must_be_match_player')}")
     end
 
     it "sets the reporter if the reporter is a tournament staff" do
-      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member.default_profile)
+      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member)
       expect(match_game.reporter).to eq(staff_member.default_profile)
     end
 
     it "raises an error if the reporter is not a match player or staff member" do
       expect do
-        match_game.report!(winner: player_one, loser: player_two, reporter: create(:user).default_profile)
+        match_game.report!(winner: player_one, loser: player_two, reporter: create(:user))
       end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: #{I18n.t('errors.match_game.reporter_must_be_match_player_or_staff')}")
     end
 
     it "sets the ended_at attribute" do
-      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member.default_profile)
+      match_game.report!(winner: player_one, loser: player_two, reporter: staff_member)
       expect(match_game.ended_at).to be_within(10.seconds).of(Time.current.utc)
     end
   end

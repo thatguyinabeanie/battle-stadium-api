@@ -2,8 +2,8 @@ module Tournaments
   class MatchGame < ApplicationRecord
     include ::MatchPlayersConcern
     self.table_name = "match_games"
-    belongs_to :match, class_name: "Tournaments::Match", inverse_of: :match_games
 
+    belongs_to :match, class_name: "Tournaments::Match", inverse_of: :match_games
     belongs_to :winner, class_name: "Tournaments::Player", optional: true
     belongs_to :loser, class_name: "Tournaments::Player", optional: true
     belongs_to :reporter, class_name: "Profile", optional: true
@@ -16,6 +16,18 @@ module Tournaments
     delegate :phase, :player_one, :player_two, to: :match
     delegate :tournament, to: :phase
     delegate :organization, to: :tournament
+
+    def report!(winner:, loser:, reporter:)
+      profile = if reporter == player_one || reporter == player_two
+                  reporter.profile
+                else
+                  reporter.default_profile
+                end
+
+      time_now = Time.current.utc
+      update!(winner:, loser:, reporter: profile, ended_at: time_now)
+      match.update_status
+    end
 
     private
 
