@@ -18,7 +18,7 @@ module Auth
         def verify(request:)
           session_token = request.headers["Authorization"]&.split("Bearer ")&.last
 
-          raise NoAuthorizationHeader, "Authorization header missing or malformed"  unless session_token
+          raise NoAuthorizationHeader, "Clerk Authorization header missing or malformed"  unless session_token
 
           verify_token(session_token:)
         end
