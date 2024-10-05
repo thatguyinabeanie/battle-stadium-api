@@ -68,11 +68,13 @@ RSpec.describe Tournaments::Round do
 
     it "ends the round" do
       round = create(:round, phase:)
-      player_one = create(:player)
-      player_two = create(:player)
-      match = create(:match, round:, player_one:, player_two:)
+      match = create(:match, round:, phase:, tournament:)
+      player_one = match.player_one
+      player_two = match.player_two
+
       match.match_games << create(:match_game, match:, game_number: 1)
       match.match_games.first.report!(winner: player_one, loser: player_two, reporter: player_one)
+
       round.end!
       expect(round.ended_at).not_to be_nil
     end
@@ -96,9 +98,10 @@ RSpec.describe Tournaments::Round do
 
     it "ends the round" do
       round = create(:round, phase:)
-      player_one = create(:player)
-      player_two = create(:player)
-      match = create(:match, round:, player_one:, player_two:)
+      match = create(:match, round:, phase:, tournament:)
+      player_one = match.player_one
+      player_two = match.player_two
+
       match.match_games << create(:match_game, match:, game_number: 1)
       match.match_games.first.report!(winner: player_one, loser: player_two, reporter: player_one)
       round.end

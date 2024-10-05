@@ -6,8 +6,21 @@ FactoryBot.define do
     phase { tournament.phases.first }
     round { create(:round, phase:) }
 
-    player_one factory: :player
-    player_two factory: :player
+    player_one do
+      if phase.players.present?
+        phase.players.first
+      else
+        create(:player)
+      end
+    end
+
+    player_two do
+      if phase.players.present?
+        phase.players.second
+      else
+        create(:player)
+      end
+    end
 
     player_one_check_in { nil }
     player_two_check_in { nil }
