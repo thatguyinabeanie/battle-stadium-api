@@ -45,7 +45,9 @@ module Tournaments
       update!(pokemon_team:)
     end
 
-    def calculate_resistance
+    def calculate_resistance(phase:)
+      player_matches = phases.matches.where(player_one: self).or(phases.matches.where(player_two: self))
+      opponents = player_matches.flat_map { |match| [match.player1, match.player2] }.uniq - [player]
       opponents = self.matches.flat_map { |match| [match.player1, match.player2] }.uniq - [self]
       total_opponent_wins = opponents.sum(&:wins)
       total_opponent_matches = opponents.sum { |opponent| opponent.wins + opponent.losses }

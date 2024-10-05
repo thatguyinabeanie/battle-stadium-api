@@ -96,4 +96,50 @@ RSpec.describe Tournaments::Player do
       expect(player.pokemon_team).to eq(pokemon_team)
     end
   end
+
+  describe "#calculate_resistance" do
+    subject(:player) { create(:player) }
+
+    let (:phase) { create(:swiss_phase) }
+    let(:opponent_one) { create(:player) }
+    let(:opponent_two) { create(:player) }
+    let(:match_one) { create(:match, player_one: player, player_two: opponent_one) }
+    let(:match_two) { create(:match, player_one: player, player_two: opponent_two) }
+
+    before do
+      allow(phase).to receive(:matches).and_return([match_one, match_two])
+      allow(opponent_one).to receive(:wins).and_return(3)
+      allow(opponent_one).to receive(:losses).and_return(2)
+      allow(opponent_two).to receive(:wins).and_return(2)
+      allow(opponent_two).to receive(:losses).and_return(3)
+    end
+
+    it "calculates the correct resistance" do
+      player.calculate_resistance(phase:)
+      expect(player.resistance).to eq(50.0)
+    end
+
+    context "when opponents have no matches" do
+      before do
+        allow(opponent_one).to receive(:wins).and_return(0)
+        allow(opponent_one).to receive(:losses).and_return(0)
+        allow(opponent_two).to receive(:wins).and_return(0)
+        allow(opponent_two).to receive(:losses).and_return(0)
+      end
+
+      it "sets resistance to 0" do
+        player.calculate_resistance(phase:)
+        expect(player.resistance).to eq(0)
+      end
+    end
+
+    context "when player has no opponents" do
+      it "sets resistance to 0" do
+        allow(phase).to receive(:matches).and_return([])
+        player.calculate_resistance
+        expect(player.resistance).to eq(0)
+      end
+    end
+  end
+
 end
