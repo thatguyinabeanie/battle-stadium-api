@@ -9,14 +9,17 @@ module Api
         before_action :set_match, only: %i[show update destroy]
 
         def index
+          authorize self.class, :index?
           render json: @tournament.matches, each_serializer: Serializers::Match, status: :ok
         end
 
         def show
+          authorize @match, :show?
           render json: serialize_details, status: :ok
         end
 
         def create
+          authorize @tournament, :update?
           @match = @matches.new permitted_params.merge(tournament_id: @tournament.id)
           if @match.save
             render json: serialize_details, status: :created
@@ -28,7 +31,8 @@ module Api
         end
 
         def update
-          if @match.update! permitted_params
+          authorize @match, :update?
+          if @match.update permitted_params
             render json: serialize_details, status: :ok
           else
             render json: @match.errors, status: :unprocessable_entity
@@ -47,7 +51,7 @@ module Api
         end
 
         def permitted_params
-          params.require(:match).permit(:round_id, :tournament_id, :table_number, :player1_id, :player2_id, :winner_id, :loser_id, :player_one_check_in, :player_two_check_in)
+          params.require(:match).permit(:round_id, :tournament_id, :table_number, :player_one_id, :player_one_id, :winner_id, :loser_id, :player_one_check_in, :player_two_check_in, :phase_id, :bye)
         end
 
         def set_tournament
@@ -58,11 +62,14 @@ module Api
         end
 
         def set_match
+          @tournament ||= set_tournament
           @match = @tournament.matches.find(params[:id])
         end
 
         def set_matches
+          @tournament ||= set_tournament
           @matches ||= @tournament.matches
+          @matches ||= @tournament.matches.where(phase_id: params[:phase_id]) if params[:phase_id].present?
           @matches
         end
       end

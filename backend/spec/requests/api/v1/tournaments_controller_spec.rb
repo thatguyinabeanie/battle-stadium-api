@@ -137,6 +137,15 @@ RSpec.describe Api::V1::TournamentsController do
         run_test!
       end
 
+      response(422, "Unprocessable Entity") do
+        let(:org_tournament) { create(:tournament, :with_phases, organization:) }
+
+        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
+        schema "$ref" => "#/components/schemas/Error"
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
 
