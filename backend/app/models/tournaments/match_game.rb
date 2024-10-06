@@ -30,6 +30,11 @@ module Tournaments
       self.ended_at = Time.current.utc
       self.save!
 
+      winner.game_wins += 1
+      loser&.game_losses += 1 if loser.present?
+      winner.save!
+      loser.save! if loser.present?
+
       match.update_status
     end
 

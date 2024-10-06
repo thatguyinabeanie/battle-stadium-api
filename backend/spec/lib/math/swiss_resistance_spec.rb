@@ -6,10 +6,10 @@ RSpec.describe Math::SwissResistance do
   let(:phase) { tournament.phases.first }
 
   let(:player) { phase.players.first }
-  let(:opponent_one) { phase.players.second }
-  let(:opponent_two) { phase.players.third }
-  let(:opponent_three) { phase.players.fourth }
-  let(:opponent_four) { phase.players.fifth }
+  let(:player_two) { phase.players.second }
+  let(:player_three) { phase.players.third }
+  let(:player_four) { phase.players.fourth }
+  let(:player_five) { phase.players.fifth }
 
 
   describe ".calculate" do
@@ -84,37 +84,42 @@ RSpec.describe Math::SwissResistance do
         phase.reload
         round =  phase.current_round
         player = phase.players.first
-        opponent_one = phase.players.second
-        opponent_two = phase.players.third
-        opponent_three = phase.players.fourth
-        opponent_four = phase.players.fifth
+        player_two = phase.players.second
+        player_three = phase.players.third
+        player_four = phase.players.fourth
+        player_five = phase.players.fifth
 
-        match_one = round.matches.create!(player_one: player, player_two: opponent_one)
+        match_one = round.matches.create!(player_one: player, player_two:)
         resolve_match_2_0(match: match_one)
         match_one.reload
 
-        match_two = round.matches.create!(player_one: opponent_two, player_two: opponent_three)
+        match_two = round.matches.create!(player_one: player_three, player_two: player_four)
         resolve_match_2_1(match: match_two)
         match_two.reload
 
-        match_three = round.matches.create!(player_one: opponent_four, player_two: nil, bye: true, winner: opponent_four, loser: nil, ended_at: Time.current)
+        match_three = round.matches.create!(player_one: player_five, player_two: nil, bye: true, winner: player_five, loser: nil, ended_at: Time.current)
 
         round.matches = [match_one, match_two, match_three]
         round.save!
 
         phase.end_current_round
 
+        expect(described_class.calculate(player:, phase:)).to  be_within(0.001).of(1.0)
+        expect(described_class.calculate(player: player_two, phase:)).to   be_within(0.001).of(0.0)
+        expect(described_class.calculate(player: player_three, phase:)).to  be_within(0.001).of(0.667)
+        expect(described_class.calculate(player: player_four, phase:)).to   be_within(0.001).of(0.333)
+        expect(described_class.calculate(player: player_five, phase:)).to   be_within(0.001).of(1.000)
+
         phase.create_round
         phase.current_round.matches.filter(&:bye).each { |match| resolve_match_2_0(match:) }
 
         phase.current_round.reload
-        # binding.break
 
-        expect(described_class.calculate(player:, phase:)).to eq(0)
-        expect(described_class.calculate(player: opponent_one, phase:)).to eq(0)
-        expect(described_class.calculate(player: opponent_two, phase:)).to eq(0)
-        expect(described_class.calculate(player: opponent_three, phase:)).to eq(0)
-        expect(described_class.calculate(player: opponent_three, phase:)).to eq(0)
+        expect(described_class.calculate(player:, phase:)).to  be_within(0.001).of(1.0)
+        expect(described_class.calculate(player: player_two, phase:)).to   be_within(0.001).of(0.5)
+        expect(described_class.calculate(player: player_three, phase:)).to  be_within(0.001).of(0.667)
+        expect(described_class.calculate(player: player_four, phase:)).to   be_within(0.001).of(0.333)
+        expect(described_class.calculate(player: player_five, phase:)).to   be_within(0.001).of(1.000)
       end
     end
   end
