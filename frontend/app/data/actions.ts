@@ -25,14 +25,17 @@ export async function getMe(options?: FetchOptions<paths["/users/me"]["get"]>) {
   return BattleStadiumApiClient().GET("/users/me", userMeOptions);
 }
 
-export async function getTournament(id: number, options?: FetchOptions<paths["/tournaments/{id}"]["get"]>) {
+export async function getTournament(
+  tournament_id: number,
+  options?: FetchOptions<paths["/tournaments/{tournament_id}"]["get"]>,
+) {
   const tournamentOptions = {
-    ...defaultConfig(`getTournament(${id})`),
+    ...defaultConfig(`getTournament(${tournament_id})`),
     ...options,
-    params: { path: { id } },
+    params: { path: { tournament_id } },
   };
 
-  return BattleStadiumApiClient().GET("/tournaments/{id}", tournamentOptions);
+  return BattleStadiumApiClient().GET("/tournaments/{tournament_id}", tournamentOptions);
 }
 
 export async function getTournaments(

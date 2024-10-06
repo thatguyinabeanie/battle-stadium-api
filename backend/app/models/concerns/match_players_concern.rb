@@ -2,9 +2,9 @@ module MatchPlayersConcern
   extend ActiveSupport::Concern
 
   included do
-    validates :reported_at, presence: true, if: -> { winner.present? || loser.present? }
-    validates :winner, presence: true, if: -> { reported_at.present? || loser.present? }
-    validates :loser, presence: true, if: -> { reported_at.present? || winner.present? }
+    validates :ended_at, presence: true, if: -> { winner.present? || loser.present? }
+    # validates :winner, presence: true, if: -> { ended_at.present? || loser.present? }
+    # validates :loser, presence: true, if: -> { ended_at.present? || winner.present? } unless respond_to?(:bye) && bye
 
     validate :winner_is_match_player
     validate :loser_is_match_player
@@ -36,16 +36,18 @@ module MatchPlayersConcern
   def report!(winner:, loser:, reporter: nil)
     time_now = Time.current.utc
     if respond_to?(:reporter)
-      update!(winner:, loser:, reporter:, reported_at: time_now)
+      update!(winner:, loser:, reporter:, ended_at: time_now)
     else
-      update!(winner:, loser:, reported_at: time_now)
+      update!(winner:, loser:, ended_at: time_now)
     end
   end
 
   private
 
   def match_player?(user:)
-    [player_one.user, player_two.user].include?(user)
+    return [player_one.user, player_two.user].include?(user) unless player_two.nil?
+
+    player_one.user == user
   end
 
   def winner_is_match_player

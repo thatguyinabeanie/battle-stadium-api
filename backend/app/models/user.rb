@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :clerk_users, dependent: :destroy, inverse_of: :user, class_name: "ClerkUser"
 
   after_create :create_default_profile
-  belongs_to :default_profile, class_name: "Profile", foreign_key: "default_profile_id", optional: true
+  has_one :default_profile, class_name: "Profile", dependent: :destroy
   has_many :profiles, dependent: :destroy, inverse_of: :user, class_name: "Profile"
 
   def staff_member_of?(organization)
@@ -29,7 +29,7 @@ class User < ApplicationRecord
   private
 
   def create_default_profile
-    Profile.create(user: self, username: self.username)
+    self.default_profile = profiles.create(username: self.username)
   end
 
   def username_uniqueness_across_users_and_profiles

@@ -4,7 +4,7 @@ class MockModel
   include ActiveModel::Validations
   include MatchPlayersConcern
 
-  attr_accessor :winner, :loser, :reported_at, :player_one, :player_two, :reporter
+  attr_accessor :winner, :loser, :ended_at, :player_one, :player_two, :reporter
 
   def initialize(player_one:, player_two:)
     @player_one = player_one
@@ -34,27 +34,27 @@ RSpec.describe MatchPlayersConcern do
 
   context "when reporting game results" do
     before do
-      allow(match_mock).to receive(:update!).with(winner: player_one, loser: player_two, reporter: player_one, reported_at: anything)
+      allow(match_mock).to receive(:update!).with(winner: player_one, loser: player_two, reporter: player_one, ended_at: anything)
     end
 
     describe "#report_winner!" do
       it "reports the winner and loser" do
         match_mock.report_winner!(player: player_one, reporter: player_one)
-        expect(match_mock).to have_received(:update!).with(winner: player_one, loser: player_two, reporter: player_one, reported_at: anything)
+        expect(match_mock).to have_received(:update!).with(winner: player_one, loser: player_two, reporter: player_one, ended_at: anything)
       end
     end
 
     describe "#report_loser!" do
       it "reports the loser and winner" do
         match_mock.report_loser!(player: player_two, reporter: player_one)
-        expect(match_mock).to have_received(:update!).with(winner: player_one, loser: player_two, reporter: player_one, reported_at: anything)
+        expect(match_mock).to have_received(:update!).with(winner: player_one, loser: player_two, reporter: player_one, ended_at: anything)
       end
     end
 
     describe "#report!" do
-      it "updates the winner, loser, reporter, and reported_at" do
+      it "updates the winner, loser, reporter, and ended_at" do
         match_mock.report!(winner: player_one, loser: player_two, reporter: player_one)
-        expect(match_mock).to have_received(:update!).with(winner: player_one, loser: player_two, reporter: player_one, reported_at: anything)
+        expect(match_mock).to have_received(:update!).with(winner: player_one, loser: player_two, reporter: player_one, ended_at: anything)
       end
     end
   end

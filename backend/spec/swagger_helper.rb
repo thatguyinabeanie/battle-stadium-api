@@ -226,7 +226,8 @@ TOURNAMENT_DETAILS_SCHEMA = {
       check_in_start_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
       late_registration: { type: :boolean },
       teamlists_required: { type: :boolean },
-      open_team_sheets: { type: :boolean }
+      open_team_sheets: { type: :boolean },
+      phases: { type: :array, items: { "$ref" => "#/components/schemas/Phase" } },
     }
   ).merge(TOURNAMENT_PROPERTIES),
   required: TOURNAMENT_SCHEMA[:required] + %w[

@@ -160,5 +160,5 @@ in_progress_tournaments = orgs.flat_map do |organization|
 end
 
 in_progress_tournaments.each do |tournament|
-  tournament.start_tournament! if tournament.players.checked_in_and_ready.count.positive?
+  tournament.start! if tournament.players.checked_in_and_submitted_team_sheet.count.positive?
 end

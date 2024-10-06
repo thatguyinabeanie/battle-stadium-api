@@ -7,7 +7,7 @@ DESCRIPTION = "the bomb dot com".freeze
 RSpec.describe Api::V1::OrganizationsController do
   include Auth::TokenVerifier::Mock
 
-  let(:org) { create(:organization_with_staff, staff_count: 5) }
+  let(:org) { create(:organization, :with_staff, staff_count: 5) }
   let(:owner) { org.owner }
   let(:slug) { org.slug }
 
@@ -316,78 +316,4 @@ RSpec.describe Api::V1::OrganizationsController do
     end
   end
 
-  path("/organizations/{slug}/tournaments/{tournament_id}") do
-    parameter name: :slug, in: :path, type: :string, required: true
-    parameter name: :tournament_id, in: :path, type: :integer, required: true
-    parameter VERCEL_TOKEN_HEADER_PARAMETER
-
-    let(:tour) { create(:tournament, organization: org) }
-    let(:tournament_id) { tour.id }
-
-    let(:game) { create(:game) }
-    let(:format) { create(:format, game:) }
-
-    let(:tournament) do
-      {
-        tournament: {
-          name: "Updated Tournament",
-          start_at: Time.current.iso8601,
-          end_at: 1.day.from_now,
-          game_id: game.id,
-          format_id: format.id,
-          autostart: false,
-          player_cap: 32,
-          registration_start_at: Time.current.iso8601,
-          registration_end_at: 1.day.from_now.iso8601,
-          late_registration: false,
-          open_team_sheets: false,
-          teamlists_required: false
-        }
-      }
-    end
-
-    patch("Update Tournament") do
-      tags "Organizations"
-      consumes OpenApi::Response::JSON_CONTENT_TYPE
-      produces OpenApi::Response::JSON_CONTENT_TYPE
-      description "Updates an existing tournament for a given organization."
-      operationId "patchOrganizationTournament"
-
-      parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentDetails" }
-
-      security [Bearer: []]
-
-      response(200, "Updated by Organization Owner") do
-        let(:request_user) { owner }
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-
-        schema "$ref" => "#/components/schemas/TournamentDetails"
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-
-      response(404, "not found") do
-        let(:request_user) { owner }
-        let(:tournament_id) { -1 }
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-
-      response(400, "bad request") do
-        let(:request_user) { owner }
-
-        let(:tournament) { {} }
-
-        include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-    end
-  end
 end

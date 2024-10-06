@@ -28,15 +28,19 @@ RSpec.describe Phases::BasePhase do
   end
 
   describe "validations" do
-    subject { Phases::Test.new(name: "Test Phase", tournament: create(:tournament), number_of_rounds: 5) }
+    subject { Phases::Test.new(name: "Test Phase", tournament: create(:tournament), number_of_rounds: 5, type: "Phases::Test") }
+
+    it { is_expected.to validate_uniqueness_of(:order).scoped_to(:tournament_id) }
 
     it { is_expected.to validate_numericality_of(:best_of).is_greater_than(0).only_integer }
   end
 
   describe "additional validation" do
-    subject(:phase) { Phases::Test.new(best_of:, tournament:, name: "BassFace", type: "Phases::Test") }
+    subject(:phase) { Phases::Test.new(best_of:, tournament:, name:, type: "Phases::Test") }
 
+    let(:best_of) { 3 }
     let(:tournament) { create(:tournament) }
+    let(:name) { "BassFace" }
 
     context "when best_of is odd" do
       let(:best_of) { 5 }
@@ -83,13 +87,9 @@ RSpec.describe Phases::BasePhase do
     end
   end
 
-  describe "#accept_players" do
-    let(:tournament) { create(:tournament, :with_phases, :with_players_with_team, :with_players_checked_in, :with_players_with_team_and_checked_in) }
-    let(:phase) { tournament.phases.first }
+  describe "delegations" do
+    subject(:phase) { Phases::Test.new }
 
-    it "sets the players" do
-      phase.accept_players(players: tournament.players)
-      expect(phase.players).to match_array(tournament.players.checked_in_and_ready)
-    end
+    it { is_expected.to delegate_method(:organization).to(:tournament) }
   end
 end

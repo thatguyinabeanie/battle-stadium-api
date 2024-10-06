@@ -2,12 +2,7 @@ require "rails_helper"
 
 RSpec.describe ChatChannel do
 
-  let(:organization) do
-    org = create(:organization)
-    org.staff << create(:user)
-    org.save!
-    org
-  end
+  let(:organization) { create(:organization, :with_staff, staff_count: 2) }
   let(:tournament) { create(:tournament, organization:) }
 
   let(:broadcast_room_name) { "chat_#{room}" }
@@ -17,13 +12,11 @@ RSpec.describe ChatChannel do
   let(:match_hash) { fully_formed_match }
 
   def fully_formed_match
-    player_one = create(:player)
-    player_two = create(:player)
-
     phase = create(:swiss_phase, tournament:)
     round = create(:round, phase:)
-    match = create(:match, round:, player_one:, player_two:)
+    match = create(:match, round:, phase:, tournament:)
     match_game = create(:match_game, match:)
+
     { match_game:, tournament:, organization:, match:, phase:, round:, player_one: match.player_one, player_two: match.player_two,
       staff_member: organization.staff.first }
   end
@@ -119,7 +112,7 @@ RSpec.describe ChatChannel do
   end
 
   it "rejects subscription if the match's round is over" do
-    match_hash[:round].update(ended_at: Time.current - 1.day)
+    match_hash[:round].update(ended_at: Time.current.utc - 1.day)
     subscribe(room:)
     expect(subscription).to be_rejected
   end
@@ -130,8 +123,8 @@ RSpec.describe ChatChannel do
     expect(subscription).to be_confirmed
     expect(subscription).to have_stream_from(broadcast_room_name)
 
-    match.update(reported_at: Time.current - 1.day)
-    match.round.update(ended_at: Time.current - 1.day)
+    match.update(ended_at: Time.current.utc - 1.day)
+    match.round.update(ended_at: Time.current.utc - 1.day)
 
     expect {
       perform :speak, { message: "This should not be sent" }
@@ -144,8 +137,8 @@ RSpec.describe ChatChannel do
     expect(subscription).to be_confirmed
     expect(subscription).to have_stream_from(broadcast_room_name)
 
-    match.update(reported_at: Time.current - 1.day)
-    match.round.update(ended_at: Time.current - 1.day)
+    match.update(ended_at: Time.current.utc - 1.day)
+    match.round.update(ended_at: Time.current.utc - 1.day)
 
     expect {
       perform :speak, { message: "This should not be sent" }

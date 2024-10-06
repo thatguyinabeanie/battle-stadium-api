@@ -74,15 +74,15 @@ RSpec.describe Tournaments::Player do
     end
   end
 
-  describe ".checked_in_and_ready" do
+  describe ".checked_in_and_submitted_team_sheet" do
     let!(:checked_in_player_with_team) { create(:player, :checked_in, pokemon_team: create(:pokemon_team)) }
     let!(:checked_in_player_without_team) { create(:player, :checked_in) }
     let!(:not_checked_in_player_with_team) { create(:player, pokemon_team: create(:pokemon_team)) }
 
     it "returns players who are checked in and have a pokemon team" do
-      expect(described_class.checked_in_and_ready).to include(checked_in_player_with_team)
-      expect(described_class.checked_in_and_ready).not_to include(checked_in_player_without_team)
-      expect(described_class.checked_in_and_ready).not_to include(not_checked_in_player_with_team)
+      expect(described_class.checked_in_and_submitted_team_sheet).to include(checked_in_player_with_team)
+      expect(described_class.checked_in_and_submitted_team_sheet).not_to include(checked_in_player_without_team)
+      expect(described_class.checked_in_and_submitted_team_sheet).not_to include(not_checked_in_player_with_team)
     end
   end
 

@@ -24,7 +24,7 @@ FactoryBot.define do
 
     trait :with_phases do
       after(:create) do |tournament|
-        tournament.phases = create_list(:swiss_phase, 3, tournament:)
+        tournament.phases = create_list(:swiss_phase, 1, tournament:)
         tournament.save
       end
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_05_150550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -71,8 +71,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_number", default: 1, null: false
-    t.datetime "reported_at"
+    t.datetime "ended_at"
     t.uuid "reporter_id"
+    t.datetime "started_at"
     t.index ["loser_id"], name: "index_match_games_on_loser_id"
     t.index ["match_id"], name: "index_match_games_on_match_id"
     t.index ["winner_id"], name: "index_match_games_on_winner_id"
@@ -81,19 +82,24 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
   create_table "matches", force: :cascade do |t|
     t.bigint "round_id", null: false
     t.integer "table_number"
-    t.bigint "player_one_id", null: false
-    t.bigint "player_two_id", null: false
+    t.bigint "player_one_id"
+    t.bigint "player_two_id"
     t.bigint "winner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "player_one_check_in"
     t.datetime "player_two_check_in"
     t.bigint "loser_id"
-    t.datetime "reported_at"
+    t.datetime "ended_at"
+    t.bigint "tournament_id"
+    t.bigint "phase_id"
+    t.boolean "bye", default: false, null: false
     t.index ["loser_id"], name: "index_matches_on_loser_id"
+    t.index ["phase_id"], name: "index_matches_on_phase_id"
     t.index ["player_one_id"], name: "index_matches_on_player_one_id"
     t.index ["player_two_id"], name: "index_matches_on_player_two_id"
     t.index ["round_id", "player_one_id", "player_two_id"], name: "index_matches_on_round_and_players_unique", unique: true
+    t.index ["tournament_id"], name: "index_matches_on_tournament_id"
     t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
@@ -133,7 +139,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
 
   create_table "phases", force: :cascade do |t|
     t.bigint "tournament_id", null: false
-    t.integer "number_of_rounds", default: 0, null: false
+    t.integer "number_of_rounds"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type", null: false
@@ -142,6 +148,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
     t.datetime "started_at"
     t.datetime "ended_at"
     t.integer "order", default: 0, null: false
+    t.bigint "current_round_id"
+    t.index ["current_round_id"], name: "index_phases_on_current_round_id"
     t.index ["tournament_id"], name: "index_phases_on_tournament_id"
     t.index ["type"], name: "index_phases_on_type"
   end
@@ -156,6 +164,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
     t.bigint "pokemon_team_id"
     t.uuid "profile_id", null: false
     t.uuid "user_id", null: false
+    t.boolean "dropped", default: false, null: false
+    t.boolean "disqualified", default: false, null: false
+    t.integer "round_wins", default: 0, null: false
+    t.integer "round_losses", default: 0, null: false
+    t.integer "game_wins", default: 0, null: false
+    t.integer "game_losses", default: 0, null: false
+    t.decimal "resistance", precision: 5, scale: 2
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["profile_id"], name: "index_players_on_profile_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
@@ -236,6 +251,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
     t.datetime "end_at"
     t.bigint "limitless_id"
     t.boolean "published", default: false, null: false
+    t.bigint "current_phase_id"
+    t.index ["current_phase_id"], name: "index_tournaments_on_current_phase_id"
     t.index ["format_id"], name: "index_tournaments_on_format_id"
     t.index ["game_id"], name: "index_tournaments_on_game_id"
     t.index ["limitless_id"], name: "index_tournaments_on_limitless_id", unique: true, where: "(limitless_id IS NOT NULL)"
@@ -266,15 +283,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
   add_foreign_key "match_games", "players", column: "loser_id"
   add_foreign_key "match_games", "players", column: "winner_id"
   add_foreign_key "match_games", "profiles", column: "reporter_id", on_delete: :nullify
+  add_foreign_key "matches", "phases"
   add_foreign_key "matches", "players", column: "loser_id"
   add_foreign_key "matches", "players", column: "player_one_id"
   add_foreign_key "matches", "players", column: "player_two_id"
   add_foreign_key "matches", "players", column: "winner_id"
   add_foreign_key "matches", "rounds"
+  add_foreign_key "matches", "tournaments"
   add_foreign_key "organization_staff_members", "organizations"
   add_foreign_key "organization_staff_members", "users"
   add_foreign_key "organizations", "users", column: "owner_id"
   add_foreign_key "phase_players", "players"
+  add_foreign_key "phases", "rounds", column: "current_round_id"
   add_foreign_key "phases", "tournaments"
   add_foreign_key "players", "pokemon_teams"
   add_foreign_key "players", "profiles"
@@ -287,5 +307,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_002658) do
   add_foreign_key "tournament_formats", "tournaments"
   add_foreign_key "tournaments", "games"
   add_foreign_key "tournaments", "organizations"
+  add_foreign_key "tournaments", "phases", column: "current_phase_id"
   add_foreign_key "users", "profiles", column: "default_profile_id"
 end

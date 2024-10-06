@@ -9,9 +9,12 @@ FactoryBot.define do
     clerk_users { [] }
     default_profile { nil }
 
+    after(:build) do |user|
+      user.default_profile ||= build(:profile, user:)
+    end
+
     after(:create) do |user|
       user.clerk_users << create(:clerk_user, user:)
-      user.default_profile = create(:profile, user:)
     end
 
     factory :admin do

@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Phases::Swiss do
+  let(:tournament) { create(:tournament, :with_phases, :with_players_with_team, :with_players_checked_in, :with_players_with_team_and_checked_in) }
+
   describe "table_name" do
     it "returns the correct table name" do
       expect(described_class.table_name).to eq("phases")
@@ -15,14 +17,13 @@ RSpec.describe Phases::Swiss do
 
   describe "create" do
     it "successfully creates a swiss phase" do
-      tournament = create(:tournament) # Assuming a :tournament factory exists
       swiss_phase = create(:swiss_phase, tournament:)
       expect(swiss_phase.persisted?).to be true
     end
   end
 
   describe "validations" do
-    subject(:swiss_phase) { described_class.new(tournament: create(:tournament), number_of_rounds: 5) }
+    subject(:swiss_phase) { described_class.new(tournament:) }
 
     it 'validates that :type is "Phases::Swiss"' do
       swiss_phase.type = "InvalidType"
@@ -31,37 +32,76 @@ RSpec.describe Phases::Swiss do
     end
   end
 
-  describe "#create_initial_round" do
-    it "creates the first round with round_number 1" do
-      tournament = create(:tournament)
+  describe "#create_round" do
+    it "creates the next round with incremented round_number" do
       swiss_phase = create(:swiss_phase, tournament:)
-      swiss_phase.create_initial_round
-      expect(swiss_phase.rounds.first.round_number).to eq(1)
+      swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.current_round = create(:round, phase: swiss_phase, round_number: 1)
+      swiss_phase.started_at = Time.current.utc
+      swiss_phase.create_round
+      expect(swiss_phase.rounds.last.round_number).to eq(2)
+    end
+
+    it "raises an error if the phase has not started" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      expect { swiss_phase.create_round }.to raise_error("The phase has not started")
+    end
+
+    it "raises an error if the phase has not accepted players" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      swiss_phase.started_at = Time.current.utc
+      expect { swiss_phase.create_round }.to raise_error("The phase has not accepted players")
+    end
+
+    it "raises an error if the phase has not set the number of rounds" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.number_of_rounds = nil
+      swiss_phase.started_at = Time.current.utc
+      expect { swiss_phase.create_round }.to raise_error("The phase has not set the number of rounds")
+    end
+
+    it "raises an error if the phase has already completed all rounds" do
+      swiss_phase = create(:swiss_phase, tournament:)
+      swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.started_at = Time.current.utc
+      swiss_phase.number_of_rounds = 1
+      swiss_phase.current_round = create(:round, phase: swiss_phase, round_number: 1)
+      expect { swiss_phase.create_round }.to raise_error("The phase has already completed all rounds")
     end
   end
 
-  describe "#create_next_round" do
-    it "creates the next round with incremented round_number" do
-      tournament = create(:tournament)
-      swiss_phase = create(:swiss_phase, tournament:)
-      swiss_phase.create_initial_round
-      swiss_phase.create_next_round
-      expect(swiss_phase.rounds.last.round_number).to eq(2)
+  describe "#accept_players" do
+    let(:phase) { tournament.phases.first }
+
+    context "when players are checked in and have submitted team sheets" do
+      it "sets the players and updates the phase" do
+        expect(tournament.players&.checked_in_and_submitted_team_sheet.count).to eq(5)
+        expect { phase.accept_players(players: tournament.players) }
+          .to change { phase.players.count }.to(tournament.players&.checked_in_and_submitted_team_sheet.count)
+          .and change(phase, :number_of_rounds).from(0)
+      end
+    end
+
+    context "when no players are checked in" do
+      it "raises an error" do
+        expect { phase.accept_players(players: tournament.players.not_checked_in) }.to raise_error("Number of players must be greater than zero")
+      end
     end
   end
 
   describe "#start" do
     it "sets the started_at timestamp" do
-      tournament = create(:tournament)
       swiss_phase = create(:swiss_phase, tournament:)
-      swiss_phase.start
+      swiss_phase.accept_players(players: tournament.players)
+      swiss_phase.start!
       expect(swiss_phase.started_at).not_to be_nil
     end
 
     it "triggers the creation of the initial round" do
-      tournament = create(:tournament)
       swiss_phase = create(:swiss_phase, tournament:)
-      expect { swiss_phase.start }.to change { swiss_phase.rounds.count }.by(1)
+      swiss_phase.accept_players(players: tournament.players)
+      expect { swiss_phase.start! }.to change { swiss_phase.rounds.count }.by(1)
     end
   end
 end

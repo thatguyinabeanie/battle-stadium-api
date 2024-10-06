@@ -4,9 +4,10 @@ module Api
   module V1
     class TournamentsController < ApiController
       before_action :set_tournaments, only: %i[show]
-      before_action :set_tournament, only: %i[show update destroy]
+      before_action :set_tournament, only: %i[show update destroy start_tournament]
       before_action :set_organization, only: %i[create update]
       before_action :authenticate_clerk_user_session!
+
       def self.policy_class
         ::Tournaments::TournamentPolicy
       end
@@ -61,6 +62,15 @@ module Api
         authorize @tournament, :destroy?
         @tournament.destroy!
         render json: { message: "Tournament deleted" }, status: :ok
+      end
+
+      def start_tournament
+        authorize @tournament, :start_tournament?
+
+        @tournament.start!
+        render json: serialize_details, status: :ok
+      rescue StandardError => e
+        render json: { error: e.message }, status: :unprocessable_entity
       end
 
       private

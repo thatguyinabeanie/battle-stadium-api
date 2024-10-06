@@ -7,6 +7,15 @@ FactoryBot.define do
     pokemon_team { nil }
     checked_in_at { nil }
 
+    round_wins { 0 }
+    round_losses { 0 }
+    game_wins { 0 }
+    game_losses { 0 }
+    resistance { 0.0 }
+
+    dropped { false }
+    disqualified { false }
+
     before(:create) do |player|
       player.user ||= player.profile.user
     end

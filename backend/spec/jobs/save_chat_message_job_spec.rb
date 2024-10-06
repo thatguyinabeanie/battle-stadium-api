@@ -6,7 +6,7 @@ RSpec.describe SaveChatMessageJob do
   let(:user_id) { match.player_one.user.id }
   let(:profile_id) {  match.player_one.profile.id }
   let(:content) { "Hello, world!" }
-  let(:sent_at) { Time.current }
+  let(:sent_at) { Time.current.utc }
   let(:message_type) { "text" }
 
   describe "#perform" do
