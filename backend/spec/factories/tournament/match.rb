@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:table_number) { |n| n }
     tournament { create(:tournament, :with_phases) }
     phase { tournament.phases.first }
-    round { create(:round, phase:) }
+    round { create(:round, phase: tournament.phases.first) }
 
     player_one do
       if phase.players.present?
@@ -26,11 +26,7 @@ FactoryBot.define do
     player_two_check_in { nil }
 
     winner { nil }
-    loser do
-      if winner.present?
-        player_one == winner ? player_two : player_one
-      end
-    end
+    loser { nil }
     bye { false }
 
     match_games { [] }

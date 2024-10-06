@@ -86,6 +86,7 @@ module Tournaments
 
     def end!
       raise "Round has already ended" if ended_at.present?
+
       raise "Matches are still in progress" if matches.in_progress.any?
       self.ended_at = Time.current.utc
       save!

@@ -21,7 +21,6 @@ module Tournaments
 
     validates :round, presence: true, uniqueness: { scope: %i[player_one_id player_two_id] }
     validates :winner, inclusion: { in: ->(match) { [match.player_one, match.player_two, nil] }, message: "must be either player one, player two, or null" }
-    validates :loser, inclusion: { in: ->(match) { [match.player_one, match.player_two, nil] }, message: "must be either player one, player two, or null" }
     validates :bye, inclusion: { in: [true, false] }
     validates :bye, inclusion: { in: [true] }, if: -> { player_two.nil? }
 
@@ -37,11 +36,11 @@ module Tournaments
       if player_one_wins >= required_wins
         self.winner = player_one
         self.loser = player_two
-        self.ended_at = Time.current
+        self.ended_at = Time.current.utc
       elsif player_two_wins >= required_wins
         self.winner = player_two
         self.loser = player_one
-        self.ended_at = Time.current
+        self.ended_at = Time.current.utc
       else
         # Start a new match game if the match is not yet decided
         match_games.create!(game_number: match_games.count + 1)
@@ -72,6 +71,12 @@ module Tournaments
     end
 
     def set_defaults
+      if self.bye
+        self.player_two = nil
+        self.ended_at = Time.current.utc
+        self.winner = player_one
+        self.loser = nil
+      end
       self.phase_id ||= round.phase_id if round.present?
       self.tournament_id ||= round.phase.tournament_id if round.present?
     end

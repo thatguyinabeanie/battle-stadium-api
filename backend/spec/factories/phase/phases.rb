@@ -5,6 +5,7 @@ FactoryBot.define do
     type { "Phases::BasePhase" }
     number_of_rounds { 0 }
     sequence(:order)
+    best_of { 3 }
 
     # Define specific factories that inherit from the abstract phase
     factory :swiss_phase, class: "Phases::Swiss" do

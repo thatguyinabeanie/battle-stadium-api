@@ -9,6 +9,10 @@ module Phases
 
     delegate :round_number, to: :current_round, allow_nil: true
 
+    def current_round_number
+      current_round&.round_number || 0
+    end
+
     def start!
       raise "The phase has already started" if started_at.present?
       raise "The phase has no players" if players.empty?
@@ -23,7 +27,7 @@ module Phases
       ready_players = players&.checked_in_and_submitted_team_sheet
       raise "Number of players must be greater than zero" unless ready_players&.count&.positive?
 
-      self.players << ready_players
+      self.players = ready_players
       self.number_of_rounds =  Math.log2(ready_players.count).ceil
       self.save!
     end
@@ -43,25 +47,6 @@ module Phases
       raise "The phase has already completed all rounds" if current_round&.round_number == number_of_rounds
 
       self.current_round = Tournaments::Round.create_round(self)
-    end
-
-    def calculate_resistance(player:)
-
-      swiss_matches = Tournaments::Match.where(phase: self)
-      player_matches = swiss_matches.where(player_one: player).or(swiss_matches.where(player_two: player))
-
-      opponents = player_matches.flat_map { |match| [match.player_one, match.player_two] }.uniq - [player]
-      opponents = matches.flat_map { |match| [match.player_one, match.player_two] }.uniq.compact - [player]
-      total_opponent_game_wins = opponents.sum(&:game_wins)
-      total_opponent_match_games = opponents.sum { |opponent| opponent.game_wins + opponent.game_losses }
-
-      if total_opponent_match_games > 0
-        player.resistance = (total_opponent_game_wins.to_f / total_opponent_match_games) * 100
-      else
-        player.resistance = 0
-      end
-
-      player.save!
     end
 
     protected

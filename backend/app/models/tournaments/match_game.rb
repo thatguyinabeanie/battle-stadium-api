@@ -24,9 +24,12 @@ module Tournaments
                 else
                   reporter.default_profile
                 end
+      self.winner = winner
+      self.loser = loser
+      self.reporter = profile
+      self.ended_at = Time.current.utc
+      self.save!
 
-      time_now = Time.current.utc
-      update!(winner:, loser:, reporter: profile, ended_at: time_now)
       match.update_status
     end
 

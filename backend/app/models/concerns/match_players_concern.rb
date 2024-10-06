@@ -3,8 +3,8 @@ module MatchPlayersConcern
 
   included do
     validates :ended_at, presence: true, if: -> { winner.present? || loser.present? }
-    validates :winner, presence: true, if: -> { ended_at.present? || loser.present? }
-    validates :loser, presence: true, if: -> { ended_at.present? || winner.present? }
+    # validates :winner, presence: true, if: -> { ended_at.present? || loser.present? }
+    # validates :loser, presence: true, if: -> { ended_at.present? || winner.present? } unless respond_to?(:bye) && bye
 
     validate :winner_is_match_player
     validate :loser_is_match_player
@@ -45,7 +45,9 @@ module MatchPlayersConcern
   private
 
   def match_player?(user:)
-    [player_one.user, player_two.user].include?(user)
+    return [player_one.user, player_two.user].include?(user) unless player_two.nil?
+
+    player_one.user == user
   end
 
   def winner_is_match_player

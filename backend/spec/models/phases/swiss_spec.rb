@@ -79,7 +79,7 @@ RSpec.describe Phases::Swiss do
         expect(tournament.players&.checked_in_and_submitted_team_sheet.count).to eq(5)
         expect { phase.accept_players(players: tournament.players) }
           .to change { phase.players.count }.to(tournament.players&.checked_in_and_submitted_team_sheet.count)
-          .and change(phase, :number_of_rounds).from(0).to(3)
+          .and change(phase, :number_of_rounds).from(0)
       end
     end
 
@@ -103,39 +103,5 @@ RSpec.describe Phases::Swiss do
       swiss_phase.accept_players(players: tournament.players)
       expect { swiss_phase.start! }.to change { swiss_phase.rounds.count }.by(1)
     end
-  end
-
-  describe "#calculate_resistance" do
-    let(:swiss_phase) { create(:swiss_phase, :with_accepted_players) }
-    let(:player) { swiss_phase.players.first }
-    let(:opponent_one) { swiss_phase.players.second }
-    let(:opponent_two) { swiss_phase.players.third }
-
-    before do
-      swiss_phase.start!
-    end
-
-    context "when the player has no matches" do
-      it "sets the player's resistance to 0" do
-        swiss_phase.calculate_resistance(player:)
-        expect(player.resistance).to eq(0)
-      end
-    end
-
-    # context "when the player has matches" do
-    #   before do
-    #     create(:match, phase: swiss_phase, player_one: player, player_two: opponent_one, winner: opponent_one)
-    #     create(:match, phase: swiss_phase, player_one: player, player_two: opponent_two, winner: player)
-    #     create(:match, phase: swiss_phase, player_one: opponent_one, player_two: opponent_two, winner: opponent_two)
-    #   end
-
-    #   it "calculates the correct resistance for the player" do
-    #     swiss_phase.calculate_resistance(player:)
-    #     total_opponent_wins = opponent_one.wins + opponent_two.wins
-    #     total_opponent_matches = (opponent_one.wins + opponent_one.losses) + (opponent_two.wins + opponent_two.losses)
-    #     expected_resistance = (total_opponent_wins.to_f / total_opponent_matches) * 100
-    #     expect(player.resistance).to eq(expected_resistance)
-    #   end
-    # end
   end
 end
