@@ -7,6 +7,8 @@ module Tournaments
     belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false, validate: true
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true
 
+    has_many :matches, class_name: "Tournaments::Match", foreign_key: "player_one_id", inverse_of: :player_one, dependent: :nullify
+
     validates :in_game_name, presence: true
     validates :profile_id, presence: true
     validates :tournament_id, presence: true
@@ -43,11 +45,6 @@ module Tournaments
 
     def submit_team!(pokemon_team:)
       update!(pokemon_team:)
-    end
-
-    def calculate_resistance!(phase:)
-      self.resistance = calculate_resistance(phase:)
-      save!
     end
 
     private

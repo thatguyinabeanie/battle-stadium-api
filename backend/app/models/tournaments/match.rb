@@ -26,6 +26,8 @@ module Tournaments
 
     before_validation :set_defaults, on: :create
 
+    after_create :create_initial_match_game
+
     scope :in_progress, -> { where(ended_at: nil) }
 
     def update_status
@@ -43,10 +45,10 @@ module Tournaments
         self.ended_at = Time.current.utc
       else
         # Start a new match game if the match is not yet decided
-        match_games.create!(game_number: match_games.count + 1)
+        self.match_games.create!(game_number: match_games.count + 1)
       end
 
-      save!
+      self.save!
     end
 
     def check_in(player:)
@@ -79,6 +81,12 @@ module Tournaments
       end
       self.phase_id ||= round.phase_id if round.present?
       self.tournament_id ||= round.phase.tournament_id if round.present?
+    end
+
+    def create_initial_match_game
+      return match_games.create!(game_number: 1) unless bye
+
+      player_one.update!(game_wins: player_one.game_wins + 2)
     end
   end
 end

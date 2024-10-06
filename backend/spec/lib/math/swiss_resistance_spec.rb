@@ -44,37 +44,31 @@ RSpec.describe Math::SwissResistance do
     end
 
     def resolve_match_2_0(match:)
-      game_one = match.match_games.create!(game_number: 1, ended_at: Time.current, match:)
-
-      puts "Game One Errors: #{game_one.errors.full_messages}" unless game_one.persisted?
-
+      game_one = match.match_games.first
       game_one.report!(winner: match.player_one, loser: match.player_two, reporter: match.player_one)
+      game_one.reload
 
-      game_two = match.match_games.create!(game_number: 2, ended_at: Time.current, match:)
-
-      puts "Game Two Errors: #{game_two.errors.full_messages}" unless game_two.persisted?
-
+      game_two = match.match_games.create!(game_number: 2)
       game_two.report!(winner: match.player_one, loser: match.player_two, reporter: match.player_one)
+      game_two.reload
 
       match.update_status
     end
 
     def resolve_match_2_1(match:)
-      game_one = match.match_games.create!(game_number: 1, ended_at: Time.current, match:)
-      puts "Game One Errors: #{game_one.errors.full_messages}" unless game_one.persisted?
-
+      game_one = match.match_games.first
       game_one.report!(winner: match.player_one, loser: match.player_two, reporter: match.player_one)
+      game_one.reload
 
-      game_two = match.match_games.create!(game_number: 2, ended_at: Time.current, match:)
-      puts "Game Two Errors: #{game_two.errors.full_messages}" unless game_two.persisted?
-
+      game_two = match.match_games.create!(game_number: 2)
       game_two.report!(winner: match.player_two, loser: match.player_one, reporter: match.player_two)
+      game_two.reload
 
-      game_three = match.match_games.create!(game_number: 3, ended_at: Time.current, match:)
-      puts "Game Three Errors: #{game_three.errors.full_messages}" unless game_three.persisted?
-
+      game_three = match.match_games.create!(game_number: 3)
       game_three.report!(winner: match.player_one, loser: match.player_two, reporter: match.player_one)
+      game_three.reload
 
+      match.update_status
     end
 
     context "when player has matches" do
@@ -91,24 +85,23 @@ RSpec.describe Math::SwissResistance do
 
         match_one = round.matches.create!(player_one: player, player_two:)
         resolve_match_2_0(match: match_one)
-        match_one.reload
+
 
         match_two = round.matches.create!(player_one: player_three, player_two: player_four)
         resolve_match_2_1(match: match_two)
-        match_two.reload
 
         match_three = round.matches.create!(player_one: player_five, player_two: nil, bye: true, winner: player_five, loser: nil, ended_at: Time.current)
 
-        round.matches = [match_one, match_two, match_three]
         round.save!
 
         phase.end_current_round
 
         expect(described_class.calculate(player:, phase:)).to  be_within(0.001).of(1.0)
         expect(described_class.calculate(player: player_two, phase:)).to   be_within(0.001).of(0.0)
-        expect(described_class.calculate(player: player_three, phase:)).to  be_within(0.001).of(0.667)
-        expect(described_class.calculate(player: player_four, phase:)).to   be_within(0.001).of(0.333)
         expect(described_class.calculate(player: player_five, phase:)).to   be_within(0.001).of(1.000)
+        expect(described_class.calculate(player: player_four, phase:)).to   be_within(0.001).of(0.333)
+
+        expect(described_class.calculate(player: player_three, phase:)).to  be_within(0.001).of(0.667)
 
         phase.create_round
         phase.current_round.matches.filter(&:bye).each { |match| resolve_match_2_0(match:) }
@@ -117,7 +110,7 @@ RSpec.describe Math::SwissResistance do
 
         expect(described_class.calculate(player:, phase:)).to  be_within(0.001).of(1.0)
         expect(described_class.calculate(player: player_two, phase:)).to   be_within(0.001).of(0.5)
-        expect(described_class.calculate(player: player_three, phase:)).to  be_within(0.001).of(0.667)
+        expect(described_class.calculate(player: player_three, phase:)).to  be_within(0.001).of(0.800)
         expect(described_class.calculate(player: player_four, phase:)).to   be_within(0.001).of(0.333)
         expect(described_class.calculate(player: player_five, phase:)).to   be_within(0.001).of(1.000)
       end

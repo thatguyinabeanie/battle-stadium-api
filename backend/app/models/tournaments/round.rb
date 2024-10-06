@@ -55,7 +55,7 @@ module Tournaments
           # If there's an unpaired player from the previous group, pair them with the highest resistance player in the current group
           if previous_unpaired_player
             player_two = group.shift
-            matches << { player_one: previous_unpaired_player, player_two: }
+            matches << { player_one: previous_unpaired_player, player_two:, bye: false }
             previous_unpaired_player = nil
           end
 
@@ -63,7 +63,7 @@ module Tournaments
           while group.size > 1
             player_one = group.shift
             player_two = group.pop
-            matches << { player_one:, player_two: }
+            matches << { player_one:, player_two: , bye: false }
           end
 
           # If there's an unpaired player in the current group, set them as the previous_unpaired_player
@@ -74,12 +74,12 @@ module Tournaments
 
         # If there's still an unpaired player after processing all groups, give them a bye
         if previous_unpaired_player
-          matches << { player_one: previous_unpaired_player, player_two: nil } # player_two is nil to indicate a bye
+          matches << { player_one: previous_unpaired_player, player_two: nil , bye: true, winner: previous_unpaired_player, loser: nil, ended_at: Time.current.utc} # player_two is nil to indicate a bye
         end
 
         # Create matches in the round
         matches.each do |match|
-          round.matches.create!(player_one: match[:player_one], player_two: match[:player_two], bye: match[:player_two].nil?)
+          round.matches.create!(match)
         end
       end
     end
