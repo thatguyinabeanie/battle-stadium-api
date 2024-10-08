@@ -5,29 +5,18 @@ module Api
     module Tournaments
       class MatchesController < ApplicationController
         before_action :set_tournament
-        before_action :set_matches, only: %i[index create]
-        before_action :set_match, only: %i[show update destroy]
+        before_action :set_matches, only: %i[index]
+        before_action :set_match, only: %i[show update]
 
         def index
           authorize self.class, :index?
+
           render json: @tournament.matches, each_serializer: Serializers::Match, status: :ok
         end
 
         def show
           authorize @match, :show?
           render json: serialize_details, status: :ok
-        end
-
-        def create
-          authorize @tournament, :update?
-          @match = @matches.new permitted_params.merge(tournament_id: @tournament.id)
-          if @match.save
-            render json: serialize_details, status: :created
-          else
-            render json: @match.errors, status: :unprocessable_entity
-          end
-        rescue ActionController::ParameterMissing => e
-          render json: { error: e.message }, status: :bad_request
         end
 
         def update
@@ -39,15 +28,10 @@ module Api
           end
         end
 
-        def destroy
-          @match.destroy!
-          render json: { message: "Match deleted" }, status: :ok
-        end
-
         private
 
         def serialize_details
-          Serializers::MatchDetails.new(@match).serializable_hash
+          Serializers::Match.new(@match).serializable_hash
         end
 
         def permitted_params
