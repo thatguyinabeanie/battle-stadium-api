@@ -10,7 +10,6 @@ import {
   MessageFlags,
 } from "discord-api-types/v10";
 import { NextRequest, NextResponse } from "next/server";
-import ky from "ky";
 import { nanoid } from "nanoid";
 
 /**
@@ -23,7 +22,7 @@ export const runtime = "edge";
 
 const ROOT_URL = env.VERCEL_URL ? `https://${env.VERCEL_URL}` : env.ROOT_URL;
 
-function capitalizeFirstLetter(s: string) {
+function capitalizeFirstLetter (s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
@@ -32,7 +31,7 @@ function capitalizeFirstLetter(s: string) {
  *
  * @see https://discord.com/developers/docs/interactions/receiving-and-responding#receiving-an-interaction
  */
-export async function POST(request: NextRequest) {
+export async function POST (request: NextRequest) {
   const verifyResult = await verifyInteractionRequest(request, env.DISCORD_APP_PUBLIC_KEY);
 
   if (!verifyResult.isValid || !verifyResult.interaction) {
@@ -168,18 +167,22 @@ const createEmbedObject = (source: string, path: string): APIEmbed => {
 const getRandomPic = async (value: RandomPicType) => {
   switch (value) {
     case "cat":
-      const { url } = await ky.get("https://cataas.com/cat?json=true").json<{ url: string }>();
+      const catResponse = await fetch("https://cataas.com/cat?json=true");
+      const catData = await catResponse.json();
+      const { url: catUrl } = catData;
 
-      return { ...createEmbedObject("https://cataas.com", url), description: "Here's a random cat picture!" };
+      return { ...createEmbedObject("https://cataas.com", catUrl), description: "Here's a random cat picture!" };
 
     case "dog":
-      const { message } = await ky.get("https://dog.ceo/api/breeds/image/random").json<{ message: string }>();
+      const dogResponse = await fetch("https://dog.ceo/api/breeds/image/random");
+      const dogData = await dogResponse.json();
+      const { message: dogUrl } = dogData;
 
       return {
         ...baseRandomPicEmbed,
         description: "Here's a random dog picture!",
         fields: [{ name: "source", value: "https://dog.ceo/api" }],
-        image: { url: message },
+        image: { url: dogUrl },
       };
 
     default:

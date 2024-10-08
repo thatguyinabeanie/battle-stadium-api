@@ -58,7 +58,6 @@
     "intl-messageformat": "^10.5.14",
     "jose": "^5.9.3",
     "js-cookie": "^3.0.5",
-    "ky": "^0.33.3",
     "lucide-react": "^0.446.0",
     "nanoid": "^4.0.2",
     "next": "^14.2.14",
