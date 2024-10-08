@@ -22,7 +22,7 @@ export const runtime = "edge";
 
 const ROOT_URL = env.VERCEL_URL ? `https://${env.VERCEL_URL}` : env.ROOT_URL;
 
-function capitalizeFirstLetter (s: string) {
+function capitalizeFirstLetter(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
@@ -31,7 +31,7 @@ function capitalizeFirstLetter (s: string) {
  *
  * @see https://discord.com/developers/docs/interactions/receiving-and-responding#receiving-an-interaction
  */
-export async function POST (request: NextRequest) {
+export async function POST(request: NextRequest) {
   const verifyResult = await verifyInteractionRequest(request, env.DISCORD_APP_PUBLIC_KEY);
 
   if (!verifyResult.isValid || !verifyResult.interaction) {
