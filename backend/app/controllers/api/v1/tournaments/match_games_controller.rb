@@ -34,6 +34,7 @@ module Api
 
           player = @match.tournament.players.find_by(id: match_game_params[:player_id])
 
+
           @match_game.report_loser!(player:, reporter: current_user)
           render json: @match_game, status: :ok, serializer: Serializers::MatchGame
         rescue StandardError => e

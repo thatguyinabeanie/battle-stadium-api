@@ -16,7 +16,7 @@ module Tournaments
     end
 
     def player?
-      admin? || is_match_player?
+      update? || is_match_player?
     end
 
     def join_chat?
