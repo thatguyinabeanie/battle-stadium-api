@@ -60,7 +60,7 @@
     "js-cookie": "^3.0.5",
     "ky": "^0.33.3",
     "lucide-react": "^0.446.0",
-    "nanoid": "^4.0.2",
+    "nanoid": "^5.0.7",
     "next": "^14.2.14",
     "next-themes": "^0.3.0",
     "node-loader": "^2.0.0",
