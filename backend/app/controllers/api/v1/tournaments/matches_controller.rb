@@ -6,7 +6,7 @@ module Api
       class MatchesController < ApplicationController
         before_action :set_tournament
         before_action :set_matches, only: %i[index]
-        before_action :set_match, only: %i[show update]
+        before_action :set_match, only: %i[show update check_in reset]
 
         def index
           authorize self.class, :index?
@@ -28,6 +28,25 @@ module Api
           end
         end
 
+        def check_in
+          authorize @match, :update?
+          player = @tournament.players.find_by(user: current_user)
+          if @match.check_in(player:)
+            render json: serialize_details, status: :ok
+          else
+            render json: @match.errors, status: :unprocessable_entity
+          end
+        end
+
+        def reset
+          authorize @match.tournament, update?
+          if @match.reset!
+            render json: serialize_details, status: :ok
+          else
+            render json: @match.errors, status: :unprocessable_entity
+          end
+        end
+
         private
 
         def serialize_details
@@ -35,7 +54,7 @@ module Api
         end
 
         def permitted_params
-          params.require(:match).permit(:round_id, :tournament_id, :table_number, :player_one_id, :player_one_id, :winner_id, :loser_id, :player_one_check_in, :player_two_check_in, :phase_id, :bye)
+          params.require(:match).permit(:round_id, :tournament_id, :table_number, :player_one_id, :player_one_id, :winner_id, :loser_id, :phase_id, :bye)
         end
 
         def set_tournament

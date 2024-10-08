@@ -11,6 +11,7 @@ module Tournaments
     belongs_to :player_two, class_name: "Tournaments::Player", optional: true
     belongs_to :winner, class_name: "Tournaments::Player", optional: true
     belongs_to :loser, class_name: "Tournaments::Player", optional: true
+    belongs_to :reset_by, class_name: "User", optional: true
 
     has_many :match_games, class_name: "Tournaments::MatchGame", dependent: :destroy, inverse_of: :match
     has_many :chat_messages, dependent: :nullify, inverse_of: :match, class_name: "ChatMessage"
@@ -60,7 +61,7 @@ module Tournaments
       else
         self.player_two_check_in = time_now
       end
-      save!
+      save
     end
 
     def checked_in?(player:)
@@ -72,6 +73,12 @@ module Tournaments
         raise ArgumentError, "Cannot check in a player that is not part of the match."
       end
     end
+
+    def reset
+      self.match_games.update_all(ended_at: nil, winner_id: nil, loser_id: nil, reporter_id: nil, started_at: nil)
+    end
+
+    private
 
     def set_defaults
       if self.bye
