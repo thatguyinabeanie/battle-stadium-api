@@ -29,7 +29,7 @@ module Api
         end
 
         def check_in
-          authorize @match, :update?
+          authorize @match, :player?
           player = @tournament.players.find_by(user: current_user)
           if @match.check_in(player:)
             render json: serialize_details, status: :ok
@@ -39,8 +39,8 @@ module Api
         end
 
         def reset
-          authorize @match.tournament, update?
-          if @match.reset!
+          authorize @match.tournament, :update?
+          if @match.reset
             render json: serialize_details, status: :ok
           else
             render json: @match.errors, status: :unprocessable_entity

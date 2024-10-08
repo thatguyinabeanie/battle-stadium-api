@@ -40,7 +40,6 @@ module Api
           render json: { error: e.message }, status: :unprocessable_entity
         end
 
-
         private
 
         def match_game_params

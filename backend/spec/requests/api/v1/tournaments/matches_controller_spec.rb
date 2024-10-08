@@ -54,7 +54,11 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
       response "200", "match found" do
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/match"
-        let(:tournament) { create(:tournament, :with_phases, :with_players_with_team_and_checked_in) }
+        let(:tournament) do
+          tour = create(:tournament, :with_phases, :with_players_with_team_and_checked_in)
+          tour.start!
+          tour
+        end
         let(:phase) { tournament.phases.first }
         let(:round) { phase.rounds.first }
         let(:phase_id) { phase.id }
@@ -150,14 +154,24 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
       tags "Matches"
       produces "application/json"
 
+      security [Bearer: []]
+
       response "200", "checked in" do
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Match"
 
+        let(:tournament) do
+          tour = create(:tournament, :with_phases, :with_players_with_team_and_checked_in)
+          tour.start!
+          tour
+        end
+        let(:tournament_id) { tournament.id }
 
-        let(:tournament_id) { create(:tournament).id }
-        let(:match) { create(:match, tournament_id:) }
+        let(:phase) { tournament.phases.first }
+        let(:round) { phase.rounds.first }
+        let(:match) { create(:match, phase:, round:) }
         let(:id) { match.id }
+
         let(:request_user) { match.player_one.user }
 
         schema "$ref" => "#/components/schemas/Match"
@@ -176,6 +190,8 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
     post("Reset Match") do
       tags "Matches"
       produces "application/json"
+
+      security [Bearer: []]
 
       response "200", "reported" do
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
