@@ -40,7 +40,19 @@ Rails.application.routes.draw do
           post "start", to: "tournaments#start_tournament"
         end
         resources :phases, only: %i[index show create update destroy], controller: "tournaments/phases"
-        resources :matches, only: %i[index update show], controller: "tournaments/matches"
+        resources :matches, only: %i[index update show], controller: "tournaments/matches" do
+          member do
+            post "reset", to: "tournaments/matches#reset"
+            post "check_in", to: "tournaments/matches#check_in"
+          end
+          resources :match_games, only: %i[index show], controller: "tournaments/match_games" do
+            member do
+              post "report_winner", to: "tournaments/match_games#report_winner"
+              post "report_loser", to: "tournaments/match_games#report_loser"
+            end
+          end
+        end
+
         resources :players, only: %i[index show create update destroy], controller: "tournaments/players"
       end
 

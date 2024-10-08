@@ -6,7 +6,6 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
   include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
 
   let(:tournament) { create(:tournament, :with_phases, :with_players_with_team_and_checked_in) }
-
   let(:phase) { tournament.phases.first }
   let(:round) { phase.rounds.first }
   let(:phase_id) { phase.id }

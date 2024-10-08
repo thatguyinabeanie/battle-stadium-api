@@ -382,10 +382,29 @@ MATCH_SCHEMA  = {
     round_id: { type: :integer, format: :int64 },
     tournament_id: { type: :integer, format: :int64 },
     table_number: { type: :integer, format: :int64 },
-    player_one_id: { type: :integer, format: :int64 },
-    player_two_id: { type: :integer, format: :int64 },
+    player_one: {type: :string},
+    player_two: {type: :string},
+    reset_by: {type: :string, nullable: true}
   },
-  required: %w[id round_id table_number player_one_id player_two_id]
+  required: %w[id round_id table_number player_one player_two reset_by]
+}.freeze
+
+MATCH_GAME_SCHEMA = {
+  type: :object,
+  title: "Match Game",
+  properties: {
+    id: { type: :integer, format: :int64 },
+    match_id: { type: :integer, format: :int64 },
+    game_number: { type: :integer, format: :int64 },
+    player_one: {type: :string},
+    player_two: {type: :string},
+    loser: {type: :string, nullable: true},
+    winner: {type: :string, nullable: true},
+    reporter: {type: :string},
+    ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
+  },
+  required: %w[id match_id game_number player_one player_two reporter, ended_at started_at]
 }.freeze
 
 ERROR = {

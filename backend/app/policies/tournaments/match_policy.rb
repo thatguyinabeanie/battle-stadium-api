@@ -15,8 +15,12 @@ module Tournaments
       admin? || Pundit.policy(user, record.tournament).update?
     end
 
+    def player?
+      update? || is_match_player?
+    end
+
     def join_chat?
-      Pundit.policy(user, record.tournament.organization).staff? || is_match_player?
+      Pundit.policy(user, record.tournament.organization).staff? || player?
     end
 
     private

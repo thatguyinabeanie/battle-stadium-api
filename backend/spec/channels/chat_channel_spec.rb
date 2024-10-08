@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ChatChannel do
 
-  let(:organization) { create(:organization, :with_staff, staff_count: 2) }
+  let(:organization) { create(:organization) }
   let(:tournament) { create(:tournament, organization:) }
 
   let(:broadcast_room_name) { "chat_#{room}" }

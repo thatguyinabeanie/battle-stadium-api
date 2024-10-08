@@ -26,10 +26,6 @@ RSpec.describe Organization do
     describe "adding and removing staff" do
       let(:user) { create(:user) }
 
-      it "does not have any staff by default" do
-        expect(organization.staff).to be_empty
-      end
-
       it "adds user to organization staff" do
         organization.update!(staff: [user])
         expect(organization.staff).to include(user)

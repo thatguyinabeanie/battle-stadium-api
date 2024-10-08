@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_05_150550) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_08_020810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -94,6 +94,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_150550) do
     t.bigint "tournament_id"
     t.bigint "phase_id"
     t.boolean "bye", default: false, null: false
+    t.uuid "reset_by"
     t.index ["loser_id"], name: "index_matches_on_loser_id"
     t.index ["phase_id"], name: "index_matches_on_phase_id"
     t.index ["player_one_id"], name: "index_matches_on_player_one_id"
@@ -290,6 +291,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_150550) do
   add_foreign_key "matches", "players", column: "winner_id"
   add_foreign_key "matches", "rounds"
   add_foreign_key "matches", "tournaments"
+  add_foreign_key "matches", "users", column: "reset_by"
   add_foreign_key "organization_staff_members", "organizations"
   add_foreign_key "organization_staff_members", "users"
   add_foreign_key "organizations", "users", column: "owner_id"
