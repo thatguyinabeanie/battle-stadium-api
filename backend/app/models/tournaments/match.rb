@@ -82,6 +82,7 @@ module Tournaments
       end
       self.phase_id ||= round.phase_id if round.present?
       self.tournament_id ||= round.phase.tournament_id if round.present?
+      self.table_number ||= round.matches.count + 1 if round.present?
     end
 
     def create_initial_match_game
