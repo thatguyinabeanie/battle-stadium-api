@@ -7,7 +7,7 @@ DESCRIPTION = "the bomb dot com".freeze
 RSpec.describe Api::V1::OrganizationsController do
   include Auth::TokenVerifier::Mock
 
-  let(:org) { create(:organization, :with_staff, staff_count: 5) }
+  let(:org) { create(:organization) }
   let(:owner) { org.owner }
   let(:slug) { org.slug }
 

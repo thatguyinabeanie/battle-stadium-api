@@ -15,11 +15,11 @@ module Serializers
         object.player_two.profile.username
       end
       def winner
-        object.winner&.profile.username
+        object.winner&.profile&.username
       end
 
       def loser
-        object.loser&.profile.username
+        object.loser&.profile&.username
       end
 
       def reporter

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Tournaments::MatchGame do
-  let(:organization)  { create(:organization, :with_staff, staff_count: 2) }
+  let(:organization)  { create(:organization) }
   let(:staff_member)  { organization.staff.first }
 
   let(:match_hash) do

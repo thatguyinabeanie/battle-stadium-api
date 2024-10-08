@@ -45,12 +45,11 @@ Rails.application.routes.draw do
             post "reset", to: "tournaments/matches#reset"
             post "check_in", to: "tournaments/matches#check_in"
           end
-        end
-
-        resources :match_games, only: %i[index show], controller: "tournaments/match_games" do
-          member do
-            post "report_winner", to: "tournaments/match_games#report_winner"
-            post "report_loser", to: "tournaments/match_games#report_loser"
+          resources :match_games, only: %i[index show], controller: "tournaments/match_games" do
+            member do
+              post "report_winner", to: "tournaments/match_games#report_winner"
+              post "report_loser", to: "tournaments/match_games#report_loser"
+            end
           end
         end
 
