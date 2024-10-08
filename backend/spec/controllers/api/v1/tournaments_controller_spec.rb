@@ -139,7 +139,6 @@ RSpec.describe Api::V1::TournamentsController do
   end
 
   describe "DELETE #destroy" do
-
     let!(:tournament) { create(:tournament) }
     let(:request_user) { tournament.organization.owner }
 
@@ -152,6 +151,40 @@ RSpec.describe Api::V1::TournamentsController do
     it "returns a successful response" do
       delete :destroy, params: { id: tournament.id }
       expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "POST #start" do
+    let(:tournament) { create(:tournament, :with_phases, :with_players_with_team_and_checked_in) }
+    let(:request_user) { tournament.organization.owner }
+
+    context "when the tournament is not ready to start" do
+      let(:tournament) { create(:tournament, :with_phases) }
+
+      it "returns an unprocessable entity status" do
+        post :start_tournament, params: { id: tournament.id }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
+    context "when the tournament is ready to start" do
+      it "starts the tournament" do
+        post :start_tournament, params: { id: tournament.id }
+        tournament.reload
+        expect(tournament.started_at).not_to be_nil
+      end
+
+      it "accepts players into the first phase" do
+        post :start_tournament, params: { id: tournament.id }
+        tournament.reload
+        expect(tournament.phases.first.players.count).to eq(5)
+      end
+
+      it "starts the first round of the first phase" do
+        post :start_tournament, params: { id: tournament.id }
+        tournament.reload
+        expect(tournament.phases.first.rounds.count).to eq(1)
+      end
     end
   end
 end

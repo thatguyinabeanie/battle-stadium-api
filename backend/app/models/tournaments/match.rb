@@ -24,6 +24,7 @@ module Tournaments
     validates :bye, inclusion: { in: [true, false] }
     validates :bye, inclusion: { in: [true] }, if: -> { player_two.nil? }
 
+    validates :table_number, numericality: { only_integer: true, greater_than: 0 }, allow_nil: false
     before_validation :set_defaults, on: :create
 
     after_create :create_initial_match_game
@@ -81,6 +82,7 @@ module Tournaments
       end
       self.phase_id ||= round.phase_id if round.present?
       self.tournament_id ||= round.phase.tournament_id if round.present?
+      self.table_number ||= round.matches.count + 1 if round.present?
     end
 
     def create_initial_match_game

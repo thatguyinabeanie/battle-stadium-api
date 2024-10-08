@@ -5,7 +5,7 @@ module Serializers
     extend ActiveSupport::Concern
     included do
       include SerializerMixin::Id
-      attributes :round_id, :tournament_id, :table_number, :player1_id, :player2_id
+      attributes :round_id, :tournament_id, :table_number, :player_one_id, :player_two_id
     end
   end
 

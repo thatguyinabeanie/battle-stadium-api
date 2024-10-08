@@ -374,6 +374,20 @@ PHASE_DETAILS_SCHEMA = {
   required: PHASE_SCHEMA[:required] + %w[players rounds]
 }.freeze
 
+MATCH_SCHEMA  = {
+  type: :object,
+  title: "Match",
+  properties: {
+    id: { type: :integer, format: :int64 },
+    round_id: { type: :integer, format: :int64 },
+    tournament_id: { type: :integer, format: :int64 },
+    table_number: { type: :integer, format: :int64 },
+    player_one_id: { type: :integer, format: :int64 },
+    player_two_id: { type: :integer, format: :int64 },
+  },
+  required: %w[id round_id table_number player_one_id player_two_id]
+}.freeze
+
 ERROR = {
   type: :object,
   properties: {
@@ -509,6 +523,7 @@ RSpec.configure do |config|
           Message: MESSAGE,
           Pagination: PAGINATION_RESPONSE,
           Profile: PROFILE_SCHEMA,
+          Match: MATCH_SCHEMA
         }
       }
     }

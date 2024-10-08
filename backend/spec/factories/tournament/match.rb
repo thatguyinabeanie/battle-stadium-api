@@ -1,10 +1,10 @@
 # Assuming you have factories for tournament, player, and round defined elsewhere
 FactoryBot.define do
   factory :match, class: "Tournaments::Match" do
-    sequence(:table_number) { |n| n }
-    tournament { create(:tournament, :with_phases) }
-    phase { tournament.phases.first }
-    round { create(:round, phase: tournament.phases.first) }
+    phase { create(:swiss_phase) }
+    tournament { phase.tournament }
+    round { phase.rounds&.first || create(:round, phase:) }
+    table_number { round ? round.matches.count + 1 : 1 }
 
     player_one do
       if phase.players.present?
