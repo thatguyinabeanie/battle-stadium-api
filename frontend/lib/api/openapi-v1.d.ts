@@ -173,6 +173,274 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/tournaments/{tournament_id}/matches": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Tournament ID */
+        tournament_id: string;
+      };
+      cookie?: never;
+    };
+    /** Retrieves all matches for a tournament */
+    get: {
+      parameters: {
+        query?: never;
+        header?: {
+          /** @description Vercel OIDC Token */
+          "X-Vercel-OIDC-Token"?: string;
+        };
+        path: {
+          /** @description Tournament ID */
+          tournament_id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description matches found */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Match"][];
+          };
+        };
+        /** @description tournament not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/tournaments/{tournament_id}/matches/{id}": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Tournament ID */
+        tournament_id: string;
+        /** @description Match ID */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /** Retrieves a match */
+    get: {
+      parameters: {
+        query?: never;
+        header?: {
+          /** @description Vercel OIDC Token */
+          "X-Vercel-OIDC-Token"?: string;
+        };
+        path: {
+          /** @description Tournament ID */
+          tournament_id: string;
+          /** @description Match ID */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description match found */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Match"];
+          };
+        };
+        /** @description match not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /** Updates a match */
+    patch: {
+      parameters: {
+        query?: never;
+        header?: {
+          /** @description Vercel OIDC Token */
+          "X-Vercel-OIDC-Token"?: string;
+        };
+        path: {
+          /** @description Tournament ID */
+          tournament_id: string;
+          /** @description Match ID */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            match: {
+              round_id?: number;
+              table_number?: number;
+              player_one_id?: number;
+              player_two_id?: number;
+              winner_id?: number;
+              loser_id?: number;
+              player_one_check_in?: boolean;
+              player_two_check_in?: boolean;
+              phase_id?: number;
+              bye?: boolean;
+            };
+          };
+        };
+      };
+      responses: {
+        /** @description match updated */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+        /** @description invalid request */
+        422: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+      };
+    };
+    trace?: never;
+  };
+  "/tournaments/{tournament_id}/matches/{id}/check_in": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Tournament ID */
+        tournament_id: string;
+        /** @description Match ID */
+        id: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Check in */
+    post: {
+      parameters: {
+        query?: never;
+        header?: {
+          /** @description Vercel OIDC Token */
+          "X-Vercel-OIDC-Token"?: string;
+        };
+        path: {
+          /** @description Tournament ID */
+          tournament_id: string;
+          /** @description Match ID */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description checked in */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Match"];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/tournaments/{tournament_id}/matches/{id}/reset": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Tournament ID */
+        tournament_id: string;
+        /** @description Match ID */
+        id: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Reset Match */
+    post: {
+      parameters: {
+        query?: never;
+        header?: {
+          /** @description Vercel OIDC Token */
+          "X-Vercel-OIDC-Token"?: string;
+        };
+        path: {
+          /** @description Tournament ID */
+          tournament_id: string;
+          /** @description Match ID */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description reported */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Match"];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/tournaments/{tournament_id}/phases": {
     parameters: {
       query?: never;
@@ -789,6 +1057,20 @@ export interface components {
       id: string;
       username: string;
       image_url: string | null;
+    };
+    /** Match */
+    Match: {
+      /** Format: int64 */
+      id: number;
+      /** Format: int64 */
+      round_id: number;
+      /** Format: int64 */
+      tournament_id?: number;
+      /** Format: int64 */
+      table_number: number;
+      player_one: string;
+      player_two: string;
+      reset_by: string | null;
     };
   };
   responses: {
@@ -1734,6 +2016,15 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
       };
     };
   };
