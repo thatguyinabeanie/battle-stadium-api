@@ -43,7 +43,7 @@ const columns: { key: string; label: string }[] = [
 // const cardClassNames = "bg-transparent backdrop-blur-md";
 
 export default async function Tournaments() {
-  const tours = (await getTournaments(0, 10000)).data?.data ?? [];
+  const tours = (await getTournaments()).data?.data ?? [];
 
   const rightNow = new Date();
   const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);
