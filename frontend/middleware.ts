@@ -3,7 +3,7 @@ import { env } from "@/env.mjs";
 const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
 
 export default clerkMiddleware((auth, request) => {
-  if (env.VERCEL_ENVIRONMENT === "production" && !isPublicRoute(request)) {
+  if (env.NODE_ENV === "production" && !isPublicRoute(request)) {
     auth().protect();
   }
 });
