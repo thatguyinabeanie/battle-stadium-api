@@ -13,12 +13,13 @@
     "prettier:check": "prettier --check --config .prettierrc .",
     "tsc": "tsc --noEmit",
     "tsc:watch": "tsc --noEmit --watch",
-    "fix": "bun prettier:write && bun lint:fix",
+    "fix": "bun lint:fix && bun prettier:write",
     "generate:factories": " ts-node --project ts-node.config.json generateFactories.ts",
     "generate:api": "openapi-typescript ../backend/openapi/v1/openapi.yaml  -o ./lib/api/openapi-v1.d.ts && bun fix",
     "check:unused": "depcheck",
     "vercel:pull": "vercel env pull .env.vercel.local",
-    "depcheck": "depcheck"
+    "depcheck": "depcheck",
+    "prepare": "cd .. && husky frontend/.husky"
   },
   "dependencies": {
     "@aws-sdk/credential-provider-web-identity": "^3.667.0",
@@ -122,6 +123,8 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "esm": "^3.2.25",
     "happy-dom": "^15.7.4",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.10",
     "openapi-typescript": "^7.4.1",
     "prettier": "^3.3.3",
     "tailwind-variants": "^0.2.1",
@@ -135,5 +138,10 @@
     "@tsparticles/engine",
     "@vercel/speed-insights",
     "core-js-pure"
-  ]
+  ],
+    "lint-staged": {
+    "frontend/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "cd frontend && bun fix"
+    ]
+  }
 }
