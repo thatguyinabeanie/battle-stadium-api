@@ -1,9 +1,6 @@
 {
   "name": "battlestadium.gg",
   "private": true,
-  "workspaces": [
-    "frontend"
-  ],
   "scripts": {
     "fix:frontend": "cd frontend && bun fix"
   },
