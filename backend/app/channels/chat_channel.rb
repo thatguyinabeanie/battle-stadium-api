@@ -66,7 +66,7 @@ class ChatChannel < ApplicationCable::Channel
 
     SaveChatMessageJob.perform_later(
       match_id: match.id,
-      profile_id: user_profile.id,
+      user_profile_id: user_profile.id,
       user_id: current_user.id,
       content: message,
       message_type: "text",

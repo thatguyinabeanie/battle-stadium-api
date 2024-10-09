@@ -39,7 +39,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
   describe "POST #create" do
     let(:player_params) do
-      attributes_for(:player, profile_id: request_user.default_profile.id)
+      attributes_for(:player, user_profile_id: request_user.default_profile.id)
     end
 
     context "with valid parameters" do
@@ -65,7 +65,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
     context "with invalid parameters" do
       it "does not create a new player" do
         expect {
-          post :create, params: { tournament_id: tournament.id, player: { profile_id: -1 } }
+          post :create, params: { tournament_id: tournament.id, player: { user_profile_id: -1 } }
         }.not_to change(Tournaments::Player, :count)
       end
 

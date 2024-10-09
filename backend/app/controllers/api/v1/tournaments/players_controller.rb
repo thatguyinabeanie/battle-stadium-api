@@ -74,7 +74,7 @@ module Api
 
         def set_player
           @players ||= set_players
-          @player = @players.find_by!(profile_id: params[:id])
+          @player = @players.find_by!(user_profile_id: params[:id])
           @object = @player
           @player
         rescue ActiveRecord::RecordNotFound

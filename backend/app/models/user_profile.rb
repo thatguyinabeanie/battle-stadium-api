@@ -5,8 +5,8 @@ class UserProfile < ApplicationRecord
 
   belongs_to :user, inverse_of: :user_profiles, class_name: "User", foreign_key: "user_id"
 
-  has_many :players, class_name: "Tournaments::Player", inverse_of: :user_profile,  foreign_key: "profile_id"
-  has_many :pokemon_teams, class_name: "PokemonTeam", inverse_of: :user_profile,  foreign_key: "profile_id"
+  has_many :players, class_name: "Tournaments::Player", inverse_of: :user_profile,  foreign_key: "user_profile_id"
+  has_many :pokemon_teams, class_name: "PokemonTeam", inverse_of: :user_profile,  foreign_key: "user_profile_id"
 
   validates :username, presence: true, uniqueness: true
 

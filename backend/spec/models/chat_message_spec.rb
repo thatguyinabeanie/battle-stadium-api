@@ -21,22 +21,22 @@ RSpec.describe ChatMessage do
     let(:match_id) { match_hash[:match].id }
 
     it "is valid with valid attributes" do
-      chat_message = described_class.new(content: "Hello", profile_id:, match_id:)
+      chat_message = described_class.new(content: "Hello", user_profile_id:, match_id:)
       expect(chat_message).to be_valid
     end
 
     it "is not valid without content" do
-      chat_message = described_class.new(content: nil, profile_id:, match_id:)
+      chat_message = described_class.new(content: nil, user_profile_id:, match_id:)
       expect(chat_message).not_to be_valid
     end
 
     it "is not valid without a user_id" do
-      chat_message = described_class.new(content: "Hello", profile_id: nil, match_id:)
+      chat_message = described_class.new(content: "Hello", user_profile_id: nil, match_id:)
       expect(chat_message).not_to be_valid
     end
 
     it "is not valid without a match_id" do
-      chat_message = described_class.new(content: "Hello", profile_id:, match_id: nil)
+      chat_message = described_class.new(content: "Hello", user_profile_id:, match_id: nil)
       expect(chat_message).not_to be_valid
     end
   end
