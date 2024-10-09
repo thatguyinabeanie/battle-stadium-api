@@ -141,7 +141,7 @@
   ],
   "lint-staged": {
     "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "cd frontend && bun fix"
+      "bun fix"
     ]
   }
 }
