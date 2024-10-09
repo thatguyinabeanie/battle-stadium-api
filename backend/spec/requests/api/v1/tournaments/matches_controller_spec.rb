@@ -9,10 +9,8 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
     parameter name: :tournament_id, in: :path, type: :string, description: "Tournament ID"
 
     get "Retrieves all matches for a tournament" do
-
       tags "Matches"
       produces "application/json"
-
 
       response "200", "matches found" do
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"

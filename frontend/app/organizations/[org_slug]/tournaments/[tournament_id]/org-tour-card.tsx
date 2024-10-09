@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardBody } from "@/components/nextui-use-client";
 import OrganizationLogo from "@/components/organizations/organization-logo";
 import { components } from "@/lib/api/openapi-v1";
@@ -9,7 +11,10 @@ interface OrgTourCardProps {
 
 export default function OrgTourCard({ organization, tournament }: Readonly<OrgTourCardProps>) {
   return (
-    <Card className="bg-transparent h-90 w-90 rounded-3x backdrop-blur-md " shadow="md">
+    <Card
+      className="bg-transparent h-90 w-90 rounded-3xl backdrop-blur-md border-small border-neutral-500/40 "
+      shadow="md"
+    >
       <CardBody className="bg-transparent flex flex-row justify-between rounded-3xl">
         <OrganizationLogo organization={organization} />
 

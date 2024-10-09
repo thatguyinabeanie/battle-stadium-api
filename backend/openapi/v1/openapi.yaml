@@ -429,6 +429,52 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
+  "/profiles":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Retrieves all profiles
+      tags:
+      - Profiles
+      responses:
+        '200':
+          description: profiles found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Profile"
+  "/profiles/{slug}":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: slug
+      in: path
+      description: Username
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieves a profile
+      tags:
+      - Profiles
+      responses:
+        '200':
+          description: profile found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Profile"
   "/tournaments/{tournament_id}/matches":
     parameters:
     - name: X-Vercel-OIDC-Token

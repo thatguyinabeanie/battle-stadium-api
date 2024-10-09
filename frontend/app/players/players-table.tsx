@@ -11,17 +11,30 @@ export interface PlayersTableProps {
 
 export default function PlayersTable({ players, columns }: PlayersTableProps) {
   return (
-    <Table isStriped aria-label="list of tournaments" shadow="none">
-      <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-      </TableHeader>
+    <div className="flex flex-col items-center justify-center h-90 w-90">
+      <Table
+        isHeaderSticky
+        isVirtualized
+        aria-label="Players List"
+        classNames={{
+          wrapper: "bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-500/40 h-90 w-90",
+        }}
+        selectionMode="single"
+        shadow="md"
+      >
+        <TableHeader columns={columns}>
+          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+        </TableHeader>
 
-      <TableBody items={players}>
-        {(item) => (
-          <TableRow key={item.id}>{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}</TableRow>
-        )}
-      </TableBody>
-    </Table>
+        <TableBody items={players}>
+          {(item) => (
+            <TableRow key={item.id} as={Link} href={`/players/${item.username}`} style={{ cursor: "pointer" }}>
+              {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
 

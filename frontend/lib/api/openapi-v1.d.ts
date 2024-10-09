@@ -173,6 +173,96 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/profiles": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    /** Retrieves all profiles */
+    get: {
+      parameters: {
+        query?: never;
+        header?: {
+          /** @description Vercel OIDC Token */
+          "X-Vercel-OIDC-Token"?: string;
+        };
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description profiles found */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Profile"][];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/profiles/{slug}": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Username */
+        slug: string;
+      };
+      cookie?: never;
+    };
+    /** Retrieves a profile */
+    get: {
+      parameters: {
+        query?: never;
+        header?: {
+          /** @description Vercel OIDC Token */
+          "X-Vercel-OIDC-Token"?: string;
+        };
+        path: {
+          /** @description Username */
+          slug: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description profile found */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Profile"];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/tournaments/{tournament_id}/matches": {
     parameters: {
       query?: never;
