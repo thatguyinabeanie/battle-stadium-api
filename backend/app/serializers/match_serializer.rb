@@ -7,10 +7,10 @@ module Serializers
       include SerializerMixin::Id
       attributes :round_id, :tournament_id, :table_number, :player_one, :player_two, :reset_by
       def player_one
-        object.player_one&.profile&.username
+        object.player_one&.user_profile&.username
       end
       def player_two
-        object.player_two&.profile&.username
+        object.player_two&.user_profile&.username
       end
       def reset_by
         object.reset_by&.default_profile&.username
@@ -30,11 +30,11 @@ module Serializers
     attributes :created_at, :updated_at, :ended_at
 
     def winner
-      object.winner&.profile&.username
+      object.winner&.user_profile&.username
     end
 
     def loser
-      object.loser&.profile&.username
+      object.loser&.user_profile&.username
     end
   end
 end

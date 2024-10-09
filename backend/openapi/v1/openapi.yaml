@@ -971,6 +971,54 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '404':
           description: not found
+  "/user_profiles":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Retrieves all profiles
+      tags:
+      - Profiles
+      operationId: listProfiles
+      responses:
+        '200':
+          description: profiles found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/UserProfile"
+  "/user_profiles/{slug}":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: slug
+      in: path
+      description: Username
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieves a user profile
+      tags:
+      - Profiles
+      operationId: getProfile
+      responses:
+        '200':
+          description: user profile found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserProfile"
   "/users":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1612,13 +1660,13 @@ components:
         id:
           type: integer
           format: int64
-        profile:
-          "$ref": "#/components/schemas/Profile"
+        user_profile:
+          "$ref": "#/components/schemas/UserProfile"
         in_game_name:
           type: string
       required:
       - id
-      - profile
+      - user_profile
       - in_game_name
     PlayerDetails:
       type: object
@@ -1627,13 +1675,13 @@ components:
         id:
           type: integer
           format: int64
-        profile:
-          "$ref": "#/components/schemas/Profile"
+        user_profile:
+          "$ref": "#/components/schemas/UserProfile"
         in_game_name:
           type: string
       required:
       - id
-      - profile
+      - user_profile
       - in_game_name
     Round:
       type: object
@@ -1914,9 +1962,9 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Profile:
+    UserProfile:
       type: object
-      title: Profile
+      title: User Profile
       properties:
         id:
           type: string
@@ -1926,10 +1974,14 @@ components:
         image_url:
           type: string
           nullable: true
+        pronouns:
+          type: string
+          nullable: true
       required:
       - username
       - image_url
       - id
+      - pronouns
     Match:
       type: object
       title: Match

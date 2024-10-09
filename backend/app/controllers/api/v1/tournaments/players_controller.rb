@@ -23,9 +23,9 @@ module Api
         end
 
         def create
-          profile = Profile.find_by!(id: permitted_params[:profile_id])
+          user_profile = UserProfile.find_by!(id: permitted_params[:user_profile_id])
 
-          @player = @players.build permitted_params.merge(tournament_id: @tournament.id, user_id: profile.user_id)
+          @player = @players.build permitted_params.merge(tournament_id: @tournament.id, user_id: user_profile.user_id)
           authorize @player, :create?
           if @player.save
             render json: serialize_player_details, status: :created
@@ -34,7 +34,7 @@ module Api
           end
         rescue ActiveRecord::RecordNotFound
           skip_authorization
-          render json: { error: "Profile not found" }, status: :unprocessable_entity
+          render json: { error: "User Profile not found" }, status: :unprocessable_entity
         rescue Pundit::NotAuthorizedError => e
           render json: { error: e.message }, status: :forbidden
           skip_authorization
@@ -74,7 +74,7 @@ module Api
 
         def set_player
           @players ||= set_players
-          @player = @players.find_by!(profile_id: params[:id])
+          @player = @players.find_by!(user_profile_id: params[:id])
           @object = @player
           @player
         rescue ActiveRecord::RecordNotFound
@@ -89,7 +89,7 @@ module Api
         end
 
         def permitted_params
-          params.require(:player).permit(:profile_id, :profile, :in_game_name, organization_id: params[:organization_id])
+          params.require(:player).permit(:user_profile_id, :user_profile, :in_game_name, organization_id: params[:organization_id])
         end
       end
     end

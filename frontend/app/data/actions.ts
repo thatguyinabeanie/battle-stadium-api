@@ -115,3 +115,12 @@ export async function getUsers(options?: FetchOptions<paths["/users"]["get"]>) {
 
   return BattleStadiumApiClient(skipClerkAuth).GET("/users", usersOptions);
 }
+
+export async function getUserProfiles(options?: FetchOptions<paths["/user_profiles"]["get"]>) {
+  const userProfilesOptions = {
+    ...defaultConfig("getPlayerProfiles"),
+    ...options,
+  };
+
+  return BattleStadiumApiClient().GET("/user_profiles", userProfilesOptions);
+}

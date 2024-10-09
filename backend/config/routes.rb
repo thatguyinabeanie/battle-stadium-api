@@ -57,6 +57,8 @@ Rails.application.routes.draw do
       end
 
       resources :games, only: %i[index show create update destroy]
+
+      resources :user_profiles, only: %i[index show], controller: "user_profiles", param: :slug
     end
   end
 end

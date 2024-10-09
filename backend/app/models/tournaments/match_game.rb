@@ -6,7 +6,7 @@ module Tournaments
     belongs_to :match, class_name: "Tournaments::Match", inverse_of: :match_games
     belongs_to :winner, class_name: "Tournaments::Player", optional: true
     belongs_to :loser, class_name: "Tournaments::Player", optional: true
-    belongs_to :reporter, class_name: "Profile", optional: true
+    belongs_to :reporter, class_name: "UserProfile", optional: true
 
     validates :game_number, presence: true
     validates :reporter, presence: true, if: -> { ended_at.present? && (winner.present? || loser.present?) }
@@ -19,14 +19,13 @@ module Tournaments
     delegate :staff, to: :organization
 
     def report!(winner:, loser:, reporter:)
-      profile = if reporter == player_one || reporter == player_two
-                  reporter.profile
-                else
-                  reporter.default_profile
-                end
       self.winner = winner
       self.loser = loser
-      self.reporter = profile
+      self.reporter =  if reporter == player_one || reporter == player_two
+                         reporter.user_profile
+                    else
+                      reporter.default_profile
+                    end
       self.ended_at = Time.current.utc
       self.save!
 

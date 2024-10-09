@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :player, aliases: [:tournament_player], class: "Tournaments::Player" do
-    profile factory: :profile
+    user_profile factory: :user_profile
 
     tournament factory: :tournament
     in_game_name { Faker::Name.name }
@@ -17,12 +17,12 @@ FactoryBot.define do
     disqualified { false }
 
     before(:create) do |player|
-      player.user ||= player.profile.user
+      player.user ||= player.user_profile.user
     end
 
     trait :with_team do
       after(:build) do |player|
-        player.pokemon_team = build(:pokemon_team, profile: player.profile)
+        player.pokemon_team = build(:pokemon_team, user_profile: player.user_profile)
       end
     end
 

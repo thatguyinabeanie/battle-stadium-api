@@ -14,7 +14,6 @@ organization_id_allow_list = [
   327, # NinoPokeBros
   637, # The Wide League
   405, # Rose Tower
-  322, # Desafío LATAM
 ]
 
 namespace :limitless do
@@ -81,8 +80,7 @@ namespace :limitless do
       org = Organization.find_or_create_by(name: organizer_data['name']).tap do |organizer|
         organizer.limitless_org_id = id
         organizer.logo_url = organizer_data['logo']
-        organizer.hidden = organizer.logo_url == nil
-        organizer.partner = organizer.hidden
+        organizer.partner = true
         # puts "Done Processing organizer: #{organizer_data['name']} (ID: #{id})"
       end
 
@@ -210,6 +208,7 @@ namespace :limitless do
           tour.game_id = tournament_data['bs_game_id']
           tour.format_id = tournament_data['bs_format_id']
           tour.check_in_start_at = tour.start_at - 1.hour
+          tour.published = true
         end
       rescue StandardError => e
         errors << {

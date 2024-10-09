@@ -3,18 +3,18 @@ module Tournaments
     MAX_POKEMON_SUBMISSIONS = 6
     self.table_name = "players"
     belongs_to :user, class_name: "User", optional: false, validate: true
-    belongs_to :profile, class_name: "Profile", inverse_of: :players, optional: false, validate: true
+    belongs_to :user_profile, class_name: "UserProfile", inverse_of: :players, optional: false, validate: true
     belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false, validate: true
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true
 
     has_many :matches, class_name: "Tournaments::Match", foreign_key: "player_one_id", inverse_of: :player_one, dependent: :nullify
 
     validates :in_game_name, presence: true
-    validates :profile_id, presence: true
+    validates :user_profile_id, presence: true
     validates :tournament_id, presence: true
-    validates :profile_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
+    validates :user_profile_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
     validates :user_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
-    delegate :username, to: :profile
+    delegate :username, to: :user_profile
 
     before_create :set_user_id_from_profile
 
@@ -50,7 +50,7 @@ module Tournaments
     private
 
     def set_user_id_from_profile
-      self.user_id ||= profile.user_id
+      self.user_id ||= user_profile.user_id
     end
   end
 end
