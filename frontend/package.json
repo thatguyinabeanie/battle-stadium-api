@@ -80,6 +80,7 @@
     "ws": "^8.18.0",
     "zlib-sync": "^0.1.9",
     "zod": "^3.23.8"
+
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
