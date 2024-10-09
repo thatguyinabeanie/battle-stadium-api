@@ -485,12 +485,7 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: "{defaultHost}",
-          variables: {
-            defaultHost: {
-              default: ENV["RAILS_API_DEFAULT_HOST"]
-            }
-          }
+          url: ENV["RAILS_API_DEFAULT_HOST"],
         }
       ],
       components: {

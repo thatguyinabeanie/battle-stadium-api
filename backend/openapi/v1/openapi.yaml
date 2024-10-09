@@ -1120,10 +1120,7 @@ paths:
         '404':
           description: not found
 servers:
-- url: "{defaultHost}"
-  variables:
-    defaultHost:
-      default: https://api.battlestadium.gg/api/v1
+- url: https://api.battlestadium.gg/api/v1
 components:
   responses:
     NotFound:
