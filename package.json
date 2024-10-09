@@ -1,0 +1,19 @@
+{
+  "name": "battlestadium.gg",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "fix:frontend": "cd frontend && bun fix"
+  },
+  "devDependencies": {
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0"
+  },
+  "lint-staged": {
+    "frontend/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "bun fix:frontend"
+    ]
+  }
+}
