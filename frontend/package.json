@@ -139,8 +139,8 @@
     "@vercel/speed-insights",
     "core-js-pure"
   ],
-    "lint-staged": {
-    "frontend/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+  "lint-staged": {
+    "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "cd frontend && bun fix"
     ]
   }

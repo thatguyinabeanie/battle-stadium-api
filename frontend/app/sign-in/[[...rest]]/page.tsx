@@ -6,7 +6,7 @@ import { SignIn, useUser } from "@clerk/nextjs";
 export default function SignInPage() {
   const { user } = useUser();
 
-     if (user) {
+   if (user) {
     return <div>You are signed in.. </div>;
   }
 
