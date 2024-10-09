@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-import { nextui } from "@nextui-org/theme";
+import { nextui } from "@nextui-org/react";
 import DarkPurple from "./lib/tailwindcss/themes/dark-purple";
 import LightPurple from "./lib/tailwindcss/themes/light-purple";
 
