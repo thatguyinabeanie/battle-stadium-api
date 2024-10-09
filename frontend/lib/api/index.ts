@@ -6,6 +6,7 @@ export type Format = Schemas["Format"];
 export type Game = Schemas["Game"];
 export type GameDetail = Schemas["GameDetail"];
 export type User = Schemas["User"];
+export type UserProfile = Schemas["UserProfile"];
 export type UserDetails = Schemas["UserDetails"];
 export type UserMe = Schemas["UserMe"];
 export type UserPostRequest = Schemas["UserPostRequest"];
