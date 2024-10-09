@@ -60,6 +60,7 @@ model match_games {
   game_number                            Int       @default(1)
   ended_at                               DateTime? @db.Timestamp(6)
   reporter_id                            String?   @db.Uuid
+  started_at                             DateTime? @db.Timestamp(6)
   matches                                matches   @relation(fields: [match_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_76cefaebc0")
   users                                  profiles? @relation(fields: [reporter_id], references: [id], onUpdate: NoAction, map: "fk_rails_85619f44a8")
   players_match_games_loser_idToplayers  players?  @relation("match_games_loser_idToplayers", fields: [loser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a2c90fc36d")
@@ -74,8 +75,8 @@ model matches {
   id                                     BigInt          @id @default(autoincrement())
   round_id                               BigInt
   table_number                           Int?
-  player_one_id                          BigInt
-  player_two_id                          BigInt
+  player_one_id                          BigInt?
+  player_two_id                          BigInt?
   winner_id                              BigInt?
   created_at                             DateTime        @db.Timestamp(6)
   updated_at                             DateTime        @db.Timestamp(6)
@@ -83,19 +84,28 @@ model matches {
   player_two_check_in                    DateTime?       @db.Timestamp(6)
   loser_id                               BigInt?
   ended_at                               DateTime?       @db.Timestamp(6)
+  tournament_id                          BigInt?
+  phase_id                               BigInt?
+  bye                                    Boolean         @default(false)
+  reset_by                               String?         @db.Uuid
   chat_messages                          chat_messages[]
   match_games                            match_games[]
+  phases                                 phases?         @relation(fields: [phase_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_36efc9f0f5")
+  tournaments                            tournaments?    @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_700eaa2935")
   players_matches_loser_idToplayers      players?        @relation("matches_loser_idToplayers", fields: [loser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_973a5646ac")
   players_matches_winner_idToplayers     players?        @relation("matches_winner_idToplayers", fields: [winner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9d0deeb219")
-  players_matches_player_two_idToplayers players         @relation("matches_player_two_idToplayers", fields: [player_two_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b58c6c3513")
-  players_matches_player_one_idToplayers players         @relation("matches_player_one_idToplayers", fields: [player_one_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_bfcd6a3c9f")
+  players_matches_player_two_idToplayers players?        @relation("matches_player_two_idToplayers", fields: [player_two_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b58c6c3513")
+  players_matches_player_one_idToplayers players?        @relation("matches_player_one_idToplayers", fields: [player_one_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_bfcd6a3c9f")
   rounds                                 rounds          @relation(fields: [round_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e7c0250650")
+  users                                  users?          @relation(fields: [reset_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f377e2a0f8")
 
   @@unique([round_id, player_one_id, player_two_id], map: "index_matches_on_round_and_players_unique")
   @@index([loser_id], map: "index_matches_on_loser_id")
   @@index([player_one_id], map: "index_matches_on_player_one_id")
   @@index([player_two_id], map: "index_matches_on_player_two_id")
   @@index([winner_id], map: "index_matches_on_winner_id")
+  @@index([phase_id], map: "index_matches_on_phase_id")
+  @@index([tournament_id], map: "index_matches_on_tournament_id")
 }
 
 model organization_staff_members {
@@ -153,6 +163,7 @@ model phases {
   ended_at                                         DateTime?     @db.Timestamp(6)
   order                                            Int           @default(0)
   current_round_id                                 BigInt?
+  matches                                          matches[]
   rounds                                           rounds?       @relation(fields: [current_round_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_2909e41898")
   tournaments                                      tournaments   @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_75e775589e")
   tournaments_tournaments_current_phase_idTophases tournaments[] @relation("tournaments_current_phase_idTophases")
@@ -175,6 +186,11 @@ model players {
   user_id                                    String          @db.Uuid
   dropped                                    Boolean         @default(false)
   disqualified                               Boolean         @default(false)
+  round_wins                                 Int             @default(0)
+  round_losses                               Int             @default(0)
+  game_wins                                  Int             @default(0)
+  game_losses                                Int             @default(0)
+  resistance                                 Decimal?        @db.Decimal(5, 2)
   match_games_match_games_loser_idToplayers  match_games[]   @relation("match_games_loser_idToplayers")
   match_games_match_games_winner_idToplayers match_games[]   @relation("match_games_winner_idToplayers")
   matches_matches_loser_idToplayers          matches[]       @relation("matches_loser_idToplayers")
@@ -182,10 +198,10 @@ model players {
   matches_matches_player_two_idToplayers     matches[]       @relation("matches_player_two_idToplayers")
   matches_matches_player_one_idToplayers     matches[]       @relation("matches_player_one_idToplayers")
   phase_players                              phase_players[]
-  tournaments                                tournaments     @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f96ec8a72f")
   users                                      users           @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_224cac07ce")
   pokemon_teams                              pokemon_teams?  @relation(fields: [pokemon_team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_aeec102047")
   profiles                                   profiles        @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_d331b0f746")
+  tournaments                                tournaments     @relation(fields: [tournament_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f96ec8a72f")
 
   @@unique([user_id, tournament_id], map: "index_players_on_user_id_and_tournament_id")
   @@index([pokemon_team_id], map: "index_players_on_pokemon_team_id")
@@ -278,6 +294,7 @@ model tournaments {
   limitless_id                                BigInt?
   published                                   Boolean              @default(false)
   current_phase_id                            BigInt?
+  matches                                     matches[]
   phases                                      phases[]
   players                                     players[]
   tournament_formats                          tournament_formats[]
@@ -292,6 +309,7 @@ model tournaments {
 }
 
 model users {
+  id                                          String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email                                       String                       @unique(map: "index_users_on_email") @default("") @db.VarChar
   username                                    String?                      @unique(map: "index_users_on_username") @default("") @db.VarChar
   created_at                                  DateTime                     @db.Timestamp(6)
@@ -300,11 +318,11 @@ model users {
   last_name                                   String?                      @db.VarChar
   pronouns                                    String                       @default("") @db.VarChar
   image_url                                   String?
-  id                                          String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   admin                                       Boolean                      @default(false)
   default_profile_id                          String?                      @db.Uuid
   chat_messages                               chat_messages[]
   clerk_users                                 clerk_users[]
+  matches                                     matches[]
   organization_staff_members                  organization_staff_members[]
   organizations                               organizations[]
   players                                     players[]
