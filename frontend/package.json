@@ -135,5 +135,11 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1",
     "vercel": "^37.6.3"
-  }
+  },
+  "trustedDependencies": [
+    "@clerk/shared",
+    "@tsparticles/engine",
+    "@vercel/speed-insights",
+    "core-js-pure"
+  ]
 }
