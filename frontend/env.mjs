@@ -4,7 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     VERCEL_URL: z.string().optional(),
-    VERCEL_ENVIRONMENT: z.string().optional(),
+    VERCEL_ENV: z.string().optional(),
     VERCEL_OIDC_TOKEN: z.string().optional(),
     COOKIE_DOMAIN: z.string().optional(),
     NODE_ENV: z.string().default("development"),
