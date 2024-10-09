@@ -173,96 +173,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/profiles": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    /** Retrieves all profiles */
-    get: {
-      parameters: {
-        query?: never;
-        header?: {
-          /** @description Vercel OIDC Token */
-          "X-Vercel-OIDC-Token"?: string;
-        };
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description profiles found */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "application/json": components["schemas"]["Profile"][];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/profiles/{slug}": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description Username */
-        slug: string;
-      };
-      cookie?: never;
-    };
-    /** Retrieves a profile */
-    get: {
-      parameters: {
-        query?: never;
-        header?: {
-          /** @description Vercel OIDC Token */
-          "X-Vercel-OIDC-Token"?: string;
-        };
-        path: {
-          /** @description Username */
-          slug: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description profile found */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "application/json": components["schemas"]["Profile"];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   "/tournaments/{tournament_id}/matches": {
     parameters: {
       query?: never;
@@ -738,6 +648,49 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/user_profiles": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    /** Retrieves all profiles */
+    get: operations["listProfiles"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/user_profiles/{slug}": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Username */
+        slug: string;
+      };
+      cookie?: never;
+    };
+    /** Retrieves a user profile */
+    get: operations["getProfile"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/users": {
     parameters: {
       query?: never;
@@ -1009,14 +962,14 @@ export interface components {
     Player: {
       /** Format: int64 */
       id: number;
-      profile: components["schemas"]["Profile"];
+      user_profile: components["schemas"]["UserProfile"];
       in_game_name: string;
     };
     /** Player Details */
     PlayerDetails: {
       /** Format: int64 */
       id: number;
-      profile: components["schemas"]["Profile"];
+      user_profile: components["schemas"]["UserProfile"];
       in_game_name: string;
     };
     /** Round */
@@ -1141,12 +1094,13 @@ export interface components {
       total_pages: number;
       total_count: number;
     };
-    /** Profile */
-    Profile: {
+    /** User Profile */
+    UserProfile: {
       /** Format: uuid */
       id: string;
       username: string;
       image_url: string | null;
+      pronouns: string | null;
     };
     /** Match */
     Match: {
@@ -2114,6 +2068,55 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  listProfiles: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description profiles found */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["UserProfile"][];
+        };
+      };
+    };
+  };
+  getProfile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Username */
+        slug: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description user profile found */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["UserProfile"];
         };
       };
     };
