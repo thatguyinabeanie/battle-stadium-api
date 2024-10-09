@@ -63,15 +63,16 @@ SIMPLE_USER_SCHEMA = {
   required: %w[username pronouns]
 }.freeze
 
-PROFILE_SCHEMA = {
+USER_PROFILE_SCHEMA = {
   type: :object,
-  title: "Profile",
+  title: "User Profile",
   properties: {
     id: { type: :string, format: "uuid" },
     username: { type: :string },
-    image_url: { type: :string, nullable: true }
+    image_url: { type: :string, nullable: true },
+    pronouns: { type: :string , nullable: true }
   },
-  required: %w[username image_url id]
+  required: %w[username image_url id pronouns]
 }
 
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
@@ -311,7 +312,7 @@ PLAYER_SCHEMA = {
   title: "Player",
   properties: {
     id: { type: :integer, format: :int64 },
-    profile: { "$ref" => "#/components/schemas/Profile" },
+    user_profile: { "$ref" => "#/components/schemas/UserProfile" },
     in_game_name: { type: :string }
     # checked_in: { type: :boolean },
     # checked_in_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
@@ -319,7 +320,7 @@ PLAYER_SCHEMA = {
     # team_sheet_submitted_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   },
   # required: %w[id user in_game_name checked_in checked_in_at team_sheet_submitted team_sheet_submitted_at]
-  required: %w[id profile in_game_name]
+  required: %w[id user_profile in_game_name]
 }.freeze
 
 PLAYER_DETAILS_SCHEMA = {
@@ -536,7 +537,7 @@ RSpec.configure do |config|
           Error: ERROR,
           Message: MESSAGE,
           Pagination: PAGINATION_RESPONSE,
-          Profile: PROFILE_SCHEMA,
+          UserProfile: USER_PROFILE_SCHEMA,
           Match: MATCH_SCHEMA
         }
       }

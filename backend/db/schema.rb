@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_034927) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_09_041611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -18,14 +18,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_034927) do
 
   create_table "chat_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "match_id", null: false
-    t.uuid "profile_id", null: false
+    t.uuid "user_profile_id", null: false
     t.text "content"
     t.uuid "user_id"
     t.string "message_type"
     t.datetime "sent_at"
     t.index ["match_id"], name: "index_chat_messages_on_match_id"
-    t.index ["profile_id"], name: "index_chat_messages_on_profile_id"
     t.index ["user_id"], name: "index_chat_messages_on_user_id"
+    t.index ["user_profile_id"], name: "index_chat_messages_on_user_profile_id"
   end
 
   create_table "clerk_users", force: :cascade do |t|
@@ -163,7 +163,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_034927) do
     t.datetime "checked_in_at", precision: nil
     t.string "in_game_name", default: "", null: false
     t.bigint "pokemon_team_id"
-    t.uuid "profile_id", null: false
+    t.uuid "user_profile_id", null: false
     t.uuid "user_id", null: false
     t.boolean "dropped", default: false, null: false
     t.boolean "disqualified", default: false, null: false
@@ -173,9 +173,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_034927) do
     t.integer "game_losses", default: 0, null: false
     t.decimal "resistance", precision: 5, scale: 2
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
-    t.index ["profile_id"], name: "index_players_on_profile_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
     t.index ["user_id", "tournament_id"], name: "index_players_on_user_id_and_tournament_id", unique: true
+    t.index ["user_profile_id"], name: "index_players_on_user_profile_id"
   end
 
   create_table "pokemon", force: :cascade do |t|
@@ -198,7 +198,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_034927) do
   create_table "pokemon_teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "profile_id", null: false
+    t.uuid "user_profile_id", null: false
   end
 
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -278,7 +278,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_034927) do
   end
 
   add_foreign_key "chat_messages", "matches"
-  add_foreign_key "chat_messages", "profiles"
+  add_foreign_key "chat_messages", "profiles", column: "user_profile_id"
   add_foreign_key "chat_messages", "users"
   add_foreign_key "clerk_users", "users"
   add_foreign_key "formats", "games"
@@ -301,11 +301,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_034927) do
   add_foreign_key "phases", "rounds", column: "current_round_id"
   add_foreign_key "phases", "tournaments"
   add_foreign_key "players", "pokemon_teams"
-  add_foreign_key "players", "profiles"
+  add_foreign_key "players", "profiles", column: "user_profile_id"
   add_foreign_key "players", "tournaments"
   add_foreign_key "players", "users"
   add_foreign_key "pokemon", "pokemon_teams"
-  add_foreign_key "pokemon_teams", "profiles"
+  add_foreign_key "pokemon_teams", "profiles", column: "user_profile_id"
   add_foreign_key "profiles", "users"
   add_foreign_key "tournament_formats", "formats"
   add_foreign_key "tournament_formats", "tournaments"

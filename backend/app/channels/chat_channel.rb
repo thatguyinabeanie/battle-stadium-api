@@ -54,7 +54,7 @@ class ChatChannel < ApplicationCable::Channel
     raise MessageTooLargeError, "Message size exceeds the maximum limit of 1MB" if message_size > MAX_MESSAGE_SIZE
 
     username = get_username(user: current_user)
-    profile = get_profile(user: current_user)
+    user_profile = get_user_profile(user: current_user)
 
     ActionCable.server.broadcast(chat_channel, {
       username: ,
@@ -66,7 +66,7 @@ class ChatChannel < ApplicationCable::Channel
 
     SaveChatMessageJob.perform_later(
       match_id: match.id,
-      profile_id: profile.id,
+      profile_id: user_profile.id,
       user_id: current_user.id,
       content: message,
       message_type: "text",
@@ -86,10 +86,10 @@ class ChatChannel < ApplicationCable::Channel
     user.username
   end
 
-  def get_profile(user:)
-    return match.player_one.profile if match.player_one.user == user
-    return match.player_two.profile if match.player_two.user == user
-    user.profile
+  def get_user_profile(user:)
+    return match.player_one.user_profile if match.player_one.user == user
+    return match.player_two.user_profile if match.player_two.user == user
+    user.user_profile
   end
 
   def format_timestr(time:)
@@ -120,7 +120,7 @@ class ChatChannel < ApplicationCable::Channel
 
   #   messages.each do |message|
   #     sent_at = format_timestr(time: message.created_at)
-  #     username = message.profile.username
+  #     username = message.user_profile.username
   #     message = message.sent_at
   #     transmit({
   #       username:,

@@ -10,7 +10,7 @@ FactoryBot.define do
     default_profile { nil }
 
     after(:build) do |user|
-      user.default_profile ||= build(:profile, user:)
+      user.default_profile ||= build(:user_profile, user:)
     end
 
     after(:create) do |user|

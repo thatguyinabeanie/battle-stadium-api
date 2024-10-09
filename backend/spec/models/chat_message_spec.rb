@@ -17,7 +17,7 @@ RSpec.describe ChatMessage do
         staff_member: organization.staff.first }
     end
 
-    let(:profile_id) { match_hash[:player_one].profile.id }
+    let(:user_profile_id) { match_hash[:player_one].user_profile.id }
     let(:match_id) { match_hash[:match].id }
 
     it "is valid with valid attributes" do
@@ -42,8 +42,8 @@ RSpec.describe ChatMessage do
   end
 
   describe "associations" do
-    it { is_expected.to belong_to(:profile).class_name("Profile").optional(false).validate(true) }
-    it { is_expected.to delegate_method(:user).to(:profile) }
+    it { is_expected.to belong_to(:user_profile).class_name("UserProfile").optional(false).validate(true) }
+    it { is_expected.to delegate_method(:user).to(:user_profile) }
     it { is_expected.to belong_to(:match).class_name("Tournaments::Match").optional(false).validate(true) }
     it { is_expected.to validate_presence_of(:content) }
   end

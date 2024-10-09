@@ -80,19 +80,19 @@ module Tournaments
       players.count < player_cap && check_registration_window
     end
 
-    def register(profile: , pokemon_team_id: nil)
-      raise "User profile must be provided." if profile.nil?
-      raise "User profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
+    def register(user_profile: , pokemon_team_id: nil)
+      raise "User Profile must be provided." if user_profile.nil?
+      raise "User Profile is already registered for the tournament" if players.exists?(user_profile_id: user_profile.id)
       raise "Tournament registration is closed." unless registration_open?
 
-      players.create(profile:, pokemon_team_id:)
+      players.create(user_profile:, pokemon_team_id:)
     end
 
-    def unregister(profile:)
-      raise "Profile must be provided." if profile.nil?
-      raise "Profile is not registered for the tournament." unless players.exists?(profile_id: profile.id)
+    def unregister(user_profile:)
+      raise "User Profile must be provided." if user_profile.nil?
+      raise "User Profile is not registered for the tournament." unless players.exists?(user_profile_id: user_profile.id)
 
-      players.find_by(profile_id: profile.id).destroy
+      players.find_by(user_profile_id: user_profile.id).destroy
     end
 
     def set_defaults

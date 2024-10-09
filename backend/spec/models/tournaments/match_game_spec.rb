@@ -27,7 +27,7 @@ RSpec.describe Tournaments::MatchGame do
     it { is_expected.to belong_to(:match).class_name("Tournaments::Match") }
     it { is_expected.to belong_to(:winner).class_name("Tournaments::Player").optional }
     it { is_expected.to belong_to(:loser).class_name("Tournaments::Player").optional }
-    it { is_expected.to belong_to(:reporter).class_name("Profile").optional }
+    it { is_expected.to belong_to(:reporter).class_name("UserProfile").optional }
     it { is_expected.to delegate_method(:player_one).to(:match) }
     it { is_expected.to delegate_method(:player_two).to(:match) }
   end
@@ -105,7 +105,7 @@ RSpec.describe Tournaments::MatchGame do
     end
 
     it "does not add any errors when reporter is one of the players" do
-      match_game.reporter = match_game.player_one.profile
+      match_game.reporter = match_game.player_one.user_profile
       match_game.send(:reporter_role_validation)
       expect(match_game.errors).to be_empty
     end

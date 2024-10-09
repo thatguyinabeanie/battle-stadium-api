@@ -19,8 +19,8 @@ class User < ApplicationRecord
   has_many :clerk_users, dependent: :destroy, inverse_of: :user, class_name: "ClerkUser"
 
   after_create :create_default_profile
-  has_one :default_profile, class_name: "Profile", dependent: :destroy
-  has_many :profiles, dependent: :destroy, inverse_of: :user, class_name: "Profile"
+  has_one :default_profile, class_name: "UserProfile", dependent: :destroy
+  has_many :user_profiles, dependent: :destroy, inverse_of: :user, class_name: "UserProfile"
 
   def staff_member_of?(organization)
     organization.staff.exists?(id:) || organization.owner == self
@@ -29,11 +29,11 @@ class User < ApplicationRecord
   private
 
   def create_default_profile
-    self.default_profile = profiles.create(username: self.username)
+    self.default_profile = user_profiles.create(username: self.username)
   end
 
   def username_uniqueness_across_users_and_profiles
-    errors.add(:username, "has already been taken") if User.where.not(id: self.id).exists?(username:) && Profile.where.not(user_id: self.id).exists?(username:)
+    errors.add(:username, "has already been taken") if User.where.not(id: self.id).exists?(username:) && UserProfile.where.not(user_id: self.id).exists?(username:)
   end
 
   def username_unchangeable

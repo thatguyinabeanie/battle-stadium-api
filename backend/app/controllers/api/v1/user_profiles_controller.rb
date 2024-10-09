@@ -1,21 +1,20 @@
-require_relative "../../../serializers/profile_serializer"
+require_relative "../../../serializers/user_profile_serializer"
 
 module Api
   module V1
-    class PlayerProfilesController < ApplicationController
-
+    class UserProfilesController < ApplicationController
       def index
         authorize self.class, :index?
-        profiles = Profile.all
-        render json: profiles, each_serializer: Serializers::Profile, status: :ok
+        @user_profiles = UserProfile.all
+        render json: @user_profiles, each_serializer: Serializers::UserProfile, status: :ok
       rescue Pundit::NotAuthorizedError => e
         render json: { error: e.message }, status: :unauthorized
       end
 
       def show
         authorize self.class, :show?
-        @profile = Profile.friendly.find(params[:slug])
-        render json: @profile, serializer: Serializers::Profile, status: :ok
+        @user_profile = UserProfile.friendly.find(params[:slug])
+        render json: @user_profile, serializer: Serializers::UserProfile, status: :ok
       rescue ActiveRecord::RecordNotFound => e
         render json: { error: e.message }, status: :not_found
       rescue Pundit::NotAuthorizedError => e
@@ -25,7 +24,7 @@ module Api
       private
 
       def permitted_params
-        params.require(:profile).permit(:id, :username, :image_url)
+        params.require(:user_profile).permit(:id, :username, :image_url)
       end
     end
   end

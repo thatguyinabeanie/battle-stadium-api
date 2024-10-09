@@ -2,12 +2,12 @@ require "rails_helper"
 
 RSpec.describe PokemonTeam do
   describe "associations" do
-    it { is_expected.to belong_to(:profile) }
+    it { is_expected.to belong_to(:user_profile) }
     it { is_expected.to have_many(:pokemon).class_name("Pokemon").inverse_of(:pokemon_team).dependent(:destroy) }
   end
 
   describe "validations" do
-    it { is_expected.to validate_presence_of(:profile_id) }
+    it { is_expected.to validate_presence_of(:user_profile_id) }
   end
 
   describe "custom validations" do

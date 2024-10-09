@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :pokemon_team, class: "PokemonTeam" do
-    profile
+    user_profile
 
     pokemon { [] }
 
