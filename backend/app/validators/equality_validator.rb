@@ -5,7 +5,8 @@ class EqualityValidator < ActiveModel::EachValidator
     expected_value = options[:value]
     return if value == expected_value
 
-    record.errors.add(attribute, "must be equal to #{expected_value}")
+    record.errors.add(attribute,
+      "must be equal to #{expected_value}")
   end
 end
 # :nocov:
