@@ -10,8 +10,8 @@ import NavbarRightMenu from "@/components/navbar/navbar-right-menu";
 import NavbarMobileMenu from "@/components/navbar/navbar-mobile-menu";
 
 const navbarClassNames = {
-  wrapper: "bg-transparent justify-between backdrop-blur-md min-w-full shadow-md",
-  base: "bg-transparent",
+  wrapper: "bg-transparent justify-between backdrop-blur-md min-w-full shadow-md ",
+  base: "bg-transparent border-b-small border-neutral-400/50",
   item: [
     "flex",
     "relative",

@@ -40,7 +40,6 @@ export default function OrganizationCard({ organization, cardProps, disableHover
               <p className="flex-col text-large font-medium sm:text-small" data-testid="org-name">
                 {organization.name}
               </p>
-              <p className="text-small text-default-400">hello world</p>
             </div>
           </CardFooter>
         </div>
