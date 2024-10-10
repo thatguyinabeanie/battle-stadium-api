@@ -9,6 +9,9 @@ on:
 permissions:
   checks: write
 
+env:
+  HUSKY: 0
+
 jobs:
   test:
     runs-on: ubuntu-latest
