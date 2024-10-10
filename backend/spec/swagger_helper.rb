@@ -297,6 +297,20 @@ POKEMON_SCHEMA = {
   required: ID_NAME_REQUIRED + %w[ability tera_type nature held_item move1 move2 move3 move4]
 }.freeze
 
+POKEMON_TEAM_SCHEMA = {
+  type: :object,
+  title: "Pokemon Team",
+  properties: ID_NAME_PROPERTIES.merge(
+    user_profile: { "$ref" => "#/components/schemas/UserProfile" },
+    public: { type: :boolean },
+    archived: { type: :boolean },
+    format: { "$ref" => "#/components/schemas/Format" },
+    game: { "$ref" => "#/components/schemas/Game" },
+    pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
+  ),
+  required: ID_NAME_REQUIRED + %w[user_profile public archived format game]
+}
+
 PLAYER_REQUEST = {
   type: :object,
   title: "Player Request",
@@ -525,6 +539,7 @@ RSpec.configure do |config|
           Tournament: TOURNAMENT_SCHEMA,
           TournamentDetails: TOURNAMENT_DETAILS_SCHEMA,
           Pokemon: POKEMON_SCHEMA,
+          PokemonTeam: POKEMON_TEAM_SCHEMA,
           PlayerRequest: PLAYER_REQUEST,
           Player: PLAYER_SCHEMA,
           PlayerDetails: PLAYER_DETAILS_SCHEMA,

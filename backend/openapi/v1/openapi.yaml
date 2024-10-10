@@ -429,6 +429,29 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
+  "/pokemon_teams":
+    get:
+      summary: List Public and NotArchived Pokemon Teams
+      description: Retrieves a list of all public and not archived pokemon teams
+      operationId: listPokemonTeams
+      security:
+      - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PokemonTeam"
   "/tournaments/{tournament_id}/matches":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1641,6 +1664,37 @@ components:
       - move2
       - move3
       - move4
+    PokemonTeam:
+      type: object
+      title: Pokemon Team
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        user_profile:
+          "$ref": "#/components/schemas/UserProfile"
+        public:
+          type: boolean
+        archived:
+          type: boolean
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        pokemon:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Pokemon"
+      required:
+      - id
+      - name
+      - user_profile
+      - public
+      - archived
+      - format
+      - game
     PlayerRequest:
       type: object
       title: Player Request

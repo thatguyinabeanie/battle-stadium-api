@@ -27,9 +27,5 @@ export default async function OrganizationTournament({
 
   const { organization } = tournament;
 
-  return (
-    <>
-      <OrgTourCard organization={organization} tournament={tournament} />
-    </>
-  );
+  return <OrgTourCard organization={organization} tournament={tournament} />;
 }

@@ -12,7 +12,7 @@ export function getBaseUrl() {
   }
 
   const port = isProduction ? "10001" : "10000";
-  const defaultHost = isProduction ? "backend-prod" : "backend";
+  const defaultHost = isProduction ? "backend-prod" : "localhost";
   const host = env.BACKEND_HOST ?? defaultHost;
 
   return `http://${host}:${port}`;

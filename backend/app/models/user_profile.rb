@@ -9,7 +9,7 @@ class UserProfile < ApplicationRecord
   has_many :pokemon_teams, class_name: "PokemonTeam", inverse_of: :user_profile,  foreign_key: "user_profile_id"
 
   validates :username, presence: true, uniqueness: true
-
+  delegate :pronouns, to: :user
 
   def should_generate_new_friendly_id?
     username_changed?

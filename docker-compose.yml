@@ -104,6 +104,7 @@ services:
     ports:
       - 3000:3000
       - 8080:3000
+      - 9229:9229
     volumes:
       - .:/battle-stadium
       - ./frontend/.zshrc:/root/.zshenv

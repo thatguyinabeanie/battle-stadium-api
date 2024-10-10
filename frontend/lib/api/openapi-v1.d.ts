@@ -173,6 +173,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/pokemon_teams": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List Public and NotArchived Pokemon Teams
+     * @description Retrieves a list of all public and not archived pokemon teams
+     */
+    get: operations["listPokemonTeams"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/tournaments/{tournament_id}/matches": {
     parameters: {
       query?: never;
@@ -952,6 +972,18 @@ export interface components {
       move3: string | null;
       move4: string | null;
     };
+    /** Pokemon Team */
+    PokemonTeam: {
+      /** Format: int64 */
+      id: number;
+      name: string;
+      user_profile: components["schemas"]["UserProfile"];
+      public: boolean;
+      archived: boolean;
+      format: components["schemas"]["Format"];
+      game: components["schemas"]["Game"];
+      pokemon?: components["schemas"]["Pokemon"][];
+    };
     /** Player Request */
     PlayerRequest: {
       /** Format: uuid */
@@ -1614,6 +1646,29 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  listPokemonTeams: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PokemonTeam"][];
+        };
       };
     };
   };
