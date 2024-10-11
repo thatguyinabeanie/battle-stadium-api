@@ -47,55 +47,54 @@ export default function PokemonTeamDisplay() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {
-          validatedTeam.map(({ pokemon, invalid } ) => (
-            <Card key={JSON.stringify(pokemon)} className="h-[500px] w-full">
-              <CardHeader className="flex justify-between items-center p-4">
-                <h2 className="text-lg font-bold">{pokemon.species}</h2>
-                <div className="flex items-center">
-                  <Image alt={pokemon.item} height={24} src={pokemon.imgItem} width={24} />
-                  <span className="ml-2 text-sm">{pokemon.item}</span>
-                </div>
-              </CardHeader>
-              <CardBody className="p-4 overflow-y-auto">
-                <div className="flex justify-center mb-4">
-                  <Image alt={pokemon.species} height={120} src={pokemon.imgPokemon} width={120} />
-                </div>
-                <div className="text-sm space-y-1">
+        {validatedTeam.map(({ pokemon, invalid }) => (
+          <Card key={JSON.stringify(pokemon)} className="h-[500px] w-full">
+            <CardHeader className="flex justify-between items-center p-4">
+              <h2 className="text-lg font-bold">{pokemon.species}</h2>
+              <div className="flex items-center">
+                <Image alt={pokemon.item} height={24} src={pokemon.imgItem} width={24} />
+                <span className="ml-2 text-sm">{pokemon.item}</span>
+              </div>
+            </CardHeader>
+            <CardBody className="p-4 overflow-y-auto">
+              <div className="flex justify-center mb-4">
+                <Image alt={pokemon.species} height={120} src={pokemon.imgPokemon} width={120} />
+              </div>
+              <div className="text-sm space-y-1">
+                <p>
+                  <strong>Ability:</strong> {pokemon.ability}
+                </p>
+                <p>
+                  <strong>Tera Type:</strong> {pokemon.teraType}
+                </p>
+                <p>
+                  <strong>Nature:</strong> {pokemon.nature}
+                </p>
+                <p>
+                  <strong>EVs:</strong> {formatStats(pokemon.evs, true)}
+                </p>
+                {Object.keys(pokemon.ivs).length > 0 && (
                   <p>
-                    <strong>Ability:</strong> {pokemon.ability}
+                    <strong>IVs:</strong> {formatStats(pokemon.ivs, false)}
                   </p>
-                  <p>
-                    <strong>Tera Type:</strong> {pokemon.teraType}
-                  </p>
-                  <p>
-                    <strong>Nature:</strong> {pokemon.nature}
-                  </p>
-                  <p>
-                    <strong>EVs:</strong> {formatStats(pokemon.evs, true)}
-                  </p>
-                  {Object.keys(pokemon.ivs).length > 0 && (
-                    <p>
-                      <strong>IVs:</strong> {formatStats(pokemon.ivs, false)}
-                    </p>
-                  )}
-                </div>
-              </CardBody>
-              <CardFooter className="p-4">
-                <div className="w-full">
-                  <strong className="block mb-1">Moves:</strong>
-                  <ul className="list-disc list-inside">
-                    {pokemon.moves.map((move, idx) => (
-                      <li key={`${move}-${idx}`} className={invalid.moves.includes(move) ? "text-red-500" : ""}>
-                        {move}
-                      </li>
-                    ))}
-                  </ul>
-                  {invalid.moves.length > 0 && <p className="text-red-500 mt-2">Some moves are invalid</p>}
-                </div>
-              </CardFooter>
-            </Card>
-          ))}
+                )}
+              </div>
+            </CardBody>
+            <CardFooter className="p-4">
+              <div className="w-full">
+                <strong className="block mb-1">Moves:</strong>
+                <ul className="list-disc list-inside">
+                  {pokemon.moves.map((move, idx) => (
+                    <li key={`${move}-${idx}`} className={invalid.moves.includes(move) ? "text-red-500" : ""}>
+                      {move}
+                    </li>
+                  ))}
+                </ul>
+                {invalid.moves.length > 0 && <p className="text-red-500 mt-2">Some moves are invalid</p>}
+              </div>
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     </div>
   );
