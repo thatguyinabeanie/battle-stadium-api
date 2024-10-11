@@ -47,4 +47,3 @@ export function usePokePaste(url?: string | null): PokePasteResults {
 
   return { teamData, loading, error };
 }
-

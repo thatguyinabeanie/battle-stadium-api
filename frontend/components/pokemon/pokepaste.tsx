@@ -28,30 +28,32 @@ export default function PokemonTeamDisplay() {
 
   return (
     <div className="container mx-auto px-4">
-      <form onSubmit={ handleSubmit } className="my-8">
+      <form className="my-8" onSubmit={handleSubmit}>
         <Textarea
+          fullWidth
+          className="mb-2"
+          maxRows={10}
+          minRows={3}
           name="url"
           placeholder="Paste your PokePaste URL or Showdown Set here"
-          fullWidth
-          minRows={ 3 }
-          maxRows={ 10 }
           value={input}
-          onChange={ (e) => setInput(e.target.value) }
-          className="mb-2"
+          onChange={(e) => setInput(e.target.value)}
         />
-        <Button type="submit" color="primary">Load Team</Button>
+        <Button color="primary" type="submit">
+          Load Team
+        </Button>
       </form>
 
-      { loading && <div className="text-center">Loading...</div> }
-      { error && <p className="text-danger">Error: { error.message }</p> }
+      {loading && <div className="text-center">Loading...</div>}
+      {error && <p className="text-danger">Error: {error.message}</p>}
 
-      { teamData && (
+      {teamData && (
         <div className="mb-8">
-          <h1 className="text-2xl font-bold">{ teamData.metadata.title || "Custom Team" }</h1>
-          { teamData.metadata.author && <p>Author: { teamData.metadata.author }</p> }
-          { teamData.metadata.format && <p>Format: { teamData.metadata.format }</p> }
+          <h1 className="text-2xl font-bold">{teamData.metadata.title || "Custom Team"}</h1>
+          {teamData.metadata.author && <p>Author: {teamData.metadata.author}</p>}
+          {teamData.metadata.format && <p>Format: {teamData.metadata.format}</p>}
         </div>
-      ) }
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {teamData &&

@@ -1,8 +1,6 @@
-import {  StatsTable } from "@pkmn/types";
 import { ParsedTeam, PasteMetadata, ParsedPokemon, cleanImageUrl, parseStats } from "./common";
 
-
-export  function parsePokePasteHTML (html: string): ParsedTeam {
+export function parsePokePasteHTML(html: string): ParsedTeam {
   if (typeof window === "undefined") return { metadata: { title: "", author: "", format: "" }, pokemon: [] };
 
   const parser = new DOMParser();
@@ -68,4 +66,3 @@ export  function parsePokePasteHTML (html: string): ParsedTeam {
 
   return { metadata, pokemon };
 }
-

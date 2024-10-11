@@ -29,7 +29,7 @@ export interface PokePasteResults {
   error: Error | null;
 }
 
-export function cleanImageUrl (url: string): string {
+export function cleanImageUrl(url: string): string {
   // Remove any quotes and extra spaces
   url = url.replace(/["'\s]/g, "");
 
@@ -42,7 +42,7 @@ export function cleanImageUrl (url: string): string {
   return url ? `https://pokepast.es${url}` : "";
 }
 
-export function parseStats (statsLine: string, defaultValue?: number): StatsTable {
+export function parseStats(statsLine: string, defaultValue?: number): StatsTable {
   const statsTable: Partial<StatsTable> = {};
 
   statsLine.split("/").forEach((stat) => {
