@@ -32,7 +32,7 @@ export function parseShowdownFormat(input: string): ParsedTeam {
       } else {
         currentPokemon.name = "";
         currentPokemon.species = "Unknown";
-        console.warn("Unable to parse Pokemon name/species from line:", line);
+        console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
       }
 
       currentPokemon.item = item ?? "";
