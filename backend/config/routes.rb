@@ -60,7 +60,7 @@ Rails.application.routes.draw do
 
       resources :user_profiles, only: %i[index show], controller: "user_profiles", param: :slug
 
-      resources :pokemon_teams, only: %i[index ], controller: "pokemon_teams"
+      resources :pokemon_teams, only: %i[index create], controller: "pokemon_teams"
     end
   end
 end

@@ -11,6 +11,6 @@ FactoryBot.define do
     move3 {  Faker::Games::Pokemon.move }
     move4 {  Faker::Games::Pokemon.move }
 
-    pokemon_team
+    pokemon_team { nil }
   end
 end

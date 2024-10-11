@@ -7,10 +7,35 @@ module Api
 
       def index
         authorize self, :index?
-        @objects = klass.where(public: true, archived: false)
+        @objects = klass.where(public: true, archived_at: nil)
         render json: @objects, each_serializer: ::Serializers::PokemonTeam, status: :ok
       end
 
+      def create
+        required_keys = [:user_profile_id, :format_id, :game_id, :name]
+        missing_keys = required_keys.select { |key| params[key].blank? }
+
+        raise ActionController::ParameterMissing.new(missing_keys.join(", ")) if missing_keys.any?
+
+        profile = UserProfile.find_by(id: params[:user_profile_id])
+
+        authorize profile, :create_pokemon_team?
+
+        pokemon_team = PokemonTeam.create(params.permit(:name, :game_id, :format_id, :user_profile_id))
+
+        pokemon_team.pokemon = params[:pokemon].map do |p|
+          pokemon_team.pokemon.create(p.permit(:name, :nickname, :ability, :held_item, :nature, :move1, :move2, :move3, :move4, :tera_type, :nature, :form).merge(pokemon_team_id: pokemon_team.id))
+        end
+
+        if pokemon_team.save
+          render json: pokemon_team, status: :created, serializer: ::Serializers::PokemonTeam
+        else
+          render json: { errors: pokemon_team.errors.full_messages }, status: :unprocessable_entity
+        end
+      rescue StandardError => e
+        skip_authorization
+        render json: { error: e.message }, status: :unprocessable_entity
+      end
     end
   end
 end

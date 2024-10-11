@@ -303,13 +303,26 @@ POKEMON_TEAM_SCHEMA = {
   properties: ID_NAME_PROPERTIES.merge(
     user_profile: { "$ref" => "#/components/schemas/UserProfile" },
     public: { type: :boolean },
-    archived: { type: :boolean },
+    archived_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     format: { "$ref" => "#/components/schemas/Format" },
     game: { "$ref" => "#/components/schemas/Game" },
     pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
   ),
-  required: ID_NAME_REQUIRED + %w[user_profile public archived format game]
+  required: ID_NAME_REQUIRED + %w[user_profile public archived_at pokemon format game]
 }
+
+POST_POKEMON_TEAM_REQUEST = {
+  type: :object,
+  title: "Post Pokemon Team Request",
+  properties: {
+    user_profile_id: UUID_TYPE,
+    name: { type: :string },
+    game_id: { type: :integer, format: :int64 },
+    format_id: { type: :integer, format: :int64 },
+    pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
+  },
+  required: %w[user_profile_id name game_id format_id pokemon]
+}.freeze
 
 PLAYER_REQUEST = {
   type: :object,
@@ -540,6 +553,7 @@ RSpec.configure do |config|
           TournamentDetails: TOURNAMENT_DETAILS_SCHEMA,
           Pokemon: POKEMON_SCHEMA,
           PokemonTeam: POKEMON_TEAM_SCHEMA,
+          PostPokemonTeamRequest: POST_POKEMON_TEAM_REQUEST,
           PlayerRequest: PLAYER_REQUEST,
           Player: PLAYER_SCHEMA,
           PlayerDetails: PLAYER_DETAILS_SCHEMA,

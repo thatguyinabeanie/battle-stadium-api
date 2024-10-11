@@ -3,7 +3,7 @@ FactoryBot.define do
     user_profile
     name { "My Awesome Pokemon Team" }
     public { true }
-    archived { false }
+    archived_at { nil }
     game factory: :game
     format { create(:format, game:) }
 
