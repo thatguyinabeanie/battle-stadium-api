@@ -40,16 +40,13 @@ export async function POST(req: NextRequest) {
 
     const lowercaseAbility = toLowerCaseReplaceSpace(pokemon.ability);
 
-    const validAbility = pokemonData.abilities.find(
-      ({ ability }) => ability.name === lowercaseAbility,
-    );
-    const invalidMoves = pokemon.moves.map(toLowerCaseReplaceSpace).filter(
-      (pokemon_move: string) =>
-        !pokemonData.moves.find(({ move }) => move.name === pokemon_move),
-    );
+    const validAbility = pokemonData.abilities.find(({ ability }) => ability.name === lowercaseAbility);
+    const invalidMoves = pokemon.moves
+      .map(toLowerCaseReplaceSpace)
+      .filter((pokemon_move: string) => !pokemonData.moves.find(({ move }) => move.name === pokemon_move));
 
-    if(invalidMoves.length > 0) {
-      console.log('invalidMoves', invalidMoves, 'pokemon.moves', pokemon.moves, 'pokemonData.moves', pokemonData.moves);
+    if (invalidMoves.length > 0) {
+      console.log("invalidMoves", invalidMoves, "pokemon.moves", pokemon.moves, "pokemonData.moves", pokemonData.moves);
     }
 
     const validTeraType = validTeraTypes.includes(pokemon.teraType?.toLowerCase() ?? "");
