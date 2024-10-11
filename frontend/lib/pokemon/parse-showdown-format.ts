@@ -14,16 +14,34 @@ export function parseShowdownFormat(input: string): ParsedTeam {
         pokemon.push(currentPokemon as ParsedPokemon);
       }
       currentPokemon = {};
-      const [species, item] = line.split("@").map((s) => s.trim());
+      const [nameSpecies, item] = line.split("@").map((s) => s.trim());
 
-      currentPokemon.species = species;
-      currentPokemon.item = item;
+      if (nameSpecies) {
+        // Check if there's a nickname (enclosed in parentheses)
+        const match = RegExp(/^(.*?)\s*\((.*?)\)\s*$/).exec(nameSpecies);
+
+        if (match) {
+          // Pokémon has a nickname
+          currentPokemon.name = match?.[1]?.trim() ?? "";
+          currentPokemon.species = match?.[2]?.trim() ?? "";
+        } else {
+          // Pokémon doesn't have a nickname
+          currentPokemon.name = "";
+          currentPokemon.species = nameSpecies.trim();
+        }
+      } else {
+        currentPokemon.name = "";
+        currentPokemon.species = "Unknown";
+        console.warn("Unable to parse Pokemon name/species from line:", line);
+      }
+
+      currentPokemon.item = item ?? "";
     } else if (line.startsWith("Ability:")) {
-      currentPokemon.ability = line.split(":")[1]?.trim() || "";
+      currentPokemon.ability = line.split(":")[1]?.trim() ?? "";
     } else if (line.startsWith("Level:")) {
-      currentPokemon.level = parseInt(line.split(":")[1]?.trim() || "0", 10);
+      currentPokemon.level = parseInt(line.split(":")[1]?.trim() ?? "100", 10);
     } else if (line.startsWith("Tera Type:")) {
-      currentPokemon.teraType = line.split(":")[1]?.trim() || "";
+      currentPokemon.teraType = line.split(":")[1]?.trim() ?? "";
     } else if (line.startsWith("EVs:")) {
       currentPokemon.evs = parseStats(line.split(":")[1]?.trim() ?? "");
     } else if (line.startsWith("IVs:")) {
@@ -44,11 +62,10 @@ export function parseShowdownFormat(input: string): ParsedTeam {
     metadata: { title: "Custom Team", author: "", format: "" },
     pokemon: pokemon.map((p) => ({
       ...p,
-      name: "",
-      gender: "",
-      evs: p.evs || { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
-      ivs: p.ivs || {},
-      imgPokemon: "", // You might want to add a function to get default images
+      gender: p.gender ?? "",
+      evs: p.evs ?? { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
+      ivs: p.ivs ?? { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 },
+      imgPokemon: "",
       imgItem: "",
     })),
   };
