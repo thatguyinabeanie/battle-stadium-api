@@ -12,11 +12,6 @@ module Api
       end
 
       def create
-        required_keys = [:user_profile_id, :format_id, :game_id, :name]
-        missing_keys = required_keys.select { |key| params[key].blank? }
-
-        raise ActionController::ParameterMissing.new(missing_keys.join(", ")) if missing_keys.any?
-
         profile = UserProfile.find_by(id: params[:user_profile_id])
 
         authorize profile, :create_pokemon_team?

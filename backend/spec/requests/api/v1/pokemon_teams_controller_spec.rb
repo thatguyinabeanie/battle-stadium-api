@@ -38,22 +38,21 @@ RSpec.describe Api::V1::PokemonTeamsController do
       security [Bearer: []]
       parameter VERCEL_TOKEN_HEADER_PARAMETER
 
-      parameter name: :name, in: :body, type: :string, required: true
-      parameter name: :user_profile_id, in: :body, type: :integer, required: true
-      parameter name: :format_id, in: :body, type: :integer, required: true
-      parameter name: :game_id, in: :body, type: :integer, required: true
-      parameter name: :pokemon, in: :body, type: :array, items: { "$ref" => "#/components/schemas/Pokemon" }, required: true
+      parameter name: :pokemon_team, in: :body, schema: { "$ref" => "#/components/schemas/PokemonTeamPostRequest" }
 
       response(201, "created") do
-        let(:user_profile) { request_user.default_profile }
+        let(:pokemon_team) do
+          game = create(:game)
+          format = create(:format, game:)
 
-        let(:name) { "New Pokemon Team" }
-        let(:user_profile_id) { user_profile.id }
-        let(:game) { create(:game) }
-        let(:game_id) { game.id }
-        let(:format) { create(:format, game:) }
-        let(:format_id) { format.id }
-        let(:pokemon) { build_list(:pokemon, 6) }
+          {
+            name:  "New Pokemon Team",
+            user_profile_id: request_user.default_profile.id,
+            game_id: game.id,
+            format_id: format.id,
+            pokemon: build_list(:pokemon, 6)
+          }
+        end
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PokemonTeam"
@@ -72,6 +71,16 @@ RSpec.describe Api::V1::PokemonTeamsController do
         let(:format) { create(:format, game:) }
         let(:format_id) { format.id }
         let(:pokemon) { build_list(:pokemon, 6) }
+
+        let(:pokemon_team) do
+          {
+            name:,
+            user_profile_id:,
+            game_id:,
+            format_id:,
+            pokemon:
+          }
+        end
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
