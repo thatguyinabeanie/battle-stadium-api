@@ -40,15 +40,15 @@ export default function PokemonTeamDisplay() {
 
       {validatedTeam && (
         <div className="mb-8">
-          <h1 className="text-2xl font-bold">{ metaData?.title || "Custom Team"}</h1>
-          { metaData?.author && <p>Author: { metaData?.author}</p>}
-          { metaData?.format && <p>Format: { metaData?.format}</p>}
+          <h1 className="text-2xl font-bold">{metaData?.title || "Custom Team"}</h1>
+          {metaData?.author && <p>Author: {metaData?.author}</p>}
+          {metaData?.format && <p>Format: {metaData?.format}</p>}
         </div>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {validatedTeam &&
-          validatedTeam.map(({pokemon, invalid}, index) => (
+          validatedTeam.map(({ pokemon, invalid }, index) => (
             <Card key={index} className="h-[500px] w-full">
               <CardHeader className="flex justify-between items-center p-4">
                 <h2 className="text-lg font-bold">{pokemon.species}</h2>
@@ -85,11 +85,13 @@ export default function PokemonTeamDisplay() {
                 <div className="w-full">
                   <strong className="block mb-1">Moves:</strong>
                   <ul className="list-disc list-inside">
-                    { pokemon.moves.map((move, idx) => (
-                      <li key={ idx } className={ invalid.moves.includes(move) ? 'text-red-500' : '' }>{ move }</li>
-                    )) }
+                    {pokemon.moves.map((move, idx) => (
+                      <li key={idx} className={invalid.moves.includes(move) ? "text-red-500" : ""}>
+                        {move}
+                      </li>
+                    ))}
                   </ul>
-                  { invalid.moves.length > 0 && <p className="text-red-500 mt-2">Some moves are invalid</p> }
+                  {invalid.moves.length > 0 && <p className="text-red-500 mt-2">Some moves are invalid</p>}
                 </div>
               </CardFooter>
             </Card>

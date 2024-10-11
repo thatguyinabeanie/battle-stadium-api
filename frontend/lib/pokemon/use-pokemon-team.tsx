@@ -5,8 +5,8 @@ import { parseShowdownFormat } from "./parse-showdown-format";
 import { parsePokePasteHTML } from "./parse-pokepaste-html";
 import React from "react";
 
-async function fetchAndParse  (input: string): Promise<ParsedTeam> {
-  if (input.startsWith('https://pokepast.es/')) {
+async function fetchAndParse(input: string): Promise<ParsedTeam> {
+  if (input.startsWith("https://pokepast.es/")) {
     // Existing URL parsing logic
     const response = await fetch("/api/pokemon/pokepaste", {
       method: "POST",
@@ -14,6 +14,7 @@ async function fetchAndParse  (input: string): Promise<ParsedTeam> {
       body: JSON.stringify({ url: input }),
     });
     const html = await response.text();
+
     return parsePokePasteHTML(html);
   } else {
     // Direct input parsing logic
@@ -21,16 +22,17 @@ async function fetchAndParse  (input: string): Promise<ParsedTeam> {
   }
 }
 
-async function validatePokemon (pokemon: ParsedPokemon): Promise<ValidatedPokemon> {
+async function validatePokemon(pokemon: ParsedPokemon): Promise<ValidatedPokemon> {
   const response = await fetch("/api/pokemon/validate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ pokemon }),
   });
-  return await response.json() as ValidatedPokemon;
+
+  return (await response.json()) as ValidatedPokemon;
 }
 
-export function usePokemonTeam () {
+export function usePokemonTeam() {
   const [metaData, setMetaData] = React.useState<PasteMetadata | null>(null);
   const [validatedTeam, setValidatedTeam] = React.useState<ValidatedPokemon[] | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -46,7 +48,6 @@ export function usePokemonTeam () {
 
       setMetaData(parsedData.metadata);
       setValidatedTeam(validatedPokemon);
-
     } catch (err) {
       setError(err instanceof Error ? err : new Error("An unknown error occurred"));
     } finally {

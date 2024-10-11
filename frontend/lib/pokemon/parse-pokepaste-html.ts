@@ -42,7 +42,9 @@ export function parsePokePasteHTML(html: string): ParsedTeam {
 
     const imgDiv = article.querySelector("div");
     const imgPokemonSrc = (imgDiv?.querySelector("img")?.getAttribute("src") || "").replace(/^["']|["']$/g, "").trim();
-    const imgItemSrc = (imgDiv?.querySelectorAll("img")[1]?.getAttribute("src") || "").replace(/^["']|["']$/g, "").trim();
+    const imgItemSrc = (imgDiv?.querySelectorAll("img")[1]?.getAttribute("src") || "")
+      .replace(/^["']|["']$/g, "")
+      .trim();
 
     const imgPokemon = cleanImageUrl(imgPokemonSrc);
     const imgItem = cleanImageUrl(imgItemSrc);
