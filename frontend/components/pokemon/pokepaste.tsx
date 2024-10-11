@@ -7,7 +7,7 @@ import Image from "next/image";
 import { StatsTable } from "@pkmn/types";
 
 export default function PokemonTeamDisplay() {
-  const { teamData, loading, error, handleSubmit } = usePokemonTeam();
+  const { validatedTeam, metaData, loading, error, handleSubmit } = usePokemonTeam();
   const [input, setInput] = React.useState<string>("");
 
   const formatStats = (stats: Partial<StatsTable>, showAll: boolean = true) => {
@@ -38,17 +38,17 @@ export default function PokemonTeamDisplay() {
       {loading && <div className="text-center">Loading...</div>}
       {error && <p className="text-danger">Error: {error.message}</p>}
 
-      {teamData && (
+      {validatedTeam && (
         <div className="mb-8">
-          <h1 className="text-2xl font-bold">{teamData.metadata.title || "Custom Team"}</h1>
-          {teamData.metadata.author && <p>Author: {teamData.metadata.author}</p>}
-          {teamData.metadata.format && <p>Format: {teamData.metadata.format}</p>}
+          <h1 className="text-2xl font-bold">{ metaData?.title || "Custom Team"}</h1>
+          { metaData?.author && <p>Author: { metaData?.author}</p>}
+          { metaData?.format && <p>Format: { metaData?.format}</p>}
         </div>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {teamData &&
-          teamData.pokemon.map((pokemon, index) => (
+        {validatedTeam &&
+          validatedTeam.map(({pokemon, invalid}, index) => (
             <Card key={index} className="h-[500px] w-full">
               <CardHeader className="flex justify-between items-center p-4">
                 <h2 className="text-lg font-bold">{pokemon.species}</h2>
@@ -85,10 +85,11 @@ export default function PokemonTeamDisplay() {
                 <div className="w-full">
                   <strong className="block mb-1">Moves:</strong>
                   <ul className="list-disc list-inside">
-                    {pokemon.moves.map((move, idx) => (
-                      <li key={idx}>{move}</li>
-                    ))}
+                    { pokemon.moves.map((move, idx) => (
+                      <li key={ idx } className={ invalid.moves.includes(move) ? 'text-red-500' : '' }>{ move }</li>
+                    )) }
                   </ul>
+                  { invalid.moves.length > 0 && <p className="text-red-500 mt-2">Some moves are invalid</p> }
                 </div>
               </CardFooter>
             </Card>

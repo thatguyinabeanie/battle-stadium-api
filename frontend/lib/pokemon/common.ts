@@ -3,13 +3,18 @@ import { PokemonSet, StatsTable } from "@pkmn/types";
 export interface ParsedPokemon extends PokemonSet {
   imgPokemon: string;
   imgItem: string;
-  ability: string;
-  level: number;
-  teraType: string;
-  evs: StatsTable;
-  ivs: StatsTable;
-  nature: string;
-  moves: string[];
+  type_slot_one?: string;
+  type_slot_two?: string;
+}
+
+export interface ValidatedPokemon {
+  pokemon: ParsedPokemon;
+  invalid: {
+    item: boolean;
+    ability: boolean;
+    moves: string[];
+    teraType: boolean;
+  };
 }
 
 export interface PasteMetadata {
@@ -36,6 +41,10 @@ export function cleanImageUrl(url: string): string {
   // Ensure the URL starts with a forward slash
   if (url && !url.startsWith("/")) {
     url = "/" + url;
+  }
+
+  if (url && url.startsWith("/img/pokemon/0-0.png")) {
+    return "";
   }
 
   // Prepend the base URL only if we have a valid path
