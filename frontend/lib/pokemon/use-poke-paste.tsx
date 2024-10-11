@@ -37,8 +37,8 @@ function parsePokemonTeam(html: string): ParsedPokemon[] {
     const nature = lines.find((line) => line.endsWith("Nature"))?.replace(" Nature", "") || "";
     const moves = lines.filter((line) => line.startsWith("-")).map((line) => line.replace("- ", ""));
 
-    const imgPokemon = `https://example.com/pokemon/${pokemonSet.species}.png`; // Replace with actual image URL logic
-    const imgItem = `https://example.com/item/${item}.png`; // Replace with actual image URL logic
+    const imgPokemon = article.querySelector(".img-pokemon")?.getAttribute("src") || "";
+    const imgItem = article.querySelector(".img-item")?.getAttribute("src") || "";
 
     return {
       ...(pokemonSet as PokemonSet),
@@ -49,8 +49,8 @@ function parsePokemonTeam(html: string): ParsedPokemon[] {
       evs: parseEVs(evs),
       nature,
       moves,
-      imgPokemon,
-      imgItem,
+      imgPokemon: `https://pokepast.es${imgPokemon}`,
+      imgItem: `https://pokepast.es${imgItem}`,
     };
   });
 }
