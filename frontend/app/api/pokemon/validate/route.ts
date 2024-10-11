@@ -44,7 +44,8 @@ export async function POST(req: NextRequest) {
     const validAbility = pokemonData.abilities.find(({ ability }) => ability.name === lowercaseAbility);
     const invalidMoves = pokemon.moves
       .map(toLowerCaseReplaceSpace)
-      .filter((pokemon_move: string) => !pokemonData.moves.find(({ move }) => move.name === pokemon_move));
+      .filter((pokemon_move: string) => !pokemonData.moves.find(({ move }) => move.name === pokemon_move))
+      .map((move) => move.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()));
 
     const validTeraType = validTeraTypes.includes(pokemon.teraType?.toLowerCase() ?? "");
 
