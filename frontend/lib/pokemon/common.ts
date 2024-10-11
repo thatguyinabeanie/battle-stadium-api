@@ -1,6 +1,6 @@
 import { PokemonSet, StatsTable } from "@pkmn/types";
 
-export interface OptionalStatsPokemonSet extends Omit<PokemonSet, 'evs' | 'ivs'> {
+export interface OptionalStatsPokemonSet extends Omit<PokemonSet, "evs" | "ivs"> {
   evs?: Partial<StatsTable>;
   ivs?: Partial<StatsTable>;
 }

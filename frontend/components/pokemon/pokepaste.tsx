@@ -12,6 +12,7 @@ export default function PokemonTeamDisplay() {
 
   const formatStats = (stats?: Partial<StatsTable>, showAll: boolean = true) => {
     if (!stats) return "";
+
     return Object.entries(stats)
       .filter(([_, value]) => showAll || value !== 31)
       .map(([stat, value]) => `${value} ${stat.toUpperCase()}`)
@@ -49,7 +50,10 @@ export default function PokemonTeamDisplay() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {validatedTeam.map(({ pokemon, invalid }) => (
-          <Card key={ JSON.stringify(pokemon) } className="h-[500px] w-full bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-400/20">
+          <Card
+            key={JSON.stringify(pokemon)}
+            className="h-[500px] w-full bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-400/20"
+          >
             <CardHeader className="flex justify-between items-center p-4">
               <h2 className="text-lg font-bold">{pokemon.species}</h2>
               <div className="flex items-center">
