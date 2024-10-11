@@ -19,7 +19,7 @@ interface PokePasteResults {
   error: Error | null;
 }
 
-export function usePokePaste (url?: string | null): PokePasteResults {
+export function usePokePaste(url?: string | null): PokePasteResults {
   const [teamData, setTeamData] = useState<ParsedPokemon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -27,7 +27,7 @@ export function usePokePaste (url?: string | null): PokePasteResults {
   useEffect(() => {
     setLoading(true);
 
-    async function fetchTeamData (url: string) {
+    async function fetchTeamData(url: string) {
       try {
         const response = await fetch("/api/pokepaste", {
           method: "POST",
@@ -65,7 +65,7 @@ export function usePokePaste (url?: string | null): PokePasteResults {
   return { teamData, loading, error };
 }
 
-function parsePokemonTeam (html: string): ParsedPokemon[] {
+function parsePokemonTeam(html: string): ParsedPokemon[] {
   if (typeof window === "undefined") return []; // Check for server-side rendering
 
   const parser = new DOMParser();
@@ -117,7 +117,6 @@ function parsePokemonTeam (html: string): ParsedPokemon[] {
   });
 }
 
-
 function cleanImageUrl(url: string): string {
   // Remove any quotes and extra spaces
   url = url.replace(/["'\s]/g, "");
@@ -131,7 +130,7 @@ function cleanImageUrl(url: string): string {
   return url ? `https://pokepast.es${url}` : "";
 }
 
-function parseStats (statsLine: string, defaultValue?: number): StatsTable {
+function parseStats(statsLine: string, defaultValue?: number): StatsTable {
   const statsTable: Partial<StatsTable> = {};
 
   statsLine.split("/").forEach((stat) => {
@@ -139,13 +138,15 @@ function parseStats (statsLine: string, defaultValue?: number): StatsTable {
 
     if (name && value) {
       const statKey = name.toLowerCase() as keyof StatsTable;
+
       statsTable[statKey] = parseInt(value, 10);
     }
   });
 
   if (defaultValue !== undefined) {
-    const allStats: (keyof StatsTable)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
-    allStats.forEach(stat => {
+    const allStats: (keyof StatsTable)[] = ["hp", "atk", "def", "spa", "spd", "spe"];
+
+    allStats.forEach((stat) => {
       if (statsTable[stat] === undefined) {
         statsTable[stat] = defaultValue;
       }
