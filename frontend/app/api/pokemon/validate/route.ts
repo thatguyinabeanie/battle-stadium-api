@@ -27,7 +27,7 @@ const validTypes = [
 const validTeraTypes = [...validTypes, "stellar"];
 
 function toLowerCaseReplaceSpace(value: string) {
-  return value.toLowerCase().replace(" ", "-");
+  return value.toLowerCase().replace(/ /g, "-");
 }
 
 export async function POST(req: NextRequest) {
@@ -37,13 +37,20 @@ export async function POST(req: NextRequest) {
   try {
     const pokemonData = await P.getPokemonByName(pokemon.species.toLowerCase());
     const validItem = pokemon.item ? await P.getItemByName(toLowerCaseReplaceSpace(pokemon.item)) : null;
+
+    const lowercaseAbility = toLowerCaseReplaceSpace(pokemon.ability);
+
     const validAbility = pokemonData.abilities.find(
-      ({ ability }) => ability.name === toLowerCaseReplaceSpace(pokemon.ability),
+      ({ ability }) => ability.name === lowercaseAbility,
     );
-    const invalidMoves = pokemon.moves.filter(
+    const invalidMoves = pokemon.moves.map(toLowerCaseReplaceSpace).filter(
       (pokemon_move: string) =>
-        !pokemonData.moves.find(({ move }) => move.name === toLowerCaseReplaceSpace(pokemon_move)),
+        !pokemonData.moves.find(({ move }) => move.name === pokemon_move),
     );
+
+    if(invalidMoves.length > 0) {
+      console.log('invalidMoves', invalidMoves, 'pokemon.moves', pokemon.moves, 'pokemonData.moves', pokemonData.moves);
+    }
 
     const validTeraType = validTeraTypes.includes(pokemon.teraType?.toLowerCase() ?? "");
 
