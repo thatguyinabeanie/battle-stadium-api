@@ -1,14 +1,14 @@
+import PokemonTeamDisplay from "@/components/pokemon/pokepaste";
 import { getPokemonTeams } from "../data/actions";
 
 export default async function Pokemon() {
-  const teams = (await getPokemonTeams()).data;
-
-  console.log("teams", teams); // eslint-disable-line no-console
+  // const teams = (await getPokemonTeams()).data;
 
   return (
     <div>
       <h1>Pokemon</h1>
-      <p>Coming soon</p>
+
+      <PokemonTeamDisplay />
     </div>
   );
 }
