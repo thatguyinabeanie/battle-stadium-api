@@ -283,18 +283,23 @@ TOURNAMENT_POST_REQUEST = {
 POKEMON_SCHEMA = {
   type: :object,
   title: "Pokemon",
-  properties: ID_NAME_PROPERTIES.merge(
+  properties: {
+    position: { type: :integer, format: :integer },
+    species: { type: :string },
     nickname: { type: :string, nullable: true },
+    gender: { type: :string },
     ability: { type: :string },
     tera_type: { type: :string },
     nature: { type: :string },
-    held_item: { type: :string, nullable: true },
+    form: { type: :string, nullable: true },
+    item: { type: :string, nullable: true },
     move1: { type: :string, nullable: true },
     move2: { type: :string, nullable: true },
     move3: { type: :string, nullable: true },
-    move4: { type: :string, nullable: true }
-  ),
-  required: ID_NAME_REQUIRED + %w[ability tera_type nature held_item move1 move2 move3 move4]
+    move4: { type: :string, nullable: true },
+    pokemon_team_id: { type: :integer, format: :int64 }
+  },
+  required:  %w[species ability tera_type nature form item move1 move2 move3 move4]
 }.freeze
 
 POKEMON_TEAM_SCHEMA = {
@@ -308,21 +313,9 @@ POKEMON_TEAM_SCHEMA = {
     game: { "$ref" => "#/components/schemas/Game" },
     pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
   ),
-  required: ID_NAME_REQUIRED + %w[user_profile public archived_at pokemon format game]
+  required: ID_NAME_REQUIRED + %w[user_profile public archived_at format game pokemon]
 }.freeze
 
-POST_POKEMON_TEAM_REQUEST = {
-  type: :object,
-  title: "Post Pokemon Team Request",
-  properties: {
-    user_profile_id: UUID_TYPE,
-    name: { type: :string },
-    game_id: { type: :integer, format: :int64 },
-    format_id: { type: :integer, format: :int64 },
-    pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
-  },
-  required: %w[user_profile_id name game_id format_id pokemon]
-}.freeze
 
 PLAYER_REQUEST = {
   type: :object,
@@ -567,7 +560,6 @@ RSpec.configure do |config|
           TournamentDetails: TOURNAMENT_DETAILS_SCHEMA,
           Pokemon: POKEMON_SCHEMA,
           PokemonTeam: POKEMON_TEAM_SCHEMA,
-          PostPokemonTeamRequest: POST_POKEMON_TEAM_REQUEST,
           PlayerRequest: PLAYER_REQUEST,
           Player: PLAYER_SCHEMA,
           PlayerDetails: PLAYER_DETAILS_SCHEMA,

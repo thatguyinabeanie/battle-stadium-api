@@ -1652,21 +1652,26 @@ components:
       type: object
       title: Pokemon
       properties:
-        id:
+        position:
           type: integer
-          format: int64
-        name:
+          format: integer
+        species:
           type: string
         nickname:
           type: string
           nullable: true
+        gender:
+          type: string
         ability:
           type: string
         tera_type:
           type: string
         nature:
           type: string
-        held_item:
+        form:
+          type: string
+          nullable: true
+        item:
           type: string
           nullable: true
         move1:
@@ -1681,13 +1686,16 @@ components:
         move4:
           type: string
           nullable: true
+        pokemon_team_id:
+          type: integer
+          format: int64
       required:
-      - id
-      - name
+      - species
       - ability
       - tera_type
       - nature
-      - held_item
+      - form
+      - item
       - move1
       - move2
       - move3
@@ -1723,33 +1731,8 @@ components:
       - user_profile
       - public
       - archived_at
-      - pokemon
       - format
       - game
-    PostPokemonTeamRequest:
-      type: object
-      title: Post Pokemon Team Request
-      properties:
-        user_profile_id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        game_id:
-          type: integer
-          format: int64
-        format_id:
-          type: integer
-          format: int64
-        pokemon:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Pokemon"
-      required:
-      - user_profile_id
-      - name
-      - game_id
-      - format_id
       - pokemon
     PlayerRequest:
       type: object

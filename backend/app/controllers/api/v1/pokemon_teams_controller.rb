@@ -18,8 +18,9 @@ module Api
 
         pokemon_team = PokemonTeam.create(params.permit(:name, :game_id, :format_id, :user_profile_id))
 
-        pokemon_team.pokemon = params[:pokemon].map do |p|
-          pokemon_team.pokemon.create(p.permit(:name, :nickname, :ability, :held_item, :nature, :move1, :move2, :move3, :move4, :tera_type, :nature, :form).merge(pokemon_team_id: pokemon_team.id))
+        pokemon_team.pokemon = params[:pokemon].each_with_index.map do |p, position|
+
+          pokemon_team.pokemon.create(p.permit(:species, :nickname, :gender, :ability, :item, :nature, :tera_type, :nature, :form, :move1, :move2, :move3, :move4).merge(pokemon_team_id: pokemon_team.id,  position:))
         end
 
         if pokemon_team.save

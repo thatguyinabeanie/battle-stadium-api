@@ -13,59 +13,10 @@ RSpec.describe Api::V1::PokemonTeamsController do
 
         get :index
 
-        response_team = response.parsed_body.first
-
-        expect(response_team).to include(
+        expect(response.parsed_body).to include(
           {
             "id" => team.id,
-            "name" => team.name,
-            "user_profile" => {
-              "id" => team.user_profile.id,
-              "username" => team.user_profile.username,
-              "image_url" => team.user_profile.image_url,
-              "pronouns" => team.user_profile.pronouns,
-            },
-            "pokemon" => team.pokemon.map do |pokemon|
-              {
-                "id" => pokemon.id,
-                "name" => pokemon.name,
-                "nickname" => pokemon.nickname,
-                "ability" => pokemon.ability,
-                "nature" => pokemon.nature,
-                "tera_type" => pokemon.tera_type,
-                "held_item" => pokemon.held_item,
-                "move1" => pokemon.move1,
-                "move2" => pokemon.move2,
-                "move3" => pokemon.move3,
-                "move4" => pokemon.move4,
-              }
-            end,
-          })
-      end
-    end
-
-    describe "POST" do
-      it "creates a new pokemon team" do
-        user_profile = request_user.default_profile
-        team = build(:pokemon_team, user_profile:)
-
-        pokemon = build_list(:pokemon, 6).map { |pokemon| pokemon.attributes }
-
-        params = {
-          user_profile_id: user_profile.id,
-          format_id: team.format.id,
-          game_id: team.game.id,
-          name: team.name,
-          pokemon:
-        }
-
-        post(:create, params:)
-
-        response_team = response.parsed_body
-
-        expect(response_team).to include(
-          {
-            "name" => team.name,
+            "public" => true,
             "archived_at" => nil,
             "game" => {
               "id" => team.game.id,
@@ -75,32 +26,96 @@ RSpec.describe Api::V1::PokemonTeamsController do
               "id" => team.format.id,
               "name" => team.format.name,
             },
+            "name" => team.name,
             "user_profile" => {
               "id" => team.user_profile.id,
               "username" => team.user_profile.username,
               "image_url" => team.user_profile.image_url,
               "pronouns" => team.user_profile.pronouns,
             },
-              "pokemon" => array_including(
-                *team.pokemon.map do |pokemon|
-                  {
-                    "id" => anything, # Allow any ID since it will be generated
-                    "name" => pokemon.name,
-                    "nickname" => pokemon.nickname,
-                    "ability" => pokemon.ability,
-                    "nature" => pokemon.nature,
-                    "tera_type" => pokemon.tera_type,
-                    "held_item" => pokemon.held_item,
-                    "move1" => pokemon.move1,
-                    "move2" => pokemon.move2,
-                    "move3" => pokemon.move3,
-                    "move4" => pokemon.move4,
-                  }
-                end
-                ),
-          })
-        expect(response).to have_http_status(:created)
+            "pokemon" => array_including(
+            *team.pokemon.map do |pokemon|
+              {
+                "species" => pokemon.species,
+                "form" => pokemon.form,
+                "nickname" => pokemon.nickname,
+                "gender" => pokemon.gender,
+                "ability" => pokemon.ability,
+                "nature" => pokemon.nature,
+                "tera_type" => pokemon.tera_type,
+                "item" => pokemon.item,
+                "move1" => pokemon.move1,
+                "move2" => pokemon.move2,
+                "move3" => pokemon.move3,
+                "move4" => pokemon.move4,
+                "pokemon_team_id" => pokemon.pokemon_team_id,
+                "position" => pokemon.position,
+              }
+            end
+            )
+          }
+        )
       end
+    end
+  end
+
+  describe "POST" do
+    it "creates a new pokemon team" do
+      user_profile = request_user.default_profile
+      team = build(:pokemon_team, user_profile:)
+
+      pokemon = build_list(:pokemon, 6).map { |pokemon| pokemon.attributes }
+
+      params = {
+        user_profile_id: user_profile.id,
+        format_id: team.format.id,
+        game_id: team.game.id,
+        name: team.name,
+        pokemon:
+      }
+
+      post(:create, params:)
+
+      expect(response.parsed_body).to include(
+        {
+          "public" => true,
+          "name" => team.name,
+          "archived_at" => nil,
+          "game" => {
+            "id" => team.game.id,
+            "name" => team.game.name,
+          },
+          "format" => {
+            "id" => team.format.id,
+            "name" => team.format.name,
+          },
+          "user_profile" => {
+            "id" => team.user_profile.id,
+            "username" => team.user_profile.username,
+            "image_url" => team.user_profile.image_url,
+            "pronouns" => team.user_profile.pronouns,
+          },
+          "pokemon" => array_including(*team.pokemon.map do |pokemon|
+            {
+              "species" => pokemon.species,
+              "form" => pokemon.form,
+              "nickname" => pokemon.nickname,
+              "gender" => pokemon.gender,
+              "ability" => pokemon.ability,
+              "nature" => pokemon.nature,
+              "tera_type" => pokemon.tera_type,
+              "item" => pokemon.item,
+              "move1" => pokemon.move1,
+              "move2" => pokemon.move2,
+              "move3" => pokemon.move3,
+              "move4" => pokemon.move4,
+              "pokemon_team_id" => pokemon.pokemon_team_id,
+              "position" => pokemon.position,
+            }
+          end)
+        })
+
+      expect(response).to have_http_status(:created)
     end
   end
 end

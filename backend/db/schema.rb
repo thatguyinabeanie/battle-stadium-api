@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_10_234506) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_11_153448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -179,11 +179,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_10_234506) do
   end
 
   create_table "pokemon", force: :cascade do |t|
-    t.string "name"
+    t.string "species"
     t.string "ability"
     t.string "tera_type"
     t.string "nature"
-    t.string "held_item"
+    t.string "item"
     t.string "move1"
     t.string "move2"
     t.string "move3"
@@ -193,6 +193,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_10_234506) do
     t.string "nickname"
     t.bigint "pokemon_team_id", default: 0, null: false
     t.string "form"
+    t.integer "position", default: 0, null: false
+    t.integer "gender", default: 2, null: false
+    t.index ["pokemon_team_id", "position"], name: "index_pokemon_on_pokemon_team_id_and_position", unique: true
     t.index ["pokemon_team_id"], name: "index_pokemon_on_pokemon_team_id"
   end
 
@@ -200,7 +203,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_10_234506) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_profile_id", null: false
-    t.boolean "public", default: false, null: false
+    t.boolean "public", default: true, null: false
     t.string "name"
     t.bigint "format_id", null: false
     t.bigint "game_id", null: false
