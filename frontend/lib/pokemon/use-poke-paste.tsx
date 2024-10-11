@@ -31,7 +31,7 @@ interface PokePasteResults {
   error: Error | null;
 }
 
-export function usePokePaste (url?: string | null): PokePasteResults {
+export function usePokePaste(url?: string | null): PokePasteResults {
   const [teamData, setTeamData] = useState<ParsedTeam | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -39,7 +39,7 @@ export function usePokePaste (url?: string | null): PokePasteResults {
   useEffect(() => {
     setLoading(true);
 
-    async function fetchTeamData (url: string) {
+    async function fetchTeamData(url: string) {
       try {
         const response = await fetch("/api/pokepaste", {
           method: "POST",
@@ -62,11 +62,13 @@ export function usePokePaste (url?: string | null): PokePasteResults {
 
     if (!url) {
       setLoading(false);
+
       return;
     }
     if (!/^https:\/\/pokepast\.es\/[a-zA-Z0-9]+$/.test(url)) {
       setError(new Error("Invalid URL format"));
       setLoading(false);
+
       return;
     }
     fetchTeamData(url);
@@ -75,7 +77,7 @@ export function usePokePaste (url?: string | null): PokePasteResults {
   return { teamData, loading, error };
 }
 
-function parsePokemonTeam (html: string): ParsedTeam {
+function parsePokemonTeam(html: string): ParsedTeam {
   if (typeof window === "undefined") return { metadata: { title: "", author: "", format: "" }, pokemon: [] };
 
   const parser = new DOMParser();
@@ -85,7 +87,11 @@ function parsePokemonTeam (html: string): ParsedTeam {
   const aside = doc.querySelector("aside");
   const metadata: PasteMetadata = {
     title: aside?.querySelector("h1")?.textContent?.trim() || "",
-    author: aside?.querySelector("h2")?.textContent?.trim().replace(/^\s*by\s*/, "") || "",
+    author:
+      aside
+        ?.querySelector("h2")
+        ?.textContent?.trim()
+        .replace(/^\s*by\s*/, "") || "",
     format: aside?.querySelector("p")?.textContent?.replace("Format:", "").trim() || "",
   };
 
