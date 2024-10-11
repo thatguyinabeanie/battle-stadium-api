@@ -124,3 +124,25 @@ export async function getUserProfiles(options?: FetchOptions<paths["/user_profil
 
   return BattleStadiumApiClient().GET("/user_profiles", userProfilesOptions);
 }
+
+export async function getPokemonTeams(options?: FetchOptions<paths["/pokemon_teams"]["get"]>) {
+  const pokemonOptions = {
+    ...defaultConfig("getPokemonList"),
+    ...options,
+  };
+
+  return BattleStadiumApiClient().GET("/pokemon_teams", pokemonOptions);
+}
+
+export async function postPokemonTeam(
+  body: paths["/pokemon_teams"]["post"]["requestBody"]["content"]["application/json"],
+  options?: FetchOptions<paths["/pokemon_teams"]["post"]>,
+) {
+  const pokemonOptions = {
+    ...defaultConfig("postPokemonTeam"),
+    ...options,
+    body,
+  };
+
+  return BattleStadiumApiClient().POST("/pokemon_teams", pokemonOptions);
+}
