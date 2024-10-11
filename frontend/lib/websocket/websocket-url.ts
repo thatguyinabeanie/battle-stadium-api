@@ -13,8 +13,8 @@ export default function websocketUrl(): string {
     return `${protocol}://${env.WEBSOCKET_URL}/${DEFAULT_WS_PATH}`;
   }
 
-  if (env.BACKEND_HOST) {
-    return constructWsUrl(env.BACKEND_HOST, protocol);
+  if (env.LOCAL_DEV_BACKEND_HOST) {
+    return constructWsUrl(env.LOCAL_DEV_BACKEND_HOST, protocol);
   }
 
   if (isProduction) {

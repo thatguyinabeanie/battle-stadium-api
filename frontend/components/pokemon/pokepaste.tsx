@@ -1,23 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { usePokePaste } from "@/lib/pokemon/use-poke-paste";
+import { usePokemonTeam } from "@/lib/pokemon/use-pokemon-team";
 import { Button, Card, CardHeader, CardBody, CardFooter, Textarea } from "@/components/nextui-use-client";
 import Image from "next/image";
 import { StatsTable } from "@pkmn/types";
 
 export default function PokemonTeamDisplay() {
-  const [url, setUrl] = React.useState<string | null>(null);
-  const { teamData, loading, error } = usePokePaste(url);
+  const { teamData, loading, error, handleSubmit } = usePokemonTeam();
   const [input, setInput] = React.useState<string>("");
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const inputUrl = formData.get("url") as string;
-
-    setUrl(inputUrl);
-  };
 
   const formatStats = (stats: Partial<StatsTable>, showAll: boolean = true) => {
     return Object.entries(stats)
@@ -36,7 +27,7 @@ export default function PokemonTeamDisplay() {
           minRows={3}
           name="url"
           placeholder="Paste your PokePaste URL or Showdown Set here"
-          value={input}
+          value={ input }
           onChange={(e) => setInput(e.target.value)}
         />
         <Button color="primary" type="submit">

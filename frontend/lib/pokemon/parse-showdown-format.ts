@@ -1,4 +1,4 @@
-import { ParsedTeam, ParsedPokemon } from "./common";
+import { ParsedTeam, ParsedPokemon, parseStats } from "./common";
 
 export function parseShowdownFormat(input: string): ParsedTeam {
   const lines = input
@@ -19,15 +19,15 @@ export function parseShowdownFormat(input: string): ParsedTeam {
       currentPokemon.species = species;
       currentPokemon.item = item;
     } else if (line.startsWith("Ability:")) {
-      currentPokemon.ability = line.split(":")[1].trim();
+      currentPokemon.ability = line.split(":")[1]?.trim() || "";
     } else if (line.startsWith("Level:")) {
-      currentPokemon.level = parseInt(line.split(":")[1].trim(), 10);
+      currentPokemon.level = parseInt(line.split(":")[1]?.trim() || "0", 10);
     } else if (line.startsWith("Tera Type:")) {
-      currentPokemon.teraType = line.split(":")[1].trim();
+      currentPokemon.teraType = line.split(":")[1]?.trim() || "";
     } else if (line.startsWith("EVs:")) {
-      currentPokemon.evs = parseStats(line.split(":")[1].trim());
+      currentPokemon.evs = parseStats(line.split(":")[1]?.trim() ?? "");
     } else if (line.startsWith("IVs:")) {
-      currentPokemon.ivs = parseStats(line.split(":")[1].trim());
+      currentPokemon.ivs = parseStats(line.split(":")[1]?.trim() ?? "");
     } else if (line.includes("Nature")) {
       currentPokemon.nature = line.split(" ")[0];
     } else if (line.startsWith("-")) {
