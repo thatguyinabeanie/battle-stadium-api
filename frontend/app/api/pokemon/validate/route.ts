@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       imgItem: validItem?.sprites.default,
     };
 
-    return NextResponse.json({ parsedPokemon, invalid }, { status: 200 });
+    return NextResponse.json({ pokemon: parsedPokemon, invalid }, { status: 200 });
   } catch (error) {
     console.error("Error fetching Pokemon data:", error);
 

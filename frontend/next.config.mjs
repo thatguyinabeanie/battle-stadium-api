@@ -11,7 +11,16 @@ export default async function nextConfig(_phase, { defaultConfig }) {
     ...defaultConfig,
     images: {
       ...defaultConfig.images,
-      domains: ["pokepast.es"],
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "pokepast.es",
+        },
+        {
+          protocol: "https",
+          hostname: "raw.githubusercontent.com",
+        },
+      ],
     },
     env: {
       ...defaultConfig.env,

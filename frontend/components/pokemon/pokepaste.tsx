@@ -47,9 +47,9 @@ export default function PokemonTeamDisplay() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {validatedTeam &&
-          validatedTeam.map(({ pokemon, invalid }, index) => (
-            <Card key={index} className="h-[500px] w-full">
+        {
+          validatedTeam.map(({ pokemon, invalid } ) => (
+            <Card key={JSON.stringify(pokemon)} className="h-[500px] w-full">
               <CardHeader className="flex justify-between items-center p-4">
                 <h2 className="text-lg font-bold">{pokemon.species}</h2>
                 <div className="flex items-center">
@@ -86,7 +86,7 @@ export default function PokemonTeamDisplay() {
                   <strong className="block mb-1">Moves:</strong>
                   <ul className="list-disc list-inside">
                     {pokemon.moves.map((move, idx) => (
-                      <li key={idx} className={invalid.moves.includes(move) ? "text-red-500" : ""}>
+                      <li key={`${move}-${idx}`} className={invalid.moves.includes(move) ? "text-red-500" : ""}>
                         {move}
                       </li>
                     ))}

@@ -34,7 +34,7 @@ async function validatePokemon(pokemon: ParsedPokemon): Promise<ValidatedPokemon
 
 export function usePokemonTeam() {
   const [metaData, setMetaData] = React.useState<PasteMetadata | null>(null);
-  const [validatedTeam, setValidatedTeam] = React.useState<ValidatedPokemon[] | null>(null);
+  const [validatedTeam, setValidatedTeam] = React.useState<ValidatedPokemon[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error | null>(null);
 
