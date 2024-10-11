@@ -15,7 +15,7 @@ export function usePokemonTeam() {
     try {
       if (input.startsWith("https://pokepast.es/")) {
         // Existing URL parsing logic
-        const response = await fetch("/api/pokepaste", {
+        const response = await fetch("/api/pokemon/pokepaste", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url: input }),
