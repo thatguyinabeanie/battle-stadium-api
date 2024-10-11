@@ -963,18 +963,22 @@ export interface components {
     };
     /** Pokemon */
     Pokemon: {
-      /** Format: int64 */
-      id: number;
-      name: string;
+      /** Format: integer */
+      position?: number;
+      species: string;
       nickname?: string | null;
+      gender?: string;
       ability: string;
       tera_type: string;
       nature: string;
-      held_item: string | null;
+      form: string | null;
+      item: string | null;
       move1: string | null;
       move2: string | null;
       move3: string | null;
       move4: string | null;
+      /** Format: int64 */
+      pokemon_team_id?: number;
     };
     /** Pokemon Team */
     PokemonTeam: {
@@ -987,17 +991,6 @@ export interface components {
       archived_at: string | null;
       format: components["schemas"]["Format"];
       game: components["schemas"]["Game"];
-      pokemon: components["schemas"]["Pokemon"][];
-    };
-    /** Post Pokemon Team Request */
-    PostPokemonTeamRequest: {
-      /** Format: uuid */
-      user_profile_id: string;
-      name: string;
-      /** Format: int64 */
-      game_id: number;
-      /** Format: int64 */
-      format_id: number;
       pokemon: components["schemas"]["Pokemon"][];
     };
     /** Player Request */

@@ -1,7 +1,5 @@
-"use client";
-
 import { useState, useEffect } from "react";
-import { Sets, PokemonSet } from "@pkmn/sets";
+import { PokemonSet } from "@pkmn/sets";
 import { StatsTable } from "@pkmn/types";
 
 interface ParsedPokemon extends PokemonSet {
@@ -23,50 +21,53 @@ function parsePokemonTeam(html: string): ParsedPokemon[] {
   const articles = doc.querySelectorAll("article");
 
   return Array.from(articles).map((article): ParsedPokemon => {
-    const preContent = article.querySelector("pre")?.textContent || "";
-    const pokemonSet = Sets.importSet(preContent);
+    const preContent = (article.querySelector("pre")?.textContent || "").split("\n");
 
-    if (!pokemonSet) throw new Error("Failed to parse Pokémon set");
+    const lines = preContent.map((line) => line.trim()).filter(Boolean);
 
-    const lines = preContent.split("\n").map((line) => line.trim());
-    const item = lines[0] && lines[0].includes(" @ ") ? lines[0].split(" @ ")[1] : "";
-    const ability = lines.find((line) => line.startsWith("Ability:"))?.replace("Ability: ", "") || "";
-    const level = parseInt(lines.find((line) => line.startsWith("Level:"))?.replace("Level: ", "") || "50", 10);
-    const teraType = lines.find((line) => line.startsWith("Tera Type:"))?.replace("Tera Type: ", "") || "";
-    const evs = lines.find((line) => line.startsWith("EVs:"))?.replace("EVs: ", "") || "";
-    const nature = lines.find((line) => line.endsWith("Nature"))?.replace(" Nature", "") || "";
-    const moves = lines.filter((line) => line.startsWith("-")).map((line) => line.replace("- ", ""));
+    const speciesLine = (lines[0] && lines[0].split(" @ ")) as string[];
+    const species = speciesLine[0] as string;
+    const itemLine = speciesLine[1] ? speciesLine[1].split("\\n") : [];
+    const item = itemLine[0] || "";
 
-    const imgPokemon = article.querySelector(".img-pokemon")?.getAttribute("src") || "";
-    const imgItem = article.querySelector(".img-item")?.getAttribute("src") || "";
+    const ability = itemLine.find((line) => line.startsWith("Ability:"))?.split(": ")[1] || "";
+    const level = parseInt(itemLine.find((line) => line.startsWith("Level:"))?.split(": ")[1] || "100", 10);
+    const teraType = itemLine.find((line) => line.startsWith("Tera Type:"))?.split(": ")[1] || "";
+    const nature = itemLine.find((line) => line.includes("Nature"))?.split(" ")[0] || "";
+
+    const moves = itemLine.filter((line) => line.startsWith("-")).map((line) => line.substring(2).trim());
+
+    const evsLine = itemLine.find((line) => line.startsWith("EVs:"))?.split(": ")[1] || "";
+    const ivsLine = lines.find((line) => line.startsWith("IVs:"))?.split(": ")[1] || "";
+
+    console.log("species", species, "ivsLine", ivsLine, "evsLine", evsLine); // eslint-disable-line
+
+    const imgDiv = article.querySelector("div");
+    const imgPokemonSrc = (imgDiv?.querySelector("img")?.getAttribute("src") || "").replace(/^["']|["']$/g, "");
+    const imgItemSrc = (imgDiv?.querySelectorAll("img")[1]?.getAttribute("src") || "").replace(/^["']|["']$/g, "");
+
+    const imgPokemon = cleanImageUrl(imgPokemonSrc);
+    const imgItem = cleanImageUrl(imgItemSrc);
+
+    console.log(imgPokemon); // eslint-disable-line
+    console.log(imgItem); // eslint-disable-line
 
     return {
-      ...(pokemonSet as PokemonSet),
-      item: item as string,
+      name: "",
+      species,
+      gender: "",
+      item,
       ability,
       level,
       teraType,
-      evs: parseEVs(evs),
+      evs: parseStats(evsLine, 0),
+      ivs: parseStats(ivsLine, 31),
       nature,
       moves,
-      imgPokemon: `https://pokepast.es${imgPokemon}`,
-      imgItem: `https://pokepast.es${imgItem}`,
+      imgPokemon,
+      imgItem,
     };
   });
-}
-
-function parseEVs(evs: string): StatsTable {
-  const evsTable: StatsTable = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
-
-  evs.split("/").forEach((ev) => {
-    const [value, stat] = ev.trim().split(" ");
-
-    if (stat) {
-      evsTable[stat.toLowerCase() as keyof StatsTable] = parseInt(value as string, 10);
-    }
-  });
-
-  return evsTable;
 }
 
 interface PokePasteResults {
@@ -119,4 +120,40 @@ export function usePokePaste(url?: string | null): PokePasteResults {
   }, [url]);
 
   return { teamData, loading, error };
+}
+
+function cleanImageUrl(url: string): string {
+  // Remove any quotes and extra spaces
+  url = url.replace(/["'\s]/g, "");
+
+  // Ensure the URL starts with a forward slash
+  if (url && !url.startsWith("/")) {
+    url = "/" + url;
+  }
+
+  // Prepend the base URL only if we have a valid path
+  return url ? `https://pokepast.es${url}` : "";
+}
+
+function parseStats(statsLine: string, defaultValue: number = 0): StatsTable {
+  const statsTable: StatsTable = {
+    hp: defaultValue,
+    atk: defaultValue,
+    def: defaultValue,
+    spa: defaultValue,
+    spd: defaultValue,
+    spe: defaultValue,
+  };
+
+  statsLine.split("/").forEach((stat) => {
+    const [value, name] = stat.trim().split(" ");
+
+    if (name && value) {
+      const statKey = name.toLowerCase() as keyof StatsTable;
+
+      statsTable[statKey] = parseInt(value, 10);
+    }
+  });
+
+  return statsTable;
 }
