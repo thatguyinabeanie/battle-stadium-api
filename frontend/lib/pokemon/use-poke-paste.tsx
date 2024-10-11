@@ -9,25 +9,37 @@ interface ParsedPokemon extends PokemonSet {
   level: number;
   teraType: string;
   evs: StatsTable;
+  ivs: StatsTable;
   nature: string;
   moves: string[];
 }
 
+interface PasteMetadata {
+  title: string;
+  author: string;
+  format: string;
+}
+
+interface ParsedTeam {
+  metadata: PasteMetadata;
+  pokemon: ParsedPokemon[];
+}
+
 interface PokePasteResults {
-  teamData: ParsedPokemon[];
+  teamData: ParsedTeam | null;
   loading: boolean;
   error: Error | null;
 }
 
-export function usePokePaste(url?: string | null): PokePasteResults {
-  const [teamData, setTeamData] = useState<ParsedPokemon[]>([]);
+export function usePokePaste (url?: string | null): PokePasteResults {
+  const [teamData, setTeamData] = useState<ParsedTeam | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     setLoading(true);
 
-    async function fetchTeamData(url: string) {
+    async function fetchTeamData (url: string) {
       try {
         const response = await fetch("/api/pokepaste", {
           method: "POST",
@@ -50,13 +62,11 @@ export function usePokePaste(url?: string | null): PokePasteResults {
 
     if (!url) {
       setLoading(false);
-
       return;
     }
     if (!/^https:\/\/pokepast\.es\/[a-zA-Z0-9]+$/.test(url)) {
       setError(new Error("Invalid URL format"));
       setLoading(false);
-
       return;
     }
     fetchTeamData(url);
@@ -65,14 +75,23 @@ export function usePokePaste(url?: string | null): PokePasteResults {
   return { teamData, loading, error };
 }
 
-function parsePokemonTeam(html: string): ParsedPokemon[] {
-  if (typeof window === "undefined") return []; // Check for server-side rendering
+function parsePokemonTeam (html: string): ParsedTeam {
+  if (typeof window === "undefined") return { metadata: { title: "", author: "", format: "" }, pokemon: [] };
 
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
+
+  // Parse metadata
+  const aside = doc.querySelector("aside");
+  const metadata: PasteMetadata = {
+    title: aside?.querySelector("h1")?.textContent?.trim() || "",
+    author: aside?.querySelector("h2")?.textContent?.trim().replace(/^\s*by\s*/, "") || "",
+    format: aside?.querySelector("p")?.textContent?.replace("Format:", "").trim() || "",
+  };
+
   const articles = doc.querySelectorAll("article");
 
-  return Array.from(articles).map((article): ParsedPokemon => {
+  const pokemon = Array.from(articles).map((article): ParsedPokemon => {
     const preContent = (article.querySelector("pre")?.textContent || "").split("\n");
 
     const lines = preContent.map((line) => line.trim()).filter(Boolean);
@@ -107,7 +126,7 @@ function parsePokemonTeam(html: string): ParsedPokemon[] {
       ability,
       level,
       teraType,
-      evs: parseStats(evsLine),
+      evs: parseStats(evsLine, 0),
       ivs: parseStats(ivsLine),
       nature,
       moves,
@@ -115,6 +134,8 @@ function parsePokemonTeam(html: string): ParsedPokemon[] {
       imgItem,
     };
   });
+
+  return { metadata, pokemon };
 }
 
 function cleanImageUrl(url: string): string {
