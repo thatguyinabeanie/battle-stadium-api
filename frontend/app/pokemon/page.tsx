@@ -3,7 +3,7 @@ import { getPokemonTeams } from "../data/actions";
 export default async function Pokemon() {
   const teams = (await getPokemonTeams()).data;
 
-  console.log("teams", teams);
+  console.log("teams", teams); // eslint-disable-line no-console
 
   return (
     <div>
