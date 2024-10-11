@@ -1,6 +1,11 @@
 import { PokemonSet, StatsTable } from "@pkmn/types";
 
-export interface ParsedPokemon extends PokemonSet {
+export interface OptionalStatsPokemonSet extends Omit<PokemonSet, 'evs' | 'ivs'> {
+  evs?: Partial<StatsTable>;
+  ivs?: Partial<StatsTable>;
+}
+
+export interface ParsedPokemon extends OptionalStatsPokemonSet {
   imgPokemon: string;
   imgItem: string;
   type_slot_one?: string;
