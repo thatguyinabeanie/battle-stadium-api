@@ -15,7 +15,7 @@ interface ParsedPokemon extends PokemonSet {
   moves: string[];
 }
 
-function parsePokemonTeam (html: string): ParsedPokemon[] {
+function parsePokemonTeam(html: string): ParsedPokemon[] {
   if (typeof window === "undefined") return []; // Check for server-side rendering
 
   const parser = new DOMParser();
@@ -75,7 +75,7 @@ interface PokePasteResults {
   error: Error | null;
 }
 
-export function usePokePaste (url?: string | null): PokePasteResults {
+export function usePokePaste(url?: string | null): PokePasteResults {
   const [teamData, setTeamData] = useState<ParsedPokemon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -83,7 +83,7 @@ export function usePokePaste (url?: string | null): PokePasteResults {
   useEffect(() => {
     setLoading(true);
 
-    async function fetchTeamData (url: string) {
+    async function fetchTeamData(url: string) {
       try {
         const response = await fetch("/api/pokepaste", {
           method: "POST",
@@ -106,11 +106,13 @@ export function usePokePaste (url?: string | null): PokePasteResults {
 
     if (!url) {
       setLoading(false);
+
       return;
     }
     if (!/^https:\/\/pokepast\.es\/[a-zA-Z0-9]+$/.test(url)) {
       setError(new Error("Invalid URL format"));
       setLoading(false);
+
       return;
     }
     fetchTeamData(url);
