@@ -95,6 +95,8 @@ services:
       target: development
       tags:
         - thatguyinabeanie/battle-stadium:frontend-dev-latest
+    environment:
+      - LOCAL_DEV_BACKEND_HOST=backend
     command: >
       zsh -c "rm -rf .next && bun install && bun dev && tail -f /dev/null"
     tty: true

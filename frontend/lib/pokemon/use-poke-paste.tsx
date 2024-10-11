@@ -15,7 +15,7 @@ interface ParsedPokemon extends PokemonSet {
   moves: string[];
 }
 
-function parsePokemonTeam(html: string): ParsedPokemon[] {
+function parsePokemonTeam (html: string): ParsedPokemon[] {
   if (typeof window === "undefined") return []; // Check for server-side rendering
 
   const parser = new DOMParser();
@@ -28,8 +28,8 @@ function parsePokemonTeam(html: string): ParsedPokemon[] {
 
     if (!pokemonSet) throw new Error("Failed to parse Pokémon set");
 
-    const lines = (pokemonSet.item as string).split("\\n").map((line) => line.trim());
-    const item = lines[0];
+    const lines = preContent.split("\n").map((line) => line.trim());
+    const item = lines[0] && lines[0].includes(" @ ") ? lines[0].split(" @ ")[1] : "";
     const ability = lines.find((line) => line.startsWith("Ability:"))?.replace("Ability: ", "") || "";
     const level = parseInt(lines.find((line) => line.startsWith("Level:"))?.replace("Level: ", "") || "50", 10);
     const teraType = lines.find((line) => line.startsWith("Tera Type:"))?.replace("Tera Type: ", "") || "";
@@ -75,7 +75,7 @@ interface PokePasteResults {
   error: Error | null;
 }
 
-export function usePokePaste(url?: string | null): PokePasteResults {
+export function usePokePaste (url?: string | null): PokePasteResults {
   const [teamData, setTeamData] = useState<ParsedPokemon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -83,7 +83,7 @@ export function usePokePaste(url?: string | null): PokePasteResults {
   useEffect(() => {
     setLoading(true);
 
-    async function fetchTeamData(url: string) {
+    async function fetchTeamData (url: string) {
       try {
         const response = await fetch("/api/pokepaste", {
           method: "POST",
@@ -106,13 +106,11 @@ export function usePokePaste(url?: string | null): PokePasteResults {
 
     if (!url) {
       setLoading(false);
-
       return;
     }
     if (!/^https:\/\/pokepast\.es\/[a-zA-Z0-9]+$/.test(url)) {
       setError(new Error("Invalid URL format"));
       setLoading(false);
-
       return;
     }
     fetchTeamData(url);

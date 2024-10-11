@@ -5,17 +5,11 @@ import { auth } from "@clerk/nextjs/server";
 import { paths } from "@/lib/api/openapi-v1";
 
 export function getBaseUrl() {
-  const isProduction = env.NODE_ENV === "production";
-
-  if (isProduction && env.PROD_API_BASE_URL) {
+  if ([env.NODE_ENV, env.VERCEL_ENV].includes("production")) {
     return `${env.PROD_API_BASE_URL}`;
   }
 
-  const port = isProduction ? "10001" : "10000";
-  const defaultHost = isProduction ? "backend-prod" : "localhost";
-  const host = env.BACKEND_HOST ?? defaultHost;
-
-  return `http://${host}:${port}`;
+  return `http://${env.LOCAL_DEV_BACKEND_HOST}:${env.LOCAL_DEV_BACKEND_PORT}`;
 }
 
 export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
