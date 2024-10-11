@@ -27,7 +27,7 @@ export default function PokemonTeamDisplay() {
           minRows={3}
           name="url"
           placeholder="Paste your PokePaste URL or Showdown Set here"
-          value={ input }
+          value={input}
           onChange={(e) => setInput(e.target.value)}
         />
         <Button color="primary" type="submit">
