@@ -73,7 +73,7 @@ USER_PROFILE_SCHEMA = {
     pronouns: { type: :string , nullable: true }
   },
   required: %w[username image_url id pronouns]
-}
+}.freeze
 
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
@@ -81,7 +81,7 @@ USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
     properties: UUID_PROPERTY,
     required: %w[username pronouns id] + SIMPLE_USER_SCHEMA[:required]
   }
-)
+).freeze
 
 SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
@@ -309,7 +309,7 @@ POKEMON_TEAM_SCHEMA = {
     pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
   ),
   required: ID_NAME_REQUIRED + %w[user_profile public archived_at pokemon format game]
-}
+}.freeze
 
 POST_POKEMON_TEAM_REQUEST = {
   type: :object,
@@ -486,6 +486,20 @@ VERCEL_TOKEN_HEADER_PARAMETER = {
   type: :string,
   required: false,
   description: "Vercel OIDC Token"
+}
+
+POKEMON_TEAM_PARAMETER = {
+  name: :pokemon_team,
+  in: :body,
+  type: :object,
+  properties: {
+    user_profile_id: UUID_TYPE,
+    name: { type: :string },
+    game_id: { type: :integer, format: :int64 },
+    format_id: { type: :integer, format: :int64 },
+    pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
+  },
+  required: %w[user_profile_id name game_id format_id pokemon]
 }
 
 RSpec.configure do |config|

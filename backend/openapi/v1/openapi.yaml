@@ -452,6 +452,34 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/PokemonTeam"
+    post:
+      summary: Create Pokemon Team
+      description: Creates a new pokemon team.
+      operationId: postPokemonTeam
+      security:
+      - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PokemonTeam"
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
   "/tournaments/{tournament_id}/matches":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1677,8 +1705,10 @@ components:
           "$ref": "#/components/schemas/UserProfile"
         public:
           type: boolean
-        archived:
-          type: boolean
+        archived_at:
+          type: string
+          format: date-time
+          nullable: true
         format:
           "$ref": "#/components/schemas/Format"
         game:
@@ -1692,9 +1722,35 @@ components:
       - name
       - user_profile
       - public
-      - archived
+      - archived_at
+      - pokemon
       - format
       - game
+    PostPokemonTeamRequest:
+      type: object
+      title: Post Pokemon Team Request
+      properties:
+        user_profile_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        game_id:
+          type: integer
+          format: int64
+        format_id:
+          type: integer
+          format: int64
+        pokemon:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Pokemon"
+      required:
+      - user_profile_id
+      - name
+      - game_id
+      - format_id
+      - pokemon
     PlayerRequest:
       type: object
       title: Player Request

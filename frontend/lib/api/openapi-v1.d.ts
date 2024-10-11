@@ -186,7 +186,11 @@ export interface paths {
      */
     get: operations["listPokemonTeams"];
     put?: never;
-    post?: never;
+    /**
+     * Create Pokemon Team
+     * @description Creates a new pokemon team.
+     */
+    post: operations["postPokemonTeam"];
     delete?: never;
     options?: never;
     head?: never;
@@ -979,10 +983,22 @@ export interface components {
       name: string;
       user_profile: components["schemas"]["UserProfile"];
       public: boolean;
-      archived: boolean;
+      /** Format: date-time */
+      archived_at: string | null;
       format: components["schemas"]["Format"];
       game: components["schemas"]["Game"];
-      pokemon?: components["schemas"]["Pokemon"][];
+      pokemon: components["schemas"]["Pokemon"][];
+    };
+    /** Post Pokemon Team Request */
+    PostPokemonTeamRequest: {
+      /** Format: uuid */
+      user_profile_id: string;
+      name: string;
+      /** Format: int64 */
+      game_id: number;
+      /** Format: int64 */
+      format_id: number;
+      pokemon: components["schemas"]["Pokemon"][];
     };
     /** Player Request */
     PlayerRequest: {
@@ -1669,6 +1685,40 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["PokemonTeam"][];
         };
+      };
+    };
+  };
+  postPokemonTeam: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": Record<string, never>;
+      };
+    };
+    responses: {
+      /** @description created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PokemonTeam"];
+        };
+      };
+      /** @description unprocessable entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

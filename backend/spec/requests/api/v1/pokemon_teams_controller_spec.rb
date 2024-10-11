@@ -37,8 +37,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
 
       security [Bearer: []]
       parameter VERCEL_TOKEN_HEADER_PARAMETER
-
-      parameter name: :pokemon_team, in: :body, schema: { "$ref" => "#/components/schemas/PokemonTeamPostRequest" }
+      parameter POKEMON_TEAM_PARAMETER
 
       response(201, "created") do
         let(:pokemon_team) do
