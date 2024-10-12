@@ -1,7 +1,11 @@
-import { ValidatedPokemon } from "@/lib/pokemon/common";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
+import { InvalidPokemonAttributes, ParsedPokemon } from "@/lib/pokemon/common";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { StatsTable } from "@pkmn/types";
 import Image from "next/image";
+
+const POKEMON_SIZE = 100;
+const ITEM_SIZE = 24;
+
 const formatStats = (stats?: Partial<StatsTable>, showAll: boolean = true) => {
   if (!stats) return "";
 
@@ -11,76 +15,85 @@ const formatStats = (stats?: Partial<StatsTable>, showAll: boolean = true) => {
     .join(" / ");
 };
 
-interface ValidatedPokemonProps {
-  validatedPokemon: ValidatedPokemon;
+interface PokemonCardProps {
+  pokemon: ParsedPokemon;
+  invalid?: InvalidPokemonAttributes;
+  ots?: boolean;
 }
 
-function PokemonName({ validatedPokemon: { pokemon } }: Readonly<ValidatedPokemonProps>) {
+function PokemonName({ pokemon }: Readonly<PokemonCardProps>) {
   const { name, species } = pokemon;
 
   if (name && name !== species) {
     return (
-      <h2 className="text-lg font-bold">
-        {name} ({species})
-      </h2>
+      <div className="flex flex-row">
+        <h2 className="text-lg font-bold">{name}</h2>
+        <h2 className="text-lg"> ({species})</h2>
+      </div>
     );
   }
 
   return <h2 className="text-lg font-bold">{species}</h2>;
 }
 
-export function PokemonCard(props: Readonly<ValidatedPokemonProps>) {
-  const { validatedPokemon } = props;
-  const { pokemon, invalid } = validatedPokemon;
+export function PokemonCard(props: Readonly<PokemonCardProps>) {
+  const { pokemon, invalid, ots } = props;
 
   return (
     <Card
-      key={JSON.stringify(pokemon)}
-      className="h-[400px] w-[400px] bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-400/20"
+      className="h-[200px] w-[350px] justify-center bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-400/20"
+      shadow="md"
     >
-      <CardHeader className="flex justify-between items-center p-4">
-        <PokemonName validatedPokemon={validatedPokemon} />
-        <div className="flex items-center">
-          <Image alt={pokemon.item} height={24} src={pokemon.imgItem} width={24} />
-          <span className="ml-2 text-sm">{pokemon.item}</span>
-        </div>
+      <CardHeader className="flex justify-center items-center p-4">
+        <PokemonName pokemon={pokemon} />
       </CardHeader>
-      <CardBody className="p-4 overflow-y-auto">
-        <div className="flex justify-center mb-4">
-          <Image alt={pokemon.species} height={120} src={pokemon.imgPokemon} width={120} />
-        </div>
-        <div className="text-sm space-y-1">
-          <p>
-            <strong>Ability:</strong> {pokemon.ability}
-          </p>
-          <p>
-            <strong>Tera Type:</strong> {pokemon.teraType}
-          </p>
-          <p>
-            <strong>Nature:</strong> {pokemon.nature}
-          </p>
-          <p>
-            <strong>EVs:</strong> {formatStats(pokemon.evs, true)}
-          </p>
-          {pokemon.ivs && Object.keys(pokemon.ivs).length > 0 && (
-            <p>
-              <strong>IVs:</strong> {formatStats(pokemon.ivs, false)}
-            </p>
-          )}
-        </div>
+      <CardBody className="p-2 flex flex-row justify-center items-center overflow-hidden">
+        <Image alt={pokemon.species} height={POKEMON_SIZE} src={pokemon.imgPokemon} width={POKEMON_SIZE} />
+        <PokemonAttributes ots={ots} pokemon={pokemon} />
       </CardBody>
-      <CardFooter className="p-4">
-        <div className="w-full">
-          <strong className="block mb-1">Moves:</strong>
-          <ul className="list-disc list-inside">
-            {pokemon.moves.map((move, idx) => (
-              <li key={`${move}-${idx}`} className={invalid.moves.includes(move) ? "text-red-500" : ""}>
-                {move}
-              </li>
-            ))}
-          </ul>
-        </div>
+
+      <CardFooter className="p-4 w-full flex flex-row justify-around">
+        {pokemon.moves.map((move, idx) => (
+          <p key={`${move}-${idx}`} className={invalid?.moves.includes(move) ? "text-red-500" : ""}>
+            {move}
+          </p>
+        ))}
       </CardFooter>
     </Card>
+  );
+}
+
+function PokemonAttributes({ pokemon, ots }: Readonly<PokemonCardProps>) {
+  return (
+    <div className="flex flex-col text-sm p-2">
+      <p>
+        <strong>Ability:</strong> {pokemon.ability}
+      </p>
+      <p>
+        <strong>Tera Type:</strong> {pokemon.teraType}
+      </p>
+      <p>
+        <strong>Nature:</strong> {pokemon.nature}
+      </p>
+      <span className="flex flex-row">
+        <p>
+          <span className="flex flex-row justify-around">
+            <strong>Item:</strong>
+            <p> {pokemon.item}</p>{" "}
+            <Image alt={pokemon.item} height={ITEM_SIZE} src={pokemon.imgItem} width={ITEM_SIZE} />{" "}
+          </span>
+        </p>
+      </span>
+      {!ots && (
+        <p>
+          <strong>EVs:</strong> {formatStats(pokemon.evs, true)}
+        </p>
+      )}
+      {!ots && pokemon.ivs && Object.keys(pokemon.ivs).length > 0 && (
+        <p>
+          <strong>IVs:</strong> {formatStats(pokemon.ivs, false)}
+        </p>
+      )}
+    </div>
   );
 }

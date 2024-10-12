@@ -12,6 +12,13 @@ export interface ParsedPokemon extends OptionalStatsPokemonSet {
   type_slot_two?: string;
 }
 
+export interface InvalidPokemonAttributes {
+  item: boolean;
+  ability: boolean;
+  moves: string[];
+  teraType: boolean;
+}
+
 export interface ValidatedPokemon {
   pokemon: ParsedPokemon;
   invalid: {

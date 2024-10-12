@@ -10,7 +10,7 @@ export default function PokemonTeamDisplay() {
   const [input, setInput] = React.useState<string>("");
 
   return (
-    <div className="container mx-auto px-4">
+    <>
       <form className="my-8" onSubmit={handleSubmit}>
         <Textarea
           fullWidth
@@ -38,11 +38,11 @@ export default function PokemonTeamDisplay() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {validatedTeam.map((pokemon) => (
-          <PokemonCard key={JSON.stringify(pokemon)} validatedPokemon={pokemon} />
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center">
+        {validatedTeam.map(({ pokemon, invalid }) => (
+          <PokemonCard key={JSON.stringify(pokemon)} ots invalid={invalid} pokemon={pokemon} />
         ))}
       </div>
-    </div>
+    </>
   );
 }
