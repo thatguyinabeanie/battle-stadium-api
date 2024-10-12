@@ -1,5 +1,5 @@
 import { InvalidPokemonAttributes, ParsedPokemon } from "@/lib/pokemon/common";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader, Chip } from "@nextui-org/react";
 import { StatsTable } from "@pkmn/types";
 import Image from "next/image";
 
@@ -37,7 +37,7 @@ function PokemonName({ pokemon }: Readonly<PokemonCardProps>) {
 }
 
 export function PokemonCard(props: Readonly<PokemonCardProps>) {
-  const { pokemon, invalid, ots } = props;
+  const { pokemon, ots } = props;
 
   return (
     <Card
@@ -53,10 +53,8 @@ export function PokemonCard(props: Readonly<PokemonCardProps>) {
       </CardBody>
 
       <CardFooter className="p-4 w-full flex flex-row justify-around">
-        {pokemon.moves.map((move, idx) => (
-          <p key={`${move}-${idx}`} className={invalid?.moves.includes(move) ? "text-red-500" : ""}>
-            {move}
-          </p>
+        {pokemon.moves.map((move) => (
+          <PokemonMoveChip key={`${pokemon.species}.${move}`} move={move} />
         ))}
       </CardFooter>
     </Card>
@@ -95,5 +93,20 @@ function PokemonAttributes({ pokemon, ots }: Readonly<PokemonCardProps>) {
         </p>
       )}
     </div>
+  );
+}
+
+export default function PokemonMoveChip({ move }: { move: string }) {
+  return (
+    <Chip
+      classNames={{
+        base: "bg-gradient-to-br from-indigo-500 to-pink-500 border-small border-white/50 shadow-pink-500/30",
+        content: "drop-shadow shadow-black dark:shadow-white light:shadow-black",
+      }}
+      size="sm"
+      variant="shadow"
+    >
+      {move}
+    </Chip>
   );
 }
