@@ -24,8 +24,9 @@ COPY . .
 
 FROM base-image AS development
 EXPOSE 3000
+EXPOSE 9229
 # Start the Next.js development server
-CMD ["bun", "dev"]
+CMD ["bun", "run", "dev", "--inspect=0.0.0.0:9229"]
 
 FROM base-image AS production
 EXPOSE ${PORT:-3000}

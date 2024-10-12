@@ -13,7 +13,8 @@ export const env = createEnv({
     WEBSOCKET_URL: z.string().optional(),
     NEON_DATABASE_URL: z.string().optional(),
 
-    BACKEND_HOST: z.string().optional().default("backend"),
+    LOCAL_DEV_BACKEND_HOST: z.string().optional().default("localhost"),
+    LOCAL_DEV_BACKEND_PORT: z.number().optional().default(10000),
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().optional(),
     NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().optional().default("/sign-in"),
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().optional().default("/sign-up"),

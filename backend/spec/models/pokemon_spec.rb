@@ -9,11 +9,11 @@ RSpec.describe Pokemon do
     subject do
       described_class.create(
         pokemon_team_id: create(:pokemon_team).id,
-        name: "Pikachu",
+        species: "Pikachu",
         ability: "Static",
         tera_type: "Electric",
         nature: "Jolly",
-        held_item: "Light Ball",
+        item: "Light Ball",
         move1: "Thunderbolt",
         move2: "Quick Attack",
         move3: "Iron Tail",
@@ -22,11 +22,12 @@ RSpec.describe Pokemon do
     end
 
     it { is_expected.to validate_presence_of(:pokemon_team_id) }
-    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:species) }
     it { is_expected.to validate_presence_of(:ability) }
     it { is_expected.to validate_presence_of(:tera_type) }
     it { is_expected.to validate_presence_of(:nature) }
-    it { is_expected.to validate_presence_of(:held_item) }
+    it { is_expected.to validate_presence_of(:form).allow_blank }
+    it { is_expected.to validate_presence_of(:item) }
     it { is_expected.to validate_presence_of(:move1) }
     it { is_expected.to validate_presence_of(:move2) }
     it { is_expected.to validate_presence_of(:move3) }

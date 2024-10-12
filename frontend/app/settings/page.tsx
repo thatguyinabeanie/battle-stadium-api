@@ -12,7 +12,7 @@ const Settings = () => {
   const { onOpenChange } = useDisclosure();
 
   return (
-    <div className="w-full max-w-2xl flex-col p-10 rounded-3xl backdrop-blur-md border-small border-opacity-15 border-neutral-400">
+    <div className="w-full max-w-2xl flex-col p-10 rounded-3xl backdrop-blur border-small border-opacity-15 border-neutral-400">
       {/* Title */}
       <div className="flex items-center gap-x-3">
         <Button isIconOnly className="sm:hidden" size="sm" variant="flat" onPress={onOpenChange}>

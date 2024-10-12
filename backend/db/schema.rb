@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_041611) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_12_020949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -179,11 +179,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_041611) do
   end
 
   create_table "pokemon", force: :cascade do |t|
-    t.string "name"
+    t.string "species"
     t.string "ability"
     t.string "tera_type"
     t.string "nature"
-    t.string "held_item"
+    t.string "item"
     t.string "move1"
     t.string "move2"
     t.string "move3"
@@ -192,6 +192,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_041611) do
     t.datetime "updated_at", null: false
     t.string "nickname"
     t.bigint "pokemon_team_id", default: 0, null: false
+    t.string "form"
+    t.integer "position", default: 0, null: false
+    t.integer "gender", default: 2, null: false
+    t.index ["pokemon_team_id", "position"], name: "index_pokemon_on_pokemon_team_id_and_position", unique: true
     t.index ["pokemon_team_id"], name: "index_pokemon_on_pokemon_team_id"
   end
 
@@ -199,6 +203,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_041611) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_profile_id", null: false
+    t.boolean "public", default: true, null: false
+    t.string "name"
+    t.bigint "format_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "archived_at"
+    t.string "pokepaste_id"
+    t.index ["format_id"], name: "index_pokemon_teams_on_format_id"
+    t.index ["game_id"], name: "index_pokemon_teams_on_game_id"
   end
 
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -305,6 +317,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_041611) do
   add_foreign_key "players", "tournaments"
   add_foreign_key "players", "users"
   add_foreign_key "pokemon", "pokemon_teams"
+  add_foreign_key "pokemon_teams", "formats"
+  add_foreign_key "pokemon_teams", "games"
   add_foreign_key "pokemon_teams", "profiles", column: "user_profile_id"
   add_foreign_key "profiles", "users"
   add_foreign_key "tournament_formats", "formats"

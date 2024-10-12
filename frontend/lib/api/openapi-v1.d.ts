@@ -173,6 +173,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/pokemon_teams": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List Public and NotArchived Pokemon Teams
+     * @description Retrieves a list of all public and not archived pokemon teams
+     */
+    get: operations["listPokemonTeams"];
+    put?: never;
+    /**
+     * Create Pokemon Team
+     * @description Creates a new pokemon team.
+     */
+    post: operations["postPokemonTeam"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/tournaments/{tournament_id}/matches": {
     parameters: {
       query?: never;
@@ -939,18 +963,35 @@ export interface components {
     };
     /** Pokemon */
     Pokemon: {
-      /** Format: int64 */
-      id: number;
-      name: string;
+      /** Format: integer */
+      position?: number;
+      species: string;
       nickname?: string | null;
+      gender?: string;
       ability: string;
       tera_type: string;
       nature: string;
-      held_item: string | null;
+      form: string | null;
+      item: string | null;
       move1: string | null;
       move2: string | null;
       move3: string | null;
       move4: string | null;
+      /** Format: int64 */
+      pokemon_team_id?: number;
+    };
+    /** Pokemon Team */
+    PokemonTeam: {
+      /** Format: int64 */
+      id: number;
+      name: string;
+      user_profile: components["schemas"]["UserProfile"];
+      public: boolean;
+      /** Format: date-time */
+      archived_at: string | null;
+      format: components["schemas"]["Format"];
+      game: components["schemas"]["Game"];
+      pokemon: components["schemas"]["Pokemon"][];
     };
     /** Player Request */
     PlayerRequest: {
@@ -1133,6 +1174,16 @@ export interface components {
     PerPage: number;
     /** @description Vercel OIDC Token */
     VercelTokenHeader: string;
+    PokemonTeam: {
+      /** Format: int64 */
+      user_profile_id: number | null;
+      name: string;
+      /** Format: int64 */
+      game_id: number;
+      /** Format: int64 */
+      format_id: number;
+      pokemon: components["schemas"]["Pokemon"][];
+    };
   };
   requestBodies: never;
   headers: never;
@@ -1610,6 +1661,72 @@ export interface operations {
       };
       /** @description bad request */
       400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  listPokemonTeams: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PokemonTeam"][];
+        };
+      };
+    };
+  };
+  postPokemonTeam: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          /** Format: int64 */
+          user_profile_id: number | null;
+          name: string;
+          /** Format: int64 */
+          game_id: number;
+          /** Format: int64 */
+          format_id: number;
+          pokemon: components["schemas"]["Pokemon"][];
+        };
+      };
+    };
+    responses: {
+      /** @description created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PokemonTeam"];
+        };
+      };
+      /** @description unprocessable entity */
+      422: {
         headers: {
           [name: string]: unknown;
         };

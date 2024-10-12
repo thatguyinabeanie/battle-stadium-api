@@ -429,6 +429,81 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
+  "/pokemon_teams":
+    get:
+      summary: List Public and NotArchived Pokemon Teams
+      description: Retrieves a list of all public and not archived pokemon teams
+      operationId: listPokemonTeams
+      security:
+      - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PokemonTeam"
+    post:
+      summary: Create Pokemon Team
+      description: Creates a new pokemon team.
+      operationId: postPokemonTeam
+      security:
+      - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PokemonTeam"
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Pokemon Team
+              properties:
+                user_profile_id:
+                  type: integer
+                  format: int64
+                  nullable: true
+                name:
+                  type: string
+                game_id:
+                  type: integer
+                  format: int64
+                format_id:
+                  type: integer
+                  format: int64
+                pokemon:
+                  type: array
+                  items:
+                    "$ref": "#/components/schemas/Pokemon"
+              required:
+              - user_profile_id
+              - name
+              - game_id
+              - format_id
+              - pokemon
+        required: true
   "/tournaments/{tournament_id}/matches":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1201,6 +1276,37 @@ components:
       description: Vercel OIDC Token
       schema:
         type: string
+    PokemonTeam:
+      name: Pokemon Team
+      in: body
+      type: object
+      schema:
+        type: object
+        title: Pokemon Team
+        properties:
+          user_profile_id:
+            type: integer
+            format: int64
+            nullable: true
+          name:
+            type: string
+          game_id:
+            type: integer
+            format: int64
+          format_id:
+            type: integer
+            format: int64
+          pokemon:
+            type: array
+            items:
+              "$ref": "#/components/schemas/Pokemon"
+        required:
+        - user_profile_id
+        - name
+        - game_id
+        - format_id
+        - pokemon
+      required: true
   schemas:
     Format:
       type: object
@@ -1601,21 +1707,26 @@ components:
       type: object
       title: Pokemon
       properties:
-        id:
+        position:
           type: integer
-          format: int64
-        name:
+          format: integer
+        species:
           type: string
         nickname:
           type: string
           nullable: true
+        gender:
+          type: string
         ability:
           type: string
         tera_type:
           type: string
         nature:
           type: string
-        held_item:
+        form:
+          type: string
+          nullable: true
+        item:
           type: string
           nullable: true
         move1:
@@ -1630,17 +1741,54 @@ components:
         move4:
           type: string
           nullable: true
+        pokemon_team_id:
+          type: integer
+          format: int64
       required:
-      - id
-      - name
+      - species
       - ability
       - tera_type
       - nature
-      - held_item
+      - form
+      - item
       - move1
       - move2
       - move3
       - move4
+    PokemonTeam:
+      type: object
+      title: Pokemon Team
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        user_profile:
+          "$ref": "#/components/schemas/UserProfile"
+        public:
+          type: boolean
+        archived_at:
+          type: string
+          format: date-time
+          nullable: true
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        pokemon:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Pokemon"
+      required:
+      - id
+      - name
+      - user_profile
+      - public
+      - archived_at
+      - format
+      - game
+      - pokemon
     PlayerRequest:
       type: object
       title: Player Request

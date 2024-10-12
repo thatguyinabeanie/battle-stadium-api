@@ -73,7 +73,7 @@ USER_PROFILE_SCHEMA = {
     pronouns: { type: :string , nullable: true }
   },
   required: %w[username image_url id pronouns]
-}
+}.freeze
 
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
@@ -81,7 +81,7 @@ USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
     properties: UUID_PROPERTY,
     required: %w[username pronouns id] + SIMPLE_USER_SCHEMA[:required]
   }
-)
+).freeze
 
 SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
@@ -283,19 +283,40 @@ TOURNAMENT_POST_REQUEST = {
 POKEMON_SCHEMA = {
   type: :object,
   title: "Pokemon",
-  properties: ID_NAME_PROPERTIES.merge(
+  properties: {
+    position: { type: :integer, format: :integer },
+    species: { type: :string },
     nickname: { type: :string, nullable: true },
+    gender: { type: :string },
     ability: { type: :string },
     tera_type: { type: :string },
     nature: { type: :string },
-    held_item: { type: :string, nullable: true },
+    form: { type: :string, nullable: true },
+    item: { type: :string, nullable: true },
     move1: { type: :string, nullable: true },
     move2: { type: :string, nullable: true },
     move3: { type: :string, nullable: true },
-    move4: { type: :string, nullable: true }
-  ),
-  required: ID_NAME_REQUIRED + %w[ability tera_type nature held_item move1 move2 move3 move4]
+    move4: { type: :string, nullable: true },
+    pokemon_team_id: { type: :integer, format: :int64 }
+  },
+  required:  %w[species ability tera_type nature form item move1 move2 move3 move4]
 }.freeze
+
+POKEMON_TEAM_SCHEMA = {
+  type: :object,
+  title: "Pokemon Team",
+  properties: ID_NAME_PROPERTIES.merge(
+    pokepaste_id: { type: :string, nullable: true },
+    user_profile: { "$ref" => "#/components/schemas/UserProfile" },
+    public: { type: :boolean },
+    archived_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    format: { "$ref" => "#/components/schemas/Format" },
+    game: { "$ref" => "#/components/schemas/Game" },
+    pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
+  ),
+  required: ID_NAME_REQUIRED + %w[user_profile public archived_at format game pokemon]
+}.freeze
+
 
 PLAYER_REQUEST = {
   type: :object,
@@ -461,6 +482,25 @@ VERCEL_TOKEN_HEADER_PARAMETER = {
   description: "Vercel OIDC Token"
 }
 
+POKEMON_TEAM_PARAMETER = {
+  name: "pokemon_team",
+  in: :body,
+  type: :object,
+  schema: {
+    type: :object,
+    title: "pokemon_team",
+    properties: {
+      pokepaste_id: { type: :string, nullable: true },
+      user_profile_id: { type: :integer, format: :int64 , nullable: true},
+      name: { type: :string },
+      game_id: { type: :integer, format: :int64 },
+      format_id: { type: :integer, format: :int64 },
+      pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
+    },
+    required: %w[user_profile_id name game_id format_id pokemon],
+  }, required: true
+}
+
 RSpec.configure do |config|
   # config.include SwaggerHelper
   # Specify a root folder where Swagger JSON files are generated
@@ -508,7 +548,8 @@ RSpec.configure do |config|
         parameters: {
           Page: PAGE_PARAMETER,
           PerPage: PER_PAGE_PARAMETER,
-          VercelTokenHeader: VERCEL_TOKEN_HEADER_PARAMETER
+          VercelTokenHeader: VERCEL_TOKEN_HEADER_PARAMETER,
+          PokemonTeam: POKEMON_TEAM_PARAMETER
         },
 
         schemas: {
@@ -525,6 +566,7 @@ RSpec.configure do |config|
           Tournament: TOURNAMENT_SCHEMA,
           TournamentDetails: TOURNAMENT_DETAILS_SCHEMA,
           Pokemon: POKEMON_SCHEMA,
+          PokemonTeam: POKEMON_TEAM_SCHEMA,
           PlayerRequest: PLAYER_REQUEST,
           Player: PLAYER_SCHEMA,
           PlayerDetails: PLAYER_DETAILS_SCHEMA,
