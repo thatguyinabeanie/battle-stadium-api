@@ -13,29 +13,7 @@ export function parseShowdownFormat(input: string): ParsedTeam {
       if (Object.keys(currentPokemon).length > 0) {
         pokemon.push(currentPokemon as ParsedPokemon);
       }
-      currentPokemon = {};
-      const [nameSpecies, item] = line.split("@").map((s) => s.trim());
-
-      if (nameSpecies) {
-        // Check if there's a nickname (enclosed in parentheses)
-        const match = RegExp(/^(.*?)\s*\((.*?)\)\s*$/).exec(nameSpecies);
-
-        if (match) {
-          // Pokémon has a nickname
-          currentPokemon.name = match?.[1]?.trim() ?? "";
-          currentPokemon.species = match?.[2]?.trim() ?? "";
-        } else {
-          // Pokémon doesn't have a nickname
-          currentPokemon.name = "";
-          currentPokemon.species = nameSpecies.trim();
-        }
-      } else {
-        currentPokemon.name = "";
-        currentPokemon.species = "Unknown";
-        console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
-      }
-
-      currentPokemon.item = item ?? "";
+      currentPokemon = { ...currentPokemon, ...parseNameSpeciesItem(line) };
     } else if (line.startsWith("Ability:")) {
       currentPokemon.ability = line.split(":")[1]?.trim() ?? "";
     } else if (line.startsWith("Level:")) {
@@ -69,4 +47,21 @@ export function parseShowdownFormat(input: string): ParsedTeam {
       imgItem: "",
     })),
   };
+}
+
+function parseNameSpeciesItem(line: string): { name: string; species: string; item: string } {
+  const [nameSpecies, item] = line.split("@").map((s) => s.trim());
+
+  if (!nameSpecies) {
+    console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
+
+    return { name: "", species: "Unknown", item: item ?? "" };
+  }
+  const match = RegExp(/^(.*?)\s*\((.*?)\)\s*$/).exec(nameSpecies);
+
+  if (match) {
+    return { name: match[1]?.trim() ?? "", species: match[2]?.trim() ?? "", item: item ?? "" };
+  }
+
+  return { name: "", species: nameSpecies.trim(), item: item ?? "" };
 }

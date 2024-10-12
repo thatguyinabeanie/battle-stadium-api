@@ -4,7 +4,7 @@ import { StatsTable } from "@pkmn/types";
 import Image from "next/image";
 
 const POKEMON_SIZE = 100;
-const ITEM_SIZE = 24;
+const ITEM_SIZE = 30;
 
 const formatStats = (stats?: Partial<StatsTable>, showAll: boolean = true) => {
   if (!stats) return "";

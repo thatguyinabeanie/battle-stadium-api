@@ -20,11 +20,12 @@ export default function Dashboard({ me }: Readonly<DashboardProps>) {
       variant="light"
     >
       <Tab key="dashboard" title="Dashboard" />
+      <Tab key="profiles" title="Profiles" />
       <Tab
-        key="deployments"
+        key="tournaments"
         title={
           <div className="flex items-center gap-1">
-            <p>Previous Tournaments</p>
+            <p>Tournament History</p>
             <Chip size="sm">9</Chip>
           </div>
         }

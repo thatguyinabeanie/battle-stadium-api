@@ -28,6 +28,7 @@ export default function TournamentsTable({ columns, data }: Readonly<TableProps>
       classNames={{
         wrapper: "bg-transparent backdrop-blur rounded-3xl border-small border-neutral-500/40",
       }}
+      color="secondary"
       selectionMode="single"
       shadow="md"
     >
