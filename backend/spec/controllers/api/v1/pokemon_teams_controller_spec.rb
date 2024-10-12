@@ -16,6 +16,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
         expect(response.parsed_body).to include(
           {
             "id" => team.id,
+            "pokepaste_id" => team.pokepaste_id,
             "public" => true,
             "archived_at" => nil,
             "game" => {
