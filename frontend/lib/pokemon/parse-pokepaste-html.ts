@@ -1,4 +1,11 @@
-import { ParsedTeam, PokePasteMetadata, ParsedPokemon, cleanImageUrl, parseStats } from "./common";
+import {
+  ParsedTeam,
+  PokePasteMetadata,
+  ParsedPokemon,
+  cleanImageUrl,
+  parseStats,
+  parseNameSpeciesItem,
+} from "./common";
 
 export function parsePokePasteHTML(html: string, url: string): ParsedTeam {
   if (typeof window === "undefined") return { metadata: { title: "", author: "", format: "" }, pokemon: [] };
@@ -33,25 +40,11 @@ export function parsePokePasteHTML(html: string, url: string): ParsedTeam {
 
     for (const line of lines) {
       if (line.includes("@")) {
-        const [nameSpecies, item] = line.split("@").map((s) => s.trim());
+        const { name, species, item } = parseNameSpeciesItem(line);
 
-        if (nameSpecies) {
-          const match = RegExp(/^(.*?)\s*\((.*?)\)\s*$/).exec(nameSpecies);
-
-          if (match) {
-            currentPokemon.name = match[1]?.trim() ?? "";
-            currentPokemon.species = match[2]?.trim() ?? "";
-          } else {
-            currentPokemon.name = "";
-            currentPokemon.species = nameSpecies.trim();
-          }
-        } else {
-          currentPokemon.name = "";
-          currentPokemon.species = "Unknown";
-          console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
-        }
-
-        currentPokemon.item = item ?? "";
+        currentPokemon.name = name;
+        currentPokemon.species = species;
+        currentPokemon.item = item;
       } else if (line.startsWith("Ability:")) {
         currentPokemon.ability = line.split(":")[1]?.trim() ?? "";
       } else if (line.startsWith("Level:")) {

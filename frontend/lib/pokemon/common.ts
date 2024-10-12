@@ -89,3 +89,20 @@ export function parseStats(statsLine: string, defaultValue?: number): StatsTable
 
   return statsTable as StatsTable;
 }
+
+export function parseNameSpeciesItem(line: string): { name: string; species: string; item: string } {
+  const [nameSpecies, item] = line.split("@").map((s) => s.trim());
+
+  if (!nameSpecies) {
+    console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
+
+    return { name: "", species: "Unknown", item: item ?? "" };
+  }
+  const match = RegExp(/^(.*?)\s*\((.*?)\)\s*$/).exec(nameSpecies);
+
+  if (match) {
+    return { name: match[1]?.trim() ?? "", species: match[2]?.trim() ?? "", item: item ?? "" };
+  }
+
+  return { name: "", species: nameSpecies.trim(), item: item ?? "" };
+}

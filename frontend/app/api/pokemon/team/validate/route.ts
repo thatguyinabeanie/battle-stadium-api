@@ -62,12 +62,9 @@ export async function POST(req: NextRequest) {
 
     const officialArtwork = pokemonData.sprites.other["official-artwork"];
 
-    const imgPokemon =
-      pokemon.imgPokemon ?? (pokemon.shiny ? officialArtwork.front_shiny : officialArtwork.front_default);
-
     const parsedPokemon = {
       ...pokemon,
-      imgPokemon,
+      imgPokemon: pokemon.shiny ? officialArtwork.front_shiny : officialArtwork.front_default,
       imgItem: validItem?.sprites.default,
     };
 

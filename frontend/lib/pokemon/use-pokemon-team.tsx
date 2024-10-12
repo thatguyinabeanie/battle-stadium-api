@@ -44,9 +44,10 @@ export function usePokemonTeam() {
 
     try {
       const parsedData = await fetchAndParse(input);
-      const validatedPokemon = await Promise.all(parsedData.pokemon.map(validatePokemon));
 
       setMetaData(parsedData.metadata);
+      const validatedPokemon = await Promise.all(parsedData.pokemon.map(validatePokemon));
+
       setValidatedTeam(validatedPokemon);
     } catch (err) {
       setError(err instanceof Error ? err : new Error("An unknown error occurred"));
@@ -58,7 +59,7 @@ export function usePokemonTeam() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const inputUrl = formData.get("url") as string;
+    const inputUrl = formData.get("pokepaste") as string;
 
     parseInput(inputUrl);
   };

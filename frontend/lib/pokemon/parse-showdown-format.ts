@@ -1,19 +1,47 @@
-import { ParsedTeam, ParsedPokemon, parseStats } from "./common";
+import { ParsedPokemon, ParsedTeam, parseStats } from "./common";
 
 export function parseShowdownFormat(input: string): ParsedTeam {
-  const lines = input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
+  const lines = input.split("\n").map((line) => line.trim());
   const pokemon: ParsedPokemon[] = [];
   let currentPokemon: Partial<ParsedPokemon> = {};
+  let emptyLineCount = 0;
 
   for (const line of lines) {
+    if (!line) {
+      emptyLineCount++;
+      if (emptyLineCount > 1 && Object.keys(currentPokemon).length > 0) {
+        pokemon.push(currentPokemon as ParsedPokemon);
+        currentPokemon = {};
+      }
+      continue;
+    }
+
+    emptyLineCount = 0;
+
     if (line.includes("@")) {
       if (Object.keys(currentPokemon).length > 0) {
         pokemon.push(currentPokemon as ParsedPokemon);
       }
-      currentPokemon = { ...currentPokemon, ...parseNameSpeciesItem(line) };
+      currentPokemon = {};
+      const [nameSpecies, item] = line.split("@").map((s) => s.trim());
+
+      if (nameSpecies) {
+        const match = RegExp(/^(.*?)\s*\((.*?)\)\s*$/).exec(nameSpecies);
+
+        if (match) {
+          currentPokemon.name = match[1]?.trim() ?? "";
+          currentPokemon.species = match[2]?.trim() ?? "";
+        } else {
+          currentPokemon.name = "";
+          currentPokemon.species = nameSpecies.trim();
+        }
+      } else {
+        currentPokemon.name = "";
+        currentPokemon.species = "Unknown";
+        console.error("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
+      }
+
+      currentPokemon.item = item ?? "";
     } else if (line.startsWith("Ability:")) {
       currentPokemon.ability = line.split(":")[1]?.trim() ?? "";
     } else if (line.startsWith("Level:")) {
@@ -47,21 +75,4 @@ export function parseShowdownFormat(input: string): ParsedTeam {
       imgItem: "",
     })),
   };
-}
-
-function parseNameSpeciesItem(line: string): { name: string; species: string; item: string } {
-  const [nameSpecies, item] = line.split("@").map((s) => s.trim());
-
-  if (!nameSpecies) {
-    console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
-
-    return { name: "", species: "Unknown", item: item ?? "" };
-  }
-  const match = RegExp(/^(.*?)\s*\((.*?)\)\s*$/).exec(nameSpecies);
-
-  if (match) {
-    return { name: match[1]?.trim() ?? "", species: match[2]?.trim() ?? "", item: item ?? "" };
-  }
-
-  return { name: "", species: nameSpecies.trim(), item: item ?? "" };
 }
