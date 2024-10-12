@@ -4,6 +4,7 @@ import * as React from "react";
 import { usePokemonTeam } from "@/lib/pokemon/use-pokemon-team";
 import { Button, Textarea } from "@/components/nextui-use-client";
 import { PokemonCard } from "./pokemon-card";
+import { postPokemonTeam } from "@/app/data/actions";
 
 export default function PokemonTeamDisplay() {
   const { validatedTeam, metaData, loading, error, handleSubmit } = usePokemonTeam();
@@ -25,6 +26,13 @@ export default function PokemonTeamDisplay() {
         <Button color="primary" type="submit">
           Load Team
         </Button>
+        <Button
+          color="primary"
+          disabled={!validatedTeam || !metaData}
+          onClick={() => validatedTeam && metaData && postPokemonTeam(validatedTeam, metaData)}
+        >
+          Upload
+        </Button>
       </form>
 
       {loading && <div className="text-center">Loading...</div>}
@@ -39,7 +47,7 @@ export default function PokemonTeamDisplay() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center">
-        {validatedTeam.map(({ pokemon, invalid }) => (
+        {validatedTeam?.map(({ pokemon, invalid }) => (
           <PokemonCard key={JSON.stringify(pokemon)} ots invalid={invalid} pokemon={pokemon} />
         ))}
       </div>

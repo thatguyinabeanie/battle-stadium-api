@@ -64,11 +64,11 @@ RSpec.describe Api::V1::PokemonTeamsController do
       response(422, "unprocessable entity") do
 
         let(:name) { "New Pokemon Team" }
-        let(:user_profile_id) { nil }
+        let(:user_profile_id) {}
         let(:game) { create(:game) }
         let(:game_id) { game.id }
-        let(:format) { create(:format, game:) }
-        let(:format_id) { format.id }
+
+        let(:format_id) { nil }
         let(:pokemon) { build_list(:pokemon, 6) }
 
         let(:pokemon_team) do

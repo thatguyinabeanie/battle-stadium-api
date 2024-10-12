@@ -479,6 +479,30 @@ paths:
           application/json:
             schema:
               type: object
+              title: Pokemon Team
+              properties:
+                user_profile_id:
+                  type: integer
+                  format: int64
+                  nullable: true
+                name:
+                  type: string
+                game_id:
+                  type: integer
+                  format: int64
+                format_id:
+                  type: integer
+                  format: int64
+                pokemon:
+                  type: array
+                  items:
+                    "$ref": "#/components/schemas/Pokemon"
+              required:
+              - user_profile_id
+              - name
+              - game_id
+              - format_id
+              - pokemon
         required: true
   "/tournaments/{tournament_id}/matches":
     parameters:
@@ -1252,6 +1276,37 @@ components:
       description: Vercel OIDC Token
       schema:
         type: string
+    PokemonTeam:
+      name: Pokemon Team
+      in: body
+      type: object
+      schema:
+        type: object
+        title: Pokemon Team
+        properties:
+          user_profile_id:
+            type: integer
+            format: int64
+            nullable: true
+          name:
+            type: string
+          game_id:
+            type: integer
+            format: int64
+          format_id:
+            type: integer
+            format: int64
+          pokemon:
+            type: array
+            items:
+              "$ref": "#/components/schemas/Pokemon"
+        required:
+        - user_profile_id
+        - name
+        - game_id
+        - format_id
+        - pokemon
+      required: true
   schemas:
     Format:
       type: object

@@ -10,6 +10,7 @@ class PokemonTeam < ApplicationRecord
   validates :user_profile_id, presence: true
   validates :public, inclusion: { in: [true, false] }
   validates :format, presence: true
+  validates :pokepaste_id, presence: true, allow_nil: true
 
   validate :no_more_than_six_pokemon
 

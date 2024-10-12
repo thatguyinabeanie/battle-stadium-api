@@ -17,7 +17,7 @@ export default function PlayersTable({ players, columns }: PlayersTableProps) {
         isVirtualized
         aria-label="Players List"
         classNames={{
-          wrapper: "bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-500/40 h-90 w-90",
+          wrapper: "bg-transparent backdrop-blur rounded-3xl border-small border-neutral-500/40 h-90 w-90",
         }}
         selectionMode="single"
         shadow="md"

@@ -29,14 +29,15 @@ export interface ValidatedPokemon {
   };
 }
 
-export interface PasteMetadata {
+export interface PokePasteMetadata {
+  id?: string;
   title: string;
   author: string;
   format: string;
 }
 
 export interface ParsedTeam {
-  metadata: PasteMetadata;
+  metadata: PokePasteMetadata;
   pokemon: ParsedPokemon[];
 }
 

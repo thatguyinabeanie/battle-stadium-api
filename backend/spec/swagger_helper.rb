@@ -306,6 +306,7 @@ POKEMON_TEAM_SCHEMA = {
   type: :object,
   title: "Pokemon Team",
   properties: ID_NAME_PROPERTIES.merge(
+    pokepaste_id: { type: :string, nullable: true },
     user_profile: { "$ref" => "#/components/schemas/UserProfile" },
     public: { type: :boolean },
     archived_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
@@ -482,17 +483,22 @@ VERCEL_TOKEN_HEADER_PARAMETER = {
 }
 
 POKEMON_TEAM_PARAMETER = {
-  name: :pokemon_team,
+  name: "pokemon_team",
   in: :body,
   type: :object,
-  properties: {
-    user_profile_id: UUID_TYPE,
-    name: { type: :string },
-    game_id: { type: :integer, format: :int64 },
-    format_id: { type: :integer, format: :int64 },
-    pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
-  },
-  required: %w[user_profile_id name game_id format_id pokemon]
+  schema: {
+    type: :object,
+    title: "pokemon_team",
+    properties: {
+      pokepaste_id: { type: :string, nullable: true },
+      user_profile_id: { type: :integer, format: :int64 , nullable: true},
+      name: { type: :string },
+      game_id: { type: :integer, format: :int64 },
+      format_id: { type: :integer, format: :int64 },
+      pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
+    },
+    required: %w[user_profile_id name game_id format_id pokemon],
+  }, required: true
 }
 
 RSpec.configure do |config|
@@ -542,7 +548,8 @@ RSpec.configure do |config|
         parameters: {
           Page: PAGE_PARAMETER,
           PerPage: PER_PAGE_PARAMETER,
-          VercelTokenHeader: VERCEL_TOKEN_HEADER_PARAMETER
+          VercelTokenHeader: VERCEL_TOKEN_HEADER_PARAMETER,
+          PokemonTeam: POKEMON_TEAM_PARAMETER
         },
 
         schemas: {

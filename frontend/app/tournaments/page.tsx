@@ -40,8 +40,6 @@ const columns: { key: string; label: string }[] = [
   },
 ];
 
-// const cardClassNames = "bg-transparent backdrop-blur-md";
-
 export default async function Tournaments() {
   const tours = (await getTournaments()).data?.data ?? [];
 

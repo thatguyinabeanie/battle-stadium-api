@@ -15,7 +15,7 @@ export interface OrgCardProps {
 export default function OrganizationCard({ organization, cardProps, disableHover }: Readonly<OrgCardProps>) {
   return (
     <Card
-      className="bg-transparent relative h-[400px] w-[300px] px-2 backdrop-blur-md rounded-3xl border-small border-neutral-400/20"
+      className="bg-transparent relative h-[400px] w-[300px] px-2 backdrop-blur rounded-3xl border-small border-neutral-400/20"
       {...cardProps}
       shadow="md"
     >

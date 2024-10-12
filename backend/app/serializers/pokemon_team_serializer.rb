@@ -8,7 +8,7 @@ module Serializers
   class PokemonTeam < ActiveModel::Serializer
     include SerializerMixin::Id
     belongs_to :user_profile, serializer: Serializers::UserProfile
-    attributes :name, :pokemon, :format, :public, :archived_at, :game
+    attributes :name, :pokemon, :format, :public, :archived_at, :game, :pokepaste_id
 
     def format
       Serializers::Format.new(object.format)

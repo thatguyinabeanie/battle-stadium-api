@@ -1,6 +1,6 @@
-import { ParsedTeam, PasteMetadata, ParsedPokemon, cleanImageUrl, parseStats } from "./common";
+import { ParsedTeam, PokePasteMetadata, ParsedPokemon, cleanImageUrl, parseStats } from "./common";
 
-export function parsePokePasteHTML(html: string): ParsedTeam {
+export function parsePokePasteHTML(html: string, url: string): ParsedTeam {
   if (typeof window === "undefined") return { metadata: { title: "", author: "", format: "" }, pokemon: [] };
 
   const parser = new DOMParser();
@@ -8,7 +8,9 @@ export function parsePokePasteHTML(html: string): ParsedTeam {
 
   // Parse metadata
   const aside = doc.querySelector("aside");
-  const metadata: PasteMetadata = {
+  const metadata: PokePasteMetadata = {
+    // https://pokepast.es/8adcc36d4efaa8ea
+    id: url.split("https://pokepast.es/")[1],
     title: aside?.querySelector("h1")?.textContent?.trim() ?? "",
     author:
       aside

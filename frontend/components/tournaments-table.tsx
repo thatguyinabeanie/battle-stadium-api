@@ -26,7 +26,7 @@ export default function TournamentsTable({ columns, data }: Readonly<TableProps>
       isVirtualized
       aria-label="list of tournaments"
       classNames={{
-        wrapper: "bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-500/40",
+        wrapper: "bg-transparent backdrop-blur rounded-3xl border-small border-neutral-500/40",
       }}
       selectionMode="single"
       shadow="md"

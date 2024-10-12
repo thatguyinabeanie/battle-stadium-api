@@ -6,6 +6,7 @@ FactoryBot.define do
     archived_at { nil }
     game factory: :game
     format { create(:format, game:) }
+    pokepaste_id { nil }
 
     pokemon { [] }
 

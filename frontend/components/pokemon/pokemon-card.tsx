@@ -41,7 +41,7 @@ export function PokemonCard(props: Readonly<PokemonCardProps>) {
 
   return (
     <Card
-      className="h-[200px] w-[350px] justify-center bg-transparent backdrop-blur-md rounded-3xl border-small border-neutral-400/20"
+      className="h-[200px] w-[350px] justify-center bg-transparent backdrop-blur rounded-3xl border-small border-primary-700/50"
       shadow="md"
     >
       <CardHeader className="flex justify-center items-center p-4">
@@ -77,7 +77,7 @@ function PokemonAttributes({ pokemon, ots }: Readonly<PokemonCardProps>) {
         <p>
           <span className="flex flex-row justify-around">
             <strong>Item:</strong>
-            <p> {pokemon.item}</p>{" "}
+            {pokemon.item}
             <Image alt={pokemon.item} height={ITEM_SIZE} src={pokemon.imgItem} width={ITEM_SIZE} />{" "}
           </span>
         </p>

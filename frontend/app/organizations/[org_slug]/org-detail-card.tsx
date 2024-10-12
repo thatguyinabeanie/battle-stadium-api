@@ -11,7 +11,7 @@ interface OrgDetailCardProps {
 export default function OrgDetailCard({ organization }: Readonly<OrgDetailCardProps>) {
   return (
     <Card
-      className="bg-transparent h-90 w-90 rounded-3xl backdrop-blur-md border-small border-neutral-500/40 "
+      className="bg-transparent h-90 w-90 rounded-3xl backdrop-blur border-small border-neutral-500/40 "
       shadow="md"
     >
       <CardBody className="bg-transparent flex flex-row justify-between rounded-3xl">

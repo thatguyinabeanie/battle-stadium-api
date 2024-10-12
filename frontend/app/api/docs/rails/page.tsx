@@ -30,7 +30,11 @@ export default async function OpenApiDocs() {
   const jsonSpec = '{"openapi": "3.0.1"}';
 
   return (
-    <Card className="bg-transparent h-90 w-90 rounded-3xl backdrop-blur-md" shadow="md">
+    <Card
+      className="bg-transparent h-90 w-90 rounded-3xl
+    backdrop-blur"
+      shadow="md"
+    >
       <CardBody className="flex flex-row justify-between rounded-3xl p-10 ">
         <SwaggerUI displayOperationId={true} spec={jsonSpec} />
       </CardBody>

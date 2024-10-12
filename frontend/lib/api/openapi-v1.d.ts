@@ -1174,6 +1174,16 @@ export interface components {
     PerPage: number;
     /** @description Vercel OIDC Token */
     VercelTokenHeader: string;
+    PokemonTeam: {
+      /** Format: int64 */
+      user_profile_id: number | null;
+      name: string;
+      /** Format: int64 */
+      game_id: number;
+      /** Format: int64 */
+      format_id: number;
+      pokemon: components["schemas"]["Pokemon"][];
+    };
   };
   requestBodies: never;
   headers: never;
@@ -1693,7 +1703,16 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": Record<string, never>;
+        "application/json": {
+          /** Format: int64 */
+          user_profile_id: number | null;
+          name: string;
+          /** Format: int64 */
+          game_id: number;
+          /** Format: int64 */
+          format_id: number;
+          pokemon: components["schemas"]["Pokemon"][];
+        };
       };
     };
     responses: {
