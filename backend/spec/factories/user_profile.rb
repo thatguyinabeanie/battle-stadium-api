@@ -3,5 +3,6 @@ FactoryBot.define do
     user factory: :user
     username { Faker::Internet.unique.username }
     players { [] }
+    archived_at { nil }
   end
 end

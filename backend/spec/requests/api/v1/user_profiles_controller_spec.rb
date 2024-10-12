@@ -5,16 +5,15 @@ require "support/auth/token_verifier_mock"
 RSpec.describe Api::V1::UserProfilesController do
 
   include Auth::TokenVerifier::Mock
-  include_context "with Request Specs - Vercel OIDC Token Verification"
+  include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
   path "/user_profiles" do
-    parameter VERCEL_TOKEN_HEADER_PARAMETER
-
     get("Retrieves all profiles") do
       tags "Profiles"
       produces "application/json"
       operationId "listProfiles"
 
+      parameter VERCEL_TOKEN_HEADER_PARAMETER
       response(200, "profiles found") do
         let(:user_profiles) { create_list(:user_profile, 3) }
 
@@ -22,6 +21,53 @@ RSpec.describe Api::V1::UserProfilesController do
                 items: { "$ref" => "#/components/schemas/UserProfile" }
         OpenApi::Response.set_example_response_metadata
 
+        run_test!
+      end
+    end
+
+    post("Creates a user profile") do
+      tags "Profiles"
+      produces "application/json"
+      operationId "createProfile"
+      description "Creates a new user profile"
+
+      security [Bearer: []]
+
+      parameter VERCEL_TOKEN_HEADER_PARAMETER
+      parameter name: :user_name, in: :query, type: :string, description: "Username", required: true
+      parameter name: :image_url, in: :query, type: :string, description: "Image URL", required: false
+
+      response(201, "profile created") do
+        let(:user_name) { "new_user" }
+
+        schema "$ref" => "#/components/schemas/UserProfile"
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
+
+      response(400, "bad request - profanity") do
+        let(:user_name) { "fuck" }
+
+        schema type: :object,
+               properties: {
+                 error: { type: :string }
+               },
+               required: %w[error]
+        OpenApi::Response.set_example_response_metadata
+        run_test!
+      end
+
+      response(422, "invalid request") do
+        let(:user_name) { request_user.default_profile.username }
+
+        schema type: :object,
+               properties: {
+                 error: { type: :array, items: { type: :string } }
+               },
+               required: %w[error]
+        OpenApi::Response.set_example_response_metadata
         run_test!
       end
     end
@@ -49,5 +95,4 @@ RSpec.describe Api::V1::UserProfilesController do
       end
     end
   end
-
 end

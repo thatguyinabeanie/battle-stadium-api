@@ -75,6 +75,17 @@ USER_PROFILE_SCHEMA = {
   required: %w[username image_url id pronouns]
 }.freeze
 
+POST_USER_PROFILE_SCHEMA = {
+  type: :object,
+  title: "Post User Profile",
+  properties: {
+    username: { type: :string },
+    image_url: { type: :string, nullable: true },
+    pronouns: { type: :string , nullable: true }
+  },
+  required: %w[username]
+}
+
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
     title: "User",
@@ -501,6 +512,22 @@ POKEMON_TEAM_PARAMETER = {
   }, required: true
 }
 
+USER_PROFILE_PARAMETER = {
+  name: "user_profile",
+  in: :body,
+  type: :object,
+  schema: {
+    type: :object,
+    title: "user_profile",
+    properties: {
+      username: { type: :string },
+      image_url: { type: :string, nullable: true },
+      pronouns: { type: :string , nullable: true }
+    },
+    required: %w[username]
+  }, required: true
+}
+
 RSpec.configure do |config|
   # config.include SwaggerHelper
   # Specify a root folder where Swagger JSON files are generated
@@ -549,7 +576,8 @@ RSpec.configure do |config|
           Page: PAGE_PARAMETER,
           PerPage: PER_PAGE_PARAMETER,
           VercelTokenHeader: VERCEL_TOKEN_HEADER_PARAMETER,
-          PokemonTeam: POKEMON_TEAM_PARAMETER
+          PokemonTeam: POKEMON_TEAM_PARAMETER,
+          UserProfile: USER_PROFILE_PARAMETER
         },
 
         schemas: {
@@ -580,6 +608,7 @@ RSpec.configure do |config|
           Message: MESSAGE,
           Pagination: PAGINATION_RESPONSE,
           UserProfile: USER_PROFILE_SCHEMA,
+          PostUserProfile: POST_USER_PROFILE_SCHEMA,
           Match: MATCH_SCHEMA
         }
       }

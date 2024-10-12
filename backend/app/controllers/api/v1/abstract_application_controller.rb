@@ -101,12 +101,14 @@ module Api
       protected
 
       def serialize_details
-        detail_serializer_klass.new(@object).attributes
+        serializer_klass = detail_serializer_klass || serializer_klass
+        serializer_klass.new(@object).attributes
       end
 
       def set_object
         @object = if klass.respond_to?(:friendly)
-                    klass.friendly.find(params[:id])
+                    id = params[:id] || params[:slug]
+                    klass.friendly.find(id)
                   else
                     klass.find(params[:id])
                   end

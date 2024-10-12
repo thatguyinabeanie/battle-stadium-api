@@ -224,6 +224,7 @@ GEM
       racc
     pg (1.5.8)
     prism (1.1.0)
+    profanity_filter (0.1.1)
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
@@ -535,6 +536,7 @@ DEPENDENCIES
   ostruct (~> 0)
   parallel (~> 1.26)
   pg (~> 1.5.7)
+  profanity_filter (~> 0.1.1)
   puma (~> 6.4)
   pundit
   rack-attack (~> 6)

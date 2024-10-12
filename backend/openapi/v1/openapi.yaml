@@ -479,8 +479,11 @@ paths:
           application/json:
             schema:
               type: object
-              title: Pokemon Team
+              title: pokemon_team
               properties:
+                pokepaste_id:
+                  type: string
+                  nullable: true
                 user_profile_id:
                   type: integer
                   format: int64
@@ -1047,18 +1050,18 @@ paths:
         '404':
           description: not found
   "/user_profiles":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
     get:
       summary: Retrieves all profiles
       tags:
       - Profiles
       operationId: listProfiles
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
       responses:
         '200':
           description: profiles found
@@ -1068,6 +1071,64 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/UserProfile"
+    post:
+      summary: Creates a user profile
+      tags:
+      - Profiles
+      operationId: createProfile
+      description: Creates a new user profile
+      security:
+      - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      - name: user_name
+        in: query
+        description: Username
+        required: true
+        schema:
+          type: string
+      - name: image_url
+        in: query
+        description: Image URL
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: profile created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserProfile"
+        '400':
+          description: bad request - profanity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - error
   "/user_profiles/{slug}":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1277,13 +1338,16 @@ components:
       schema:
         type: string
     PokemonTeam:
-      name: Pokemon Team
+      name: pokemon_team
       in: body
       type: object
       schema:
         type: object
-        title: Pokemon Team
+        title: pokemon_team
         properties:
+          pokepaste_id:
+            type: string
+            nullable: true
           user_profile_id:
             type: integer
             format: int64
@@ -1306,6 +1370,25 @@ components:
         - game_id
         - format_id
         - pokemon
+      required: true
+    UserProfile:
+      name: user_profile
+      in: body
+      type: object
+      schema:
+        type: object
+        title: user_profile
+        properties:
+          username:
+            type: string
+          image_url:
+            type: string
+            nullable: true
+          pronouns:
+            type: string
+            nullable: true
+        required:
+        - username
       required: true
   schemas:
     Format:
@@ -1764,6 +1847,9 @@ components:
           format: int64
         name:
           type: string
+        pokepaste_id:
+          type: string
+          nullable: true
         user_profile:
           "$ref": "#/components/schemas/UserProfile"
         public:
@@ -2130,6 +2216,20 @@ components:
       - image_url
       - id
       - pronouns
+    PostUserProfile:
+      type: object
+      title: Post User Profile
+      properties:
+        username:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        pronouns:
+          type: string
+          nullable: true
+      required:
+      - username
     Match:
       type: object
       title: Match

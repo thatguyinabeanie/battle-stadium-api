@@ -28,7 +28,6 @@ module Api
       end
 
       def show
-
         @object = @tournament
         super
         authorize @tournament, :show?
