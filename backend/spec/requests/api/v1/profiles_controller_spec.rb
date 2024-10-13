@@ -81,6 +81,19 @@ RSpec.describe Api::V1::ProfilesController do
         run_test!
 
       end
+
+      response(404, "profile not found") do
+        let(:slug) { "nonexistent_slug" }
+
+        schema type: :object,
+               properties: {
+                 error: { type: :string }
+               },
+               required: %w[error]
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
+      end
     end
   end
 

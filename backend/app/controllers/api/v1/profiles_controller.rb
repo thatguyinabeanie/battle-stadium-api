@@ -17,14 +17,12 @@ module Api
       end
 
       def show
-        @profiles = Profile.friendly.find(params[:slug])
-        authorize @profiles, :show?
-        render json: @profiles, serializer: Serializers::Profile, status: :ok
+        @profile = Profile.friendly.find(params[:slug])
+        authorize @profile, :show?
+        render json: @profile, serializer: Serializers::Profile, status: :ok
       rescue ActiveRecord::RecordNotFound => e
         skip_authorization
         render json: { error: e.message }, status: :not_found
-      rescue Pundit::NotAuthorizedError => e
-        render json: { error: e.message }, status: :unauthorized
       end
 
       def create
