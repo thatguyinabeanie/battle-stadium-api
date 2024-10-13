@@ -9,7 +9,7 @@ import { cn } from "@/lib";
 import { DashboardLayoutProps } from "@/types";
 
 interface DashboardProps extends DashboardLayoutProps {
-  me: components["schemas"]["UserMe"] | null | undefined;
+  me: components["schemas"]["AccountMe"] | null | undefined;
 }
 
 const tabs = ["dashboard", "profiles", "tournament_history", "settings", "admin"];
@@ -19,7 +19,7 @@ const tabList =
 
 const tabContent = "text-default-500";
 
-export default function Dashboard(props: DashboardProps) {
+export default function Dashboard(props: Readonly<DashboardProps>) {
   const { me, children, admin, profiles, settings, tournament_history } = props;
 
   const router = useRouter();

@@ -4,7 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { components } from "@/lib/api/openapi-v1";
 
 interface UserMenuProps {
-  me?: components["schemas"]["UserMe"];
+  me?: components["schemas"]["AccountMe"];
 }
 
 async function SmartAvatar() {

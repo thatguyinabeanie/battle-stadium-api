@@ -5,7 +5,7 @@ import Search from "@/components/navbar/search";
 import Settings from "@/components/navbar/settings";
 import UserMenu from "@/components/navbar/user-menu/user-menu";
 interface NavbarMobileMenuProps {
-  me?: components["schemas"]["UserMe"];
+  me?: components["schemas"]["AccountMe"];
 }
 
 export default async function NavbarRightMenu({ me }: Readonly<NavbarMobileMenuProps>) {

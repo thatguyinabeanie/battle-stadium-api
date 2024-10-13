@@ -2,14 +2,14 @@
 
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Link } from "@/components/nextui-use-client";
 
-import { UserProfile } from "@/lib/api";
+import { Profile } from "@/lib/api";
 
 export interface PlayersTableProps {
-  players: UserProfile[];
+  players: Profile[];
   columns: { key: string; label: string }[];
 }
 
-export default function PlayersTable({ players, columns }: PlayersTableProps) {
+export default function PlayersTable({ players, columns }: Readonly<PlayersTableProps>) {
   return (
     <div className="flex flex-col items-center justify-center h-90 w-90">
       <Table
@@ -38,7 +38,7 @@ export default function PlayersTable({ players, columns }: PlayersTableProps) {
   );
 }
 
-function renderCell(row: UserProfile, columnKey: React.Key) {
+function renderCell(row: Profile, columnKey: React.Key) {
   const { username } = row;
 
   switch (columnKey) {
@@ -47,6 +47,6 @@ function renderCell(row: UserProfile, columnKey: React.Key) {
     case "pronouns":
       return row.pronouns ?? "they/them";
     default:
-      return row[columnKey as keyof UserProfile] ?? "-";
+      return row[columnKey as keyof Profile] ?? "-";
   }
 }

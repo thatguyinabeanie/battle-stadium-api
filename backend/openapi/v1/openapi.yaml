@@ -4,6 +4,154 @@ info:
   title: Battle Stadium API V1
   version: v1
 paths:
+  "/accounts":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: List Accounts
+      tags:
+      - Accounts
+      description: Retrieves a list of all Accounts
+      operationId: listAccounts
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Account"
+    post:
+      summary: Create Account
+      tags:
+      - Accounts
+      description: Creates a new Account.
+      operationId: postAccount
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AccountDetails"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AccountPostRequest"
+  "/accounts/me":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Show Me
+      tags:
+      - Accounts
+      description: Retrieves the current Account.
+      operationId: getAccountMe
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AccountMe"
+        '401':
+          description: not authorized
+  "/accounts/{username}":
+    parameters:
+    - name: username
+      in: path
+      description: The account's username
+      required: true
+      schema:
+        type: string
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Show Account
+      tags:
+      - Accounts
+      description: Retrieves a specific Account by username.
+      operationId: getAccount
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AccountDetails"
+        '404':
+          description: not found
+    patch:
+      summary: Update Account
+      tags:
+      - Accounts
+      description: Updates an existing Account.
+      operationId: patchAccount
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: Updated by Admin
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AccountDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AccountDetails"
+    delete:
+      summary: Delete Account
+      tags:
+      - Accounts
+      operationId: deleteAccount
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
   "/games":
     get:
       summary: List Games
@@ -367,7 +515,7 @@ paths:
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Account"
         '404':
           description: not found
           content:
@@ -484,7 +632,7 @@ paths:
                 pokepaste_id:
                   type: string
                   nullable: true
-                user_profile_id:
+                profile_id:
                   type: integer
                   format: int64
                   nullable: true
@@ -501,12 +649,107 @@ paths:
                   items:
                     "$ref": "#/components/schemas/Pokemon"
               required:
-              - user_profile_id
+              - 'profile_id:'
               - name
               - game_id
               - format_id
               - pokemon
         required: true
+  "/profiles":
+    get:
+      summary: Retrieves all profiles
+      tags:
+      - Profiles
+      operationId: listProfiles
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      responses:
+        '200':
+          description: profiles found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Profile"
+    post:
+      summary: Creates a user profile
+      tags:
+      - Profiles
+      operationId: createProfile
+      description: Creates a new user profile
+      security:
+      - Bearer: []
+      parameters:
+      - name: X-Vercel-OIDC-Token
+        in: header
+        required: false
+        description: Vercel OIDC Token
+        schema:
+          type: string
+      - name: user_name
+        in: query
+        description: Username
+        required: true
+        schema:
+          type: string
+      - name: image_url
+        in: query
+        description: Image URL
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: profile created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Profile"
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - error
+  "/profiles/{slug}":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: slug
+      in: path
+      description: Username
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieves a user profile
+      tags:
+      - Profiles
+      operationId: getProfile
+      responses:
+        '200':
+          description: user profile found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Profile"
   "/tournaments/{tournament_id}/matches":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1049,260 +1292,6 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '404':
           description: not found
-  "/user_profiles":
-    get:
-      summary: Retrieves all profiles
-      tags:
-      - Profiles
-      operationId: listProfiles
-      parameters:
-      - name: X-Vercel-OIDC-Token
-        in: header
-        required: false
-        description: Vercel OIDC Token
-        schema:
-          type: string
-      responses:
-        '200':
-          description: profiles found
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/UserProfile"
-    post:
-      summary: Creates a user profile
-      tags:
-      - Profiles
-      operationId: createProfile
-      description: Creates a new user profile
-      security:
-      - Bearer: []
-      parameters:
-      - name: X-Vercel-OIDC-Token
-        in: header
-        required: false
-        description: Vercel OIDC Token
-        schema:
-          type: string
-      - name: user_name
-        in: query
-        description: Username
-        required: true
-        schema:
-          type: string
-      - name: image_url
-        in: query
-        description: Image URL
-        required: false
-        schema:
-          type: string
-      responses:
-        '201':
-          description: profile created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserProfile"
-        '400':
-          description: bad request - profanity
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                - error
-        '422':
-          description: invalid request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: array
-                    items:
-                      type: string
-                required:
-                - error
-  "/user_profiles/{slug}":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: slug
-      in: path
-      description: Username
-      required: true
-      schema:
-        type: string
-    get:
-      summary: Retrieves a user profile
-      tags:
-      - Profiles
-      operationId: getProfile
-      responses:
-        '200':
-          description: user profile found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserProfile"
-  "/users":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: List Users
-      tags:
-      - Users
-      description: Retrieves a list of all Users
-      operationId: listUsers
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/User"
-    post:
-      summary: Create User
-      tags:
-      - Users
-      description: Creates a new User.
-      operationId: postUser
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '201':
-          description: created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserDetails"
-        '403':
-          description: forbidden
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-        '422':
-          description: unprocessable entity
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/UserPostRequest"
-  "/users/me":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: Show Me
-      tags:
-      - Users
-      description: Retrieves the current User.
-      operationId: getMe
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserMe"
-        '401':
-          description: not authorized
-  "/users/{username}":
-    parameters:
-    - name: username
-      in: path
-      description: The user's username
-      required: true
-      schema:
-        type: string
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: Show User
-      tags:
-      - Users
-      description: Retrieves a specific User by ID.
-      operationId: getUser
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserDetails"
-        '404':
-          description: not found
-    patch:
-      summary: Update User
-      tags:
-      - Users
-      description: Updates an existing User.
-      operationId: patchUser
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: Updated by Admin
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UserDetails"
-        '404':
-          description: not found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/UserDetails"
-    delete:
-      summary: Delete User
-      tags:
-      - Users
-      operationId: deleteUser
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-        '404':
-          description: not found
 servers:
 - url: https://api.battlestadium.gg/api/v1
 components:
@@ -1348,7 +1337,7 @@ components:
           pokepaste_id:
             type: string
             nullable: true
-          user_profile_id:
+          profile_id:
             type: integer
             format: int64
             nullable: true
@@ -1365,19 +1354,19 @@ components:
             items:
               "$ref": "#/components/schemas/Pokemon"
         required:
-        - user_profile_id
+        - 'profile_id:'
         - name
         - game_id
         - format_id
         - pokemon
       required: true
-    UserProfile:
-      name: user_profile
+    Profile:
+      name: profile
       in: body
       type: object
       schema:
         type: object
-        title: user_profile
+        title: profile
         properties:
           username:
             type: string
@@ -1429,9 +1418,9 @@ components:
       - id
       - name
       - formats
-    User:
+    Account:
       type: object
-      title: User
+      title: account
       properties:
         username:
           type: string
@@ -1449,9 +1438,9 @@ components:
       - id
       - username
       - pronouns
-    UserDetails:
+    AccountDetails:
       type: object
-      title: User Details
+      title: Account Details
       properties:
         username:
           type: string
@@ -1476,9 +1465,9 @@ components:
       - last_name
       - username
       - pronouns
-    UserMe:
+    AccountMe:
       type: object
-      title: User Me
+      title: Account Me
       properties:
         username:
           type: string
@@ -1511,9 +1500,9 @@ components:
       - last_name
       - username
       - pronouns
-    UserPostRequest:
+    AccountPostRequest:
       type: object
-      title: User Request
+      title: Account Request
       properties:
         username:
           type: string
@@ -1537,9 +1526,9 @@ components:
       - last_name
       - username
       - pronouns
-    UserRequest:
+    AccountRequest:
       type: object
-      title: User Request
+      title: Account Request
       properties:
         username:
           type: string
@@ -1616,7 +1605,7 @@ components:
       title: Organization
       properties:
         owner:
-          "$ref": "#/components/schemas/User"
+          "$ref": "#/components/schemas/Account"
           nullable: true
         description:
           type: string
@@ -1850,8 +1839,8 @@ components:
         pokepaste_id:
           type: string
           nullable: true
-        user_profile:
-          "$ref": "#/components/schemas/UserProfile"
+        profile:
+          "$ref": "#/components/schemas/Profile"
         public:
           type: boolean
         archived_at:
@@ -1869,7 +1858,7 @@ components:
       required:
       - id
       - name
-      - user_profile
+      - profile
       - public
       - archived_at
       - format
@@ -1879,13 +1868,13 @@ components:
       type: object
       title: Player Request
       properties:
-        user_id:
+        account_id:
           type: integer
           format: int64
         in_game_name:
           type: string
       required:
-      - user_id
+      - account_id
       - in_game_name
     Player:
       type: object
@@ -1894,13 +1883,13 @@ components:
         id:
           type: integer
           format: int64
-        user_profile:
-          "$ref": "#/components/schemas/UserProfile"
+        profile:
+          "$ref": "#/components/schemas/Profile"
         in_game_name:
           type: string
       required:
       - id
-      - user_profile
+      - profile
       - in_game_name
     PlayerDetails:
       type: object
@@ -1909,13 +1898,13 @@ components:
         id:
           type: integer
           format: int64
-        user_profile:
-          "$ref": "#/components/schemas/UserProfile"
+        profile:
+          "$ref": "#/components/schemas/Profile"
         in_game_name:
           type: string
       required:
       - id
-      - user_profile
+      - profile
       - in_game_name
     Round:
       type: object
@@ -2196,13 +2185,15 @@ components:
       - prev_page
       - total_pages
       - total_count
-    UserProfile:
+    Profile:
       type: object
       title: User Profile
       properties:
         id:
           type: integer
           format: int64
+        default:
+          type: boolean
         username:
           type: string
         image_url:
@@ -2216,9 +2207,10 @@ components:
       - image_url
       - id
       - pronouns
-    PostUserProfile:
+      - default
+    PostProfile:
       type: object
-      title: Post User Profile
+      title: Post Profile
       properties:
         username:
           type: string
