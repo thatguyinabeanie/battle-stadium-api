@@ -24,9 +24,7 @@ export default function Dashboard(props: DashboardProps) {
 
   const tabStr = useSearchParams().get("tab");
 
-  const [selected, setSelected] = React.useState(
-    (tabs.includes(`${tabStr}`) && tabStr) || "dashboard",
-  );
+  const [selected, setSelected] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || "dashboard");
 
   return (
     <Tabs
