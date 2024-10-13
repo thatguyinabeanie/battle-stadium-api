@@ -84,6 +84,7 @@ module Tournaments
       raise "Profile must be provided." if profile.nil?
       raise "Profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
       raise "Tournament registration is closed." unless registration_open?
+      raise "This profile's account already has another profile registered for the same tournament" if players.exists?(account_id: profile.account.id)
 
       players.create!(profile:, pokemon_team_id:, in_game_name:, account: profile.account)
     end

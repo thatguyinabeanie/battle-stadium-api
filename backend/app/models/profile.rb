@@ -18,10 +18,6 @@ class Profile < ApplicationRecord
 
   scope :not_archived, -> { where(archived_at: nil) }
 
-  def default?
-    account.default_profile == self
-  end
-
   def should_generate_new_friendly_id?
     username_changed?
   end
