@@ -65,7 +65,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
         let(:player) do
           tournament
           profile = create(:profile)
-          tournament.register(profile:)
+          tournament.register(profile:, in_game_name: "pablo escobar")
           { profile_id: profile.id }
         end
 
