@@ -1,3 +1,5 @@
+"use client";
+
 import { Profile } from "@/lib/api";
 import {
   Link,
@@ -18,7 +20,11 @@ const columns = [
   { key: "image_url", label: "Image" },
 ];
 
-export function ProfilesTable(profiles: Profile[]) {
+interface ProfilesTableProps {
+  profiles: Profile[];
+}
+
+export function ProfilesTable({ profiles }: ProfilesTableProps) {
   return (
     <Table
       isCompact

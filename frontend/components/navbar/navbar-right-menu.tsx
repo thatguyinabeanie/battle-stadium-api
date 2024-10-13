@@ -12,7 +12,7 @@ export default async function NavbarRightMenu({ me }: Readonly<NavbarMobileMenuP
   return (
     <NavbarContent className="gap-0" justify="center">
       <Search />
-      <Settings />
+      <Settings me={me} />
       <Notifications />
       <UserMenu me={me} />
       <NavbarMenuToggle className="md:hidden" />

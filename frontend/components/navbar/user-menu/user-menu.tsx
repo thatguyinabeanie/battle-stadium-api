@@ -1,10 +1,10 @@
 import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@/components/nextui-use-client";
 import UserMenuDropDown from "@/components/navbar/user-menu/user-menu-dropdown";
 import { currentUser } from "@clerk/nextjs/server";
-import { components } from "@/lib/api/openapi-v1";
+import { AccountMe } from "@/lib/api";
 
 interface UserMenuProps {
-  me?: components["schemas"]["AccountMe"];
+  me?: AccountMe;
 }
 
 async function SmartAvatar() {

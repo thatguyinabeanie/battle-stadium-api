@@ -1,11 +1,21 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavbarItem, Button } from "@/components/nextui-use-client";
 import Link from "next/link";
+import { AccountMe } from "@/lib/api";
+import { cn } from "@/lib";
 
-export default function Settings() {
+interface SettingsProps {
+  me?: AccountMe;
+}
+
+export default function Settings({ me }: Readonly<SettingsProps>) {
   return (
-    <NavbarItem className="hidden lg:flex">
-      <Link passHref href="/settings">
+    <NavbarItem
+      className={cn("hidden", {
+        "lg:flex": !!me,
+      })}
+    >
+      <Link passHref href="/dashboard?tab=settings">
         <Button isIconOnly radius="full" variant="light">
           <Icon className="text-default-500" icon="solar:settings-linear" width={24} />
         </Button>
