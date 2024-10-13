@@ -1185,7 +1185,7 @@ export interface components {
     PokemonTeam: {
       pokepaste_id?: string | null;
       /** Format: int64 */
-      user_profile_id: number | null;
+      profile_id: number | null;
       name: string;
       /** Format: int64 */
       game_id: number;
@@ -1720,7 +1720,7 @@ export interface operations {
         "application/json": {
           pokepaste_id?: string | null;
           /** Format: int64 */
-          user_profile_id: number | null;
+          profile_id: number | null;
           name: string;
           /** Format: int64 */
           game_id: number;

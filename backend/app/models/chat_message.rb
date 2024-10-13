@@ -1,6 +1,6 @@
 class ChatMessage < ApplicationRecord
   belongs_to :match, class_name: "Tournaments::Match", foreign_key: "match_id", optional: false, validate: true
-  belongs_to :user_profile, class_name: "UserProfile", foreign_key: "user_profile_id", optional: false, validate: true
-  delegate :account, to: :user_profile
+  belongs_to :profile, class_name: "Profile", foreign_key: "profile_id", optional: false, validate: true
+  delegate :account, to: :profile
   validates :content, presence: true
 end

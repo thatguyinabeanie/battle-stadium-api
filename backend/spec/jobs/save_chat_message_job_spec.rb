@@ -4,7 +4,7 @@ RSpec.describe SaveChatMessageJob do
   let(:match) { create(:match) }
   let(:match_id) { match.id }
   let(:account_id) { match.player_one.account.id }
-  let(:user_profile_id) {  match.player_one.user_profile.id }
+  let(:profile_id) {  match.player_one.profile.id }
   let(:content) { "Hello, world!" }
   let(:sent_at) { Time.current.utc }
   let(:message_type) { "text" }
@@ -14,7 +14,7 @@ RSpec.describe SaveChatMessageJob do
       expect {
         described_class.perform_now(
           match_id:,
-          user_profile_id:,
+          profile_id:,
           content:,
           account_id:,
           sent_at:,
@@ -26,7 +26,7 @@ RSpec.describe SaveChatMessageJob do
     it "creates a ChatMessage with correct attributes" do
       described_class.perform_now(
         match_id:,
-        user_profile_id:,
+        profile_id:,
         content:,
         account_id:,
         sent_at:,
@@ -35,7 +35,7 @@ RSpec.describe SaveChatMessageJob do
 
       chat_message = ChatMessage.last
       expect(chat_message.match_id).to eq(match_id)
-      expect(chat_message.user_profile_id).to eq(user_profile_id)
+      expect(chat_message.profile_id).to eq(profile_id)
       expect(chat_message.content).to eq(content)
       expect(chat_message.account_id).to eq(account_id)
       expect(chat_message.sent_at).to be_within(1.second).of(sent_at)

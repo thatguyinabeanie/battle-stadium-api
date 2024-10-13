@@ -54,7 +54,7 @@ class ChatChannel < ApplicationCable::Channel
     raise MessageTooLargeError, "Message size exceeds the maximum limit of 1MB" if message_size > MAX_MESSAGE_SIZE
 
     username = get_username(account: current_account)
-    user_profile = get_user_profile(account: current_account)
+    profile = get_profile(account: current_account)
 
     ActionCable.server.broadcast(chat_channel, {
       username: ,
@@ -66,7 +66,7 @@ class ChatChannel < ApplicationCable::Channel
 
     SaveChatMessageJob.perform_later(
       match_id: match.id,
-      user_profile_id: user_profile.id,
+      profile_id: profile.id,
       account_id: current_account.id,
       content: message,
       message_type: "text",
@@ -86,10 +86,10 @@ class ChatChannel < ApplicationCable::Channel
     account.username
   end
 
-  def get_user_profile(account:)
-    return match.player_one.user_profile if match.player_one.account == account
-    return match.player_two.user_profile if match.player_two.account == account
-    account.user_profile
+  def get_profile(account:)
+    return match.player_one.profile if match.player_one.account == account
+    return match.player_two.profile if match.player_two.account == account
+    account.profile
   end
 
   def format_timestr(time:)
@@ -114,21 +114,4 @@ class ChatChannel < ApplicationCable::Channel
   def unique_key(username:, sent_at:, message_type:)
     Digest::SHA256.hexdigest("#{chat_channel}-#{username}-#{sent_at}-#{message_type}")
   end
-
-  # def load_previous_messages(match_id:)
-  #   messages = match.chat_messages.order(created_at: :asc)
-
-  #   messages.each do |message|
-  #     sent_at = format_timestr(time: message.created_at)
-  #     username = message.user_profile.username
-  #     message = message.sent_at
-  #     transmit({
-  #       username:,
-  #       message:,
-  #       sent_at:,
-  #       type: "text",
-  #       key: unique_key(username:, sent_at:, type: "text")
-  #     })
-  #   end
-  # end
 end

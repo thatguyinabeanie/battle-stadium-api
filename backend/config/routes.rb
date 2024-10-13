@@ -58,7 +58,7 @@ Rails.application.routes.draw do
 
       resources :games, only: %i[index show create update destroy]
 
-      resources :user_profiles, only: %i[index show create], controller: "user_profiles", param: :slug
+      resources :profiles, only: %i[index show create], controller: "profiles", param: :slug
 
       resources :pokemon_teams, only: %i[index create], controller: "pokemon_teams"
     end

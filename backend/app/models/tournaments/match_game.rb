@@ -6,7 +6,7 @@ module Tournaments
     belongs_to :match, class_name: "Tournaments::Match", inverse_of: :match_games
     belongs_to :winner, class_name: "Tournaments::Player", optional: true
     belongs_to :loser, class_name: "Tournaments::Player", optional: true
-    belongs_to :reporter, class_name: "UserProfile", optional: true, foreign_key: "reporter_profile_id"
+    belongs_to :reporter, class_name: "Profile", optional: true, foreign_key: "reporter_profile_id"
 
     validates :game_number, presence: true
     validates :reporter, presence: true, if: -> { ended_at.present? && (winner.present? || loser.present?) }
@@ -22,7 +22,7 @@ module Tournaments
       self.winner = winner
       self.loser = loser
       self.reporter =  if reporter == player_one || reporter == player_two
-                         reporter.user_profile
+                         reporter.profile
                     else
                       reporter.default_profile
                     end

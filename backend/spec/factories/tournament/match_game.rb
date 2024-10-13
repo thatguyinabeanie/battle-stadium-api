@@ -14,7 +14,7 @@ FactoryBot.define do
       after(:build) do |match_game|
         match_game.winner = match_game.match.player_one
         match_game.loser = match_game.match.player_two
-        match_game.reporter = match_game.match.player_one.user_profile
+        match_game.reporter = match_game.match.player_one.profile
         match_game.started_at = Time.current.utc
         match_game.ended_at = Time.current.utc + 20.minutes
       end
@@ -24,7 +24,7 @@ FactoryBot.define do
       after(:build) do |match_game|
         match_game.winner = match_game.match.player_two
         match_game.loser = match_game.match.player_one
-        match_game.reporter = match_game.match.player_one.user_profile
+        match_game.reporter = match_game.match.player_one.profile
         match_game.started_at = Time.current.utc
         match_game.ended_at = Time.current.utc + 20.minutes
       end

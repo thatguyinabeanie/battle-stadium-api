@@ -1,12 +1,12 @@
 require "swagger_helper"
 require_relative "../../../support/auth/token_verifier_mock"
 
-RSpec.describe Api::V1::UserProfilesController do
+RSpec.describe Api::V1::ProfilesController do
   include Auth::TokenVerifier::Mock
   include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
 
   let(:account) { create(:account) }
-  let(:user_profile) { create(:user_profile, account:) }
+  let(:profile) { create(:profile, account:) }
   let(:valid_attributes) { { user_name: "new_user", image_url: "http://example.com/image.png" } }
   let(:invalid_attributes) { { user_name: "", image_url: "" } }
 
@@ -20,7 +20,7 @@ RSpec.describe Api::V1::UserProfilesController do
   describe "GET #show" do
     context "with valid slug" do
       it "returns the user profile" do
-        get :show, params: { slug: user_profile.slug }
+        get :show, params: { slug: profile.slug }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -35,10 +35,10 @@ RSpec.describe Api::V1::UserProfilesController do
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new UserProfile" do
+      it "creates a new Profile" do
         expect {
           post :create, params: valid_attributes
-        }.to change(UserProfile, :count).by(1)
+        }.to change(Profile, :count).by(1)
         expect(response).to have_http_status(:created)
       end
     end

@@ -13,8 +13,8 @@ module Api
 
       def create
         profile = begin
-                    if params[:user_profile_id].present?
-                      UserProfile.find_by!(id: params[:user_profile_id])
+                    if params[:profile_id].present?
+                      Profile.find_by!(id: params[:profile_id])
                     else
                       current_account.default_profile
                     end
@@ -26,7 +26,7 @@ module Api
         authorize profile, :create_pokemon_team?
 
         ActiveRecord::Base.transaction do
-          pokemon_team = PokemonTeam.create!(params.permit(:name, :game_id, :format_id, :pokepaste_id).merge(user_profile: profile))
+          pokemon_team = PokemonTeam.create!(params.permit(:name, :game_id, :format_id, :pokepaste_id).merge(profile:))
 
           pokemon_team.pokemon = params[:pokemon].each_with_index.map do |p, position|
             pokemon_team.pokemon.create!(p.permit(:species, :nickname, :gender, :ability, :item, :nature, :tera_type, :nature, :form, :move1, :move2, :move3, :move4).merge(pokemon_team_id: pokemon_team.id, position:))

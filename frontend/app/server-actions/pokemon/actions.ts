@@ -7,7 +7,7 @@ import { FetchOptions } from "openapi-fetch";
 
 type PostPokemonTeamBody = {
   pokepaste_id?: string;
-  user_profile_id: number | null;
+  profile_id: number | null;
   name: string;
   format_id: number;
   game_id: number;
@@ -44,7 +44,7 @@ export async function postPokemonTeam(
 ) {
   const body: PostPokemonTeamBody = {
     pokepaste_id: metadata.id,
-    user_profile_id: null,
+    profile_id: null,
     name: metadata.title,
     format_id: 1,
     game_id: 1,

@@ -1,4 +1,4 @@
-class UserProfilePolicy < ApplicationPolicy
+class ProfilePolicy < ApplicationPolicy
   def show?
     (record.archived_at.nil?) || account == record.account || account.admin?
   end

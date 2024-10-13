@@ -11,7 +11,7 @@ FactoryBot.define do
     archived_at { nil }
 
     after(:build) do |account|
-      account.default_profile ||= build(:user_profile, account:)
+      account.default_profile ||= build(:profile, account:)
     end
 
     after(:create) do |account|

@@ -1,7 +1,7 @@
 require_relative "serializer_mixin"
 
 module Serializers
-  class UserProfile < ActiveModel::Serializer
+  class Profile < ActiveModel::Serializer
     include SerializerMixin::Id
     attributes :username, :image_url, :pronouns, :default
 

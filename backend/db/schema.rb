@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_13_161855) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_13_180418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_161855) do
     t.string "message_type"
     t.datetime "sent_at"
     t.bigint "account_id"
-    t.bigint "user_profile_id", null: false
+    t.bigint "profile_id", null: false
     t.index ["account_id"], name: "index_chat_messages_on_account_id"
     t.index ["match_id"], name: "index_chat_messages_on_match_id"
   end
@@ -187,7 +187,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_161855) do
     t.integer "game_losses", default: 0, null: false
     t.decimal "resistance", precision: 5, scale: 2
     t.bigint "account_id"
-    t.bigint "user_profile_id", null: false
+    t.bigint "profile_id", null: false
     t.index ["account_id"], name: "index_players_on_account_id"
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
@@ -223,7 +223,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_161855) do
     t.bigint "game_id", null: false
     t.datetime "archived_at"
     t.string "pokepaste_id"
-    t.bigint "user_profile_id"
+    t.bigint "profile_id"
     t.index ["format_id"], name: "index_pokemon_teams_on_format_id"
     t.index ["game_id"], name: "index_pokemon_teams_on_game_id"
   end
@@ -293,7 +293,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_161855) do
   add_foreign_key "accounts", "profiles", column: "default_profile_id"
   add_foreign_key "chat_messages", "accounts"
   add_foreign_key "chat_messages", "matches"
-  add_foreign_key "chat_messages", "profiles", column: "user_profile_id"
+  add_foreign_key "chat_messages", "profiles"
   add_foreign_key "clerk_users", "accounts"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
@@ -316,12 +316,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_161855) do
   add_foreign_key "phases", "tournaments"
   add_foreign_key "players", "accounts"
   add_foreign_key "players", "pokemon_teams"
-  add_foreign_key "players", "profiles", column: "user_profile_id"
+  add_foreign_key "players", "profiles"
   add_foreign_key "players", "tournaments"
   add_foreign_key "pokemon", "pokemon_teams"
   add_foreign_key "pokemon_teams", "formats"
   add_foreign_key "pokemon_teams", "games"
-  add_foreign_key "pokemon_teams", "profiles", column: "user_profile_id"
+  add_foreign_key "pokemon_teams", "profiles"
   add_foreign_key "profiles", "accounts"
   add_foreign_key "tournament_formats", "formats"
   add_foreign_key "tournament_formats", "tournaments"

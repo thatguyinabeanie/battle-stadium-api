@@ -8,8 +8,8 @@ RSpec.describe Account do
   let(:username) { Faker::Internet.unique.username }
 
   describe "associations" do
-    it { is_expected.to have_one(:default_profile).class_name("UserProfile").dependent(:destroy).inverse_of(:account) }
-    it { is_expected.to have_many(:user_profiles).class_name("UserProfile").dependent(:destroy).inverse_of(:account) }
+    it { is_expected.to have_one(:default_profile).class_name("Profile").dependent(:destroy).inverse_of(:account) }
+    it { is_expected.to have_many(:profiles).class_name("Profile").dependent(:destroy).inverse_of(:account) }
     it { is_expected.to have_one(:owned_organization).class_name("Organization").with_foreign_key("owner_id").dependent(:destroy).inverse_of(:owner) }
     it { is_expected.to have_many(:organization_staff_members).class_name("OrganizationStaffMember").dependent(:destroy) }
     it { is_expected.to have_many(:staff).through(:organization_staff_members).source(:account) }

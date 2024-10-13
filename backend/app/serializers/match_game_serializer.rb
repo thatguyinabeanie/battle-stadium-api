@@ -9,17 +9,17 @@ module Serializers
       attributes :winner, :loser, :reporter
 
       def player_one
-        object.player_one.user_profile.username
+        object.player_one.profile.username
       end
       def player_two
-        object.player_two.user_profile.username
+        object.player_two.profile.username
       end
       def winner
-        object.winner&.user_profile&.username
+        object.winner&.profile&.username
       end
 
       def loser
-        object.loser&.user_profile&.username
+        object.loser&.profile&.username
       end
 
       def reporter

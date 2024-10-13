@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Tournaments::Player do
   describe "associations" do
-    it { is_expected.to belong_to(:user_profile).class_name("UserProfile").optional(false).validate(true) }
+    it { is_expected.to belong_to(:profile).class_name("Profile").optional(false).validate(true) }
     it { is_expected.to belong_to(:tournament).class_name("Tournaments::Tournament").inverse_of(:players) }
     it { is_expected.to belong_to(:pokemon_team).class_name("PokemonTeam").optional(true) }
   end
@@ -10,29 +10,29 @@ RSpec.describe Tournaments::Player do
   describe "validations" do
     subject { create(:player) }
 
-    it { is_expected.to validate_presence_of(:user_profile_id) }
+    it { is_expected.to validate_presence_of(:profile_id) }
 
     it { is_expected.to validate_presence_of(:tournament_id) }
 
     describe "custom validations" do
       it "validates uniqueness of account_id within the scope of tournament_id" do
-        user_profile = create(:user_profile)
-        existing_player = create(:player, user_profile:)
-        new_player = build(:player, user_profile_id: user_profile.id, tournament: existing_player.tournament)
+        profile = create(:profile)
+        existing_player = create(:player, profile:)
+        new_player = build(:player, profile_id: profile.id, tournament: existing_player.tournament)
         new_player.valid?
-        expect(new_player.errors[:user_profile_id]).to include(I18n.t("tournament.registration.already_registered"))
+        expect(new_player.errors[:profile_id]).to include(I18n.t("tournament.registration.already_registered"))
       end
     end
   end
 
   describe "delegations" do
-    it { is_expected.to delegate_method(:username).to(:user_profile) }
+    it { is_expected.to delegate_method(:username).to(:profile) }
   end
 
   describe "#checked_in?" do
     subject(:player) { create(:player) }
 
-    let(:user_profile) { create(:user_profile) }
+    let(:profile) { create(:profile) }
     let(:tournament) { create(:tournament, start_at: 1.hour.from_now, check_in_start_at: 1.hour.ago) }
 
     it "returns true if checked_in_at is present" do

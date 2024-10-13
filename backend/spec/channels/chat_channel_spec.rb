@@ -7,7 +7,7 @@ RSpec.describe ChatChannel do
 
   let(:broadcast_room_name) { "chat_#{room}" }
   let(:room) { match_hash[:match].id }
-  let(:account) { match_hash[:player_one].user_profile.account }
+  let(:account) { match_hash[:player_one].profile.account }
   let(:match2_hash) { fully_formed_match }
   let(:match_hash) { fully_formed_match }
 
