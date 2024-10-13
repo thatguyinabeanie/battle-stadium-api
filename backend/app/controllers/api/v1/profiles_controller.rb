@@ -6,13 +6,25 @@ module Api
       self.klass = ::Profile
       self.serializer_klass = Serializers::Profile
 
+      before_action :authenticate_clerk_user_session!, only: %i[create index]
       def self.policy_class
         ::AccountPolicy
       end
 
       def index
-        authorize self.class, :index?
-        @profiles = Profile.all
+        @profiles = if params[:account_id]
+                      if current_account&.id.to_s == params[:account_id]
+                        authorize current_account, :me?
+                        current_account.profiles
+                      else
+                        authorize self.class, :index?
+                        Profile.where(account_id: params[:account_id], archived_at: nil)
+                      end
+                    else
+                      authorize self.class, :index?
+                      Profile.where(archived_at: nil)
+                    end
+
         render json: @profiles, each_serializer: Serializers::Profile, status: :ok
       end
 

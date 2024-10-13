@@ -14,7 +14,11 @@ RSpec.describe Api::V1::ProfilesController do
       operationId "listProfiles"
 
       parameter VERCEL_TOKEN_HEADER_PARAMETER
-      response(200, "profiles found") do
+      parameter name: :account_id, in: :query, type: :integer, description: "Account ID", required: false
+
+      security [Bearer: []]
+
+      response(200, "lists all unarchived profiles") do
         let(:profiles) { create_list(:profile, 3) }
 
         schema type: :array,
@@ -23,6 +27,60 @@ RSpec.describe Api::V1::ProfilesController do
 
         run_test!
       end
+
+      response(200, "lists all unarchived profiles for a given account") do
+        let!(:account) do
+          account = create(:account)
+
+          account.profiles += create_list(:profile, 10, archived_at: nil) + [create(:profile, account: , archived_at: Time.current - 1.month)]
+          account.save
+          account
+        end
+
+        let(:account_id) { account.id }
+
+        schema type: :array,
+               items: { "$ref" => "#/components/schemas/Profile" }
+        OpenApi::Response.set_example_response_metadata
+
+        run_test! do
+          expect(response.parsed_body.size).to eq(account.profiles.size - 1)
+          account.profiles.filter { |p| p.archived_at.nil? }.each do |profile|
+            expect(response.parsed_body.pluck("id")).to include(profile.id)
+          end
+
+          expect(response.body).not_to include(request_account.profiles.first.username)
+        end
+      end
+
+      response(200, "lists all request account's own profiles") do
+        let(:other_accounts) { create_list(:account, 5) }
+        let(:archived_profiles) { create_list(:profile, 3, account: request_account, archived_at: Time.current - 1.month) }
+        let(:profiles) { create_list(:profile, 3, account: request_account, archived_at: nil) }
+        let(:account_id) do
+          request_account.profiles += archived_profiles + profiles
+          request_account.save
+          request_account.id
+        end
+
+        schema type: :array,
+               items: { "$ref" => "#/components/schemas/Profile" }
+        OpenApi::Response.set_example_response_metadata
+
+        run_test! do
+          expect(response.parsed_body.size).to eq(request_account.profiles.size)
+
+          request_account.profiles.each do |profile|
+            expect(response.parsed_body.pluck("id")).to include(profile.id)
+          end
+
+          other_accounts.map(&:profiles).flatten.each do |profile|
+            # Add your code here to handle each profile
+            expect(response.parsed_body.pluck("id")).not_to include(profile.id)
+          end
+        end
+      end
+
     end
 
     post("Creates a profile") do
