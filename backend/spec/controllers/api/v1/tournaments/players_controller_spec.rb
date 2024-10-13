@@ -49,7 +49,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
         post :create, params: { tournament_id: tournament.id, player: player_params }
 
-        expect(response.body).to include(player_params[:user_profile_id])
+        expect(response.body).to include(player_params[:user_profile_id].to_s)
         expect(response).to have_http_status(:created)
         count_after = Tournaments::Player.count
         expect(count_after).to eq(count_before + 1)

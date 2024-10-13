@@ -825,8 +825,8 @@ export interface components {
       username: string;
       pronouns: string;
       image_url?: string | null;
-      /** Format: uuid */
-      id: string;
+      /** Format: int64 */
+      id: number;
     };
     /** User Details */
     UserDetails: {
@@ -836,8 +836,8 @@ export interface components {
       email: string;
       first_name: string;
       last_name: string;
-      /** Format: uuid */
-      id: string;
+      /** Format: int64 */
+      id: number;
     };
     /** User Me */
     UserMe: {
@@ -847,8 +847,8 @@ export interface components {
       email: string;
       first_name: string;
       last_name: string;
-      /** Format: uuid */
-      id: string;
+      /** Format: int64 */
+      id: number;
       organizations: components["schemas"]["Organization"][];
       admin: boolean;
     };
@@ -860,8 +860,8 @@ export interface components {
       email: string;
       first_name: string;
       last_name: string;
-      /** Format: uuid */
-      id?: string;
+      /** Format: int64 */
+      id?: number;
     };
     /** User Request */
     UserRequest: {
@@ -871,13 +871,13 @@ export interface components {
       email: string;
       first_name: string;
       last_name: string;
-      /** Format: uuid */
-      id?: string;
+      /** Format: int64 */
+      id?: number;
     };
     /** Registration Response */
     RegistrationResponse: {
-      /** Format: uuid */
-      id: string;
+      /** Format: int64 */
+      id: number;
       /** Format: email */
       email: string;
       username: string;
@@ -997,8 +997,8 @@ export interface components {
     };
     /** Player Request */
     PlayerRequest: {
-      /** Format: uuid */
-      user_id: string;
+      /** Format: int64 */
+      user_id: number;
       in_game_name: string;
     };
     /** Player */
@@ -1139,8 +1139,8 @@ export interface components {
     };
     /** User Profile */
     UserProfile: {
-      /** Format: uuid */
-      id: string;
+      /** Format: int64 */
+      id: number;
       username: string;
       image_url: string | null;
       pronouns: string | null;

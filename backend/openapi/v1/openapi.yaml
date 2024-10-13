@@ -1441,8 +1441,8 @@ components:
           type: string
           nullable: true
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - username
       - pronouns
@@ -1467,8 +1467,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - id
       - email
@@ -1494,8 +1494,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         organizations:
           type: array
           items:
@@ -1529,8 +1529,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - email
       - first_name
@@ -1555,8 +1555,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - email
       - first_name
@@ -1568,8 +1568,8 @@ components:
       title: Registration Response
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         email:
           type: string
           format: email
@@ -1880,8 +1880,8 @@ components:
       title: Player Request
       properties:
         user_id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         in_game_name:
           type: string
       required:
@@ -2201,8 +2201,8 @@ components:
       title: User Profile
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         username:
           type: string
         image_url:

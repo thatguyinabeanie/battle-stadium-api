@@ -2,10 +2,8 @@
 
 require "rails_helper"
 require "support/constants"
-
+ID_TYPE = { type: :integer, format: :int64 }.freeze
 ID_PROPERTY = { id: { type: :integer, format: :int64 } }.freeze
-UUID_TYPE = { type: :string, format: "uuid" }.freeze
-UUID_PROPERTY = { id: UUID_TYPE }.freeze
 NAME_PROPERTY = { name: { type: :string } }.freeze
 ID_NAME_REQUIRED = %w[id name].freeze
 
@@ -15,11 +13,6 @@ COMPONENT_SCHEMA_GAME = "#/components/schemas/Game"
 
 ID_NAME_PROPERTIES = {
   id: ID_PROPERTY[:id],
-  name: NAME_PROPERTY[:name]
-}.freeze
-
-UUID_NAME_PROPERTIES = {
-  id: UUID_PROPERTY[:id],
   name: NAME_PROPERTY[:name]
 }.freeze
 
@@ -67,7 +60,7 @@ USER_PROFILE_SCHEMA = {
   type: :object,
   title: "User Profile",
   properties: {
-    id: { type: :string, format: "uuid" },
+    id: ID_TYPE,
     default: { type: :boolean },
     username: { type: :string },
     image_url: { type: :string, nullable: true },
@@ -90,7 +83,7 @@ POST_USER_PROFILE_SCHEMA = {
 USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
   {
     title: "User",
-    properties: UUID_PROPERTY,
+    properties: ID_PROPERTY,
     required: %w[username pronouns id] + SIMPLE_USER_SCHEMA[:required]
   }
 ).freeze
@@ -113,7 +106,7 @@ USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: "User Details",
-    properties: UUID_PROPERTY,
+    properties: ID_PROPERTY,
     required: %w[id] + SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -134,7 +127,7 @@ USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: "User Request",
-    properties: UUID_PROPERTY,
+    properties: ID_PROPERTY,
     required: SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -143,7 +136,7 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
     title: "User Request",
-    properties: UUID_PROPERTY,
+    properties: ID_PROPERTY,
     required: SIMPLE_USER_DETAILS_SCHEMA[:required]
   }
 ).freeze
@@ -151,7 +144,7 @@ USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
 USER_LOGIN_RESPONSE = {
   type: :object,
   title: "User Login Response",
-  properties: UUID_PROPERTY.merge(
+  properties: ID_PROPERTY.merge(
     username: { type: :string },
     pronouns: { type: :string },
     email: { type: :string, format: "email" },
@@ -165,7 +158,7 @@ USER_LOGIN_RESPONSE = {
 REGISTRATION_RESPONSE = {
   type: :object,
   title: "Registration Response",
-  properties: UUID_PROPERTY.merge(
+  properties: ID_PROPERTY.merge(
     email: { type: :string, format: "email" },
     username: { type: :string },
     first_name: { type: :string },
@@ -334,7 +327,7 @@ PLAYER_REQUEST = {
   type: :object,
   title: "Player Request",
   properties: {
-    user_id: UUID_TYPE,
+    user_id: ID_TYPE,
     in_game_name: { type: :string }
   },
   required: %w[user_id in_game_name]

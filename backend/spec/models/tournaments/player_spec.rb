@@ -18,7 +18,7 @@ RSpec.describe Tournaments::Player do
       it "validates uniqueness of user_id within the scope of tournament_id" do
         user_profile = create(:user_profile)
         existing_player = create(:player, user_profile:)
-        new_player = build(:player, user_profile_id: user_profile.id.upcase, tournament: existing_player.tournament)
+        new_player = build(:player, user_profile_id: user_profile.id, tournament: existing_player.tournament)
         new_player.valid?
         expect(new_player.errors[:user_profile_id]).to include(I18n.t("tournament.registration.already_registered"))
       end
