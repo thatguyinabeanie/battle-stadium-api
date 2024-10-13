@@ -46,7 +46,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
 
           {
             name:  "New Pokemon Team",
-            user_profile_id: request_account.default_profile.id,
+            profile_id: request_account.default_profile.id,
             game_id: game.id,
             format_id: format.id,
             pokemon: build_list(:pokemon, 6)
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
       response(422, "unprocessable entity") do
 
         let(:name) { "New Pokemon Team" }
-        let(:user_profile_id) {}
+        let(:profile_id) {}
         let(:game) { create(:game) }
         let(:game_id) { game.id }
 
@@ -74,7 +74,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
         let(:pokemon_team) do
           {
             name:,
-            user_profile_id:,
+            profile_id:,
             game_id:,
             format_id:,
             pokemon:

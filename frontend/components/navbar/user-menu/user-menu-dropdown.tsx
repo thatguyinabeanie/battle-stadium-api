@@ -7,7 +7,7 @@ import { cn } from "@/lib";
 import { components } from "@/lib/api/openapi-v1";
 
 interface UserMenuDropDownProps {
-  me?: components["schemas"]["UserMe"];
+  me?: components["schemas"]["AccountMe"];
 }
 
 export default function UserMenuDropDown({ me }: Readonly<UserMenuDropDownProps>) {

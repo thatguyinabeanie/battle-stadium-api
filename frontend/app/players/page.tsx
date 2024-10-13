@@ -1,5 +1,5 @@
 import PlayersTable from "@/app/players/players-table";
-import { getUserProfiles } from "@/app/server-actions/profiles/actions";
+import { getProfiles } from "@/app/server-actions/profiles/actions";
 
 const columns = [
   {
@@ -14,7 +14,7 @@ const columns = [
 
 async function fetchPlayers() {
   try {
-    const { data: players } = await getUserProfiles();
+    const { data: players } = await getProfiles();
 
     return players ?? [];
   } catch (error) {

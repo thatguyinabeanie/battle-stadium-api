@@ -135,4 +135,85 @@ RSpec.describe Tournaments::Tournament do
       end
     end
   end
+
+  describe "#register" do
+    let(:tournament) { create(:tournament, :with_phases, :with_players_with_team_and_checked_in) }
+    let(:profile) { create(:profile) }
+    let(:pokemon_team) { create(:pokemon_team) }
+    let(:in_game_name) { "in_game_name" }
+
+    context "when profile is nil" do
+      it "raises an error" do
+        expect { tournament.register(profile: nil) }.to raise_error("Profile must be provided.")
+      end
+    end
+
+    context "when profile is already registered" do
+
+      it "raises an error" do
+        profile = tournament.players.first.profile
+        expect { tournament.register(profile:) }.to raise_error("Profile is already registered for the tournament")
+      end
+    end
+
+    context "when registration is closed" do
+      before { allow(tournament).to receive(:registration_open?).and_return(false) }
+
+      it "raises an error" do
+        expect { tournament.register(profile:) }.to raise_error("Tournament registration is closed.")
+      end
+    end
+
+    context "when registration is open" do
+      before { allow(tournament).to receive(:registration_open?).and_return(true) }
+
+      it "registers the profile" do
+        pokemon_team_id = pokemon_team.id
+        in_game_name = "in_game_name"
+        expect { tournament.register(profile:, pokemon_team_id:, in_game_name:) }.to change(tournament.players, :count).by(1)
+      end
+
+      it "associates the profile with the tournament" do
+        tournament.register(profile:, pokemon_team_id: pokemon_team.id, in_game_name:)
+        expect(tournament.players.last.profile).to eq(profile)
+      end
+
+      it "associates the pokemon team with the player" do
+        tournament.register(profile:, pokemon_team_id: pokemon_team.id, in_game_name:)
+        expect(tournament.players.last.pokemon_team_id).to eq(pokemon_team.id)
+      end
+    end
+  end
+
+  describe "#unregister" do
+    let(:tournament) { create(:tournament, :with_phases) }
+    let(:profile) { create(:profile) }
+    let(:player) { create(:player, tournament:, profile:) }
+
+    context "when profile is nil" do
+      it "raises an error" do
+        expect { tournament.unregister(profile: nil) }.to raise_error("Profile must be provided.")
+      end
+    end
+
+    context "when profile is not registered" do
+      it "raises an error" do
+        expect { tournament.unregister(profile:) }.to raise_error("Profile is not registered for the tournament.")
+      end
+    end
+
+    context "when profile is registered" do
+      before { player }
+
+      it "unregisters the profile" do
+        expect { tournament.unregister(profile:) }.to change(tournament.players, :count).by(-1)
+      end
+
+      it "removes the association between the profile and the tournament" do
+        tournament.unregister(profile:)
+        expect(tournament.players.exists?(profile_id: profile.id)).to be false
+      end
+    end
+  end
+
 end

@@ -7,10 +7,10 @@ module Serializers
       include SerializerMixin::Id
       attributes :round_id, :tournament_id, :table_number, :player_one, :player_two, :reset_by
       def player_one
-        object.player_one&.user_profile&.username
+        object.player_one&.profile&.username
       end
       def player_two
-        object.player_two&.user_profile&.username
+        object.player_two&.profile&.username
       end
       def reset_by
         object.reset_by&.default_profile&.username
@@ -25,16 +25,16 @@ module Serializers
   class MatchDetails < ActiveModel::Serializer
     include MatchMixin
 
-    attributes :winner, :loser
+    attributes :winner, :loser, :bye
     attributes :player_one_check_in, :player_two_check_in
-    attributes :created_at, :updated_at, :ended_at
+    attributes :ended_at, :started_at
 
     def winner
-      object.winner&.user_profile&.username
+      object.winner&.profile&.username
     end
 
     def loser
-      object.loser&.user_profile&.username
+      object.loser&.profile&.username
     end
   end
 end

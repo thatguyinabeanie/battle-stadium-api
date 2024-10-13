@@ -26,7 +26,7 @@ module Tournaments
     private
 
     def is_match_player?
-      [record.player_one, record.player_two].any? { |player| player.user_profile.account == account }
+      [record.player_one, record.player_two].any? { |player| player.profile.account == account }
     end
   end
 end

@@ -2,12 +2,12 @@
 require "swagger_helper"
 require "support/auth/token_verifier_mock"
 
-RSpec.describe Api::V1::UserProfilesController do
+RSpec.describe Api::V1::ProfilesController do
 
   include Auth::TokenVerifier::Mock
   include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
-  path "/user_profiles" do
+  path "/profiles" do
     get("Retrieves all profiles") do
       tags "Profiles"
       produces "application/json"
@@ -15,21 +15,21 @@ RSpec.describe Api::V1::UserProfilesController do
 
       parameter VERCEL_TOKEN_HEADER_PARAMETER
       response(200, "profiles found") do
-        let(:user_profiles) { create_list(:user_profile, 3) }
+        let(:profiles) { create_list(:profile, 3) }
 
         schema type: :array,
-                items: { "$ref" => "#/components/schemas/UserProfile" }
+                items: { "$ref" => "#/components/schemas/Profile" }
         OpenApi::Response.set_example_response_metadata
 
         run_test!
       end
     end
 
-    post("Creates a user profile") do
+    post("Creates a profile") do
       tags "Profiles"
       produces "application/json"
       operationId "createProfile"
-      description "Creates a new user profile"
+      description "Creates a new profile"
 
       security [Bearer: []]
 
@@ -40,7 +40,7 @@ RSpec.describe Api::V1::UserProfilesController do
       response(201, "profile created") do
         let(:user_name) { "new_user" }
 
-        schema "$ref" => "#/components/schemas/UserProfile"
+        schema "$ref" => "#/components/schemas/Profile"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -61,25 +61,38 @@ RSpec.describe Api::V1::UserProfilesController do
     end
   end
 
-  path "/user_profiles/{slug}" do
+  path "/profiles/{slug}" do
     parameter VERCEL_TOKEN_HEADER_PARAMETER
     parameter name: :slug, in: :path, type: :string, description: "Username", required: true
 
-    get("Retrieves a user profile") do
+    get("Retrieves a profile") do
       tags "Profiles"
       produces "application/json"
       operationId "getProfile"
 
-      response(200, "user profile found") do
+      response(200, "profile found") do
         let(:request_account) { create(:account) }
         let(:slug) { request_account.default_profile.slug }
 
-        schema "$ref" => "#/components/schemas/UserProfile"
+        schema "$ref" => "#/components/schemas/Profile"
 
         OpenApi::Response.set_example_response_metadata
 
         run_test!
 
+      end
+
+      response(404, "profile not found") do
+        let(:slug) { "nonexistent_slug" }
+
+        schema type: :object,
+               properties: {
+                 error: { type: :string }
+               },
+               required: %w[error]
+        OpenApi::Response.set_example_response_metadata
+
+        run_test!
       end
     end
   end

@@ -1,7 +1,7 @@
 import SwaggerUI from "swagger-ui-react";
 
 import "swagger-ui-react/swagger-ui.css";
-import { getMe } from "@/app/server-actions/users/actions";
+import { getMe } from "@/app/server-actions/accounts/actions";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
@@ -23,7 +23,7 @@ export default async function OpenApiDocs() {
   const me = (await getMe())?.data;
 
   if (!me?.admin) {
-    return redirect("/"); // Redirect to home page if user is not an admin)
+    return redirect("/"); // Redirect to home page if account is not an admin)
   }
 
   // const jsonSpec = yaml.load(await fetchOpenApiYaml());

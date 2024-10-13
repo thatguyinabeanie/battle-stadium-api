@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (!userId) {
-    return NextResponse.json({ error: "Logged in user is required" }, { status: 401 });
+    return NextResponse.json({ error: "Logged in account is required" }, { status: 401 });
   }
 
   if (!AUTH_SECRET) {

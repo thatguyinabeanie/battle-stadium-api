@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :pokemon_team, class: "PokemonTeam" do
-    user_profile
+    profile
     name { "My Awesome Pokemon Team" }
     public { true }
     archived_at { nil }

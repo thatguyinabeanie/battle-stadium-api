@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user_profile, class: "::UserProfile" do
+  factory :profile, class: "::Profile" do
     account factory: :account
     username { Faker::Internet.unique.username }
     players { [] }

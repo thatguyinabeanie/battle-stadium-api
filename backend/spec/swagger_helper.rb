@@ -56,9 +56,9 @@ SIMPLE_ACCOUNT_SCHEMA = {
   required: %w[username pronouns]
 }.freeze
 
-USER_PROFILE_SCHEMA = {
+PROFILE_SCHEMA = {
   type: :object,
-  title: "User Profile",
+  title: "Profile",
   properties: {
     id: ID_TYPE,
     default: { type: :boolean },
@@ -69,9 +69,9 @@ USER_PROFILE_SCHEMA = {
   required: %w[username image_url id pronouns default]
 }.freeze
 
-POST_USER_PROFILE_SCHEMA = {
+POST_PROFILE_SCHEMA = {
   type: :object,
-  title: "Post User Profile",
+  title: "Post Profile",
   properties: {
     username: { type: :string },
     image_url: { type: :string, nullable: true },
@@ -312,14 +312,14 @@ POKEMON_TEAM_SCHEMA = {
   title: "Pokemon Team",
   properties: ID_NAME_PROPERTIES.merge(
     pokepaste_id: { type: :string, nullable: true },
-    user_profile: { "$ref" => "#/components/schemas/UserProfile" },
+    profile: { "$ref" => "#/components/schemas/Profile" },
     public: { type: :boolean },
     archived_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     format: { "$ref" => "#/components/schemas/Format" },
     game: { "$ref" => "#/components/schemas/Game" },
     pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
   ),
-  required: ID_NAME_REQUIRED + %w[user_profile public archived_at format game pokemon]
+  required: ID_NAME_REQUIRED + %w[profile public archived_at format game pokemon]
 }.freeze
 
 
@@ -338,15 +338,15 @@ PLAYER_SCHEMA = {
   title: "Player",
   properties: {
     id: { type: :integer, format: :int64 },
-    user_profile: { "$ref" => "#/components/schemas/UserProfile" },
+    profile: { "$ref" => "#/components/schemas/Profile" },
     in_game_name: { type: :string }
     # checked_in: { type: :boolean },
     # checked_in_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     # team_sheet_submitted: { type: :boolean },
     # team_sheet_submitted_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   },
-  # required: %w[id user in_game_name checked_in checked_in_at team_sheet_submitted team_sheet_submitted_at]
-  required: %w[id user_profile in_game_name]
+  # required: %w[id in_game_name checked_in checked_in_at team_sheet_submitted team_sheet_submitted_at]
+  required: %w[id profile in_game_name]
 }.freeze
 
 PLAYER_DETAILS_SCHEMA = {
@@ -414,6 +414,28 @@ MATCH_SCHEMA  = {
     reset_by: {type: :string, nullable: true}
   },
   required: %w[id round_id table_number player_one player_two reset_by]
+}.freeze
+
+MATCH_DETAILS_SCHEMA  = {
+  type: :object,
+  title: "Match",
+  properties: {
+    id: { type: :integer, format: :int64 },
+    round_id: { type: :integer, format: :int64 },
+    tournament_id: { type: :integer, format: :int64 },
+    table_number: { type: :integer, format: :int64 },
+    player_one: {type: :string},
+    player_two: {type: :string},
+    reset_by: {type: :string, nullable: true},
+    winner: {type: :string, nullable: true},
+    loser: {type: :string, nullable: true},
+    player_one_check_in: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    player_two_check_in: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    bye: { type: :boolean }
+  },
+  required: %w[id round_id table_number player_one player_two reset_by winner loser player_one_check_in player_two_check_in ended_at started_at bye]
 }.freeze
 
 MATCH_GAME_SCHEMA = {
@@ -496,23 +518,23 @@ POKEMON_TEAM_PARAMETER = {
     title: "pokemon_team",
     properties: {
       pokepaste_id: { type: :string, nullable: true },
-      user_profile_id: { type: :integer, format: :int64 , nullable: true},
+      profile_id: { type: :integer, format: :int64 , nullable: true},
       name: { type: :string },
       game_id: { type: :integer, format: :int64 },
       format_id: { type: :integer, format: :int64 },
       pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
     },
-    required: %w[user_profile_id name game_id format_id pokemon],
+    required: %w[profile_id: name game_id format_id pokemon],
   }, required: true
 }
 
-USER_PROFILE_PARAMETER = {
-  name: "user_profile",
+PROFILE_PARAMETER = {
+  name: "profile",
   in: :body,
   type: :object,
   schema: {
     type: :object,
-    title: "user_profile",
+    title: "profile",
     properties: {
       username: { type: :string },
       image_url: { type: :string, nullable: true },
@@ -571,7 +593,7 @@ RSpec.configure do |config|
           PerPage: PER_PAGE_PARAMETER,
           VercelTokenHeader: VERCEL_TOKEN_HEADER_PARAMETER,
           PokemonTeam: POKEMON_TEAM_PARAMETER,
-          UserProfile: USER_PROFILE_PARAMETER
+          Profile: PROFILE_PARAMETER
         },
 
         schemas: {
@@ -601,9 +623,10 @@ RSpec.configure do |config|
           Error: ERROR,
           Message: MESSAGE,
           Pagination: PAGINATION_RESPONSE,
-          UserProfile: USER_PROFILE_SCHEMA,
-          PostUserProfile: POST_USER_PROFILE_SCHEMA,
-          Match: MATCH_SCHEMA
+          Profile: PROFILE_SCHEMA,
+          PostProfile: POST_PROFILE_SCHEMA,
+          Match: MATCH_SCHEMA,
+          MatchDetails: MATCH_DETAILS_SCHEMA
         }
       }
     }

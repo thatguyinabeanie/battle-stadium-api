@@ -28,12 +28,12 @@ RSpec.describe Api::V1::PokemonTeamsController do
               "name" => team.format.name,
             },
             "name" => team.name,
-            "user_profile" => {
-              "default" => team.user_profile.default?,
-              "id" => team.user_profile.id,
-              "username" => team.user_profile.username,
-              "image_url" => team.user_profile.image_url,
-              "pronouns" => team.user_profile.pronouns,
+            "profile" => {
+              "default" => team.profile.default?,
+              "id" => team.profile.id,
+              "username" => team.profile.username,
+              "image_url" => team.profile.image_url,
+              "pronouns" => team.profile.pronouns,
             },
             "pokemon" => array_including(
             *team.pokemon.map do |pokemon|
@@ -63,13 +63,13 @@ RSpec.describe Api::V1::PokemonTeamsController do
 
   describe "POST" do
     it "creates a new pokemon team" do
-      user_profile = request_account.default_profile
-      team = build(:pokemon_team, user_profile:)
+      profile = request_account.default_profile
+      team = build(:pokemon_team, profile:)
 
       pokemon = build_list(:pokemon, 6).map { |pokemon| pokemon.attributes }
 
       params = {
-        user_profile_id: user_profile.id,
+        profile_id: profile.id,
         format_id: team.format.id,
         game_id: team.game.id,
         name: team.name,
@@ -91,12 +91,12 @@ RSpec.describe Api::V1::PokemonTeamsController do
             "id" => team.format.id,
             "name" => team.format.name,
           },
-          "user_profile" => {
-            "default" => team.user_profile.default?,
-            "id" => team.user_profile.id,
-            "username" => team.user_profile.username,
-            "image_url" => team.user_profile.image_url,
-            "pronouns" => team.user_profile.pronouns,
+          "profile" => {
+            "default" => team.profile.default?,
+            "id" => team.profile.id,
+            "username" => team.profile.username,
+            "image_url" => team.profile.image_url,
+            "pronouns" => team.profile.pronouns,
           },
           "pokemon" => array_including(*team.pokemon.map do |pokemon|
             {

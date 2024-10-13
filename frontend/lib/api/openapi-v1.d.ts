@@ -4,6 +4,87 @@
  */
 
 export interface paths {
+  "/accounts": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List Accounts
+     * @description Retrieves a list of all Accounts
+     */
+    get: operations["listAccounts"];
+    put?: never;
+    /**
+     * Create Account
+     * @description Creates a new Account.
+     */
+    post: operations["postAccount"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/accounts/me": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Show Me
+     * @description Retrieves the current Account.
+     */
+    get: operations["getAccountMe"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/accounts/{username}": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description The account's username */
+        username: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Show Account
+     * @description Retrieves a specific Account by username.
+     */
+    get: operations["getAccount"];
+    put?: never;
+    post?: never;
+    /** Delete Account */
+    delete: operations["deleteAccount"];
+    options?: never;
+    head?: never;
+    /**
+     * Update Account
+     * @description Updates an existing Account.
+     */
+    patch: operations["patchAccount"];
+    trace?: never;
+  };
   "/games": {
     parameters: {
       query?: never;
@@ -191,6 +272,50 @@ export interface paths {
      * @description Creates a new pokemon team.
      */
     post: operations["postPokemonTeam"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/profiles": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Retrieves all profiles */
+    get: operations["listProfiles"];
+    put?: never;
+    /**
+     * Creates a profile
+     * @description Creates a new profile
+     */
+    post: operations["createProfile"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/profiles/{slug}": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Username */
+        slug: string;
+      };
+      cookie?: never;
+    };
+    /** Retrieves a profile */
+    get: operations["getProfile"];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -672,131 +797,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/user_profiles": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Retrieves all profiles */
-    get: operations["listProfiles"];
-    put?: never;
-    /**
-     * Creates a user profile
-     * @description Creates a new user profile
-     */
-    post: operations["createProfile"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/user_profiles/{slug}": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description Username */
-        slug: string;
-      };
-      cookie?: never;
-    };
-    /** Retrieves a user profile */
-    get: operations["getProfile"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/users": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List Users
-     * @description Retrieves a list of all Users
-     */
-    get: operations["listUsers"];
-    put?: never;
-    /**
-     * Create User
-     * @description Creates a new User.
-     */
-    post: operations["postUser"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/users/me": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Show Me
-     * @description Retrieves the current User.
-     */
-    get: operations["getMe"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/users/{username}": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description The user's username */
-        username: string;
-      };
-      cookie?: never;
-    };
-    /**
-     * Show User
-     * @description Retrieves a specific User by ID.
-     */
-    get: operations["getUser"];
-    put?: never;
-    post?: never;
-    /** Delete User */
-    delete: operations["deleteUser"];
-    options?: never;
-    head?: never;
-    /**
-     * Update User
-     * @description Updates an existing User.
-     */
-    patch: operations["patchUser"];
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -820,16 +820,16 @@ export interface components {
       name: string;
       formats: components["schemas"]["Format"][];
     };
-    /** User */
-    User: {
+    /** account */
+    Account: {
       username: string;
       pronouns: string;
       image_url?: string | null;
       /** Format: int64 */
       id: number;
     };
-    /** User Details */
-    UserDetails: {
+    /** Account Details */
+    AccountDetails: {
       username: string;
       pronouns: string;
       image_url?: string | null;
@@ -839,8 +839,8 @@ export interface components {
       /** Format: int64 */
       id: number;
     };
-    /** User Me */
-    UserMe: {
+    /** Account Me */
+    AccountMe: {
       username: string;
       pronouns: string;
       image_url?: string | null;
@@ -852,8 +852,8 @@ export interface components {
       organizations: components["schemas"]["Organization"][];
       admin: boolean;
     };
-    /** User Request */
-    UserPostRequest: {
+    /** Account Request */
+    AccountPostRequest: {
       username: string;
       pronouns: string;
       image_url?: string | null;
@@ -863,8 +863,8 @@ export interface components {
       /** Format: int64 */
       id?: number;
     };
-    /** User Request */
-    UserRequest: {
+    /** Account Request */
+    AccountRequest: {
       username: string;
       pronouns: string;
       image_url?: string | null;
@@ -896,7 +896,7 @@ export interface components {
     };
     /** Organization */
     Organization: {
-      owner: components["schemas"]["User"];
+      owner: components["schemas"]["Account"];
       description: string | null;
       /** Format: uri */
       logo_url: string | null;
@@ -987,7 +987,7 @@ export interface components {
       id: number;
       name: string;
       pokepaste_id?: string | null;
-      user_profile: components["schemas"]["UserProfile"];
+      profile: components["schemas"]["Profile"];
       public: boolean;
       /** Format: date-time */
       archived_at: string | null;
@@ -998,21 +998,21 @@ export interface components {
     /** Player Request */
     PlayerRequest: {
       /** Format: int64 */
-      user_id: number;
+      account_id: number;
       in_game_name: string;
     };
     /** Player */
     Player: {
       /** Format: int64 */
       id: number;
-      user_profile: components["schemas"]["UserProfile"];
+      profile: components["schemas"]["Profile"];
       in_game_name: string;
     };
     /** Player Details */
     PlayerDetails: {
       /** Format: int64 */
       id: number;
-      user_profile: components["schemas"]["UserProfile"];
+      profile: components["schemas"]["Profile"];
       in_game_name: string;
     };
     /** Round */
@@ -1137,16 +1137,17 @@ export interface components {
       total_pages: number;
       total_count: number;
     };
-    /** User Profile */
-    UserProfile: {
+    /** Profile */
+    Profile: {
       /** Format: int64 */
       id: number;
+      default: boolean;
       username: string;
       image_url: string | null;
       pronouns: string | null;
     };
-    /** Post User Profile */
-    PostUserProfile: {
+    /** Post Profile */
+    PostProfile: {
       username: string;
       image_url?: string | null;
       pronouns?: string | null;
@@ -1185,7 +1186,7 @@ export interface components {
     PokemonTeam: {
       pokepaste_id?: string | null;
       /** Format: int64 */
-      user_profile_id: number | null;
+      profile_id?: number | null;
       name: string;
       /** Format: int64 */
       game_id: number;
@@ -1193,7 +1194,7 @@ export interface components {
       format_id: number;
       pokemon: components["schemas"]["Pokemon"][];
     };
-    UserProfile: {
+    Profile: {
       username: string;
       image_url?: string | null;
       pronouns?: string | null;
@@ -1205,6 +1206,205 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  listAccounts: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Account"][];
+        };
+      };
+    };
+  };
+  postAccount: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["AccountPostRequest"];
+      };
+    };
+    responses: {
+      /** @description created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AccountDetails"];
+        };
+      };
+      /** @description forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error?: string;
+          };
+        };
+      };
+      /** @description unprocessable entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getAccountMe: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AccountMe"];
+        };
+      };
+      /** @description not authorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getAccount: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description The account's username */
+        username: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AccountDetails"];
+        };
+      };
+      /** @description not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteAccount: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description The account's username */
+        username: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  patchAccount: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description The account's username */
+        username: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["AccountDetails"];
+      };
+    };
+    responses: {
+      /** @description Updated by Admin */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AccountDetails"];
+        };
+      };
+      /** @description not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   listGames: {
     parameters: {
       query?: never;
@@ -1600,7 +1800,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["User"][];
+          "application/json": components["schemas"]["Account"][];
         };
       };
       /** @description not found */
@@ -1720,7 +1920,7 @@ export interface operations {
         "application/json": {
           pokepaste_id?: string | null;
           /** Format: int64 */
-          user_profile_id: number | null;
+          profile_id?: number | null;
           name: string;
           /** Format: int64 */
           game_id: number;
@@ -1746,6 +1946,94 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  listProfiles: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description profiles found */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Profile"][];
+        };
+      };
+    };
+  };
+  createProfile: {
+    parameters: {
+      query: {
+        /** @description Username */
+        user_name: string;
+        /** @description Image URL */
+        image_url?: string;
+      };
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description profile created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Profile"];
+        };
+      };
+      /** @description invalid request */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string[];
+          };
+        };
+      };
+    };
+  };
+  getProfile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Username */
+        slug: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description profile found */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Profile"];
+        };
       };
     };
   };
@@ -2201,304 +2489,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["Error"];
         };
-      };
-    };
-  };
-  listProfiles: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description profiles found */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserProfile"][];
-        };
-      };
-    };
-  };
-  createProfile: {
-    parameters: {
-      query: {
-        /** @description Username */
-        user_name: string;
-        /** @description Image URL */
-        image_url?: string;
-      };
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description profile created */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserProfile"];
-        };
-      };
-      /** @description bad request - profanity */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            error: string;
-          };
-        };
-      };
-      /** @description invalid request */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            error: string[];
-          };
-        };
-      };
-    };
-  };
-  getProfile: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description Username */
-        slug: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description user profile found */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserProfile"];
-        };
-      };
-    };
-  };
-  listUsers: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["User"][];
-        };
-      };
-    };
-  };
-  postUser: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["UserPostRequest"];
-      };
-    };
-    responses: {
-      /** @description created */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserDetails"];
-        };
-      };
-      /** @description forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            error?: string;
-          };
-        };
-      };
-      /** @description unprocessable entity */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getMe: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserMe"];
-        };
-      };
-      /** @description not authorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getUser: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description The user's username */
-        username: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserDetails"];
-        };
-      };
-      /** @description not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  deleteUser: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description The user's username */
-        username: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  patchUser: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description The user's username */
-        username: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["UserDetails"];
-      };
-    };
-    responses: {
-      /** @description Updated by Admin */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserDetails"];
-        };
-      };
-      /** @description not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
       };
     };
   };
