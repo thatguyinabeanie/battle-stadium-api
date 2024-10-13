@@ -11,6 +11,8 @@ class Profile < ApplicationRecord
   has_many :pokemon_teams, class_name: "PokemonTeam", inverse_of: :profile, foreign_key: "profile_id"
 
   validates :username, presence: true, uniqueness: true
+  validates :default, inclusion: { in: [true, false] }
+  validate :only_one_default_profile_per_account
 
   delegate :pronouns, to: :account
 
@@ -22,5 +24,13 @@ class Profile < ApplicationRecord
 
   def should_generate_new_friendly_id?
     username_changed?
+  end
+
+  private
+
+  def only_one_default_profile_per_account
+    if default && account.profiles.where(default: true).where.not(id:).exists?
+      errors.add(:default, "can only be set to true for one profile per account")
+    end
   end
 end

@@ -12,6 +12,22 @@ RSpec.describe Profile do
 
     it { is_expected.to validate_presence_of(:username) }
     it { is_expected.to validate_uniqueness_of(:username) }
+
+    it "validates that only one profile can be default per account" do
+      account = create(:account)
+      another_profile = build(:profile, account:, default: true)
+
+      expect(another_profile).not_to be_valid
+      expect(another_profile.errors[:default]).to include("can only be set to true for one profile per account")
+    end
+
+    it "allows multiple profiles to be default = false within the same account" do
+      account = create(:account)
+      create(:profile, account:, default: false)
+      another_profile = build(:profile, account:, default: false)
+
+      expect(another_profile).to be_valid
+    end
   end
 
   describe "delegations" do

@@ -29,7 +29,7 @@ class Account < ApplicationRecord
   private
 
   def create_default_profile
-    self.default_profile = profiles.create(username: self.username, account: self)
+    self.default_profile = profiles.create(username: self.username, account: self, default: true)
     self.save!
   end
 

@@ -12,3 +12,15 @@ export async function getProfiles(options?: FetchOptions<paths["/profiles"]["get
 
   return BattleStadiumApiClient().GET("/profiles", profilesOptions);
 }
+
+export async function getProfilesByAccountId(id: number, options?: FetchOptions<paths["/profiles"]["get"]>) {
+  const profileOptions = {
+    ...defaultConfig("getPlayerProfile"),
+    ...options,
+    query: {
+      id,
+    },
+  };
+
+  return BattleStadiumApiClient().GET("/profiles", profileOptions);
+}
