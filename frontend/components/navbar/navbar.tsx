@@ -4,7 +4,7 @@ import { Navbar, NavbarBrand, NavbarContent } from "@/components/nextui-use-clie
 import BattleStadium from "@/components/battle-stadium";
 
 import NavbarLinks from "@/components/navbar/navbar-links";
-import { getMe } from "@/app/data/actions";
+import { getMe } from "@/app/data/users/actions";
 import { auth } from "@clerk/nextjs/server";
 import NavbarRightMenu from "@/components/navbar/navbar-right-menu";
 import NavbarMobileMenu from "@/components/navbar/navbar-mobile-menu";

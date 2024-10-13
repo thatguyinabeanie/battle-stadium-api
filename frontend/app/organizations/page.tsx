@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import OrganizationCard from "@/components/organizations/organization-card";
 import { cn } from "@/lib/utils";
 import { Tournament } from "@/lib/api";
-import { getOrganizations } from "../data/actions";
+import { getOrganizations } from "@/app/data/organizations/actions";
 
 export const metadata: Metadata = {
   title: "Organizations",

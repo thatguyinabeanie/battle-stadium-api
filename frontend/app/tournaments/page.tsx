@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import React from "react";
 
 import TournamentsTable from "@/components/tournaments-table";
-import { getTournaments } from "../data/actions";
+import { getTournaments } from "@/app/data/tournaments/actions";
 
 export const metadata: Metadata = {
   title: "Tournaments",

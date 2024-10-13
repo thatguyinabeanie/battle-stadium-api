@@ -1,4 +1,4 @@
-import { getUser } from "@/app/data/actions";
+import { getUser } from "@/app/data/users/actions";
 
 export async function generateMetadata({ params }: { params: { username: string } }) {
   const { data: player } = await getUser(params.username);

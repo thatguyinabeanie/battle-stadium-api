@@ -4,7 +4,7 @@ import * as React from "react";
 import { usePokemonTeam } from "@/lib/pokemon/use-pokemon-team";
 import { Button, Textarea } from "@/components/nextui-use-client";
 import { PokemonCard } from "./pokemon-card";
-import { postPokemonTeam } from "@/app/data/actions";
+import { postPokemonTeam } from "@/app/data/pokemon/actions";
 
 export default function PokemonTeamDisplay() {
   const { validatedTeam, metaData, loading, error, handleSubmit } = usePokemonTeam();

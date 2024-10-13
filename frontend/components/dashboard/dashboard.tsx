@@ -60,16 +60,16 @@ export default function Dashboard(props: DashboardProps) {
       selectedKey={activeTab}
       onSelectionChange={handleTabChange}
     >
-      <Tab key="dashboard" title="Dashboard">
-        {children}
-      </Tab>
-
       <Tab key="profiles" title="Profiles">
         {profiles}
       </Tab>
 
-      <Tab key="tournament_history" title="Tournament History">
+      <Tab key="tournaments" title="My Tours">
         {tournament_history}
+      </Tab>
+
+      <Tab key="dashboard" title="Dashboard">
+        {children}
       </Tab>
 
       <Tab key="settings" title="Settings">
