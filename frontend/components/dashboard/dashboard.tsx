@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { components } from "@/lib/api/openapi-v1";
 import { Tabs, Tab } from "@/components/nextui-use-client";
@@ -22,9 +22,28 @@ const tabContent = "text-default-500";
 export default function Dashboard(props: DashboardProps) {
   const { me, children, admin, profiles, settings, tournament_history } = props;
 
-  const tabStr = useSearchParams().get("tab");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tabStr = searchParams.get("tab");
+  const [activeTab, setActiveTab] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || "dashboard");
 
-  const [selected, setSelected] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || "dashboard");
+  const updateSearchParams = React.useCallback((newParams: Record<string, string>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+    });
+    router.push(`?${params.toString()}`);
+  }, [searchParams, router]);
+
+  const handleTabChange = (key: React.Key) => {
+    setActiveTab(key.toString());
+    updateSearchParams({ tab: key.toString() });
+    updateSearchParams({ tab: key.toString() });
+  };
 
   return (
     <Tabs
@@ -34,9 +53,8 @@ export default function Dashboard(props: DashboardProps) {
         tabContent,
       }}
       radius="full"
-      selectedKey={selected}
-      variant="light"
-      onSelectionChange={(key) => setSelected(String(key))}
+      selectedKey={ activeTab }
+      onSelectionChange={ handleTabChange }
     >
       <Tab key="dashboard" title="Dashboard">
         {children}
