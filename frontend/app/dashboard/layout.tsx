@@ -1,4 +1,4 @@
-import { getMe } from "@/app/data/users/actions";
+import { getMe } from "@/app/server-actions/users/actions";
 import Dashboard from "@/components/dashboard/dashboard";
 import { DashboardLayoutProps } from "@/types";
 import React from "react";
