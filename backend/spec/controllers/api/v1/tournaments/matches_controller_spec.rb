@@ -33,7 +33,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
   end
 
   xdescribe "POST #create" do # rubocop:disable RSpec/PendingWithoutReason
-    let(:request_user) { tournament.organization.owner }
+    let(:request_account) { tournament.organization.owner }
 
     context "with valid params" do
 
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
   end
 
   describe "PUT #update" do
-    let(:request_user) { tournament.organization.owner }
+    let(:request_account) { tournament.organization.owner }
 
     context "with valid params" do
       let(:new_attributes) { { table_number: 2 } }

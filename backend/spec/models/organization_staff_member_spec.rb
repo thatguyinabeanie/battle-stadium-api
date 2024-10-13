@@ -7,8 +7,8 @@ RSpec.describe OrganizationStaffMember do
       expect(association.macro).to eq(:belongs_to)
     end
 
-    it "belongs to a user" do
-      association = described_class.reflect_on_association(:user)
+    it "belongs to a account" do
+      association = described_class.reflect_on_association(:account)
       expect(association.macro).to eq(:belongs_to)
     end
   end

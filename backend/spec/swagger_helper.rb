@@ -45,9 +45,9 @@ GAME_DETAILS_SCHEMA = {
   required: (GAME_SCHEMA[:required] + %w[formats])
 }.freeze
 
-SIMPLE_USER_SCHEMA = {
+SIMPLE_ACCOUNT_SCHEMA = {
   type: :object,
-  title: "Simple User",
+  title: "Simple Account",
   properties: {
     username: { type: :string },
     pronouns: { type: :string },
@@ -80,70 +80,70 @@ POST_USER_PROFILE_SCHEMA = {
   required: %w[username]
 }
 
-USER_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
+ACCOUNT_SCHEMA = SIMPLE_ACCOUNT_SCHEMA.deep_merge(
   {
-    title: "User",
+    title: "account",
     properties: ID_PROPERTY,
-    required: %w[username pronouns id] + SIMPLE_USER_SCHEMA[:required]
+    required: %w[username pronouns id] + SIMPLE_ACCOUNT_SCHEMA[:required]
   }
 ).freeze
 
-SIMPLE_USER_DETAILS_SCHEMA = SIMPLE_USER_SCHEMA.deep_merge(
+SIMPLE_ACCOUNT_DETAILS_SCHEMA = SIMPLE_ACCOUNT_SCHEMA.deep_merge(
   {
     type: :object,
-    title: "Simple User Details",
+    title: "Simple Account Details",
     properties: {
       email: { type: :string },
       first_name: { type: :string },
       last_name: { type: :string },
       image_url: { type: :string, nullable: true }
     },
-    required: %w[email first_name last_name ] + SIMPLE_USER_SCHEMA[:required]
+    required: %w[email first_name last_name ] + SIMPLE_ACCOUNT_SCHEMA[:required]
   }
 ).freeze
 
-USER_DETAILS_SCHEMA = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
+ACCOUNT_DETAILS_SCHEMA = SIMPLE_ACCOUNT_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: "User Details",
+    title: "Account Details",
     properties: ID_PROPERTY,
-    required: %w[id] + SIMPLE_USER_DETAILS_SCHEMA[:required]
+    required: %w[id] + SIMPLE_ACCOUNT_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
-USER_ME = USER_DETAILS_SCHEMA.deep_merge(
+ACCOUNT_ME = ACCOUNT_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: "User Me",
+    title: "Account Me",
     properties: {
       organizations: { type: :array, items: { "$ref" => COMPONENT_SCHEMA_ORGANIZATION } },
       admin: { type: :boolean }
     },
-    required: %w[organizations admin] + USER_DETAILS_SCHEMA[:required]
+    required: %w[organizations admin] + ACCOUNT_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
-USER_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
+ACCOUNT_REQUEST = SIMPLE_ACCOUNT_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: "User Request",
+    title: "Account Request",
     properties: ID_PROPERTY,
-    required: SIMPLE_USER_DETAILS_SCHEMA[:required]
+    required: SIMPLE_ACCOUNT_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
-USER_POST_REQUEST = SIMPLE_USER_DETAILS_SCHEMA.deep_merge(
+ACCOUNT_POST_REQUEST = SIMPLE_ACCOUNT_DETAILS_SCHEMA.deep_merge(
   {
     type: :object,
-    title: "User Request",
+    title: "Account Request",
     properties: ID_PROPERTY,
-    required: SIMPLE_USER_DETAILS_SCHEMA[:required]
+    required: SIMPLE_ACCOUNT_DETAILS_SCHEMA[:required]
   }
 ).freeze
 
-USER_LOGIN_RESPONSE = {
+ACCOUNT_LOGIN_RESPONSE = {
   type: :object,
-  title: "User Login Response",
+  title: "Account Login Response",
   properties: ID_PROPERTY.merge(
     username: { type: :string },
     pronouns: { type: :string },
@@ -178,7 +178,7 @@ ORGANIZATION_SCHEMA = {
   type: :object,
   title: "Organization",
   properties: {
-    owner: { "$ref" => "#/components/schemas/User" , :nullable => true},
+    owner: { "$ref" => "#/components/schemas/Account" , :nullable => true},
     description: { type: :string, nullable: true },
     logo_url: { type: :string, nullable: true, format: "uri" },
     partner: { type: :boolean },
@@ -327,10 +327,10 @@ PLAYER_REQUEST = {
   type: :object,
   title: "Player Request",
   properties: {
-    user_id: ID_TYPE,
+    account_id: ID_TYPE,
     in_game_name: { type: :string }
   },
-  required: %w[user_id in_game_name]
+  required: %w[account_id in_game_name]
 }.freeze
 
 PLAYER_SCHEMA = {
@@ -578,11 +578,11 @@ RSpec.configure do |config|
           Format: FORMAT_SCHEMA,
           Game: GAME_SCHEMA,
           GameDetail: GAME_DETAILS_SCHEMA,
-          User: USER_SCHEMA,
-          UserDetails: USER_DETAILS_SCHEMA,
-          UserMe: USER_ME,
-          UserPostRequest: USER_POST_REQUEST,
-          UserRequest: USER_REQUEST,
+          Account: ACCOUNT_SCHEMA,
+          AccountDetails: ACCOUNT_DETAILS_SCHEMA,
+          AccountMe: ACCOUNT_ME,
+          AccountPostRequest: ACCOUNT_POST_REQUEST,
+          AccountRequest: ACCOUNT_REQUEST,
           RegistrationResponse: REGISTRATION_RESPONSE,
           Organization: ORGANIZATION_SCHEMA,
           Tournament: TOURNAMENT_SCHEMA,

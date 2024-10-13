@@ -46,7 +46,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
 
           {
             name:  "New Pokemon Team",
-            user_profile_id: request_user.default_profile.id,
+            user_profile_id: request_account.default_profile.id,
             game_id: game.id,
             format_id: format.id,
             pokemon: build_list(:pokemon, 6)

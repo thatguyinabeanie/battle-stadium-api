@@ -5,8 +5,8 @@ RSpec.describe Api::V1::UserProfilesController do
   include Auth::TokenVerifier::Mock
   include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
 
-  let(:user) { create(:user) }
-  let(:user_profile) { create(:user_profile, user:) }
+  let(:account) { create(:account) }
+  let(:user_profile) { create(:user_profile, account:) }
   let(:valid_attributes) { { user_name: "new_user", image_url: "http://example.com/image.png" } }
   let(:invalid_attributes) { { user_name: "", image_url: "" } }
 

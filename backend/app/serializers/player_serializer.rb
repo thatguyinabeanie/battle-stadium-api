@@ -1,4 +1,4 @@
-require_relative "user_serializer"
+require_relative "account_serializer"
 require_relative "pokemon_serializer"
 require_relative "user_profile_serializer"
 

@@ -129,7 +129,7 @@ RSpec.describe Api::V1::TournamentsController do
 
       security [Bearer: []]
       response(200, "successful") do
-        let(:request_user) { organization.owner }
+        let(:request_account) { organization.owner }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => TOURNAMENT_DETAILS_SCHEMA_COMPONENT

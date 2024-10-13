@@ -10,19 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_13_161855) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "username", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "pronouns", default: "", null: false
+    t.text "image_url"
+    t.boolean "admin", default: false, null: false
+    t.datetime "archived_at"
+    t.bigint "default_profile_id"
+    t.index ["email"], name: "index_accounts_on_email", unique: true
+    t.index ["username"], name: "index_accounts_on_username", unique: true
+  end
 
   create_table "chat_messages", force: :cascade do |t|
     t.bigint "match_id", null: false
     t.text "content"
     t.string "message_type"
     t.datetime "sent_at"
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.bigint "user_profile_id", null: false
+    t.index ["account_id"], name: "index_chat_messages_on_account_id"
     t.index ["match_id"], name: "index_chat_messages_on_match_id"
   end
 
@@ -30,7 +47,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
     t.string "clerk_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_clerk_users_on_account_id"
     t.index ["clerk_user_id"], name: "index_clerk_users_on_clerk_user_id", unique: true
   end
 
@@ -105,7 +123,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
     t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_organization_staff_members_on_account_id"
     t.index ["organization_id"], name: "index_organization_staff_members_on_organization_id"
   end
 
@@ -121,6 +140,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
     t.bigint "limitless_org_id"
     t.bigint "owner_id"
     t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index ["owner_id"], name: "index_organizations_on_owner_id"
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
 
@@ -166,8 +186,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
     t.integer "game_wins", default: 0, null: false
     t.integer "game_losses", default: 0, null: false
     t.decimal "resistance", precision: 5, scale: 2
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.bigint "user_profile_id", null: false
+    t.index ["account_id"], name: "index_players_on_account_id"
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
   end
@@ -214,7 +235,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
     t.string "image_url"
     t.string "slug"
     t.datetime "archived_at"
-    t.bigint "user_id"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_profiles_on_account_id"
     t.index ["slug"], name: "index_profiles_on_slug", unique: true
     t.index ["username"], name: "index_profiles_on_username", unique: true
   end
@@ -268,31 +290,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
     t.index ["organization_id"], name: "index_tournaments_on_organization_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "username", default: ""
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "pronouns", default: "", null: false
-    t.text "image_url"
-    t.boolean "admin", default: false, null: false
-    t.datetime "archived_at"
-    t.bigint "default_profile_id"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
-  end
-
+  add_foreign_key "accounts", "profiles", column: "default_profile_id"
+  add_foreign_key "chat_messages", "accounts"
   add_foreign_key "chat_messages", "matches"
   add_foreign_key "chat_messages", "profiles", column: "user_profile_id"
-  add_foreign_key "chat_messages", "users"
-  add_foreign_key "clerk_users", "users"
+  add_foreign_key "clerk_users", "accounts"
   add_foreign_key "formats", "games"
   add_foreign_key "match_games", "matches"
   add_foreign_key "match_games", "players", column: "loser_id"
   add_foreign_key "match_games", "players", column: "winner_id"
   add_foreign_key "match_games", "profiles", column: "reporter_profile_id"
+  add_foreign_key "matches", "accounts", column: "reset_by_id"
   add_foreign_key "matches", "phases"
   add_foreign_key "matches", "players", column: "loser_id"
   add_foreign_key "matches", "players", column: "player_one_id"
@@ -300,26 +308,24 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
   add_foreign_key "matches", "players", column: "winner_id"
   add_foreign_key "matches", "rounds"
   add_foreign_key "matches", "tournaments"
-  add_foreign_key "matches", "users", column: "reset_by_id"
+  add_foreign_key "organization_staff_members", "accounts"
   add_foreign_key "organization_staff_members", "organizations"
-  add_foreign_key "organization_staff_members", "users"
-  add_foreign_key "organizations", "users", column: "owner_id"
+  add_foreign_key "organizations", "accounts", column: "owner_id"
   add_foreign_key "phase_players", "players"
   add_foreign_key "phases", "rounds", column: "current_round_id"
   add_foreign_key "phases", "tournaments"
+  add_foreign_key "players", "accounts"
   add_foreign_key "players", "pokemon_teams"
   add_foreign_key "players", "profiles", column: "user_profile_id"
   add_foreign_key "players", "tournaments"
-  add_foreign_key "players", "users"
   add_foreign_key "pokemon", "pokemon_teams"
   add_foreign_key "pokemon_teams", "formats"
   add_foreign_key "pokemon_teams", "games"
   add_foreign_key "pokemon_teams", "profiles", column: "user_profile_id"
-  add_foreign_key "profiles", "users"
+  add_foreign_key "profiles", "accounts"
   add_foreign_key "tournament_formats", "formats"
   add_foreign_key "tournament_formats", "tournaments"
   add_foreign_key "tournaments", "games"
   add_foreign_key "tournaments", "organizations"
   add_foreign_key "tournaments", "phases", column: "current_phase_id"
-  add_foreign_key "users", "profiles", column: "default_profile_id"
 end

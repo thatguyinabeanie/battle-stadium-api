@@ -51,7 +51,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       response(201, "created") do
         let(:player) do
-          { user_profile_id: request_user.default_profile.id, in_game_name: "pablo escobar" }
+          { user_profile_id: request_account.default_profile.id, in_game_name: "pablo escobar" }
         end
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -79,7 +79,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
-        let(:player) { { user_id: request_user.id} }
+        let(:player) { { account_id: request_account.id} }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
@@ -126,7 +126,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { tournament_player.user_profile.user }
+        let(:request_account) { tournament_player.user_profile.account }
 
         let(:player) do
           {
@@ -152,7 +152,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { tournament_player.user_profile.user }
+        let(:request_account) { tournament_player.user_profile.account }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         OpenApi::Response.set_example_response_metadata
@@ -160,7 +160,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { tournament_player.user_profile.user }
+        let(:request_account) { tournament_player.user_profile.account }
         let(:id) { "invalid" }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"

@@ -31,7 +31,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    return unless params[:room].present? && data["message"].present? && current_user.present?
+    return unless params[:room].present? && data["message"].present? && current_account.present?
 
     sent_at = Time.current.utc.to_s
 
@@ -53,8 +53,8 @@ class ChatChannel < ApplicationCable::Channel
     message_size = message.is_a?(String) ? message.bytesize : message.to_json.bytesize
     raise MessageTooLargeError, "Message size exceeds the maximum limit of 1MB" if message_size > MAX_MESSAGE_SIZE
 
-    username = get_username(user: current_user)
-    user_profile = get_user_profile(user: current_user)
+    username = get_username(account: current_account)
+    user_profile = get_user_profile(account: current_account)
 
     ActionCable.server.broadcast(chat_channel, {
       username: ,
@@ -67,7 +67,7 @@ class ChatChannel < ApplicationCable::Channel
     SaveChatMessageJob.perform_later(
       match_id: match.id,
       user_profile_id: user_profile.id,
-      user_id: current_user.id,
+      account_id: current_account.id,
       content: message,
       message_type: "text",
       sent_at:
@@ -80,16 +80,16 @@ class ChatChannel < ApplicationCable::Channel
 
   private
 
-  def get_username(user:)
-    return match.player_one.username if match.player_one.user == user
-    return match.player_two.username if match.player_two.user == user
-    user.username
+  def get_username(account:)
+    return match.player_one.username if match.player_one.account == account
+    return match.player_two.username if match.player_two.account == account
+    account.username
   end
 
-  def get_user_profile(user:)
-    return match.player_one.user_profile if match.player_one.user == user
-    return match.player_two.user_profile if match.player_two.user == user
-    user.user_profile
+  def get_user_profile(account:)
+    return match.player_one.user_profile if match.player_one.account == account
+    return match.player_two.user_profile if match.player_two.account == account
+    account.user_profile
   end
 
   def format_timestr(time:)
@@ -103,11 +103,11 @@ class ChatChannel < ApplicationCable::Channel
 
   def authorized_to_join?
 
-    return true if current_user.present? && current_user.admin? if ENV.fetch("ADMIN_BYPASS", "false") == "true"
+    return true if current_account.present? && current_account.admin? if ENV.fetch("ADMIN_BYPASS", "false") == "true"
     return false unless match.present? && match.round.present? && match.round.ended_at.nil?
 
 
-    Pundit.policy(current_user, match).join_chat?
+    Pundit.policy(current_account, match).join_chat?
     true
   end
 

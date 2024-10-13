@@ -117,7 +117,7 @@ RSpec.describe Tournaments::MatchGame do
     end
 
     it "adds an error when reporter is not a player or staff member" do
-      match_game.reporter = create(:user).default_profile
+      match_game.reporter = create(:account).default_profile
       match_game.send(:reporter_role_validation)
       expect(match_game.errors[:base]).to include(I18n.t("errors.match_game.reporter_must_be_match_player_or_staff"))
     end
@@ -153,7 +153,7 @@ RSpec.describe Tournaments::MatchGame do
 
     it "raises an error if the reporter is not a match player or staff member" do
       expect do
-        match_game.report!(winner: player_one, loser: player_two, reporter: create(:user))
+        match_game.report!(winner: player_one, loser: player_two, reporter: create(:account))
       end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: #{I18n.t('errors.match_game.reporter_must_be_match_player_or_staff')}")
     end
 

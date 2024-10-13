@@ -2,7 +2,7 @@ module Tournaments
   class Player < ApplicationRecord
     MAX_POKEMON_SUBMISSIONS = 6
     self.table_name = "players"
-    belongs_to :user, class_name: "User", optional: false, validate: true
+    belongs_to :account, class_name: "Account", optional: false, validate: true
     belongs_to :user_profile, class_name: "UserProfile", inverse_of: :players, optional: false, validate: true
     belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false, validate: true
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true
@@ -13,10 +13,10 @@ module Tournaments
     validates :user_profile_id, presence: true
     validates :tournament_id, presence: true
     validates :user_profile_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
-    validates :user_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
+    validates :account_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
     delegate :username, to: :user_profile
 
-    before_create :set_user_id_from_profile
+    before_create :set_account_id_from_profile
 
     scope :checked_in, -> { where.not(checked_in_at: nil) }
     scope :checked_in_and_submitted_team_sheet, -> { where.not(pokemon_team_id: nil).where.not(checked_in_at: nil) }
@@ -49,8 +49,8 @@ module Tournaments
 
     private
 
-    def set_user_id_from_profile
-      self.user_id ||= user_profile.user_id
+    def set_account_id_from_profile
+      self.account_id ||= user_profile.account_id
     end
   end
 end

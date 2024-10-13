@@ -1,9 +1,9 @@
 class UserProfilePolicy < ApplicationPolicy
   def show?
-    (record.archived_at.nil?) || user == record.user || user.admin?
+    (record.archived_at.nil?) || account == record.account || account.admin?
   end
 
   def create_pokemon_team?
-    user == record.user
+    account == record.account
   end
 end

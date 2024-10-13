@@ -41,8 +41,8 @@ module Tournaments
 
     def reporter_role_validation
       return if reporter.nil?
-      return if organization.has_staff_member?(user: reporter.user)
-      return if match_player?(user: reporter.user)
+      return if organization.has_staff_member?(account: reporter.account)
+      return if match_player?(account: reporter.account)
 
       errors.add(:base, I18n.t("errors.match_game.reporter_must_be_match_player_or_staff"))
     end

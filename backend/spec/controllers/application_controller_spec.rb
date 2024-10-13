@@ -21,11 +21,11 @@ RSpec.describe ApplicationController do
   end
 
   describe "GET #index" do
-    let(:user) { create(:user) }
+    let(:account) { create(:account) }
 
     context "with valid session and oidc token" do
       before do
-        allow(Auth::Clerk::Session).to receive(:authenticate!).and_return(user)
+        allow(Auth::Clerk::Session).to receive(:authenticate!).and_return(account)
         allow(Auth::Vercel::TokenVerifier).to receive(:verify).and_return(true)
       end
 
@@ -61,7 +61,7 @@ RSpec.describe ApplicationController do
   describe "GET #show" do
     context "with valid session and OIDC token" do
       before do
-        allow(Auth::Clerk::Session).to receive(:authenticate!).and_return(:user)
+        allow(Auth::Clerk::Session).to receive(:authenticate!).and_return(:account)
         allow(Auth::Vercel::TokenVerifier).to receive(:verify).and_return(true)
       end
 

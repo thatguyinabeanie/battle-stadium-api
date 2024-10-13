@@ -17,7 +17,7 @@ FactoryBot.define do
     disqualified { false }
 
     before(:create) do |player|
-      player.user ||= player.user_profile.user
+      player.account ||= player.user_profile.account
     end
 
     trait :with_team do

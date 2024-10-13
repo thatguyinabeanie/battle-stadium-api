@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe SaveChatMessageJob do
   let(:match) { create(:match) }
   let(:match_id) { match.id }
-  let(:user_id) { match.player_one.user.id }
+  let(:account_id) { match.player_one.account.id }
   let(:user_profile_id) {  match.player_one.user_profile.id }
   let(:content) { "Hello, world!" }
   let(:sent_at) { Time.current.utc }
@@ -16,7 +16,7 @@ RSpec.describe SaveChatMessageJob do
           match_id:,
           user_profile_id:,
           content:,
-          user_id:,
+          account_id:,
           sent_at:,
           message_type:
         )
@@ -28,7 +28,7 @@ RSpec.describe SaveChatMessageJob do
         match_id:,
         user_profile_id:,
         content:,
-        user_id:,
+        account_id:,
         sent_at:,
         message_type:
       )
@@ -37,7 +37,7 @@ RSpec.describe SaveChatMessageJob do
       expect(chat_message.match_id).to eq(match_id)
       expect(chat_message.user_profile_id).to eq(user_profile_id)
       expect(chat_message.content).to eq(content)
-      expect(chat_message.user_id).to eq(user_id)
+      expect(chat_message.account_id).to eq(account_id)
       expect(chat_message.sent_at).to be_within(1.second).of(sent_at)
       expect(chat_message.message_type).to eq(message_type)
     end
