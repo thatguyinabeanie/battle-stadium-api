@@ -36,10 +36,6 @@ module Api
         username = params[:user_name]
         image_url = params[:image_url]
 
-        if ProfanityFilter::Base.profane?(username)
-          return render json: { error: "Username cannot contain profanity" }, status: :bad_request
-        end
-
         @user_profile  = UserProfile.new(username:, image_url:, user: current_user)
 
         if @user_profile.save

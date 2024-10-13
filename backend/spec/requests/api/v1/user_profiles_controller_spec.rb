@@ -47,18 +47,6 @@ RSpec.describe Api::V1::UserProfilesController do
         run_test!
       end
 
-      response(400, "bad request - profanity") do
-        let(:user_name) { "fuck" }
-
-        schema type: :object,
-               properties: {
-                 error: { type: :string }
-               },
-               required: %w[error]
-        OpenApi::Response.set_example_response_metadata
-        run_test!
-      end
-
       response(422, "invalid request") do
         let(:user_name) { request_user.default_profile.username }
 
