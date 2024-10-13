@@ -289,8 +289,8 @@ export interface paths {
     get: operations["listProfiles"];
     put?: never;
     /**
-     * Creates a user profile
-     * @description Creates a new user profile
+     * Creates a profile
+     * @description Creates a new profile
      */
     post: operations["createProfile"];
     delete?: never;
@@ -312,7 +312,7 @@ export interface paths {
       };
       cookie?: never;
     };
-    /** Retrieves a user profile */
+    /** Retrieves a profile */
     get: operations["getProfile"];
     put?: never;
     post?: never;
@@ -1137,7 +1137,7 @@ export interface components {
       total_pages: number;
       total_count: number;
     };
-    /** User Profile */
+    /** Profile */
     Profile: {
       /** Format: int64 */
       id: number;
@@ -2026,7 +2026,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      /** @description user profile found */
+      /** @description profile found */
       200: {
         headers: {
           [name: string]: unknown;

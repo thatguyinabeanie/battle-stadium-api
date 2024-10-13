@@ -678,11 +678,11 @@ paths:
                 items:
                   "$ref": "#/components/schemas/Profile"
     post:
-      summary: Creates a user profile
+      summary: Creates a profile
       tags:
       - Profiles
       operationId: createProfile
-      description: Creates a new user profile
+      description: Creates a new profile
       security:
       - Bearer: []
       parameters:
@@ -739,13 +739,13 @@ paths:
       schema:
         type: string
     get:
-      summary: Retrieves a user profile
+      summary: Retrieves a profile
       tags:
       - Profiles
       operationId: getProfile
       responses:
         '200':
-          description: user profile found
+          description: profile found
           content:
             application/json:
               schema:
@@ -2187,7 +2187,7 @@ components:
       - total_count
     Profile:
       type: object
-      title: User Profile
+      title: Profile
       properties:
         id:
           type: integer

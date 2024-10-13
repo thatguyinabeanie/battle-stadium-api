@@ -17,7 +17,7 @@ export async function getMe(options?: FetchOptions<paths["/accounts/me"]["get"]>
   return BattleStadiumApiClient().GET("/accounts/me", userMeOptions);
 }
 
-export async function getUsers(options?: FetchOptions<paths["/accounts"]["get"]>) {
+export async function getAccounts(options?: FetchOptions<paths["/accounts"]["get"]>) {
   const usersOptions = {
     ...defaultConfig("listUsers"),
     ...options,
@@ -27,7 +27,7 @@ export async function getUsers(options?: FetchOptions<paths["/accounts"]["get"]>
   return BattleStadiumApiClient(skipClerkAuth).GET("/accounts", usersOptions);
 }
 
-export async function getUser(username: string, options?: FetchOptions<paths["/accounts/{username}"]["get"]>) {
+export async function getAccount(username: string, options?: FetchOptions<paths["/accounts/{username}"]["get"]>) {
   const userOptions = {
     ...defaultConfig(`getUser-${username}`),
     ...options,

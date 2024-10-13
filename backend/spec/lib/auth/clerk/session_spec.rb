@@ -18,7 +18,7 @@ RSpec.describe Auth::Clerk::Session do
     end
 
     context "when session token is valid" do
-      it "returns the existing user if clerk_user exists" do
+      it "returns the existing account if clerk_user exists" do
         account = create(:account)
         create(:clerk_user, clerk_user_id: session_data["userId"], account:)
 
@@ -27,7 +27,7 @@ RSpec.describe Auth::Clerk::Session do
         expect(result).to eq(account)
       end
 
-      it "creates a new user if clerk_user does not exist" do
+      it "creates a new account if clerk_user does not exist" do
         expect {
           described_class.authenticate!(request:)
         }.to change(Account, :count).by(1).and change(ClerkUser, :count).by(1)

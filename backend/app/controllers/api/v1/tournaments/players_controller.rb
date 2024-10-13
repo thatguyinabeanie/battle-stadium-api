@@ -34,7 +34,7 @@ module Api
           end
         rescue ActiveRecord::RecordNotFound
           skip_authorization
-          render json: { error: "User Profile not found" }, status: :unprocessable_entity
+          render json: { error: "Profile not found" }, status: :unprocessable_entity
         rescue Pundit::NotAuthorizedError => e
           render json: { error: e.message }, status: :forbidden
           skip_authorization

@@ -58,7 +58,7 @@ SIMPLE_ACCOUNT_SCHEMA = {
 
 PROFILE_SCHEMA = {
   type: :object,
-  title: "User Profile",
+  title: "Profile",
   properties: {
     id: ID_TYPE,
     default: { type: :boolean },
@@ -345,7 +345,7 @@ PLAYER_SCHEMA = {
     # team_sheet_submitted: { type: :boolean },
     # team_sheet_submitted_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   },
-  # required: %w[id user in_game_name checked_in checked_in_at team_sheet_submitted team_sheet_submitted_at]
+  # required: %w[id in_game_name checked_in checked_in_at team_sheet_submitted team_sheet_submitted_at]
   required: %w[id profile in_game_name]
 }.freeze
 

@@ -1,13 +1,13 @@
-import { getUser } from "@/app/server-actions/accounts/actions";
+import { getAccount } from "@/app/server-actions/accounts/actions";
 
 export async function generateMetadata({ params }: { params: { username: string } }) {
-  const { data: player } = await getUser(params.username);
+  const { data: player } = await getAccount(params.username);
 
   return { title: player?.username ?? "Player" };
 }
 
 export default async function PlayerProfilePage({ params }: { params: { username: string } }) {
-  const { data: player } = await getUser(params.username);
+  const { data: player } = await getAccount(params.username);
 
   return (
     <div>

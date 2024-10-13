@@ -19,7 +19,7 @@ RSpec.describe Api::V1::ProfilesController do
 
   describe "GET #show" do
     context "with valid slug" do
-      it "returns the user profile" do
+      it "returns the profile" do
         get :show, params: { slug: profile.slug }
         expect(response).to have_http_status(:ok)
       end

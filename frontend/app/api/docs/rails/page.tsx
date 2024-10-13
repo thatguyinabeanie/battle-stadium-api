@@ -23,7 +23,7 @@ export default async function OpenApiDocs() {
   const me = (await getMe())?.data;
 
   if (!me?.admin) {
-    return redirect("/"); // Redirect to home page if user is not an admin)
+    return redirect("/"); // Redirect to home page if account is not an admin)
   }
 
   // const jsonSpec = yaml.load(await fetchOpenApiYaml());

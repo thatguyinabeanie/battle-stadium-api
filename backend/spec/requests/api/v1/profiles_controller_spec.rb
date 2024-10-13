@@ -25,11 +25,11 @@ RSpec.describe Api::V1::ProfilesController do
       end
     end
 
-    post("Creates a user profile") do
+    post("Creates a profile") do
       tags "Profiles"
       produces "application/json"
       operationId "createProfile"
-      description "Creates a new user profile"
+      description "Creates a new profile"
 
       security [Bearer: []]
 
@@ -65,12 +65,12 @@ RSpec.describe Api::V1::ProfilesController do
     parameter VERCEL_TOKEN_HEADER_PARAMETER
     parameter name: :slug, in: :path, type: :string, description: "Username", required: true
 
-    get("Retrieves a user profile") do
+    get("Retrieves a profile") do
       tags "Profiles"
       produces "application/json"
       operationId "getProfile"
 
-      response(200, "user profile found") do
+      response(200, "profile found") do
         let(:request_account) { create(:account) }
         let(:slug) { request_account.default_profile.slug }
 
