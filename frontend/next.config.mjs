@@ -27,14 +27,14 @@ export default async function nextConfig(_phase, { defaultConfig }) {
       MEASUREMENT_ID: env.MEASUREMENT_ID,
     },
     reactStrictMode: true,
-    webpack: (config, _options) => {
-      config.module.rules.push({
-        test: /\.node/,
-        use: "node-loader",
-      });
+    // webpack: (config, _options) => {
+    //   config.module.rules.push({
+    //     test: /\.node/,
+    //     use: "node-loader",
+    //   });
 
-      return config;
-    },
+    //   return config;
+    // },
   };
 
   return nextConfig;

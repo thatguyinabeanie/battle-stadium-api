@@ -13,6 +13,7 @@ import NavigationBar from "@/components/navbar/navbar";
 import Providers from "@/components/providers";
 import AwesomeParticles from "@/components/awesome-particles";
 import Cookies from "@/components/cookies";
+import React from "react";
 
 export const metadata: Metadata = {
   title: {
@@ -37,29 +38,31 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: ChildrenProps & AppProps) {
   return (
-    <ClerkProvider>
-      <html suppressHydrationWarning lang="en">
-        <head />
-        <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-y-scroll")}>
-          <Providers>
-            <AwesomeParticles />
-            <div className="flex flex-col w-full h-full">
-              <NavigationBar />
-              <main className="flex h-full w-full z-0">
-                <div className="w-full flex-1 flex-col px-4">
-                  <div className="h-full flex flex-col gap-4 rounded-medium border-divider ">
-                    <section className="flex flex-col gap-4 py-4 h-full w-ful items-center">{children}</section>
+    <React.StrictMode>
+      <ClerkProvider>
+        <html suppressHydrationWarning lang="en">
+          <head />
+          <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-y-scroll")}>
+            <Providers>
+              <AwesomeParticles />
+              <div className="flex flex-col w-full h-full">
+                <NavigationBar />
+                <main className="flex h-full w-full z-0">
+                  <div className="w-full flex-1 flex-col px-4">
+                    <div className="h-full flex flex-col gap-4 rounded-medium border-divider ">
+                      <section className="flex flex-col gap-4 py-4 h-full w-ful items-center">{children}</section>
+                    </div>
                   </div>
-                </div>
-              </main>
-            </div>
-          </Providers>
-          <Analytics />
-          <SpeedInsights />
-          <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
-          <Cookies />
-        </body>
-      </html>
-    </ClerkProvider>
+                </main>
+              </div>
+            </Providers>
+            <Analytics />
+            <SpeedInsights />
+            <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
+            <Cookies />
+          </body>
+        </html>
+      </ClerkProvider>
+    </React.StrictMode>
   );
 }
