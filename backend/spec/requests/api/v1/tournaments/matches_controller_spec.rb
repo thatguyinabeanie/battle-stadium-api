@@ -51,7 +51,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
       produces "application/json"
       response "200", "match found" do
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-        schema "$ref" => "#/components/schemas/match"
+
         let(:tournament) do
           tour = create(:tournament, :with_phases, :with_players_with_team_and_checked_in)
           tour.start!
@@ -66,7 +66,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
         let(:tournament_id) { tournament.id }
         let(:id) { match.id }
 
-        schema "$ref" => "#/components/schemas/Match"
+        schema "$ref" => "#/components/schemas/MatchDetails"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -121,7 +121,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
         let(:id) { create(:match, tournament:, phase:, round:).id }
         let(:match) { { match: { table_number: 2 } } }
 
-        schema "$ref" => "#/components/schemas/Match"
+        schema "$ref" => "#/components/schemas/MatchDetails"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -156,7 +156,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
 
       response "200", "checked in" do
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
-        schema "$ref" => "#/components/schemas/Match"
+        schema "$ref" => "#/components/schemas/MatchDetails"
 
         let(:tournament) do
           tour = create(:tournament, :with_phases, :with_players_with_team_and_checked_in)
@@ -172,7 +172,6 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
 
         let(:request_account) { match.player_one.account }
 
-        schema "$ref" => "#/components/schemas/Match"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -200,7 +199,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
         let(:id) { match.id }
         let(:request_account) { match.tournament.organization.staff.first }
 
-        schema "$ref" => "#/components/schemas/Match"
+        schema "$ref" => "#/components/schemas/MatchDetails"
 
         OpenApi::Response.set_example_response_metadata
 

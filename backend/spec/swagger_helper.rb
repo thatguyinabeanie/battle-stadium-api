@@ -416,6 +416,28 @@ MATCH_SCHEMA  = {
   required: %w[id round_id table_number player_one player_two reset_by]
 }.freeze
 
+MATCH_DETAILS_SCHEMA  = {
+  type: :object,
+  title: "Match",
+  properties: {
+    id: { type: :integer, format: :int64 },
+    round_id: { type: :integer, format: :int64 },
+    tournament_id: { type: :integer, format: :int64 },
+    table_number: { type: :integer, format: :int64 },
+    player_one: {type: :string},
+    player_two: {type: :string},
+    reset_by: {type: :string, nullable: true},
+    winner: {type: :string, nullable: true},
+    loser: {type: :string, nullable: true},
+    player_one_check_in: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    player_two_check_in: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
+    bye: { type: :boolean }
+  },
+  required: %w[id round_id table_number player_one player_two reset_by winner loser player_one_check_in player_two_check_in ended_at started_at bye]
+}.freeze
+
 MATCH_GAME_SCHEMA = {
   type: :object,
   title: "Match Game",
@@ -603,7 +625,8 @@ RSpec.configure do |config|
           Pagination: PAGINATION_RESPONSE,
           Profile: PROFILE_SCHEMA,
           PostProfile: POST_PROFILE_SCHEMA,
-          Match: MATCH_SCHEMA
+          Match: MATCH_SCHEMA,
+          MatchDetails: MATCH_DETAILS_SCHEMA
         }
       }
     }

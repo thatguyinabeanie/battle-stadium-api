@@ -50,7 +50,7 @@ module Api
         private
 
         def serialize_details
-          Serializers::Match.new(@match).serializable_hash
+          Serializers::MatchDetails.new(@match).serializable_hash
         end
 
         def permitted_params

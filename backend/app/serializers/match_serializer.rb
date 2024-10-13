@@ -25,9 +25,9 @@ module Serializers
   class MatchDetails < ActiveModel::Serializer
     include MatchMixin
 
-    attributes :winner, :loser
+    attributes :winner, :loser, :bye
     attributes :player_one_check_in, :player_two_check_in
-    attributes :created_at, :updated_at, :ended_at
+    attributes :ended_at, :started_at
 
     def winner
       object.winner&.profile&.username
