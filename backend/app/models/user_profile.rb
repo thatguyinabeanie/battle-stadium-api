@@ -1,3 +1,5 @@
+require "swearjar"
+
 class UserProfile < ApplicationRecord
   self.table_name = "profiles"
   extend FriendlyId
@@ -10,7 +12,7 @@ class UserProfile < ApplicationRecord
 
   validates :username, presence: true, uniqueness: true
 
-  validate :username_profanity, on: :create
+  # validate :username_profanity, on: :create
 
   delegate :pronouns, to: :user
 
@@ -26,7 +28,10 @@ class UserProfile < ApplicationRecord
 
   private
 
-  def username_profanity
-    errors.add(:username, "cannot contain profanity") if ProfanityFilter::Base.profane?(username)
-  end
+  # def username_profanity
+  #   if ::Swearjar.default.profane?(username)
+  #     Rails.logger.error("Profanity detected in username: #{username} by user: #{user.id} - #{user.username}")
+  #     errors.add(:username, "cannot contain profanity")
+  #   end
+  # end
 end

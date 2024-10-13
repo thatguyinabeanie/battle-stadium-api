@@ -95,4 +95,5 @@ RSpec.describe Api::V1::UserProfilesController do
       end
     end
   end
+
 end

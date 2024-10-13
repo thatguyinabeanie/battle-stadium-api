@@ -99,5 +99,3 @@ group :development, :test, :rubocop do
   gem "rubocop-shopify"
   gem "rubocop-thread_safety"
 end
-
-gem "profanity_filter", "~> 0.1.1"
