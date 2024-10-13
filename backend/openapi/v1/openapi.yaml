@@ -479,8 +479,11 @@ paths:
           application/json:
             schema:
               type: object
-              title: Pokemon Team
+              title: pokemon_team
               properties:
+                pokepaste_id:
+                  type: string
+                  nullable: true
                 user_profile_id:
                   type: integer
                   format: int64
@@ -1277,13 +1280,16 @@ components:
       schema:
         type: string
     PokemonTeam:
-      name: Pokemon Team
+      name: pokemon_team
       in: body
       type: object
       schema:
         type: object
-        title: Pokemon Team
+        title: pokemon_team
         properties:
+          pokepaste_id:
+            type: string
+            nullable: true
           user_profile_id:
             type: integer
             format: int64
@@ -1358,8 +1364,8 @@ components:
           type: string
           nullable: true
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - username
       - pronouns
@@ -1384,8 +1390,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - id
       - email
@@ -1411,8 +1417,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         organizations:
           type: array
           items:
@@ -1446,8 +1452,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - email
       - first_name
@@ -1472,8 +1478,8 @@ components:
         last_name:
           type: string
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
       required:
       - email
       - first_name
@@ -1485,8 +1491,8 @@ components:
       title: Registration Response
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         email:
           type: string
           format: email
@@ -1764,6 +1770,9 @@ components:
           format: int64
         name:
           type: string
+        pokepaste_id:
+          type: string
+          nullable: true
         user_profile:
           "$ref": "#/components/schemas/UserProfile"
         public:
@@ -1794,8 +1803,8 @@ components:
       title: Player Request
       properties:
         user_id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         in_game_name:
           type: string
       required:
@@ -2115,8 +2124,8 @@ components:
       title: User Profile
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         username:
           type: string
         image_url:
