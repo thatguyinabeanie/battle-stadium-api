@@ -6,7 +6,13 @@ export async function generateMetadata({ params }: { params: { username: string 
   return { title: player?.username ?? "Player" };
 }
 
-export default async function PlayerProfilePage({ params }: { params: { username: string } }) {
+interface PlayerProfilePageProps {
+  params: {
+    username: string;
+  };
+}
+
+export default async function PlayerProfilePage ({ params }: Readonly<PlayerProfilePageProps>) {
   const { data: player } = await getAccount(params.username);
 
   return (
