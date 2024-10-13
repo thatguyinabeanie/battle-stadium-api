@@ -12,7 +12,7 @@ interface PlayerProfilePageProps {
   };
 }
 
-export default async function PlayerProfilePage ({ params }: Readonly<PlayerProfilePageProps>) {
+export default async function PlayerProfilePage({ params }: Readonly<PlayerProfilePageProps>) {
   const { data: player } = await getAccount(params.username);
 
   return (

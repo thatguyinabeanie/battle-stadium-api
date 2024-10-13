@@ -14,8 +14,6 @@ module Api
         authorize self.class, :index?
         @profiles = Profile.all
         render json: @profiles, each_serializer: Serializers::Profile, status: :ok
-      rescue Pundit::NotAuthorizedError => e
-        render json: { error: e.message }, status: :unauthorized
       end
 
       def show
