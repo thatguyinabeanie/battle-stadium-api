@@ -750,6 +750,17 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Profile"
+        '404':
+          description: profile not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
   "/tournaments/{tournament_id}/matches":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -809,7 +820,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Match"
+                "$ref": "#/components/schemas/MatchDetails"
         '404':
           description: match not found
     patch:
@@ -887,7 +898,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Match"
+                "$ref": "#/components/schemas/MatchDetails"
   "/tournaments/{tournament_id}/matches/{id}/reset":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -920,7 +931,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Match"
+                "$ref": "#/components/schemas/MatchDetails"
   "/tournaments/{tournament_id}/phases":
     parameters:
     - name: tournament_id
@@ -2252,3 +2263,64 @@ components:
       - player_one
       - player_two
       - reset_by
+    MatchDetails:
+      type: object
+      title: Match
+      properties:
+        id:
+          type: integer
+          format: int64
+        round_id:
+          type: integer
+          format: int64
+        tournament_id:
+          type: integer
+          format: int64
+        table_number:
+          type: integer
+          format: int64
+        player_one:
+          type: string
+        player_two:
+          type: string
+        reset_by:
+          type: string
+          nullable: true
+        winner:
+          type: string
+          nullable: true
+        loser:
+          type: string
+          nullable: true
+        player_one_check_in:
+          type: string
+          format: date-time
+          nullable: true
+        player_two_check_in:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        bye:
+          type: boolean
+      required:
+      - id
+      - round_id
+      - table_number
+      - player_one
+      - player_two
+      - reset_by
+      - winner
+      - loser
+      - player_one_check_in
+      - player_two_check_in
+      - ended_at
+      - started_at
+      - bye

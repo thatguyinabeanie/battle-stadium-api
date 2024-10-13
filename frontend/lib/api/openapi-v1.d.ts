@@ -416,7 +416,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "application/json": components["schemas"]["Match"];
+            "application/json": components["schemas"]["MatchDetails"];
           };
         };
         /** @description match not found */
@@ -527,7 +527,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "application/json": components["schemas"]["Match"];
+            "application/json": components["schemas"]["MatchDetails"];
           };
         };
       };
@@ -579,7 +579,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "application/json": components["schemas"]["Match"];
+            "application/json": components["schemas"]["MatchDetails"];
           };
         };
       };
@@ -1165,6 +1165,31 @@ export interface components {
       player_one: string;
       player_two: string;
       reset_by: string | null;
+    };
+    /** Match */
+    MatchDetails: {
+      /** Format: int64 */
+      id: number;
+      /** Format: int64 */
+      round_id: number;
+      /** Format: int64 */
+      tournament_id?: number;
+      /** Format: int64 */
+      table_number: number;
+      player_one: string;
+      player_two: string;
+      reset_by: string | null;
+      winner: string | null;
+      loser: string | null;
+      /** Format: date-time */
+      player_one_check_in: string | null;
+      /** Format: date-time */
+      player_two_check_in: string | null;
+      /** Format: date-time */
+      ended_at: string | null;
+      /** Format: date-time */
+      started_at: string | null;
+      bye: boolean;
     };
   };
   responses: {
@@ -2033,6 +2058,17 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["Profile"];
+        };
+      };
+      /** @description profile not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
         };
       };
     };
