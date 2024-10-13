@@ -68,11 +68,12 @@ USER_PROFILE_SCHEMA = {
   title: "User Profile",
   properties: {
     id: { type: :string, format: "uuid" },
+    default: { type: :boolean },
     username: { type: :string },
     image_url: { type: :string, nullable: true },
     pronouns: { type: :string , nullable: true }
   },
-  required: %w[username image_url id pronouns]
+  required: %w[username image_url id pronouns default]
 }.freeze
 
 POST_USER_PROFILE_SCHEMA = {

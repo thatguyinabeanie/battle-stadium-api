@@ -21,8 +21,9 @@ FactoryBot.define do
     end
 
     trait :with_team do
-      after(:build) do |player|
-        player.pokemon_team = build(:pokemon_team, user_profile: player.user_profile)
+      after(:create) do |player|
+        player.pokemon_team = create(:pokemon_team, user_profile: player.user_profile)
+        player.save
       end
     end
 

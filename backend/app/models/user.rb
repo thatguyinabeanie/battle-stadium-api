@@ -29,7 +29,12 @@ class User < ApplicationRecord
   private
 
   def create_default_profile
-    self.default_profile = user_profiles.create(username: self.username)
+    if self.default_profile.nil?
+      profile = user_profiles.create(username: self.username)
+      self.default_profile = profile
+      self.user_profiles << profile
+      self.save
+    end
   end
 
   def username_uniqueness_across_users_and_profiles

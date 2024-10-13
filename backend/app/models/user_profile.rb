@@ -14,8 +14,14 @@ class UserProfile < ApplicationRecord
 
   delegate :pronouns, to: :user
 
+  scope :not_archived, -> { where(archived_at: nil) }
+
   def should_generate_new_friendly_id?
     username_changed?
+  end
+
+  def default?
+    user.default_profile == self
   end
 
   private

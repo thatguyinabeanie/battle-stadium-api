@@ -29,6 +29,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
             },
             "name" => team.name,
             "user_profile" => {
+              "default" => team.user_profile.default?,
               "id" => team.user_profile.id,
               "username" => team.user_profile.username,
               "image_url" => team.user_profile.image_url,
@@ -91,6 +92,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
             "name" => team.format.name,
           },
           "user_profile" => {
+            "default" => team.user_profile.default?,
             "id" => team.user_profile.id,
             "username" => team.user_profile.username,
             "image_url" => team.user_profile.image_url,
