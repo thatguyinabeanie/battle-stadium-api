@@ -1,24 +1,13 @@
 import { getMe } from "@/app/data/actions";
 import Dashboard from "@/components/dashboard/dashboard";
+import { DashboardLayoutProps } from "@/types";
 import React from "react";
 
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-  profiles: React.ReactNode;
-  tournament_history: React.ReactNode;
-  settings: React.ReactNode;
-}
-
-export default async function DashboardLayout({
-  children,
-  profiles,
-  tournament_history,
-  settings,
-}: DashboardLayoutProps) {
+export default async function DashboardLayout({ children, ...rest }: DashboardLayoutProps) {
   const me = (await getMe())?.data;
 
   return (
-    <Dashboard me={me} profiles={profiles} settings={settings} tournament_history={tournament_history}>
+    <Dashboard {...rest} me={me}>
       {children}
     </Dashboard>
   );

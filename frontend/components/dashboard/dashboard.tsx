@@ -1,34 +1,49 @@
 "use client";
+
+import React from "react";
+import { useSearchParams } from "next/navigation";
+
 import { components } from "@/lib/api/openapi-v1";
 import { Tabs, Tab } from "@/components/nextui-use-client";
 import { cn } from "@/lib";
+import { DashboardLayoutProps } from "@/types";
 
-interface DashboardProps {
+interface DashboardProps extends DashboardLayoutProps {
   me: components["schemas"]["UserMe"] | null | undefined;
-  children?: React.ReactNode;
-  admin?: React.ReactNode;
-  dashboard?: React.ReactNode;
-  profiles?: React.ReactNode;
-  settings?: React.ReactNode;
-  tournament_history?: React.ReactNode;
 }
 
-export default function Dashboard({ me, children, admin, profiles, settings, tournament_history }: DashboardProps) {
+const tabs = ["dashboard", "profiles", "tournament_history", "settings", "admin"];
+
+const tabList =
+  "w-full relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md";
+
+const tabContent = "text-default-500";
+
+export default function Dashboard(props: DashboardProps) {
+  const { me, children, admin, profiles, settings, tournament_history } = props;
+
+  const tabStr = useSearchParams().get("tab");
+
+  const [selected, setSelected] = React.useState(
+    (tabs.includes(`${tabStr}`) && tabStr) || "dashboard",
+  );
+
   return (
     <Tabs
       aria-label="Navigation Tabs"
       classNames={{
-        tabList:
-          "w-full relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md",
-        // tab: "border-small text-primary border-neutral-500/50",
-        tabContent: "text-default-500",
+        tabList,
+        tabContent,
       }}
       radius="full"
+      selectedKey={selected}
       variant="light"
+      onSelectionChange={(key) => setSelected(String(key))}
     >
       <Tab key="dashboard" title="Dashboard">
         {children}
       </Tab>
+
       <Tab key="profiles" title="Profiles">
         {profiles}
       </Tab>
