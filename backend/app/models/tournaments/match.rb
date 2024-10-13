@@ -75,7 +75,7 @@ module Tournaments
     end
 
     def reset
-      self.match_games.update_all(ended_at: nil, winner_id: nil, loser_id: nil, reporter_id: nil, started_at: nil)
+      self.match_games.update_all(ended_at: nil, winner_id: nil, loser_id: nil, reporter_profile_id: nil, started_at: nil)
     end
 
     private
