@@ -1,7 +1,7 @@
 import SwaggerUI from "swagger-ui-react";
 
 import "swagger-ui-react/swagger-ui.css";
-import { getMe } from "@/app/server-actions/users/actions";
+import { getMe } from "@/app/server-actions/accounts/actions";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 

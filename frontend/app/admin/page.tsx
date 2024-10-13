@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { getMe } from "@/app/server-actions/users/actions";
+import { getMe } from "@/app/server-actions/accounts/actions";
 export const metadata: Metadata = {
   title: "Admin",
 };
