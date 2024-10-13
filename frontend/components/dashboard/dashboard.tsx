@@ -27,17 +27,21 @@ export default function Dashboard(props: DashboardProps) {
   const tabStr = searchParams.get("tab");
   const [activeTab, setActiveTab] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || "dashboard");
 
-  const updateSearchParams = React.useCallback((newParams: Record<string, string>) => {
-    const params = new URLSearchParams(searchParams.toString());
-    Object.entries(newParams).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-    });
-    router.push(`?${params.toString()}`);
-  }, [searchParams, router]);
+  const updateSearchParams = React.useCallback(
+    (newParams: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(newParams).forEach(([key, value]) => {
+        if (value) {
+          params.set(key, value);
+        } else {
+          params.delete(key);
+        }
+      });
+      router.push(`?${params.toString()}`);
+    },
+    [searchParams, router],
+  );
 
   const handleTabChange = (key: React.Key) => {
     setActiveTab(key.toString());
@@ -53,8 +57,8 @@ export default function Dashboard(props: DashboardProps) {
         tabContent,
       }}
       radius="full"
-      selectedKey={ activeTab }
-      onSelectionChange={ handleTabChange }
+      selectedKey={activeTab}
+      onSelectionChange={handleTabChange}
     >
       <Tab key="dashboard" title="Dashboard">
         {children}
