@@ -27,15 +27,15 @@ RSpec.describe Api::V1::ClerkWebhookController do
     end
 
     context "when the event type is user.created" do
-      it "creates a new user and returns status created" do
+      it "creates a new account and returns status created" do
         request.headers.merge!(valid_headers)
 
         expect {
           post :post, params: valid_payload
-        }.to change(User, :count).by(1)
+        }.to change(Account, :count).by(1)
 
         expect(response).to have_http_status(:created)
-        expect(response.parsed_body["message"]).to eq("User created successfully")
+        expect(response.parsed_body["message"]).to eq("Account created successfully")
       end
     end
 

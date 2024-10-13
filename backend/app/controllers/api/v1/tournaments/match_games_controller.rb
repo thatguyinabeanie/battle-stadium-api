@@ -23,7 +23,7 @@ module Api
 
           player = @match.tournament.players.find_by(id: match_game_params[:player_id])
 
-          @match_game.report_winner!(player:, reporter: current_user)
+          @match_game.report_winner!(player:, reporter: current_account)
           render json: @match_game, status: :ok, serializer: Serializers::MatchGame
         rescue StandardError => e
           render json: { error: e.message }, status: :unprocessable_entity
@@ -35,7 +35,7 @@ module Api
           player = @match.tournament.players.find_by(id: match_game_params[:player_id])
 
 
-          @match_game.report_loser!(player:, reporter: current_user)
+          @match_game.report_loser!(player:, reporter: current_account)
           render json: @match_game, status: :ok, serializer: Serializers::MatchGame
         rescue StandardError => e
           render json: { error: e.message }, status: :unprocessable_entity

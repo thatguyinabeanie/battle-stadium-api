@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :account, :record
 
-  def initialize(user, record)
-    @user = user
+  def initialize(account, record)
+    @account = account
     @record = record
   end
 
   def admin?
-    user&.admin?
+    account&.admin?
   end
 
   def index?
@@ -45,8 +45,8 @@ class ApplicationPolicy
   end
 
   class Scope
-    def initialize(user, scope)
-      @user = user
+    def initialize(account, scope)
+      @account = account
       @scope = scope
     end
 
@@ -56,6 +56,6 @@ class ApplicationPolicy
 
     private
 
-    attr_reader :user, :scope
+    attr_reader :account, :scope
   end
 end

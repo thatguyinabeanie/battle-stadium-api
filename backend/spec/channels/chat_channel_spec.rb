@@ -7,7 +7,7 @@ RSpec.describe ChatChannel do
 
   let(:broadcast_room_name) { "chat_#{room}" }
   let(:room) { match_hash[:match].id }
-  let(:user) { match_hash[:player_one].user_profile.user }
+  let(:account) { match_hash[:player_one].user_profile.account }
   let(:match2_hash) { fully_formed_match }
   let(:match_hash) { fully_formed_match }
 
@@ -22,7 +22,7 @@ RSpec.describe ChatChannel do
   end
 
   before do
-    stub_connection current_user: user
+    stub_connection current_account: account
   end
 
   it "rejects subscription with invalid room" do
@@ -36,7 +36,7 @@ RSpec.describe ChatChannel do
   end
 
   it "handles multiple subscriptions" do
-    stub_connection current_user: organization.staff.first
+    stub_connection current_account: organization.staff.first
 
     subscribe(room:)
     expect(subscription).to be_confirmed
@@ -66,7 +66,7 @@ RSpec.describe ChatChannel do
   end
 
   it "unsubscribes from multiple rooms" do
-    stub_connection current_user: organization.staff.first
+    stub_connection current_account: organization.staff.first
 
     subscribe(room:)
     subscribe(room: match2_hash[:match].id)
@@ -117,7 +117,7 @@ RSpec.describe ChatChannel do
     expect(subscription).to be_rejected
   end
 
-  it "does not broadcast message if the user is already subscribed when the round is over" do
+  it "does not broadcast message if the account is already subscribed when the round is over" do
     match = match_hash[:match]
     subscribe(room: match.id)
     expect(subscription).to be_confirmed
@@ -131,7 +131,7 @@ RSpec.describe ChatChannel do
     }.not_to have_broadcasted_to(broadcast_room_name).with(hash_including(message: "This should not be sent"))
   end
 
-  it "broadcasts system message if the user is already subscribed when the round is over" do
+  it "broadcasts system message if the account is already subscribed when the round is over" do
     match = match_hash[:match]
     subscribe(room: match.id)
     expect(subscription).to be_confirmed

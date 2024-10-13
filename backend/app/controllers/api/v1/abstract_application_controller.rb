@@ -15,7 +15,7 @@ module Api
       before_action :set_object, only: %i[show update destroy]
 
       def self.policy_class
-        ::UserPolicy
+        ::AccountPolicy
       end
 
       # GET /api/v1/:klass

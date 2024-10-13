@@ -11,7 +11,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
   let(:tournament) { create(:tournament) }
   let(:owner) do
     owner = tournament.organization.owner
-    owner.clerk_users << ClerkUser.new(user_id: owner.id, clerk_user_id: "user_#{owner.id}")
+    owner.clerk_users << ClerkUser.new(account_id: owner.id, clerk_user_id: "user_#{owner.id}")
     owner
   end
 
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:phase) do
           {
             name: "Swiss Round",
@@ -76,7 +76,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response 404, NOT_FOUND do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:tournament_id) { "invalid" }
         let(:phase) do
           {
@@ -142,7 +142,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
 
       response(200, "successful") do
 
-        let(:request_user) { owner }
+        let(:request_account) { owner }
 
         let(:phase) do
           {
@@ -161,7 +161,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { owner }
+        let(:request_account) { owner }
         let(:id) { "invalid" }
         let(:phase) do
           {
@@ -187,7 +187,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { owner }
+        let(:request_account) { owner }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
@@ -196,7 +196,7 @@ RSpec.describe Api::V1::Tournaments::PhasesController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { owner }
+        let(:request_account) { owner }
         let(:id) { "invalid" }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"

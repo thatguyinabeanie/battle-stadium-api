@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe UserProfile do
   describe "associations" do
-    it { is_expected.to belong_to(:user).inverse_of(:user_profiles).class_name("User").with_foreign_key("user_id").optional(true) }
+    it { is_expected.to belong_to(:account).inverse_of(:user_profiles).class_name("Account").with_foreign_key("account_id").optional(true) }
     it { is_expected.to have_many(:players).class_name("Tournaments::Player").inverse_of(:user_profile).with_foreign_key("user_profile_id") }
     it { is_expected.to have_many(:pokemon_teams).class_name("PokemonTeam").inverse_of(:user_profile).with_foreign_key("user_profile_id") }
   end
@@ -15,7 +15,7 @@ RSpec.describe UserProfile do
   end
 
   describe "delegations" do
-    it { is_expected.to delegate_method(:pronouns).to(:user) }
+    it { is_expected.to delegate_method(:pronouns).to(:account) }
   end
 
   describe "scopes" do
@@ -24,10 +24,10 @@ RSpec.describe UserProfile do
 
   describe "#default?" do
     it "returns true if the user's default profile is the same as the current profile" do
-      user = create(:user)
-      user_profile = create(:user_profile, user:)
-      user.default_profile = user_profile
-      expect(user_profile.default?).to eq(true)
+      account = create(:account)
+      user_profile = create(:user_profile, account:)
+      account.default_profile = user_profile
+      expect(user_profile.default?).to be(true)
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe UserProfile do
     it "returns true if the username has changed" do
       user_profile = create(:user_profile)
       user_profile.username = "new_username"
-      expect(user_profile.should_generate_new_friendly_id?).to eq(true)
+      expect(user_profile.should_generate_new_friendly_id?).to be(true)
     end
   end
 end

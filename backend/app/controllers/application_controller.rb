@@ -4,7 +4,7 @@ require_relative "../../lib/auth/clerk/token_verifier"
 require_relative "../../lib/auth/vercel/token_verifier"
 
 class ApplicationController < ActionController::Base
-  attr_reader :current_user
+  attr_reader :current_account
   include Pundit::Authorization
 
   after_action :verify_authorized
@@ -35,14 +35,13 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_clerk_user_session!
-    @current_user = ::Auth::Clerk::Session.authenticate!(request:)
-
-    @current_user
+    @current_account = ::Auth::Clerk::Session.authenticate!(request:)
+    @current_account
   rescue StandardError => e
     Rails.logger.error(e.message)
   end
 
   def pundit_user
-    current_user
+    current_account
   end
 end

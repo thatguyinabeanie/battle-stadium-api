@@ -18,8 +18,8 @@ class MockModel
 end
 
 RSpec.describe MatchPlayersConcern do
-  let(:player_one) { create(:user) }
-  let(:player_two) { create(:user) }
+  let(:player_one) { create(:account) }
+  let(:player_two) { create(:account) }
   let(:match_mock) { MockModel.new(player_one:, player_two:) }
 
   describe "#opponent_for" do

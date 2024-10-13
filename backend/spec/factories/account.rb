@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user, class: "::User" do
+  factory :account, class: "::Account" do
     username { Faker::Internet.unique.username }
     email { "#{username}@email.gg" }
     first_name { Faker::Name.first_name }
@@ -10,12 +10,12 @@ FactoryBot.define do
     default_profile { nil }
     archived_at { nil }
 
-    after(:build) do |user|
-      user.default_profile ||= build(:user_profile, user:)
+    after(:build) do |account|
+      account.default_profile ||= build(:user_profile, account:)
     end
 
-    after(:create) do |user|
-      user.clerk_users << create(:clerk_user, user:)
+    after(:create) do |account|
+      account.clerk_users << create(:clerk_user, account:)
     end
 
     factory :admin do

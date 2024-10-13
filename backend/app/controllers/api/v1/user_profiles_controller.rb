@@ -7,7 +7,7 @@ module Api
       self.serializer_klass = Serializers::UserProfile
 
       def self.policy_class
-        ::UserPolicy
+        ::AccountPolicy
       end
 
       def index
@@ -30,13 +30,13 @@ module Api
       end
 
       def create
-        authorize current_user, :create_profile?
+        authorize current_account, :create_profile?
         Rails.logger.info "Received params: #{params.inspect}"
 
         username = params[:user_name]
         image_url = params[:image_url]
 
-        @user_profile  = UserProfile.new(username:, image_url:, user: current_user)
+        @user_profile  = UserProfile.new(username:, image_url:, account: current_account)
 
         if @user_profile.save
           render json: @user_profile, serializer: Serializers::UserProfile, status: :created

@@ -1,6 +1,6 @@
 class OrganizationPolicy < ApplicationPolicy
   def owner?
-    record.owner == user
+    record.owner == account
   end
 
   def admin?
@@ -8,7 +8,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def create?
-    user&.admin?
+    account&.admin?
   end
 
   def update?
@@ -16,7 +16,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def staff?
-    admin? || record.has_staff_member?(user:)
+    admin? || record.has_staff_member?(account:)
   end
 
   def add_staff?
@@ -28,7 +28,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def create_tournament?
-    admin? || record.has_staff_member?(user:)
+    admin? || record.has_staff_member?(account:)
   end
 
   def update_tournament?

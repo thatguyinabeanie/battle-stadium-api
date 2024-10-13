@@ -48,7 +48,7 @@ RSpec.describe Api::V1::UserProfilesController do
       end
 
       response(422, "invalid request") do
-        let(:user_name) { request_user.default_profile.username }
+        let(:user_name) { request_account.default_profile.username }
 
         schema type: :object,
                properties: {
@@ -71,8 +71,8 @@ RSpec.describe Api::V1::UserProfilesController do
       operationId "getProfile"
 
       response(200, "user profile found") do
-        let(:request_user) { create(:user) }
-        let(:slug) { request_user.default_profile.slug }
+        let(:request_account) { create(:account) }
+        let(:slug) { request_account.default_profile.slug }
 
         schema "$ref" => "#/components/schemas/UserProfile"
 

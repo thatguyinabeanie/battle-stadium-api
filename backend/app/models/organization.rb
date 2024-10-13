@@ -5,11 +5,11 @@ class Organization < ApplicationRecord
   friendly_id :name, use: :slugged
 
   self.table_name = "organizations"
-  belongs_to :owner, class_name: "User", optional: true
+  belongs_to :owner, class_name: "Account", optional: true
 
   has_many :tournaments, class_name: "Tournaments::Tournament", dependent: :destroy
   has_many :organization_staff_members, class_name: "OrganizationStaffMember", dependent: :destroy
-  has_many :staff, through: :organization_staff_members, source: :user
+  has_many :staff, through: :organization_staff_members, source: :account
 
   validates :name, presence: true, uniqueness: true
   validate :unique_owner_id
@@ -24,7 +24,7 @@ class Organization < ApplicationRecord
     errors.add(:owner_id, "has already been taken") if Organization.where(owner_id:).where.not(id:).exists?
   end
 
-  def has_staff_member?(user:)
-    user && (staff.exists?(user.id) || owner == user)
+  def has_staff_member?(account:)
+    account && (staff.exists?(account.id) || owner == account)
   end
 end

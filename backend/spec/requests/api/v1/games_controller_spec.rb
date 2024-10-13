@@ -47,7 +47,7 @@ RSpec.describe Api::V1::GamesController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:game) { { game: { name: "New Game" } } }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -59,7 +59,7 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(403, "forbidden") do
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
         let(:game) { { game: { name: "New Game" } } }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(400, "bad request") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:game) { { title: "", genre: "" } }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -128,7 +128,7 @@ RSpec.describe Api::V1::GamesController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
         let(:game) { { game: { name: "Updated Game" } } }
 
@@ -141,7 +141,7 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(403, "forbidden") do
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
         let(:game) { { game: { name: "Updated Game" } } }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -152,7 +152,7 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:id) { "invalid" }
         let(:game) { { game: { name: "Updated Game" } } }
 
@@ -173,7 +173,7 @@ RSpec.describe Api::V1::GamesController do
       security [Bearer: []]
       parameter VERCEL_TOKEN_HEADER_PARAMETER
       response(200, "successful") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
@@ -184,7 +184,7 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(403, "forbidden") do
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
@@ -195,7 +195,7 @@ RSpec.describe Api::V1::GamesController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:id) { "invalid" }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"

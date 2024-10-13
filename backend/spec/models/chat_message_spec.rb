@@ -7,7 +7,7 @@ RSpec.describe ChatMessage do
       player_one = create(:player)
       player_two = create(:player)
       organization = create(:organization)
-      organization.staff << create(:user)
+      organization.staff << create(:account)
       tournament = create(:tournament, organization:)
       phase = create(:swiss_phase, tournament:)
       round = create(:round, phase:)
@@ -30,7 +30,7 @@ RSpec.describe ChatMessage do
       expect(chat_message).not_to be_valid
     end
 
-    it "is not valid without a user_id" do
+    it "is not valid without a account_id" do
       chat_message = described_class.new(content: "Hello", user_profile_id: nil, match_id:)
       expect(chat_message).not_to be_valid
     end
@@ -43,7 +43,7 @@ RSpec.describe ChatMessage do
 
   describe "associations" do
     it { is_expected.to belong_to(:user_profile).class_name("UserProfile").optional(false).validate(true) }
-    it { is_expected.to delegate_method(:user).to(:user_profile) }
+    it { is_expected.to delegate_method(:account).to(:user_profile) }
     it { is_expected.to belong_to(:match).class_name("Tournaments::Match").optional(false).validate(true) }
     it { is_expected.to validate_presence_of(:content) }
   end

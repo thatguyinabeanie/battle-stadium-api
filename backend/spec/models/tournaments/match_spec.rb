@@ -5,7 +5,7 @@ RSpec.describe Tournaments::Match do
     player_one = create(:player)
     player_two = create(:player)
     organization = create(:organization)
-    organization.staff << create(:user)
+    organization.staff << create(:account)
     tournament = create(:tournament, organization:)
     phase = create(:swiss_phase, tournament:)
     round = create(:round, phase:)
@@ -44,7 +44,7 @@ RSpec.describe Tournaments::Match do
 
   describe "#check_in(player:)" do
     it "raises an error if the player is not part of the match" do
-      expect { match.check_in(player: create(:user)) }.to raise_error(ArgumentError)
+      expect { match.check_in(player: create(:account)) }.to raise_error(ArgumentError)
     end
 
     # Player One
@@ -133,7 +133,7 @@ RSpec.describe Tournaments::Match do
     end
 
     it "raises an error if the player is not part of the match" do
-      expect { match.checked_in?(player: create(:user)) }.to raise_error(ArgumentError)
+      expect { match.checked_in?(player: create(:account)) }.to raise_error(ArgumentError)
     end
   end
 end

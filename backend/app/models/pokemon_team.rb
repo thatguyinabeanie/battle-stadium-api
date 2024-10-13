@@ -14,7 +14,7 @@ class PokemonTeam < ApplicationRecord
 
   validate :no_more_than_six_pokemon
 
-  delegate :user , to: :user_profile
+  delegate :account , to: :user_profile
 
   private
 

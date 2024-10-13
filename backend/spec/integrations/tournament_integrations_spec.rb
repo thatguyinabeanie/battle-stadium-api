@@ -5,13 +5,9 @@ RSpec.describe "Tournaments API", type: :request do
     skip "Skipping the entire suite due to ongoing refactoring"
   end
 
-  let(:user) { create(:user) }
-  let(:organization) { create(:organization, owner: user) }
+  let(:account) { create(:account) }
+  let(:organization) { create(:organization, owner: account) }
   let(:tournament) { create(:tournament, organization:) }
-
-  # before do
-  #   sign_in user
-  # end
 
   def json
     JSON.parse(response.body)

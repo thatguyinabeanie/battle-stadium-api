@@ -9,7 +9,7 @@ module Auth
 
       included do
 
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
         let(:Authorization) { "Bearer #{SecureRandom.alphanumeric(25)}" }
         let("X-Vercel-OIDC-Token") { SecureRandom.alphanumeric(25) }
 
@@ -36,14 +36,14 @@ module Auth
           end
         end
 
-        def session_data(request_user)
+        def session_data(request_account)
           {
-            "userId" => request_user.clerk_users.first&.clerk_user_id,
-            "email" => request_user.email,
-            "username" => request_user.username,
-            "firstName" => request_user.first_name,
-            "lastName" => request_user.last_name,
-            "imageUrl" => request_user.image_url,
+            "userId" => request_account.clerk_users.first&.clerk_user_id,
+            "email" => request_account.email,
+            "username" => request_account.username,
+            "firstName" => request_account.first_name,
+            "lastName" => request_account.last_name,
+            "imageUrl" => request_account.image_url,
           }
         end
 
@@ -56,7 +56,7 @@ module Auth
         def allow_clerk_token_verification
           allow(Auth::Clerk::TokenVerifier)
             .to receive(:verify_token)
-            .and_return(session_data(request_user))
+            .and_return(session_data(request_account))
         end
       end
     end

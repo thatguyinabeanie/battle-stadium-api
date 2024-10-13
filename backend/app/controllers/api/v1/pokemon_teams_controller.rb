@@ -16,7 +16,7 @@ module Api
                     if params[:user_profile_id].present?
                       UserProfile.find_by!(id: params[:user_profile_id])
                     else
-                      current_user.default_profile
+                      current_account.default_profile
                     end
                   rescue ActiveRecord::RecordNotFound
                     skip_authorization

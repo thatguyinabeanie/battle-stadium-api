@@ -30,7 +30,7 @@ module Api
 
         def check_in
           authorize @match, :player?
-          player = @tournament.players.find_by(user: current_user)
+          player = @tournament.players.find_by(account: current_account)
           if @match.check_in(player:)
             render json: serialize_details, status: :ok
           else

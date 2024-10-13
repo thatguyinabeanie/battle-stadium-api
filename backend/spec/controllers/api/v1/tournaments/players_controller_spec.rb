@@ -39,7 +39,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
   describe "POST #create" do
     let(:player_params) do
-      attributes_for(:player, user_profile_id: request_user.default_profile.id)
+      attributes_for(:player, user_profile_id: request_account.default_profile.id)
     end
 
     context "with valid parameters" do
@@ -77,7 +77,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
   end
 
   describe "PATCH #update" do
-    let(:request_user) { player.user_profile.user }
+    let(:request_account) { player.user_profile.account }
 
     context "with valid parameters" do
 
@@ -109,7 +109,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
   describe "DELETE #destroy" do
     let!(:player) { create(:player, tournament:) }
-    let(:request_user) { player.user_profile.user }
+    let(:request_account) { player.user_profile.account }
 
     it "deletes the player" do
       expect {

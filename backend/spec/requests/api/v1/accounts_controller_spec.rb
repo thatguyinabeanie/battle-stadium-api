@@ -2,27 +2,27 @@ require "rails_helper"
 require "swagger_helper"
 require "support/auth/token_verifier_mock"
 
-USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/UserDetails".freeze
+USER_DETAILS_SCHEMA_COMPONENT = "#/components/schemas/AccountDetails".freeze
 
-RSpec.describe Api::V1::UsersController do
+RSpec.describe Api::V1::AccountsController do
   include Auth::TokenVerifier::Mock
 
-  path("/users") do
+  path("/accounts") do
     parameter VERCEL_TOKEN_HEADER_PARAMETER
 
-    get("List Users") do
-      tags "Users"
+    get("List Accounts") do
+      tags "Accounts"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description "Retrieves a list of all Users"
-      operationId "listUsers"
+      description "Retrieves a list of all Accounts"
+      operationId "listAccounts"
 
       security [Bearer: []]
       response(200, "successful") do
-        let(:users) { create_list(:user, 10) }
+        let(:accounts) { create_list(:account, 10) }
 
         include_context "with Request Specs - Vercel OIDC Token Verification"
 
-        schema type: :array, items: { "$ref" => "#/components/schemas/User" }
+        schema type: :array, items: { "$ref" => "#/components/schemas/Account" }
 
         OpenApi::Response.set_example_response_metadata
 
@@ -30,22 +30,22 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    post("Create User") do
-      tags "Users"
+    post("Create Account") do
+      tags "Accounts"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description "Creates a new User."
-      operationId "postUser"
+      description "Creates a new Account."
+      operationId "postAccount"
 
-      parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserPostRequest" }
+      parameter name: :account, in: :body, schema: { "$ref" => "#/components/schemas/AccountPostRequest" }
 
       security [Bearer: []]
 
       response(201, "created") do
-        let(:request_user) { create(:admin) }
-        let(:user) do
+        let(:request_account) { create(:admin) }
+        let(:account) do
           {
-            user: {
+            account: {
               username: Faker::Internet.unique.username,
               pronouns: "he/him",
               email: "new_user@example.com",
@@ -65,9 +65,9 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(403, "forbidden") do
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
 
-        let(:user) { {} }
+        let(:account) { {} }
 
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -79,11 +79,11 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(422, "unprocessable entity") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
-        let(:user) do
+        let(:account) do
           {
-            user: {
+            account: {
               username: "",
               pronouns: "he/him",
               email: "new_user@example.com",
@@ -102,23 +102,23 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path("/users/me") do
+  path("/accounts/me") do
     parameter VERCEL_TOKEN_HEADER_PARAMETER
 
     get("Show Me") do
-      tags "Users"
+      tags "Accounts"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description "Retrieves the current User."
-      operationId "getMe"
+      description "Retrieves the current Account."
+      operationId "getAccountMe"
 
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
-        schema "$ref" => "#/components/schemas/UserMe"
+        schema "$ref" => "#/components/schemas/AccountMe"
 
         OpenApi::Response.set_example_response_metadata
 
@@ -126,7 +126,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(401, "not authorized") do
-        let(:request_user) { build(:user) }
+        let(:request_account) { build(:account) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
@@ -137,18 +137,18 @@ RSpec.describe Api::V1::UsersController do
     end
   end
 
-  path("/users/{username}") do
-    parameter name: :username, in: :path, type: :string, description: "The user's username"
+  path("/accounts/{username}") do
+    parameter name: :username, in: :path, type: :string, description: "The account's username"
     parameter VERCEL_TOKEN_HEADER_PARAMETER
 
-    let(:existing_user)  { create(:user) }
-    let(:username) { existing_user.username }
+    let(:existing_account)  { create(:account) }
+    let(:username) { existing_account.username }
 
-    get("Show User") do
-      tags "Users"
+    get("Show Account") do
+      tags "Accounts"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      description "Retrieves a specific User by ID."
-      operationId "getUser"
+      description "Retrieves a specific Account by username."
+      operationId "getAccount"
 
       security [Bearer: []]
 
@@ -168,20 +168,20 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    patch("Update User") do
-      tags "Users"
+    patch("Update Account") do
+      tags "Accounts"
       produces OpenApi::Response::JSON_CONTENT_TYPE
       consumes OpenApi::Response::JSON_CONTENT_TYPE
-      description "Updates an existing User."
-      operationId "patchUser"
+      description "Updates an existing Account."
+      operationId "patchAccount"
 
-      parameter name: :user, in: :body, schema: { "$ref" => "#/components/schemas/UserDetails" }
+      parameter name: :account, in: :body, schema: { "$ref" => "#/components/schemas/AccountDetails" }
 
       security [Bearer: []]
 
       response(200, "Updated by Admin") do
-        let(:request_user) { create(:admin) }
-        let(:user) do
+        let(:request_account) { create(:admin) }
+        let(:account) do
           {
             pronouns: "they/them",
             email: "updateduser@example.com",
@@ -199,10 +199,10 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
         let(:username) { "invalid" }
-        let(:user) do
+        let(:account) do
           {
             first_name: "Updated", last_name: "Userrrrr"
           }
@@ -216,16 +216,16 @@ RSpec.describe Api::V1::UsersController do
       end
     end
 
-    delete("Delete User") do
-      tags "Users"
+    delete("Delete Account") do
+      tags "Accounts"
       produces OpenApi::Response::JSON_CONTENT_TYPE
-      describe "Deletes a User by ID."
-      operationId "deleteUser"
+      describe "Deletes a Account by Username."
+      operationId "deleteAccount"
 
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
@@ -235,7 +235,7 @@ RSpec.describe Api::V1::UsersController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
         let(:username) { "invalid" }
 

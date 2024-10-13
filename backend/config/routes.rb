@@ -15,13 +15,13 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       post "clerk", to: "clerk_webhook#post"
-      get "users/me", to: "users#me"
+      get "accounts/me", to: "accounts#me"
 
-      resources :users, only: %i[index create] do
+      resources :accounts, only: %i[index create] do
         collection do
-          get ":username", to: "users#show", as: :user, constraints: { username: /[^\/]+/ }
-          patch ":username", to: "users#update", constraints: { username: /[^\/]+/ }
-          delete ":username", to: "users#destroy", constraints: { username: /[^\/]+/ }
+          get ":username", to: "accounts#show", as: :user, constraints: { username: /[^\/]+/ }
+          patch ":username", to: "accounts#update", constraints: { username: /[^\/]+/ }
+          delete ":username", to: "accounts#destroy", constraints: { username: /[^\/]+/ }
         end
       end
 

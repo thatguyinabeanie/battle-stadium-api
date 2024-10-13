@@ -43,10 +43,10 @@ module Api
         first_name = data["first_name"]
         last_name = data["last_name"]
         image_url = data["image_url"]
-        User.find_or_create_by!(email:, username:, first_name:, last_name:) do |u|
-          u.image_url = image_url
+        Account.find_or_create_by!(email:, username:, first_name:, last_name:) do |account|
+          account.image_url = image_url
         end
-        render status: :created, json: { message: "User created successfully" }
+        render status: :created, json: { message: "Account created successfully" }
       rescue StandardError => e
         render status: :internal_server_error, json: { error: e.message }
       end

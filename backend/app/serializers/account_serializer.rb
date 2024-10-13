@@ -1,6 +1,6 @@
 require_relative "serializer_mixin"
 module Serializers
-  module UserMixin
+  module AccountMixin
     extend ActiveSupport::Concern
     included do
       include SerializerMixin::Id
@@ -8,24 +8,24 @@ module Serializers
     end
   end
 
-  module UserDetailsMixin
+  module AccountDetailsMixin
     extend ActiveSupport::Concern
-    include UserMixin
+    include AccountMixin
     included do
       attributes :email, :first_name, :last_name
     end
   end
 
-  class User < ActiveModel::Serializer
-    include UserMixin
+  class Account < ActiveModel::Serializer
+    include AccountMixin
   end
 
-  class UserDetails < ActiveModel::Serializer
-    include UserDetailsMixin
+  class AccountDetails < ActiveModel::Serializer
+    include AccountDetailsMixin
   end
 
-  class UserMe < ActiveModel::Serializer
-    include UserDetailsMixin
+  class AccountMe < ActiveModel::Serializer
+    include AccountDetailsMixin
     attribute :organizations
     attributes :admin
 

@@ -1,5 +1,5 @@
 require_relative "../../../serializers/organization_serializer"
-require_relative "../../../serializers/user_serializer"
+require_relative "../../../serializers/account_serializer"
 require_relative "../../../serializers/tournament_serializer"
 
 module Api
@@ -40,7 +40,7 @@ module Api
         authorize ::Organization, :list?
         # Assuming there's an association called `staff_members` you can directly use it
         # If not, replace `organization.staff_members` with your logic to fetch staff members
-        render json: @organization.staff, each_serializer: Serializers::User, status: :ok
+        render json: @organization.staff, each_serializer: Serializers::Account, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Organization not found" }, status: :not_found
       end

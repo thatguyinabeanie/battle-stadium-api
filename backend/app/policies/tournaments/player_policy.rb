@@ -5,12 +5,12 @@ module Tournaments
     end
 
     def update?
-      admin? || user == record.user_profile.user || Pundit.policy(user, record.tournament).update?
+      admin? || account == record.user_profile.account || Pundit.policy(account, record.tournament).update?
     end
 
     def destroy?
 
-      admin? || user == record.user_profile.user || Pundit.policy(user, record.tournament).update?
+      admin? || account == record.user_profile.account || Pundit.policy(account, record.tournament).update?
     end
   end
 end

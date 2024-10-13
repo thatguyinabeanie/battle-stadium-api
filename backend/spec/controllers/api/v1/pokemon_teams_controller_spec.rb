@@ -63,7 +63,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
 
   describe "POST" do
     it "creates a new pokemon team" do
-      user_profile = request_user.default_profile
+      user_profile = request_account.default_profile
       team = build(:pokemon_team, user_profile:)
 
       pokemon = build_list(:pokemon, 6).map { |pokemon| pokemon.attributes }

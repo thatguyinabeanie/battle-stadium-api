@@ -32,8 +32,8 @@ RSpec.describe Api::V1::Tournaments::MatchGamesController do
   end
 
   describe "POST report_winner" do
-    context "when player one is the request user" do
-      let(:request_user) { match.player_one.user }
+    context "when player one is the request account" do
+      let(:request_account) { match.player_one.account }
       let(:player_id) { match.player_one.id }
 
       it "sets player one as the winner" do
@@ -51,8 +51,8 @@ RSpec.describe Api::V1::Tournaments::MatchGamesController do
       end
     end
 
-    context "when player two is the request user" do
-      let(:request_user) { match.player_two.user }
+    context "when player two is the request account" do
+      let(:request_account) { match.player_two.account }
 
       it "sets player one as the winner" do
         post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
@@ -69,8 +69,8 @@ RSpec.describe Api::V1::Tournaments::MatchGamesController do
       end
     end
 
-    context "when the request user is a tournament organizer staff" do
-      let(:request_user) { tournament.organization.staff.first }
+    context "when the request account is a tournament organizer staff" do
+      let(:request_account) { tournament.organization.staff.first }
 
       it "sets player one as the winner" do
         post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
@@ -91,8 +91,8 @@ RSpec.describe Api::V1::Tournaments::MatchGamesController do
   end
 
   describe "POST report_loser" do
-    context "when player one is the request user" do
-      let(:request_user) { match.player_one.user }
+    context "when player one is the request account" do
+      let(:request_account) { match.player_one.account }
 
       it "sets player one as the loser" do
         post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
@@ -109,8 +109,8 @@ RSpec.describe Api::V1::Tournaments::MatchGamesController do
       end
     end
 
-    context "when player two is the request user" do
-      let(:request_user) { match.player_two.user }
+    context "when player two is the request account" do
+      let(:request_account) { match.player_two.account }
 
       it "sets player one as the loser" do
         post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
@@ -127,8 +127,8 @@ RSpec.describe Api::V1::Tournaments::MatchGamesController do
       end
     end
 
-    context "when the request user is a tournament organizer staff" do
-      let(:request_user) { tournament.organization.staff.first }
+    context "when the request account is a tournament organizer staff" do
+      let(:request_account) { tournament.organization.staff.first }
 
       it "sets player one as the loser" do
         post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}

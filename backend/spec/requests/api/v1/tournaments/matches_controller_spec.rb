@@ -116,7 +116,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
         let(:tournament) { create(:tournament) }
         let(:phase) { create(:swiss_phase, tournament:) }
         let(:round) { create(:round, phase:) }
-        let(:request_user) { tournament.organization.owner }
+        let(:request_account) { tournament.organization.owner }
         let(:tournament_id) { tournament.id }
         let(:id) { create(:match, tournament:, phase:, round:).id }
         let(:match) { { match: { table_number: 2 } } }
@@ -131,7 +131,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
       response "422", "invalid request" do
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         let(:tournament) { create(:tournament) }
-        let(:request_user) { tournament.organization.owner }
+        let(:request_account) { tournament.organization.owner }
         let(:tournament_id) { tournament.id }
         let(:id) { create(:match, tournament_id:).id }
         let(:match) { { match: { table_number: nil } } }
@@ -170,7 +170,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
         let(:match) { create(:match, phase:, round:) }
         let(:id) { match.id }
 
-        let(:request_user) { match.player_one.user }
+        let(:request_account) { match.player_one.account }
 
         schema "$ref" => "#/components/schemas/Match"
 
@@ -198,7 +198,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
         let(:tournament_id) { create(:tournament).id }
         let(:match) { create(:match, tournament_id:) }
         let(:id) { match.id }
-        let(:request_user) { match.tournament.organization.staff.first }
+        let(:request_account) { match.tournament.organization.staff.first }
 
         schema "$ref" => "#/components/schemas/Match"
 

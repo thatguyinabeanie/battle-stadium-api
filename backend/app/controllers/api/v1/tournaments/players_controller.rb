@@ -25,7 +25,7 @@ module Api
         def create
           user_profile = UserProfile.find_by!(id: permitted_params[:user_profile_id])
 
-          @player = @players.build permitted_params.merge(tournament_id: @tournament.id, user_id: user_profile.user_id)
+          @player = @players.build permitted_params.merge(tournament_id: @tournament.id, account_id: user_profile.account.id)
           authorize @player, :create?
           if @player.save
             render json: serialize_player_details, status: :created

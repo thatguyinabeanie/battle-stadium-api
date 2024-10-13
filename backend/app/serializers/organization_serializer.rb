@@ -1,5 +1,5 @@
 require_relative "serializer_mixin"
-require_relative "user_serializer"
+require_relative "account_serializer"
 
 module Serializers
   module OrganizationMixin
@@ -21,6 +21,6 @@ module Serializers
 
   class Organization < ActiveModel::Serializer
     include OrganizationMixin
-    self.owner_serializer = ::Serializers::User
+    self.owner_serializer = ::Serializers::Account
   end
 end

@@ -31,8 +31,8 @@ RSpec.describe Api::V1::TournamentsController do
   describe "GET #show" do
     let(:tournament) { create(:tournament) }
 
-    context("when the user is authorized") do
-      let(:request_user) { tournament.organization.owner }
+    context("when the account is authorized") do
+      let(:request_account) { tournament.organization.owner }
 
       it "returns a successful response" do
         get :show, params: { id: tournament.id }
@@ -52,7 +52,7 @@ RSpec.describe Api::V1::TournamentsController do
       end
     end
 
-    context("when the user is not authorized") do
+    context("when the account is not authorized") do
 
       it "returns the publushed tournament" do
         get :show, params: { id: tournament.id }
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::TournamentsController do
   describe "POST #create" do
     let(:organization) { create(:organization) }
     let(:organization_id) { organization.id }
-    let(:request_user) { organization.owner }
+    let(:request_account) { organization.owner }
     let(:game) { create(:game) }
     let(:game_id) { game.id }
     let(:format) { create(:format, game:) }
@@ -109,7 +109,7 @@ RSpec.describe Api::V1::TournamentsController do
   describe "PUT #update" do
     let(:tournament) { create(:tournament) }
     let(:new_attributes) { { name: "Updated Tournament Name" } }
-    let(:request_user) { tournament.organization.owner }
+    let(:request_account) { tournament.organization.owner }
 
     context "with valid attributes" do
       it "updates the tournament" do
@@ -140,7 +140,7 @@ RSpec.describe Api::V1::TournamentsController do
 
   describe "DELETE #destroy" do
     let!(:tournament) { create(:tournament) }
-    let(:request_user) { tournament.organization.owner }
+    let(:request_account) { tournament.organization.owner }
 
     it "deletes the tournament" do
       expect {
@@ -156,7 +156,7 @@ RSpec.describe Api::V1::TournamentsController do
 
   describe "POST #start" do
     let(:tournament) { create(:tournament, :with_phases, :with_players_with_team_and_checked_in) }
-    let(:request_user) { tournament.organization.owner }
+    let(:request_account) { tournament.organization.owner }
 
     context "when the tournament is not ready to start" do
       let(:tournament) { create(:tournament, :with_phases) }

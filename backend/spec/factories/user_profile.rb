@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user_profile, class: "::UserProfile" do
-    user factory: :user
+    account factory: :account
     username { Faker::Internet.unique.username }
     players { [] }
     archived_at { nil }

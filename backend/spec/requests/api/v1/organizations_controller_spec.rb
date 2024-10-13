@@ -58,12 +58,12 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(201, "created") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:organization) do
           {
             name: "New Organization",
             description: DESCRIPTION,
-            owner_id: create(:user).id
+            owner_id: create(:account).id
           }
         end
 
@@ -75,12 +75,12 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(403, "forbidden") do
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
         let(:organization) do
           {
             name: "New Organization",
             description: DESCRIPTION,
-            owner_id: create(:user).id
+            owner_id: create(:account).id
           }
         end
 
@@ -133,7 +133,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(200, "successful") do
-        let(:request_user) { owner }
+        let(:request_account) { owner }
         let(:organization) do
           {
             name: "Updated Organization",
@@ -149,7 +149,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
         let(:slug) { -1 }
         let(:organization) do
@@ -175,7 +175,7 @@ RSpec.describe Api::V1::OrganizationsController do
 
       security [Bearer: []]
       response(200, "Organization deleted") do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Message"
@@ -184,7 +184,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(403, "forbidden") do
-        let(:request_user) { create(:user) }
+        let(:request_account) { create(:account) }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
@@ -194,7 +194,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(404, NOT_FOUND) do
-        let(:request_user) { create(:admin) }
+        let(:request_account) { create(:admin) }
         let(:slug) { "invalid" }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -218,7 +218,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
       response(200, "successful") do
         include_context "with Request Specs - Vercel OIDC Token Verification"
-        schema type: :array, items: { "$ref" => "#/components/schemas/User" }
+        schema type: :array, items: { "$ref" => "#/components/schemas/Account" }
         OpenApi::Response.set_example_response_metadata
         run_test!
       end
@@ -276,7 +276,7 @@ RSpec.describe Api::V1::OrganizationsController do
       security [Bearer: []]
 
       response(201, "Created by Org Owner") do
-        let(:request_user) { owner }
+        let(:request_account) { owner }
         let(:game) { create(:game) }
         let(:format) { create(:format, game:) }
         let(:tournament) do
@@ -305,7 +305,7 @@ RSpec.describe Api::V1::OrganizationsController do
       end
 
       response(400, "bad request") do
-        let(:request_user) { owner }
+        let(:request_account) { owner }
         let(:tournament) { {} }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
