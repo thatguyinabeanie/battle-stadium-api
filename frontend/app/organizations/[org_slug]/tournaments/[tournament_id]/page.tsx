@@ -1,4 +1,4 @@
-import { getTournament, getTournaments } from "@/app/data/actions";
+import { getTournament, getTournaments } from "@/app/server-actions/tournaments/actions";
 import OrgTourCard from "@/app/organizations/[org_slug]/tournaments/[tournament_id]/org-tour-card";
 
 export const revalidate = 300;

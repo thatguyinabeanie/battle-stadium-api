@@ -8,6 +8,7 @@ FactoryBot.define do
     admin { false }
     clerk_users { [] }
     default_profile { nil }
+    archived_at { nil }
 
     after(:build) do |user|
       user.default_profile ||= build(:user_profile, user:)

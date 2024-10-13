@@ -8,7 +8,7 @@ module Api
       class_attribute :index_serializer_klass
       class_attribute :detail_serializer_klass
       class_attribute :update_params_except
-      class_attribute :filter_params
+      class_attribute :index_filter_params
       class_attribute :enable_pagination
       class_attribute :default_order_by
 
@@ -101,18 +101,20 @@ module Api
       protected
 
       def serialize_details
-        detail_serializer_klass.new(@object).attributes
+        serializer_klass = detail_serializer_klass || serializer_klass
+        serializer_klass.new(@object).attributes
       end
 
       def set_object
         @object = if klass.respond_to?(:friendly)
-                    klass.friendly.find(params[:id])
+                    id = params[:id] || params[:slug]
+                    klass.friendly.find(id)
                   else
                     klass.find(params[:id])
                   end
         @object
       rescue ActiveRecord::RecordNotFound => e
-        render json: { error: "#{klass} not found" }, status: :not_found
+        render json: { error: "#{klass} not found - #{e.message}" }, status: :not_found
       end
 
       def permitted_params

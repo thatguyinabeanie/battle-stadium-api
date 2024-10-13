@@ -675,17 +675,18 @@ export interface paths {
   "/user_profiles": {
     parameters: {
       query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
+      header?: never;
       path?: never;
       cookie?: never;
     };
     /** Retrieves all profiles */
     get: operations["listProfiles"];
     put?: never;
-    post?: never;
+    /**
+     * Creates a user profile
+     * @description Creates a new user profile
+     */
+    post: operations["createProfile"];
     delete?: never;
     options?: never;
     head?: never;
@@ -1144,6 +1145,12 @@ export interface components {
       image_url: string | null;
       pronouns: string | null;
     };
+    /** Post User Profile */
+    PostUserProfile: {
+      username: string;
+      image_url?: string | null;
+      pronouns?: string | null;
+    };
     /** Match */
     Match: {
       /** Format: int64 */
@@ -1185,6 +1192,11 @@ export interface components {
       /** Format: int64 */
       format_id: number;
       pokemon: components["schemas"]["Pokemon"][];
+    };
+    UserProfile: {
+      username: string;
+      image_url?: string | null;
+      pronouns?: string | null;
     };
   };
   requestBodies: never;
@@ -2211,6 +2223,56 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["UserProfile"][];
+        };
+      };
+    };
+  };
+  createProfile: {
+    parameters: {
+      query: {
+        /** @description Username */
+        user_name: string;
+        /** @description Image URL */
+        image_url?: string;
+      };
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description profile created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["UserProfile"];
+        };
+      };
+      /** @description bad request - profanity */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description invalid request */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string[];
+          };
         };
       };
     };

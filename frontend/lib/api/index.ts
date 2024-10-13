@@ -2,6 +2,7 @@ import { components } from "@/lib/api/openapi-v1";
 export * from "@/lib/api/client";
 
 export type Schemas = components["schemas"];
+
 export type Format = Schemas["Format"];
 export type Game = Schemas["Game"];
 export type GameDetail = Schemas["GameDetail"];

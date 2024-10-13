@@ -24,7 +24,7 @@ export default function BattleStadium() {
       </div>
 
       <Link href="/" size="sm">
-        <span aria-label="Battle Stadium Name" className="font-bold uppercase opacity-100">
+        <span aria-label="Battle Stadium Name" className="text-xs font-bold uppercase opacity-100">
           Battle Stadium
         </span>
       </Link>

@@ -223,7 +223,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.8)
-    prism (1.1.0)
+    prism (1.2.0)
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
@@ -443,7 +443,7 @@ GEM
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
     smart_properties (1.17.0)
-    sorbet-runtime (0.5.11600)
+    sorbet-runtime (0.5.11602)
     spring (4.2.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
@@ -493,7 +493,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     yard (0.9.37)
-    zeitwerk (2.6.18)
+    zeitwerk (2.7.0)
 
 PLATFORMS
   aarch64-linux

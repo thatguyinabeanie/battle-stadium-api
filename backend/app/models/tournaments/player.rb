@@ -12,8 +12,8 @@ module Tournaments
     validates :in_game_name, presence: true
     validates :user_profile_id, presence: true
     validates :tournament_id, presence: true
-    validates :user_profile_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
-    validates :user_id, uniqueness: { scope: :tournament_id, case_sensitive: true, message: I18n.t("tournament.registration.already_registered") }
+    validates :user_profile_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
+    validates :user_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
     delegate :username, to: :user_profile
 
     before_create :set_user_id_from_profile

@@ -1,18 +1,7 @@
-import { Metadata } from "next";
-import { getMe } from "@/app/data/actions";
-import { redirect } from "next/navigation";
-import Dashboard from "@/app/dashboard/dashboard";
-
-export const metadata: Metadata = {
-  title: "Dashboard",
-};
-
-export default async function DashboardPage() {
-  const me = (await getMe())?.data;
-
-  if (!me) {
-    redirect("/sign-in");
-  }
-
-  return <Dashboard me={me} />;
+export default function DashboardProfiles() {
+  return (
+    <div>
+      <h1>DASHBOARD PAGE</h1>
+    </div>
+  );
 }

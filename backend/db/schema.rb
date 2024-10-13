@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_13_143338) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_13_155659) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -213,6 +213,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_143338) do
     t.datetime "updated_at", null: false
     t.string "image_url"
     t.string "slug"
+    t.datetime "archived_at"
     t.bigint "user_id"
     t.index ["slug"], name: "index_profiles_on_slug", unique: true
     t.index ["username"], name: "index_profiles_on_username", unique: true
@@ -277,6 +278,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_143338) do
     t.string "pronouns", default: "", null: false
     t.text "image_url"
     t.boolean "admin", default: false, null: false
+    t.datetime "archived_at"
     t.bigint "default_profile_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true

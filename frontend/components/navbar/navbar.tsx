@@ -4,13 +4,13 @@ import { Navbar, NavbarBrand, NavbarContent } from "@/components/nextui-use-clie
 import BattleStadium from "@/components/battle-stadium";
 
 import NavbarLinks from "@/components/navbar/navbar-links";
-import { getMe } from "@/app/data/actions";
+import { getMe } from "@/app/server-actions/users/actions";
 import { auth } from "@clerk/nextjs/server";
 import NavbarRightMenu from "@/components/navbar/navbar-right-menu";
 import NavbarMobileMenu from "@/components/navbar/navbar-mobile-menu";
 
 const navbarClassNames = {
-  wrapper: "bg-transparent justify-between backdrop-blur min-w-full shadow-md ",
+  wrapper: "bg-transparent justify-between md:justify-around backdrop-blur min-w-full shadow-md ",
   base: "bg-transparent border-b-small border-neutral-400/50",
   item: [
     "flex",

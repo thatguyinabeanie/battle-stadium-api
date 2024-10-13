@@ -15,7 +15,7 @@ RSpec.describe Tournaments::Player do
     it { is_expected.to validate_presence_of(:tournament_id) }
 
     describe "custom validations" do
-      it "validates case-sensitive uniqueness of user_id within the scope of tournament_id" do
+      it "validates uniqueness of user_id within the scope of tournament_id" do
         user_profile = create(:user_profile)
         existing_player = create(:player, user_profile:)
         new_player = build(:player, user_profile_id: user_profile.id, tournament: existing_player.tournament)
