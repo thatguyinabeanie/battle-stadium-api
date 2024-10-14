@@ -27,7 +27,6 @@ const AccountSetting = React.forwardRef<HTMLDivElement, AccountSettingCardProps>
   const onCountrySelectionChange = (id: React.Key | null) => setCountrySelectedKey(id);
   const onCountryInputChange = (value: string) => setCountryValue(value);
 
-
   console.log(timeZoneSelectedKey, countrySelectedKey); // eslint-disable-line no-console
   const { options } = useTimezoneSelect({ labelStyle, timezones });
 
