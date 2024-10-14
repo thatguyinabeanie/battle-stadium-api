@@ -18,7 +18,7 @@ module Api
                         current_account.profiles.order(id: :asc)
                       else
                         authorize self.class, :index?
-                        Profile.where(account_id: params[:account_id], archived_at: nil).order(id: :asc)
+                        Profile.where(account_id: params[:account_id], archived_at: nil).order(id: :desc)
                       end
                     else
                       authorize self.class, :index?

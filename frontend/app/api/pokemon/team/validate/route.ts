@@ -70,8 +70,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ pokemon: parsedPokemon, invalid }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching Pokemon data:", error); // eslint-disable-line no-console
-
-    return NextResponse.json({ message: "Error fetching Pokemon data" }, { status: 500 });
+    return NextResponse.json({ message: `Error fetching Pokemon data: ${error}` }, { status: 500 });
   }
 }
