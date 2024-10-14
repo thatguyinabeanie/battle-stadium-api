@@ -29,12 +29,14 @@ export default function Settings() {
           panel: "w-full p-0 pt-4",
         }}
       >
-        <Tab key="appearance" title="Appearance">
-          <AppearanceSetting />
-        </Tab>
         <Tab key="account" title="Account">
           <AccountSetting />
         </Tab>
+
+        <Tab key="appearance" title="Appearance">
+          <AppearanceSetting />
+        </Tab>
+
         <Tab key="connections" title="Connections">
           <BillingSetting />
         </Tab>

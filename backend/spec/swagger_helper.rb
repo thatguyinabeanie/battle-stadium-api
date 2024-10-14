@@ -51,7 +51,8 @@ SIMPLE_ACCOUNT_SCHEMA = {
   properties: {
     username: { type: :string },
     pronouns: { type: :string },
-    image_url: { type: :string, nullable: true }
+    image_url: { type: :string, nullable: true },
+    country: { type: :string, nullable: true }
   },
   required: %w[username pronouns]
 }.freeze
@@ -96,9 +97,10 @@ SIMPLE_ACCOUNT_DETAILS_SCHEMA = SIMPLE_ACCOUNT_SCHEMA.deep_merge(
       email: { type: :string },
       first_name: { type: :string },
       last_name: { type: :string },
-      image_url: { type: :string, nullable: true }
+      image_url: { type: :string, nullable: true },
+      country: { type: :string, nullable: true }
     },
-    required: %w[email first_name last_name ] + SIMPLE_ACCOUNT_SCHEMA[:required]
+    required: %w[email first_name last_name country] + SIMPLE_ACCOUNT_SCHEMA[:required]
   }
 ).freeze
 

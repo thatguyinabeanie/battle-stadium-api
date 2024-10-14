@@ -4,7 +4,7 @@ module Serializers
     extend ActiveSupport::Concern
     included do
       include SerializerMixin::Id
-      attributes :username, :pronouns, :image_url
+      attributes :username, :pronouns, :image_url, :country
     end
   end
 

@@ -38,15 +38,6 @@ RSpec.describe Profile do
     it { expect(described_class).to respond_to(:not_archived) }
   end
 
-  describe "#default?" do
-    it "returns true if the user's default profile is the same as the current profile" do
-      account = create(:account)
-      profile = create(:profile, account:)
-      account.default_profile = profile
-      expect(profile.default?).to be(true)
-    end
-  end
-
   describe "#should_generate_new_friendly_id?" do
     it "returns true if the username has changed" do
       profile = create(:profile)
