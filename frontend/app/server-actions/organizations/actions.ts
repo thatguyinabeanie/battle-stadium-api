@@ -4,8 +4,6 @@ import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
 import { paths } from "@/lib/api/openapi-v1";
 import { FetchOptions } from "openapi-fetch";
 
-export const runtime = "edge";
-
 export async function getOrganizations(options?: FetchOptions<paths["/organizations"]["get"]>) {
   const organizationsOptions = {
     ...defaultConfig("getOrganizations"),

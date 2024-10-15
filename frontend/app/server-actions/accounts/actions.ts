@@ -5,8 +5,6 @@ import { paths } from "@/lib/api/openapi-v1";
 import { auth } from "@clerk/nextjs/server";
 import { FetchOptions } from "openapi-fetch";
 
-export const runtime = "edge";
-
 export async function getAccountsMe(options?: FetchOptions<paths["/accounts/me"]["get"]>) {
   const { userId } = auth();
 

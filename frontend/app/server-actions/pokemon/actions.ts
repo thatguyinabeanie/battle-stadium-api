@@ -5,8 +5,6 @@ import { paths } from "@/lib/api/openapi-v1";
 import { ValidatedPokemon, PokePasteMetadata } from "@/lib/pokemon/common";
 import { FetchOptions } from "openapi-fetch";
 
-export const runtime = "edge";
-
 type PostPokemonTeamBody = {
   pokepaste_id?: string;
   profile_id: number | null;
