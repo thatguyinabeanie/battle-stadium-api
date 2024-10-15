@@ -7,8 +7,6 @@ import { auth } from "@clerk/nextjs/server";
 
 import { Card, CardBody } from "@/components/nextui-use-client";
 
-export const runtime = "edge";
-
 export default async function OpenApiDocs() {
   const { sessionId } = auth();
 
