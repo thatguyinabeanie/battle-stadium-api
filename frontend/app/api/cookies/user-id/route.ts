@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { env } from "@/env.mjs";
 const AUTH_SECRET = env.AUTH_SECRET;
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   const { userId } = auth();
 
