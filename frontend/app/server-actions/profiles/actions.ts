@@ -2,6 +2,7 @@
 
 import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
 import { paths } from "@/lib/api/openapi-v1";
+import { revalidateTag } from "next/cache";
 import { FetchOptions } from "openapi-fetch";
 
 export async function getProfiles(options?: FetchOptions<paths["/profiles"]["get"]>) {
@@ -15,7 +16,7 @@ export async function getProfiles(options?: FetchOptions<paths["/profiles"]["get
 
 export async function getProfilesByAccountId(id: number, options?: FetchOptions<paths["/profiles"]["get"]>) {
   const profileOptions = {
-    ...defaultConfig("getPlayerProfile"),
+    ...defaultConfig(`getPlayerProfileByAccountId-${id}`),
     ...options,
     query: {
       id,
@@ -25,7 +26,7 @@ export async function getProfilesByAccountId(id: number, options?: FetchOptions<
   return BattleStadiumApiClient().GET("/profiles", profileOptions);
 }
 
-export async function createProfile(username: string, options?: FetchOptions<paths["/profiles"]["post"]>) {
+export async function createProfile(username: string, accountId: number, options?: FetchOptions<paths["/profiles"]["post"]>) {
   const profileOptions = {
     ...defaultConfig("postPlayerProfile"),
     params: {
@@ -38,5 +39,9 @@ export async function createProfile(username: string, options?: FetchOptions<pat
     },
   };
 
-  return BattleStadiumApiClient().POST("/profiles", profileOptions);
+  const resp = (await BattleStadiumApiClient().POST("/profiles", profileOptions)).data;
+
+  revalidateTag(`getPlayerProfileByAccountId-${accountId}`);
+
+  return { success: true, resp };
 }

@@ -18,7 +18,7 @@ export default async function Profiles() {
 
   return (
     <div>
-      <NewProfile />
+      <NewProfile me={me}/>
       {profiles && <ProfilesTable profiles={profiles} />}
     </div>
   );
