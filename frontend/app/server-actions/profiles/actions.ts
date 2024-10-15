@@ -26,7 +26,11 @@ export async function getProfilesByAccountId(id: number, options?: FetchOptions<
   return BattleStadiumApiClient().GET("/profiles", profileOptions);
 }
 
-export async function createProfile(username: string, accountId: number, options?: FetchOptions<paths["/profiles"]["post"]>) {
+export async function createProfile(
+  username: string,
+  accountId: number,
+  options?: FetchOptions<paths["/profiles"]["post"]>,
+) {
   const profileOptions = {
     ...defaultConfig("postPlayerProfile"),
     params: {

@@ -10,7 +10,7 @@ interface NewProfileProps {
   me: AccountMe;
 }
 
-export default function NewProfile ({ me }: NewProfileProps) {
+export default function NewProfile({ me }: NewProfileProps) {
   const router = useRouter();
 
   const handleSubmit = async (formData: FormData) => {
@@ -19,7 +19,7 @@ export default function NewProfile ({ me }: NewProfileProps) {
   };
 
   return (
-    <form className="flex flex-row" action={ handleSubmit }>
+    <form action={handleSubmit} className="flex flex-row">
       <Input name="profile" placeholder="new profile" />
       <Button color="primary" type="submit">
         Add Profile
