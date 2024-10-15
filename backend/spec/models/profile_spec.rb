@@ -12,6 +12,22 @@ RSpec.describe Profile do
 
     it { is_expected.to validate_presence_of(:username) }
     it { is_expected.to validate_uniqueness_of(:username) }
+
+    it "validates that only one profile can be default per account" do
+      account = create(:account)
+      another_profile = build(:profile, account:, default: true)
+
+      expect(another_profile).not_to be_valid
+      expect(another_profile.errors[:default]).to include("can only be set to true for one profile per account")
+    end
+
+    it "allows multiple profiles to be default = false within the same account" do
+      account = create(:account)
+      create(:profile, account:, default: false)
+      another_profile = build(:profile, account:, default: false)
+
+      expect(another_profile).to be_valid
+    end
   end
 
   describe "delegations" do
@@ -20,15 +36,6 @@ RSpec.describe Profile do
 
   describe "scopes" do
     it { expect(described_class).to respond_to(:not_archived) }
-  end
-
-  describe "#default?" do
-    it "returns true if the user's default profile is the same as the current profile" do
-      account = create(:account)
-      profile = create(:profile, account:)
-      account.default_profile = profile
-      expect(profile.default?).to be(true)
-    end
   end
 
   describe "#should_generate_new_friendly_id?" do

@@ -20,7 +20,7 @@ class Account < ApplicationRecord
 
   after_create :create_default_profile
   has_one :default_profile, class_name: "Profile", dependent: :destroy, inverse_of: :account
-  has_many :profiles, class_name: "Profile", dependent: :destroy, inverse_of: :account
+  has_many :profiles, ->(account) { where(account: account.id).order(id: :asc) }, class_name: "Profile", dependent: :destroy, inverse_of: :account
 
   def staff_member_of?(organization)
     organization.staff.exists?(id:) || organization.owner == self
@@ -29,7 +29,7 @@ class Account < ApplicationRecord
   private
 
   def create_default_profile
-    self.default_profile = profiles.create(username: self.username, account: self)
+    self.default_profile = profiles.create(username: self.username, account: self, default: true)
     self.save!
   end
 

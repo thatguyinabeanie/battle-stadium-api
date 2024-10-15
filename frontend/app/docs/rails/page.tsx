@@ -1,17 +1,11 @@
 import SwaggerUI from "swagger-ui-react";
 
 import "swagger-ui-react/swagger-ui.css";
-import { getMe } from "@/app/server-actions/accounts/actions";
+import { getAccountsMe } from "@/app/server-actions/accounts/actions";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
 import { Card, CardBody } from "@/components/nextui-use-client";
-
-// async function fetchOpenApiYaml() {
-//   const response = await fetch(`${getBaseUrl()}/api-docs/v1/openapi.yaml`);
-
-//   return response.text();
-// }
 
 export default async function OpenApiDocs() {
   const { sessionId } = auth();
@@ -20,7 +14,7 @@ export default async function OpenApiDocs() {
     return redirect("/");
   }
 
-  const me = (await getMe())?.data;
+  const me = (await getAccountsMe())?.data;
 
   if (!me?.admin) {
     return redirect("/"); // Redirect to home page if account is not an admin)

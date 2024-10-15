@@ -5,14 +5,14 @@ import { paths } from "@/lib/api/openapi-v1";
 import { auth } from "@clerk/nextjs/server";
 import { FetchOptions } from "openapi-fetch";
 
-export async function getMe(options?: FetchOptions<paths["/accounts/me"]["get"]>) {
+export async function getAccountsMe(options?: FetchOptions<paths["/accounts/me"]["get"]>) {
   const { userId } = auth();
 
   if (!userId) {
     return null;
   }
 
-  const userMeOptions = { ...defaultConfig(`getMe(${userId})`), ...options };
+  const userMeOptions = { ...defaultConfig(`getAccountsMe(${userId})`), ...options };
 
   return BattleStadiumApiClient().GET("/accounts/me", userMeOptions);
 }

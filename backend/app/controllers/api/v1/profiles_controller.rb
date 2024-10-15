@@ -15,10 +15,10 @@ module Api
         @profiles = if params[:account_id]
                       if current_account&.id.to_s == params[:account_id]
                         authorize current_account, :me?
-                        current_account.profiles
+                        current_account.profiles.order(id: :asc)
                       else
                         authorize self.class, :index?
-                        Profile.where(account_id: params[:account_id], archived_at: nil)
+                        Profile.where(account_id: params[:account_id], archived_at: nil).order(id: :desc)
                       end
                     else
                       authorize self.class, :index?

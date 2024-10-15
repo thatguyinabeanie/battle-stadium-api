@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
-
 import React from "react";
+
+import type { Metadata } from "next";
 
 import TournamentsTable from "@/components/tournaments-table";
 import { getTournaments } from "@/app/server-actions/tournaments/actions";
+
+export const runtime = "edge";
 
 export const metadata: Metadata = {
   title: "Tournaments",

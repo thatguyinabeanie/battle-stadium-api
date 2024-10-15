@@ -18,13 +18,11 @@ export default function NavbarClientItem({
 }: Readonly<NavbarItemClientProps & NavbarItemProps>) {
   const isActive = firstSegment?.includes(path);
 
+  const linkClassName = `flex ${isActive ? "text-lg" : "text-md"} transition-transform duration-200 ease-in-out transform hover:scale-105`;
+
   return (
     <NavbarItem className={`hover: ${className}`} isActive={isActive} {...rest}>
-      <Link
-        className={`flex text-sm transition-transform duration-200 ease-in-out transform hover:scale-105`}
-        href={`/${path}`}
-        size="sm"
-      >
+      <Link className={linkClassName} href={`/${path}`} size="sm">
         {children}
       </Link>
     </NavbarItem>

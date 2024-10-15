@@ -1976,7 +1976,10 @@ export interface operations {
   };
   listProfiles: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Account ID */
+        account_id?: number;
+      };
       header?: {
         /** @description Vercel OIDC Token */
         "X-Vercel-OIDC-Token"?: string;
@@ -1986,7 +1989,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      /** @description profiles found */
+      /** @description lists profiles */
       200: {
         headers: {
           [name: string]: unknown;

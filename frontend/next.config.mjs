@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 import { join } from "path";
-import { env } from "./env.mjs";
 import dotenv from "dotenv";
+
+import { env } from "./env.mjs";
 
 dotenv.config({ path: join(process.cwd(), ".env") });
 dotenv.config({ path: join(process.cwd(), ".env.development.local") });
@@ -27,14 +28,6 @@ export default async function nextConfig(_phase, { defaultConfig }) {
       MEASUREMENT_ID: env.MEASUREMENT_ID,
     },
     reactStrictMode: true,
-    // webpack: (config, _options) => {
-    //   config.module.rules.push({
-    //     test: /\.node/,
-    //     use: "node-loader",
-    //   });
-
-    //   return config;
-    // },
   };
 
   return nextConfig;

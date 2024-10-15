@@ -7,7 +7,7 @@ module Api
       self.serializer_klass = Serializers::Account
       self.detail_serializer_klass = Serializers::AccountDetails
       self.default_order_by = { username: :asc }
-
+      self.update_params_except = %i[username ]
       def self.policy_class
         ::AccountPolicy
       end
@@ -33,7 +33,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def permitted_params
-        params.require(:account).permit(:id, :username, :email, :pronouns, :first_name, :last_name)
+        params.require(:account).permit(:username, :email, :pronouns, :first_name, :last_name, :country)
       end
 
       private

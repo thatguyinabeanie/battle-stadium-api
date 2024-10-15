@@ -14,11 +14,6 @@ interface DashboardProps extends DashboardLayoutProps {
 
 const tabs = ["dashboard", "profiles", "tournament_history", "settings", "admin"];
 
-const tabList =
-  "w-full relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md";
-
-const tabContent = "text-default-500";
-
 export default function Dashboard(props: Readonly<DashboardProps>) {
   const { me, children, admin, profiles, settings, tournament_history } = props;
 
@@ -43,50 +38,51 @@ export default function Dashboard(props: Readonly<DashboardProps>) {
     [searchParams, router],
   );
 
-  const handleTabChange = (key: React.Key) => {
-    setActiveTab(key.toString());
-    updateSearchParams({ tab: key.toString() });
-    updateSearchParams({ tab: key.toString() });
-  };
-
   return (
-    <Tabs
-      aria-label="Navigation Tabs"
-      classNames={{
-        tabList,
-        tabContent,
-      }}
-      radius="full"
-      selectedKey={activeTab}
-      onSelectionChange={handleTabChange}
-    >
-      <Tab key="profiles" title="Profiles">
-        {profiles}
-      </Tab>
-
-      <Tab key="tournaments" title="My Tours">
-        {tournament_history}
-      </Tab>
-
-      <Tab key="dashboard" title="Dashboard">
-        {children}
-      </Tab>
-
-      <Tab key="settings" title="Settings">
-        {settings}
-      </Tab>
-
-      {me?.admin && (
-        <Tab
-          key="admin"
-          className={cn("", {
-            hidden: !me.admin,
-          })}
-          title="Admin"
-        >
-          {admin}
+    <div className="w-full h-full flex flex-col items-center">
+      <Tabs
+        aria-label="Navigation Tabs"
+        classNames={{
+          tabList:
+            "relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md",
+          tabContent: "w-fit text-default-500",
+        }}
+        radius="full"
+        selectedKey={activeTab}
+        onSelectionChange={(key: React.Key) => {
+          setActiveTab(key.toString());
+          updateSearchParams({ tab: key.toString() });
+          updateSearchParams({ tab: key.toString() });
+        }}
+      >
+        <Tab key="profiles" title="Profiles">
+          {profiles}
         </Tab>
-      )}
-    </Tabs>
+
+        <Tab key="tournaments" title="My Tours">
+          {tournament_history}
+        </Tab>
+
+        <Tab key="dashboard" title="Dashboard">
+          {children}
+        </Tab>
+
+        <Tab key="settings" title="Settings">
+          {settings}
+        </Tab>
+
+        {me?.admin && (
+          <Tab
+            key="admin"
+            className={cn("", {
+              hidden: !me.admin,
+            })}
+            title="Admin"
+          >
+            {admin}
+          </Tab>
+        )}
+      </Tabs>
+    </div>
   );
 }

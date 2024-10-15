@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { env } from "@/env.mjs";
 const AUTH_SECRET = env.AUTH_SECRET;
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   const { userId } = auth();
 
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   if (userIdCookie) {
     const [storedUserId, signature] = userIdCookie.split(".");
-    const expectedSignature = generateSignature(storedUserId ?? "");
+    const expectedSignature = await generateSignature(storedUserId ?? "");
 
     if (!storedUserId || !signature || signature !== expectedSignature) {
       const msg = `Signature verification failed for userId cookie. Stored userId: ${storedUserId}, Expected signature: ${expectedSignature}`;

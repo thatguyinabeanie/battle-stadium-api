@@ -668,9 +668,17 @@ paths:
         description: Vercel OIDC Token
         schema:
           type: string
+      - name: account_id
+        in: query
+        description: Account ID
+        required: false
+        schema:
+          type: integer
+      security:
+      - Bearer: []
       responses:
         '200':
-          description: profiles found
+          description: lists profiles
           content:
             application/json:
               schema:

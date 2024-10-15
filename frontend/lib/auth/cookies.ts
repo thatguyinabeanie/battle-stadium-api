@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import cookie from "cookie";
-import crypto from "node:crypto";
 const AUTH_SECRET = env.AUTH_SECRET;
 
 import { env } from "@/env.mjs";
@@ -30,9 +29,9 @@ const defaultCookieOptions: cookie.CookieSerializeOptions = {
 export function useSetResponseCookies(): readonly [NextResponse, (key: string, value: string | number) => void] {
   const response = NextResponse.json({ message: "Cookie set successfully" });
 
-  function setCookies(key: string, value: string | number) {
+  async function setCookies(key: string, value: string | number) {
     const encodedValue = encodeURIComponent(`${value}`).replace(/\./g, "%2E");
-    const signedEncodedValue = `${encodedValue}.${generateSignature(encodedValue)}`;
+    const signedEncodedValue = `${encodedValue}.${await generateSignature(encodedValue)}`;
 
     response.headers.set("Set-Cookie", cookie.serialize(key, signedEncodedValue, defaultCookieOptions));
 
@@ -44,12 +43,24 @@ export function useSetResponseCookies(): readonly [NextResponse, (key: string, v
   return [response, setCookies];
 }
 
-export function generateSignature(value: string | number) {
+export async function generateSignature(value: string | number): Promise<string> {
   if (!AUTH_SECRET) {
     throw new Error("AUTH_SECRET is not set.");
   }
 
-  return crypto.createHmac("sha256", AUTH_SECRET).update(`${value}`).digest("hex");
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(AUTH_SECRET);
+  const valueData = encoder.encode(`${value}`);
+
+  const key = await crypto.subtle.importKey("raw", keyData, { name: "HMAC", hash: { name: "SHA-256" } }, false, [
+    "sign",
+  ]);
+
+  const signature = await crypto.subtle.sign("HMAC", key, valueData);
+
+  return Array.from(new Uint8Array(signature))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 export function getCookies(req: NextRequest): { [key: string]: string } {

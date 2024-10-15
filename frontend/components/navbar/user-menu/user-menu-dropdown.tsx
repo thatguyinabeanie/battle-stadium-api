@@ -54,8 +54,14 @@ export default function UserMenuDropDown({ me }: Readonly<UserMenuDropDownProps>
         <Link href="/admin">Admin</Link>
       </DropdownItem>
 
-      <DropdownItem key="settings" aria-label="Settings">
-        <Link href="/settings">Settings</Link>
+      <DropdownItem
+        key="settings"
+        aria-label="Settings"
+        className={cn("", {
+          hidden: !(me && isSignedIn),
+        })}
+      >
+        <Link href="/dashboard?tab=settings">Settings</Link>
       </DropdownItem>
 
       <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>

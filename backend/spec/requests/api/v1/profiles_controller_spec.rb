@@ -28,7 +28,7 @@ RSpec.describe Api::V1::ProfilesController do
         run_test!
       end
 
-      response(200, "lists all unarchived profiles for a given account") do
+      response(200, "lists profiles by account_id") do
         let!(:account) do
           account = create(:account)
 
@@ -53,7 +53,7 @@ RSpec.describe Api::V1::ProfilesController do
         end
       end
 
-      response(200, "lists all request account's own profiles") do
+      response(200, "lists profiles") do
         let(:other_accounts) { create_list(:account, 5) }
         let(:archived_profiles) { create_list(:profile, 3, account: request_account, archived_at: Time.current - 1.month) }
         let(:profiles) { create_list(:profile, 3, account: request_account, archived_at: nil) }

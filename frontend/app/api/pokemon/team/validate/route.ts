@@ -2,6 +2,8 @@ import { ParsedPokemon } from "@/lib/pokemon/common";
 import { NextRequest, NextResponse } from "next/server";
 import Pokedex from "pokedex-promise-v2";
 
+export const runtime = "edge";
+
 const P = new Pokedex();
 
 const validTypes = [
@@ -24,6 +26,7 @@ const validTypes = [
   "steel",
   "fairy",
 ];
+
 const validTeraTypes = [...validTypes, "stellar"];
 
 function toLowerCaseReplaceSpace(value: string) {
@@ -70,8 +73,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ pokemon: parsedPokemon, invalid }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching Pokemon data:", error); // eslint-disable-line no-console
-
-    return NextResponse.json({ message: "Error fetching Pokemon data" }, { status: 500 });
+    return NextResponse.json({ message: `Error fetching Pokemon data: ${error}` }, { status: 500 });
   }
 }

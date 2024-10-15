@@ -182,6 +182,17 @@ RSpec.describe Tournaments::Tournament do
         tournament.register(profile:, pokemon_team_id: pokemon_team.id, in_game_name:)
         expect(tournament.players.last.pokemon_team_id).to eq(pokemon_team.id)
       end
+
+
+      context "when another profile from the same account is already registered" do
+        let(:another_profile) { create(:profile, account: profile.account) }
+
+        before { tournament.register(profile:, in_game_name: "obama") }
+
+        it "raises an error" do
+          expect { tournament.register(profile: another_profile, in_game_name: "bobby") }.to raise_error("This profile's account already has another profile registered for the same tournament")
+        end
+      end
     end
   end
 
@@ -215,5 +226,4 @@ RSpec.describe Tournaments::Tournament do
       end
     end
   end
-
 end
