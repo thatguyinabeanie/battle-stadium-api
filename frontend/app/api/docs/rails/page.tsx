@@ -7,11 +7,7 @@ import { auth } from "@clerk/nextjs/server";
 
 import { Card, CardBody } from "@/components/nextui-use-client";
 
-// async function fetchOpenApiYaml() {
-//   const response = await fetch(`${getBaseUrl()}/api-docs/v1/openapi.yaml`);
-
-//   return response.text();
-// }
+export const runtime = "edge";
 
 export default async function OpenApiDocs() {
   const { sessionId } = auth();

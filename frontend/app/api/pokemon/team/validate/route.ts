@@ -2,6 +2,8 @@ import { ParsedPokemon } from "@/lib/pokemon/common";
 import { NextRequest, NextResponse } from "next/server";
 import Pokedex from "pokedex-promise-v2";
 
+export const runtime = "edge";
+
 const P = new Pokedex();
 
 const validTypes = [
@@ -24,6 +26,7 @@ const validTypes = [
   "steel",
   "fairy",
 ];
+
 const validTeraTypes = [...validTypes, "stellar"];
 
 function toLowerCaseReplaceSpace(value: string) {

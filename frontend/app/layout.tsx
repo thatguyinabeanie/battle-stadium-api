@@ -1,4 +1,7 @@
+import React from "react";
+
 import "@/styles/globals.css";
+
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -13,7 +16,8 @@ import NavigationBar from "@/components/navbar/navbar";
 import Providers from "@/components/providers";
 import AwesomeParticles from "@/components/awesome-particles";
 import Cookies from "@/components/cookies";
-import React from "react";
+
+export const runtime = "edge";
 
 export const metadata: Metadata = {
   title: {

@@ -4,6 +4,8 @@ import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
 import { paths } from "@/lib/api/openapi-v1";
 import { FetchOptions } from "openapi-fetch";
 
+export const runtime = "edge";
+
 export async function getTournament(
   tournament_id: number,
   options?: FetchOptions<paths["/tournaments/{tournament_id}"]["get"]>,
