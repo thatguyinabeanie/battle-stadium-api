@@ -71,7 +71,6 @@
     "next": "^14.2.15",
     "next-themes": "^0.3.0",
     "node-loader": "^2.0.0",
-    "node-polyfill-webpack-plugin": "^4.0.0",
     "obscenity": "^0.4.0",
     "openapi-fetch": "^0.12.2",
     "openapi-typescript-helpers": "^0.0.13",

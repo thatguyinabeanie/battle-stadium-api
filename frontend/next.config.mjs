@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 import { join } from "path";
 import dotenv from "dotenv";
-import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
 
 import { env } from "./env.mjs";
 
@@ -29,10 +28,6 @@ export default async function nextConfig(_phase, { defaultConfig }) {
       MEASUREMENT_ID: env.MEASUREMENT_ID,
     },
     reactStrictMode: true,
-    webpack: (config, _options) => {
-      config.plugins.push(new NodePolyfillPlugin());
-      return config;
-    },
   };
 
   return nextConfig;
