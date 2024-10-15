@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { title } from "@/components/primitives";
 import { Card, Spacer } from "@/components/nextui-use-client";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export const metadata: Metadata = {
   title: "battlestadium.gg",
