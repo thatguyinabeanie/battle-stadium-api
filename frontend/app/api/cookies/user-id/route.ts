@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   if (userIdCookie) {
     const [storedUserId, signature] = userIdCookie.split(".");
-    const expectedSignature = generateSignature(storedUserId ?? "");
+    const expectedSignature = await generateSignature(storedUserId ?? "");
 
     if (!storedUserId || !signature || signature !== expectedSignature) {
       const msg = `Signature verification failed for userId cookie. Stored userId: ${storedUserId}, Expected signature: ${expectedSignature}`;
