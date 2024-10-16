@@ -32,6 +32,10 @@ function capitalizeFirstLetter(s: string) {
  * @see https://discord.com/developers/docs/interactions/receiving-and-responding#receiving-an-interaction
  */
 export async function POST(request: NextRequest) {
+  if(!env.DISCORD_APP_PUBLIC_KEY || !env.DISCORD_APP_ID) {
+    return new NextResponse("DISCORD_APP_PUBLIC_KEY or DISCORD_APP_ID not initialized", { status: 500 });
+  }
+
   const verifyResult = await verifyInteractionRequest(request, env.DISCORD_APP_PUBLIC_KEY);
 
   if (!verifyResult.isValid || !verifyResult.interaction) {

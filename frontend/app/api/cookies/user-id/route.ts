@@ -19,12 +19,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Logged in account is required" }, { status: 401 });
   }
 
-  if (!AUTH_SECRET) {
-    console.error("AUTH_SECRET environment variable is not set."); // eslint-disable-line no-console
-
-    return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
-  }
-
   const cookies = getCookies(req);
   const userIdCookie = cookies["userId"];
 

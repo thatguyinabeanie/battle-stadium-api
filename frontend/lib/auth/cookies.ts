@@ -4,10 +4,6 @@ const AUTH_SECRET = env.AUTH_SECRET;
 
 import { env } from "@/env.mjs";
 
-if (!AUTH_SECRET) {
-  throw new Error("AUTH_SECRET is not set.");
-}
-
 function getCookieDomain() {
   if (env.NODE_ENV === "production") {
     return env.COOKIE_DOMAIN;
@@ -44,9 +40,6 @@ export function useSetResponseCookies(): readonly [NextResponse, (key: string, v
 }
 
 export async function generateSignature(value: string | number): Promise<string> {
-  if (!AUTH_SECRET) {
-    throw new Error("AUTH_SECRET is not set.");
-  }
 
   const encoder = new TextEncoder();
   const keyData = encoder.encode(AUTH_SECRET);
