@@ -9,7 +9,6 @@ dotenv.config({ path: join(process.cwd(), ".env.development.local") });
 
 export default async function nextConfig(_phase, { defaultConfig }) {
   const nextConfig = {
-
     ...defaultConfig,
 
     images: {
@@ -36,10 +35,9 @@ export default async function nextConfig(_phase, { defaultConfig }) {
     compiler: {
       ...defaultConfig.compiler,
       removeConsole: {
-        exclude: ['error'],
+        exclude: ["error"],
       },
-    }
-
+    },
   };
 
   return nextConfig;
