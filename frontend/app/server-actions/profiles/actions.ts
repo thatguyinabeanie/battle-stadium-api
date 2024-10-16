@@ -33,13 +33,11 @@ export async function createProfile(
 ) {
   const profileOptions = {
     ...defaultConfig("postPlayerProfile"),
+    ...options,
     params: {
       query: {
         user_name: username,
       },
-      header: options?.params?.header,
-      path: undefined,
-      cookie: undefined,
     },
   };
 
