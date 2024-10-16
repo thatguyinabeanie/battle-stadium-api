@@ -47,10 +47,11 @@ jobs:
       - name: Scan
         continue-on-error: true
         working-directory: ./backend
-        run: bundle exec brakeman -f sarif -o output.sarif.json -c brakeman.yml .
+        run: bundle exec brakeman -f sarif -o brakeman-output.json -c brakeman.yml .
 
       # Upload the SARIF file generated in the previous step
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload Brakeman report
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: ./backend/output.sarif.json
+          name: brakeman-report
+          path: brakeman-output.json
