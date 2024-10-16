@@ -357,13 +357,9 @@ GEM
       rubocop-rails (>= 2.17)
     rubocop-graphql (1.5.4)
       rubocop (>= 1.50, < 2)
-    rubocop-i18n (3.0.0)
-      rubocop (~> 1.0)
     rubocop-junit-formatter (0.1.4)
     rubocop-md (1.2.3)
       rubocop (>= 1.45)
-    rubocop-migrations (0.1.0)
-      rubocop (>= 0.42.0)
     rubocop-minitest (0.36.0)
       rubocop (>= 1.61, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
@@ -554,10 +550,8 @@ DEPENDENCIES
   rubocop-git
   rubocop-github
   rubocop-graphql
-  rubocop-i18n
   rubocop-junit-formatter
   rubocop-md
-  rubocop-migrations
   rubocop-packaging
   rubocop-performance
   rubocop-rails
