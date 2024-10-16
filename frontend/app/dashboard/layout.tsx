@@ -1,5 +1,4 @@
 import React from "react";
-export const runtime = "edge";
 
 import { DashboardLayoutProps } from "@/types";
 import { getAccountsMe } from "@/app/server-actions/accounts/actions";

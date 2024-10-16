@@ -7,8 +7,6 @@ import BillingSetting from "@/components/settings/bill-settings";
 import { Button, Tab, Tabs, useDisclosure } from "@/components/nextui-use-client";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-export const runtime = "edge";
-
 export default function Settings() {
   const { onOpenChange } = useDisclosure();
 

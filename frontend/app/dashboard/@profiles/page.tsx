@@ -5,8 +5,6 @@ import { getProfilesByAccountId } from "@/app/server-actions/profiles/actions";
 import NewProfile from "@/components/profiles/new-profile";
 import { ProfilesTable } from "@/components/profiles/profiles-table";
 
-export const runtime = "edge";
-
 export default async function Profiles() {
   const me = (await getAccountsMe())?.data;
 

@@ -17,8 +17,6 @@ import Providers from "@/components/providers";
 import AwesomeParticles from "@/components/awesome-particles";
 import Cookies from "@/components/cookies";
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,

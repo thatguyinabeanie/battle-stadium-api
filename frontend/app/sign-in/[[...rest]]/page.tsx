@@ -3,8 +3,6 @@
 import React from "react";
 import { SignIn, useUser } from "@clerk/nextjs";
 
-export const runtime = "edge";
-
 export default function SignInPage() {
   const { user } = useUser();
 
