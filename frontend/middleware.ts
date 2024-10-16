@@ -1,12 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { env } from "@/env.mjs";
-const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
-
-export default clerkMiddleware((auth, request) => {
-  if ([env.NODE_ENV, env.VERCEL_ENV].includes("production") && !isPublicRoute(request)) {
-    auth().protect();
-  }
-});
 
 export const config = {
   matcher: [
@@ -16,3 +9,11 @@ export const config = {
     "/(api|trpc)(.*)",
   ],
 };
+
+const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
+
+export default clerkMiddleware((auth, request) => {
+  if ([env.NODE_ENV, env.VERCEL_ENV].includes("production") && !isPublicRoute(request)) {
+    auth().protect();
+  }
+});
