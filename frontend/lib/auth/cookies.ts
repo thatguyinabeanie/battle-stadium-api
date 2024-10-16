@@ -17,7 +17,7 @@ function getCookieDomain() {
 }
 
 const maxAge = 60 * 60 * 24; // 1 day in seconds
-const defaultCookieOptions: cookie.CookieSerializeOptions = {
+const defaultCookieOptions: cookie.SerializeOptions = {
   httpOnly: true,
   secure: env.NODE_ENV === "production",
   sameSite: "none",
@@ -63,6 +63,6 @@ export async function generateSignature(value: string | number): Promise<string>
     .join("");
 }
 
-export function getCookies(req: NextRequest): { [key: string]: string } {
+export function getCookies(req: NextRequest) {
   return cookie.parse(req.headers.get("cookie") ?? "");
 }

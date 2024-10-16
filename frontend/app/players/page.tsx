@@ -12,20 +12,8 @@ const columns = [
   },
 ];
 
-async function fetchPlayers() {
-  try {
-    const { data: players } = await getProfiles();
-
-    return players ?? [];
-  } catch (error) {
-    console.error("Failed to load players", error); // eslint-disable-line no-console
-
-    return [];
-  }
-}
-
 export default async function PlayersPage() {
-  const players = await fetchPlayers();
+  const { data: players } = await getProfiles();
 
-  return <PlayersTable columns={columns} players={players} />;
+  return <PlayersTable columns={columns} players={players ?? []} />;
 }
