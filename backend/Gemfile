@@ -2,43 +2,61 @@ source "https://rubygems.org"
 
 # Specify your Ruby version
 ruby "3.3.5"
-
 # Rails framework
 gem "active_model_serializers", "~> 0"
-gem "awesome_print"
-gem "bcrypt", "~> 3"
 gem "bootsnap", ">= 1.4.4", require: false
-gem "friendly_id"
-gem "i18n"
-gem "json", "~> 2.7"
-gem "jsonapi-serializer", "~> 2"
-gem "jwt", "~> 2.8"
-gem "kaminari"
-gem "kredis", "~> 1"
-gem "net", "~> 0.3.3"
-gem "openssl", "~> 3.2"
-gem "ostruct", "~> 0"
-gem "parallel", "~> 1.26"
-gem "pg", "~> 1.5.7"
-gem "puma", "~> 6.4"
-gem "pundit"
-gem "rack-attack", "~> 6"
-gem "rack-cors", "~> 2"
-gem "rails", "~> 7.1"
-gem "rb-readline"
-gem "redis", "~> 5"
-gem "retries"
-gem "rswag-api"
-gem "rswag-ui"
-gem "ruby-lsp"
-gem "sidekiq", "~> 7"
+gem "rails", "~> 7.2"
 gem "sprockets-rails"
 gem "stimulus-rails", "~> 1"
-gem "svix"
 gem "turbo-rails", "~> 2"
-gem "tzinfo-data", platforms: %i[windows jruby]
-gem "uri", "~> 0.13.1"
+
+# Authentication and Authorization
+gem "bcrypt", "~> 3"
+gem "jwt", "~> 2.8"
+gem "pundit"
+
+# Database and ORM
+gem "friendly_id"
+gem "kaminari"
+gem "kredis", "~> 1"
+gem "pg", "~> 1.5.7"
+
+# API and Serialization
+gem "json", "~> 2.7"
+gem "jsonapi-serializer", "~> 2"
+gem "rswag-api"
+gem "rswag-ui"
 gem "versionist", "~> 2"
+
+# Background Jobs
+gem "sidekiq", "~> 7"
+
+# Security
+gem "openssl", "~> 3.2"
+gem "rack-attack", "~> 6"
+gem "rack-cors", "~> 2"
+
+# Utilities
+gem "awesome_print"
+gem "ostruct", "~> 0"
+gem "parallel", "~> 1.26"
+gem "retries"
+gem "svix"
+gem "uri", "~> 0.13.1"
+
+# Redis
+gem "redis", "~> 5"
+
+# Development Tools
+gem "rb-readline"
+gem "ruby-lsp"
+gem "traceroute", "~> 0"
+
+# Platform-specific
+gem "tzinfo-data", platforms: %i[windows jruby]
+
+# Web Server
+gem "puma", "~> 6.4"
 
 group :development do
   gem "rails-erd"
@@ -59,7 +77,6 @@ group :test do
   gem "timecop", "~> 0"
 end
 
-# For documentation and testing your API
 group :development, :test do
   gem "debug", "~> 1"
   gem "dotenv-rails"
@@ -70,7 +87,6 @@ group :development, :test do
   gem "ruby-lsp-rails", "~> 0.3.15"
   gem "ruby-lsp-rspec"
   gem "spring", "~> 4"
-  gem "traceroute", "~> 0"
   gem "webmock", "~> 3"
 end
 

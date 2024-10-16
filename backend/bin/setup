@@ -1,14 +1,11 @@
 #!/usr/bin/env ruby
-
-# abort if any command fails
-
 require "fileutils"
 
-# path to your application root.
 APP_ROOT = File.expand_path("..", __dir__)
+APP_NAME = "battle-stadium"
 
-def system!(*)
-  system(*, exception: true)
+def system!(*args)
+  system(*args, exception: true)
 end
 
 FileUtils.chdir APP_ROOT do
@@ -26,14 +23,18 @@ FileUtils.chdir APP_ROOT do
   # end
 
   puts "\n== Preparing database =="
-  system! "bundle exec rails db:prepare"
+  system! "bin/rails db:prepare"
 
   puts "\n== Removing old logs and tempfiles =="
-  system! "bundle exec rails log:clear tmp:clear"
+  system! "bin/rails log:clear tmp:clear"
 
   puts "\n== Migrating Database =="
-  system! "bundle exec rails db:migrate"
+  system! "bin/rails rails db:migrate"
 
   puts "\n== Restarting application server =="
-  system! "bundle exec rails restart"
+  system! "bin/rails restart"
+
+  # puts "\n== Configuring puma-dev =="
+  # system "ln -nfs #{APP_ROOT} ~/.puma-dev/#{APP_NAME}"
+  # system "curl -Is https://#{APP_NAME}.test/up | head -n 1"
 end
