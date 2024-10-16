@@ -54,7 +54,7 @@
     "@vercel/speed-insights": "^1.0.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "cookie": "^0.7.2",
+    "cookie": "^1.0.1",
     "countries-list": "^3.1.1",
     "country-flag-icons": "^1.5.13",
     "date-fns": "^4.1.0",
