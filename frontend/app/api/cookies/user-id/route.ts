@@ -1,8 +1,6 @@
 import { generateSignature, getCookies, useSetResponseCookies } from "@/lib/auth/cookies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import { env } from "@/env.mjs";
-const AUTH_SECRET = env.AUTH_SECRET;
 
 export const runtime = "edge";
 

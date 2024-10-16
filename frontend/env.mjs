@@ -32,7 +32,8 @@ export const env = createEnv({
       .min(
         1,
         "DISCORD_APP_TOKEN is required. Visit https://discord.com/developers/applications -> Your bot -> Bot -> Token",
-      ).optional(),
+      )
+      .optional(),
     DISCORD_APP_ID: z
       .string({
         required_error:
@@ -41,7 +42,8 @@ export const env = createEnv({
       .min(
         1,
         "DISCORD_APP_ID is required. Visit https://discord.com/developers/applications -> Your bot -> General information -> Application ID",
-      ).optional(),
+      )
+      .optional(),
     DISCORD_APP_PUBLIC_KEY: z
       .string({
         required_error:
@@ -50,7 +52,8 @@ export const env = createEnv({
       .min(
         1,
         "DISCORD_APP_PUBLIC_KEY is required. Visit https://discord.com/developers/applications -> General information -> PUBLIC KEY",
-      ).optional(),
+      )
+      .optional(),
     // DISCORD_BOT_TOKEN: z
     //   .string({
     //     required_error:
