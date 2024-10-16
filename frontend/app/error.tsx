@@ -2,8 +2,6 @@
 
 import { useEffect } from "react";
 
-export const runtime = "edge";
-
 interface ErrorComponentProps {
   error: Error;
   reset: () => void;

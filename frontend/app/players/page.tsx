@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import PlayersTable from "@/app/players/players-table";
 import { getProfiles } from "@/app/server-actions/profiles/actions";
 

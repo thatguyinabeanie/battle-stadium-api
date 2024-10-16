@@ -6,8 +6,6 @@ import { cn } from "@/lib/utils";
 import { Tournament } from "@/lib/api";
 import { getOrganizations } from "@/app/server-actions/organizations/actions";
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title: "Organizations",
 };
