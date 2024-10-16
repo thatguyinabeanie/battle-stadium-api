@@ -5,7 +5,7 @@ interface PlayerProfilePageProps {
   };
 }
 
-export async function generateMetadata ({ params }: Readonly<PlayerProfilePageProps>) {
+export async function generateMetadata({ params }: Readonly<PlayerProfilePageProps>) {
   const { data: player } = await getAccount(params.username);
 
   return { title: player?.username ?? "Player" };
