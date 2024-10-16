@@ -38,7 +38,6 @@ export function useSetResponseCookies(): readonly [NextResponse, (key: string, v
 }
 
 export async function generateSignature(value: string | number): Promise<string> {
-
   const encoder = new TextEncoder();
   const keyData = encoder.encode(env.AUTH_SECRET);
   const valueData = encoder.encode(`${value}`);
