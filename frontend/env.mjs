@@ -15,7 +15,8 @@ export const env = createEnv({
 
     LOCAL_DEV_BACKEND_HOST: z.string().optional().default("localhost"),
     LOCAL_DEV_BACKEND_PORT: z.number().optional().default(10000),
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().optional(),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
+    CLERK_SECRET_KEY: z.string(),
     NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().optional().default("/sign-in"),
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().optional().default("/sign-up"),
     EDGE_CONFIG: z.string().url().optional().default("https://edge.clerk.dev"),
@@ -31,7 +32,8 @@ export const env = createEnv({
       .min(
         1,
         "DISCORD_APP_TOKEN is required. Visit https://discord.com/developers/applications -> Your bot -> Bot -> Token",
-      ),
+      )
+      .optional(),
     DISCORD_APP_ID: z
       .string({
         required_error:
@@ -40,7 +42,8 @@ export const env = createEnv({
       .min(
         1,
         "DISCORD_APP_ID is required. Visit https://discord.com/developers/applications -> Your bot -> General information -> Application ID",
-      ),
+      )
+      .optional(),
     DISCORD_APP_PUBLIC_KEY: z
       .string({
         required_error:
@@ -49,7 +52,8 @@ export const env = createEnv({
       .min(
         1,
         "DISCORD_APP_PUBLIC_KEY is required. Visit https://discord.com/developers/applications -> General information -> PUBLIC KEY",
-      ),
+      )
+      .optional(),
     // DISCORD_BOT_TOKEN: z
     //   .string({
     //     required_error:
@@ -59,7 +63,7 @@ export const env = createEnv({
     //     1,
     //     "DISCORD_BOT_TOKEN is required. Visit https://discord.com/developers/applications -> Bot -> Token. This variable used only for register commands",
     //   ),
-    ROOT_URL: z.string().url("ROOT_URL must be a valid URL").optional().default("http://localhost:8080"),
+    ROOT_URL: z.string().url("ROOT_URL must be a valid URL").optional().default("http://localhost:10000"),
   },
   onInvalidAccess: (error) => {
     throw new Error(`❌ Attempted to access a server-side environment variable on the client: ${error}`);

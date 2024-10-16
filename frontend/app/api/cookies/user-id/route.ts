@@ -1,8 +1,6 @@
 import { generateSignature, getCookies, useSetResponseCookies } from "@/lib/auth/cookies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import { env } from "@/env.mjs";
-const AUTH_SECRET = env.AUTH_SECRET;
 
 export const runtime = "edge";
 
@@ -17,12 +15,6 @@ export async function POST(req: NextRequest) {
 
   if (!userId) {
     return NextResponse.json({ error: "Logged in account is required" }, { status: 401 });
-  }
-
-  if (!AUTH_SECRET) {
-    console.error("AUTH_SECRET environment variable is not set."); // eslint-disable-line no-console
-
-    return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
   const cookies = getCookies(req);

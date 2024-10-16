@@ -98,7 +98,7 @@
     "@iconify/react": "^5.0.2",
     "@next/eslint-plugin-next": "^14.2.15",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/cookie": "^0.6.0",
@@ -147,7 +147,8 @@
     "@clerk/shared",
     "@tsparticles/engine",
     "@vercel/speed-insights",
-    "core-js-pure"
+    "core-js-pure",
+    "husky"
   ],
   "lint-staged": {
     "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
