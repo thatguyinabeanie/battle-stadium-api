@@ -41,7 +41,7 @@ export default function NavbarLinks({ isSignedIn }: Readonly<NavbarLinksProps>) 
         Dashboard
       </NavbarLinkClientItem>
 
-      {/* TODO: Dashboard dropdown */ }
+      {/* TODO: Dashboard dropdown */}
     </>
   );
 }
