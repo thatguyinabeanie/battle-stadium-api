@@ -10,30 +10,36 @@ interface PokemonShowdownSetFormProps {
   metaData: PokePasteMetadata | null;
 }
 
-export function PokemonShowdownSetForm ({ validatedTeam, handleSubmit, input, setInput, metaData }: PokemonShowdownSetFormProps) {
+export function PokemonShowdownSetForm({
+  validatedTeam,
+  handleSubmit,
+  input,
+  setInput,
+  metaData,
+}: PokemonShowdownSetFormProps) {
   return (
-    <form className="grid grid-cols-1" onSubmit={ handleSubmit }>
+    <form className="grid grid-cols-1" onSubmit={handleSubmit}>
       <div className="mb-4">
-        <h1 className="text-2xl font-bold justify-center items-center flex">{ "Showdown Set" }</h1>
+        <h1 className="text-2xl font-bold justify-center items-center flex">{"Showdown Set"}</h1>
       </div>
       <Textarea
         isMultiline
         isRequired
-        classNames={ {
+        classNames={{
           input: "w-[200px]",
           inputWrapper: "backdrop-blur-md rounded-3xl border-small border-primary-700/50 p-4",
           mainWrapper: "backdrop-blur-md rounded-3xl border-small border-primary-700/50 p-4",
-        } }
-        maxRows={ 35 }
-        minRows={ 35 }
+        }}
+        maxRows={35}
+        minRows={35}
         name="pokepaste"
         placeholder="Paste your Showdown Set here"
-        value={ input }
+        value={input}
         variant="bordered"
-        onChange={ (e) => setInput(e.target.value) }
+        onChange={(e) => setInput(e.target.value)}
       />
 
-      <Spacer y={ 2 } />
+      <Spacer y={2} />
 
       <div className="flex flex-row justify-center items-center gap-4">
         <Button color="primary" type="submit">
@@ -41,12 +47,12 @@ export function PokemonShowdownSetForm ({ validatedTeam, handleSubmit, input, se
         </Button>
         <Button
           color="primary"
-          disabled={ !validatedTeam || !metaData }
-          onClick={ () => validatedTeam && metaData && postPokemonTeam(validatedTeam, metaData) }
+          disabled={!validatedTeam || !metaData}
+          onClick={() => validatedTeam && metaData && postPokemonTeam(validatedTeam, metaData)}
         >
           Upload
         </Button>
       </div>
     </form>
-  )
+  );
 }

@@ -3,10 +3,8 @@
 import * as React from "react";
 import { usePokemonTeam } from "@/lib/pokemon/use-pokemon-team";
 import { Spacer } from "@/components/nextui-use-client";
-import { PokemonCard } from "./pokemon-card";
 import { PokemonShowdownSetForm } from "./pokemon-showdown-set-form";
 import { PokemonTeamDisplayGrid } from "./pokemon-team-display-grid";
-
 
 export default function PokemonTeamDisplay() {
   const { validatedTeam, metaData, loading, error, handleSubmit } = usePokemonTeam();
@@ -15,11 +13,11 @@ export default function PokemonTeamDisplay() {
   return (
     <div className="flex flex-row gap-2">
       <PokemonShowdownSetForm
-        validatedTeam={validatedTeam ?? []}
         handleSubmit={handleSubmit}
         input={input}
-        setInput={setInput}
         metaData={metaData}
+        setInput={setInput}
+        validatedTeam={validatedTeam ?? []}
       />
 
       <Spacer y={4} />
@@ -28,9 +26,7 @@ export default function PokemonTeamDisplay() {
         {loading && <div className="text-center">Loading...</div>}
         {error && <p className="text-danger">Error: {error.message}</p>}
 
-        {!loading && validatedTeam && (
-          <PokemonTeamDisplayGrid validatedTeam={validatedTeam} metaData={metaData} />
-        )}
+        {!loading && validatedTeam && <PokemonTeamDisplayGrid metaData={metaData} validatedTeam={validatedTeam} />}
       </div>
     </div>
   );
