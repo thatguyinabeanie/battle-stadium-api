@@ -2,8 +2,8 @@
 
 import React from "react";
 import NavbarLinkClientItem from "@/components/navbar/navbar-client-item";
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib";
 
 interface NavbarLinksProps {
   isSignedIn: boolean | null;
@@ -32,14 +32,16 @@ export default function NavbarLinks({ isSignedIn }: Readonly<NavbarLinksProps>) 
       </NavbarLinkClientItem>
 
       <NavbarLinkClientItem
-        className={cn("", {
-          hidden: !isSignedIn,
+        className={cn("hidden", {
+          "sm:flex": isSignedIn,
         })}
         firstSegment={firstSegment}
         path="dashboard"
       >
         Dashboard
       </NavbarLinkClientItem>
+
+      {/* TODO: Dashboard dropdown */ }
     </>
   );
 }
