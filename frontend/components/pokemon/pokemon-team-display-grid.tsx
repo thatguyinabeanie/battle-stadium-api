@@ -6,7 +6,7 @@ interface PokemonShowdownSetFormProps {
   metaData: PokePasteMetadata | null;
 }
 
-export function PokemonTeamDisplayGrid({ validatedTeam, metaData }: PokemonShowdownSetFormProps) {
+export function PokemonTeamDisplayGrid({ validatedTeam, metaData }: Readonly<PokemonShowdownSetFormProps>) {
   return (
     <>
       <div className="mb-4">

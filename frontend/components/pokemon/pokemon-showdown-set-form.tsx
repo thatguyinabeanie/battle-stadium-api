@@ -27,8 +27,8 @@ export function PokemonShowdownSetForm({
         isRequired
         classNames={{
           input: "w-[200px]",
-          inputWrapper: "backdrop-blur-md rounded-3xl border-small border-primary-700/50 p-4",
-          mainWrapper: "backdrop-blur-md rounded-3xl border-small border-primary-700/50 p-4",
+          inputWrapper: "backdrop-blur-md rounded-3xl border-small border-primary-700/40 p-4",
+          mainWrapper: "backdrop-blur-md rounded-3xl border-small border-primary-700/40 p-4",
         }}
         maxRows={35}
         minRows={35}

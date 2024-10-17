@@ -90,7 +90,7 @@ export function parseStats(statsLine: string, defaultValue?: number): StatsTable
   return statsTable as StatsTable;
 }
 
-export function convertToParsedPokemon (set: Partial<PokemonSet>): ParsedPokemon {
+export function convertToParsedPokemon(set: Partial<PokemonSet>): ParsedPokemon {
   return {
     name: set.name ?? "",
     species: set.species ?? "",
@@ -109,24 +109,24 @@ export function convertToParsedPokemon (set: Partial<PokemonSet>): ParsedPokemon
   };
 }
 
-export function parseEVs (set: Partial<PokemonSet>) {
-  return ({
+export function parseEVs(set: Partial<PokemonSet>) {
+  return {
     hp: set.evs?.hp ?? 0,
     atk: set.evs?.atk ?? 0,
     def: set.evs?.def ?? 0,
     spa: set.evs?.spa ?? 0,
     spd: set.evs?.spd ?? 0,
     spe: set.evs?.spe ?? 0,
-  });
+  };
 }
 
-export function parseIVs (set: Partial<PokemonSet>) {
-  return ({
+export function parseIVs(set: Partial<PokemonSet>) {
+  return {
     hp: set.ivs?.hp ?? 31,
     atk: set.ivs?.atk ?? 31,
     def: set.ivs?.def ?? 31,
     spa: set.ivs?.spa ?? 31,
     spd: set.ivs?.spd ?? 31,
     spe: set.ivs?.spe ?? 31,
-  });
+  };
 }

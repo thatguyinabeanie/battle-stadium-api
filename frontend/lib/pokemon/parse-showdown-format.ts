@@ -9,7 +9,6 @@ export function parseShowdownFormat(input: string): ParsedTeam {
   for (const line of lines) {
     if (line.trim() === "") {
       if (currentSetString) {
-
         const set = Sets.importSet(currentSetString);
 
         pokemon.push(convertToParsedPokemon(set));
@@ -23,6 +22,7 @@ export function parseShowdownFormat(input: string): ParsedTeam {
   // Handle the last set if there's no trailing newline
   if (currentSetString) {
     const set = Sets.importSet(currentSetString);
+
     pokemon.push(convertToParsedPokemon(set));
   }
 
@@ -35,4 +35,3 @@ export function parseShowdownFormat(input: string): ParsedTeam {
     pokemon: pokemon,
   };
 }
-
