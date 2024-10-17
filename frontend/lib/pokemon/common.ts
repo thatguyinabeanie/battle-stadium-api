@@ -56,7 +56,7 @@ export function cleanImageUrl(url: string): string {
     url = "/" + url;
   }
 
-  if (url && url.startsWith("/img/pokemon/0-0.png")) {
+  if (url?.startsWith("/img/pokemon/0-0.png")) {
     return "";
   }
 
@@ -88,4 +88,45 @@ export function parseStats(statsLine: string, defaultValue?: number): StatsTable
   }
 
   return statsTable as StatsTable;
+}
+
+export function convertToParsedPokemon (set: Partial<PokemonSet>): ParsedPokemon {
+  return {
+    name: set.name ?? "",
+    species: set.species ?? "",
+    item: set.item ?? "",
+    ability: set.ability ?? "",
+    level: set.level ?? 100,
+    shiny: set.shiny ?? false,
+    gender: set.gender ?? "",
+    nature: set.nature ?? "",
+    moves: set.moves ?? [],
+    evs: parseEVs(set),
+    ivs: parseIVs(set),
+    teraType: set.teraType ?? "",
+    imgPokemon: "",
+    imgItem: "",
+  };
+}
+
+export function parseEVs (set: Partial<PokemonSet>) {
+  return ({
+    hp: set.evs?.hp ?? 0,
+    atk: set.evs?.atk ?? 0,
+    def: set.evs?.def ?? 0,
+    spa: set.evs?.spa ?? 0,
+    spd: set.evs?.spd ?? 0,
+    spe: set.evs?.spe ?? 0,
+  });
+}
+
+export function parseIVs (set: Partial<PokemonSet>) {
+  return ({
+    hp: set.ivs?.hp ?? 31,
+    atk: set.ivs?.atk ?? 31,
+    def: set.ivs?.def ?? 31,
+    spa: set.ivs?.spa ?? 31,
+    spd: set.ivs?.spd ?? 31,
+    spe: set.ivs?.spe ?? 31,
+  });
 }

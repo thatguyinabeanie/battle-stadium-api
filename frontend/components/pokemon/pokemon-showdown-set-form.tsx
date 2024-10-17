@@ -16,7 +16,7 @@ export function PokemonShowdownSetForm({
   input,
   setInput,
   metaData,
-}: PokemonShowdownSetFormProps) {
+}: Readonly<PokemonShowdownSetFormProps>) {
   return (
     <form className="grid grid-cols-1" onSubmit={handleSubmit}>
       <div className="mb-4">

@@ -98,7 +98,7 @@ function PokemonAttributes({ pokemon, ots }: Readonly<PokemonCardProps>) {
   );
 }
 
-function PokemonMoveChip({ move }: { move: string }) {
+function PokemonMoveChip({ move }: Readonly<{ move: string }>) {
   return (
     <Chip
       classNames={{
