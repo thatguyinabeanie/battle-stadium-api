@@ -64,20 +64,21 @@ const species_modifiers = [
   "stellar",
   "droopy",
   "stretchy",
-]
+];
 
-const special_cases: {[key:string]:string} = {
-  "maushold": "maushold-family-of-four",
-}
+const special_cases: { [key: string]: string } = {
+  maushold: "maushold-family-of-four",
+};
 
 async function fetchPokemonData(pokemon: ParsedPokemon) {
-
   try {
     const lowerCaseSpecies = toLowerCaseReplaceSpace(pokemon.species);
+
     if (pokemon.species.includes("-")) {
       if (species_modifiers.includes(pokemon.species.split("-")[1]?.toLocaleLowerCase() ?? "")) {
         return await P.getPokemonByName(lowerCaseSpecies);
       }
+
       return await P.getPokemonByName(toLowerCaseReplaceSpace(pokemon.species.split("-")[0] ?? ""));
     } else {
       const special_case_pokemon = special_cases[lowerCaseSpecies];
@@ -85,6 +86,7 @@ async function fetchPokemonData(pokemon: ParsedPokemon) {
       if (special_case_pokemon) {
         return await P.getPokemonByName(special_case_pokemon);
       }
+
       return await P.getPokemonByName(lowerCaseSpecies);
     }
   } catch (error) {
@@ -98,13 +100,13 @@ async function fetchPokemonData(pokemon: ParsedPokemon) {
 
     return NextResponse.json({ message: errorMessage }, { status: 400 });
   }
-
 }
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const pokemon: ParsedPokemon = body.pokemon;
 
   const pokemonData = await fetchPokemonData(pokemon);
+
   if (pokemonData instanceof NextResponse) {
     return pokemonData;
   }
