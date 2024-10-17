@@ -1,7 +1,5 @@
-import PokemonTeamDisplay from "@/components/pokemon/pokemon-team-display";
+import PokemonTeamDisplay from "@/components/pokemon/pokemon-team-client-page";
 
 export default async function Pokemon() {
-  // const teams = (await getPokemonTeams()).data;
-
   return <PokemonTeamDisplay />;
 }
