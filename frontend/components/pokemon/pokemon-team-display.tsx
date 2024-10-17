@@ -47,9 +47,11 @@ export default function PokemonTeamDisplay() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center">
-            {validatedTeam?.map(({ pokemon, invalid }) => (
-              <PokemonCard key={pokemon.species} ots invalid={invalid} pokemon={pokemon} />
-            ))}
+            {validatedTeam.map(({ pokemon, invalid }, index) =>
+              pokemon ? (
+                <PokemonCard key={pokemon.species || `pokemon-${index}`} ots invalid={invalid} pokemon={pokemon} />
+              ) : null,
+            )}
           </div>
         </>
       )}
