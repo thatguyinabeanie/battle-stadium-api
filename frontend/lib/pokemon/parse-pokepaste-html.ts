@@ -1,11 +1,4 @@
-import {
-  ParsedTeam,
-  PokePasteMetadata,
-  ParsedPokemon,
-  cleanImageUrl,
-  parseStats,
-  parseNameSpeciesItem,
-} from "./common";
+import { ParsedTeam, PokePasteMetadata, ParsedPokemon, cleanImageUrl, parseStats } from "./common";
 
 export function parsePokePasteHTML(html: string, url: string): ParsedTeam {
   if (typeof window === "undefined") return { metadata: { title: "", author: "", format: "" }, pokemon: [] };
@@ -89,4 +82,57 @@ export function parsePokePasteHTML(html: string, url: string): ParsedTeam {
   });
 
   return { metadata, pokemon };
+}
+
+function parseNameSpeciesItem(line: string): {
+  name: string;
+  species: string;
+  item: string;
+  gender?: string;
+  remainingDetails: string;
+} {
+  console.log("Parsing line:", line); // eslint-disable-line no-console
+
+  const [nameSpecies, itemAndRest] = line.split("@").map((s) => s.trim());
+
+  let nameSpeciesLet = nameSpecies;
+
+  if (!nameSpeciesLet) {
+    console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
+
+    return { name: "", species: "Unknown", item: "", remainingDetails: "" };
+  }
+
+  // Handle gender separately
+  let gender: string | undefined;
+
+  if (nameSpeciesLet.endsWith(" (M)") || nameSpeciesLet.endsWith(" (F)")) {
+    gender = nameSpeciesLet.slice(-2, -1);
+    nameSpeciesLet = nameSpeciesLet.slice(0, -4);
+  }
+
+  // Updated regex to handle forms like "Golem-Alola" or "Ursaluna-Bloodmoon"
+  const match = RegExp(/^(.*?)(?:\s*\((.*?)\))?\s*$/).exec(nameSpeciesLet);
+
+  let name, species;
+
+  if (match) {
+    name = match[1]?.trim() ?? "";
+    species = match[2]?.trim() ?? name;
+  } else {
+    name = species = nameSpeciesLet.trim();
+  }
+
+  // Extract just the item name and the remaining details
+  if (!itemAndRest) {
+    return { name, species, item: "", gender, remainingDetails: "" };
+  }
+  const [item, ...remainingDetailsArray] = itemAndRest.split("\n");
+  const remainingDetails = remainingDetailsArray.join("\n").trim();
+
+  const obj = { name, species, item: item?.trim() || "", gender, remainingDetails };
+
+  console.log("Parsed result:", obj); // eslint-disable-line no-console
+
+  return obj;
 }

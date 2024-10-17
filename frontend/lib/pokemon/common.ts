@@ -56,7 +56,7 @@ export function cleanImageUrl(url: string): string {
     url = "/" + url;
   }
 
-  if (url && url.startsWith("/img/pokemon/0-0.png")) {
+  if (url?.startsWith("/img/pokemon/0-0.png")) {
     return "";
   }
 
@@ -90,55 +90,43 @@ export function parseStats(statsLine: string, defaultValue?: number): StatsTable
   return statsTable as StatsTable;
 }
 
-export function parseNameSpeciesItem(line: string): {
-  name: string;
-  species: string;
-  item: string;
-  gender?: string;
-  remainingDetails: string;
-} {
-  console.log("Parsing line:", line); // eslint-disable-line no-console
+export function convertToParsedPokemon(set: Partial<PokemonSet>): ParsedPokemon {
+  return {
+    name: set.name ?? "",
+    species: set.species ?? "",
+    item: set.item ?? "",
+    ability: set.ability ?? "",
+    level: set.level ?? 100,
+    shiny: set.shiny ?? false,
+    gender: set.gender ?? "",
+    nature: set.nature ?? "",
+    moves: set.moves ?? [],
+    evs: parseEVs(set),
+    ivs: parseIVs(set),
+    teraType: set.teraType ?? "",
+    imgPokemon: "",
+    imgItem: "",
+  };
+}
 
-  const [nameSpecies, itemAndRest] = line.split("@").map((s) => s.trim());
+export function parseEVs(set: Partial<PokemonSet>) {
+  return {
+    hp: set.evs?.hp ?? 0,
+    atk: set.evs?.atk ?? 0,
+    def: set.evs?.def ?? 0,
+    spa: set.evs?.spa ?? 0,
+    spd: set.evs?.spd ?? 0,
+    spe: set.evs?.spe ?? 0,
+  };
+}
 
-  let nameSpeciesLet = nameSpecies;
-
-  if (!nameSpeciesLet) {
-    console.warn("Unable to parse Pokemon name/species from line:", line); // eslint-disable-line no-console
-
-    return { name: "", species: "Unknown", item: "", remainingDetails: "" };
-  }
-
-  // Handle gender separately
-  let gender: string | undefined;
-
-  if (nameSpeciesLet.endsWith(" (M)") || nameSpeciesLet.endsWith(" (F)")) {
-    gender = nameSpeciesLet.slice(-2, -1);
-    nameSpeciesLet = nameSpeciesLet.slice(0, -4);
-  }
-
-  // Updated regex to handle forms like "Golem-Alola" or "Ursaluna-Bloodmoon"
-  const match = RegExp(/^(.*?)(?:\s*\((.*?)\))?\s*$/).exec(nameSpeciesLet);
-
-  let name, species;
-
-  if (match) {
-    name = match[1]?.trim() ?? "";
-    species = match[2]?.trim() ?? name;
-  } else {
-    name = species = nameSpeciesLet.trim();
-  }
-
-  // Extract just the item name and the remaining details
-  if (!itemAndRest) {
-    return { name, species, item: "", gender, remainingDetails: "" };
-  }
-  const [item, ...remainingDetailsArray] = itemAndRest.split("\n");
-  const remainingDetails = remainingDetailsArray.join("\n").trim();
-
-  const obj = { name, species, item: item?.trim() || "", gender, remainingDetails };
-
-  console.log("Parsed result:", obj); // eslint-disable-line no-console
-
-  return obj;
+export function parseIVs(set: Partial<PokemonSet>) {
+  return {
+    hp: set.ivs?.hp ?? 31,
+    atk: set.ivs?.atk ?? 31,
+    def: set.ivs?.def ?? 31,
+    spa: set.ivs?.spa ?? 31,
+    spd: set.ivs?.spd ?? 31,
+    spe: set.ivs?.spe ?? 31,
+  };
 }

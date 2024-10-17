@@ -35,7 +35,18 @@
         "username": "postgres"
       }
     ],
-    "testing.coverageToolbarEnabled": true
+    "testing.coverageToolbarEnabled": true,
+    "cSpell.words": [
+      "Bulbasaur",
+      "Charizard",
+      "Charizardite",
+      "Eevee",
+      "Eviolite",
+      "Giga",
+      "Jigglypuff",
+      "Meowth",
+      "Squirtle"
+    ]
   },
   "extensions": {
     "recommendations": [
