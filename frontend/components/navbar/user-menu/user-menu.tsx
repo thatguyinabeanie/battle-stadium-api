@@ -5,6 +5,7 @@ import { AccountMe } from "@/lib/api";
 
 interface UserMenuProps {
   me?: AccountMe;
+  isSignedIn: boolean;
 }
 
 async function SmartAvatar() {
@@ -17,7 +18,7 @@ async function SmartAvatar() {
   return <Avatar aria-label="default profile image" className="bg-transparent" icon={<AvatarIcon />} size="sm" />;
 }
 
-export default async function UserMenu({ me }: Readonly<UserMenuProps>) {
+export default async function UserMenu({ ...rest }: Readonly<UserMenuProps>) {
   return (
     <NavbarItem className="px-2">
       <Dropdown placement="bottom">
@@ -26,7 +27,7 @@ export default async function UserMenu({ me }: Readonly<UserMenuProps>) {
             <SmartAvatar />
           </button>
         </DropdownTrigger>
-        <UserMenuDropDown me={me} />
+        <UserMenuDropDown {...rest} />
       </Dropdown>
     </NavbarItem>
   );

@@ -13,8 +13,9 @@ export interface PageTitleProps {
 }
 
 export interface DashboardLayoutProps extends ChildrenProps {
-  admin: React.ReactNode;
   profiles: React.ReactNode;
-  settings: React.ReactNode;
+  pokemon: React.ReactNode;
   tournament_history: React.ReactNode;
+  settings: React.ReactNode;
+  admin: React.ReactNode;
 }

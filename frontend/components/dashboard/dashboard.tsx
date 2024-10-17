@@ -12,10 +12,10 @@ interface DashboardProps extends DashboardLayoutProps {
   me: components["schemas"]["AccountMe"] | null | undefined;
 }
 
-const tabs = ["dashboard", "profiles", "tournament_history", "settings", "admin"];
+const tabs = ["dashboard", "profiles", "pokemon", "tournament_history", "settings", "admin"];
 
 export default function Dashboard(props: Readonly<DashboardProps>) {
-  const { me, children, admin, profiles, settings, tournament_history } = props;
+  const { me, children, admin, profiles, settings, tournament_history, pokemon } = props;
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -44,7 +44,7 @@ export default function Dashboard(props: Readonly<DashboardProps>) {
         aria-label="Navigation Tabs"
         classNames={{
           tabList:
-            "relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md",
+            "relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md hidden sm:flex",
           tabContent: "w-fit text-default-500",
         }}
         radius="full"
@@ -57,6 +57,10 @@ export default function Dashboard(props: Readonly<DashboardProps>) {
       >
         <Tab key="profiles" title="Profiles">
           {profiles}
+        </Tab>
+
+        <Tab key="pokemon" title="Pokemon">
+          {pokemon}
         </Tab>
 
         <Tab key="tournaments" title="My Tours">
