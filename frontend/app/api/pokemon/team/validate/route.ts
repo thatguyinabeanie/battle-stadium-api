@@ -63,11 +63,13 @@ const species_modifiers = [
   "terastal",
   "stellar",
   "droopy",
+  "curly",
   "stretchy",
 ];
 
 const special_cases: { [key: string]: string } = {
   maushold: "maushold-family-of-four",
+  tatsugiri: "tatsugiri-curly",
 };
 
 async function fetchPokemonData(pokemon: ParsedPokemon) {
