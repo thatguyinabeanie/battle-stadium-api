@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   after_action :verify_authorized
   before_action :authenticate_clerk_user_session!
-  before_action :validate_vercel_oidc_token! unless Rails.env.development?
+  before_action :validate_vercel_oidc_token! if !Rails.env.development?
   skip_before_action :authenticate_clerk_user_session!, only: %i[index show]
 
   def self.policy_class
@@ -27,11 +27,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def validate_vercel_oidc_token!
-    unless ::Auth::Vercel::TokenVerifier.verify(request:)
-      render json: { error: "Invalid OIDC token" }, status: :unauthorized
-    end
-  rescue
-    render json: { error: "Invalid OIDC token" }, status: :unauthorized
+    ::Auth::Vercel::TokenVerifier.verify(request:)
+  rescue StandardError => e
+    error = "Invalid OIDC token: #{e.message}"
+    Rails.logger.error(error)
+    render json: { error: "Invalid OIDC token: #{e.message}"}, status: :unauthorized
   end
 
   def authenticate_clerk_user_session!
