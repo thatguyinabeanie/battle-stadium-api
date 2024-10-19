@@ -39,7 +39,7 @@ RSpec.describe Auth::Vercel::TokenVerifier do
       let(:token) { "invalid.jwt.token" }
 
       it "raises a JWT::DecodeError" do
-        expect { described_class.verify_token(token:, request:) }.to raise_error(RuntimeError, /Unauthorized: Failed Vercel OIDC Authentication/)
+        expect { described_class.verify_token(token:, request:) }.to raise_error(RuntimeError, /Unauthorized: JWT::DecodeError Failed Vercel OIDC Authentication/)
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe Auth::Vercel::TokenVerifier do
       end
 
       it "fetches the JWKS from the URL and caches it" do
-        result = described_class.send(:fetch_jwks)
+        result = described_class.send(:jwks)
         expect(result).to eq(jwks)
         expect(described_class.instance_variable_get(:@jwks_cache)).to eq(jwks)
       end
@@ -77,7 +77,7 @@ RSpec.describe Auth::Vercel::TokenVerifier do
       end
 
       it "returns the cached JWKS" do
-        result = described_class.send(:fetch_jwks)
+        result = described_class.send(:jwks)
         expect(result).to eq(jwks)
       end
     end

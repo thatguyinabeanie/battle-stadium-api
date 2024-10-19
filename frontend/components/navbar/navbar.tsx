@@ -43,10 +43,10 @@ export default async function NavigationBar() {
       </NavbarContent>
 
       {/* Right Menu */}
-      <NavbarRightMenu me={me} />
+      <NavbarRightMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
 
       {/* Mobile Menu */}
-      <NavbarMobileMenu />
+      <NavbarMobileMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
     </Navbar>
   );
 }

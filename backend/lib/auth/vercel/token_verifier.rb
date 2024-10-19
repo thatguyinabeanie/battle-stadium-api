@@ -22,12 +22,9 @@ module Auth
         end
 
         def verify_token(token:, request:)
-          jwks = fetch_jwks
-          jwk_loader = ->(options) { jwks["keys"] }
-
           JWT.decode(token, nil, true, {
             algorithms: ["RS256"],
-            jwks: jwk_loader,
+            jwks: ->(options) { jwks["keys"] },
             iss: ENV["ISSUER"],
             verify_iss: true,
             aud: ENV["AUDIENCE"],
@@ -36,12 +33,12 @@ module Auth
             verify_sub: false
           })
         rescue JWT::DecodeError => e
-          raise "Unauthorized: Failed Vercel OIDC Authentication - #{e.message}"
+          raise "Unauthorized: JWT::DecodeError Failed Vercel OIDC Authentication - #{e.message}"
         end
 
         private
 
-        def fetch_jwks
+        def jwks
           return @jwks_cache if @jwks_cache
 
           uri = URI.parse(ENV["JWKS_URL"])

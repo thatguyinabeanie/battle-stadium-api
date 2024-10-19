@@ -8,22 +8,19 @@ import { components } from "@/lib/api/openapi-v1";
 
 interface UserMenuDropDownProps {
   me?: components["schemas"]["AccountMe"];
+  isSignedIn: boolean;
 }
 
-export default function UserMenuDropDown({ me }: Readonly<UserMenuDropDownProps>) {
-  const isSignedIn = !!me;
-
+export default function UserMenuDropDown({ me, isSignedIn }: Readonly<UserMenuDropDownProps>) {
   return (
     <DropdownMenu aria-label="Profile Actions" variant="bordered">
       <DropdownItem
         key="profile"
         aria-label="dashboard"
-        className={cn("", {
-          hidden: !(me && isSignedIn),
-        })}
+        className={cn("hidden", { "sm:flex": me && isSignedIn })}
         color="primary"
       >
-        <Link href="/dashboard">
+        <Link aria-label="dashboard" href="/dashboard">
           <span>
             <p className="font-normal text-default-400">Signed in as</p>
             <p className="truncate font-semibold">{`${me?.first_name} ${me?.last_name}`}</p>{" "}

@@ -287,6 +287,21 @@ TOURNAMENT_POST_REQUEST = {
   required: %w[organization_id name game_id format_id autostart player_cap registration_start_at registration_end_at late_registration check_in_start_at open_team_sheets teamlists_required]
 }.freeze
 
+STAT_TYPE = { type: :integer, nullable: true }
+
+STATS_SCHEMA = {
+  type: :object,
+  title: "Stats",
+  properties: {
+    hp: STAT_TYPE,
+    atk: STAT_TYPE,
+    def: STAT_TYPE,
+    spa: STAT_TYPE,
+    spd: STAT_TYPE,
+    spe: STAT_TYPE
+  }
+}
+
 POKEMON_SCHEMA = {
   type: :object,
   title: "Pokemon",
@@ -295,6 +310,7 @@ POKEMON_SCHEMA = {
     species: { type: :string },
     nickname: { type: :string, nullable: true },
     gender: { type: :string },
+    shiny: { type: :boolean },
     ability: { type: :string },
     tera_type: { type: :string },
     nature: { type: :string },
@@ -304,7 +320,9 @@ POKEMON_SCHEMA = {
     move2: { type: :string, nullable: true },
     move3: { type: :string, nullable: true },
     move4: { type: :string, nullable: true },
-    pokemon_team_id: { type: :integer, format: :int64 }
+    pokemon_team_id: { type: :integer, format: :int64 },
+    evs: { "$ref" => "#/components/schemas/Stats", :nullable => true },
+    ivs: { "$ref" => "#/components/schemas/Stats", :nullable => true }
   },
   required:  %w[species ability tera_type nature form item move1 move2 move3 move4]
 }.freeze
@@ -545,6 +563,13 @@ PROFILE_PARAMETER = {
     required: %w[username]
   }, required: true
 }
+
+
+
+
+
+
+
 
 RSpec.configure do |config|
   # config.include SwaggerHelper
