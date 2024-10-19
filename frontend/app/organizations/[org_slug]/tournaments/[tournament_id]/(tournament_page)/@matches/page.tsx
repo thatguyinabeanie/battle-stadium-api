@@ -6,11 +6,14 @@ interface MatchPageProps {
     tournament_id: number;
   };
 }
-export default function MatchPage({ params}: Readonly<MatchPageProps>) {
+export default function MatchPage({ params }: Readonly<MatchPageProps>) {
   const { org_slug, tournament_id } = params;
+
   return (
     <Card>
-      <CardHeader>Matches for {org_slug} Tournament {tournament_id} </CardHeader>
+      <CardHeader>
+        Matches for {org_slug} Tournament {tournament_id}{" "}
+      </CardHeader>
       <CardBody>
         <p>Matches content</p>
       </CardBody>
