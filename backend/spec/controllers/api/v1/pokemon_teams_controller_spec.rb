@@ -41,6 +41,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
                 "species" => pokemon.species,
                 "form" => pokemon.form,
                 "nickname" => pokemon.nickname,
+                "shiny" => pokemon.shiny,
                 "gender" => pokemon.gender,
                 "ability" => pokemon.ability,
                 "nature" => pokemon.nature,
@@ -52,6 +53,8 @@ RSpec.describe Api::V1::PokemonTeamsController do
                 "move4" => pokemon.move4,
                 "pokemon_team_id" => pokemon.pokemon_team_id,
                 "position" => pokemon.position,
+                "evs" => pokemon.evs,
+                "ivs" => pokemon.ivs
               }
             end
             )
@@ -103,6 +106,7 @@ RSpec.describe Api::V1::PokemonTeamsController do
               "species" => pokemon.species,
               "form" => pokemon.form,
               "nickname" => pokemon.nickname,
+              "shiny" => pokemon.shiny,
               "gender" => pokemon.gender,
               "ability" => pokemon.ability,
               "nature" => pokemon.nature,
@@ -114,6 +118,8 @@ RSpec.describe Api::V1::PokemonTeamsController do
               "move4" => pokemon.move4,
               "pokemon_team_id" => pokemon.pokemon_team_id,
               "position" => pokemon.position,
+              "evs" => pokemon.evs,
+              "ivs" => pokemon.ivs
             }
           end)
         })

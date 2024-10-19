@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_16_001854) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_18_024234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -212,6 +212,19 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_16_001854) do
     t.string "form"
     t.integer "position", default: 0, null: false
     t.integer "gender", default: 2, null: false
+    t.boolean "shiny", default: false, null: false
+    t.integer "ev_hp"
+    t.integer "ev_atk"
+    t.integer "ev_def"
+    t.integer "ev_spa"
+    t.integer "ev_spd"
+    t.integer "ev_spe"
+    t.integer "iv_hp"
+    t.integer "iv_atk"
+    t.integer "iv_def"
+    t.integer "iv_spa"
+    t.integer "iv_spd"
+    t.integer "iv_spe"
     t.index ["pokemon_team_id", "position"], name: "index_pokemon_on_pokemon_team_id_and_position", unique: true
     t.index ["pokemon_team_id"], name: "index_pokemon_on_pokemon_team_id"
   end

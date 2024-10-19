@@ -36,7 +36,7 @@ module Auth
             verify_sub: false
           })
         rescue JWT::DecodeError => e
-          raise "Unauthorized: Failed Vercel OIDC Authentication - #{e.message}"
+          raise "JWT::DecodeError -Failed Vercel OIDC Authentication - #{e.message}"
         end
 
         private

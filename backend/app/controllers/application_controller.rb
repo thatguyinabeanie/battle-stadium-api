@@ -27,7 +27,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def validate_vercel_oidc_token!
-    ::Auth::Vercel::TokenVerifier.verify(request:)
+    token = ::Auth::Vercel::TokenVerifier.verify(request:)
+    unless token.present?
+      render json: { error: "Invalid OIDC token" }, status: :unauthorized
+    end
   rescue StandardError => e
     error = "Invalid OIDC token: #{e.message}"
     Rails.logger.error(error)
