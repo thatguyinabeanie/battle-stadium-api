@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 
 import { Tabs, Tab } from "@/components/nextui-use-client";
 import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
@@ -19,7 +18,8 @@ interface OrganizationTournamentsTournamentLayoutProps {
 export default function OrganizationTournamentsTournamentLayout(
   props: Readonly<OrganizationTournamentsTournamentLayoutProps>,
 ) {
-  const {activeTab, setActiveTab, updateSearchParams} = useSearchParamsTabState(tabs);
+  const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs);
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       {props.children}
