@@ -14,6 +14,8 @@ module Tournaments
     validates :tournament_id, presence: true
     validates :profile_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
     validates :account_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
+    validates :show_country_flag, inclusion: { in: [true, false] }, presence: true
+
     delegate :username, to: :profile
 
     before_create :set_account_id_from_profile

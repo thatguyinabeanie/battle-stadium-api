@@ -32,7 +32,9 @@ module Api
 
           @player = @tournament.register!(profile: @profile, in_game_name: params[:in_game_name], pokemon_team_id: params[:pokemon_team_id])
 
-          if @player.valid?
+          @player.show_country_flag = params[:show_country_flag] unless params[:show_country_flag].nil?
+
+          if @player.save
             render json: serialize_player_details, status: :created
           else
             render json: {error: @player.errors.full_messages.to_sentence}, status: :unprocessable_entity

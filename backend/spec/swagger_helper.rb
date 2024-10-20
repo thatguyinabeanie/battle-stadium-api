@@ -359,7 +359,8 @@ PLAYER_SCHEMA = {
   properties: {
     id: { type: :integer, format: :int64 },
     profile: { "$ref" => "#/components/schemas/Profile" },
-    in_game_name: { type: :string }
+    in_game_name: { type: :string },
+    show_country_flag: { type: :boolean },
     # checked_in: { type: :boolean },
     # checked_in_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     # team_sheet_submitted: { type: :boolean },
