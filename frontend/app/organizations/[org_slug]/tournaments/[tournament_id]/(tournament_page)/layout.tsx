@@ -3,8 +3,6 @@
 import React from "react";
 
 import { Tabs, Tab } from "@/components/nextui-use-client";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
 
 const tabs = ["meta", "standings", "pairings", "matches"];
@@ -20,7 +18,6 @@ interface OrganizationTournamentsTournamentLayoutProps {
 export default function OrganizationTournamentsTournamentLayout(
   props: Readonly<OrganizationTournamentsTournamentLayoutProps>,
 ) {
-
   const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs);
 
   return (
