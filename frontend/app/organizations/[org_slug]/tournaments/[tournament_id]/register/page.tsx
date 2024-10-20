@@ -1,4 +1,4 @@
-import TournamentRegistration from "@/components/tournament-registration";
+import TournamentRegistration from "@/components/tournaments/tournament-registration";
 
 interface RegisterProps {
   params: {

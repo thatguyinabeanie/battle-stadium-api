@@ -23,21 +23,25 @@ module Api
         end
 
         def create
-          profile = Profile.find_by!(id: permitted_params[:profile_id])
+          @profile = Profile.find_by!(id: params[:profile_id])
 
-          @player = @players.build permitted_params.merge(tournament_id: @tournament.id, account_id: profile.account.id)
+          @player = @players.build tournament_id: @tournament.id, account_id: @profile.account.id, in_game_name: params[:in_game_name], profile_id: @profile.id
+          @player.pokemon_team_id = params[:pokemon_team_id] if params[:pokemon_team_id].present?
+
           authorize @player, :create?
+
           if @player.save
             render json: serialize_player_details, status: :created
           else
+            Rails.logger.error @player.errors.full_messages.to_sentence
             render json: {error: @player.errors.full_messages.to_sentence}, status: :unprocessable_entity
           end
         rescue ActiveRecord::RecordNotFound
           skip_authorization
           render json: { error: "Profile not found" }, status: :unprocessable_entity
         rescue Pundit::NotAuthorizedError => e
-          render json: { error: e.message }, status: :forbidden
           skip_authorization
+          render json: { error: e.message }, status: :forbidden
         rescue ActionController::ParameterMissing => e
           skip_authorization
           render json: { error: e.message }, status: :bad_request

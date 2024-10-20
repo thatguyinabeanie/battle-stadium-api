@@ -45,14 +45,16 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       description "Creates a new Player."
       operationId "postTournamentPlayer"
 
-      parameter name: :player, in: :body, schema: { "$ref" => "#/components/schemas/PlayerRequest" }
+      parameter name: :in_game_name, in: :query, type: :string, required: true
+      parameter name: :profile_id, in: :query, type: :integer, required: true
+      parameter name: :pokemon_team_id, in: :query, type: :integer, required: false
 
       security [Bearer: []]
 
       response(201, "created") do
-        let(:player) do
-          { profile_id: request_account.default_profile.id, in_game_name: "pablo escobar" }
-        end
+
+        let(:profile_id) { request_account.default_profile.id }
+        let(:in_game_name) { "pablo escobar" }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PlayerDetails"

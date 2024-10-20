@@ -1108,7 +1108,22 @@ paths:
       - Players
       description: Creates a new Player.
       operationId: postTournamentPlayer
-      parameters: []
+      parameters:
+      - name: in_game_name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: profile_id
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: pokemon_team_id
+        in: query
+        required: false
+        schema:
+          type: integer
       security:
       - Bearer: []
       responses:
@@ -1126,11 +1141,6 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '404':
           description: not found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/PlayerRequest"
   "/tournaments/{tournament_id}/players/{id}":
     parameters:
     - name: tournament_id
@@ -1448,6 +1458,9 @@ components:
         image_url:
           type: string
           nullable: true
+        country:
+          type: string
+          nullable: true
         id:
           type: integer
           format: int64
@@ -1468,6 +1481,9 @@ components:
         image_url:
           type: string
           nullable: true
+        country:
+          type: string
+          nullable: true
         email:
           type: string
         first_name:
@@ -1482,6 +1498,7 @@ components:
       - email
       - first_name
       - last_name
+      - country
       - username
       - pronouns
     AccountMe:
@@ -1493,6 +1510,9 @@ components:
         pronouns:
           type: string
         image_url:
+          type: string
+          nullable: true
+        country:
           type: string
           nullable: true
         email:
@@ -1517,6 +1537,7 @@ components:
       - email
       - first_name
       - last_name
+      - country
       - username
       - pronouns
     AccountPostRequest:
@@ -1530,30 +1551,7 @@ components:
         image_url:
           type: string
           nullable: true
-        email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        id:
-          type: integer
-          format: int64
-      required:
-      - email
-      - first_name
-      - last_name
-      - username
-      - pronouns
-    AccountRequest:
-      type: object
-      title: Account Request
-      properties:
-        username:
-          type: string
-        pronouns:
-          type: string
-        image_url:
+        country:
           type: string
           nullable: true
         email:
@@ -1569,6 +1567,37 @@ components:
       - email
       - first_name
       - last_name
+      - country
+      - username
+      - pronouns
+    AccountRequest:
+      type: object
+      title: Account Request
+      properties:
+        username:
+          type: string
+        pronouns:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        id:
+          type: integer
+          format: int64
+      required:
+      - email
+      - first_name
+      - last_name
+      - country
       - username
       - pronouns
     RegistrationResponse:
@@ -1808,6 +1837,8 @@ components:
           nullable: true
         gender:
           type: string
+        shiny:
+          type: boolean
         ability:
           type: string
         tera_type:
@@ -1887,13 +1918,13 @@ components:
       type: object
       title: Player Request
       properties:
-        account_id:
+        profile_id:
           type: integer
           format: int64
         in_game_name:
           type: string
       required:
-      - account_id
+      - profile_id
       - in_game_name
     Player:
       type: object

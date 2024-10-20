@@ -18,8 +18,10 @@ export async function getProfilesByAccountId(id: number, options?: FetchOptions<
   const profileOptions = {
     ...defaultConfig(`getPlayerProfileByAccountId-${id}`),
     ...options,
-    query: {
-      id,
+    params: {
+      query: {
+        account_id: id,
+      },
     },
   };
 

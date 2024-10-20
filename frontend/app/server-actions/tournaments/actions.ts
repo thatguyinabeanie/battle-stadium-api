@@ -32,3 +32,30 @@ export async function getTournaments(
 
   return BattleStadiumApiClient(skipClerkAuth).GET("/tournaments", tournamentsOptions);
 }
+
+export async function postTournamentRegistration(
+  registration: {
+    tournament_id: number;
+    in_game_name: string;
+    profile_id: number;
+    pokemon_team_id?: number;
+  },
+  options?: FetchOptions<paths["/tournaments/{tournament_id}/players"]["post"]>,
+) {
+  const { tournament_id, in_game_name, profile_id, pokemon_team_id } = registration;
+
+  const registrationOptions = {
+    ...defaultConfig(`postTournamentRegistration(${tournament_id})`),
+    ...options,
+    params: {
+      path: { tournament_id },
+      query: {
+        pokemon_team_id,
+        in_game_name,
+        profile_id,
+      },
+    },
+  };
+
+  await BattleStadiumApiClient().POST("/tournaments/{tournament_id}/players", registrationOptions);
+}

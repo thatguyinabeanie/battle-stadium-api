@@ -321,8 +321,8 @@ POKEMON_SCHEMA = {
     move3: { type: :string, nullable: true },
     move4: { type: :string, nullable: true },
     pokemon_team_id: { type: :integer, format: :int64 },
-    evs: { "$ref" => "#/components/schemas/Stats", :nullable => true },
-    ivs: { "$ref" => "#/components/schemas/Stats", :nullable => true }
+    # evs: { "$ref" => "#/components/schemas/Stats", :nullable => true },
+    # ivs: { "$ref" => "#/components/schemas/Stats", :nullable => true }
   },
   required:  %w[species ability tera_type nature form item move1 move2 move3 move4]
 }.freeze
@@ -347,10 +347,10 @@ PLAYER_REQUEST = {
   type: :object,
   title: "Player Request",
   properties: {
-    account_id: ID_TYPE,
+    profile_id: ID_TYPE,
     in_game_name: { type: :string }
   },
-  required: %w[account_id in_game_name]
+  required: %w[profile_id in_game_name]
 }.freeze
 
 PLAYER_SCHEMA = {
@@ -563,13 +563,6 @@ PROFILE_PARAMETER = {
     required: %w[username]
   }, required: true
 }
-
-
-
-
-
-
-
 
 RSpec.configure do |config|
   # config.include SwaggerHelper
