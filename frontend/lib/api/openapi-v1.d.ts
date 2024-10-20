@@ -825,6 +825,7 @@ export interface components {
       username: string;
       pronouns: string;
       image_url?: string | null;
+      country?: string | null;
       /** Format: int64 */
       id: number;
     };
@@ -833,6 +834,7 @@ export interface components {
       username: string;
       pronouns: string;
       image_url?: string | null;
+      country: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -844,6 +846,7 @@ export interface components {
       username: string;
       pronouns: string;
       image_url?: string | null;
+      country: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -857,6 +860,7 @@ export interface components {
       username: string;
       pronouns: string;
       image_url?: string | null;
+      country: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -868,6 +872,7 @@ export interface components {
       username: string;
       pronouns: string;
       image_url?: string | null;
+      country: string | null;
       email: string;
       first_name: string;
       last_name: string;
@@ -969,6 +974,7 @@ export interface components {
       species: string;
       nickname?: string | null;
       gender?: string;
+      shiny?: boolean;
       ability: string;
       tera_type: string;
       nature: string;
@@ -998,7 +1004,7 @@ export interface components {
     /** Player Request */
     PlayerRequest: {
       /** Format: int64 */
-      account_id: number;
+      profile_id: number;
       in_game_name: string;
     };
     /** Player */
@@ -2288,7 +2294,11 @@ export interface operations {
   };
   postTournamentPlayer: {
     parameters: {
-      query?: never;
+      query: {
+        in_game_name: string;
+        profile_id: number;
+        pokemon_team_id?: number;
+      };
       header?: {
         /** @description Vercel OIDC Token */
         "X-Vercel-OIDC-Token"?: string;
@@ -2299,11 +2309,7 @@ export interface operations {
       };
       cookie?: never;
     };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["PlayerRequest"];
-      };
-    };
+    requestBody?: never;
     responses: {
       /** @description created */
       201: {

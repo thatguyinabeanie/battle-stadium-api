@@ -31,18 +31,25 @@ module Tournaments
     before_validation :set_defaults, on: :create
     before_save :ready_to_start?, if: -> { saved_change_to_started_at?(from: nil) }
 
+    class NoPhases < StandardError; end
+    class NotEnoughPlayers< StandardError; end
+    class MissingProfile < StandardError; end
+    class ProfileAlreadyRegistered < StandardError; end
+    class AccountAlreadyRegistered < StandardError; end
+    class RegistrationClosed < StandardError; end
+    class NotRegistered < StandardError; end
+
     def start!
       cannot_start = "Cannot start tournament."
-      raise "The tournament has no phases. #{cannot_start}" if phases.empty?
-      raise "The tournament has no players. #{cannot_start}" if players.empty?
-      raise "The tournament does not have the minimum required number of players. #{cannot_start}" if players.count < MINIMUM_PLAYER_COUNT
+      raise NoPhases, "The tournament has no phases. #{cannot_start}" if phases.empty?
+      raise NotEnoughPlayers, "The tournament has no players. #{cannot_start}" if players.empty?
+      raise NotEnoughPlayers, "The tournament does not have the minimum required number of players. #{cannot_start}" if players.count < MINIMUM_PLAYER_COUNT
 
-      self.current_phase = self.phases.order(order: :asc).first
-      self.started_at = Time.current.utc
-      self.save!
-
-      self.current_phase.accept_players(players:)
-      self.current_phase.start!
+      transaction do
+        update!(current_phase: self.phases.order(order: :asc).first, started_at: Time.current.utc)
+        self.current_phase.accept_players(players:)
+        self.current_phase.start!
+      end
     rescue StandardError => e
       Rails.logger.error { "Failed to start tournament: #{e.full_message(highlight: false)}" }
       raise
@@ -70,7 +77,6 @@ module Tournaments
       errors.add(:check_in_start_at, "must be before start_at") if check_in_start_at >= start_at
     end
 
-
     def registration_open?
       return false if registration_start_at.blank?
 
@@ -80,18 +86,24 @@ module Tournaments
       players.count < player_cap && check_registration_window
     end
 
-    def register(profile: , pokemon_team_id: nil, in_game_name: nil)
-      raise "Profile must be provided." if profile.nil?
-      raise "Profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
-      raise "Tournament registration is closed." unless registration_open?
-      raise "This profile's account already has another profile registered for the same tournament" if players.exists?(account_id: profile.account.id)
+    def register!(profile:, in_game_name:, pokemon_team_id: nil)
 
-      players.create!(profile:, pokemon_team_id:, in_game_name:, account: profile.account)
+      raise MissingProfile, "Profile must be provided." if profile.nil?
+      raise ProfileAlreadyRegistered, "Profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
+      raise RegistrationClosed, "Tournament registration is closed." unless registration_open?
+      raise AccountAlreadyRegistered, "This profile's account already has another profile registered for the same tournament" if players.exists?(account_id: profile.account.id)
+
+      transaction do
+        player = players.create!(profile:, pokemon_team_id:, in_game_name:, account: profile.account)
+        self.players << player
+        self.save!
+        player
+      end
     end
 
     def unregister(profile:)
-      raise "Profile must be provided." if profile.nil?
-      raise "Profile is not registered for the tournament." unless players.exists?(profile_id: profile.id)
+      raise MissingProfile, "Profile must be provided." if profile.nil?
+      raise NotRegistered, "Profile is not registered for the tournament." unless players.exists?(profile_id: profile.id)
 
       players.find_by(profile_id: profile.id).destroy
     end

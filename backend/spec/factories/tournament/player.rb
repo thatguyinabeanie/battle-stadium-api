@@ -1,3 +1,4 @@
+
 FactoryBot.define do
   factory :player, aliases: [:tournament_player], class: "Tournaments::Player" do
     profile factory: :profile
@@ -6,6 +7,7 @@ FactoryBot.define do
     in_game_name { Faker::Name.name }
     pokemon_team { nil }
     checked_in_at { nil }
+    show_country_flag { true }
 
     round_wins { 0 }
     round_losses { 0 }

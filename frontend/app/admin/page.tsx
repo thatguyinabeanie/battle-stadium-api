@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { getAccountsMe } from "@/app/server-actions/accounts/actions";
+import { getAccountMe } from "@/app/server-actions/accounts/actions";
 export const metadata: Metadata = {
   title: "Admin",
 };
@@ -11,7 +11,7 @@ export default async function Admin() {
     return redirect("/sign-in");
   }
 
-  const me = (await getAccountsMe())?.data;
+  const me = (await getAccountMe())?.data;
 
   if (!me?.admin) {
     return redirect("/");

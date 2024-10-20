@@ -1,7 +1,7 @@
 import SwaggerUI from "swagger-ui-react";
 
 import "swagger-ui-react/swagger-ui.css";
-import { getAccountsMe } from "@/app/server-actions/accounts/actions";
+import { getAccountMe } from "@/app/server-actions/accounts/actions";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
@@ -14,7 +14,7 @@ export default async function OpenApiDocs() {
     return redirect("/");
   }
 
-  const me = (await getAccountsMe())?.data;
+  const me = (await getAccountMe())?.data;
 
   if (!me?.admin) {
     return redirect("/"); // Redirect to home page if account is not an admin)

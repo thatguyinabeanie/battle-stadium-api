@@ -23,10 +23,17 @@ module Api
         end
 
         def create
-          profile = Profile.find_by!(id: permitted_params[:profile_id])
+          @profile = Profile.find_by!(id: params[:profile_id])
+          authorize @profile, :register_for_tournament?
 
-          @player = @players.build permitted_params.merge(tournament_id: @tournament.id, account_id: profile.account.id)
-          authorize @player, :create?
+          if @tournament.players.exists?(profile_id: @profile.id)
+            return render json: { error: "Profile is already registered for the tournament" }, status: :unprocessable_entity
+          end
+
+          @player = @tournament.register!(profile: @profile, in_game_name: params[:in_game_name], pokemon_team_id: params[:pokemon_team_id])
+
+          @player.show_country_flag = params[:show_country_flag] unless params[:show_country_flag].nil?
+
           if @player.save
             render json: serialize_player_details, status: :created
           else
@@ -36,8 +43,8 @@ module Api
           skip_authorization
           render json: { error: "Profile not found" }, status: :unprocessable_entity
         rescue Pundit::NotAuthorizedError => e
-          render json: { error: e.message }, status: :forbidden
           skip_authorization
+          render json: { error: e.message }, status: :forbidden
         rescue ActionController::ParameterMissing => e
           skip_authorization
           render json: { error: e.message }, status: :bad_request

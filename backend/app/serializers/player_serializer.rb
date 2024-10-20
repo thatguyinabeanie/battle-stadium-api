@@ -8,7 +8,7 @@ module Serializers
     included do
       include SerializerMixin::Id
 
-      attributes :in_game_name
+      attributes :in_game_name, :show_country_flag
       # attributes :checked_in_at, :checked_in
       # attributes :team_sheet_submitted, :team_sheet_submitted_at
       belongs_to :profile, serializer: Serializers::Profile

@@ -347,10 +347,10 @@ PLAYER_REQUEST = {
   type: :object,
   title: "Player Request",
   properties: {
-    account_id: ID_TYPE,
+    profile_id: ID_TYPE,
     in_game_name: { type: :string }
   },
-  required: %w[account_id in_game_name]
+  required: %w[profile_id in_game_name]
 }.freeze
 
 PLAYER_SCHEMA = {
@@ -359,7 +359,8 @@ PLAYER_SCHEMA = {
   properties: {
     id: { type: :integer, format: :int64 },
     profile: { "$ref" => "#/components/schemas/Profile" },
-    in_game_name: { type: :string }
+    in_game_name: { type: :string },
+    show_country_flag: { type: :boolean },
     # checked_in: { type: :boolean },
     # checked_in_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     # team_sheet_submitted: { type: :boolean },
@@ -563,13 +564,6 @@ PROFILE_PARAMETER = {
     required: %w[username]
   }, required: true
 }
-
-
-
-
-
-
-
 
 RSpec.configure do |config|
   # config.include SwaggerHelper

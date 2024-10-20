@@ -3,12 +3,16 @@ import TournamentsTable from "@/components/tournaments-table";
 import { getOrganization, getOrganizations } from "@/app/server-actions/organizations/actions";
 import { getOrganizationTournaments } from "@/app/server-actions/organizations/tournaments/actions";
 
-import OrgDetailCard from "@/app/organizations/[org_slug]/org-detail-card";
+import OrgDetailCard from "@/components/org-detail-card";
 
 export const revalidate = 200;
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: { params: { org_slug: string } }) {
+interface OrganizationDetailPageProps {
+  params: { org_slug: string };
+}
+
+export async function generateMetadata({ params }: Readonly<OrganizationDetailPageProps>) {
   const { data: org } = await getOrganization(params.org_slug);
 
   return { title: org?.name ?? "Organization" };
@@ -47,10 +51,6 @@ const columns = [
     label: "FORMAT",
   },
 ];
-
-interface OrganizationDetailPageProps {
-  params: { org_slug: string };
-}
 
 export default async function OrganizationDetailPage({ params }: Readonly<OrganizationDetailPageProps>) {
   const { data: organization } = await getOrganization(params.org_slug);

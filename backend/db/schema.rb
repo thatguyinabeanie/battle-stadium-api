@@ -10,11 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_18_024234) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_20_150304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
-  enable_extension "uuid-ossp"
 
   create_table "accounts", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -190,6 +189,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_18_024234) do
     t.decimal "resistance", precision: 5, scale: 2
     t.bigint "account_id"
     t.bigint "profile_id", null: false
+    t.boolean "show_country_flag", default: true, null: false
     t.index ["account_id"], name: "index_players_on_account_id"
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"

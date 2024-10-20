@@ -1,6 +1,5 @@
 import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@/components/nextui-use-client";
 import UserMenuDropDown from "@/components/navbar/user-menu/user-menu-dropdown";
-import { currentUser } from "@clerk/nextjs/server";
 import { AccountMe } from "@/lib/api";
 
 interface UserMenuProps {
@@ -9,7 +8,10 @@ interface UserMenuProps {
 }
 
 async function SmartAvatar() {
-  const user = await currentUser();
+  // const user = await currentUser();
+  const user = {
+    imageUrl: null,
+  };
 
   if (user?.imageUrl) {
     return <Avatar aria-label="User's profile image" className="bg-transparent" size="sm" src={user.imageUrl} />;

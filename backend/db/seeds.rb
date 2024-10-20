@@ -69,12 +69,14 @@ def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
     tournament.phases << Phases::Swiss.create!(
       name: "#{tournament.name} - Swiss Rounds",
       tournament:,
-      number_of_rounds: 5
+      number_of_rounds: 5,
+      order: 0
     )
 
     tournament.phases << Phases::SingleEliminationBracket.create!(
       name: "#{tournament.name} - Top Cut!",
-      tournament:
+      tournament:,
+      order: 1
     )
   end
 end
@@ -90,46 +92,50 @@ def create_format(name:, game:)
   Tournaments::Format.find_or_create_by!(name:, game:)
 end
 
-scarlet_violet = Game.find_or_create_by!(name: "Pokemon Scarlet & Violet")
+game = Game.find_or_create_by!(name: "Pokemon VGC")
 
-(1..10).to_a.map { |series| Game.find_or_create_by!(name: "Pokemon Series #{series}") }
-
-format = Tournaments::Format.find_or_create_by!(name: "Regulation H", game: scarlet_violet)
+format = Tournaments::Format.find_or_create_by!(name: "Regulation H", game: game)
 
 fuecoco_supremacy_account = create_account(username: "fuecoco-supremacy", first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
 fuecoco_supremacy_account.admin = true
 fuecoco_supremacy_account.save!
 
-org_owners = (1..25).to_a.map { create_account }
+owner  = create_account
 
-orgs = org_owners.map do |owner|
-  Organization.find_or_create_by!(owner:) do |org|
-    org.description = Faker::Lorem.sentence
-    org.staff = (1..5).to_a.map { create_account }
-    org.staff << fuecoco_supremacy_account
-    org.name = generate_organization_name
-  end
-end.uniq
+organization =  Organization.find_or_create_by!(owner:) do |org|
+  org.description = Faker::Lorem.sentence
+  org.staff = (1..5).to_a.map { create_account }
+  org.staff << fuecoco_supremacy_account
+  org.name = generate_organization_name
+end
 
-count = 0
-accounts = (1..50).to_a.map { create_accounts }.uniq
+name = "#{organization.name} # #{organization.tournaments.count + 1}"
+start_at = (1.day.from_now.beginning_of_day + rand(8..20).hours) + 1.week
+end_at = start_at + 10.hours
+tournament = create_tournament(name:, organization:, format:, game: format.game, start_at:, end_at:)
 
-future_tournaments = orgs.flat_map do |organization|
-  (1..10).to_a.map do
-    name = "#{organization.name} # #{organization.tournaments.count + 1}"
-    start_at = (1.day.from_now.beginning_of_day + rand(8..20).hours) + (count % 10).weeks
-    end_at = start_at + 10.hours
-    tour = create_tournament(name:, organization:, format:, game: format.game, start_at:, end_at:)
-    count += 1
-    tour
+accounts = (1..50).to_a.map { create_account }.uniq
+accounts.map do |account|
+  next if tournament.players.exists?(account:) || !tournament.registration_open?
+
+  tournament.players.create!(account:, in_game_name: Faker::Games::Pokemon.name, profile: account.default_profile).tap do |player|
+    player.pokemon_team = PokemonTeam.create(profile: player.profile).tap do |pokemon_team|
+      pokemon_team.pokemon = (1..6).to_a.map do
+        Pokemon.create(pokemon_team:)
+      end
+    end
   end
 end
 
-future_tournaments.flat_map do |tournament|
-  accounts.map do |account|
-    next if tournament.players.exists?(account:) || !tournament.registration_open?
+name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
+end_at = Time.zone.today + 1.week
+game = format.game
+start_at = 1.hour.from_now
+tournament = create_tournament(name:, organization:, format:, game:, start_at:, end_at:).tap do |tournament|
+  tournament.players = accounts.map do |account|
+    next if tournament.players.exists?(account:)
 
-    tournament.players.create!(account:, in_game_name: Faker::Games::Pokemon.name, profile: account.default_profile).tap do |player|
+    tournament.players.create!(account:, in_game_name: account.default_profile.username, profile: account.default_profile).tap do |player|
       player.pokemon_team = PokemonTeam.create(profile: player.profile).tap do |pokemon_team|
         pokemon_team.pokemon = (1..6).to_a.map do
           Pokemon.create(pokemon_team:)
@@ -139,26 +145,4 @@ future_tournaments.flat_map do |tournament|
   end
 end
 
-in_progress_tournaments = orgs.flat_map do |organization|
-  name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
-  end_at = Time.zone.today + 1.week
-  game = format.game
-  start_at = 1.hour.from_now
-  create_tournament(name:, organization:, format:, game:, start_at:, end_at:).tap do |tournament|
-    tournament.players = accounts.map do |account|
-      next if tournament.players.exists?(account:)
-
-      tournament.players.create!(account:, in_game_name: Faker::Games::Pokemon.name, profile: account.default_profile).tap do |player|
-        player.pokemon_team = PokemonTeam.create(profile: player.profile).tap do |pokemon_team|
-          pokemon_team.pokemon = (1..6).to_a.map do
-            Pokemon.create(pokemon_team:)
-          end
-        end
-      end
-    end
-  end
-end
-
-in_progress_tournaments.each do |tournament|
-  tournament.start! if tournament.players.checked_in_and_submitted_team_sheet.count.positive?
-end
+tournament.start! if tournament.players.checked_in_and_submitted_team_sheet.count.positive?
