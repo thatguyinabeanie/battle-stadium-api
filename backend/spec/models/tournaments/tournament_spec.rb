@@ -144,7 +144,7 @@ RSpec.describe Tournaments::Tournament do
 
     context "when profile is nil" do
       it "raises an error" do
-        expect { tournament.register!(profile: nil) }.to raise_error("Profile must be provided.")
+        expect { tournament.register!(profile: nil, in_game_name:) }.to raise_error("Profile must be provided.")
       end
     end
 
@@ -152,7 +152,7 @@ RSpec.describe Tournaments::Tournament do
 
       it "raises an error" do
         profile = tournament.players.first.profile
-        expect { tournament.register!(profile:) }.to raise_error("Profile is already registered for the tournament")
+        expect { tournament.register!(profile:, in_game_name:) }.to raise_error("Profile is already registered for the tournament")
       end
     end
 
@@ -160,7 +160,7 @@ RSpec.describe Tournaments::Tournament do
       before { allow(tournament).to receive(:registration_open?).and_return(false) }
 
       it "raises an error" do
-        expect { tournament.register!(profile:) }.to raise_error("Tournament registration is closed.")
+        expect { tournament.register!(profile:, in_game_name:) }.to raise_error("Tournament registration is closed.")
       end
     end
 
