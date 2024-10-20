@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 
 import { components } from "@/lib/api/openapi-v1";
 import { Tabs, Tab } from "@/components/nextui-use-client";
 import { cn } from "@/lib";
 import { DashboardLayoutProps } from "@/types";
+import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
 
 interface DashboardProps extends DashboardLayoutProps {
   me: components["schemas"]["AccountMe"] | null | undefined;
@@ -17,26 +17,7 @@ const tabs = ["dashboard", "profiles", "pokemon", "tournament_history", "setting
 export default function Dashboard(props: Readonly<DashboardProps>) {
   const { me, children, admin, profiles, settings, tournament_history, pokemon } = props;
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const tabStr = searchParams.get("tab");
-  const [activeTab, setActiveTab] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || "dashboard");
-
-  const updateSearchParams = React.useCallback(
-    (newParams: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      Object.entries(newParams).forEach(([key, value]) => {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
-      });
-      router.push(`?${params.toString()}`);
-    },
-    [searchParams, router],
-  );
+  const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs);
 
   return (
     <div className="w-full h-full flex flex-col items-center">

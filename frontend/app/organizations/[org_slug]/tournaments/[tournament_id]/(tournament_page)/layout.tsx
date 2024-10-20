@@ -4,6 +4,7 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Tabs, Tab } from "@/components/nextui-use-client";
+import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
 
 const tabs = ["meta", "standings", "pairings", "matches"];
 
@@ -15,28 +16,10 @@ interface OrganizationTournamentsTournamentLayoutProps {
   metagame: React.ReactNode;
 }
 
-export default function OrganizationTournamentsTournamentLayout(props: Readonly<OrganizationTournamentsTournamentLayoutProps>) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const tabStr = searchParams.get("tab");
-  const [activeTab, setActiveTab] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || "pairings");
-
-  const updateSearchParams = React.useCallback(
-    (newParams: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      Object.entries(newParams).forEach(([key, value]) => {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
-      });
-      router.push(`?${params.toString()}`);
-    },
-    [searchParams, router],
-  );
-
+export default function OrganizationTournamentsTournamentLayout(
+  props: Readonly<OrganizationTournamentsTournamentLayoutProps>,
+) {
+  const {activeTab, setActiveTab, updateSearchParams} = useSearchParamsTabState(tabs);
   return (
     <div className="w-full h-full flex flex-col items-center">
       {props.children}
