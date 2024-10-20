@@ -9,14 +9,13 @@ const tabs = ["meta", "standings", "pairings", "matches"];
 
 interface OrganizationTournamentsTournamentLayoutProps {
   children: React.ReactNode;
-  modal: React.ReactNode;
   standings: React.ReactNode;
   pairings: React.ReactNode;
   matches: React.ReactNode;
   metagame: React.ReactNode;
 }
 
-export default function OrganizationTournamentsTournamentLayout(props: OrganizationTournamentsTournamentLayoutProps) {
+export default function OrganizationTournamentsTournamentLayout(props: Readonly<OrganizationTournamentsTournamentLayoutProps>) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabStr = searchParams.get("tab");
