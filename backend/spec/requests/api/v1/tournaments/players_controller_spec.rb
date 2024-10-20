@@ -47,7 +47,8 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       parameter name: :in_game_name, in: :query, type: :string, required: true
       parameter name: :profile_id, in: :query, type: :integer, required: true
-      parameter name: :pokemon_team_id, in: :query, type: :integer, required: false
+      parameter name: :pokemon_team_id, in: :query, type: :integer, required: true, nullable: true
+      parameter name: :show_country_flag, in: :query, type: :boolean, required: true, nullable: true
 
       security [Bearer: []]
 
@@ -55,6 +56,8 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
         let(:profile_id) { request_account.default_profile.id }
         let(:in_game_name) { "pablo escobar" }
+        let(:pokemon_team_id) { nil }
+        let(:show_country_flag) { true }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/PlayerDetails"
@@ -73,6 +76,9 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
         let(:profile_id) { profile.id }
         let(:in_game_name) { "pablo escobar" }
 
+        let(:pokemon_team_id) { nil }
+        let(:show_country_flag) { true }
+
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
         OpenApi::Response.set_example_response_metadata
@@ -80,11 +86,12 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
         run_test!
       end
 
-
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
         let(:profile_id) { -1 }
         let(:in_game_name) { "pablo escobar" }
+        let(:pokemon_team_id) { nil }
+        let(:show_country_flag) { true }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
