@@ -106,7 +106,7 @@ RSpec.describe Tournaments::Tournament do
       let(:tournament) { create(:tournament, :with_phases) }
 
       it "raises an error" do
-        expect { tournament.start! }.to raise_error(RuntimeError)
+        expect { tournament.start! }.to raise_error(Tournaments::Tournament::NotEnoughPlayers)
       end
     end
 
@@ -144,7 +144,7 @@ RSpec.describe Tournaments::Tournament do
 
     context "when profile is nil" do
       it "raises an error" do
-        expect { tournament.register(profile: nil) }.to raise_error("Profile must be provided.")
+        expect { tournament.register!(profile: nil) }.to raise_error("Profile must be provided.")
       end
     end
 
@@ -152,7 +152,7 @@ RSpec.describe Tournaments::Tournament do
 
       it "raises an error" do
         profile = tournament.players.first.profile
-        expect { tournament.register(profile:) }.to raise_error("Profile is already registered for the tournament")
+        expect { tournament.register!(profile:) }.to raise_error("Profile is already registered for the tournament")
       end
     end
 
@@ -160,7 +160,7 @@ RSpec.describe Tournaments::Tournament do
       before { allow(tournament).to receive(:registration_open?).and_return(false) }
 
       it "raises an error" do
-        expect { tournament.register(profile:) }.to raise_error("Tournament registration is closed.")
+        expect { tournament.register!(profile:) }.to raise_error("Tournament registration is closed.")
       end
     end
 
@@ -170,16 +170,16 @@ RSpec.describe Tournaments::Tournament do
       it "registers the profile" do
         pokemon_team_id = pokemon_team.id
         in_game_name = "in_game_name"
-        expect { tournament.register(profile:, pokemon_team_id:, in_game_name:) }.to change(tournament.players, :count).by(1)
+        expect { tournament.register!(profile:, pokemon_team_id:, in_game_name:) }.to change(tournament.players, :count).by(1)
       end
 
       it "associates the profile with the tournament" do
-        tournament.register(profile:, pokemon_team_id: pokemon_team.id, in_game_name:)
+        tournament.register!(profile:, pokemon_team_id: pokemon_team.id, in_game_name:)
         expect(tournament.players.last.profile).to eq(profile)
       end
 
       it "associates the pokemon team with the player" do
-        tournament.register(profile:, pokemon_team_id: pokemon_team.id, in_game_name:)
+        tournament.register!(profile:, pokemon_team_id: pokemon_team.id, in_game_name:)
         expect(tournament.players.last.pokemon_team_id).to eq(pokemon_team.id)
       end
 
@@ -187,10 +187,10 @@ RSpec.describe Tournaments::Tournament do
       context "when another profile from the same account is already registered" do
         let(:another_profile) { create(:profile, account: profile.account) }
 
-        before { tournament.register(profile:, in_game_name: "obama") }
+        before { tournament.register!(profile:, in_game_name: "obama") }
 
         it "raises an error" do
-          expect { tournament.register(profile: another_profile, in_game_name: "bobby") }.to raise_error("This profile's account already has another profile registered for the same tournament")
+          expect { tournament.register!(profile: another_profile, in_game_name: "bobby") }.to raise_error("This profile's account already has another profile registered for the same tournament")
         end
       end
     end

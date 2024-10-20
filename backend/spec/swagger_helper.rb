@@ -321,8 +321,8 @@ POKEMON_SCHEMA = {
     move3: { type: :string, nullable: true },
     move4: { type: :string, nullable: true },
     pokemon_team_id: { type: :integer, format: :int64 },
-    # evs: { "$ref" => "#/components/schemas/Stats", :nullable => true },
-    # ivs: { "$ref" => "#/components/schemas/Stats", :nullable => true }
+    evs: { "$ref" => "#/components/schemas/Stats", :nullable => true },
+    ivs: { "$ref" => "#/components/schemas/Stats", :nullable => true }
   },
   required:  %w[species ability tera_type nature form item move1 move2 move3 move4]
 }.freeze

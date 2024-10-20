@@ -24,13 +24,15 @@ module Api
 
         def create
           @profile = Profile.find_by!(id: params[:profile_id])
+          authorize @profile, :register_for_tournament?
 
-          @player = @players.build tournament_id: @tournament.id, account_id: @profile.account.id, in_game_name: params[:in_game_name], profile_id: @profile.id
-          @player.pokemon_team_id = params[:pokemon_team_id] if params[:pokemon_team_id].present?
+          if @tournament.players.exists?(profile_id: @profile.id)
+            return render json: { error: "Profile is already registered for the tournament" }, status: :unprocessable_entity
+          end
 
-          authorize @player, :create?
+          @player = @tournament.register!(profile: @profile, in_game_name: params[:in_game_name], pokemon_team_id: params[:pokemon_team_id])
 
-          if @player.save
+          if @player.valid?
             render json: serialize_player_details, status: :created
           else
             render json: {error: @player.errors.full_messages.to_sentence}, status: :unprocessable_entity

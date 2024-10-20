@@ -38,8 +38,12 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
   end
 
   describe "POST #create" do
-    let(:player_params) do
-      attributes_for(:player, profile_id: request_account.default_profile.id)
+    let(:params) do
+      {
+        tournament_id: tournament.id,
+        in_game_name: "eminem",
+        profile_id: request_account.default_profile.id
+      }
     end
 
     context "with valid parameters" do
@@ -47,9 +51,9 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
         count_before = Tournaments::Player.count
 
-        post :create, params: { tournament_id: tournament.id, player: player_params }
+        post :create, params: params
 
-        expect(response.body).to include(player_params[:profile_id].to_s)
+        expect(response.body).to include(params[:profile_id].to_s)
         expect(response).to have_http_status(:created)
         count_after = Tournaments::Player.count
         expect(count_after).to eq(count_before + 1)
@@ -57,7 +61,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       end
 
       it "returns a created status" do
-        post :create, params: { tournament_id: tournament.id, player: player_params }
+        post :create, params: params
         expect(response).to have_http_status(:created)
       end
     end

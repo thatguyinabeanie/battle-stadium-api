@@ -64,12 +64,14 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       end
 
       response(422, "Already registered") do
-        let(:player) do
-          tournament
-          profile = create(:profile)
-          tournament.register(profile:, in_game_name: "pablo escobar")
-          { profile_id: profile.id }
+        let(:profile) do
+          prof = request_account.default_profile
+          tournament.register!(profile: prof, in_game_name: "pablo escobar")
+          prof
         end
+
+        let(:profile_id) { profile.id }
+        let(:in_game_name) { "pablo escobar" }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
         schema "$ref" => "#/components/schemas/Error"
@@ -81,7 +83,8 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
 
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
-        let(:player) { { account_id: request_account.id} }
+        let(:profile_id) { -1 }
+        let(:in_game_name) { "pablo escobar" }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
