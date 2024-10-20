@@ -7,7 +7,7 @@ export interface ProvidersProps extends ThemeProviderProps {
 
 export default function ThemesProvider({ children, ...rest }: Readonly<ProvidersProps>) {
   return (
-    <NextThemesProvider attribute="class" defaultTheme="dark" {...rest}>
+    <NextThemesProvider attribute="class" defaultTheme="purple-dark" {...rest}>
       {children}
     </NextThemesProvider>
   );
