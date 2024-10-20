@@ -33,7 +33,6 @@ module Api
           if @player.save
             render json: serialize_player_details, status: :created
           else
-            Rails.logger.error @player.errors.full_messages.to_sentence
             render json: {error: @player.errors.full_messages.to_sentence}, status: :unprocessable_entity
           end
         rescue ActiveRecord::RecordNotFound
