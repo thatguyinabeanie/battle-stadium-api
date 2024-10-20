@@ -13,7 +13,7 @@ interface OrganizationTournamentProps {
   };
 }
 
-export async function generateMetadata({ params }: OrganizationTournamentProps) {
+export async function generateMetadata ({ params }: Readonly<OrganizationTournamentProps>) {
   const tournament = (await getTournament(params.tournament_id)).data;
 
   return { title: tournament?.name ?? "Tournament" };
@@ -25,7 +25,7 @@ export async function generateStaticParams() {
   return tournaments.map(({ organization, id }) => ({ org_slug: organization.slug, tournament_id: id.toString() }));
 }
 
-export default async function OrganizationTournament({ params }: OrganizationTournamentProps) {
+export default async function OrganizationTournament({ params }: Readonly<OrganizationTournamentProps>) {
   const { org_slug, tournament_id } = params;
   const tournament = (await getTournament(tournament_id)).data;
 
