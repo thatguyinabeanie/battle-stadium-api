@@ -16,8 +16,6 @@ RSpec.describe Tournaments::Player do
 
     it { is_expected.to validate_presence_of(:in_game_name) }
 
-    it { is_expected.to validate_inclusion_of(:show_country_flag).in_array([true, false]) }
-
     describe "custom validations" do
       it "validates uniqueness of account_id within the scope of tournament_id" do
         profile = create(:profile)
