@@ -1,5 +1,6 @@
 require "swagger_helper"
 require "support/auth/token_verifier_mock"
+
 RSpec.describe Api::V1::Tournaments::PlayersController do
   include Auth::TokenVerifier::Mock
 
@@ -7,6 +8,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
   let(:organization_id) { organization.id }
   let(:tournament) { create(:tournament, organization:) }
   let(:tournament_id) { tournament.id }
+  let(:in_game_name) { "pablo escobar" }
 
   path("/tournaments/{tournament_id}/players") do
     parameter name: :tournament_id, in: :path, type: :integer, description: "ID of the Tournament", required: true
@@ -55,7 +57,6 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(201, "created") do
 
         let(:profile_id) { request_account.default_profile.id }
-        let(:in_game_name) { "pablo escobar" }
         let(:pokemon_team_id) { nil }
         let(:show_country_flag) { true }
 
@@ -69,13 +70,11 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(422, "Already registered") do
         let(:profile) do
           prof = request_account.default_profile
-          tournament.register!(profile: prof, in_game_name: "pablo escobar")
+          tournament.register!(profile: prof, in_game_name:)
           prof
         end
 
         let(:profile_id) { profile.id }
-        let(:in_game_name) { "pablo escobar" }
-
         let(:pokemon_team_id) { nil }
         let(:show_country_flag) { true }
 
@@ -89,7 +88,6 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       response(404, NOT_FOUND) do
         let(:tournament_id) { "invalid" }
         let(:profile_id) { -1 }
-        let(:in_game_name) { "pablo escobar" }
         let(:pokemon_team_id) { nil }
         let(:show_country_flag) { true }
 
