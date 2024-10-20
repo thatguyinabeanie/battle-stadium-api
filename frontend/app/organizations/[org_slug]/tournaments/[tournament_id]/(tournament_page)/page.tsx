@@ -13,7 +13,7 @@ interface OrganizationTournamentProps {
   };
 }
 
-export async function generateMetadata ({ params }: Readonly<OrganizationTournamentProps>) {
+export async function generateMetadata({ params }: Readonly<OrganizationTournamentProps>) {
   const tournament = (await getTournament(params.tournament_id)).data;
 
   return { title: tournament?.name ?? "Tournament" };
