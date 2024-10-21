@@ -55,7 +55,7 @@ export default function RootLayout({ children }: ChildrenProps & AppProps) {
                 <main className="flex h-full w-full z-0">
                   <div className="w-full  h-full flex flex-col gap-8 rounded-none">
                     <section className="flex flex-col gap-4 h-full w-full items-center">
-                      <HydrationOverlay>{ children }</HydrationOverlay>
+                      <HydrationOverlay>{children}</HydrationOverlay>
                     </section>
                   </div>
                 </main>
