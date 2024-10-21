@@ -358,7 +358,7 @@ GEM
     rubocop-graphql (1.5.4)
       rubocop (>= 1.50, < 2)
     rubocop-junit-formatter (0.1.4)
-    rubocop-md (1.2.3)
+    rubocop-md (1.2.4)
       rubocop (>= 1.45)
     rubocop-minitest (0.36.0)
       rubocop (>= 1.61, < 2.0)
