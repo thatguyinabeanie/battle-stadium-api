@@ -9,6 +9,8 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { AppProps } from "next/app";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
+
 import { env } from "@/env.mjs";
 import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
@@ -16,6 +18,7 @@ import NavigationBar from "@/components/navbar/navbar";
 import Providers from "@/components/providers";
 import AwesomeParticles from "@/components/awesome-particles";
 import Cookies from "@/components/cookies";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -50,10 +53,10 @@ export default function RootLayout({ children }: ChildrenProps & AppProps) {
               <div className="flex flex-col w-full h-full">
                 <NavigationBar />
                 <main className="flex h-full w-full z-0">
-                  <div className="w-full flex-1 flex-col px-4">
-                    <div className="h-full flex flex-col gap-4 rounded-medium border-divider ">
-                      <section className="flex flex-col gap-4 py-4 h-full w-ful items-center">{children}</section>
-                    </div>
+                  <div className="w-full  h-full flex flex-col gap-8 rounded-none">
+                    <section className="flex flex-col gap-4 h-full w-full items-center">
+                      <HydrationOverlay>{children}</HydrationOverlay>
+                    </section>
                   </div>
                 </main>
               </div>
@@ -63,6 +66,7 @@ export default function RootLayout({ children }: ChildrenProps & AppProps) {
             <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
             <Cookies />
           </body>
+          <Footer />
         </html>
       </ClerkProvider>
     </React.StrictMode>
