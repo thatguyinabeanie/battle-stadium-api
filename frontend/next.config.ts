@@ -19,8 +19,7 @@ const nextConfig: NextConfig = {
       exclude: ["error"],
     },
   },
-  turbo: {
-  },
+  turbo: {},
 };
 
 export default withHydrationOverlay({
