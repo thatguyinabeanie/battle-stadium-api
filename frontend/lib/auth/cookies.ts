@@ -20,7 +20,7 @@ const defaultCookieOptions: cookie.SerializeOptions = {
   maxAge,
 };
 
-export function useSetResponseCookies(): readonly [NextResponse, (key: string, value: string | number) => void] {
+export function setResponseCookies(): readonly [NextResponse, (key: string, value: string | number) => void] {
   const response = NextResponse.json({ message: "Cookie set successfully" });
 
   async function setCookies(key: string, value: string | number) {

@@ -1,4 +1,4 @@
-import { generateSignature, getCookies, useSetResponseCookies } from "@/lib/auth/cookies";
+import { generateSignature, getCookies, setResponseCookies } from "@/lib/auth/cookies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,7 +7,7 @@ export const runtime = "edge";
 export async function POST(req: NextRequest) {
   const { userId } = auth();
 
-  const [response, setCookies] = useSetResponseCookies();
+  const [response, setCookies] = setResponseCookies();
 
   if (!setCookies) {
     return NextResponse.json({ error: "Failed to set cookies" }, { status: 500 });

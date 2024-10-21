@@ -6,7 +6,8 @@ interface MatchPageProps {
     tournament_id: number;
   };
 }
-export default function MatchPage({ params }: Readonly<MatchPageProps>) {
+export default async function MatchPage(props: Readonly<MatchPageProps>) {
+  const params = await props.params;
   const { org_slug, tournament_id } = params;
 
   return (
