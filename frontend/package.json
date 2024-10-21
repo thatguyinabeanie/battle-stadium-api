@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@aws-sdk/credential-provider-web-identity": "^3.667.0",
+    "@builder.io/react-hydration-overlay": "^0.3.0",
     "@clerk/backend": "^1.13.10",
     "@clerk/clerk-react": "^5.11.1",
     "@clerk/nextjs": "^5.7.3",
@@ -43,6 +44,7 @@
     "@react-aria/ssr": "^3.9.6",
     "@react-aria/visually-hidden": "^3.8.17",
     "@react-stately/data": "^3.11.7",
+    "@spotlightjs/spotlight": "^2.5.0",
     "@swc/helpers": "^0.5.13",
     "@t3-oss/env-nextjs": "^0.11.1",
     "@tsparticles/engine": "^3.5.0",
