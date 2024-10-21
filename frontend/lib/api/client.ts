@@ -20,10 +20,10 @@ export function getBaseUrl() {
   return `http://${env.LOCAL_DEV_BACKEND_HOST}:${env.LOCAL_DEV_BACKEND_PORT}`;
 }
 
-export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
-  const baseUrl = `${getBaseUrl()}/api/v1`;
-  const fetchClient = createFetchClient<paths>({ baseUrl });
+const baseUrl = `${getBaseUrl()}/api/v1`;
+const fetchClient = createFetchClient<paths>({ baseUrl });
 
+export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
   const authMiddleware: Middleware = {
     async onRequest({ request }) {
       if (env.NODE_ENV !== "development") {

@@ -1,10 +1,11 @@
 import { postPokemonTeam } from "@/app/server-actions/pokemon/actions";
 import { ValidatedPokemon, PokePasteMetadata } from "@/lib/pokemon/common";
 import { Textarea, Spacer, Button } from "@/components/nextui-use-client";
+import Form from "next/form";
 
 interface PokemonShowdownSetFormProps {
   validatedTeam: ValidatedPokemon[];
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (formData: FormData) => void;
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   metaData: PokePasteMetadata | null;
@@ -18,7 +19,7 @@ export function PokemonShowdownSetForm({
   metaData,
 }: Readonly<PokemonShowdownSetFormProps>) {
   return (
-    <form className="grid grid-cols-1" onSubmit={handleSubmit}>
+    <Form action={handleSubmit} className="grid grid-cols-1">
       <div className="mb-4">
         <h1 className="text-2xl font-bold justify-center items-center flex">{"Showdown Set"}</h1>
       </div>
@@ -53,6 +54,6 @@ export function PokemonShowdownSetForm({
           Upload
         </Button>
       </div>
-    </form>
+    </Form>
   );
 }

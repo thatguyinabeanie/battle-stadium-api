@@ -66,8 +66,8 @@ export default function RootLayout({ children }: ChildrenProps & AppProps) {
             <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
             <Cookies />
           </body>
-          <Footer />
         </html>
+        <Footer />
       </ClerkProvider>
     </React.StrictMode>
   );
