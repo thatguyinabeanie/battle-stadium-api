@@ -10,6 +10,7 @@ dotenv.config({ path: join(process.cwd(), ".env.development.local") });
 const nextConfig: NextConfig = {
   experimental: {
     after: true,
+    cssChunking: "loose", // default
   },
 
   reactStrictMode: true,
