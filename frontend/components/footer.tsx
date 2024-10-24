@@ -1,7 +1,7 @@
 import type { IconProps } from "@iconify/react";
 
 import React from "react";
-import { Link, Spacer } from "@/components/nextui-use-client";
+import { Card, Link, Spacer } from "@/components/nextui-use-client";
 import { Icon } from "@iconify/react";
 import BattleStadium from "./battle-stadium";
 
@@ -41,8 +41,8 @@ const socialItems = [
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col w-full justify-center items-center">
-      <div className="flex flex-col backdrop-blur-md w-3/4">
+    <footer className="flex flex-col w-full justify-center items-center pb-4">
+      <Card className="flex flex-col backdrop-blur w-3/4 bg-transparent">
         <div className="flex flex-col items-center justify-center px-6 py-12 lg:px-8 shadow-md">
           <div className="flex items-center justify-center">
             <BattleStadium />
@@ -71,7 +71,7 @@ export default function Footer() {
             &copy; 2024 Beanie LLC Inc. All rights reserved.
           </p>
         </div>
-      </div>
+      </Card>
     </footer>
   );
 }

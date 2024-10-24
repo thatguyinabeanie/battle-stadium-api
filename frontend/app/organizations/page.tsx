@@ -28,11 +28,7 @@ export default async function OrganizationsPage() {
   const orgs = await listOrganizations();
 
   return (
-    <Card
-      className={cn(
-        "bg-transparent backdrop-blur-md w-3/4 h-full grid gap-4 px-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
-      )}
-    >
+    <div className={cn("bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5")}>
       {orgs.map((organization) => (
         <OrganizationCard
           key={organization.id}
@@ -41,6 +37,6 @@ export default async function OrganizationsPage() {
           organization={organization}
         />
       ))}
-    </Card>
+    </div>
   );
 }
