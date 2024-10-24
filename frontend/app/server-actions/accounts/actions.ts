@@ -12,7 +12,7 @@ export async function getAccounts(options?: FetchOptions<paths["/accounts"]["get
   };
   const skipClerkAuth = true;
 
-  return BattleStadiumApiClient(skipClerkAuth).GET("/accounts", usersOptions);
+  return (await BattleStadiumApiClient(skipClerkAuth)).GET("/accounts", usersOptions);
 }
 
 export async function getAccount(username: string, options?: FetchOptions<paths["/accounts/{username}"]["get"]>) {
@@ -22,11 +22,11 @@ export async function getAccount(username: string, options?: FetchOptions<paths[
     params: { path: { username } },
   };
 
-  return BattleStadiumApiClient().GET("/accounts/{username}", userOptions);
+  return (await BattleStadiumApiClient()).GET("/accounts/{username}", userOptions);
 }
 
 export async function getAccountMe(options?: FetchOptions<paths["/accounts/me"]["get"]>) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     return null;
@@ -34,5 +34,5 @@ export async function getAccountMe(options?: FetchOptions<paths["/accounts/me"][
 
   const userMeOptions = { ...defaultConfig(`getAccountMe(${userId})`), ...options };
 
-  return BattleStadiumApiClient().GET("/accounts/me", userMeOptions);
+  return (await BattleStadiumApiClient()).GET("/accounts/me", userMeOptions);
 }

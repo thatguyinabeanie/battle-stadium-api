@@ -14,11 +14,11 @@ const navLinks = [
   },
   {
     name: "About",
-    href: "/about",
+    href: "/info/about",
   },
   {
     name: "Contact",
-    href: "/contact",
+    href: "/info/contact",
   },
   {
     name: "Github",
@@ -41,8 +41,8 @@ const socialItems = [
 
 export default function Footer() {
   return (
-    <footer className="flex w-full flex-col backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-6 py-12 lg:px-8 shadow-md">
+    <footer className="flex flex-col w-full justify-center items-center pt-8">
+      <div className="flex flex-col items-center justify-center px-6 py-12 lg:px-8 shadow-md backdrop-blur-lg w-3/4 bg-transparent">
         <div className="flex items-center justify-center">
           <BattleStadium />
         </div>

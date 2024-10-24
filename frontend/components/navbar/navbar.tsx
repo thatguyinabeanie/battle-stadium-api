@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, NavbarBrand, NavbarContent } from "@/components/nextui-use-client";
+import { Navbar, NavbarBrand } from "@/components/nextui-use-client";
 
 import BattleStadium from "@/components/battle-stadium";
 
@@ -10,8 +10,8 @@ import NavbarRightMenu from "@/components/navbar/navbar-right-menu";
 import NavbarMobileMenu from "@/components/navbar/navbar-mobile-menu";
 
 const navbarClassNames = {
-  wrapper: "bg-transparent justify-between md:justify-center backdrop-blur min-w-full shadow-md gap-4",
-  base: "bg-transparent border-b-small border-neutral-400/50",
+  wrapper: "flex flex-row gap-8 rounded-full shadow-md border-small border-neutral-500/10",
+  base: "flex w-fit h-fit bg-transparent backdrop-blur rounded-full",
   item: [
     "flex",
     "relative",
@@ -29,7 +29,7 @@ const navbarClassNames = {
 };
 
 export default async function NavigationBar() {
-  const clerkAuth = auth();
+  const clerkAuth = await auth();
   const me = (await getAccountMe())?.data;
 
   return (
@@ -38,9 +38,7 @@ export default async function NavigationBar() {
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarContent className="hidden md:flex gap-2 m-x4" data-justify={"center"}>
-        <NavbarLinks isSignedIn={!!clerkAuth?.sessionId} />
-      </NavbarContent>
+      <NavbarLinks isSignedIn={!!clerkAuth?.sessionId} />
 
       {/* Right Menu */}
       <NavbarRightMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />

@@ -64,12 +64,12 @@ export default async function OrganizationDetailPage(props: Readonly<Organizatio
   const { data: tournaments } = await getOrganizationTournaments(params.org_slug);
 
   return (
-    <div className="w-100 h-100 bg-transparent">
+    <>
       <OrgDetailCard organization={organization} />
 
       <Spacer y={4} />
 
       <TournamentsTable columns={columns} data={tournaments} />
-    </div>
+    </>
   );
 }

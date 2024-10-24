@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const runtime = "edge";
 
 export async function POST(_req: NextRequest) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   const [response, setCookies] = await setResponseCookies();
 

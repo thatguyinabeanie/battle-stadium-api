@@ -4,8 +4,8 @@ import { auth } from "@clerk/nextjs/server";
 import { cn } from "@/lib";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-export default function Notifications() {
-  const { sessionId } = auth();
+export default async function Notifications() {
+  const { sessionId } = await auth();
 
   return (
     <NavbarItem

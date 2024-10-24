@@ -20,10 +20,9 @@ export function getBaseUrl() {
   return `http://${env.LOCAL_DEV_BACKEND_HOST}:${env.LOCAL_DEV_BACKEND_PORT}`;
 }
 
-const baseUrl = `${getBaseUrl()}/api/v1`;
-const fetchClient = createFetchClient<paths>({ baseUrl });
-
-export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
+export async function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
+  const baseUrl = `${getBaseUrl()}/api/v1`;
+  const fetchClient = createFetchClient<paths>({ baseUrl });
   const authMiddleware: Middleware = {
     async onRequest({ request }) {
       if (env.NODE_ENV !== "development") {
@@ -31,7 +30,7 @@ export function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
       }
 
       if (!skipClerkAuth) {
-        request.headers.set("Authorization", `Bearer ${await auth().getToken()}`);
+        request.headers.set("Authorization", `Bearer ${await (await auth()).getToken()}`);
       }
 
       return request;

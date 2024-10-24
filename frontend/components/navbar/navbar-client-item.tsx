@@ -9,6 +9,8 @@ interface NavbarItemClientProps extends ChildrenProps {
   firstSegment?: string;
 }
 
+const linkClassName = "flex text-lg transition-transform duration-200 ease-in-out transform hover:scale-105";
+
 export default function NavbarClientItem({
   path,
   children,
@@ -18,11 +20,9 @@ export default function NavbarClientItem({
 }: Readonly<NavbarItemClientProps & NavbarItemProps>) {
   const isActive = firstSegment?.includes(path);
 
-  const linkClassName = `flex ${isActive ? "text-lg" : "text-md"} transition-transform duration-200 ease-in-out transform hover:scale-105`;
-
   return (
     <NavbarItem className={`hover: ${className}`} isActive={isActive} {...rest}>
-      <Link className={linkClassName} href={`/${path}`} size="sm">
+      <Link className={linkClassName} href={`/${path}`}>
         {children}
       </Link>
     </NavbarItem>
