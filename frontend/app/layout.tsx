@@ -10,6 +10,12 @@ import { siteConfig } from "@/config/site";
 import { ChildrenProps } from "@/types";
 import Footer from "@/components/footer";
 import Body from "@/components/body";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { env } from "@/env.mjs";
+import Cookies from "@/components/cookies";
+import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: {
@@ -32,14 +38,24 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: ChildrenProps & AppProps) {
+export default async function RootLayout({ children }: ChildrenProps & AppProps) {
+  const { userId, sessionId } = await auth();
+
   return (
     <React.StrictMode>
       <ClerkProvider>
         <html suppressHydrationWarning lang="en">
           <head />
+
           <Body>{children}</Body>
+
+          <Cookies isSignedIn={!!sessionId} userId={userId} />
+
           <Footer />
+
+          <Analytics />
+          <SpeedInsights />
+          <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
         </html>
       </ClerkProvider>
     </React.StrictMode>

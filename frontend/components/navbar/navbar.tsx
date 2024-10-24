@@ -29,7 +29,7 @@ const navbarClassNames = {
 };
 
 export default async function NavigationBar() {
-  const clerkAuth = auth();
+  const clerkAuth = await auth();
   const me = (await getAccountMe())?.data;
 
   return (

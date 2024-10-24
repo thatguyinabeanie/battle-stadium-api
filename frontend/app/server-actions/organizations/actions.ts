@@ -17,7 +17,7 @@ export async function getOrganizations(options?: FetchOptions<paths["/organizati
   };
   const skipClerkAuth = true;
 
-  return BattleStadiumApiClient(skipClerkAuth).GET("/organizations", organizationsOptions);
+  return (await BattleStadiumApiClient(skipClerkAuth)).GET("/organizations", organizationsOptions);
 }
 
 export async function getOrganization(slug: string, options?: FetchOptions<paths["/organizations/{slug}"]["get"]>) {
@@ -27,5 +27,5 @@ export async function getOrganization(slug: string, options?: FetchOptions<paths
     params: { path: { slug } },
   };
 
-  return BattleStadiumApiClient().GET("/organizations/{slug}", organizationOptions);
+  return (await BattleStadiumApiClient()).GET("/organizations/{slug}", organizationOptions);
 }

@@ -34,7 +34,7 @@ export async function getPokemonTeams(options?: FetchOptions<paths["/pokemon_tea
     ...options,
   };
 
-  return BattleStadiumApiClient().GET("/pokemon_teams", pokemonOptions);
+  return (await BattleStadiumApiClient()).GET("/pokemon_teams", pokemonOptions);
 }
 
 export async function postPokemonTeam(
@@ -69,5 +69,5 @@ export async function postPokemonTeam(
     body,
   };
 
-  return BattleStadiumApiClient().POST("/pokemon_teams", pokemonOptions);
+  return (await BattleStadiumApiClient()).POST("/pokemon_teams", pokemonOptions);
 }

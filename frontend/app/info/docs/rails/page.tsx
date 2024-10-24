@@ -8,7 +8,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Card, CardBody } from "@/components/nextui-use-client";
 
 export default async function OpenApiDocs() {
-  const { sessionId } = auth();
+  const { sessionId } = await auth();
 
   if (!sessionId) {
     return redirect("/");
