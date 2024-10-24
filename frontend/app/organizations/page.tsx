@@ -2,7 +2,6 @@ import React from "react";
 import { Metadata } from "next";
 
 import OrganizationCard from "@/components/organizations/organization-card";
-import { cn } from "@/lib/utils";
 import { Tournament } from "@/lib/api";
 import { getOrganizations } from "@/app/server-actions/organizations/actions";
 
@@ -27,9 +26,7 @@ export default async function OrganizationsPage() {
   const orgs = await listOrganizations();
 
   return (
-    <div
-      className="bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
-    >
+    <div className="bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
       {orgs.map((organization) => (
         <OrganizationCard
           key={organization.id}
