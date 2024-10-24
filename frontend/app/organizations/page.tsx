@@ -28,15 +28,12 @@ export default async function OrganizationsPage() {
 
   return (
     <div
-      className={cn(
-        "bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
-      )}
+      className="bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
     >
       {orgs.map((organization) => (
         <OrganizationCard
           key={organization.id}
           aria-label={`organization-card-${organization.id}`}
-          // className="cursor-pointer"
           organization={organization}
         />
       ))}

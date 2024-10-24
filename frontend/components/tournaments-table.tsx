@@ -27,11 +27,12 @@ export default function TournamentsTable({ columns, data }: Readonly<TableProps>
       isVirtualized
       aria-label="list of tournaments"
       classNames={{
+        base: "flex flex-col justify-center items-center",
         wrapper: "bg-transparent",
       }}
       color="secondary"
       selectionMode="single"
-      shadow="md"
+      shadow="none"
     >
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
