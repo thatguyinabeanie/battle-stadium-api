@@ -5,7 +5,6 @@ import OrganizationCard from "@/components/organizations/organization-card";
 import { cn } from "@/lib/utils";
 import { Tournament } from "@/lib/api";
 import { getOrganizations } from "@/app/server-actions/organizations/actions";
-import { Card } from "@/components/nextui-use-client";
 
 export const metadata: Metadata = {
   title: "Organizations",
@@ -28,7 +27,11 @@ export default async function OrganizationsPage() {
   const orgs = await listOrganizations();
 
   return (
-    <div className={cn("bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5")}>
+    <div
+      className={cn(
+        "bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+      )}
+    >
       {orgs.map((organization) => (
         <OrganizationCard
           key={organization.id}

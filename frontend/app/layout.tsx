@@ -37,11 +37,9 @@ export default function RootLayout({ children }: ChildrenProps & AppProps) {
     <React.StrictMode>
       <ClerkProvider>
         <html suppressHydrationWarning lang="en">
-
           <head />
           <Body>{children}</Body>
           <Footer />
-
         </html>
       </ClerkProvider>
     </React.StrictMode>

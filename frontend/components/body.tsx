@@ -18,16 +18,12 @@ export default function Body({ children }: Readonly<ChildrenProps>) {
         <AwesomeParticles />
         <div className="flex flex-col w-full h-full">
           <NavigationBar />
-          <main className="flex flex-col h-full w-full z-0 justify-center items-center py-4" >
-
+          <main className="flex flex-col h-full w-full z-0 justify-center items-center py-4">
             <Card className="w-3/4 h-full flex flex-col bg-transparent justify-center items-center backdrop-blur p-4">
               <section className="flex flex-col gap-4 h-full w-full items-center">
-                <HydrationOverlay>
-                  {children}
-                </HydrationOverlay>
+                <HydrationOverlay>{children}</HydrationOverlay>
               </section>
             </Card>
-
           </main>
         </div>
       </Providers>

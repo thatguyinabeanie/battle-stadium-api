@@ -11,10 +11,7 @@ interface OrgTourCardProps {
 
 export default function OrgTourCard({ organization, tournament }: Readonly<OrgTourCardProps>) {
   return (
-    <Card
-      className="bg-transparent h-90 w-90"
-      shadow="md"
-    >
+    <Card className="bg-transparent h-90 w-90" shadow="md">
       <CardBody className="bg-transparent flex flex-row justify-between">
         <OrganizationLogo organization={organization} />
 
