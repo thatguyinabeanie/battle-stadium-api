@@ -115,7 +115,7 @@
     "@types/react-window": "^1.8.8",
     "@types/rosie": "^0.0.45",
     "@types/swagger-ui-react": "^4.18.3",
-    "@types/web": "^0.0.171",
+    "@types/web": "^0.0.174",
     "@types/ws": "^8.5.12",
     "@typescript-eslint/eslint-plugin": "^8.11.0",
     "@typescript-eslint/parser": "^8.11.0",
