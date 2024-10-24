@@ -14,11 +14,11 @@ const navLinks = [
   },
   {
     name: "About",
-    href: "/about",
+    href: "/info/about",
   },
   {
     name: "Contact",
-    href: "/contact",
+    href: "/info/contact",
   },
   {
     name: "Github",
