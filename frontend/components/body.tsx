@@ -4,21 +4,18 @@ import AwesomeParticles from "./awesome-particles";
 import NavigationBar from "./navbar/navbar";
 import Providers from "./providers";
 import { ChildrenProps } from "@/types";
-import { Card } from "@/components/nextui-use-client";
 
 export default function Body({ children }: Readonly<ChildrenProps>) {
   return (
     <body className={clsx("min-h-screen bg-background font-sans antialiased overflow-y-scroll")}>
       <Providers>
         <AwesomeParticles />
-        <div className="flex flex-col w-full h-full">
-          <NavigationBar />
-          <main className="flex flex-col h-full w-full z-0 justify-center items-center py-4">
-            <Card className="w-3/4 h-full flex flex-col bg-transparent justify-center items-center backdrop-blur p-4">
-              <section className="flex flex-col gap-4 h-full w-full items-center">
-                <HydrationOverlay>{children}</HydrationOverlay>
-              </section>
-            </Card>
+        <div className="flex flex-col w-full h-full items-center">
+          <main className="flex flex-col h-full w-3/4 z-0 justify-center items-center backdrop-blur-lg shadow-md gap-4 pt-4">
+            <NavigationBar />
+            <section className="flex flex-col gap-4 h-full items-center w-3/4">
+              <HydrationOverlay>{children}</HydrationOverlay>
+            </section>
           </main>
         </div>
       </Providers>

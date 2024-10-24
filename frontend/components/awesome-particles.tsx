@@ -46,7 +46,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         color: isLight ? "#555" : "#fff",
         distance: 150,
         enable: true,
-        opacity: isLight ? 0.5 : 0.2,
+        opacity: 0.5,
         width: 1,
       },
       move: {
@@ -56,7 +56,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         //   default: OutMode.out,
         // },
         random: true,
-        speed: 1,
+        speed: 3,
         straight: false,
       },
       number: {

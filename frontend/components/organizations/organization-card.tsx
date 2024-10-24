@@ -1,27 +1,20 @@
-"use client";
-
 import React from "react";
-import { Card, Image, CardBody, Link, CardFooter, CardProps } from "@/components/nextui-use-client";
+import { Image, Link } from "@/components/nextui-use-client";
 
 import { Organization } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 export interface OrgCardProps {
   organization: Organization;
-  cardProps?: CardProps;
   disableHover?: boolean;
 }
 
-export default function OrganizationCard({ organization, cardProps, disableHover }: Readonly<OrgCardProps>) {
+export default function OrganizationCard({ organization, disableHover }: Readonly<OrgCardProps>) {
   return (
-    <Card
-      className="bg-transparent relative h-[400px] w-[300px] px-2 border-small border-primary-500/30"
-      {...cardProps}
-      shadow="md"
-    >
+    <div className="bg-transparent relative h-[400px] w-[300px] px-2 border-none">
       <Link key={organization.slug} href={`/organizations/${organization.slug}`}>
         <div className="flex flex-col">
-          <CardBody>
+          <div>
             <div className="overflow-hidden p-1">
               <Image
                 isZoomed
@@ -33,17 +26,17 @@ export default function OrganizationCard({ organization, cardProps, disableHover
                 src={organization.logo_url ?? "/pokemon/vgc.png"}
               />
             </div>
-          </CardBody>
+          </div>
 
-          <CardFooter className="justify-center align-bottom h-full w-full">
+          <div className="justify-center align-bottom h-full w-full">
             <div className="flex flex-col grid-cols-1 gap-2 px-3 pb-3 text-center">
               <p className="flex-col text-large font-medium sm:text-small" data-testid="org-name">
                 {organization.name}
               </p>
             </div>
-          </CardFooter>
+          </div>
         </div>
       </Link>
-    </Card>
+    </div>
   );
 }

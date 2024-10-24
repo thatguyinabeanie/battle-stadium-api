@@ -47,25 +47,5 @@ export default async function Tournaments() {
   const pastTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) < rightNow);
   const upcomingTours = tours.filter((tour) => tour.start_at && new Date(tour.start_at) >= rightNow);
 
-  return (
-    <div className="pb-4">
-      {/* <Card className={`${cardClassNames}`} shadow="md">
-        <CardHeader>Upcoming Tournaments</CardHeader>
-        <CardBody>
-          <p>Here you can find all the upcoming tournaments.</p>
-          <TournamentsTable columns={columns} data={upcomingTours} />
-        </CardBody>
-      </Card> */}
-
-      {/* <Card className={`mt-4 ${cardClassNames}`} shadow="md">
-        <CardHeader>Past Tournaments</CardHeader>
-        <CardBody>
-          <p>Here you can find all the past tournaments.</p>
-
-        </CardBody>
-      </Card> */}
-
-      <TournamentsTable columns={columns} data={[...pastTours, ...upcomingTours]} />
-    </div>
-  );
+  return <TournamentsTable columns={columns} data={[...pastTours, ...upcomingTours]} />;
 }
