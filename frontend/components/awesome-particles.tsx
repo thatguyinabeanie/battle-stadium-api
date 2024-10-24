@@ -56,7 +56,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         //   default: OutMode.out,
         // },
         random: true,
-        speed: 0.5,
+        speed: 1,
         straight: false,
       },
       number: {
