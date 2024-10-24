@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Admin() {
-  if (!auth().sessionId) {
+  if (!(await auth()).sessionId) {
     return redirect("/sign-in");
   }
 

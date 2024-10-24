@@ -1,14 +1,9 @@
 import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import clsx from "clsx";
-import { env } from "process";
 import AwesomeParticles from "./awesome-particles";
 import NavigationBar from "./navbar/navbar";
 import Providers from "./providers";
 import { ChildrenProps } from "@/types";
-import Cookies from "./cookies";
 
 export default function Body({ children }: Readonly<ChildrenProps>) {
   return (
@@ -24,10 +19,6 @@ export default function Body({ children }: Readonly<ChildrenProps>) {
           </main>
         </div>
       </Providers>
-      <Analytics />
-      <SpeedInsights />
-      <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
-      <Cookies />
     </body>
   );
 }

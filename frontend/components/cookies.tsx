@@ -3,7 +3,6 @@
 import React from "react";
 import Cookies from "js-cookie";
 
-import { useAuth } from "@clerk/clerk-react";
 import { Button, Link } from "@/components/nextui-use-client";
 
 const cookieAttributes = (attrs: Partial<Cookies.CookieAttributes>): Cookies.CookieAttributes => ({
@@ -16,15 +15,18 @@ const cookieAttributes = (attrs: Partial<Cookies.CookieAttributes>): Cookies.Coo
 
 const COOKIE_CONSENT = "cookieConsent";
 
-export default function CookiesComponent() {
-  const { isSignedIn, userId } = useAuth();
+interface CookiesComponentProps {
+  isSignedIn: boolean;
+  userId: string | null | undefined;
+}
+export default function CookiesComponent({ isSignedIn, userId }: Readonly<CookiesComponentProps>) {
   const cookieConsent = Cookies.get(COOKIE_CONSENT);
   const [showConsent, setShowConsent] = React.useState(false);
 
   function handleAccept() {
     Cookies.set(COOKIE_CONSENT, "accepted", cookieAttributes({ expires: 365 }));
 
-    if (isSignedIn) {
+    if (isSignedIn && userId) {
       Cookies.set("userId", userId, cookieAttributes({ expires: 7 }));
     }
 

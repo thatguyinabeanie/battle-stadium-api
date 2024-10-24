@@ -1,6 +1,6 @@
 "use client";
 
-import { SignInButton, SignOutButton } from "@/components/clerk-use-client";
+import { SignInButton, SignOutButton } from "@clerk/nextjs";
 import { DropdownItem, DropdownMenu, Link } from "@/components/nextui-use-client";
 
 import { cn } from "@/lib";
