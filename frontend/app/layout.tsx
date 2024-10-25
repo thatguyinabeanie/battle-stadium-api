@@ -47,14 +47,15 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <html suppressHydrationWarning lang="en">
           <head />
 
-          <Body>{children}</Body>
+          <body className="min-h-screen bg-background font-sans antialiased overflow-y-scroll">
+            <Body>{children}</Body>
+            <Footer />
+          </body>
 
           <Cookies isSignedIn={!!sessionId} userId={userId} />
 
-          <Footer />
-
           <Analytics />
-          <SpeedInsights />
+          {env.VERCEL_ENV === "production" && <SpeedInsights />}
           <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
         </html>
       </ClerkProvider>

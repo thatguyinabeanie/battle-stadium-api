@@ -5,7 +5,6 @@ import { RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui-use-
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-import SwitchCell from "@/components/settings/switch-cell";
 import { ThemeCustomRadio } from "@/components/settings/theme-custom-radio";
 import { cn } from "@/lib/utils";
 
@@ -71,26 +70,6 @@ const AppearanceSetting = React.forwardRef<HTMLDivElement, AppearanceSettingCard
           </Select>
         </div>
         <Spacer y={4} />
-        {/* Translucent UI */}
-        <SwitchCell
-          classNames={{
-            base: "bg-transparent p-0",
-          }}
-          color="foreground"
-          description="Use transparency in UI elements like the sidebar and modal dialogs."
-          label="Translucent UI"
-        />
-        <Spacer y={6} />
-
-        {/* Use pointer cursor */}
-        <SwitchCell
-          classNames={{
-            base: "bg-transparent p-0",
-          }}
-          color="foreground"
-          description="Change the cursor to a pointer when hovering"
-          label="Use pointer cursor"
-        />
       </div>
     );
   },

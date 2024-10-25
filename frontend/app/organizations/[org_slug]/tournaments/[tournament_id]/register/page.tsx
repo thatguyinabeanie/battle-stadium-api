@@ -7,6 +7,8 @@ interface RegisterProps {
   };
 }
 
-export default function Register({ params }: Readonly<RegisterProps>) {
+export default async function Register(props: Readonly<RegisterProps>) {
+  const params = await props.params;
+
   return <TournamentRegistration {...params} />;
 }

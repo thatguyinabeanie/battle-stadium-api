@@ -5,13 +5,15 @@ interface PlayerProfilePageProps {
   };
 }
 
-export async function generateMetadata({ params }: Readonly<PlayerProfilePageProps>) {
+export async function generateMetadata(props: Readonly<PlayerProfilePageProps>) {
+  const params = await props.params;
   const { data: player } = await getAccount(params.username);
 
   return { title: player?.username ?? "Player" };
 }
 
-export default async function PlayerProfilePage({ params }: Readonly<PlayerProfilePageProps>) {
+export default async function PlayerProfilePage(props: Readonly<PlayerProfilePageProps>) {
+  const params = await props.params;
   const { data: player } = await getAccount(params.username);
 
   return (

@@ -7,7 +7,8 @@ interface MetagameProps {
   };
 }
 
-export default function Metagame({ params }: Readonly<MetagameProps>) {
+export default async function Metagame(props: Readonly<MetagameProps>) {
+  const params = await props.params;
   const { org_slug, tournament_id } = params;
 
   return (

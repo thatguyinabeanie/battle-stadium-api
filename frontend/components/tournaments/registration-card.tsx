@@ -15,6 +15,7 @@ import {
 } from "../nextui-use-client";
 import React from "react";
 import { postTournamentRegistration } from "@/app/server-actions/tournaments/actions";
+import Form from "next/form";
 
 interface RegistrationCardProps {
   org_slug: string;
@@ -44,7 +45,7 @@ export default function RegistrationCard({ profiles, org_slug, tournament_id }: 
       </CardHeader>
 
       <CardBody>
-        <form action={registerForTournament} className="grid grid-cols-1 gap-4">
+        <Form action={registerForTournament} className="grid grid-cols-1 gap-4">
           <Input label="In Game Name" name="ign" variant="underlined" />
 
           <Autocomplete
@@ -73,7 +74,7 @@ export default function RegistrationCard({ profiles, org_slug, tournament_id }: 
           <Button aria-label="Submit" color="primary" type="submit">
             Submit
           </Button>
-        </form>
+        </Form>
       </CardBody>
     </Card>
   );

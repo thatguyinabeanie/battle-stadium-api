@@ -12,7 +12,8 @@ interface OrganizationDetailPageProps {
   params: { org_slug: string };
 }
 
-export async function generateMetadata({ params }: Readonly<OrganizationDetailPageProps>) {
+export async function generateMetadata(props: Readonly<OrganizationDetailPageProps>) {
+  const params = await props.params;
   const { data: org } = await getOrganization(params.org_slug);
 
   return { title: org?.name ?? "Organization" };
@@ -52,7 +53,8 @@ const columns = [
   },
 ];
 
-export default async function OrganizationDetailPage({ params }: Readonly<OrganizationDetailPageProps>) {
+export default async function OrganizationDetailPage(props: Readonly<OrganizationDetailPageProps>) {
+  const params = await props.params;
   const { data: organization } = await getOrganization(params.org_slug);
 
   if (!organization) {

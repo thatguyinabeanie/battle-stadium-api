@@ -56,9 +56,7 @@ export function usePokemonTeam() {
     }
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+  const handleSubmit = (formData: FormData) => {
     const inputUrl = formData.get("pokepaste") as string;
 
     parseInput(inputUrl);

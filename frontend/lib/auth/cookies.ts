@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import cookie from "cookie";
 import { env } from "@/env.mjs";
+import { headers } from "next/headers";
 
 function getCookieDomain() {
   if (env.NODE_ENV === "production") {
@@ -20,10 +21,10 @@ const defaultCookieOptions: cookie.SerializeOptions = {
   maxAge,
 };
 
-export function useSetResponseCookies(): readonly [NextResponse, (key: string, value: string | number) => void] {
+export async function setResponseCookies() {
   const response = NextResponse.json({ message: "Cookie set successfully" });
 
-  async function setCookies(key: string, value: string | number) {
+  async function setCookies(key: string, value: string | number): Promise<void> {
     const encodedValue = encodeURIComponent(`${value}`).replace(/\./g, "%2E");
     const signedEncodedValue = `${encodedValue}.${await generateSignature(encodedValue)}`;
 
@@ -34,7 +35,7 @@ export function useSetResponseCookies(): readonly [NextResponse, (key: string, v
     response.headers.append("Set-Cookie", cookie.serialize(`${key}.expires`, expires, defaultCookieOptions));
   }
 
-  return [response, setCookies];
+  return [response, setCookies] as const;
 }
 
 export async function generateSignature(value: string | number): Promise<string> {
@@ -53,6 +54,6 @@ export async function generateSignature(value: string | number): Promise<string>
     .join("");
 }
 
-export function getCookies(req: NextRequest) {
-  return cookie.parse(req.headers.get("cookie") ?? "");
+export async function getCookie(cookie: string) {
+  return (await headers()).get(cookie) ?? "";
 }

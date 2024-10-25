@@ -1,13 +1,13 @@
-import { generateSignature, getCookies, useSetResponseCookies } from "@/lib/auth/cookies";
+import { generateSignature, getCookie, setResponseCookies } from "@/lib/auth/cookies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   const { userId } = await auth();
 
-  const [response, setCookies] = useSetResponseCookies();
+  const [response, setCookies] = await setResponseCookies();
 
   if (!setCookies) {
     return NextResponse.json({ error: "Failed to set cookies" }, { status: 500 });
@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Logged in account is required" }, { status: 401 });
   }
 
-  const cookies = getCookies(req);
-  const userIdCookie = cookies["userId"];
+  const userIdCookie = await getCookie("userId");
 
   if (userIdCookie) {
     const [storedUserId, signature] = userIdCookie.split(".");
@@ -29,15 +28,15 @@ export async function POST(req: NextRequest) {
 
       console.warn(msg); // eslint-disable-line no-console
 
-      return setUserIdCookie(setCookies, userId, response);
+      return await setUserIdCookie(setCookies, userId, response);
     }
 
-    const cookieExpiryDateValue = cookies["userId.expires"];
+    const cookieExpiryDateValue = await getCookie("userId.expires");
 
     if (!cookieExpiryDateValue) {
       console.warn("Missing 'userId.expires' cookie."); // eslint-disable-line no-console
 
-      return setUserIdCookie(setCookies, userId, response);
+      return await setUserIdCookie(setCookies, userId, response);
     }
 
     const cookieExpiryDate = new Date(cookieExpiryDateValue);
@@ -45,7 +44,7 @@ export async function POST(req: NextRequest) {
     if (Number.isNaN(cookieExpiryDate.getTime())) {
       console.warn("Invalid date in 'userId.expires' cookie."); // eslint-disable-line no-console
 
-      return setUserIdCookie(setCookies, userId, response);
+      return await setUserIdCookie(setCookies, userId, response);
     }
 
     if (cookieExpiryDate > new Date()) {
@@ -53,11 +52,15 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return setUserIdCookie(setCookies, userId, response);
+  return await setUserIdCookie(setCookies, userId, response);
 }
 
-function setUserIdCookie(setCookies: (name: string, value: string) => void, userId: string, response: NextResponse) {
-  setCookies("userId", userId);
+async function setUserIdCookie(
+  setCookies: (name: string, value: string) => Promise<void>,
+  userId: string,
+  response: NextResponse,
+) {
+  await setCookies("userId", userId);
 
   return response;
 }

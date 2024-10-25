@@ -23,7 +23,6 @@ export function getBaseUrl() {
 export async function BattleStadiumApiClient(skipClerkAuth: boolean = false) {
   const baseUrl = `${getBaseUrl()}/api/v1`;
   const fetchClient = createFetchClient<paths>({ baseUrl });
-
   const authMiddleware: Middleware = {
     async onRequest({ request }) {
       if (env.NODE_ENV !== "development") {
