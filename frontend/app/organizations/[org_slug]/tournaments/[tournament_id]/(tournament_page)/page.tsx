@@ -10,7 +10,7 @@ interface OrganizationTournamentProps {
   params: Promise<{
     org_slug: string;
     tournament_id: number;
-  }>
+  }>;
 }
 
 export async function generateMetadata(props: Readonly<OrganizationTournamentProps>) {
