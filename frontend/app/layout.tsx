@@ -1,21 +1,25 @@
-import React from "react";
-
 import "@/styles/globals.css";
 
-import { ClerkProvider } from "@clerk/nextjs";
+import React from "react";
 import { Metadata, Viewport } from "next";
 import { AppProps } from "next/app";
-
-import { siteConfig } from "@/config/site";
-import { ChildrenProps } from "@/types";
-import Footer from "@/components/footer";
-import Body from "@/components/body";
+import dynamic from "next/dynamic";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { env } from "@/env.mjs";
-import Cookies from "@/components/cookies";
 import { auth } from "@clerk/nextjs/server";
+import { ClerkProvider } from "@clerk/nextjs";
+
+import { env } from "@/env.mjs";
+import { siteConfig } from "@/config/site";
+import { ChildrenProps } from "@/types";
+
+import Providers from "@/components/providers";
+import Footer from "@/components/footer";
+import Body from "@/components/body";
+
+const Cookies = dynamic(() => import("@/components/cookies"));
+const AwesomeParticles = dynamic(() => import("@/components/awesome-particles"));
 
 export const metadata: Metadata = {
   title: {
@@ -48,7 +52,11 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
           <head />
 
           <body className="min-h-screen bg-background font-sans antialiased overflow-y-scroll">
-            <Body>{children}</Body>
+            <Providers>
+              <AwesomeParticles />
+              <Body>{children}</Body>
+            </Providers>
+
             <Footer />
           </body>
 
