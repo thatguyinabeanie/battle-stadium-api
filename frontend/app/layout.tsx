@@ -55,7 +55,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
           <Cookies isSignedIn={!!sessionId} userId={userId} />
 
           <Analytics />
-          { env.VERCEL_ENV === "production" && <SpeedInsights /> }
+          {env.VERCEL_ENV === "production" && <SpeedInsights />}
           <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
         </html>
       </ClerkProvider>
