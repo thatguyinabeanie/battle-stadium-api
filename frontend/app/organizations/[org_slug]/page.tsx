@@ -9,7 +9,7 @@ export const revalidate = 200;
 export const dynamicParams = true;
 
 interface OrganizationDetailPageProps {
-  params: { org_slug: string };
+  params: Promise<{ org_slug: string }>;
 }
 
 export async function generateMetadata(props: Readonly<OrganizationDetailPageProps>) {

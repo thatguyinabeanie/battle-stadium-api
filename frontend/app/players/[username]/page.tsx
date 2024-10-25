@@ -1,8 +1,8 @@
 import { getAccount } from "@/app/server-actions/accounts/actions";
 interface PlayerProfilePageProps {
-  params: {
+  params: Promise<{
     username: string;
-  };
+  }>;
 }
 
 export async function generateMetadata(props: Readonly<PlayerProfilePageProps>) {
