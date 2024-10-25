@@ -7,10 +7,10 @@ export const revalidate = 300;
 export const dynamicParams = true;
 
 interface OrganizationTournamentProps {
-  params: {
+  params: Promise<{
     org_slug: string;
     tournament_id: number;
-  };
+  }>
 }
 
 export async function generateMetadata(props: Readonly<OrganizationTournamentProps>) {

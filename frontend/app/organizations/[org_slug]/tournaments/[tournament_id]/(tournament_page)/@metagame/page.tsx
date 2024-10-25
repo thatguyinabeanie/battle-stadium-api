@@ -1,10 +1,10 @@
 import { Card, CardBody, CardHeader } from "@/components/nextui-use-client";
 
 interface MetagameProps {
-  params: {
+  params: Promise<{
     org_slug: string;
     tournament_id: number;
-  };
+  }>;
 }
 
 export default async function Metagame(props: Readonly<MetagameProps>) {
