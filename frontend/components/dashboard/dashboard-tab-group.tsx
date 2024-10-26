@@ -18,7 +18,6 @@ interface DashboardProps extends DashboardLayoutProps {
 }
 
 export default function Dashboard(props: DashboardProps) {
-
   const tabsToRender = props.me?.admin ? [...tabs, adminTab] : tabs;
 
   return (
