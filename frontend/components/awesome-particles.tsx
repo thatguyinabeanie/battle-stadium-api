@@ -52,9 +52,6 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
       move: {
         direction: MoveDirection.none,
         enable: true,
-        // outModes: {
-        //   default: OutMode.out,
-        // },
         random: true,
         speed: 3,
         straight: false,

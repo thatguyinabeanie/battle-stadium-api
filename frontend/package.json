@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "bun@^1",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "NODE_OPTIONS='--inspect' next dev --turbopack",
     "build:nextjs": "next build",
     "start": "next start",
     "lint": "next lint",

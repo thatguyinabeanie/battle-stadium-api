@@ -23,10 +23,8 @@ export default function BattleStadium() {
         </Link>
       </div>
 
-      <Link className="text-primary" href="/">
-        <span aria-label="Battle Stadium" className="text-lg font-bold opacity-100">
-          Battle Stadium
-        </span>
+      <Link className="flex flex-col text-primary text-lg font-bold opacity-100 justify-center" href="/">
+        Battle Stadium
       </Link>
     </div>
   );
