@@ -72,7 +72,7 @@ export default async function OrganizationDetailPage(props: Readonly<Organizatio
         </div>
       </OrganizationHeader>
 
-      <Divider  />
+      <Divider />
 
       <TournamentsTable columns={columns} data={tournaments} />
     </>

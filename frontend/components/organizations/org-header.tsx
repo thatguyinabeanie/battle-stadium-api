@@ -7,13 +7,12 @@ interface OrganizationHeaderProps {
 }
 export default function OrganizationHeader({ children, organization }: Readonly<OrganizationHeaderProps>) {
   return (
+    <div className="flex flex-row justify-around items-center w-full">
+      <OrganizationLogo organization={organization} />
 
-      <div className="flex flex-row justify-around items-center w-full">
-        <OrganizationLogo organization={organization} />
+      <div className="flex flex-col justify-between items-center text-center mx-4 ">{children}</div>
 
-        <div className="flex flex-col justify-between items-center text-center mx-4 ">{children}</div>
-
-        <OrganizationLogo className="hidden sm:flex" organization={organization} />
-      </div>
+      <OrganizationLogo className="hidden sm:flex" organization={organization} />
+    </div>
   );
 }

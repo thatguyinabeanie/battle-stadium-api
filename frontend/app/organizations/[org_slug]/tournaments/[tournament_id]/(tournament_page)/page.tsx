@@ -42,7 +42,7 @@ export default async function OrganizationTournament(props: Readonly<Organizatio
     <>
       <Divider />
 
-      <Spacer y={ 2 } />
+      <Spacer y={2} />
 
       <OrganizationHeader organization={organization}>
         <div className="flex flex-col justify-between items-center text-center mx-4">
@@ -66,25 +66,38 @@ export default async function OrganizationTournament(props: Readonly<Organizatio
 
       <Divider />
 
-      <Spacer y={ 2 } />
+      <Spacer y={2} />
 
       <div className="flex flex-row gap-4 w-full justify-center items-center">
-        <Chip color="default" variant="solid">Solid</Chip>
-        <Chip color="default" variant="bordered">Bordered</Chip>
-        <Chip color="default" variant="light">Light</Chip>
-        <Chip color="default" variant="flat">Flat</Chip>
-        <Chip color="default" variant="faded">Faded</Chip>
-        <Chip color="default" variant="shadow">Shadow</Chip>
-        <Chip color="default" variant="dot">Dot</Chip>
-        <Link className="text-primary" href={ `/organizations/${org_slug}/tournaments/${tournament_id}/register` }>
+        <Chip color="default" variant="solid">
+          Solid
+        </Chip>
+        <Chip color="default" variant="bordered">
+          Bordered
+        </Chip>
+        <Chip color="default" variant="light">
+          Light
+        </Chip>
+        <Chip color="default" variant="flat">
+          Flat
+        </Chip>
+        <Chip color="default" variant="faded">
+          Faded
+        </Chip>
+        <Chip color="default" variant="shadow">
+          Shadow
+        </Chip>
+        <Chip color="default" variant="dot">
+          Dot
+        </Chip>
+        <Link className="text-primary" href={`/organizations/${org_slug}/tournaments/${tournament_id}/register`}>
           Register
         </Link>
       </div>
 
-      <Spacer y={ 2 } />
+      <Spacer y={2} />
 
       <Divider />
-
     </>
   );
 }
