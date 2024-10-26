@@ -2,38 +2,23 @@
 
 import React from "react";
 
-import { components } from "@/lib/api/openapi-v1";
 import { Tabs, Tab } from "@/components/nextui-use-client";
-import { cn } from "@/lib";
-import { DashboardLayoutProps } from "@/types";
 import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
-
-interface DashboardProps extends DashboardLayoutProps {
-  me: components["schemas"]["AccountMe"] | null | undefined;
-}
 
 const tabs = ["dashboard", "profiles", "pokemon", "tournament_history", "settings", "admin"];
 
-function renderTabContent(activeTab: string, props: Readonly<DashboardProps>) {
-  switch (activeTab) {
-    case "profiles":
-      return props.profiles;
-    case "pokemon":
-      return props.pokemon;
-    case "tournament_history":
-      return props.tournament_history;
-    case "dashboard":
-      return props.children;
-    case "settings":
-      return props.settings;
-    case "admin":
-      return props.admin;
-    default:
-      return null;
-  }
+interface TabsProps<T> {
+  tabs: {
+    key: string;
+    title: string;
+  };
+
+  layoutProps: T;
+
+  renderTabContent: (activeTab: string, props: T) => React.ReactNode;
 }
 
-export default function Dashboard(props: Readonly<DashboardProps>) {
+export default function TabComponent<T>(props: TabsProps<T>) {
   const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs, "dashboard");
 
   return (
@@ -58,19 +43,9 @@ export default function Dashboard(props: Readonly<DashboardProps>) {
         <Tab key="tournaments" title="My Tours" />
         <Tab key="dashboard" title="Dashboard" />
         <Tab key="settings" title="Settings" />
-
-        {props.me?.admin && (
-          <Tab
-            key="admin"
-            className={cn("", {
-              hidden: !props.me.admin,
-            })}
-            title="Admin"
-          />
-        )}
       </Tabs>
 
-      {renderTabContent(activeTab, props)}
+      {props.renderTabContent(activeTab, props.layoutProps)}
     </div>
   );
 }

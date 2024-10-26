@@ -7,10 +7,10 @@ interface OrgDetailCardProps {
 
 export default function OrgDetailCard({ organization }: Readonly<OrgDetailCardProps>) {
   return (
-    <div className="bg-transparent flex flex-row w-3/4 justify-between items-center">
+    <div className="flex flex-row justify-between items-center w-full">
       <OrganizationLogo organization={organization} />
 
-      <div className="flex flex-col justify-between text-center mx-4">
+      <div className="flex flex-col justify-between items-center text-center mx-4 ">
         <h1 className="text-2xl font-semibold">{organization?.name}</h1>
         <p>{organization?.description}</p>
         <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>

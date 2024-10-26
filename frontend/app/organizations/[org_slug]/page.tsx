@@ -1,4 +1,3 @@
-import { Spacer } from "@/components/nextui-use-client";
 import TournamentsTable from "@/components/tournaments-table";
 import { getOrganization, getOrganizations } from "@/app/server-actions/organizations/actions";
 import { getOrganizationTournaments } from "@/app/server-actions/organizations/tournaments/actions";
@@ -66,8 +65,6 @@ export default async function OrganizationDetailPage(props: Readonly<Organizatio
   return (
     <>
       <OrgDetailCard organization={organization} />
-
-      <Spacer y={4} />
 
       <TournamentsTable columns={columns} data={tournaments} />
     </>

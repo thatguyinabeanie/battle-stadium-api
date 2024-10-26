@@ -58,8 +58,8 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
                 <div className="flex flex-col items-center min-h-screen backdrop-blur-lg shadow-2xl shadow-white w-4/5 ">
                   <NavigationBar />
 
-                  <main className="flex flex-col items-center min-h-screen">
-                    <div className="flex flex-col items-center z-0 gap-4 pt-4">
+                  <main className="flex flex-col items-center min-h-screen w-full">
+                    <div className="flex flex-col items-center z-0 gap-4 pt-4 w-full">
                       <section className="flex flex-col gap-4 items-center">{children}</section>
                     </div>
                   </main>

@@ -40,7 +40,9 @@ export default async function OrganizationTournament(props: Readonly<Organizatio
   return (
     <>
       <OrgTourCard organization={organization} tournament={tournament} />
-      <Link href={`/organizations/${org_slug}/tournaments/${tournament_id}/register`}>Register</Link>
+      <Link className="text-primary" href={`/organizations/${org_slug}/tournaments/${tournament_id}/register`}>
+        Register
+      </Link>
     </>
   );
 }
