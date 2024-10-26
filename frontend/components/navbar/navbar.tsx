@@ -9,31 +9,34 @@ import { auth } from "@clerk/nextjs/server";
 import NavbarRightMenu from "@/components/navbar/navbar-right-menu";
 import NavbarMobileMenu from "@/components/navbar/navbar-mobile-menu";
 
-const navbarClassNames = {
-  wrapper: "flex flex-row gap-8 rounded-full shadow-md border-small border-neutral-500/10",
-  base: "flex w-fit h-fit bg-transparent backdrop-blur rounded-full",
-  item: [
-    "flex",
-    "relative",
-    "h-full",
-    "items-center",
-    "data-[active=true]:after:content-['']",
-    "data-[active=true]:after:absolute",
-    "data-[active=true]:after:bottom-0",
-    "data-[active=true]:after:left-0",
-    "data-[active=true]:after:right-0",
-    "data-[active=true]:after:h-[3px]",
-    "data-[active=true]:after:rounded-full",
-    "data-[active=true]:after:bg-primary",
-  ],
-};
-
 export default async function NavigationBar() {
   const clerkAuth = await auth();
   const me = (await getAccountMe())?.data;
 
   return (
-    <Navbar shouldHideOnScroll classNames={navbarClassNames} height="3.5rem">
+    <Navbar
+      isBlurred
+      shouldHideOnScroll
+      classNames={{
+        wrapper: "flex flex-row gap-8 rounded-full shadow-lg border-small border-neutral-500/10",
+        base: "flex w-fit h-fit bg-transparent rounded-full",
+        item: [
+          "flex",
+          "relative",
+          "h-full",
+          "items-center",
+          "data-[active=true]:after:content-['']",
+          "data-[active=true]:after:absolute",
+          "data-[active=true]:after:bottom-0",
+          "data-[active=true]:after:left-0",
+          "data-[active=true]:after:right-0",
+          "data-[active=true]:after:h-[3px]",
+          "data-[active=true]:after:rounded-full",
+          "data-[active=true]:after:bg-primary",
+        ],
+      }}
+      height="3.5rem"
+    >
       <NavbarBrand className="rounded-full h-12 flex flex-row flex-grow-0">
         <BattleStadium />
       </NavbarBrand>

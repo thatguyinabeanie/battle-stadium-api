@@ -1,7 +1,9 @@
 import type { IconProps } from "@iconify/react";
 
 import React from "react";
-import { Link, Spacer } from "@/components/nextui-use-client";
+import { Spacer } from "@/components/nextui-use-client";
+import Link from "next/link";
+
 import { Icon } from "@iconify/react";
 import BattleStadium from "./battle-stadium";
 
@@ -41,8 +43,8 @@ const socialItems = [
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col w-full justify-center items-center pt-8">
-      <div className="flex flex-col items-center justify-center px-6 py-12 lg:px-8 shadow-md backdrop-blur-lg w-3/4 bg-transparent">
+    <footer className="flex flex-col w-full justify-center items-center pt-4 rounded-lg">
+      <div className="flex flex-col items-center justify-center px-6 py-12 lg:px-8 shadow-2xl backdrop-blur-lg w-3/4 bg-transparent rounded-lg">
         <div className="flex items-center justify-center">
           <BattleStadium />
         </div>
@@ -51,7 +53,7 @@ export default function Footer() {
 
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
           {navLinks.map((item) => (
-            <Link key={item.name} isExternal className="text-default-500" href={item.href} size="sm">
+            <Link key={item.name} className="text-primary" href={item.href}>
               {item.name}
             </Link>
           ))}
@@ -59,7 +61,7 @@ export default function Footer() {
         <Spacer y={6} />
         <div className="flex justify-center gap-x-4">
           {socialItems.map((item) => (
-            <Link key={item.name} isExternal className="text-default-400" href={item.href}>
+            <Link key={item.name} className="text-primary" href={item.href}>
               <span className="sr-only">{item.name}</span>
               <item.icon aria-hidden="true" className="w-5" />
             </Link>

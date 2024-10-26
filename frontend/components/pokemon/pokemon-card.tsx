@@ -53,7 +53,7 @@ function PokemonAttributes({ pokemon, ots }: Readonly<PokemonCardProps>) {
           <span className="flex flex-row justify-around">
             <strong>Item:</strong>
             {pokemon.item}
-            <Image alt={pokemon.item} height={ITEM_SIZE} src={pokemon.imgItem} width={ITEM_SIZE} />{" "}
+            <Image priority alt={pokemon.item} height={ITEM_SIZE} src={pokemon.imgItem} width={ITEM_SIZE} />
           </span>
         </p>
       </span>

@@ -1,17 +1,11 @@
 "use client";
 
 import { Profile } from "@/lib/api";
-import {
-  Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  Image,
-  Chip,
-} from "@/components/nextui-use-client";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Chip } from "@/components/nextui-use-client";
+
+import Link from "next/link";
+import Image from "next/image";
+
 import { cn } from "@/lib";
 
 const columns = [
@@ -70,7 +64,7 @@ function renderCell(row: Profile, columnKey: React.Key) {
     case "pronouns":
       return row.pronouns ?? "";
     case "image_url":
-      return <Image alt={username} height={50} src={row.image_url ?? undefined} width={50} />;
+      return <Image priority alt={username} height={50} src={row.image_url ?? "/pokemon/vgc.png"} width={50} />;
     case "default":
       return row.default ? "true" : "false1";
     default:
