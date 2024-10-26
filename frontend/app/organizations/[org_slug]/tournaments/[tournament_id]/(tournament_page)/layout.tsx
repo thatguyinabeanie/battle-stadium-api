@@ -3,6 +3,7 @@
 import React from "react";
 
 import Tabs from "@/components/tabs";
+import { Spacer } from "@nextui-org/react";
 
 const tabs = [
   { key: "details", title: "Details" },
@@ -48,6 +49,8 @@ export default function OrganizationTournamentsTournamentLayout(
   return (
     <div className="w-full h-full flex flex-col items-center">
       {props.children}
+
+      <Spacer y={2} />
 
       <Tabs renderTabContent={renderTabContent} tabContents={props} tabs={tabs} />
     </div>

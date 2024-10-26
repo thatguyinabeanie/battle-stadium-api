@@ -60,7 +60,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
 
                   <main className="flex flex-col items-center min-h-screen w-full">
                     <div className="flex flex-col items-center z-0 gap-4 pt-4 w-full">
-                      <section className="flex flex-col gap-4 items-center">{children}</section>
+                      <section className="flex flex-col gap-4 w-full items-center">{children}</section>
                     </div>
                   </main>
 

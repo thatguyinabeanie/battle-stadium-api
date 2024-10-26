@@ -1,5 +1,5 @@
 import { getTournament, getTournaments } from "@/app/server-actions/tournaments/actions";
-import { Spacer } from "@/components/nextui-use-client";
+import { Chip, Divider, Spacer } from "@/components/nextui-use-client";
 import OrganizationHeader from "@/components/organizations/org-header";
 
 import Link from "next/link";
@@ -40,8 +40,12 @@ export default async function OrganizationTournament(props: Readonly<Organizatio
 
   return (
     <>
+      <Divider />
+
+      <Spacer y={ 2 } />
+
       <OrganizationHeader organization={organization}>
-        <div className="flex flex-col justify-between items-center text-center mx-4 ">
+        <div className="flex flex-col justify-between items-center text-center mx-4">
           <h1 className="text-2xl font-semibold">{tournament.name}</h1>
           <h2 className="flex flex-row gap-1">
             <p className="font-bold">Presented By: </p>
@@ -55,14 +59,32 @@ export default async function OrganizationTournament(props: Readonly<Organizatio
           <p>Check in opens: {tournament.check_in_start_at} </p>
 
           <Spacer y={2} />
-
-          <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
         </div>
       </OrganizationHeader>
 
-      <Link className="text-primary" href={`/organizations/${org_slug}/tournaments/${tournament_id}/register`}>
-        Register
-      </Link>
+      <Spacer y={4} />
+
+      <Divider />
+
+      <Spacer y={ 2 } />
+
+      <div className="flex flex-row gap-4 w-full justify-center items-center">
+        <Chip color="default" variant="solid">Solid</Chip>
+        <Chip color="default" variant="bordered">Bordered</Chip>
+        <Chip color="default" variant="light">Light</Chip>
+        <Chip color="default" variant="flat">Flat</Chip>
+        <Chip color="default" variant="faded">Faded</Chip>
+        <Chip color="default" variant="shadow">Shadow</Chip>
+        <Chip color="default" variant="dot">Dot</Chip>
+        <Link className="text-primary" href={ `/organizations/${org_slug}/tournaments/${tournament_id}/register` }>
+          Register
+        </Link>
+      </div>
+
+      <Spacer y={ 2 } />
+
+      <Divider />
+
     </>
   );
 }
