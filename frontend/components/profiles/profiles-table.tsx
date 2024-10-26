@@ -1,15 +1,7 @@
 "use client";
 
 import { Profile } from "@/lib/api";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  Chip,
-} from "@/components/nextui-use-client";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Chip } from "@/components/nextui-use-client";
 
 import Link from "next/link";
 import Image from "next/image";

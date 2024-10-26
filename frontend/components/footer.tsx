@@ -1,7 +1,7 @@
 import type { IconProps } from "@iconify/react";
 
 import React from "react";
-import {  Spacer } from "@/components/nextui-use-client";
+import { Spacer } from "@/components/nextui-use-client";
 import Link from "next/link";
 
 import { Icon } from "@iconify/react";
@@ -61,7 +61,7 @@ export default function Footer() {
         <Spacer y={6} />
         <div className="flex justify-center gap-x-4">
           {socialItems.map((item) => (
-            <Link key={ item.name } className="text-primary" href={item.href}>
+            <Link key={item.name} className="text-primary" href={item.href}>
               <span className="sr-only">{item.name}</span>
               <item.icon aria-hidden="true" className="w-5" />
             </Link>

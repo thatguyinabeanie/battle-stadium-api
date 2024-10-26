@@ -15,26 +15,28 @@ export default async function NavigationBar() {
 
   return (
     <Navbar
-    isBlurred
-    shouldHideOnScroll height="3.5rem"
-    classNames={ {
-      wrapper: "flex flex-row gap-8 rounded-full shadow-lg border-small border-neutral-500/10",
-      base: "flex w-fit h-fit bg-transparent rounded-full",
-      item: [
-        "flex",
-        "relative",
-        "h-full",
-        "items-center",
-        "data-[active=true]:after:content-['']",
-        "data-[active=true]:after:absolute",
-        "data-[active=true]:after:bottom-0",
-        "data-[active=true]:after:left-0",
-        "data-[active=true]:after:right-0",
-        "data-[active=true]:after:h-[3px]",
-        "data-[active=true]:after:rounded-full",
-        "data-[active=true]:after:bg-primary",
-      ],
-    } }>
+      isBlurred
+      shouldHideOnScroll
+      classNames={{
+        wrapper: "flex flex-row gap-8 rounded-full shadow-lg border-small border-neutral-500/10",
+        base: "flex w-fit h-fit bg-transparent rounded-full",
+        item: [
+          "flex",
+          "relative",
+          "h-full",
+          "items-center",
+          "data-[active=true]:after:content-['']",
+          "data-[active=true]:after:absolute",
+          "data-[active=true]:after:bottom-0",
+          "data-[active=true]:after:left-0",
+          "data-[active=true]:after:right-0",
+          "data-[active=true]:after:h-[3px]",
+          "data-[active=true]:after:rounded-full",
+          "data-[active=true]:after:bg-primary",
+        ],
+      }}
+      height="3.5rem"
+    >
       <NavbarBrand className="rounded-full h-12 flex flex-row flex-grow-0">
         <BattleStadium />
       </NavbarBrand>

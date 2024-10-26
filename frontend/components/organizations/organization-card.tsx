@@ -17,17 +17,17 @@ export default function OrganizationCard({ organization, disableHover }: Readonl
         <div className="flex flex-col overflow-hidden p-2">
           <Image
             priority
-            width={200}
-            height={250}
             alt="Card image"
+            aria-label={organization?.name}
+            blurDataURL={organization?.logo_url ?? "/pokemon/vgc.png"}
             className={cn("rounded-3xl", {
               "hover:scale-105": !disableHover,
               "hover:z-50": !disableHover,
             })}
-            aria-label={ organization?.name }
+            height={250}
             placeholder="blur"
-            blurDataURL={ organization?.logo_url ?? "/pokemon/vgc.png" }
             src={organization.logo_url ?? "/pokemon/vgc.png"}
+            width={200}
           />
 
           <div className="justify-center align-bottom h-full w-full">

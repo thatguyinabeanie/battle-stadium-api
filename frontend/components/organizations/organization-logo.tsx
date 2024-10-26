@@ -10,14 +10,14 @@ export default function OrganizationLogo({ organization, className }: Readonly<O
   return (
     <Image
       priority
-      width={2000}
-      height={2000}
-      placeholder="blur"
-      blurDataURL={organization?.logo_url ?? "/pokemon/vgc.png"}
       alt={organization?.name}
       aria-label={organization?.name}
+      blurDataURL={organization?.logo_url ?? "/pokemon/vgc.png"}
       className={`aspect-square gap-3 h-[6.25rem] w-[6.25rem] md:h-[9.375rem] md:w-[9.375rem] lg:h-[12.5rem] lg:w-[12.5rem] ${className}`}
+      height={2000}
+      placeholder="blur"
       src={organization?.logo_url ?? "/pokemon/vgc.png"}
+      width={2000}
     />
   );
 }
