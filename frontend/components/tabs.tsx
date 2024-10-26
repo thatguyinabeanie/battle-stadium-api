@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Tabs, Tab } from "@/components/nextui-use-client";
+import { Tabs as NextUI_Tabs, Tab } from "@/components/nextui-use-client";
 import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
 
 const tabs = ["dashboard", "profiles", "pokemon", "tournament_history", "settings", "admin"];
@@ -11,19 +11,19 @@ interface TabsProps<T> {
   tabs: {
     key: string;
     title: string;
-  };
+  }[];
 
-  layoutProps: T;
+  tabContents: T;
 
   renderTabContent: (activeTab: string, props: T) => React.ReactNode;
 }
 
-export default function TabComponent<T>(props: TabsProps<T>) {
+export default function Tabs<T>(props: TabsProps<T>) {
   const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs, "dashboard");
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <Tabs
+      <NextUI_Tabs
         aria-label="Navigation Tabs"
         classNames={{
           tabList:
@@ -38,14 +38,12 @@ export default function TabComponent<T>(props: TabsProps<T>) {
           updateSearchParams({ tab: key.toString() });
         }}
       >
-        <Tab key="profiles" title="Profiles" />
-        <Tab key="pokemon" title="Pokemon" />
-        <Tab key="tournaments" title="My Tours" />
-        <Tab key="dashboard" title="Dashboard" />
-        <Tab key="settings" title="Settings" />
-      </Tabs>
+        {props.tabs.map((tab) => (
+          <Tab key={tab.key} title={tab.title} />
+        ))}
+      </NextUI_Tabs>
 
-      {props.renderTabContent(activeTab, props.layoutProps)}
+      {props.renderTabContent(activeTab, props.tabContents)}
     </div>
   );
 }

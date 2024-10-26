@@ -1,5 +1,3 @@
-import SwaggerUI from "swagger-ui-react";
-
 import "swagger-ui-react/swagger-ui.css";
 import { getAccountMe } from "@/app/server-actions/accounts/actions";
 import { redirect } from "next/navigation";
@@ -19,7 +17,7 @@ export default async function OpenApiDocs() {
   }
 
   // const jsonSpec = yaml.load(await fetchOpenApiYaml());
-  const jsonSpec = '{"openapi": "3.0.1"}';
+  // const jsonSpec = '{"openapi": "3.0.1"}';
 
   return (
     <div
@@ -27,7 +25,7 @@ export default async function OpenApiDocs() {
     backdrop-blur"
     >
       <div className="flex flex-row justify-between rounded-3xl p-10 ">
-        <SwaggerUI displayOperationId={true} spec={jsonSpec} />
+        {/* <SwaggerUI displayOperationId={true} spec={jsonSpec} /> */}
       </div>
     </div>
   );

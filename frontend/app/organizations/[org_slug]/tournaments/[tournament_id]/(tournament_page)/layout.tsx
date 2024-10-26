@@ -2,10 +2,16 @@
 
 import React from "react";
 
-import { Tabs, Tab } from "@/components/nextui-use-client";
-import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
+import Tabs from "@/components/tabs";
 
-const tabs = ["meta", "standings", "pairings", "matches", "registrations", "details"];
+const tabs = [
+  { key: "details", title: "Details" },
+  { key: "registrations", title: "Registrations" },
+  { key: "pairings", title: "Pairings" },
+  { key: "standings", title: "Standings" },
+  { key: "matches", title: "Matches" },
+  { key: "meta", title: "Metagame" },
+];
 
 interface OrganizationTournamentsTournamentLayoutProps {
   children: React.ReactNode;
@@ -39,35 +45,11 @@ function renderTabContent(activeTab: string, props: Readonly<OrganizationTournam
 export default function OrganizationTournamentsTournamentLayout(
   props: Readonly<OrganizationTournamentsTournamentLayoutProps>,
 ) {
-  const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs, "details");
-
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <Tabs
-        aria-label="Organization Tournament Tabs"
-        classNames={{
-          tabList:
-            "relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md hidden sm:flex mb-4",
-          tabContent: "w-fit text-default-500",
-        }}
-        radius="full"
-        selectedKey={activeTab}
-        onSelectionChange={(key: React.Key) => {
-          setActiveTab(key.toString());
-          updateSearchParams({ tab: key.toString() });
-          updateSearchParams({ tab: key.toString() });
-        }}
-      >
-        <Tab key="details" title="Details" />
-        <Tab key="registrations" title="Registrations" />
+      {props.children}
 
-        <Tab key="pairings" title="Pairings" />
-        <Tab key="standings" title="Standings" />
-        <Tab key="matches" title="Matches" />
-        <Tab key="meta" title="Metagame" />
-      </Tabs>
-
-      {renderTabContent(activeTab, props)}
+      <Tabs renderTabContent={renderTabContent} tabContents={props} tabs={tabs} />
     </div>
   );
 }
