@@ -2,7 +2,7 @@ import TournamentsTable from "@/components/tournaments-table";
 import { getOrganization, getOrganizations } from "@/app/server-actions/organizations/actions";
 import { getOrganizationTournaments } from "@/app/server-actions/organizations/tournaments/actions";
 
-import OrgDetailCard from "@/components/org-detail-card";
+import OrganizationHeader from "@/components/organizations/org-header";
 
 export const revalidate = 200;
 export const dynamicParams = true;
@@ -64,8 +64,13 @@ export default async function OrganizationDetailPage(props: Readonly<Organizatio
 
   return (
     <>
-      <OrgDetailCard organization={organization} />
-
+      <OrganizationHeader organization={organization}>
+        <div className="flex flex-col justify-between items-center text-center mx-4 ">
+          <h1 className="text-2xl font-semibold">{ organization?.name }</h1>
+          <p>{ organization?.description }</p>
+          <p>[ICON LINKS TO SOCIAL MEDIA PROFILES]</p>
+        </div>
+      </OrganizationHeader>
       <TournamentsTable columns={columns} data={tournaments} />
     </>
   );
