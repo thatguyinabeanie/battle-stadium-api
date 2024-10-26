@@ -16,7 +16,7 @@ interface TabsProps<T> {
   renderTabContent: (activeTab: string, props: T) => React.ReactNode;
 }
 
-export default function Tabs<T>(props: TabsProps<T>) {
+export default function Tabs<T>(props: Readonly<TabsProps<T>>) {
   const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs, "dashboard");
 
   return (
