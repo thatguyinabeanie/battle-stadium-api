@@ -15,7 +15,6 @@ export default function OrganizationHeader({ children, organization }: Readonly<
         <div className="flex flex-col justify-between items-center text-center mx-4 ">{children}</div>
 
         <OrganizationLogo className="hidden sm:flex" organization={organization} />
-
       </div>
 
       <Divider />
