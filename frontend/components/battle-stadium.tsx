@@ -1,7 +1,7 @@
 import type { IconSvgProps } from "@/types";
 
 import React from "react";
-import { Link } from "@/components/nextui-use-client";
+import Link from "next/link";
 
 export const BattleStadiumIcon: React.FC<IconSvgProps> = ({ size = 32, width, height, ...props }) => (
   <svg fill="none" height={size || height} viewBox="0 0 32 32" width={size || width} {...props}>
@@ -18,12 +18,12 @@ export default function BattleStadium() {
   return (
     <div className="flex flex-row gap-4">
       <div className="flex rounded-full bg-foreground ">
-        <Link href="/">
+        <Link className="text-primary" href="/">
           <BattleStadiumIcon aria-label="Battle Stadium Logo" className="text-background" />
         </Link>
       </div>
 
-      <Link href="/">
+      <Link className="text-primary" href="/">
         <span aria-label="Battle Stadium" className="text-lg font-bold opacity-100">
           Battle Stadium
         </span>

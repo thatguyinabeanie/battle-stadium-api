@@ -1,6 +1,8 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Link } from "@/components/nextui-use-client";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@/components/nextui-use-client";
+
+import Link from "next/link";
 
 import { Profile } from "@/lib/api";
 
@@ -43,7 +45,7 @@ function renderCell(row: Profile, columnKey: React.Key) {
 
   switch (columnKey) {
     case "username":
-      return <Link href={`/players/${username}`}>{username}</Link>;
+      return <Link href={`/players/${username}`} className="text-primary">{username}</Link>;
     case "pronouns":
       return row.pronouns ?? "they/them";
     default:

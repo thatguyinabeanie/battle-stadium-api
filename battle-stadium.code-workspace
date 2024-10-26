@@ -8,20 +8,20 @@
     },
     // Inside the client directory, we have the client part of the project
     {
-      "name": "rails-api",
+      "name": "backend",
       "path": "backend"
     },
     // Inside the server directory, we have the server part of the project
     {
-      "name": "nextjs",
+      "name": "frontend",
       "path": "frontend"
     }
   ],
   "settings": {
     // We don't want to show duplicates, so we hide the directories that are already showing up as workspaces
     "files.exclude": {
-      "rails-api": true,
-      "nextjs": true
+      "frontend": true,
+      "backend": true
     },
     "sqltools.connections": [
       {
@@ -46,7 +46,39 @@
       "Jigglypuff",
       "Meowth",
       "Squirtle"
-    ]
+    ],
+    "rubyLsp.addonSettings": {},
+    "rubyLsp.enabledFeatures": {
+      "codeActions": true,
+      "diagnostics": true,
+      "documentHighlights": true,
+      "documentLink": true,
+      "documentSymbols": true,
+      "foldingRanges": true,
+      "formatting": true,
+      "hover": true,
+      "inlayHint": true,
+      "onTypeFormatting": true,
+      "selectionRanges": true,
+      "semanticHighlighting": true,
+      "completion": true,
+      "codeLens": true,
+      "definition": true,
+      "workspaceSymbol": true,
+      "signatureHelp": true,
+      "typeHierarchy": true
+    },
+    "rubyLsp.formatter": "rubocop",
+    "rubyLsp.rubyVersionManager": {
+      "identifier": "custom"
+    },
+    "rubyLsp.customRubyCommand": "/var/folders/g8/81ln1_tn27l4kts6shxsdpfm0000gn/T/frum_750_1722482383949/bin/ruby",
+    "rubyLsp.enableExperimentalFeatures": true,
+    "rubyLsp.featuresConfiguration": {
+
+    },
+    "rdbg.rubyVersionManager": "frum",
+    "rdbg.saveBreakpoints": true
   },
   "extensions": {
     "recommendations": [

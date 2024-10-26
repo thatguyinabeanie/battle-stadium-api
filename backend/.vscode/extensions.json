@@ -27,6 +27,6 @@
     "aaron-bond.better-comments",
     "mtxr.sqltools",
     "mtxr.sqltools-driver-pg",
-    "ryanluker.vscode-coverage-gutters"
+    "shopify.ruby-lsp"
   ]
 }

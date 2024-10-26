@@ -9,77 +9,18 @@
     "projectKey": "thatguyinabeanie_battle-stadium"
   },
 
-  "terminal.integrated.suggest.enabled": true,
-  "testing.coverageToolbarEnabled": true,
-  "terminal.integrated.cursorBlinking": true,
-  "git.terminalGitEditor": true,
-
-  "testExplorer.codeLens": true,
-  "testExplorer.gutterDecoration": true,
-  "testExplorer.onStart": "none",
-  "testExplorer.onReload": "none",
-
   "npm.packageManager": "bun",
 
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
 
-  // Don't forget to set the manager to custom when using this option
-  "rubyLsp.rubyVersionManager": {
-    "identifier": "custom"
+  // All of these settings are scoped only to the Ruby language
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp", // Use the Ruby LSP as the default formatter
+    "editor.formatOnSave": true, // Format files automatically when saving
+    "editor.tabSize": 2, // Use 2 spaces for indentation
+    "editor.insertSpaces": true, // Use spaces and not tabs for indentation
+    "editor.semanticHighlighting.enabled": true, // Enable semantic highlighting
+    "editor.formatOnType": true // Enable formatting while typing
   },
 
-  // Adding a custom Ruby bin folder to the PATH
-  "rubyLsp.customRubyCommand": "(frum local || asdf current ruby || which ruby)",
-  "rubyLsp.indexing": {
-    "excludedPatterns": [
-      "**/test/**.rb",
-      "frontend/**",
-      "./devcontainer/**",
-      ".github/**",
-      ".sonarlint/**",
-      "**/.turbo/**",
-      ".turbo/**",
-      ".vscode/**",
-      "**/node_modules/**",
-      "node_modules/**"
-    ],
-    "includedPatterns": ["**/bin/**"],
-    "excludedGems": ["rubocop", "rubocop-performance"],
-    "includedPatterns": ["rake"],
-    "excludedMagicComments": ["compiled:true"]
-  },
 
-  "rubyTestExplorer.rspecDirectory": "./backend/spec",
-  "rubyTestExplorer.minitestDirectory": "backend/test",
-  "sqltools.connections": [
-    {
-      "previewLimit": 50,
-      "server": "backend",
-      "port": 5432,
-      "driver": "PostgreSQL",
-      "name": "backend",
-      "group": "fuecoco-db-dev",
-      "database": "fuecoco-db-dev",
-      "username": "postgres"
-    },
-    {
-      "previewLimit": 50,
-      "server": "localhost",
-      "port": 5432,
-      "driver": "PostgreSQL",
-      "name": "localhost",
-      "group": "fuecoco-db-dev",
-      "database": "fuecoco-db-dev",
-      "username": "postgres"
-    }
-  ],
-  "coverage-gutters.coverageFileNames": [
-    ".resultset.json",
-    "lcov.info",
-    "cov.xml",
-    "coverage.xml",
-    "jacoco.xml",
-    "coverage.cobertura.xml"
-  ],
 }

@@ -51,9 +51,10 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
         <html suppressHydrationWarning lang="en">
           <head />
 
-          <body className="min-h-screen bg-background font-sans antialiased overflow-y-scroll">
+          <body className="bg-background font-sans antialiased overflow-y-scroll">
             <Providers>
               <AwesomeParticles />
+
               <Body>{children}</Body>
             </Providers>
 

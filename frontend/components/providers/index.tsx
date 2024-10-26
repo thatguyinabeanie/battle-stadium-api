@@ -15,7 +15,7 @@ export default function Providers({ children }: Readonly<ChildrenProps>) {
   return (
     <NextUIProvider navigate={router.push}>
       <ThemesProvider attribute="class" defaultTheme="dark">
-        <div className="flex h-dvh w-full"> {children} </div>
+        {children}
       </ThemesProvider>
     </NextUIProvider>
   );
