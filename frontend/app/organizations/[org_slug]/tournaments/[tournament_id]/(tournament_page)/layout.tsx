@@ -2,10 +2,17 @@
 
 import React from "react";
 
-import { Tabs, Tab } from "@/components/nextui-use-client";
-import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
+import Tabs from "@/components/tabs";
+import { Spacer } from "@nextui-org/react";
 
-const tabs = ["meta", "standings", "pairings", "matches"];
+const tabs = [
+  { key: "details", title: "Details" },
+  { key: "registrations", title: "Registrations" },
+  { key: "pairings", title: "Pairings" },
+  { key: "standings", title: "Standings" },
+  { key: "matches", title: "Matches" },
+  { key: "meta", title: "Metagame" },
+];
 
 interface OrganizationTournamentsTournamentLayoutProps {
   children: React.ReactNode;
@@ -13,44 +20,39 @@ interface OrganizationTournamentsTournamentLayoutProps {
   pairings: React.ReactNode;
   matches: React.ReactNode;
   metagame: React.ReactNode;
+  registrations: React.ReactNode;
+  details: React.ReactNode;
+}
+
+function renderTabContent(activeTab: string, props: Readonly<OrganizationTournamentsTournamentLayoutProps>) {
+  switch (activeTab) {
+    case "details":
+      return props.details;
+    case "registrations":
+      return props.registrations;
+    case "pairings":
+      return props.pairings;
+    case "standings":
+      return props.standings;
+    case "matches":
+      return props.matches;
+    case "meta":
+      return props.metagame;
+    default:
+      return null;
+  }
 }
 
 export default function OrganizationTournamentsTournamentLayout(
   props: Readonly<OrganizationTournamentsTournamentLayoutProps>,
 ) {
-  const { activeTab, setActiveTab, updateSearchParams } = useSearchParamsTabState(tabs);
-
   return (
     <div className="w-full h-full flex flex-col items-center">
       {props.children}
-      <Tabs
-        aria-label="Navigation Tabs"
-        classNames={{
-          tabList:
-            "relative rounded-full px-1 border-b backdrop-blur mx-8 bg-transparent border-small border-neutral-400/20 shadow-md hidden sm:flex",
-          tabContent: "w-fit text-default-500",
-        }}
-        radius="full"
-        selectedKey={activeTab}
-        onSelectionChange={(key: React.Key) => {
-          setActiveTab(key.toString());
-          updateSearchParams({ tab: key.toString() });
-          updateSearchParams({ tab: key.toString() });
-        }}
-      >
-        <Tab key="meta" title="Metagame">
-          {props.metagame}
-        </Tab>
-        <Tab key="standings" title="Standings">
-          {props.standings}
-        </Tab>
-        <Tab key="pairings" title="Pairings">
-          {props.pairings}
-        </Tab>
-        <Tab key="matches" title="Matches">
-          {props.matches}
-        </Tab>
-      </Tabs>
+
+      <Spacer y={2} />
+
+      <Tabs renderTabContent={renderTabContent} tabContents={props} tabs={tabs} />
     </div>
   );
 }

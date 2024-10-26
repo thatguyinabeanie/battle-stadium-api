@@ -1,11 +1,11 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import React from "react";
 
-export function useSearchParamsTabState(tabs: string[]) {
+export function useSearchParamsTabState(tabs: string[], defaultTab: string) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabStr = searchParams.get("tab");
-  const [activeTab, setActiveTab] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || "dashboard");
+  const [activeTab, setActiveTab] = React.useState((tabs.includes(`${tabStr}`) && tabStr) || defaultTab);
 
   const updateSearchParams = React.useCallback(
     (newParams: Record<string, string>) => {

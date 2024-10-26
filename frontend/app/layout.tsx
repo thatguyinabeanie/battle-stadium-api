@@ -5,8 +5,8 @@ import { Metadata, Viewport } from "next";
 import { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next";
 import { auth } from "@clerk/nextjs/server";
 import { ClerkProvider } from "@clerk/nextjs";
 
@@ -16,7 +16,7 @@ import { ChildrenProps } from "@/types";
 
 import Providers from "@/components/providers";
 import Footer from "@/components/footer";
-import Body from "@/components/body";
+import NavigationBar from "@/components/navbar/navbar";
 
 const Cookies = dynamic(() => import("@/components/cookies"));
 const AwesomeParticles = dynamic(() => import("@/components/awesome-particles"));
@@ -53,19 +53,30 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
 
           <body className="bg-background font-sans antialiased overflow-y-scroll">
             <Providers>
-              <AwesomeParticles />
+              <div className="flex flex-col items-center min-h-svh">
+                <AwesomeParticles />
+                <div className="flex flex-col items-center min-h-screen backdrop-blur-lg shadow-2xl shadow-white w-4/5 ">
+                  <NavigationBar />
 
-              <Body>{children}</Body>
+                  <main className="flex flex-col items-center min-h-screen w-full">
+                    <div className="flex flex-col items-center z-0 gap-4 pt-4 w-full">
+                      <section className="flex flex-col gap-4 w-full items-center">{children}</section>
+                    </div>
+                  </main>
+
+                  <Footer />
+                </div>
+              </div>
+
+              <Cookies isSignedIn={!!sessionId} userId={userId} />
+
+              <VercelAnalytics />
+
+              {env.VERCEL_ENV === "production" && <VercelSpeedInsights />}
+
+              <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
             </Providers>
-
-            <Footer />
           </body>
-
-          <Cookies isSignedIn={!!sessionId} userId={userId} />
-
-          <Analytics />
-          {env.VERCEL_ENV === "production" && <SpeedInsights />}
-          <GoogleAnalytics gaId={env.MEASUREMENT_ID ?? ""} />
         </html>
       </ClerkProvider>
     </React.StrictMode>

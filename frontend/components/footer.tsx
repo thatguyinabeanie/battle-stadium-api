@@ -43,8 +43,8 @@ const socialItems = [
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col w-full justify-center items-center pt-4 rounded-lg">
-      <div className="flex flex-col items-center justify-center px-6 py-12 lg:px-8 shadow-2xl backdrop-blur-lg w-3/4 bg-transparent rounded-lg">
+    <footer className="flex flex-col justify-center items-center py-8">
+      <div className="flex flex-col items-center justify-center">
         <div className="flex items-center justify-center">
           <BattleStadium />
         </div>
