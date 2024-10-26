@@ -65,6 +65,8 @@ export default async function OrganizationDetailPage(props: Readonly<Organizatio
 
   return (
     <>
+      <Divider />
+
       <OrganizationHeader organization={organization}>
         <div className="flex flex-col justify-between items-center text-center mx-4 ">
           <h1 className="text-2xl font-semibold">{organization?.name}</h1>
