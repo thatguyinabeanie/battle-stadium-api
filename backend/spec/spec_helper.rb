@@ -22,18 +22,11 @@ require "simplecov"
 require "simplecov-console"
 require "simplecov-cobertura"
 
-# Configure SimpleCov for parallel tests
-if ENV["PARALLEL_TEST_GROUPS"]
-  SimpleCov.command_name "RSpec:#{Process.pid}:#{ENV['TEST_ENV_NUMBER']}"
-else
-  SimpleCov.command_name "RSpec"
-end
-
 SimpleCov.start "rails" do
   enable_coverage :branch
 
   if ENV["TEST_ENV_NUMBER"]
-    command_name "RSpec:#{ENV['TEST_ENV_NUMBER']}"
+    command_name "RSpec:#{Process.pid}:#{ENV['TEST_ENV_NUMBER']}"
     coverage_dir "coverage/parallel/#{ENV['TEST_ENV_NUMBER']}"
   else
     command_name "RSpec"
