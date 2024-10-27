@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { withUt } from "uploadthing/tw";
 
 import { nextui } from "@nextui-org/react";
 import DarkPurple from "./lib/tailwindcss/themes/dark-purple";
@@ -23,4 +24,4 @@ const config: Config = {
   ],
 };
 
-export default config;
+export default withUt(config);

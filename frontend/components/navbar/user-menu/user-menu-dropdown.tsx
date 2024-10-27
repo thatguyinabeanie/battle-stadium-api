@@ -48,7 +48,7 @@ export default function UserMenuDropDown({ me, isSignedIn }: Readonly<UserMenuDr
           hidden: !(me && isSignedIn) || !me.admin,
         })}
       >
-        <Link href="/admin">Admin</Link>
+        <Link href="/dashboard?tab=admin">Admin</Link>
       </DropdownItem>
 
       <DropdownItem
