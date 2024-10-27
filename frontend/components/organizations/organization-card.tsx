@@ -10,6 +10,7 @@ export interface OrgCardProps {
 }
 
 const HEIGHT_WIDTH = 200;
+
 export default function OrganizationCard({ organization, disableHover }: Readonly<OrgCardProps>) {
   return (
     <div className="bg-transparent relative px-2 border-none shadow-lg rounded-lg">
@@ -21,10 +22,10 @@ export default function OrganizationCard({ organization, disableHover }: Readonl
               "hover:scale-105": !disableHover,
               "hover:z-50": !disableHover,
             })}
-            width={ HEIGHT_WIDTH }
-            height={ HEIGHT_WIDTH }
+            height={HEIGHT_WIDTH}
             organization={organization}
             placeholder="blur"
+            width={HEIGHT_WIDTH}
           />
         </div>
       </Link>
