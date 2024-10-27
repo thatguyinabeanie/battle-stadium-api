@@ -458,11 +458,7 @@ export default function NextUiTable() {
     statusFilter,
     workerTypeFilter,
     startDateFilter,
-    setWorkerTypeFilter,
-    setStatusFilter,
-    setStartDateFilter,
     onSearchChange,
-    setVisibleColumns,
   ]);
 
   const topBar = useMemo(() => {
