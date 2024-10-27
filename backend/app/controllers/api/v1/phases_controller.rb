@@ -1,8 +1,7 @@
-require_relative "../../../../serializers/phase_serializer"
+require_relative "../../../serializers/phase_serializer"
 
 module Api
   module V1
-
     class PhasesController < ApplicationController
       before_action :set_tournament
       before_action :set_phases, only: %i[index create]

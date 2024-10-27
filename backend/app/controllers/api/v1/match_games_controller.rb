@@ -1,4 +1,4 @@
-require_relative "../../../../serializers/match_game_serializer"
+require_relative "../../../serializers/match_game_serializer"
 
 module Api
   module V1

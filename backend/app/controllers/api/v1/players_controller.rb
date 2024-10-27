@@ -1,8 +1,7 @@
-require_relative "../../../../serializers/player_serializer"
+require_relative "../../../serializers/player_serializer"
 
 module Api
   module V1
-
     class PlayersController < ApplicationController
       before_action :set_tournament
       before_action :set_players, only: %i[index create]
