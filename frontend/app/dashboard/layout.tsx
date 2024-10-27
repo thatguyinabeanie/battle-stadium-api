@@ -1,4 +1,4 @@
-import React from "react";
+import {} from "react";
 
 import { DashboardLayoutProps } from "@/types";
 import { getAccountMe } from "@/app/server-actions/accounts/actions";

@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, ReactNode } from "react";
 import { DangerCircleSvg } from "../miscellaneous/danger-circle";
 import { DefaultCircleSvg } from "../miscellaneous/default-circle";
 import { SuccessCircleSvg } from "../miscellaneous/success-circle";
@@ -44,7 +44,7 @@ export type Users = {
   memberInfo: MemberInfo;
   country: {
     name: string;
-    icon: React.ReactNode;
+    icon: ReactNode;
   };
   role: string;
   workerType: "Contractor" | "Employee";

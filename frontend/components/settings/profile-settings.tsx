@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { forwardRef } from "react";
 import { Icon } from "@iconify/react";
 import { Button, Badge, Input, Spacer, Textarea, Card, CardBody, Avatar } from "@/components/nextui/client-components";
 
@@ -10,7 +10,7 @@ interface ProfileSettingCardProps {
   className?: string;
 }
 
-const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(({ className, ...props }, ref) => (
+const ProfileSetting = forwardRef<HTMLDivElement, ProfileSettingCardProps>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-2", className)} {...props}>
     {/* Profile */}
     <div>

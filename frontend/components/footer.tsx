@@ -1,6 +1,6 @@
 import type { IconProps } from "@iconify/react";
 
-import React from "react";
+import {} from "react";
 import { Spacer } from "@/components/nextui/client-components";
 import Link from "next/link";
 

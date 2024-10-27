@@ -30,7 +30,7 @@ import {
   PopoverContent,
 } from "@nextui-org/react";
 import { SearchIcon } from "@nextui-org/shared-icons";
-import React, { useMemo, useRef, useCallback, useState } from "react";
+import { useMemo, useRef, useCallback, useState } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@nextui-org/react";
 
@@ -57,9 +57,9 @@ export default function NextUiTable() {
     direction: "ascending",
   });
 
-  const [workerTypeFilter, setWorkerTypeFilter] = React.useState("all");
-  const [statusFilter, setStatusFilter] = React.useState("all");
-  const [startDateFilter, setStartDateFilter] = React.useState("all");
+  const [workerTypeFilter, setWorkerTypeFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [startDateFilter, setStartDateFilter] = useState("all");
 
   const headerColumns = useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -129,8 +129,8 @@ export default function NextUiTable() {
         first = a[col].name;
         second = b[col].name;
       } else if (sortDescriptor.column === "externalWorkerID") {
-        first = +(a.externalWorkerID.split("EXT-")[1] ?? "");
-        second = +(b.externalWorkerID.split("EXT-")[1] ?? "");
+        first = parseInt(a.externalWorkerID.split("EXT-")[1] ?? "0", 10);
+        second = parseInt(b.externalWorkerID.split("EXT-")[1] ?? "0", 10);
       }
 
       const cmp = first < second ? -1 : first > second ? 1 : 0;
@@ -168,7 +168,7 @@ export default function NextUiTable() {
     onClick: handleMemberClick,
   }));
 
-  const renderCell = useMemoizedCallback((user: Users, columnKey: React.Key) => {
+  const renderCell = useMemoizedCallback((user: Users, columnKey: Key) => {
     const userKey = columnKey as ColumnsKey;
 
     const cellValue = user[userKey as unknown as keyof Users] as string;
@@ -230,7 +230,7 @@ export default function NextUiTable() {
               if (index < 4) {
                 return (
                   <Chip key={team} className="text-default-500" size="sm" variant="flat">
-                    {`+${team.length - 3}`}
+                    { `+${user[userKey].length - 3}` }
                   </Chip>
                 );
               }

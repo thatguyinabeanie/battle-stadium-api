@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import { usePokemonTeam } from "@/lib/pokemon/use-pokemon-team";
 import { Spacer } from "@/components/nextui/client-components";
 import { PokemonShowdownSetForm } from "./pokemon-showdown-set-form";
@@ -8,7 +8,7 @@ import { PokemonTeamDisplayGrid } from "./pokemon-team-display-grid";
 
 export default function PokemonTeamDisplay() {
   const { validatedTeam, metaData, loading, error, handleSubmit } = usePokemonTeam();
-  const [input, setInput] = React.useState<string>("");
+  const [input, setInput] = useState<string>("");
 
   return (
     <div className="flex flex-row gap-2">

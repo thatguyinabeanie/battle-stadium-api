@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { useState , useEffect} from "react";
 import Cookies from "js-cookie";
 
 import { Button, Link } from "@/components/nextui/client-components";
@@ -21,7 +21,7 @@ interface CookiesComponentProps {
 }
 export default function CookiesComponent({ isSignedIn, userId }: Readonly<CookiesComponentProps>) {
   const cookieConsent = Cookies.get(COOKIE_CONSENT);
-  const [showConsent, setShowConsent] = React.useState(false);
+  const [showConsent, setShowConsent] = useState(false);
 
   function handleAccept() {
     Cookies.set(COOKIE_CONSENT, "accepted", cookieAttributes({ expires: 365 }));
@@ -38,7 +38,7 @@ export default function CookiesComponent({ isSignedIn, userId }: Readonly<Cookie
     setShowConsent(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (cookieConsent === "rejected" || cookieConsent === "accepted") {
       return;
     }
@@ -46,7 +46,7 @@ export default function CookiesComponent({ isSignedIn, userId }: Readonly<Cookie
     setShowConsent(true);
   }, [cookieConsent]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isSignedIn && cookieConsent === "accepted" && userId) {
       const userIdCookie = Cookies.get("userId");
 

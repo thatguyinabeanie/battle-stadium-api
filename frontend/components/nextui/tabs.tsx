@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { ReactNode , Key} from "react";
 
 import { Tabs as NextUiTabs, SlotsToClasses, Tab } from "@/components/nextui/client-components";
 import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";
@@ -14,7 +14,7 @@ interface TabsProps<T> {
   }[];
   tabContents: T;
   classNames?: SlotsToClasses<"base" | "cursor" | "wrapper" | "tab" | "tabList" | "tabContent" | "panel"> | undefined;
-  renderTabContent: (activeTab: string, props: T) => React.ReactNode;
+  renderTabContent: (activeTab: string, props: T) => ReactNode;
 }
 
 export default function Tabs<T>(props: Readonly<TabsProps<T>>) {
@@ -34,7 +34,7 @@ export default function Tabs<T>(props: Readonly<TabsProps<T>>) {
         }}
         radius="full"
         selectedKey={activeTab}
-        onSelectionChange={(key: React.Key) => {
+        onSelectionChange={(key: Key) => {
           setActiveTab(key.toString());
           updateSearchParams({ tab: key.toString() });
           updateSearchParams({ tab: key.toString() });

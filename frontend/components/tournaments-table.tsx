@@ -4,7 +4,7 @@ import { Table, TableHeader, TableColumn, TableBody, TableCell, TableRow } from 
 import Link from "next/link";
 import Image from "next/image";
 
-import * as React from "react";
+import { Key } from "react";
 
 import { Tournament } from "@/lib/api";
 
@@ -104,7 +104,7 @@ const renderStartDateString = (start_at: string | null) => {
   return date;
 };
 
-function renderCell(tournament: Tournament, key: React.Key) {
+function renderCell(tournament: Tournament, key: Key) {
   const { id, name, organization, start_at, player_count, player_cap, game, format } = tournament;
 
   switch (key) {

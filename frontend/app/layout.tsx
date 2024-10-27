@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import React from "react";
+import { StrictMode } from "react";
 import { Metadata, Viewport } from "next";
 import { AppProps } from "next/app";
 import dynamic from "next/dynamic";
@@ -46,7 +46,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
   const { userId, sessionId } = await auth();
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <ClerkProvider>
         <html suppressHydrationWarning lang="en">
           <head />
@@ -79,6 +79,6 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
           </body>
         </html>
       </ClerkProvider>
-    </React.StrictMode>
+    </StrictMode>
   );
 }

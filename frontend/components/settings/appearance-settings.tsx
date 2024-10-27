@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { forwardRef } from "react";
 import { RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui/client-components";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ const fontSizeOptions = [
   { label: "Large", value: "large", description: "font size 18px" },
 ];
 
-const AppearanceSetting = React.forwardRef<HTMLDivElement, AppearanceSettingCardProps>(
+const AppearanceSetting = forwardRef<HTMLDivElement, AppearanceSettingCardProps>(
   ({ className, ...props }, ref) => {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);

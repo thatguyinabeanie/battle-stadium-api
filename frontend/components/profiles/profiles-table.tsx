@@ -1,5 +1,5 @@
 "use client";
-
+import { Key } from "react";
 import { Profile } from "@/lib/api";
 import {
   Table,
@@ -62,7 +62,7 @@ export function ProfilesTable({ profiles }: Readonly<ProfilesTableProps>) {
   );
 }
 
-function renderCell(row: Profile, columnKey: React.Key) {
+function renderCell(row: Profile, columnKey: Key) {
   const { username } = row;
 
   switch (columnKey) {

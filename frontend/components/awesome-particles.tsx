@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { type ISourceOptions, MoveDirection } from "@tsparticles/engine";
@@ -79,11 +79,11 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
 };
 
 export default function AwesomeParticles() {
-  const [init, setInit] = React.useState(false);
+  const [init, setInit] = useState(false);
 
   const options = useAwesomeParticlesOptions();
 
-  React.useEffect(() => {
+  useEffect(() => {
     initParticlesEngine(async (engine) => {
       return await loadSlim(engine);
     }).then(() => setInit(true));

@@ -13,7 +13,7 @@ import {
   cn,
   Input,
 } from "../nextui/client-components";
-import React from "react";
+import {} from "react";
 import { postTournamentRegistration } from "@/app/server-actions/tournaments/actions";
 import Form from "next/form";
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { Key } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@/components/nextui/client-components";
 
 import Link from "next/link";
@@ -40,7 +41,7 @@ export default function PlayersTable({ players, columns }: Readonly<PlayersTable
   );
 }
 
-function renderCell(row: Profile, columnKey: React.Key) {
+function renderCell(row: Profile, columnKey: Key) {
   const { username } = row;
 
   switch (columnKey) {

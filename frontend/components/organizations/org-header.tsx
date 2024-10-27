@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import { Organization } from "@/lib/api";
 import OrganizationLogo from "./organization-logo";
 
 interface OrganizationHeaderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   organization: Organization;
 }
 export default function OrganizationHeader({ children, organization }: Readonly<OrganizationHeaderProps>) {

@@ -1,9 +1,9 @@
 import { Button, Tooltip } from "@nextui-org/react";
-import React, { forwardRef, memo, useMemo } from "react";
+import { HTMLAttributes, forwardRef, memo, useMemo, useState } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@nextui-org/react";
 
-export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CopyTextProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   textClassName?: string;
   copyText?: string;
@@ -13,8 +13,8 @@ export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
 export const CopyText = memo(
   forwardRef<HTMLDivElement, CopyTextProps>((props, forwardedRef) => {
     const { className, textClassName, children, copyText = "Copy" } = props;
-    const [copied, setCopied] = React.useState(false);
-    const [copyTimeout, setCopyTimeout] = React.useState<ReturnType<typeof setTimeout> | null>(null);
+    const [copied, setCopied] = useState(false);
+    const [copyTimeout, setCopyTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
     const onClearTimeout = () => {
       if (copyTimeout) {
         clearTimeout(copyTimeout);

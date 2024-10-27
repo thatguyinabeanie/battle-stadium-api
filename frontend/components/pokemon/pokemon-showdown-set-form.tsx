@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { postPokemonTeam } from "@/app/server-actions/pokemon/actions";
 import { ValidatedPokemon, PokePasteMetadata } from "@/lib/pokemon/common";
 import { Textarea, Spacer, Button } from "@/components/nextui/client-components";
@@ -7,7 +8,7 @@ interface PokemonShowdownSetFormProps {
   validatedTeam: ValidatedPokemon[];
   handleSubmit: (formData: FormData) => void;
   input: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>;
+  setInput: Dispatch<SetStateAction<string>>;
   metaData: PokePasteMetadata | null;
 }
 

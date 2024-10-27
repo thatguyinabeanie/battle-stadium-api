@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import {} from "react";
 import NavbarLinkClientItem from "@/components/navbar/navbar-client-item";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
