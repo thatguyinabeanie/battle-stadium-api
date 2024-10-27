@@ -39,10 +39,11 @@ export async function postTournamentRegistration(
     in_game_name: string;
     profile_id: number;
     pokemon_team_id?: number;
+    show_country_flag: boolean;
   },
   options?: FetchOptions<paths["/tournaments/{tournament_id}/players"]["post"]>,
 ) {
-  const { tournament_id, in_game_name, profile_id, pokemon_team_id } = registration;
+  const { tournament_id, in_game_name, profile_id, pokemon_team_id, show_country_flag } = registration;
 
   const registrationOptions = {
     ...defaultConfig(`postTournamentRegistration(${tournament_id})`),
@@ -53,6 +54,7 @@ export async function postTournamentRegistration(
         pokemon_team_id,
         in_game_name,
         profile_id,
+        show_country_flag,
       },
     },
   };

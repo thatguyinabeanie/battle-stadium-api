@@ -2141,7 +2141,7 @@ export interface operations {
       query: {
         in_game_name: string;
         profile_id: number;
-        pokemon_team_id: number;
+        pokemon_team_id?: number;
         show_country_flag: boolean;
       };
       header?: {

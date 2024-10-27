@@ -49,7 +49,7 @@ RSpec.describe Api::V1::PlayersController do
 
       parameter name: :in_game_name, in: :query, type: :string, required: true
       parameter name: :profile_id, in: :query, type: :integer, required: true
-      parameter name: :pokemon_team_id, in: :query, type: :integer, required: true, nullable: true
+      parameter name: :pokemon_team_id, in: :query, type: :integer, required: false, nullable: true
       parameter name: :show_country_flag, in: :query, type: :boolean, required: true, nullable: true
 
       security [Bearer: []]

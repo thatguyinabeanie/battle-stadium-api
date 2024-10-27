@@ -929,7 +929,7 @@ paths:
           type: integer
       - name: pokemon_team_id
         in: query
-        required: true
+        required: false
         nullable: true
         schema:
           type: integer
