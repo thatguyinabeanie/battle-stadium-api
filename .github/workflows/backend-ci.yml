@@ -101,12 +101,12 @@ jobs:
           RECORD_RUNTIME: "true"
 
       - name: "Runtime cache: clear chunk"
+        working-directory: ./backend
         if: always()
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cd backend
           gh extension install actions/gh-actions-cache
           gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm || true
           mkdir -p tmp/parallel_runtime_rspec
