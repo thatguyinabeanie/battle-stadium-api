@@ -40,6 +40,7 @@ jobs:
       matrix:
         group: [1, 2, 3, 4]
       max-parallel: 4
+    name: RSpec parallel group ${{ matrix.group }}/4
     services:
       postgres:
         image: postgres:16.3
@@ -85,8 +86,13 @@ jobs:
         working-directory: ./backend
 
       - name: Run Rspec Tests
-        run: bundle exec parallel_rspec -n 2 --group-by runtime --only-group ${{ matrix.group }} --verbose
-        if: always()
+        run: |
+          mkdir -p tmp/parallel_runtime_rspec
+          if [ -f "tmp/parallel_runtime_rspec.log" ]; then
+            bundle exec parallel_rspec -n 4 --group-by runtime --only-group ${{ matrix.group }} --verbose
+          else
+            bundle exec parallel_rspec -n 4 --group-by filesize --only-group ${{ matrix.group }} --verbose
+          fi
         working-directory: ./backend
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -97,13 +103,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cd backend
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm
-          if [ ! -d "backend/tmp/parallel_runtime_rspec" ]; then
-            mkdir -p backend/tmp/parallel_runtime_rspec
+          gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm || true
+          mkdir -p tmp/parallel_runtime_rspec
+          if [ -f "tmp/parallel_runtime_rspec.log" ]; then
+            mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
           fi
-          mv backend/tmp/parallel_runtime_rspec.log backend/tmp/parallel_runtime_rspec/${{ matrix.group }}.log
-        if: always()
+        continue-on-error: true
+
       - name: "Runtime cache: store chunk"
         uses: actions/cache/save@v4
         with:
