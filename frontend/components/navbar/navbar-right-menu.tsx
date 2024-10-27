@@ -11,9 +11,9 @@ interface NavbarMobileMenuProps {
 export default async function NavbarRightMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
   return (
     <NavbarContent className="gap-0" justify="center">
-      {/* <Search /> */}
+      {/* TODO: <Search /> */}
       <Settings me={me} />
-      {/* <Notifications /> */}
+      {/*  TODO: <Notifications /> */}
       <UserMenu isSignedIn={isSignedIn} me={me} />
       <NavbarMenuToggle className="xl:hidden" />
     </NavbarContent>
