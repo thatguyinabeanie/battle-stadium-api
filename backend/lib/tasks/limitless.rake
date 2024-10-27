@@ -104,6 +104,7 @@ namespace :limitless do
             tour.game_id = tournament_data['bs_game_id']
             tour.format_id = tournament_data['bs_format_id']
             tour.check_in_start_at = tour.start_at - 1.hour
+            tour.published = true
           end
         rescue StandardError => e
           errors << {
