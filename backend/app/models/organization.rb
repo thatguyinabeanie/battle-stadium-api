@@ -3,7 +3,9 @@
 class Organization < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
-
+  def self.policy_class
+    OrganizationPolicy
+  end
   self.table_name = "organizations"
   belongs_to :owner, class_name: "Account", optional: true
 

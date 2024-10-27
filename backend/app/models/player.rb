@@ -2,6 +2,9 @@
 class Player < ApplicationRecord
   MAX_POKEMON_SUBMISSIONS = 6
   self.table_name = "players"
+  def self.policy_class
+    PlayerPolicy
+  end
   belongs_to :account, class_name: "Account", optional: true, validate: true
   belongs_to :profile, class_name: "Profile", inverse_of: :players, optional: false, validate: true
   belongs_to :tournament, class_name: "Tournament", inverse_of: :players, optional: false, validate: true
