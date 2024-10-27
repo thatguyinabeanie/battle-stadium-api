@@ -2,7 +2,6 @@
 class Account < ApplicationRecord
   MAX_CHARACTER_LENGTH=50
 
-
   validates :username, presence: true, allow_blank: false
   validate :username_uniqueness_across_users_and_profiles
   validate :username_unchangeable, on: :update
