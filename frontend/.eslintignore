@@ -13,7 +13,6 @@ coverage
 .next
 build
 bun.lockb
-package.json
 !.commitlintrc.cjs
 !.lintstagedrc.cjs
 !jest.config.js

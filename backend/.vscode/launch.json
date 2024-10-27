@@ -7,13 +7,18 @@
       "request": "launch",
       "script": "${file}",
       "args": [],
-      "askParameters": true
+      "askParameters": true,
+      "cwd": "${workspaceRoot}/backend"
     },
     {
       "type": "rdbg",
       "name": "Attach with rdbg",
       "request": "attach",
-      "cwd": "${workspaceRoot}/backend",
+      "debugPort": "12345",
+      "waitLaunch": true,
+      "showProtocolMessages": true,
+      "cwd": "${workspaceRoot}/backend"
+    },
     {
       "type": "rdbg",
       "name": "Debug RSpec",
