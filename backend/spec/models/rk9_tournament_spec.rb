@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Rk9Tournament, type: :model do
-  let(:tournament) { described_class.new(rk9_id: "NA02mtILnc5ycfC7jXkD", name: "North America Pokémon VGC International Championship 2024", start_date: Date.today, end_date: Date.today + 2) }
+  let(:tournament) {  described_class.new(name: "Tournament Name", start_date: Date.new(2024, 1, 1), end_date: Date.new(2024, 1, 2), rk9_id: "12345") }
 
   describe "validations" do
     it "is valid with valid attributes" do
