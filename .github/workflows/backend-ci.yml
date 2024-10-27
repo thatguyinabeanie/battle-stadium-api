@@ -79,6 +79,7 @@ jobs:
       - name: Setup database
         run: |
           bundle exec rake parallel:create
+          bundle exec rake parallel:migrate
           bundle exec rake parallel:prepare
         working-directory: ./backend
 
