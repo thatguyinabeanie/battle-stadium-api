@@ -24,35 +24,28 @@ if ENV.fetch("SEED_DATA", "false") == "false"
   exit
 else
   puts("Seeding data...")
-
   PokemonTeam.reset_column_information
+  Organization.reset_column_information
+  Account.reset_column_information
 end
 
 require "factory_bot"
 require "factory_bot_rails"
 
-def create_battlestadium_bot
-  Account.find_or_create_by!(username: "battlestadiumbot") do |account|
-    account.email = "battlestadium@beanie.gg"
-    account.pronouns = "they/them"
-    account.first_name = "Battle"
-    account.last_name = "Stadium"
-    account.admin = true
-  end
-end
-
-def create_account(username: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil)
+def create_account(username: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil, admin: false)
   first_name ||= Faker::Name.first_name
   last_name ||= Faker::Name.last_name
   email || "#{username}@beanie.com"
   pronouns ||= "they/them"
   username ||= Faker::Internet.unique.username
+
   # Check if Account already exists
   account = Account.find_or_create_by!(username:) do |account|
     account.email = "#{account.username}@beanie.gg"
     account.pronouns = pronouns
     account.first_name = last_name
     account.last_name = first_name
+    account.admin = admin
   end
 
   # Check if profile with the given username already exists
@@ -86,13 +79,6 @@ def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
   end
 end
 
-def generate_organization_name
-  adjective = Faker::Company.buzzword
-  noun = Faker::Company.type
-
-  "#{adjective} #{noun} #{rand(1..100)}"
-end
-
 def create_format(name:, game:)
   Format.find_or_create_by!(name:, game:)
 end
@@ -101,43 +87,37 @@ game = Game.find_or_create_by!(name: "Pokemon VGC")
 
 format = Format.find_or_create_by!(name: "Regulation H", game: game)
 
-fuecoco_supremacy_account = create_account(username: "fuecoco-supremacy", first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
+fuecoco_supremacy_account = create_account(username: "thatguyinabeanie", first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
 fuecoco_supremacy_account.admin = true
 fuecoco_supremacy_account.save!
 
 owner  = create_account
 
-organization =  Organization.find_or_create_by!(owner:) do |org|
+organization =  Organization.find_or_create_by!(name: "The Rise of Fuecoco") do |org|
+  org.owner = owner
   org.description = Faker::Lorem.sentence
   org.staff = (1..5).to_a.map { create_account }
   org.staff << fuecoco_supremacy_account
-  org.name = generate_organization_name
   org.hidden = false
   org.partner = true
 end
 
-name = "#{organization.name} # #{organization.tournaments.count + 1}"
-start_at = (1.day.from_now.beginning_of_day + rand(8..20).hours) + 1.week
-end_at = start_at + 10.hours
-tournament = create_tournament(name:, organization:, format:, game: format.game, start_at:, end_at:)
-
-accounts = (1..50).to_a.map { create_account }.uniq
-accounts.map do |account|
-  next if tournament.players.exists?(account:) || !tournament.registration_open?
-
-  tournament.players.create!(account:, in_game_name: Faker::Games::Pokemon.name, profile: account.default_profile).tap do |player|
-    player.pokemon_team = PokemonTeam.create(profile: player.profile).tap do |pokemon_team|
-      pokemon_team.pokemon = (1..6).to_a.map do
-        Pokemon.create(pokemon_team:)
-      end
-    end
-  end
+def tournament_name(organization:)
+  "#{organization.name} Tournament # #{organization.tournaments.count + 1}"
 end
 
-name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
+start_at = (1.day.from_now.beginning_of_day + rand(8..20).hours) + 1.week
+end_at = start_at + 10.hours
+
+accounts = if Account.count < 40
+             (1..50).to_a.map { create_account }.uniq
+            else
+              Account.all
+            end
+
 end_at = Time.zone.today + 1.week
 game = format.game
-start_at = 1.hour.from_now
+start_at = 1.hour.from_now - 5.minutes
 
 pokemon_data = [
   { species: "Butterfree", ability: "ability_1",  position: 1, tera_type: "bug", nature: "timid"    },
@@ -148,21 +128,23 @@ pokemon_data = [
   { species: "Staryu", ability: "ability_6", position: 6, tera_type: "water", nature: "relaxed" }
 ]
 
-tournament = create_tournament(name:, organization:, format:, game:, start_at:, end_at:).tap do |tournament|
-  tournament.players = accounts.map do |account|
-    next if tournament.players.exists?(account:)
+tournament = create_tournament(name: tournament_name(organization:), organization:, format:, game: format.game, start_at:, end_at:).tap do |tour|
+  tour.players = accounts.map do |account|
+    next if tour.players.exists?(account:)
 
-    tournament.players.create!(account:, in_game_name: account.default_profile.username, profile: account.default_profile).tap do |player|
-      player.pokemon_team = PokemonTeam.create(profile: player.profile, format:, game:, published: true).tap do |pokemon_team|
+    tour.players.create!(account:, in_game_name: account.default_profile.username, profile: account.default_profile).tap do |player|
+      team = PokemonTeam.create(profile: player.profile, format:, game:, published: true).tap do |pokemon_team|
         pokemon_team.pokemon = pokemon_data.map { |pokemon| Pokemon.create!(pokemon_team:, **pokemon) }
         pokemon_team.format = format
         pokemon_team.game = game
         pokemon_team.save!
       end
+
+      player.pokemon_team_id = team.id
+      player.save!
     end
   end
 end
 
-tournament.start! if tournament.players.checked_in_and_submitted_team_sheet.count.positive?
 
 puts("Seeding data completed.")

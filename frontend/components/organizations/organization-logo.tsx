@@ -8,12 +8,11 @@ interface OrganizationLogoProps {
   priority?: boolean;
   organization: Organization;
   className?: string;
-  height?: number;
-  width?: number;
+  logoSize: number;
   blurDataURL?: string;
   placeholder?: PlaceholderValue;
 }
-const DEFAULT_HEIGHT_WIDTH = 100;
+
 const DEFAULT_BLUR_DATA_URL = "/pokemon/vgc.png";
 
 export default function OrganizationLogo({
@@ -23,8 +22,7 @@ export default function OrganizationLogo({
   placeholder,
   organization,
   className,
-  height,
-  width,
+  logoSize,
   blurDataURL,
 }: Readonly<OrganizationLogoProps>) {
   return (
@@ -33,11 +31,12 @@ export default function OrganizationLogo({
       aria-label={organization?.name}
       blurDataURL={blurDataURL ?? DEFAULT_BLUR_DATA_URL}
       className={className}
-      height={height ?? DEFAULT_HEIGHT_WIDTH}
       placeholder={placeholder ?? "blur"}
       priority={priority ?? false}
       src={src ?? organization?.logo_url ?? DEFAULT_BLUR_DATA_URL}
-      width={width ?? DEFAULT_HEIGHT_WIDTH}
+      height={ logoSize }
+      width={ logoSize }
+      style={ { width: "auto", height: "auto" } } // Added
     />
   );
 }
