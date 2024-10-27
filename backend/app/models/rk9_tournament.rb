@@ -1,5 +1,5 @@
 class Rk9Tournament < ApplicationRecord
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validates :start_date, presence: true
   validates :end_date, presence: true
   validates :rk9_id, presence: true, uniqueness: true
