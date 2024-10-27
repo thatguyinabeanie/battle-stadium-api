@@ -95,7 +95,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          set -e
           gh extension install actions/gh-actions-cache
           gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm
           if [ ! -d "backend/tmp/parallel_runtime_rspec" ]; then
