@@ -1,9 +1,5 @@
 import { Profile } from "@/lib/api";
-import {
-  Button,
-  Checkbox,
-  Input,
-} from "@/components/nextui/client-components";
+import { Button, Checkbox, Input } from "@/components/nextui/client-components";
 import { postTournamentRegistration } from "@/app/server-actions/tournaments/actions";
 import Form from "next/form";
 import ProfilesAutocomplete from "./profiles-autocomplete";
@@ -19,20 +15,17 @@ export default function RegistrationCard({ profiles, org_slug, tournament_id }: 
     "use server";
     const in_game_name = formData.get("ign") as string;
     const profile = formData.get("profile") as string;
-    const show_country_flag = formData.get("country_flag") as string === "true";
+    const show_country_flag = (formData.get("country_flag") as string) === "true";
 
     const profile_id = profiles.find((p) => p.username == profile)?.id;
 
     if (profile_id) {
-      await postTournamentRegistration({ tournament_id, in_game_name, profile_id, show_country_flag});
+      await postTournamentRegistration({ tournament_id, in_game_name, profile_id, show_country_flag });
     }
   };
 
   return (
-    <div
-      className="bg-transparent inline-block max-w-fit text-center justify-center p-10 m-20 backdrop-blur rounded-3xl border-small border-neutral-500/40"
-
-    >
+    <div className="bg-transparent inline-block max-w-fit text-center justify-center p-10 m-20 backdrop-blur rounded-3xl border-small border-neutral-500/40">
       <div>
         Register for {org_slug} tournament {tournament_id}
       </div>
