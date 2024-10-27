@@ -4,7 +4,7 @@ import React from "react";
 import NavbarLinkClientItem from "@/components/navbar/navbar-client-item";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
-import { NavbarContent } from "../nextui-use-client";
+import { NavbarContent } from "../nextui/client-components";
 
 interface NavbarLinksProps {
   isSignedIn: boolean | null;

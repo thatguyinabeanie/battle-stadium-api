@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "@/components/nextui-use-client";
+import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "@/components/nextui/client-components";
 import { cn } from "@/lib";
 import { AccountMe } from "@/lib/api";
 

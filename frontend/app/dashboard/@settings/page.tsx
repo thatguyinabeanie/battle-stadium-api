@@ -4,7 +4,7 @@ import AppearanceSetting from "@/components/settings/appearance-settings";
 import AccountSetting from "@/components/settings/account-settings";
 import BillingSetting from "@/components/settings/bill-settings";
 
-import { Button, Tab, Tabs, useDisclosure } from "@/components/nextui-use-client";
+import { Button, Tab, Tabs, useDisclosure } from "@/components/nextui/client-components";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Settings() {

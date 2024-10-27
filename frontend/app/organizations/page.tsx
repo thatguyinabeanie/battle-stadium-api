@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 import { Tournament } from "@/lib/api";
 import PartneredOrganizations from "@/components/organizations/partnered-organizations";
-import NextUiTable from "@/components/nextui-table";
+import NextUiTable from "@/components/nextui/table";
 import { Spacer } from "@nextui-org/react";
 
 export const metadata: Metadata = {

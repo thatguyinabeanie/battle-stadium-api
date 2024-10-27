@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { NextUIProvider as NextUIDefaultProvider, NextUIProviderProps } from "@/components/nextui-use-client";
+import { NextUIProvider as NextUIDefaultProvider, NextUIProviderProps } from "@/components/nextui/client-components";
 import { useRouter } from "next/navigation";
 
 export interface ProvidersProps extends NextUIProviderProps {

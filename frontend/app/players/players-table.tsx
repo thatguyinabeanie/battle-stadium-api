@@ -1,6 +1,6 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@/components/nextui-use-client";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@/components/nextui/client-components";
 
 import Link from "next/link";
 

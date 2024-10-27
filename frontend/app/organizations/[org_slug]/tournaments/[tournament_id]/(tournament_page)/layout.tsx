@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Tabs from "@/components/tabs";
+import Tabs from "@/components/nextui/tabs";
 import { Spacer } from "@nextui-org/react";
 
 const tabs = [

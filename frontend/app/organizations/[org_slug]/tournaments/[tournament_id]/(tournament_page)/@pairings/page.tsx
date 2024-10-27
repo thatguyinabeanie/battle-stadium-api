@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@/components/nextui-use-client";
+import { Card, CardBody, CardHeader } from "@/components/nextui/client-components";
 
 const Pairings = () => {
   return (

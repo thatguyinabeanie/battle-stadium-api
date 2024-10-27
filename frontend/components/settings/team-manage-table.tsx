@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChipProps, Selection } from "@/components/nextui-use-client";
+import type { ChipProps, Selection } from "@/components/nextui/client-components";
 
 import * as React from "react";
 import {
@@ -22,7 +22,7 @@ import {
   Tab,
   Card,
   CardBody,
-} from "@/components/nextui-use-client";
+} from "@/components/nextui/client-components";
 import { ChevronDownIcon, SearchIcon } from "@nextui-org/shared-icons";
 import { capitalize } from "@nextui-org/shared-utils";
 import { Icon } from "@iconify/react";

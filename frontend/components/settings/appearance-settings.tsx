@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui-use-client";
+import { RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui/client-components";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, NavbarBrand } from "@/components/nextui-use-client";
+import { Navbar, NavbarBrand } from "@/components/nextui/client-components";
 
 import BattleStadium from "@/components/battle-stadium";
 

@@ -1,4 +1,4 @@
-import { NavbarContent, NavbarMenuToggle } from "@/components/nextui-use-client";
+import { NavbarContent, NavbarMenuToggle } from "@/components/nextui/client-components";
 import Settings from "@/components/navbar/settings";
 import UserMenu from "@/components/navbar/user-menu/user-menu";
 import { AccountMe } from "@/lib/api";

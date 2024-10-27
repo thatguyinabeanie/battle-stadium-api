@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { title } from "@/components/primitives";
-import { Spacer } from "@/components/nextui-use-client";
+import { title } from "@/components/miscellaneous/primitives";
+import { Spacer } from "@/components/nextui/client-components";
 import PartneredOrganizations from "@/components/organizations/partnered-organizations";
 
 export const metadata: Metadata = {

@@ -1,8 +1,8 @@
 import { JSX } from "react";
 import { DangerCircleSvg } from "../miscellaneous/danger-circle";
-import { DefaultCircleSvg } from "./default-circle";
-import { SuccessCircleSvg } from "./success-circle";
-import { WarningCircleSvg } from "./warning-circle";
+import { DefaultCircleSvg } from "../miscellaneous/default-circle";
+import { SuccessCircleSvg } from "../miscellaneous/success-circle";
+import { WarningCircleSvg } from "../miscellaneous/warning-circle";
 
 export const statusOptions = [
   { name: "Active", uid: "active" },

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Autocomplete, AutocompleteItem, Button, Input, Spacer } from "@/components/nextui-use-client";
+import { Autocomplete, AutocompleteItem, Button, Input, Spacer } from "@/components/nextui/client-components";
 
 import { cn } from "@/lib/utils";
 

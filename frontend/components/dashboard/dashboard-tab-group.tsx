@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayoutProps } from "@/types";
-import Tabs from "@/components/tabs";
+import Tabs from "@/components/nextui/tabs";
 import { AccountMe } from "@/lib/api";
 
 const adminTab = { key: "admin", title: "Admin" };

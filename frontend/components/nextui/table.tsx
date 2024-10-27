@@ -35,16 +35,16 @@ import { Icon } from "@iconify/react";
 import { cn } from "@nextui-org/react";
 
 import { CopyText } from "../miscellaneous/copy-text";
-import { EyeFilledIcon } from "./eye";
-import { EditLinearIcon } from "./edit";
-import { DeleteFilledIcon } from "./delete";
+import { EyeFilledIcon } from "../miscellaneous/eye";
+import { EditLinearIcon } from "../miscellaneous/edit";
+import { DeleteFilledIcon } from "../miscellaneous/delete";
 import { ArrowDownIcon } from "../miscellaneous/arrow-down";
 import { ArrowUpIcon } from "../miscellaneous/arrow-up";
 
-import { useMemoizedCallback } from "./use-memoized-callback";
+import { useMemoizedCallback } from "../../lib/hooks/use-memoized-callback";
 
 import { columns, INITIAL_VISIBLE_COLUMNS, users } from "./data";
-import { Status } from "./Status";
+import { Status } from "../miscellaneous/Status";
 
 export default function NextUiTable() {
   const [filterValue, setFilterValue] = useState("");

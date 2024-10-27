@@ -1,7 +1,7 @@
 "use client";
 
 import { ChildrenProps } from "@/types";
-import { Link, NavbarItem, NavbarItemProps } from "@/components/nextui-use-client";
+import { Link, NavbarItem, NavbarItemProps } from "@/components/nextui/client-components";
 
 interface NavbarItemClientProps extends ChildrenProps {
   path: string;
