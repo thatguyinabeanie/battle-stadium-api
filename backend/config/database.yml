@@ -69,7 +69,7 @@ test:
   port: <%= ENV.fetch("POSTGRES_PORT", '5432') %>
   username: <%= ENV.fetch("POSTGRES_USER", 'postgres') %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD", 'postgres') %>
-  database: <%= ENV.fetch("POSTGRES_DATABASE", 'fuecoco-db-test') %>
+  database: <%= ENV.fetch("POSTGRES_DATABASE", 'fuecoco-db-test') %>_<%= ENV.fetch("TEST_ENV_NUMBER", 4) %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

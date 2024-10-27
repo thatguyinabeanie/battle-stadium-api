@@ -75,6 +75,7 @@ group :test do
   gem "shoulda-matchers", "~> 6"
   gem "simplecov"
   gem "simplecov-console", require: false
+  gem "simplecov-lcov"
   gem "timecop", "~> 0"
 end
 
@@ -83,6 +84,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "faker", "~> 3"
   gem "listen", "~> 3.3"
+  gem "parallel_tests"
   gem "rspec-json_expectations"
   gem "rspec-rails"
   gem "ruby-lsp-rails", "~> 0.3.15"

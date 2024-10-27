@@ -217,6 +217,8 @@ GEM
     openssl (3.2.0)
     ostruct (0.6.0)
     parallel (1.26.3)
+    parallel_tests (4.7.2)
+      parallel
     parser (3.3.5.0)
       ast (~> 2.4.1)
       racc
@@ -435,6 +437,7 @@ GEM
       simplecov
       terminal-table
     simplecov-html (0.13.1)
+    simplecov-lcov (0.8.0)
     simplecov_json_formatter (0.1.4)
     smart_properties (1.17.0)
     sorbet-runtime (0.5.11609)
@@ -526,6 +529,7 @@ DEPENDENCIES
   openssl (~> 3.2)
   ostruct (~> 0)
   parallel (~> 1.26)
+  parallel_tests
   pg (~> 1.5.7)
   puma (~> 6.4)
   pundit
@@ -572,6 +576,7 @@ DEPENDENCIES
   sidekiq (~> 7)
   simplecov
   simplecov-console
+  simplecov-lcov
   spring (~> 4)
   sprockets-rails
   stimulus-rails (~> 1)

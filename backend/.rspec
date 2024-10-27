@@ -1,1 +1,9 @@
+--format documentation
+--color
 --require spec_helper
+--fail-fast
+--format progress
+--format ParallelTests::RSpec::RuntimeLogger --out tmp/parallel_runtime_rspec.log
+--format ParallelTests::RSpec::SummaryLogger --out tmp/spec_summary.log--format
+--format ParallelTests::RSpec::FailuresLogger --out tmp/failing_specs.log
+--format RspecJunitFormatter --out test-results/rspec/results.xml

@@ -71,3 +71,4 @@ rails_api/tmp/*
 output.sarif.json
 
 ./openapi
+
