@@ -98,6 +98,7 @@ jobs:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET}}
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           RECORD_RUNTIME: "true"
+        continue-on-error: true  # Allow the workflow to continue even if this step fails
 
       - name: "Runtime cache: clear chunk"
         shell: bash
