@@ -29,7 +29,7 @@ type Teams =
   | "Sales"
   | "Support"
   | "Other"
-  | (string & {});
+  | (string & unknown);
 
 export type MemberInfo = {
   avatar: string;
