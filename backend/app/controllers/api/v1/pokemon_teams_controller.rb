@@ -20,7 +20,7 @@ module Api
                     end
                   rescue ActiveRecord::RecordNotFound
                     skip_authorization
-                    return render json: { error: "Profile not found" }, status: :not_found
+                    return render json: { error: "Battle Stadium Profile not found" }, status: :not_found
                   end
 
         authorize profile, :create_pokemon_team?

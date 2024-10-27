@@ -8,6 +8,7 @@ dotenv.config({ path: join(process.cwd(), ".env.development.local") });
 
 const nextConfig: NextConfig = {
   experimental: {
+    // ppr: 'incremental',
     after: true,
     cssChunking: "loose", // default
     // how many times Next.js will retry failed page generation attempts
@@ -20,6 +21,22 @@ const nextConfig: NextConfig = {
   },
   expireTime: 3600,
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pokepast.es",
+      },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "limitlesstcg.s3.us-east-2.amazonaws.com",
+      },
+    ],
+  },
   reactStrictMode: true,
 };
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_20_150304) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_27_005305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -252,9 +252,24 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_20_150304) do
     t.datetime "archived_at"
     t.bigint "account_id"
     t.boolean "default", default: false, null: false
+    t.string "type", default: "Profile", null: false
     t.index ["account_id"], name: "index_profiles_on_account_id"
     t.index ["slug"], name: "index_profiles_on_slug", unique: true
     t.index ["username"], name: "index_profiles_on_username", unique: true
+  end
+
+  create_table "rk9_tournaments", force: :cascade do |t|
+    t.string "rk9_id", null: false
+    t.string "name", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["end_date"], name: "index_rk9_tournaments_on_end_date"
+    t.index ["name"], name: "index_rk9_tournaments_on_name", unique: true
+    t.index ["rk9_id"], name: "index_rk9_tournaments_on_rk9_id", unique: true
+    t.index ["start_date", "end_date"], name: "index_rk9_tournaments_on_start_and_end_date"
+    t.index ["start_date"], name: "index_rk9_tournaments_on_start_date"
   end
 
   create_table "rounds", force: :cascade do |t|

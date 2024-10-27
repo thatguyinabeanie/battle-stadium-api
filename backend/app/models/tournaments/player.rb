@@ -2,7 +2,7 @@ module Tournaments
   class Player < ApplicationRecord
     MAX_POKEMON_SUBMISSIONS = 6
     self.table_name = "players"
-    belongs_to :account, class_name: "Account", optional: false, validate: true
+    belongs_to :account, class_name: "Account", optional: true, validate: true
     belongs_to :profile, class_name: "Profile", inverse_of: :players, optional: false, validate: true
     belongs_to :tournament, class_name: "Tournaments::Tournament", inverse_of: :players, optional: false, validate: true
     belongs_to :pokemon_team, class_name: "PokemonTeam", optional: true

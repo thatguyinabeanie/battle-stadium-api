@@ -20,7 +20,9 @@ class Account < ApplicationRecord
 
   after_create :create_default_profile
   has_one :default_profile, class_name: "Profile", dependent: :destroy, inverse_of: :account
-  has_many :profiles, ->(account) { where(account: account.id).order(id: :asc) }, class_name: "Profile", dependent: :destroy, inverse_of: :account
+  has_one :rk9_profile, class_name: "Rk9Profile", inverse_of: :account, foreign_key: "account_id", dependent: :nullify
+
+  has_many :profiles, ->(account) { where(account: account.id).order(id: :asc) }, class_name: "Profile", dependent: :nullify, inverse_of: :account
 
   def staff_member_of?(organization)
     organization.staff.exists?(id:) || organization.owner == self
