@@ -3,6 +3,9 @@
 class Match < ApplicationRecord
   include ::MatchPlayersConcern
   self.table_name = "matches"
+  def self.policy_class
+    MatchPolicy
+  end
 
   belongs_to :phase, class_name: "Phases::BasePhase", inverse_of: :matches
   belongs_to :tournament, class_name: "Tournament", inverse_of: :matches
@@ -78,7 +81,7 @@ class Match < ApplicationRecord
     self.match_games.update_all(ended_at: nil, winner_id: nil, loser_id: nil, reporter_profile_id: nil, started_at: nil)
   end
 
-    private
+  private
 
   def set_defaults
     if self.bye
@@ -97,4 +100,4 @@ class Match < ApplicationRecord
 
     player_one.update!(game_wins: player_one.game_wins + 2)
   end
-  end
+end
