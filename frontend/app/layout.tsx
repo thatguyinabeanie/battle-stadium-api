@@ -18,6 +18,10 @@ import Providers from "@/components/providers";
 import Footer from "@/components/footer";
 import NavigationBar from "@/components/navbar/navbar";
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { UploadThingRouter } from "./api/uploadthing/core";
+
 const Cookies = dynamic(() => import("@/components/cookies"));
 const AwesomeParticles = dynamic(() => import("@/components/awesome-particles"));
 
@@ -53,9 +57,18 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
 
           <body className="bg-background font-sans antialiased overflow-y-scroll">
             <Providers>
+              <NextSSRPlugin
+                /**
+                 * The `extractRouterConfig` will extract **only** the route configs
+                 * from the router to prevent additional information from being
+                 * leaked to the client. The data passed to the client is the same
+                 * as if you were to fetch `/api/uploadthing` directly.
+                 */
+                routerConfig={extractRouterConfig(UploadThingRouter)}
+              />
               <div className="flex flex-col items-center min-h-screen ">
                 <AwesomeParticles />
-                <div className="flex flex-col items-center min-h-screen backdrop-blur-lg shadow-2xl shadow-white w-5/6 ">
+                <div className="flex flex-col items-center min-h-screen backdrop-blur shadow-2xl shadow-white w-5/6 ">
                   <NavigationBar />
 
                   <main className="flex flex-col min-h-screen items-center w-full">

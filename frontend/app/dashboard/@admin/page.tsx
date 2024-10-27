@@ -1,7 +1,22 @@
+"use client";
+
+import { UploadButton } from "@/components/upload-thing/components";
+
 export default function Admin() {
   return (
     <div>
-      <h1>You are an admin</h1>
+      <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
     </div>
   );
 }
