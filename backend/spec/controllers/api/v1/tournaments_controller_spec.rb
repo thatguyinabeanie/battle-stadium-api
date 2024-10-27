@@ -80,9 +80,9 @@ RSpec.describe Api::V1::TournamentsController do
 
     context "with valid attributes" do
       it "creates a new tournament" do
-        count_before = Tournaments::Tournament.count
+        count_before = Tournament.count
         post :create, params: { tournament: valid_attributes }
-        count_after = Tournaments::Tournament.count
+        count_after = Tournament.count
         expect(count_after).to eq(count_before + 1)
       end
 
@@ -96,7 +96,7 @@ RSpec.describe Api::V1::TournamentsController do
       it "does not create a new tournament" do
         expect {
           post :create, params: { tournament: { name: nil } }
-        }.not_to change(Tournaments::Tournament, :count)
+        }.not_to change(Tournament, :count)
       end
 
       it "returns an unprocessable entity status" do
@@ -145,7 +145,7 @@ RSpec.describe Api::V1::TournamentsController do
     it "deletes the tournament" do
       expect {
         delete :destroy, params: { id: tournament.id }
-      }.to change(Tournaments::Tournament, :count).by(-1)
+      }.to change(Tournament, :count).by(-1)
     end
 
     it "returns a successful response" do

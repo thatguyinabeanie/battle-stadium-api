@@ -22,15 +22,15 @@ RSpec.describe Game do
 
       it "has many formats" do
         game = described_class.new(name: "Pokemon")
-        format1 = Tournaments::Format.create(name: "Single Elimination", game:)
-        format2 = Tournaments::Format.create(name: "Double Elimination", game:)
+        format1 = Format.create(name: "Single Elimination", game:)
+        format2 = Format.create(name: "Double Elimination", game:)
         expect(game.formats).to contain_exactly(format1, format2)
       end
 
       it "does not destroy associated formats when destroyed" do
         game = described_class.create(name: "Pokemon")
-        Tournaments::Format.create(name: "Single Elimination", game:)
-        expect { game.destroy }.not_to change(Tournaments::Format, :count)
+        Format.create(name: "Single Elimination", game:)
+        expect { game.destroy }.not_to change(Format, :count)
       end
     end
 
@@ -54,8 +54,8 @@ RSpec.describe Game do
 
       it "does not destroys associated tournaments when destroyed" do
         game = described_class.create(name: "Pokemon")
-        Tournaments::Tournament.create(name: "World Championship", game:)
-        expect { game.destroy }.not_to change(Tournaments::Tournament, :count)
+        Tournament.create(name: "World Championship", game:)
+        expect { game.destroy }.not_to change(Tournament, :count)
       end
     end
   end

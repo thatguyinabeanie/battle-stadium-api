@@ -1,6 +1,6 @@
 
 FactoryBot.define do
-  factory :player, aliases: [:tournament_player], class: "Tournaments::Player" do
+  factory :player, aliases: [:tournament_player], class: "Player" do
     profile factory: :profile
 
     tournament factory: :tournament

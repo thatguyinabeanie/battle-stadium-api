@@ -88,6 +88,7 @@ jobs:
       - name: Run Rspec Tests
         run: |
           mkdir -p tmp/parallel_runtime_rspec
+          rm -f tmp/parallel_runtime_rspec.log
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
             bundle exec parallel_rspec -n 4 --group-by runtime --only-group ${{ matrix.group }} --verbose
           else
@@ -100,20 +101,21 @@ jobs:
           RECORD_RUNTIME: "true"
 
       - name: "Runtime cache: clear chunk"
+        working-directory: ./backend
+        if: always()
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cd backend
           gh extension install actions/gh-actions-cache
           gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm || true
           mkdir -p tmp/parallel_runtime_rspec
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
           fi
-        continue-on-error: true
 
       - name: "Runtime cache: store chunk"
+        if: always() && steps.cache-restore.outputs.cache-hit != 'true'  # Only save if cache was not hit
         uses: actions/cache/save@v4
         with:
           key: runtime-cache-${{ matrix.group }}

@@ -44,7 +44,7 @@ RSpec.describe ChatMessage do
   describe "associations" do
     it { is_expected.to belong_to(:profile).class_name("Profile").optional(false).validate(true) }
     it { is_expected.to delegate_method(:account).to(:profile) }
-    it { is_expected.to belong_to(:match).class_name("Tournaments::Match").optional(false).validate(true) }
+    it { is_expected.to belong_to(:match).class_name("Match").optional(false).validate(true) }
     it { is_expected.to validate_presence_of(:content) }
   end
 end

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :match_game, class: "Tournaments::MatchGame" do
+  factory :match_game, class: "MatchGame" do
     match factory: :match
     sequence(:game_number) { |n| n }
 

@@ -3,7 +3,7 @@ module Phases
     self.table_name = "phases"
     validates :type, equality: { value: "Phases::Swiss" }
 
-    belongs_to :current_round, class_name: "Tournaments::Round", optional: true
+    belongs_to :current_round, class_name: "Round", optional: true
 
     validates :current_round, presence: true, if: -> { started_at.present? }
 
@@ -18,12 +18,12 @@ module Phases
       raise "The phase has no players" if players.empty?
 
       self.started_at = Time.current.utc
-      self.current_round = self.current_round = Tournaments::Round.create_initial_round(self)
+      self.current_round = self.current_round = Round.create_initial_round(self)
       self.save!
     end
 
     def accept_players(players:)
-      raise "Players must be a collection of Tournaments::Player" unless players.is_a?(ActiveRecord::Relation)
+      raise "Players must be a collection of Player" unless players.is_a?(ActiveRecord::Relation)
       ready_players = players&.checked_in_and_submitted_team_sheet
       raise "Number of players must be greater than zero" unless ready_players&.count&.positive?
 
@@ -46,7 +46,7 @@ module Phases
       raise "The phase has not ended the current round" unless current_round&.matches&.in_progress&.empty?
       raise "The phase has already completed all rounds" if current_round&.round_number == number_of_rounds
 
-      self.current_round = Tournaments::Round.create_round(self)
+      self.current_round = Round.create_round(self)
     end
 
     protected

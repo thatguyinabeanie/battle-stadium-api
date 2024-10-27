@@ -328,6 +328,177 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '404':
           description: not found
+  "/tournaments/{tournament_id}/matches":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieves all matches for a tournament
+      tags:
+      - Matches
+      responses:
+        '200':
+          description: matches found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Match"
+        '404':
+          description: tournament not found
+  "/tournaments/{tournament_id}/matches/{id}":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Match ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieves a match
+      tags:
+      - Matches
+      responses:
+        '200':
+          description: match found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MatchDetails"
+        '404':
+          description: match not found
+    patch:
+      summary: Updates a match
+      tags:
+      - Matches
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: match updated
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                match:
+                  type: object
+                  properties:
+                    round_id:
+                      type: integer
+                    table_number:
+                      type: integer
+                    player_one_id:
+                      type: integer
+                    player_two_id:
+                      type: integer
+                    winner_id:
+                      type: integer
+                    loser_id:
+                      type: integer
+                    player_one_check_in:
+                      type: boolean
+                    player_two_check_in:
+                      type: boolean
+                    phase_id:
+                      type: integer
+                    bye:
+                      type: boolean
+              required:
+              - match
+  "/tournaments/{tournament_id}/matches/{id}/check_in":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Match ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Check in
+      tags:
+      - Matches
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: checked in
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MatchDetails"
+  "/tournaments/{tournament_id}/matches/{id}/reset":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Match ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Reset Match
+      tags:
+      - Matches
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: reported
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MatchDetails"
   "/organizations":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -577,9 +748,286 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
+  "/tournaments/{tournament_id}/phases":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the tournament
+      required: true
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: List Tournament Phases
+      tags:
+      - Phases
+      description: Retrieves a list of all Phases
+      operationId: listTournamentPhases
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Phase"
+        '404':
+          description: not found
+    post:
+      summary: Create Tournament Phase
+      tags:
+      - Phases
+      description: Creates a new Tournament Phase.
+      operationId: postTournamentPhase
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Phase"
+  "/tournaments/{tournament_id}/phases/{id}":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the tournament
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      required: true
+      description: ID of the Phase
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Show Tournament Phase
+      tags:
+      - Phases
+      description: Retrieves a Tournament Phase
+      operationId: showTournamentPhase
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+    patch:
+      summary: Update Tournament Phase
+      tags:
+      - Phases
+      description: Updates a Tournament Phase.
+      operationId: patchTournamentPhase
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Phase"
+    delete:
+      summary: Delete Tournament Phase
+      tags:
+      - Phases
+      description: Deletes a Tournament Phase.
+      operationId: deleteTournamentPhase
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+  "/tournaments/{tournament_id}/players":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: List Tournament Players
+      tags:
+      - Players
+      description: Retrieves a list of all Players
+      operationId: listPlayers
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Player"
+        '404':
+          description: not found
+    post:
+      summary: Create Tournament Player
+      tags:
+      - Players
+      description: Creates a new Player.
+      operationId: postTournamentPlayer
+      parameters:
+      - name: in_game_name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: profile_id
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: pokemon_team_id
+        in: query
+        required: false
+        nullable: true
+        schema:
+          type: integer
+      - name: show_country_flag
+        in: query
+        required: true
+        nullable: true
+        schema:
+          type: boolean
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+        '422':
+          description: Already registered
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: not found
+  "/tournaments/{tournament_id}/players/{id}":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: ID of the Player
+      required: true
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Show Tournament Player
+      tags:
+      - Players
+      description: Retrieves a Player
+      operationId: showTournamentPlayer
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+    patch:
+      summary: Update Tournament Player
+      tags:
+      - Players
+      description: Updates a Player.
+      operationId: putTournamentPlayer
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlayerRequest"
+    delete:
+      summary: Delete Tournament Player
+      tags:
+      - Players
+      description: Deletes a Player.
+      operationId: deleteTournamentPlayer
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
   "/pokemon_teams":
     get:
-      summary: List Public and NotArchived Pokemon Teams
+      summary: List published and NotArchived Pokemon Teams
       description: Retrieves a list of all public and not archived pokemon teams
       operationId: listPokemonTeams
       security:
@@ -769,447 +1217,6 @@ paths:
                     type: string
                 required:
                 - error
-  "/tournaments/{tournament_id}/matches":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    get:
-      summary: Retrieves all matches for a tournament
-      tags:
-      - Matches
-      responses:
-        '200':
-          description: matches found
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Match"
-        '404':
-          description: tournament not found
-  "/tournaments/{tournament_id}/matches/{id}":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    - name: id
-      in: path
-      description: Match ID
-      required: true
-      schema:
-        type: string
-    get:
-      summary: Retrieves a match
-      tags:
-      - Matches
-      responses:
-        '200':
-          description: match found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/MatchDetails"
-        '404':
-          description: match not found
-    patch:
-      summary: Updates a match
-      tags:
-      - Matches
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: match updated
-        '422':
-          description: invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                match:
-                  type: object
-                  properties:
-                    round_id:
-                      type: integer
-                    table_number:
-                      type: integer
-                    player_one_id:
-                      type: integer
-                    player_two_id:
-                      type: integer
-                    winner_id:
-                      type: integer
-                    loser_id:
-                      type: integer
-                    player_one_check_in:
-                      type: boolean
-                    player_two_check_in:
-                      type: boolean
-                    phase_id:
-                      type: integer
-                    bye:
-                      type: boolean
-              required:
-              - match
-  "/tournaments/{tournament_id}/matches/{id}/check_in":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    - name: id
-      in: path
-      description: Match ID
-      required: true
-      schema:
-        type: string
-    post:
-      summary: Check in
-      tags:
-      - Matches
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: checked in
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/MatchDetails"
-  "/tournaments/{tournament_id}/matches/{id}/reset":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    - name: id
-      in: path
-      description: Match ID
-      required: true
-      schema:
-        type: string
-    post:
-      summary: Reset Match
-      tags:
-      - Matches
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: reported
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/MatchDetails"
-  "/tournaments/{tournament_id}/phases":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the tournament
-      required: true
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: List Tournament Phases
-      tags:
-      - Phases
-      description: Retrieves a list of all Phases
-      operationId: listTournamentPhases
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Phase"
-        '404':
-          description: not found
-    post:
-      summary: Create Tournament Phase
-      tags:
-      - Phases
-      description: Creates a new Tournament Phase.
-      operationId: postTournamentPhase
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '201':
-          description: created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PhaseDetails"
-        '404':
-          description: not found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/Phase"
-  "/tournaments/{tournament_id}/phases/{id}":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the tournament
-      required: true
-      schema:
-        type: integer
-    - name: id
-      in: path
-      required: true
-      description: ID of the Phase
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: Show Tournament Phase
-      tags:
-      - Phases
-      description: Retrieves a Tournament Phase
-      operationId: showTournamentPhase
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PhaseDetails"
-        '404':
-          description: not found
-    patch:
-      summary: Update Tournament Phase
-      tags:
-      - Phases
-      description: Updates a Tournament Phase.
-      operationId: patchTournamentPhase
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PhaseDetails"
-        '404':
-          description: not found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/Phase"
-    delete:
-      summary: Delete Tournament Phase
-      tags:
-      - Phases
-      description: Deletes a Tournament Phase.
-      operationId: deleteTournamentPhase
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-        '404':
-          description: not found
-  "/tournaments/{tournament_id}/players":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the Tournament
-      required: true
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: List Tournament Players
-      tags:
-      - Players
-      description: Retrieves a list of all Players
-      operationId: listPlayers
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Player"
-        '404':
-          description: not found
-    post:
-      summary: Create Tournament Player
-      tags:
-      - Players
-      description: Creates a new Player.
-      operationId: postTournamentPlayer
-      parameters:
-      - name: in_game_name
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: profile_id
-        in: query
-        required: true
-        schema:
-          type: integer
-      - name: pokemon_team_id
-        in: query
-        required: false
-        schema:
-          type: integer
-      security:
-      - Bearer: []
-      responses:
-        '201':
-          description: created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PlayerDetails"
-        '422':
-          description: Already registered
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-        '404':
-          description: not found
-  "/tournaments/{tournament_id}/players/{id}":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the Tournament
-      required: true
-      schema:
-        type: integer
-    - name: id
-      in: path
-      description: ID of the Player
-      required: true
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: Show Tournament Player
-      tags:
-      - Players
-      description: Retrieves a Player
-      operationId: showTournamentPlayer
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PlayerDetails"
-    patch:
-      summary: Update Tournament Player
-      tags:
-      - Players
-      description: Updates a Player.
-      operationId: putTournamentPlayer
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PlayerDetails"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/PlayerRequest"
-    delete:
-      summary: Delete Tournament Player
-      tags:
-      - Players
-      description: Deletes a Player.
-      operationId: deleteTournamentPlayer
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-        '404':
-          description: not found
   "/tournaments":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1409,44 +1416,6 @@ components:
         - username
       required: true
   schemas:
-    Format:
-      type: object
-      title: Format
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Game:
-      type: object
-      title: Game
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-      required:
-      - id
-      - name
-    GameDetail:
-      type: object
-      title: Game Details
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        formats:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Format"
-      required:
-      - id
-      - name
-      - formats
     Account:
       type: object
       title: account
@@ -1600,6 +1569,502 @@ components:
       - country
       - username
       - pronouns
+    Format:
+      type: object
+      title: Format
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Game:
+      type: object
+      title: Game
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - id
+      - name
+    GameDetail:
+      type: object
+      title: Game Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        formats:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Format"
+      required:
+      - id
+      - name
+      - formats
+    GameRequest:
+      type: object
+      title: GameRequest
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - name
+    Match:
+      type: object
+      title: Match
+      properties:
+        id:
+          type: integer
+          format: int64
+        round_id:
+          type: integer
+          format: int64
+        tournament_id:
+          type: integer
+          format: int64
+        table_number:
+          type: integer
+          format: int64
+        player_one:
+          type: string
+        player_two:
+          type: string
+        reset_by:
+          type: string
+          nullable: true
+      required:
+      - id
+      - round_id
+      - table_number
+      - player_one
+      - player_two
+      - reset_by
+    MatchDetails:
+      type: object
+      title: Match
+      properties:
+        id:
+          type: integer
+          format: int64
+        round_id:
+          type: integer
+          format: int64
+        tournament_id:
+          type: integer
+          format: int64
+        table_number:
+          type: integer
+          format: int64
+        player_one:
+          type: string
+        player_two:
+          type: string
+        reset_by:
+          type: string
+          nullable: true
+        winner:
+          type: string
+          nullable: true
+        loser:
+          type: string
+          nullable: true
+        player_one_check_in:
+          type: string
+          format: date-time
+          nullable: true
+        player_two_check_in:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        bye:
+          type: boolean
+      required:
+      - id
+      - round_id
+      - table_number
+      - player_one
+      - player_two
+      - reset_by
+      - winner
+      - loser
+      - player_one_check_in
+      - player_two_check_in
+      - ended_at
+      - started_at
+      - bye
+    Organization:
+      type: object
+      title: Organization
+      properties:
+        owner:
+          "$ref": "#/components/schemas/Account"
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        logo_url:
+          type: string
+          nullable: true
+          format: uri
+        partner:
+          type: boolean
+        slug:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - id
+      - name
+      - owner
+      - description
+      - logo_url
+      - slug
+    Pokemon:
+      type: object
+      title: Pokemon
+      properties:
+        position:
+          type: integer
+          format: integer
+        species:
+          type: string
+        nickname:
+          type: string
+          nullable: true
+        gender:
+          type: string
+        shiny:
+          type: boolean
+        ability:
+          type: string
+        tera_type:
+          type: string
+        nature:
+          type: string
+        form:
+          type: string
+          nullable: true
+        item:
+          type: string
+          nullable: true
+        move1:
+          type: string
+          nullable: true
+        move2:
+          type: string
+          nullable: true
+        move3:
+          type: string
+          nullable: true
+        move4:
+          type: string
+          nullable: true
+        pokemon_team_id:
+          type: integer
+          format: int64
+        evs:
+          "$ref": "#/components/schemas/Stats"
+          nullable: true
+        ivs:
+          "$ref": "#/components/schemas/Stats"
+          nullable: true
+      required:
+      - species
+      - ability
+      - tera_type
+      - nature
+      - form
+      - item
+      - move1
+      - move2
+      - move3
+      - move4
+    PokemonTeam:
+      type: object
+      title: Pokemon Team
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        pokepaste_id:
+          type: string
+          nullable: true
+        profile:
+          "$ref": "#/components/schemas/Profile"
+        published:
+          type: boolean
+        archived_at:
+          type: string
+          format: date-time
+          nullable: true
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        pokemon:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Pokemon"
+      required:
+      - id
+      - name
+      - profile
+      - published
+      - archived_at
+      - format
+      - game
+      - pokemon
+    PlayerRequest:
+      type: object
+      title: Player Request
+      properties:
+        profile_id:
+          type: integer
+          format: int64
+        in_game_name:
+          type: string
+      required:
+      - profile_id
+      - in_game_name
+    Player:
+      type: object
+      title: Player
+      properties:
+        id:
+          type: integer
+          format: int64
+        profile:
+          "$ref": "#/components/schemas/Profile"
+        in_game_name:
+          type: string
+        show_country_flag:
+          type: boolean
+      required:
+      - id
+      - profile
+      - in_game_name
+    PlayerDetails:
+      type: object
+      title: Player Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        profile:
+          "$ref": "#/components/schemas/Profile"
+        in_game_name:
+          type: string
+        show_country_flag:
+          type: boolean
+      required:
+      - id
+      - profile
+      - in_game_name
+    Round:
+      type: object
+      title: Round
+      properties:
+        id:
+          type: integer
+          format: int64
+        phase_id:
+          type: integer
+          format: int64
+        round_number:
+          type: integer
+          format: int64
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - phase_id
+      - round_number
+      - started_at
+      - ended_at
+    Phase:
+      type: object
+      title: Phase
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        order:
+          type: integer
+          format: int64
+        type:
+          type: string
+        tournament_id:
+          type: integer
+          format: int64
+        number_of_rounds:
+          type: integer
+        best_of:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - order
+      - tournament_id
+      - number_of_rounds
+      - best_of
+      - started_at
+      - ended_at
+    PhaseDetails:
+      type: object
+      title: Phase Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        order:
+          type: integer
+          format: int64
+        type:
+          type: string
+        tournament_id:
+          type: integer
+          format: int64
+        number_of_rounds:
+          type: integer
+        best_of:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        players:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Player"
+        rounds:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Round"
+      required:
+      - id
+      - name
+      - order
+      - tournament_id
+      - number_of_rounds
+      - best_of
+      - started_at
+      - ended_at
+      - players
+      - rounds
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        next_page:
+          type: integer
+          nullable: true
+        prev_page:
+          type: integer
+          nullable: true
+        total_pages:
+          type: integer
+        total_count:
+          type: integer
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Profile:
+      type: object
+      title: Profile
+      properties:
+        id:
+          type: integer
+          format: int64
+        default:
+          type: boolean
+        username:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        pronouns:
+          type: string
+          nullable: true
+      required:
+      - username
+      - image_url
+      - id
+      - pronouns
+      - default
+    PostProfile:
+      type: object
+      title: Post Profile
+      properties:
+        username:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        pronouns:
+          type: string
+          nullable: true
+      required:
+      - username
     RegistrationResponse:
       type: object
       title: Registration Response
@@ -1648,36 +2113,28 @@ components:
       - jti
       - name
       - image
-    Organization:
+    Stats:
       type: object
-      title: Organization
+      title: Stats
       properties:
-        owner:
-          "$ref": "#/components/schemas/Account"
-          nullable: true
-        description:
-          type: string
-          nullable: true
-        logo_url:
-          type: string
-          nullable: true
-          format: uri
-        partner:
-          type: boolean
-        slug:
-          type: string
-        id:
+        hp:
           type: integer
-          format: int64
-        name:
-          type: string
-      required:
-      - id
-      - name
-      - owner
-      - description
-      - logo_url
-      - slug
+          nullable: true
+        atk:
+          type: integer
+          nullable: true
+        def:
+          type: integer
+          nullable: true
+        spa:
+          type: integer
+          nullable: true
+        spd:
+          type: integer
+          nullable: true
+        spe:
+          type: integer
+          nullable: true
     Tournament:
       type: object
       title: Tournament
@@ -1823,275 +2280,6 @@ components:
       - late_registration
       - registration_start_at
       - registration_end_at
-    Pokemon:
-      type: object
-      title: Pokemon
-      properties:
-        position:
-          type: integer
-          format: integer
-        species:
-          type: string
-        nickname:
-          type: string
-          nullable: true
-        gender:
-          type: string
-        shiny:
-          type: boolean
-        ability:
-          type: string
-        tera_type:
-          type: string
-        nature:
-          type: string
-        form:
-          type: string
-          nullable: true
-        item:
-          type: string
-          nullable: true
-        move1:
-          type: string
-          nullable: true
-        move2:
-          type: string
-          nullable: true
-        move3:
-          type: string
-          nullable: true
-        move4:
-          type: string
-          nullable: true
-        pokemon_team_id:
-          type: integer
-          format: int64
-      required:
-      - species
-      - ability
-      - tera_type
-      - nature
-      - form
-      - item
-      - move1
-      - move2
-      - move3
-      - move4
-    PokemonTeam:
-      type: object
-      title: Pokemon Team
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        pokepaste_id:
-          type: string
-          nullable: true
-        profile:
-          "$ref": "#/components/schemas/Profile"
-        public:
-          type: boolean
-        archived_at:
-          type: string
-          format: date-time
-          nullable: true
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
-        pokemon:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Pokemon"
-      required:
-      - id
-      - name
-      - profile
-      - public
-      - archived_at
-      - format
-      - game
-      - pokemon
-    PlayerRequest:
-      type: object
-      title: Player Request
-      properties:
-        profile_id:
-          type: integer
-          format: int64
-        in_game_name:
-          type: string
-      required:
-      - profile_id
-      - in_game_name
-    Player:
-      type: object
-      title: Player
-      properties:
-        id:
-          type: integer
-          format: int64
-        profile:
-          "$ref": "#/components/schemas/Profile"
-        in_game_name:
-          type: string
-      required:
-      - id
-      - profile
-      - in_game_name
-    PlayerDetails:
-      type: object
-      title: Player Details
-      properties:
-        id:
-          type: integer
-          format: int64
-        profile:
-          "$ref": "#/components/schemas/Profile"
-        in_game_name:
-          type: string
-      required:
-      - id
-      - profile
-      - in_game_name
-    Round:
-      type: object
-      title: Round
-      properties:
-        id:
-          type: integer
-          format: int64
-        phase_id:
-          type: integer
-          format: int64
-        round_number:
-          type: integer
-          format: int64
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-      required:
-      - id
-      - phase_id
-      - round_number
-      - started_at
-      - ended_at
-    Phase:
-      type: object
-      title: Phase
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        order:
-          type: integer
-          format: int64
-        type:
-          type: string
-        tournament_id:
-          type: integer
-          format: int64
-        number_of_rounds:
-          type: integer
-        best_of:
-          type: integer
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-      - id
-      - name
-      - order
-      - tournament_id
-      - number_of_rounds
-      - best_of
-      - started_at
-      - ended_at
-    PhaseDetails:
-      type: object
-      title: Phase Details
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        order:
-          type: integer
-          format: int64
-        type:
-          type: string
-        tournament_id:
-          type: integer
-          format: int64
-        number_of_rounds:
-          type: integer
-        best_of:
-          type: integer
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        players:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Player"
-        rounds:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Round"
-      required:
-      - id
-      - name
-      - order
-      - tournament_id
-      - number_of_rounds
-      - best_of
-      - started_at
-      - ended_at
-      - players
-      - rounds
-    GameRequest:
-      type: object
-      title: GameRequest
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-      required:
-      - name
     TournamentRequest:
       type: object
       title: Tournament Request
@@ -2214,152 +2402,3 @@ components:
           type: string
       required:
       - message
-    Pagination:
-      type: object
-      properties:
-        current_page:
-          type: integer
-        next_page:
-          type: integer
-          nullable: true
-        prev_page:
-          type: integer
-          nullable: true
-        total_pages:
-          type: integer
-        total_count:
-          type: integer
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
-    Profile:
-      type: object
-      title: Profile
-      properties:
-        id:
-          type: integer
-          format: int64
-        default:
-          type: boolean
-        username:
-          type: string
-        image_url:
-          type: string
-          nullable: true
-        pronouns:
-          type: string
-          nullable: true
-      required:
-      - username
-      - image_url
-      - id
-      - pronouns
-      - default
-    PostProfile:
-      type: object
-      title: Post Profile
-      properties:
-        username:
-          type: string
-        image_url:
-          type: string
-          nullable: true
-        pronouns:
-          type: string
-          nullable: true
-      required:
-      - username
-    Match:
-      type: object
-      title: Match
-      properties:
-        id:
-          type: integer
-          format: int64
-        round_id:
-          type: integer
-          format: int64
-        tournament_id:
-          type: integer
-          format: int64
-        table_number:
-          type: integer
-          format: int64
-        player_one:
-          type: string
-        player_two:
-          type: string
-        reset_by:
-          type: string
-          nullable: true
-      required:
-      - id
-      - round_id
-      - table_number
-      - player_one
-      - player_two
-      - reset_by
-    MatchDetails:
-      type: object
-      title: Match
-      properties:
-        id:
-          type: integer
-          format: int64
-        round_id:
-          type: integer
-          format: int64
-        tournament_id:
-          type: integer
-          format: int64
-        table_number:
-          type: integer
-          format: int64
-        player_one:
-          type: string
-        player_two:
-          type: string
-        reset_by:
-          type: string
-          nullable: true
-        winner:
-          type: string
-          nullable: true
-        loser:
-          type: string
-          nullable: true
-        player_one_check_in:
-          type: string
-          format: date-time
-          nullable: true
-        player_two_check_in:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        bye:
-          type: boolean
-      required:
-      - id
-      - round_id
-      - table_number
-      - player_one
-      - player_two
-      - reset_by
-      - winner
-      - loser
-      - player_one_check_in
-      - player_two_check_in
-      - ended_at
-      - started_at
-      - bye

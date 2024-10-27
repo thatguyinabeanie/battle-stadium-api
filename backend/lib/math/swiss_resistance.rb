@@ -25,7 +25,7 @@ module Math
 
     def self.validate(player:, phase:)
       raise ArgumentError, "phase must be a Phases::Swiss" unless phase.is_a?(Phases::Swiss)
-      raise ArgumentError, "player must be a Tournaments::Player" unless player.is_a?(Tournaments::Player)
+      raise ArgumentError, "player must be a Player" unless player.is_a?(Player)
       raise ArgumentError, "player must be part of the phase" unless phase.players.include?(player)
     end
   end

@@ -2,7 +2,7 @@
 class PokemonTeam < ApplicationRecord
   belongs_to :profile, class_name: "Profile", optional: false, inverse_of: :pokemon_teams, foreign_key: "profile_id"
 
-  belongs_to :format, class_name: "::Tournaments::Format", optional: false
+  belongs_to :format, class_name: "::Format", optional: false
   belongs_to :game, class_name: "Game", optional: false
 
   has_many :pokemon, class_name: "Pokemon", inverse_of: :pokemon_team, dependent: :destroy

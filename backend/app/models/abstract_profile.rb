@@ -2,13 +2,17 @@
 class AbstractProfile < ApplicationRecord
   extend FriendlyId
 
+  def self.policy_class
+    ProfilePolicy
+  end
+
   self.table_name = "profiles"
   self.inheritance_column = "type"
 
   friendly_id :username, use: :slugged
 
   belongs_to :account, class_name: "Account", inverse_of: :profiles, optional: true, foreign_key: "account_id"
-  has_many :players, class_name: "Tournaments::Player", inverse_of: :profile, foreign_key: "profile_id"
+  has_many :players, class_name: "Player", inverse_of: :profile, foreign_key: "profile_id"
   has_many :pokemon_teams, class_name: "PokemonTeam", inverse_of: :profile, foreign_key: "profile_id"
 
   validates :username, presence: true, uniqueness: true

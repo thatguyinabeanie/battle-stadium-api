@@ -2,20 +2,20 @@
 module Phases
   class BasePhase < ::ApplicationRecord
     def self.policy_class
-      ::Tournaments::PhasePolicy
+      ::PhasePolicy
     end
 
     self.table_name = "phases"
     self.inheritance_column = "type"
     self.abstract_class = true
 
-    belongs_to :tournament, class_name: "Tournaments::Tournament"
+    belongs_to :tournament, class_name: "Tournament"
     delegate :organization, to: :tournament
 
-    has_many :rounds, class_name: "Tournaments::Round", inverse_of: :phase, dependent: :destroy
-    has_many :matches, class_name: "Tournaments::Match", inverse_of: :phase
-    has_many :phase_players, class_name: "Tournaments::PhasePlayer", inverse_of: :phase, dependent: :destroy
-    has_many :players, through: :phase_players, source: :player, class_name: "Tournaments::Player"
+    has_many :rounds, class_name: "Round", inverse_of: :phase, dependent: :destroy
+    has_many :matches, class_name: "Match", inverse_of: :phase
+    has_many :phase_players, class_name: "PhasePlayer", inverse_of: :phase, dependent: :destroy
+    has_many :players, through: :phase_players, source: :player, class_name: "Player"
 
     validates :name, presence: true
     validates :best_of, numericality: { greater_than: 0, only_integer: true }, presence: true

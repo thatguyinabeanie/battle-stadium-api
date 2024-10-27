@@ -3,11 +3,13 @@
 class Organization < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
-
+  def self.policy_class
+    OrganizationPolicy
+  end
   self.table_name = "organizations"
   belongs_to :owner, class_name: "Account", optional: true
 
-  has_many :tournaments, class_name: "Tournaments::Tournament", dependent: :destroy
+  has_many :tournaments, class_name: "Tournament", dependent: :destroy
   has_many :organization_staff_members, class_name: "OrganizationStaffMember", dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :account
 

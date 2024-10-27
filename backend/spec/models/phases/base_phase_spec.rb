@@ -23,8 +23,8 @@ RSpec.describe Phases::BasePhase do
   describe "associations" do
     subject { Phases::Test.new }
 
-    it { is_expected.to have_many(:rounds).class_name("Tournaments::Round").inverse_of(:phase).dependent(:destroy) }
-    it { is_expected.to belong_to(:tournament).class_name("Tournaments::Tournament") }
+    it { is_expected.to have_many(:rounds).class_name("Round").inverse_of(:phase).dependent(:destroy) }
+    it { is_expected.to belong_to(:tournament).class_name("Tournament") }
   end
 
   describe "validations" do
