@@ -37,6 +37,7 @@
     ],
     "testing.coverageToolbarEnabled": true,
     "cSpell.words": [
+      "actioncable",
       "Bulbasaur",
       "Charizard",
       "Charizardite",
@@ -45,7 +46,12 @@
       "Giga",
       "Jigglypuff",
       "Meowth",
-      "Squirtle"
+      "metagame",
+      "pokedex",
+      "Squirtle",
+      "turbopack",
+      "tweetnacl",
+      "uploadthing"
     ],
     "rubyLsp.addonSettings": {},
     "rubyLsp.enabledFeatures": {
@@ -68,17 +74,21 @@
       "signatureHelp": true,
       "typeHierarchy": true
     },
-    "rubyLsp.formatter": "rubocop",
+    "rubyLsp.formatter": "auto",
     "rubyLsp.rubyVersionManager": {
       "identifier": "custom"
     },
-    "rubyLsp.customRubyCommand": "/var/folders/g8/81ln1_tn27l4kts6shxsdpfm0000gn/T/frum_750_1722482383949/bin/ruby",
+    "rubyLsp.customRubyCommand": "frum local",
     "rubyLsp.enableExperimentalFeatures": true,
     "rubyLsp.featuresConfiguration": {
 
     },
     "rdbg.rubyVersionManager": "frum",
-    "rdbg.saveBreakpoints": true
+    "rdbg.saveBreakpoints": true,
+    "cSpell.showAutocompleteSuggestions": true,
+    "rubyLsp.rubyExecutablePath": "",
+    "rubyLsp.useLauncher": false,
+    "todo-tree.filtering.includeHiddenFiles": true,
   },
   "extensions": {
     "recommendations": [

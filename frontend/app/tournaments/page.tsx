@@ -1,5 +1,3 @@
-import {} from "react";
-
 import type { Metadata } from "next";
 
 import TournamentsTable from "@/components/tournaments-table";

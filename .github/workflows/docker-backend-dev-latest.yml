@@ -1,4 +1,4 @@
-name: Rails API Docker Image DEV
+name: Rails API
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-docker-dev-branch:
     runs-on: ubuntu-latest
     steps:
       - name: Setup QEMU

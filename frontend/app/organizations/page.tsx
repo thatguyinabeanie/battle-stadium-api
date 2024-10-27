@@ -1,4 +1,3 @@
-import {} from "react";
 import { Metadata } from "next";
 
 import { Tournament } from "@/lib/api";

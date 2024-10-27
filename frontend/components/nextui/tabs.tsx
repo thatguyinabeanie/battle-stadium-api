@@ -13,7 +13,7 @@ interface TabsProps<T> {
     title: string;
   }[];
   tabContents: T;
-  classNames?: SlotsToClasses<"base" | "cursor" | "wrapper" | "tab" | "tabList" | "tabContent" | "panel"> | undefined;
+  classNames?: SlotsToClasses<"base" | "cursor" | "wrapper" | "tab" | "tabList" | "tabContent" | "panel">;
   renderTabContent: (activeTab: string, props: T) => ReactNode;
 }
 
@@ -36,7 +36,6 @@ export default function Tabs<T>(props: Readonly<TabsProps<T>>) {
         selectedKey={activeTab}
         onSelectionChange={(key: Key) => {
           setActiveTab(key.toString());
-          updateSearchParams({ tab: key.toString() });
           updateSearchParams({ tab: key.toString() });
         }}
       >

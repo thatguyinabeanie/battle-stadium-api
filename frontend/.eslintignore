@@ -12,6 +12,7 @@ node_modules
 coverage
 .next
 build
+bun.lockb
 !.commitlintrc.cjs
 !.lintstagedrc.cjs
 !jest.config.js

@@ -73,8 +73,10 @@ group :test do
   gem "ruby_audit", "~> 2", require: false
   gem "selenium-webdriver", "~> 4", require: false
   gem "shoulda-matchers", "~> 6"
-  gem "simplecov"
+  gem "simplecov",  "~> 0.22.0"
+  gem "simplecov-cobertura", require: false
   gem "simplecov-console", require: false
+  gem "simplecov-lcov"
   gem "timecop", "~> 0"
 end
 
@@ -83,6 +85,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "faker", "~> 3"
   gem "listen", "~> 3.3"
+  gem "parallel_tests", "~> 4"
   gem "rspec-json_expectations"
   gem "rspec-rails"
   gem "ruby-lsp-rails", "~> 0.3.15"

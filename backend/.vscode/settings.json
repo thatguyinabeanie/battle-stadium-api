@@ -11,7 +11,6 @@
 
   "npm.packageManager": "bun",
 
-
   // All of these settings are scoped only to the Ruby language
   "[ruby]": {
     "editor.defaultFormatter": "Shopify.ruby-lsp", // Use the Ruby LSP as the default formatter
@@ -21,6 +20,23 @@
     "editor.semanticHighlighting.enabled": true, // Enable semantic highlighting
     "editor.formatOnType": true // Enable formatting while typing
   },
+  "coverage-gutters.coverageReportFileName": "",
+  "livePreview.defaultPreviewPath": "/coverage/index.html",
+  "coverage-gutters.showLineCoverage": true,
+  "coverage-gutters.showRulerCoverage": true,
 
+
+  "rubyTestExplorer.rspecCommand": "bundle exec rspec",
+  "rubyTestExplorer.rspecDirectory": "./spec",
+  "rubyTestExplorer.testFramework": "rspec",
+  "rubyTestExplorer.logpanel": true,
+  "rubyTestExplorer.filePattern": "**/*_spec.rb",
+
+  "rubyTestExplorer.rspecCommand": "bundle exec rspec",
+  "rubyTestExplorer.rspecDirectory": "./spec",
+  "rubyTestExplorer.testFramework": "rspec",
+  "rubyTestExplorer.logpanel": true,
+
+  "rubyTestExplorer.filePattern": "**/*_spec.rb",
 
 }

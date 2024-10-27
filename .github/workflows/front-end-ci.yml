@@ -1,5 +1,4 @@
-name: NextJS Frontend CI
-
+name: NextJS
 on:
   push:
     branches:
