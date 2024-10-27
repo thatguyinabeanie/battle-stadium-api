@@ -6,14 +6,22 @@ interface OrganizationHeaderProps {
   children: ReactNode;
   organization: Organization;
 }
+
+const HEIGHT_WIDTH = 175;
+
 export default function OrganizationHeader({ children, organization }: Readonly<OrganizationHeaderProps>) {
   return (
     <div className="flex flex-row justify-center items-center w-full">
-      <OrganizationLogo organization={organization} />
+      <OrganizationLogo height={HEIGHT_WIDTH} organization={organization} width={HEIGHT_WIDTH} />
 
       <div className="flex flex-col justify-between items-center text-center mx-4 ">{children}</div>
 
-      <OrganizationLogo className="hidden sm:flex" organization={organization} />
+      <OrganizationLogo
+        className="hidden sm:flex"
+        height={HEIGHT_WIDTH}
+        organization={organization}
+        width={HEIGHT_WIDTH}
+      />
     </div>
   );
 }
