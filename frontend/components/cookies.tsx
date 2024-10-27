@@ -1,6 +1,6 @@
 "use client";
 
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 import { Button, Link } from "@/components/nextui/client-components";

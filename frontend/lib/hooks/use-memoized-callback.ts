@@ -1,4 +1,4 @@
-import {useRef, useMemo} from "react";
+import { useRef, useMemo } from "react";
 
 type noop = (this: any, ...args: any[]) => any; // eslint-disable-line @typescript-eslint/no-explicit-any
 

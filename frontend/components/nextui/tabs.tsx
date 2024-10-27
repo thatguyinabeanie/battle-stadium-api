@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode , Key} from "react";
+import { ReactNode, Key } from "react";
 
 import { Tabs as NextUiTabs, SlotsToClasses, Tab } from "@/components/nextui/client-components";
 import { useSearchParamsTabState } from "@/lib/hooks/use-search-params-tab-state";

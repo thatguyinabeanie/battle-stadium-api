@@ -230,7 +230,7 @@ export default function NextUiTable() {
               if (index < 4) {
                 return (
                   <Chip key={team} className="text-default-500" size="sm" variant="flat">
-                    { `+${user[userKey].length - 3}` }
+                    {`+${user[userKey].length - 3}`}
                   </Chip>
                 );
               }

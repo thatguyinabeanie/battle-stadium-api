@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef , useState, Key} from "react";
+import { forwardRef, useState, Key } from "react";
 import { Autocomplete, AutocompleteItem, Button, Input, Spacer } from "@/components/nextui/client-components";
 
 import { cn } from "@/lib/utils";
