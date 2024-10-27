@@ -53,12 +53,12 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
 
           <body className="bg-background font-sans antialiased overflow-y-scroll">
             <Providers>
-              <div className="flex flex-col items-center min-h-svh">
+              <div className="flex flex-col items-center min-h-screen ">
                 <AwesomeParticles />
                 <div className="flex flex-col items-center min-h-screen backdrop-blur-lg shadow-2xl shadow-white w-5/6 ">
                   <NavigationBar />
 
-                  <main className="flex flex-col items-center min-h-screen w-full">
+                  <main className="flex flex-col min-h-screen items-center w-full">
                     <div className="flex flex-col items-center z-0 gap-4 pt-4 w-full">
                       <section className="flex flex-col gap-4 w-full items-center">{children}</section>
                     </div>

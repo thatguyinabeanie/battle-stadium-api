@@ -24,7 +24,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
           mode: "push",
         },
         onHover: {
-          enable: false,
+          enable: true,
           mode: "repulse",
         },
       },
@@ -33,7 +33,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
           quantity: 20,
         },
         repulse: {
-          distance: 60,
+          distance: 100,
           quantity: 3,
         },
       },
@@ -46,8 +46,8 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         color: isLight ? "#555" : "#fff",
         distance: 150,
         enable: true,
-        opacity: 0.5,
-        width: 1,
+        opacity: 0.2,
+        width: 0.5,
       },
       move: {
         direction: MoveDirection.none,

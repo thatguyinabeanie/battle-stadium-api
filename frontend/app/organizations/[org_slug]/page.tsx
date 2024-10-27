@@ -20,9 +20,9 @@ export async function generateMetadata(props: Readonly<OrganizationDetailPagePro
 }
 
 export async function generateStaticParams() {
-  const orgs = (await getOrganizations()).data?.data ?? [];
+  const {partners, nonpartners}= (await getOrganizations())
 
-  return orgs.map(({ slug }) => ({ org_slug: slug }));
+  return [...partners, ...nonpartners].map(({ slug }) => ({ org_slug: slug }));
 }
 
 const columns = [
