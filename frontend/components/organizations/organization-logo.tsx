@@ -1,23 +1,43 @@
 import { Organization } from "@/lib/api";
+import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 
 interface OrganizationLogoProps {
+  alt?: string;
+  src?: string;
+  priority?: boolean;
   organization: Organization;
   className?: string;
+  height?: number;
+  width?: number;
+  blurDataURL?: string;
+  placeholder?: PlaceholderValue;
 }
+const DEFAULT_HEIGHT_WIDTH = 100;
+const DEFAULT_BLUR_DATA_URL = "/pokemon/vgc.png";
 
-export default function OrganizationLogo({ organization, className }: Readonly<OrganizationLogoProps>) {
+export default function OrganizationLogo({
+  alt,
+  src,
+  priority,
+  placeholder,
+  organization,
+  className,
+  height,
+  width,
+  blurDataURL,
+}: Readonly<OrganizationLogoProps>) {
   return (
     <Image
-      priority
-      alt={organization?.name}
+      alt={alt ?? organization?.name}
       aria-label={organization?.name}
-      blurDataURL={organization?.logo_url ?? "/pokemon/vgc.png"}
-      className={`aspect-square gap-3 h-[6.25rem] w-[6.25rem] md:h-[9.375rem] md:w-[9.375rem] lg:h-[12.5rem] lg:w-[12.5rem] ${className}`}
-      height={2000}
-      placeholder="blur"
-      src={organization?.logo_url ?? "/pokemon/vgc.png"}
-      width={2000}
+      blurDataURL={blurDataURL ?? DEFAULT_BLUR_DATA_URL}
+      className={className}
+      height={height ?? DEFAULT_HEIGHT_WIDTH}
+      placeholder={placeholder ?? "blur"}
+      priority={priority ?? false}
+      src={src ?? organization?.logo_url ?? DEFAULT_BLUR_DATA_URL}
+      width={width ?? DEFAULT_HEIGHT_WIDTH}
     />
   );
 }
