@@ -1,4 +1,4 @@
-name: Rails API Docker Image PROD
+name: Rails API
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-docker-prod-latest:
     runs-on: ubuntu-latest
 
     steps:
