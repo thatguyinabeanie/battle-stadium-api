@@ -21,9 +21,9 @@ export const UploadThingRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
+      console.log("Upload complete for userId:", metadata.userId); // eslint-disable-line no-console
 
-      console.log("file url", file.url);
+      console.log("file url", file.url); // eslint-disable-line no-console
 
       // !!! Whatever is returned here is sent to the client `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };
