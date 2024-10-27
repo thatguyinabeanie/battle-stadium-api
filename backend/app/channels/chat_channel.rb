@@ -97,7 +97,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def match
-    @match ||= Tournaments::Match.find_by(id: params[:room])
+    @match ||= Match.find_by(id: params[:room])
     @match
   end
 

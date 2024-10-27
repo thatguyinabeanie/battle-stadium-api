@@ -65,7 +65,7 @@ def create_account(username: nil, first_name: nil, last_name: nil, email: nil, p
 end
 
 def create_tournament(name:, organization:, format:, game:, start_at:, end_at:)
-  Tournaments::Tournament.find_or_create_by!(name:, organization:, format:, game:) do |tournament|
+  Tournament.find_or_create_by!(name:, organization:, format:, game:) do |tournament|
     tournament.published = true
     tournament.start_at = start_at
     tournament.check_in_start_at = start_at - 1.hour
@@ -94,12 +94,12 @@ def generate_organization_name
 end
 
 def create_format(name:, game:)
-  Tournaments::Format.find_or_create_by!(name:, game:)
+  Format.find_or_create_by!(name:, game:)
 end
 
 game = Game.find_or_create_by!(name: "Pokemon VGC")
 
-format = Tournaments::Format.find_or_create_by!(name: "Regulation H", game: game)
+format = Format.find_or_create_by!(name: "Regulation H", game: game)
 
 fuecoco_supremacy_account = create_account(username: "fuecoco-supremacy", first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
 fuecoco_supremacy_account.admin = true

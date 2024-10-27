@@ -46,7 +46,7 @@ module Api
       end
 
       def list_tournaments
-        authorize ::Tournaments::Tournament, :list?
+        authorize ::Tournament, :list?
         @tournaments = @organization.tournaments
         render json: @tournaments, each_serializer: Serializers::Tournament, status: :ok
       end

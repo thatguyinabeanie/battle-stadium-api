@@ -21,7 +21,7 @@ RSpec.describe Organization do
     it { is_expected.to belong_to(:owner).class_name("Account").optional }
     it { is_expected.to have_many(:organization_staff_members).class_name("OrganizationStaffMember").dependent(:destroy) }
     it { is_expected.to have_many(:staff).through(:organization_staff_members).source(:account) }
-    it { is_expected.to have_many(:tournaments).class_name("Tournaments::Tournament").dependent(:destroy) }
+    it { is_expected.to have_many(:tournaments).class_name("Tournament").dependent(:destroy) }
 
     describe "adding and removing staff" do
       let(:account) { create(:account) }

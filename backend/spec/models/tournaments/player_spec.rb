@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe Tournaments::Player do
+RSpec.describe Player do
   describe "associations" do
     it { is_expected.to belong_to(:profile).class_name("Profile").optional(false).validate(true) }
-    it { is_expected.to belong_to(:tournament).class_name("Tournaments::Tournament").inverse_of(:players) }
+    it { is_expected.to belong_to(:tournament).class_name("Tournament").inverse_of(:players) }
     it { is_expected.to belong_to(:pokemon_team).class_name("PokemonTeam").optional(true) }
   end
 

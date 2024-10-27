@@ -1,7 +1,7 @@
 require "swagger_helper"
 require "support/auth/token_verifier_mock"
 
-RSpec.describe Api::V1::Tournaments::MatchesController do
+RSpec.describe Api::V1::MatchesController do
   include Auth::TokenVerifier::Mock
 
   path "/tournaments/{tournament_id}/matches" do

@@ -1,6 +1,6 @@
 # Assuming you have factories for tournament, player, and round defined elsewhere
 FactoryBot.define do
-  factory :match, class: "Tournaments::Match" do
+  factory :match, class: "Match" do
     phase { create(:swiss_phase) }
     tournament { phase.tournament }
     round { phase.rounds&.first || create(:round, phase:) }

@@ -16,7 +16,7 @@ module MatchPlayersConcern
   end
 
   def reporter_user(reporter:)
-    return reporter.profile if reporter.is_a?(Tournaments::Player) && [player_one, player_two].include?(reporter)
+    return reporter.profile if reporter.is_a?(Player) && [player_one, player_two].include?(reporter)
 
     reporter
   end

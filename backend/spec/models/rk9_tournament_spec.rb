@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe Rk9Tournament, type: :model do
+RSpec.describe Rk9Tournament do
   let(:tournament) {  described_class.new(name: "Tournament Name", start_date: Date.new(2024, 1, 1), end_date: Date.new(2024, 1, 2), rk9_id: "12345") }
 
   describe "validations" do

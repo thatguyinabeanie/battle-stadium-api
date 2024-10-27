@@ -5,7 +5,7 @@ PHASES_ENUM = %w[Phases::Swiss Phases::SingleElimination].freeze
 PHASE_SWISS = "Phases::Swiss".freeze
 
 
-RSpec.describe Api::V1::Tournaments::PhasesController do
+RSpec.describe Api::V1::PhasesController do
   include Auth::TokenVerifier::Mock
 
   let(:tournament) { create(:tournament) }

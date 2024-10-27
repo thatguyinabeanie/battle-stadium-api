@@ -7,9 +7,9 @@ class Rk9Tournament < ApplicationRecord
   validate :start_date_before_end_date
   has_many :rk9_profiles
 
-  scope :active, -> { where('start_date <= ? AND end_date >= ?', Date.today, Date.today) }
-  scope :upcoming, -> { where('start_date > ?', Date.today) }
-  scope :past, -> { where('end_date < ?', Date.today) }
+  scope :active, -> { where("start_date <= ? AND end_date >= ?", Date.today, Date.today) }
+  scope :upcoming, -> { where("start_date > ?", Date.today) }
+  scope :past, -> { where(end_date: ...Date.today) }
 
   def active?
     start_date <= Date.today && end_date >= Date.today

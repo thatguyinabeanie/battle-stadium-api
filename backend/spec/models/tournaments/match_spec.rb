@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Tournaments::Match do
+RSpec.describe Match do
   let(:match_hash) do
     player_one = create(:player)
     player_two = create(:player)
@@ -20,12 +20,12 @@ RSpec.describe Tournaments::Match do
   let(:player_two) { match_hash[:player_two] }
 
   describe "associations" do
-    it { is_expected.to belong_to(:round).class_name("Tournaments::Round") }
-    it { is_expected.to belong_to(:player_one).class_name("Tournaments::Player").required(true) }
-    it { is_expected.to belong_to(:player_two).class_name("Tournaments::Player").optional(true) }
-    it { is_expected.to belong_to(:winner).class_name("Tournaments::Player").optional(true) }
-    it { is_expected.to belong_to(:loser).class_name("Tournaments::Player").optional(true) }
-    it { is_expected.to have_many(:match_games).class_name("Tournaments::MatchGame").dependent(:destroy).inverse_of(:match) }
+    it { is_expected.to belong_to(:round).class_name("Round") }
+    it { is_expected.to belong_to(:player_one).class_name("Player").required(true) }
+    it { is_expected.to belong_to(:player_two).class_name("Player").optional(true) }
+    it { is_expected.to belong_to(:winner).class_name("Player").optional(true) }
+    it { is_expected.to belong_to(:loser).class_name("Player").optional(true) }
+    it { is_expected.to have_many(:match_games).class_name("MatchGame").dependent(:destroy).inverse_of(:match) }
     it { is_expected.to have_many(:chat_messages).class_name("ChatMessage").dependent(:nullify).inverse_of(:match) }
   end
 

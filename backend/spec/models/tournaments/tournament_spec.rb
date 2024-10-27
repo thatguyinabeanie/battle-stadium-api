@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Tournaments::Tournament do
+RSpec.describe Tournament do
   let(:organization) { create(:organization) }
   let(:game) { create(:game) }
   let(:format) { create(:format, game:) }
@@ -49,9 +49,9 @@ RSpec.describe Tournaments::Tournament do
   describe "associations" do
     it { is_expected.to belong_to(:organization).class_name("Organization") }
     it { is_expected.to belong_to(:game).class_name("Game") }
-    it { is_expected.to belong_to(:format).class_name("Tournaments::Format") }
+    it { is_expected.to belong_to(:format).class_name("Format") }
     it { is_expected.to have_many(:phases).class_name("Phases::BasePhase").dependent(:destroy_async) }
-    it { is_expected.to have_many(:players).class_name("Tournaments::Player").dependent(:destroy_async) }
+    it { is_expected.to have_many(:players).class_name("Player").dependent(:destroy_async) }
   end
 
   describe "callbacks" do
@@ -106,7 +106,7 @@ RSpec.describe Tournaments::Tournament do
       let(:tournament) { create(:tournament, :with_phases) }
 
       it "raises an error" do
-        expect { tournament.start! }.to raise_error(Tournaments::Tournament::NotEnoughPlayers)
+        expect { tournament.start! }.to raise_error(Tournament::NotEnoughPlayers)
       end
     end
 

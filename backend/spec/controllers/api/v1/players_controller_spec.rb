@@ -2,7 +2,7 @@ require "rails_helper"
 require "support/auth/token_verifier_mock"
 
 
-RSpec.describe Api::V1::Tournaments::PlayersController do
+RSpec.describe Api::V1::PlayersController do
 
   include Auth::TokenVerifier::Mock
   include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
@@ -49,13 +49,13 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
     context "with valid parameters" do
       it "creates a new player" do
 
-        count_before = Tournaments::Player.count
+        count_before = Player.count
 
         post :create, params: params
 
         expect(response.body).to include(params[:profile_id].to_s)
         expect(response).to have_http_status(:created)
-        count_after = Tournaments::Player.count
+        count_after = Player.count
         expect(count_after).to eq(count_before + 1)
 
       end
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
       it "does not create a new player" do
         expect {
           post :create, params: { tournament_id: tournament.id, player: { profile_id: -1 } }
-        }.not_to change(Tournaments::Player, :count)
+        }.not_to change(Player, :count)
       end
 
       it "returns an unprocessable entity status" do
@@ -118,7 +118,7 @@ RSpec.describe Api::V1::Tournaments::PlayersController do
     it "deletes the player" do
       expect {
         delete :destroy, params: { tournament_id: tournament.id, id: player.profile_id }
-      }.to change(Tournaments::Player, :count).by(-1)
+      }.to change(Player, :count).by(-1)
     end
 
     it "returns a successful response" do

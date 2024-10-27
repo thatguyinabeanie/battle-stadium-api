@@ -9,12 +9,12 @@ module Api
       before_action :authenticate_clerk_user_session!
 
       def self.policy_class
-        ::Tournaments::TournamentPolicy
+        ::TournamentPolicy
       end
 
       def index
         authorize self.class, :index?
-        @tournaments = ::Tournaments::Tournament.where(published: true).order(start_at: :desc).page(params[:page] || 0).per(params[:per_page] || 20)
+        @tournaments = ::Tournament.where(published: true).order(start_at: :desc).page(params[:page] || 0).per(params[:per_page] || 20)
         render json: {
           data: ActiveModelSerializers::SerializableResource.new(@tournaments, each_serializer: Serializers::Tournament),
           meta: {
@@ -38,7 +38,7 @@ module Api
 
       def create
         authorize @organization, :create_tournament?
-        @tournament = ::Tournaments::Tournament.new permitted_params
+        @tournament = ::Tournament.new permitted_params
         if @tournament.save
           render json: serialize_details, status: :created
         else
@@ -76,7 +76,7 @@ module Api
 
       # Use callbacks to share common setup or constraints between actions.
       def set_tournament
-        @tournament = ::Tournaments::Tournament.find(params[:id])
+        @tournament = ::Tournament.find(params[:id])
         @object = @tournament
         @tournament
       rescue ActiveRecord::RecordNotFound
@@ -88,8 +88,8 @@ module Api
                           @organization ||= set_organization
                           @organization.tournaments
                         else
-                          @tournaments = ::Tournaments::Tournament.where("start_at > ?", Time.zone.now)
-                                                                  .or(::Tournaments::Tournament.where(start_at: ..Time.zone.now)
+                          @tournaments = ::Tournament.where("start_at > ?", Time.zone.now)
+                                                                  .or(::Tournament.where(start_at: ..Time.zone.now)
                                                                   .where(ended_at: nil))
                         end
       end
@@ -98,7 +98,7 @@ module Api
         @organization = if permitted_params[:organization_id].present?
                           ::Organization.find(permitted_params[:organization_id])
                         else
-                          ::Tournaments::Tournament.find(params[:id]).organization
+                          ::Tournament.find(params[:id]).organization
                         end
         @organization
       rescue ActiveRecord::RecordNotFound

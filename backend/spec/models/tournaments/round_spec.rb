@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Tournaments::Round do
+RSpec.describe Round do
   let(:tournament) { create(:tournament, :with_phases, :with_players_with_team, :with_players_checked_in, :with_players_with_team_and_checked_in) }
   let(:phase) { tournament.phases.first }
   let(:round) { described_class.new(phase:, round_number: 1) }

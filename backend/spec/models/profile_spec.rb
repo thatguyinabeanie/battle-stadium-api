@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Profile do
   describe "associations" do
     it { is_expected.to belong_to(:account).inverse_of(:profiles).class_name("Account").with_foreign_key("account_id").optional(true) }
-    it { is_expected.to have_many(:players).class_name("Tournaments::Player").inverse_of(:profile).with_foreign_key("profile_id") }
+    it { is_expected.to have_many(:players).class_name("Player").inverse_of(:profile).with_foreign_key("profile_id") }
     it { is_expected.to have_many(:pokemon_teams).class_name("PokemonTeam").inverse_of(:profile).with_foreign_key("profile_id") }
   end
 

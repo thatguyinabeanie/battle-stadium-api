@@ -1,6 +1,6 @@
 require "rails_helper"
 require "support/auth/token_verifier_mock"
-RSpec.describe Api::V1::Tournaments::MatchGamesController do
+RSpec.describe Api::V1::MatchGamesController do
   include Auth::TokenVerifier::Mock
   include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
 

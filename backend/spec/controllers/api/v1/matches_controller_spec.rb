@@ -1,7 +1,7 @@
 require "rails_helper"
 require "support/auth/token_verifier_mock"
 
-RSpec.describe Api::V1::Tournaments::MatchesController do
+RSpec.describe Api::V1::MatchesController do
   include Auth::TokenVerifier::Mock
   include_context "with Controller Specs - Clerk JWT + Vercel OIDC Token Verification"
 
@@ -40,15 +40,15 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
       let(:params) { {tournament_id: tournament.id, match: valid_attributes, phase_id: , round_id: } }
 
       it "creates a new Match" do
-        before_count = Tournaments::Match.count
+        before_count = Match.count
         post(:create, params:)
-        after_count = Tournaments::Match.count
+        after_count = Match.count
         expect(after_count).to eq(before_count + 1)
       end
 
       it "renders a JSON response with the new match" do
         post(:create, params:)
-        expect(response.body).to eq Tournaments::Match.last.to_json
+        expect(response.body).to eq Match.last.to_json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq("application/json; charset=utf-8")
       end
@@ -96,7 +96,7 @@ RSpec.describe Api::V1::Tournaments::MatchesController do
       match = create(:match)
       expect {
         delete :destroy, params: { tournament_id: tournament.id, id: match.id }
-      }.to change(Tournaments::Match, :count).by(-1)
+      }.to change(Match, :count).by(-1)
     end
 
     it "renders a JSON response with the match" do

@@ -1,7 +1,7 @@
 require "swagger_helper"
 require "support/auth/token_verifier_mock"
 
-RSpec.describe Api::V1::Tournaments::PlayersController do
+RSpec.describe Api::V1::PlayersController do
   include Auth::TokenVerifier::Mock
 
   let(:organization) { create(:organization) }

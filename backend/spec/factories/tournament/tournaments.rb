@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :tournament, class: "Tournaments::Tournament" do
+  factory :tournament, class: "Tournament" do
     organization factory: :organization
 
     format { create(:format) }

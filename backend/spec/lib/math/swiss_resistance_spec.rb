@@ -13,9 +13,9 @@ RSpec.describe Math::SwissResistance do
 
 
   describe ".calculate" do
-    context "when player is not a Tournaments::Player" do
+    context "when player is not a Player" do
       it "raises an ArgumentError" do
-        expect { described_class.calculate(player: "not a player", phase:) }.to raise_error(ArgumentError, "player must be a Tournaments::Player")
+        expect { described_class.calculate(player: "not a player", phase:) }.to raise_error(ArgumentError, "player must be a Player")
       end
     end
 
