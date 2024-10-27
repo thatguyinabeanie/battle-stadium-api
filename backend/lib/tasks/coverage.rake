@@ -38,7 +38,12 @@ namespace :coverage do
   desc 'Clean old coverage reports'
   task :clean do
     require 'fileutils'
-    FileUtils.rm_rf('coverage')
-    puts "Cleaned coverage directory"
+    begin
+      FileUtils.rm_rf('coverage')
+      puts "Cleaned coverage directory"
+    rescue StandardError => e
+      puts "Failed to clean coverage directory: #{e.message}"
+      exit(1)
+    end
   end
 end
