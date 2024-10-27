@@ -20,7 +20,7 @@ export async function generateMetadata(props: Readonly<OrganizationDetailPagePro
 }
 
 export async function generateStaticParams() {
-  const {partners, nonpartners}= (await getOrganizations())
+  const { partners, nonpartners } = await getOrganizations();
 
   return [...partners, ...nonpartners].map(({ slug }) => ({ org_slug: slug }));
 }
