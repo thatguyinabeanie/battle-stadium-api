@@ -10,5 +10,9 @@ class CreateRk9Tournaments < ActiveRecord::Migration[7.2]
     end
 
     add_index :rk9_tournaments, :rk9_id, unique: true
+    add_index :rk9_tournaments, :start_date
+    add_index :rk9_tournaments, :end_date
+    add_index :rk9_tournaments, %i[start_date end_date], name: "index_rk9_tournaments_on_start_and_end_date"
+    add_index :rk9_tournaments, :name, unique: true
   end
 end
