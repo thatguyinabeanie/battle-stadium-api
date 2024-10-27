@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_27_005305) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_27_185127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -232,7 +232,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_27_005305) do
   create_table "pokemon_teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "public", default: true, null: false
+    t.boolean "published", default: true, null: false
     t.string "name"
     t.bigint "format_id", null: false
     t.bigint "game_id", null: false

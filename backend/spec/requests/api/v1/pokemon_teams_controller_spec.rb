@@ -6,7 +6,7 @@ require_relative "../../../../app/serializers/pokemon_serializer"
 RSpec.describe Api::V1::PokemonTeamsController do
   include Auth::TokenVerifier::Mock
   path("/pokemon_teams") do
-    get("List Public and NotArchived Pokemon Teams") do
+    get("List published and NotArchived Pokemon Teams") do
       produces OpenApi::Response::JSON_CONTENT_TYPE
       description "Retrieves a list of all public and not archived pokemon teams"
       operationId "listPokemonTeams"

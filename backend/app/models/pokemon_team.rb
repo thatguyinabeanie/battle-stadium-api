@@ -8,7 +8,7 @@ class PokemonTeam < ApplicationRecord
   has_many :pokemon, class_name: "Pokemon", inverse_of: :pokemon_team, dependent: :destroy
 
   validates :profile_id, presence: true
-  validates :public, inclusion: { in: [true, false] }
+  validates :published, inclusion: { in: [true, false] }, allow_nil: false
   validates :format, presence: true
   validates :pokepaste_id, presence: true, allow_nil: true
 
