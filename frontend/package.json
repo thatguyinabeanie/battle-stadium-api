@@ -18,7 +18,7 @@
     "generate:api": "openapi-typescript ../backend/openapi/v1/openapi.yaml  -o ./lib/api/openapi-v1.d.ts && bun fix",
     "check:unused": "depcheck",
     "vercel:pull": "vercel env pull .env.development.local",
-    "depcheck": "depcheck",
+    "depcheck": "depcheck"
   },
   "dependencies": {
     "@aws-sdk/credential-provider-web-identity": "^3.679.0",
@@ -146,8 +146,7 @@
     "@clerk/shared",
     "@tsparticles/engine",
     "@vercel/speed-insights",
-    "core-js-pure",
-    "husky"
+    "core-js-pure"
   ],
   "overrides": {
     "@types/react": "npm:types-react@19.0.0-rc.1",

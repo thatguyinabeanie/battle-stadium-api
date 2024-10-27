@@ -37,7 +37,6 @@ export default function Tabs<T>(props: Readonly<TabsProps<T>>) {
         onSelectionChange={(key: Key) => {
           setActiveTab(key.toString());
           updateSearchParams({ tab: key.toString() });
-          updateSearchParams({ tab: key.toString() });
         }}
       >
         {props.tabs.map((tab) => (
