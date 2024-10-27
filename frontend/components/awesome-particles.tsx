@@ -53,7 +53,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         direction: MoveDirection.none,
         enable: true,
         random: true,
-        speed: 3,
+        speed: 1,
         straight: false,
       },
       number: {
