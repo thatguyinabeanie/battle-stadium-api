@@ -147,14 +147,8 @@
     "@tsparticles/engine",
     "@vercel/speed-insights",
     "core-js-pure",
+    "husky"
   ],
-  "lint-staged": {
-    "./**/*.{js,jsx,ts,tsx}": [
-      "bun prettier:write",
-      "bun lint:fix"
-    ],
-    "*.{css,scss,md}": ["bun prettier:write"]
-  },
   "overrides": {
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
