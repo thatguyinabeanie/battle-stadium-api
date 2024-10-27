@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "limitlesstcg.s3.us-east-2.amazonaws.com",
       },
-    ]
+    ],
   },
   reactStrictMode: true,
 };
