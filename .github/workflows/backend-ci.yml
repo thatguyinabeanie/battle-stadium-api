@@ -95,6 +95,7 @@ jobs:
           fi
         working-directory: ./backend
         env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET}}
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           RECORD_RUNTIME: "true"
 
