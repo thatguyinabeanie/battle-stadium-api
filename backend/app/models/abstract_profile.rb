@@ -2,6 +2,10 @@
 class AbstractProfile < ApplicationRecord
   extend FriendlyId
 
+  def self.policy_class
+    ProfilePolicy
+  end
+
   self.table_name = "profiles"
   self.inheritance_column = "type"
 

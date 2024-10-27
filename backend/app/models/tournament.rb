@@ -1,9 +1,11 @@
-
 class Tournament < ApplicationRecord
   self.table_name = "tournaments"
   MINIMUM_PLAYER_COUNT = 4
-    # High level tournament information
-    # validates :name, presence: true
+
+  def self.policy_class
+    TournamentPolicy
+  end
+
   belongs_to :organization, class_name: "Organization"
   belongs_to :game, class_name: "Game"
   belongs_to :format, class_name: "Format"
