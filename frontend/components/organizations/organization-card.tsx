@@ -12,7 +12,7 @@ export interface OrgCardProps {
 
 export default function OrganizationCard({ organization, disableHover }: Readonly<OrgCardProps>) {
   return (
-    <div className="bg-transparent relative h-[250px] w-[200px] px-2 border-none shadow-lg rounded-lg">
+    <div className="bg-transparent relative h-[250px] px-2 border-none shadow-lg rounded-lg">
       <Link key={organization.slug} href={`/organizations/${organization.slug}`}>
         <div className="flex flex-col overflow-hidden p-2">
           <Image
@@ -29,14 +29,6 @@ export default function OrganizationCard({ organization, disableHover }: Readonl
             src={organization.logo_url ?? "/pokemon/vgc.png"}
             width={200}
           />
-
-          <div className="justify-center align-bottom h-full w-full">
-            <div className="flex flex-col grid-cols-1 gap-2 px-3 pb-3 text-center">
-              <p className="flex-col text-large font-medium sm:text-small text-primary" data-testid="org-name">
-                {organization.name}
-              </p>
-            </div>
-          </div>
         </div>
       </Link>
     </div>

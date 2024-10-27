@@ -39,7 +39,13 @@ export function ProfilesTable({ profiles }: Readonly<ProfilesTableProps>) {
 
       <TableBody items={profiles}>
         {(profile) => (
-          <TableRow key={profile.id} as={Link} href={`/profile/${profile.username}`} style={{ cursor: "pointer" }}>
+          <TableRow
+            key={profile.id}
+            as={Link}
+            className="text-primary"
+            href={`/players/${profile.username}`}
+            style={{ cursor: "pointer" }}
+          >
             {(columnKey) => <TableCell>{renderCell(profile, columnKey)}</TableCell>}
           </TableRow>
         )}

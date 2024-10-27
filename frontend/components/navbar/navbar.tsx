@@ -20,7 +20,7 @@ export default async function NavigationBar() {
       classNames={{
         wrapper:
           "flex flex-row gap-8 rounded-full border-small border-neutral-500/40 backdrop-blur-3xl shadow-white mt-4",
-        base: "flex w-fit h-fit  rounded-full ",
+        base: "flex w-fit h-fit rounded-full ",
         item: [
           "flex",
           "relative",
@@ -38,7 +38,7 @@ export default async function NavigationBar() {
       }}
       height="3.5rem"
     >
-      <NavbarBrand className="rounded-full h-12 flex flex-row flex-grow-0">
+      <NavbarBrand className="rounded-full h-12 flex flex-row">
         <BattleStadium />
       </NavbarBrand>
 

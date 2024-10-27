@@ -58,7 +58,7 @@ export default function NavbarMobileMenu({ me, isSignedIn }: Readonly<NavbarMobi
 
       <NavbarMenuItem>
         <Link className="text-lg px-2" color="foreground" href="/tournaments">
-          Tournament History
+          Tournaments
         </Link>
       </NavbarMenuItem>
 

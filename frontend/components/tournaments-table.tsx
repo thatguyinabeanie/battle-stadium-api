@@ -16,7 +16,6 @@ interface TableProps {
 export default function TournamentsTable({ columns, data }: Readonly<TableProps>) {
   return (
     <Table
-      isCompact
       isHeaderSticky
       isVirtualized
       aria-label="list of tournaments"
