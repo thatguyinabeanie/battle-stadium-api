@@ -8,6 +8,7 @@ dotenv.config({ path: join(process.cwd(), ".env.development.local") });
 
 const nextConfig: NextConfig = {
   experimental: {
+    // ppr: 'incremental',
     after: true,
     cssChunking: "loose", // default
     // how many times Next.js will retry failed page generation attempts

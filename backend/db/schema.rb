@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_26_233312) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_27_005305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -256,6 +256,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_26_233312) do
     t.index ["account_id"], name: "index_profiles_on_account_id"
     t.index ["slug"], name: "index_profiles_on_slug", unique: true
     t.index ["username"], name: "index_profiles_on_username", unique: true
+  end
+
+  create_table "rk9_tournaments", force: :cascade do |t|
+    t.string "rk9_id", null: false
+    t.string "name", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rk9_id"], name: "index_rk9_tournaments_on_rk9_id", unique: true
   end
 
   create_table "rounds", force: :cascade do |t|
