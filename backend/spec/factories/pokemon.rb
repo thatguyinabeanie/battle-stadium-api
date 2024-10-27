@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :pokemon, class: "Pokemon" do
     sequence(:position) { |n| n }
-    pokemon_team { nil }
+    pokemon_team { FactoryBot.create(:pokemon_team) }
     species { Faker::Games::Pokemon.name }
-    nickname { Faker::Games::Pokemon.name }
+    nickname { nil }
     gender { 2 }
     ability { "ability_#{rand(1..3)}" }
     nature {  "nature_#{rand(1..25)}" }

@@ -15,16 +15,21 @@
 require "faker"
 
 if Rails.env.production?
-  Rails.logger.info("Seeding is disabled in production.")
+  puts("Seeding is disabled in production.")
   exit
 end
 
 if ENV.fetch("SEED_DATA", "false") == "false"
-  Rails.logger.info("Seeding is disabled by the SEED_DATA environment variable.")
+  puts("Seeding is disabled by the SEED_DATA environment variable.")
   exit
+else
+  puts("Seeding data...")
+
+  PokemonTeam.reset_column_information
 end
 
-# require 'factory_bot'
+require "factory_bot"
+require "factory_bot_rails"
 
 def create_battlestadium_bot
   Account.find_or_create_by!(username: "battlestadiumbot") do |account|
@@ -107,6 +112,8 @@ organization =  Organization.find_or_create_by!(owner:) do |org|
   org.staff = (1..5).to_a.map { create_account }
   org.staff << fuecoco_supremacy_account
   org.name = generate_organization_name
+  org.hidden = false
+  org.partner = true
 end
 
 name = "#{organization.name} # #{organization.tournaments.count + 1}"
@@ -131,18 +138,31 @@ name = "#{organization.name} Tournament #{organization.tournaments.count + 1}"
 end_at = Time.zone.today + 1.week
 game = format.game
 start_at = 1.hour.from_now
+
+pokemon_data = [
+  { species: "Butterfree", ability: "ability_1",  position: 1, tera_type: "bug", nature: "timid"    },
+  { species: "Clefable", ability: "ability_2", position: 2, tera_type: "fairy", nature: "jolly" },
+  { species: "Victreebel", ability: "ability_3", position: 3, tera_type: "grass", nature: "lax" },
+  { species: "Sandslash", ability: "ability_4", position: 4, tera_type: "ground", nature: "naughty" },
+  { species: "Mew", ability: "ability_5", position: 5, tera_type: "psychic", nature: "bold" },
+  { species: "Staryu", ability: "ability_6", position: 6, tera_type: "water", nature: "relaxed" }
+]
+
 tournament = create_tournament(name:, organization:, format:, game:, start_at:, end_at:).tap do |tournament|
   tournament.players = accounts.map do |account|
     next if tournament.players.exists?(account:)
 
     tournament.players.create!(account:, in_game_name: account.default_profile.username, profile: account.default_profile).tap do |player|
-      player.pokemon_team = PokemonTeam.create(profile: player.profile).tap do |pokemon_team|
-        pokemon_team.pokemon = (1..6).to_a.map do
-          Pokemon.create(pokemon_team:)
-        end
+      player.pokemon_team = PokemonTeam.create(profile: player.profile, format:, game:, published: true).tap do |pokemon_team|
+        pokemon_team.pokemon = pokemon_data.map { |pokemon| Pokemon.create!(pokemon_team:, **pokemon) }
+        pokemon_team.format = format
+        pokemon_team.game = game
+        pokemon_team.save!
       end
     end
   end
 end
 
 tournament.start! if tournament.players.checked_in_and_submitted_team_sheet.count.positive?
+
+puts("Seeding data completed.")

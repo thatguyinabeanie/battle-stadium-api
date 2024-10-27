@@ -7,7 +7,7 @@ module Api
 
       def index
         authorize self, :index?
-        @objects = klass.where(public: true, archived_at: nil)
+        @objects = klass.where(published: true, archived_at: nil)
         render json: @objects, each_serializer: ::Serializers::PokemonTeam, status: :ok
       end
 

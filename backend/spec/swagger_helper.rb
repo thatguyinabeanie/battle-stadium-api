@@ -333,13 +333,13 @@ POKEMON_TEAM_SCHEMA = {
   properties: ID_NAME_PROPERTIES.merge(
     pokepaste_id: { type: :string, nullable: true },
     profile: { "$ref" => "#/components/schemas/Profile" },
-    public: { type: :boolean },
+    published: { type: :boolean },
     archived_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     format: { "$ref" => "#/components/schemas/Format" },
     game: { "$ref" => "#/components/schemas/Game" },
     pokemon: { type: :array, items: { "$ref" => "#/components/schemas/Pokemon" } }
   ),
-  required: ID_NAME_REQUIRED + %w[profile public archived_at format game pokemon]
+  required: ID_NAME_REQUIRED + %w[profile published archived_at format game pokemon]
 }.freeze
 
 

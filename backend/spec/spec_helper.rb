@@ -20,23 +20,21 @@ ENV["AUTH_SECRET"] = "test_secret"
 
 require "simplecov"
 require "simplecov-console"
-require "simplecov-lcov"
 require "simplecov-cobertura"
-
-
-SimpleCov::Formatter::LcovFormatter.config do |c|
-  c.report_with_single_file = true
-  c.output_directory = "coverage"
-  c.lcov_file_name = "lcov.info"
-end
 
 SimpleCov.start "rails" do
   enable_coverage :branch
-  coverage_dir "coverage"
+
+  if ENV["TEST_ENV_NUMBER"]
+    command_name "RSpec:#{Process.pid}:#{ENV['TEST_ENV_NUMBER']}"
+    coverage_dir "coverage/parallel/#{ENV['TEST_ENV_NUMBER']}"
+  else
+    command_name "RSpec"
+    coverage_dir "coverage/single"
+  end
 
   formatter SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::Console,
-    SimpleCov::Formatter::LcovFormatter,
+
     SimpleCov::Formatter::CoberturaFormatter,
     SimpleCov::Formatter::HTMLFormatter
   ])

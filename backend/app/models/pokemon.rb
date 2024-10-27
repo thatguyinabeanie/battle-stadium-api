@@ -9,12 +9,12 @@ class Pokemon < ApplicationRecord
   validates :nature, presence: true
 
   validates :form, presence: true, allow_blank: true
-  validates :item, presence: true
+  validates :item, presence: true, allow_blank: true
 
-  validates :move1, presence: true
-  validates :move2, presence: true
-  validates :move3, presence: true
-  validates :move4, presence: true
+  validates :move1, presence: true, allow_blank: true
+  validates :move2, presence: true, allow_blank: true
+  validates :move3, presence: true, allow_blank: true
+  validates :move4, presence: true, allow_blank: true
 
   enum :gender, { FEMALE: 0, MALE: 1, NON_BINARY: 2 }
 

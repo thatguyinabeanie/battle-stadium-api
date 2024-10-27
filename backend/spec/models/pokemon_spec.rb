@@ -27,10 +27,10 @@ RSpec.describe Pokemon do
     it { is_expected.to validate_presence_of(:tera_type) }
     it { is_expected.to validate_presence_of(:nature) }
     it { is_expected.to validate_presence_of(:form).allow_blank }
-    it { is_expected.to validate_presence_of(:item) }
-    it { is_expected.to validate_presence_of(:move1) }
-    it { is_expected.to validate_presence_of(:move2) }
-    it { is_expected.to validate_presence_of(:move3) }
-    it { is_expected.to validate_presence_of(:move4) }
+    it { is_expected.to validate_presence_of(:item).allow_blank }
+    it { is_expected.to validate_presence_of(:move1).allow_blank }
+    it { is_expected.to validate_presence_of(:move2).allow_blank }
+    it { is_expected.to validate_presence_of(:move3).allow_blank }
+    it { is_expected.to validate_presence_of(:move4).allow_blank }
   end
 end

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Colors
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+echo -e "${GREEN}Cleaning coverage reports...${NC}"
+bundle exec rake coverage:clean -q
+
+echo -e "${GREEN}Setting up test databases...${NC}"
+# Force drop all test databases
+RAILS_ENV=test DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake parallel:drop 2>/dev/null || true
+
+# Create test database 1 explicitly
+echo -e "${GREEN}Creating test database 1...${NC}"
+RAILS_ENV=test TEST_ENV_NUMBER=1 bundle exec rake db:create db:schema:load -q
+
+# Create remaining databases
+echo -e "${GREEN}Creating remaining test databases...${NC}"
+RAILS_ENV=test bundle exec rake parallel:create parallel:prepare -q
+
+echo -e "${GREEN}Running tests in parallel...${NC}"
+RAILS_ENV=test bundle exec parallel_rspec --first-is-1 -n 4 -q --runtime-log "tmp/parallel_runtime_rspec.log"
+
+TEST_EXIT_CODE=$?
+if [ $TEST_EXIT_CODE -eq 0 ]; then
+  echo -e "${GREEN}Generating merged coverage report...${NC}"
+  bundle exec rake coverage:report
+  echo -e "${GREEN}Done!${NC}"
+  exit 0
+else
+  echo -e "${RED}Tests failed with exit code ${TEST_EXIT_CODE}${NC}"
+  exit $TEST_EXIT_CODE
+fi
