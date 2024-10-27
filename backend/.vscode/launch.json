@@ -12,23 +12,23 @@
     {
       "type": "rdbg",
       "name": "Attach with rdbg",
-      "request": "attach"
-    },
+      "request": "attach",
+      "cwd": "${workspaceRoot}/backend",
     {
       "type": "rdbg",
       "name": "Debug RSpec",
       "request": "launch",
+      "preLaunchTask": "prepare test database",
       "script": "bundle",
-      "args": [
-        "exec",
-        "rspec",
-        "${file}"
-      ],
+      "args": ["exec", "rspec", "${file}"],
       "askParameters": false,
       "env": {
-        "RAILS_ENV": "test"
+        "RAILS_ENV": "test",
+        "DISABLE_SPRING": "true",
+        "PARALLEL_WORKERS": "1"
       },
-      "cwd": "${workspaceRoot}"
+      "cwd": "${workspaceRoot}/backend",
+      "console": "integratedTerminal"
     }
   ]
 }

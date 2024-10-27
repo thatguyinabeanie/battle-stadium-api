@@ -37,7 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        group: [1, 2]
+        group: [1, 2, 3, 4]
+      max-parallel: 4
     services:
       postgres:
         image: postgres:16.3
@@ -83,7 +84,7 @@ jobs:
 
       - name: Run Rspec Tests
         run: bundle exec parallel_rspec -n 2 --group-by runtime --only-group ${{ matrix.group }} --verbose
-        continue-on-error: true
+        if: always()
         working-directory: ./backend
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -94,11 +95,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -e
           gh extension install actions/gh-actions-cache
           gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm
-          mkdir -p backend/tmp/parallel_runtime_rspec
+          if [ ! -d "backend/tmp/parallel_runtime_rspec" ]; then
+            mkdir -p backend/tmp/parallel_runtime_rspec
+          fi
           mv backend/tmp/parallel_runtime_rspec.log backend/tmp/parallel_runtime_rspec/${{ matrix.group }}.log
-        continue-on-error: true
+        if: always()
       - name: "Runtime cache: store chunk"
         uses: actions/cache/save@v4
         with:
@@ -139,33 +143,51 @@ jobs:
     runs-on: ubuntu-latest
     needs: parallel-tests
     steps:
-    - name: "Runtime cache: load chunk 1"
-      uses: actions/cache/restore@v4
-      with:
-        key: runtime-cache-1
-        path: backend/tmp/parallel_runtime_rspec
-    - name: "Runtime cache: load chunk 2"
-      uses: actions/cache/restore@v4
-      with:
-        key: runtime-cache-2
-        path: backend/tmp/parallel_runtime_rspec
-    - name: "Runtime cache: combine chunks"
-      run: |
-        mkdir -p backend/tmp
-        cat backend/tmp/parallel_runtime_rspec/* > backend/tmp/parallel_runtime_rspec.log
-        cat backend/tmp/parallel_runtime_rspec.log
-    - name: "Runtime cache: clear"
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        gh extension install actions/gh-actions-cache
-        gh actions-cache delete runtime-cache-all --confirm
-      continue-on-error: true
-    - name: "Runtime cache: store"
-      uses: actions/cache/save@v4
-      with:
-        key: runtime-cache-all
-        path: backend/tmp/parallel_runtime_rspec.log
+      - name: "Runtime cache: load chunk 1"
+        uses: actions/cache/restore@v4
+        with:
+          key: runtime-cache-1
+          path: backend/tmp/parallel_runtime_rspec
+
+      - name: "Runtime cache: load chunk 2"
+        uses: actions/cache/restore@v4
+        with:
+          key: runtime-cache-2
+          path: backend/tmp/parallel_runtime_rspec
+
+      - name: "Runtime cache: load chunk 3"
+        uses: actions/cache/restore@v4
+        with:
+          key: runtime-cache-3
+          path: backend/tmp/parallel_runtime_rspec
+
+      - name: "Runtime cache: load chunk 4"
+        uses: actions/cache/restore@v4
+        with:
+          key: runtime-cache-4
+          path: backend/tmp/parallel_runtime_rspec
+
+      - name: "Runtime cache: combine chunks"
+        run: |
+          mkdir -p backend/tmp
+          if [ ! -f "backend/tmp/parallel_runtime_rspec/1.log" ] || [ ! -f "backend/tmp/parallel_runtime_rspec/2.log" ] || [ ! -f "backend/tmp/parallel_runtime_rspec/3.log" ] || [ ! -f "backend/tmp/parallel_runtime_rspec/4.log" ]; then
+            echo "Error: Missing runtime logs"
+            exit 1
+          fi
+          cat backend/tmp/parallel_runtime_rspec/* > backend/tmp/parallel_runtime_rspec.log
+          cat backend/tmp/parallel_runtime_rspec.log
+      - name: "Runtime cache: clear"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete runtime-cache-all --confirm
+        continue-on-error: true
+      - name: "Runtime cache: store"
+        uses: actions/cache/save@v4
+        with:
+          key: runtime-cache-all
+          path: backend/tmp/parallel_runtime_rspec.log
 
   audit:
     defaults:
