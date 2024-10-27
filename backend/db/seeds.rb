@@ -19,15 +19,15 @@ if Rails.env.production?
   exit
 end
 
-if ENV.fetch("SEED_DATA", "false") == "false"
-  puts("Seeding is disabled by the SEED_DATA environment variable.")
-  exit
-else
+# if ENV.fetch("SEED_DATA", "false") == "false"
+  # puts("Seeding is disabled by the SEED_DATA environment variable.")
+  # exit
+# else
   puts("Seeding data...")
   PokemonTeam.reset_column_information
   Organization.reset_column_information
   Account.reset_column_information
-end
+# end
 
 require "factory_bot"
 require "factory_bot_rails"
