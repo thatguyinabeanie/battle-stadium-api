@@ -1,4 +1,4 @@
-import React from "react";
+import {} from "react";
 
 import { getAccountMe } from "@/app/server-actions/accounts/actions";
 import { getProfilesByAccountId } from "@/app/server-actions/profiles/actions";

@@ -17,7 +17,15 @@ export async function getOrganizations(options?: FetchOptions<paths["/organizati
   };
   const skipClerkAuth = true;
 
-  return (await BattleStadiumApiClient(skipClerkAuth)).GET("/organizations", organizationsOptions);
+  const resp = await (await BattleStadiumApiClient(skipClerkAuth)).GET("/organizations", organizationsOptions);
+  const allOrgs = resp.data?.data;
+  const partnerOrgs = (allOrgs || [])?.filter((org) => org.partner);
+  const nonPartnerOrgs = (allOrgs || [])?.filter((org) => !org.partner);
+
+  return {
+    partners: partnerOrgs,
+    nonpartners: nonPartnerOrgs,
+  };
 }
 
 export async function getOrganization(slug: string, options?: FetchOptions<paths["/organizations/{slug}"]["get"]>) {

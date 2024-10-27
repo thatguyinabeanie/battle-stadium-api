@@ -1,9 +1,10 @@
-import React from "react";
+import {} from "react";
 import { Metadata } from "next";
 
-import OrganizationCard from "@/components/organizations/organization-card";
 import { Tournament } from "@/lib/api";
-import { getOrganizations } from "@/app/server-actions/organizations/actions";
+import PartneredOrganizations from "@/components/organizations/partnered-organizations";
+import NextUiTable from "@/components/nextui/table";
+import { Spacer } from "@nextui-org/react";
 
 export const metadata: Metadata = {
   title: "Organizations",
@@ -13,27 +14,14 @@ export interface OrganizationsPageProps {
   orgs: Tournament[];
 }
 
-async function listOrganizations() {
-  const allOrgs = (await getOrganizations()).data?.data;
-
-  const partnerOrgs = (allOrgs || [])?.filter((org) => org.partner);
-  const nonPartnerOrgs = (allOrgs || [])?.filter((org) => !org.partner);
-
-  return [...partnerOrgs, ...nonPartnerOrgs];
-}
-
 export default async function OrganizationsPage() {
-  const orgs = await listOrganizations();
-
   return (
-    <div className="bg-transparent w-full h-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-      {orgs.map((organization) => (
-        <OrganizationCard
-          key={organization.id}
-          aria-label={`organization-card-${organization.id}`}
-          organization={organization}
-        />
-      ))}
-    </div>
+    <>
+      <Spacer y={4} />
+
+      <PartneredOrganizations />
+
+      <NextUiTable />
+    </>
   );
 }

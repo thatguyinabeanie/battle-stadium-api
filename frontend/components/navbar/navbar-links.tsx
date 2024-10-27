@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import {} from "react";
 import NavbarLinkClientItem from "@/components/navbar/navbar-client-item";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
-import { NavbarContent } from "../nextui-use-client";
+import { NavbarContent } from "../nextui/client-components";
 
 interface NavbarLinksProps {
   isSignedIn: boolean | null;
@@ -15,7 +15,7 @@ export default function NavbarLinks({ isSignedIn }: Readonly<NavbarLinksProps>) 
   const firstSegment = pathname?.split("/")[1];
 
   return (
-    <NavbarContent className="hidden md:flex gap-2 m-x4" data-justify={"center"}>
+    <NavbarContent className="hidden xl:flex gap-2 m-x4" data-justify={"center"}>
       <NavbarLinkClientItem firstSegment={firstSegment} path="organizations">
         Organizations
       </NavbarLinkClientItem>

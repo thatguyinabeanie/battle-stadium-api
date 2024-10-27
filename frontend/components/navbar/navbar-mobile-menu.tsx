@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "@/components/nextui-use-client";
+import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "@/components/nextui/client-components";
 import { cn } from "@/lib";
 import { AccountMe } from "@/lib/api";
 
@@ -58,7 +58,7 @@ export default function NavbarMobileMenu({ me, isSignedIn }: Readonly<NavbarMobi
 
       <NavbarMenuItem>
         <Link className="text-lg px-2" color="foreground" href="/tournaments">
-          Tournament History
+          Tournaments
         </Link>
       </NavbarMenuItem>
 

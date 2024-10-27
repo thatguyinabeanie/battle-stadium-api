@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import React from "react";
-import { Button, Input } from "../nextui-use-client";
+import {} from "react";
+import { Button, Input } from "../nextui/client-components";
 import { createProfile } from "@/app/server-actions/profiles/actions";
 import { AccountMe } from "@/lib/api";
 import Form from "next/form";

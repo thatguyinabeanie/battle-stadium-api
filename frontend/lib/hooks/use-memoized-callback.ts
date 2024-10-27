@@ -1,7 +1,6 @@
-import { useMemo, useRef } from "react";
+import { useRef, useMemo } from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type noop = (this: any, ...args: any[]) => any;
+type noop = (this: any, ...args: any[]) => any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 type PickFunction<T extends noop> = (this: ThisParameterType<T>, ...args: Parameters<T>) => ReturnType<T>;
 
@@ -12,7 +11,7 @@ export function useMemoizedCallback<T extends noop>(fn: T) {
   // https://github.com/alibaba/hooks/issues/728
   fnRef.current = useMemo<T>(() => fn, [fn]);
 
-  const memoizedFn = useRef<PickFunction<T>>(undefined);
+  const memoizedFn = useRef<PickFunction<T> | null>(null);
 
   if (!memoizedFn.current) {
     memoizedFn.current = function (this, ...args) {

@@ -5,7 +5,6 @@ require 'dotenv/load'
 require 'retries'
 require 'date'
 
-organization_id_allow_list=[]
 organization_id_allow_list = [
   653,  # Thomas Hayden
   1066, # Himmy Turner INC
@@ -50,8 +49,6 @@ namespace :limitless do
       tour_details = fetch_data("#{base_url}/tournaments/#{tournament['id']}/details", access_key)
       organizer = tour_details['organizer']
 
-      next unless organization_id_allow_list.include?(organizer['id'])
-
       if organizers[organizer['id']].nil?
         game_id = get_game_id(tour_details['game'])
 
@@ -74,13 +71,12 @@ namespace :limitless do
     errors = []
     puts "Processing Organizers..."
     Parallel.map(organizers, in_threads: 10) do |id, organizer_data|
-      next unless  organization_id_allow_list.include?(id)
 
       puts "Processing organizer: #{organizer_data['name']} (ID: #{id})"
       org = Organization.find_or_create_by(name: organizer_data['name']).tap do |organizer|
         organizer.limitless_org_id = id
         organizer.logo_url = organizer_data['logo']
-        organizer.partner = true
+        organizer.partner = organization_id_allow_list.include?(id)
         # puts "Done Processing organizer: #{organizer_data['name']} (ID: #{id})"
       end
 
@@ -185,8 +181,8 @@ namespace :limitless do
     org = Organization.find_or_create_by(name: organizer['name']).tap do |organizer|
       organizer.limitless_org_id = organizer['id']
       organizer.logo_url = organizer['logo']
-      organizer.hidden = organizer.logo_url == nil
-      organizer.partner = organizer.hidden
+      organizer.hidden = !organization_id_allow_list.include?(id)
+      organizer.partner = organization_id_allow_list.include?(id)
     end
 
     if org.logo_url.nil? && !organizer['logo_url'].nil?

@@ -1,7 +1,15 @@
 "use client";
-
+import { Key } from "react";
 import { Profile } from "@/lib/api";
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Chip } from "@/components/nextui-use-client";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  Chip,
+} from "@/components/nextui/client-components";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -39,7 +47,13 @@ export function ProfilesTable({ profiles }: Readonly<ProfilesTableProps>) {
 
       <TableBody items={profiles}>
         {(profile) => (
-          <TableRow key={profile.id} as={Link} href={`/profile/${profile.username}`} style={{ cursor: "pointer" }}>
+          <TableRow
+            key={profile.id}
+            as={Link}
+            className="text-primary"
+            href={`/players/${profile.username}`}
+            style={{ cursor: "pointer" }}
+          >
             {(columnKey) => <TableCell>{renderCell(profile, columnKey)}</TableCell>}
           </TableRow>
         )}
@@ -48,7 +62,7 @@ export function ProfilesTable({ profiles }: Readonly<ProfilesTableProps>) {
   );
 }
 
-function renderCell(row: Profile, columnKey: React.Key) {
+function renderCell(row: Profile, columnKey: Key) {
   const { username } = row;
 
   switch (columnKey) {

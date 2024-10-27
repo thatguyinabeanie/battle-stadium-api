@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { Autocomplete, AutocompleteItem, Button, Input, Spacer } from "@/components/nextui-use-client";
+import { forwardRef, useState, Key } from "react";
+import { Autocomplete, AutocompleteItem, Button, Input, Spacer } from "@/components/nextui/client-components";
 
 import { cn } from "@/lib/utils";
 
@@ -16,15 +16,15 @@ interface AccountSettingCardProps {
 
 const labelStyle = "original";
 
-const AccountSetting = React.forwardRef<HTMLDivElement, AccountSettingCardProps>(({ className, ...props }, ref) => {
-  const [timeZoneValue, setTimeZoneValue] = React.useState<string>("");
-  const [timeZoneSelectedKey, setTimeZoneSelectedKey] = React.useState<React.Key | null>(null);
-  const onTimeZoneSelectionChange = (id: React.Key | null) => setTimeZoneSelectedKey(id);
+const AccountSetting = forwardRef<HTMLDivElement, AccountSettingCardProps>(({ className, ...props }, ref) => {
+  const [timeZoneValue, setTimeZoneValue] = useState<string>("");
+  const [timeZoneSelectedKey, setTimeZoneSelectedKey] = useState<Key | null>(null);
+  const onTimeZoneSelectionChange = (id: Key | null) => setTimeZoneSelectedKey(id);
   const onTimeZoneInputChange = (value: string) => setTimeZoneValue(value);
 
-  const [countryValue, setCountryValue] = React.useState("");
-  const [countrySelectedKey, setCountrySelectedKey] = React.useState<React.Key | null>(null);
-  const onCountrySelectionChange = (id: React.Key | null) => setCountrySelectedKey(id);
+  const [countryValue, setCountryValue] = useState("");
+  const [countrySelectedKey, setCountrySelectedKey] = useState<Key | null>(null);
+  const onCountrySelectionChange = (id: Key | null) => setCountrySelectedKey(id);
   const onCountryInputChange = (value: string) => setCountryValue(value);
 
   console.log(timeZoneSelectedKey, countrySelectedKey); // eslint-disable-line no-console

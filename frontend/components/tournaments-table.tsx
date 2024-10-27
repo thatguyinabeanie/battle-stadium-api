@@ -1,10 +1,10 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableCell, TableRow } from "@/components/nextui-use-client";
+import { Table, TableHeader, TableColumn, TableBody, TableCell, TableRow } from "@/components/nextui/client-components";
 import Link from "next/link";
 import Image from "next/image";
 
-import * as React from "react";
+import { Key } from "react";
 
 import { Tournament } from "@/lib/api";
 
@@ -16,7 +16,6 @@ interface TableProps {
 export default function TournamentsTable({ columns, data }: Readonly<TableProps>) {
   return (
     <Table
-      isCompact
       isHeaderSticky
       isVirtualized
       aria-label="list of tournaments"
@@ -105,7 +104,7 @@ const renderStartDateString = (start_at: string | null) => {
   return date;
 };
 
-function renderCell(tournament: Tournament, key: React.Key) {
+function renderCell(tournament: Tournament, key: Key) {
   const { id, name, organization, start_at, player_count, player_cap, game, format } = tournament;
 
   switch (key) {

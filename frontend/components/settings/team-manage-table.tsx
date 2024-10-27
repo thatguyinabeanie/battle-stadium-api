@@ -1,8 +1,8 @@
 "use client";
 
-import type { ChipProps, Selection } from "@/components/nextui-use-client";
+import type { ChipProps, Selection } from "@/components/nextui/client-components";
 
-import * as React from "react";
+import { useCallback, forwardRef, useState, useMemo, Key } from "react";
 import {
   Button,
   Input,
@@ -22,7 +22,7 @@ import {
   Tab,
   Card,
   CardBody,
-} from "@/components/nextui-use-client";
+} from "@/components/nextui/client-components";
 import { ChevronDownIcon, SearchIcon } from "@nextui-org/shared-icons";
 import { capitalize } from "@nextui-org/shared-utils";
 import { Icon } from "@iconify/react";
@@ -39,15 +39,15 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 type User = (typeof users)[0];
-const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>(() => {
-  const [filterValue, setFilterValue] = React.useState("");
-  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
-  const [rolesFilter, setRolesFilter] = React.useState<Selection>("all");
-  const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
+const TeamManageTable = forwardRef<HTMLDivElement, TeamManageTableProps>(() => {
+  const [filterValue, setFilterValue] = useState("");
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
+  const [rolesFilter, setRolesFilter] = useState<Selection>("all");
+  const [statusFilter, setStatusFilter] = useState<Selection>("all");
 
   const hasSearchFilter = Boolean(filterValue);
 
-  const filteredItems = React.useMemo(() => {
+  const filteredItems = useMemo(() => {
     let filteredUsers = [...users];
 
     if (hasSearchFilter) {
@@ -63,7 +63,7 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
     return filteredUsers;
   }, [filterValue, rolesFilter, statusFilter, hasSearchFilter]);
 
-  const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
+  const renderCell = useCallback((user: User, columnKey: Key) => {
     const cellValue = user[columnKey as keyof User];
 
     switch (columnKey) {
@@ -107,7 +107,7 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
     }
   }, []);
 
-  const onSearchChange = React.useCallback((value?: string) => {
+  const onSearchChange = useCallback((value?: string) => {
     if (value) {
       setFilterValue(value);
     } else {
@@ -115,11 +115,11 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
     }
   }, []);
 
-  const onClear = React.useCallback(() => {
+  const onClear = useCallback(() => {
     setFilterValue("");
   }, []);
 
-  const topContent = React.useMemo(() => {
+  const topContent = useMemo(() => {
     return (
       <div>
         <div className="flex items-center justify-between gap-3">

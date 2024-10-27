@@ -1,7 +1,16 @@
 "use client";
 
-import * as React from "react";
-import { Button, Card, CardBody, Divider, Input, Select, SelectItem, Spacer } from "@/components/nextui-use-client";
+import { forwardRef } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Divider,
+  Input,
+  Select,
+  SelectItem,
+  Spacer,
+} from "@/components/nextui/client-components";
 import { Icon } from "@iconify/react";
 
 import TeamManageTable from "@/components/settings/team-manage-table";
@@ -17,7 +26,7 @@ const roleOptions = [
   { label: "Owner", value: "owner", description: "team owner" },
 ];
 
-const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(({ className, ...rest }, ref) => (
+const TeamSetting = forwardRef<HTMLDivElement, TeamSettingCardProps>(({ className, ...rest }, ref) => (
   <div {...rest} ref={ref} className={cn("p-2", className)}>
     {/* Title */}
     <p className="text-base font-medium text-default-700">Team</p>

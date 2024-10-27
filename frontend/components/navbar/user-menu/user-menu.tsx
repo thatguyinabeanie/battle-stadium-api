@@ -1,4 +1,4 @@
-import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@/components/nextui-use-client";
+import { NavbarItem, Dropdown, DropdownTrigger, AvatarIcon, Avatar } from "@/components/nextui/client-components";
 import UserMenuDropDown from "@/components/navbar/user-menu/user-menu-dropdown";
 import { AccountMe } from "@/lib/api";
 

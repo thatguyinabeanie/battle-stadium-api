@@ -1,5 +1,5 @@
+import { useRef, useState, useCallback, useEffect } from "react";
 import { createConsumer, Consumer, Subscription, Mixin } from "@rails/actioncable";
-import React from "react";
 
 type SubscriptionConnection<M> = Subscription<Consumer> &
   Mixin & {
@@ -15,15 +15,15 @@ export function useActionCableConnection<M extends object, S extends object>(
   channelName: string,
   roomName: string | number,
 ) {
-  const cableRef = React.useRef<Consumer | null>(null);
-  const connectionRef = React.useRef<SubscriptionConnection<M> | null>(null);
+  const cableRef = useRef<Consumer | null>(null);
+  const connectionRef = useRef<SubscriptionConnection<M> | null>(null);
 
   // TODO: manage message history
-  const [messages, setMessages] = React.useState<M[]>([]);
-  const [channel, setChannel] = React.useState<string | null | undefined>(channelName);
-  const [room, setRoom] = React.useState<string | number | null | undefined>(roomName);
+  const [messages, setMessages] = useState<M[]>([]);
+  const [channel, setChannel] = useState<string | null | undefined>(channelName);
+  const [room, setRoom] = useState<string | number | null | undefined>(roomName);
 
-  const subscribe = React.useCallback(
+  const subscribe = useCallback(
     (channelName?: string, roomName?: string) => {
       if (channelName) {
         setChannel(channelName);
@@ -35,7 +35,7 @@ export function useActionCableConnection<M extends object, S extends object>(
     [setChannel, setRoom],
   );
 
-  const sendMessage = React.useCallback((speakData: S, onSuccess?: () => void) => {
+  const sendMessage = useCallback((speakData: S, onSuccess?: () => void) => {
     if (!connectionRef.current) {
       throw new Error("Connection not established");
     } else if (connectionRef.current.perform("speak", speakData)) {
@@ -47,7 +47,7 @@ export function useActionCableConnection<M extends object, S extends object>(
     }
   }, []);
 
-  const connectToCable = React.useCallback(
+  const connectToCable = useCallback(
     (channelName?: string | null, roomName?: string | null, shouldReconnect = true) => {
       if (!channelName || !roomName) {
         console.warn("Channel or room not set"); // eslint-disable-line no-console
@@ -103,7 +103,7 @@ export function useActionCableConnection<M extends object, S extends object>(
     [websocketUrl],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     connectToCable(channel, `${room}`);
 
     // Cleanup subscription on component unmount

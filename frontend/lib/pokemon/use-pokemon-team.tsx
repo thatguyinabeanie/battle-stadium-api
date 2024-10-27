@@ -1,9 +1,9 @@
 "use client";
+import { useState, useCallback } from "react";
 
 import { ParsedPokemon, ParsedTeam, PokePasteMetadata, ValidatedPokemon } from "./common";
 import { parseShowdownFormat } from "./parse-showdown-format";
 import { parsePokePasteHTML } from "./parse-pokepaste-html";
-import React from "react";
 
 async function fetchAndParse(input: string): Promise<ParsedTeam> {
   if (input.startsWith("https://pokepast.es/")) {
@@ -33,12 +33,12 @@ async function validatePokemon(pokemon: ParsedPokemon): Promise<ValidatedPokemon
 }
 
 export function usePokemonTeam() {
-  const [metaData, setMetaData] = React.useState<PokePasteMetadata | null>(null);
-  const [validatedTeam, setValidatedTeam] = React.useState<ValidatedPokemon[] | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<Error | null>(null);
+  const [metaData, setMetaData] = useState<PokePasteMetadata | null>(null);
+  const [validatedTeam, setValidatedTeam] = useState<ValidatedPokemon[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
 
-  const parseInput = React.useCallback(async (input: string) => {
+  const parseInput = useCallback(async (input: string) => {
     setLoading(true);
     setError(null);
 

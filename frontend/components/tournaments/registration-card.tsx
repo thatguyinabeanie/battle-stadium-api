@@ -12,8 +12,8 @@ import {
   Chip,
   cn,
   Input,
-} from "../nextui-use-client";
-import React from "react";
+} from "../nextui/client-components";
+import {} from "react";
 import { postTournamentRegistration } from "@/app/server-actions/tournaments/actions";
 import Form from "next/form";
 

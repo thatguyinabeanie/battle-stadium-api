@@ -1,5 +1,5 @@
 import { getTournament, getTournaments } from "@/app/server-actions/tournaments/actions";
-import { Chip, Divider, Spacer } from "@/components/nextui-use-client";
+import { Chip, Divider, Spacer } from "@/components/nextui/client-components";
 import OrganizationHeader from "@/components/organizations/org-header";
 
 import Link from "next/link";

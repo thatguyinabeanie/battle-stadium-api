@@ -1,11 +1,11 @@
-import { SVGProps } from "react";
+import { SVGProps, ReactNode } from "react";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
 };
 
 export interface ChildrenProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface PageTitleProps {
@@ -13,9 +13,9 @@ export interface PageTitleProps {
 }
 
 export interface DashboardLayoutProps extends ChildrenProps {
-  profiles: React.ReactNode;
-  pokemon: React.ReactNode;
-  tournament_history: React.ReactNode;
-  settings: React.ReactNode;
-  admin: React.ReactNode;
+  profiles: ReactNode;
+  pokemon: ReactNode;
+  tournament_history: ReactNode;
+  settings: ReactNode;
+  admin: ReactNode;
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import { ReactNode } from "react";
 
-import Tabs from "@/components/tabs";
+import Tabs from "@/components/nextui/tabs";
 import { Spacer } from "@nextui-org/react";
 
 const tabs = [
@@ -15,13 +15,13 @@ const tabs = [
 ];
 
 interface OrganizationTournamentsTournamentLayoutProps {
-  children: React.ReactNode;
-  standings: React.ReactNode;
-  pairings: React.ReactNode;
-  matches: React.ReactNode;
-  metagame: React.ReactNode;
-  registrations: React.ReactNode;
-  details: React.ReactNode;
+  children: ReactNode;
+  standings: ReactNode;
+  pairings: ReactNode;
+  matches: ReactNode;
+  metagame: ReactNode;
+  registrations: ReactNode;
+  details: ReactNode;
 }
 
 function renderTabContent(activeTab: string, props: Readonly<OrganizationTournamentsTournamentLayoutProps>) {

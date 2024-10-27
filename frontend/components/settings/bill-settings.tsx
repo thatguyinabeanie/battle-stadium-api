@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui-use-client";
+import { forwardRef } from "react";
+import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui/client-components";
 import { Icon } from "@iconify/react";
 
 import { PlanCustomRadio } from "@/components/settings/plan-custom-radio";
@@ -27,7 +27,7 @@ const countryOptions = [
   },
 ];
 
-const BillingSetting = React.forwardRef<HTMLDivElement, BillingSettingCardProps>(({ className, ...props }, ref) => (
+const BillingSetting = forwardRef<HTMLDivElement, BillingSettingCardProps>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-2", className)} {...props}>
     {/* Payment Method */}
     <div>

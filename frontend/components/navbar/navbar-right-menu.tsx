@@ -1,6 +1,4 @@
-import { NavbarContent, NavbarMenuToggle } from "@/components/nextui-use-client";
-import Notifications from "@/components/navbar/notifications";
-import Search from "@/components/navbar/search";
+import { NavbarContent, NavbarMenuToggle } from "@/components/nextui/client-components";
 import Settings from "@/components/navbar/settings";
 import UserMenu from "@/components/navbar/user-menu/user-menu";
 import { AccountMe } from "@/lib/api";
@@ -13,11 +11,11 @@ interface NavbarMobileMenuProps {
 export default async function NavbarRightMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
   return (
     <NavbarContent className="gap-0" justify="center">
-      <Search />
+      {/* TODO: <Search /> */}
       <Settings me={me} />
-      <Notifications />
+      {/*  TODO: <Notifications /> */}
       <UserMenu isSignedIn={isSignedIn} me={me} />
-      <NavbarMenuToggle className="md:hidden" />
+      <NavbarMenuToggle className="xl:hidden" />
     </NavbarContent>
   );
 }

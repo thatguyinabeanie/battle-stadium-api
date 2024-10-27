@@ -1,7 +1,7 @@
 "use client";
 
 import { SignInButton, SignOutButton } from "@clerk/nextjs";
-import { DropdownItem, DropdownMenu, Link } from "@/components/nextui-use-client";
+import { DropdownItem, DropdownMenu, Link } from "@/components/nextui/client-components";
 
 import { cn } from "@/lib";
 import { components } from "@/lib/api/openapi-v1";

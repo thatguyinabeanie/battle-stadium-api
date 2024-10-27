@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayoutProps } from "@/types";
-import TabComponent from "../tabs";
+import Tabs from "@/components/nextui/tabs";
 import { AccountMe } from "@/lib/api";
 
 const adminTab = { key: "admin", title: "Admin" };
@@ -21,8 +21,8 @@ export default function Dashboard(props: Readonly<DashboardProps>) {
   const tabsToRender = props.me?.admin ? [...tabs, adminTab] : tabs;
 
   return (
-    <div className="w-full h-full flex flex-col items-center">
-      <TabComponent renderTabContent={renderTabContent} tabContents={props} tabs={tabsToRender} />
+    <div className="w-full min-h-screen flex flex-col items-center pb-2">
+      <Tabs renderTabContent={renderTabContent} tabContents={props} tabs={tabsToRender} />
     </div>
   );
 }
