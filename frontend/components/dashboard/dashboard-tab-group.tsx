@@ -21,8 +21,13 @@ export default function Dashboard(props: Readonly<DashboardProps>) {
   const tabsToRender = props.me?.admin ? [...tabs, adminTab] : tabs;
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center pb-2">
-      <Tabs renderTabContent={renderTabContent} tabContents={props} tabs={tabsToRender} />
+    <div className="w-full min-h-screen flex flex-col items-center">
+      <Tabs
+        renderTabContent={renderTabContent}
+        tabContents={props}
+        tabs={tabsToRender}
+        classNames={{ base: "pb-4" }}
+      />
     </div>
   );
 }

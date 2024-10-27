@@ -46,6 +46,7 @@
       "Giga",
       "Jigglypuff",
       "Meowth",
+      "metagame",
       "pokedex",
       "Squirtle",
       "turbopack",
@@ -87,6 +88,7 @@
     "cSpell.showAutocompleteSuggestions": true,
     "rubyLsp.rubyExecutablePath": "",
     "rubyLsp.useLauncher": false,
+    "todo-tree.filtering.includeHiddenFiles": true,
   },
   "extensions": {
     "recommendations": [

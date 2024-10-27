@@ -1,10 +1,9 @@
 "use client";
 
-import {} from "react";
 import NavbarLinkClientItem from "@/components/navbar/navbar-client-item";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib";
-import { NavbarContent } from "../nextui/client-components";
+import { NavbarContent } from "@/components/nextui/client-components";
 
 interface NavbarLinksProps {
   isSignedIn: boolean | null;

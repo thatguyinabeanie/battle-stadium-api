@@ -1,6 +1,5 @@
 "use client";
 
-import {} from "react";
 import { SignUp, useUser } from "@clerk/nextjs";
 
 export default function SignUpPage() {

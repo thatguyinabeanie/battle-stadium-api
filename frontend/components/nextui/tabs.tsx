@@ -13,7 +13,7 @@ interface TabsProps<T> {
     title: string;
   }[];
   tabContents: T;
-  classNames?: SlotsToClasses<"base" | "cursor" | "wrapper" | "tab" | "tabList" | "tabContent" | "panel"> | undefined;
+  classNames?: SlotsToClasses<"base" | "cursor" | "wrapper" | "tab" | "tabList" | "tabContent" | "panel"> ;
   renderTabContent: (activeTab: string, props: T) => ReactNode;
 }
 

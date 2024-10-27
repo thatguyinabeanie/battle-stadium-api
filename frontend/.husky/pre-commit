@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# Run lint-staged only if there are changes in the frontend directory
-if git diff --cached --name-only | grep -q "^frontend/"; then
-  cd frontend && bunx lint-staged
-fi

@@ -1,8 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import {} from "react";
-import { Button, Input } from "../nextui/client-components";
+import { Button, Input } from "@/components/nextui/client-components";
 import { createProfile } from "@/app/server-actions/profiles/actions";
 import { AccountMe } from "@/lib/api";
 import Form from "next/form";
@@ -11,7 +10,7 @@ interface NewProfileProps {
   me: AccountMe;
 }
 
-export default function NewProfile({ me }: NewProfileProps) {
+export default function NewProfile({ me }: Readonly<NewProfileProps>) {
   const router = useRouter();
 
   const handleSubmit = async (formData: FormData) => {
