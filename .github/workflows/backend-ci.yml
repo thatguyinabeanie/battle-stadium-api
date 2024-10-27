@@ -115,7 +115,7 @@ jobs:
           fi
 
       - name: "Runtime cache: store chunk"
-        if: always()
+        if: always() && steps.cache-restore.outputs.cache-hit != 'true'  # Only save if cache was not hit
         uses: actions/cache/save@v4
         with:
           key: runtime-cache-${{ matrix.group }}
