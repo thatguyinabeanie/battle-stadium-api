@@ -12,7 +12,7 @@ require "shoulda/matchers"
 require "support/openapi/schema_helper"
 require "support/openapi/response_helper"
 
-abort("The Rails environment is running in not running in test mode!") unless Rails.env.test?
+abort("The Rails environment is not running in test mode!") unless Rails.env.test?
 
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
