@@ -328,6 +328,177 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '404':
           description: not found
+  "/tournaments/{tournament_id}/matches":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieves all matches for a tournament
+      tags:
+      - Matches
+      responses:
+        '200':
+          description: matches found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Match"
+        '404':
+          description: tournament not found
+  "/tournaments/{tournament_id}/matches/{id}":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Match ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieves a match
+      tags:
+      - Matches
+      responses:
+        '200':
+          description: match found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MatchDetails"
+        '404':
+          description: match not found
+    patch:
+      summary: Updates a match
+      tags:
+      - Matches
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: match updated
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                match:
+                  type: object
+                  properties:
+                    round_id:
+                      type: integer
+                    table_number:
+                      type: integer
+                    player_one_id:
+                      type: integer
+                    player_two_id:
+                      type: integer
+                    winner_id:
+                      type: integer
+                    loser_id:
+                      type: integer
+                    player_one_check_in:
+                      type: boolean
+                    player_two_check_in:
+                      type: boolean
+                    phase_id:
+                      type: integer
+                    bye:
+                      type: boolean
+              required:
+              - match
+  "/tournaments/{tournament_id}/matches/{id}/check_in":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Match ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Check in
+      tags:
+      - Matches
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: checked in
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MatchDetails"
+  "/tournaments/{tournament_id}/matches/{id}/reset":
+    parameters:
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    - name: tournament_id
+      in: path
+      description: Tournament ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Match ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Reset Match
+      tags:
+      - Matches
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: reported
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MatchDetails"
   "/organizations":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -577,9 +748,286 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/TournamentDetails"
+  "/tournaments/{tournament_id}/phases":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the tournament
+      required: true
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: List Tournament Phases
+      tags:
+      - Phases
+      description: Retrieves a list of all Phases
+      operationId: listTournamentPhases
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Phase"
+        '404':
+          description: not found
+    post:
+      summary: Create Tournament Phase
+      tags:
+      - Phases
+      description: Creates a new Tournament Phase.
+      operationId: postTournamentPhase
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Phase"
+  "/tournaments/{tournament_id}/phases/{id}":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the tournament
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      required: true
+      description: ID of the Phase
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Show Tournament Phase
+      tags:
+      - Phases
+      description: Retrieves a Tournament Phase
+      operationId: showTournamentPhase
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+    patch:
+      summary: Update Tournament Phase
+      tags:
+      - Phases
+      description: Updates a Tournament Phase.
+      operationId: patchTournamentPhase
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PhaseDetails"
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Phase"
+    delete:
+      summary: Delete Tournament Phase
+      tags:
+      - Phases
+      description: Deletes a Tournament Phase.
+      operationId: deleteTournamentPhase
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+  "/tournaments/{tournament_id}/players":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: List Tournament Players
+      tags:
+      - Players
+      description: Retrieves a list of all Players
+      operationId: listPlayers
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Player"
+        '404':
+          description: not found
+    post:
+      summary: Create Tournament Player
+      tags:
+      - Players
+      description: Creates a new Player.
+      operationId: postTournamentPlayer
+      parameters:
+      - name: in_game_name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: profile_id
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: pokemon_team_id
+        in: query
+        required: true
+        nullable: true
+        schema:
+          type: integer
+      - name: show_country_flag
+        in: query
+        required: true
+        nullable: true
+        schema:
+          type: boolean
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+        '422':
+          description: Already registered
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: not found
+  "/tournaments/{tournament_id}/players/{id}":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: ID of the Tournament
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: ID of the Player
+      required: true
+      schema:
+        type: integer
+    - name: X-Vercel-OIDC-Token
+      in: header
+      required: false
+      description: Vercel OIDC Token
+      schema:
+        type: string
+    get:
+      summary: Show Tournament Player
+      tags:
+      - Players
+      description: Retrieves a Player
+      operationId: showTournamentPlayer
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+    patch:
+      summary: Update Tournament Player
+      tags:
+      - Players
+      description: Updates a Player.
+      operationId: putTournamentPlayer
+      parameters: []
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PlayerDetails"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlayerRequest"
+    delete:
+      summary: Delete Tournament Player
+      tags:
+      - Players
+      description: Deletes a Player.
+      operationId: deleteTournamentPlayer
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
   "/pokemon_teams":
     get:
-      summary: List Public and NotArchived Pokemon Teams
+      summary: List published and NotArchived Pokemon Teams
       description: Retrieves a list of all public and not archived pokemon teams
       operationId: listPokemonTeams
       security:
@@ -769,447 +1217,6 @@ paths:
                     type: string
                 required:
                 - error
-  "/tournaments/{tournament_id}/matches":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    get:
-      summary: Retrieves all matches for a tournament
-      tags:
-      - Matches
-      responses:
-        '200':
-          description: matches found
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Match"
-        '404':
-          description: tournament not found
-  "/tournaments/{tournament_id}/matches/{id}":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    - name: id
-      in: path
-      description: Match ID
-      required: true
-      schema:
-        type: string
-    get:
-      summary: Retrieves a match
-      tags:
-      - Matches
-      responses:
-        '200':
-          description: match found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/MatchDetails"
-        '404':
-          description: match not found
-    patch:
-      summary: Updates a match
-      tags:
-      - Matches
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: match updated
-        '422':
-          description: invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                match:
-                  type: object
-                  properties:
-                    round_id:
-                      type: integer
-                    table_number:
-                      type: integer
-                    player_one_id:
-                      type: integer
-                    player_two_id:
-                      type: integer
-                    winner_id:
-                      type: integer
-                    loser_id:
-                      type: integer
-                    player_one_check_in:
-                      type: boolean
-                    player_two_check_in:
-                      type: boolean
-                    phase_id:
-                      type: integer
-                    bye:
-                      type: boolean
-              required:
-              - match
-  "/tournaments/{tournament_id}/matches/{id}/check_in":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    - name: id
-      in: path
-      description: Match ID
-      required: true
-      schema:
-        type: string
-    post:
-      summary: Check in
-      tags:
-      - Matches
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: checked in
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/MatchDetails"
-  "/tournaments/{tournament_id}/matches/{id}/reset":
-    parameters:
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    - name: tournament_id
-      in: path
-      description: Tournament ID
-      required: true
-      schema:
-        type: string
-    - name: id
-      in: path
-      description: Match ID
-      required: true
-      schema:
-        type: string
-    post:
-      summary: Reset Match
-      tags:
-      - Matches
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: reported
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/MatchDetails"
-  "/tournaments/{tournament_id}/phases":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the tournament
-      required: true
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: List Tournament Phases
-      tags:
-      - Phases
-      description: Retrieves a list of all Phases
-      operationId: listTournamentPhases
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Phase"
-        '404':
-          description: not found
-    post:
-      summary: Create Tournament Phase
-      tags:
-      - Phases
-      description: Creates a new Tournament Phase.
-      operationId: postTournamentPhase
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '201':
-          description: created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PhaseDetails"
-        '404':
-          description: not found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/Phase"
-  "/tournaments/{tournament_id}/phases/{id}":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the tournament
-      required: true
-      schema:
-        type: integer
-    - name: id
-      in: path
-      required: true
-      description: ID of the Phase
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: Show Tournament Phase
-      tags:
-      - Phases
-      description: Retrieves a Tournament Phase
-      operationId: showTournamentPhase
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PhaseDetails"
-        '404':
-          description: not found
-    patch:
-      summary: Update Tournament Phase
-      tags:
-      - Phases
-      description: Updates a Tournament Phase.
-      operationId: patchTournamentPhase
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PhaseDetails"
-        '404':
-          description: not found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/Phase"
-    delete:
-      summary: Delete Tournament Phase
-      tags:
-      - Phases
-      description: Deletes a Tournament Phase.
-      operationId: deleteTournamentPhase
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-        '404':
-          description: not found
-  "/tournaments/{tournament_id}/players":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the Tournament
-      required: true
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: List Tournament Players
-      tags:
-      - Players
-      description: Retrieves a list of all Players
-      operationId: listPlayers
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Player"
-        '404':
-          description: not found
-    post:
-      summary: Create Tournament Player
-      tags:
-      - Players
-      description: Creates a new Player.
-      operationId: postTournamentPlayer
-      parameters:
-      - name: in_game_name
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: profile_id
-        in: query
-        required: true
-        schema:
-          type: integer
-      - name: pokemon_team_id
-        in: query
-        required: false
-        schema:
-          type: integer
-      security:
-      - Bearer: []
-      responses:
-        '201':
-          description: created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PlayerDetails"
-        '422':
-          description: Already registered
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-        '404':
-          description: not found
-  "/tournaments/{tournament_id}/players/{id}":
-    parameters:
-    - name: tournament_id
-      in: path
-      description: ID of the Tournament
-      required: true
-      schema:
-        type: integer
-    - name: id
-      in: path
-      description: ID of the Player
-      required: true
-      schema:
-        type: integer
-    - name: X-Vercel-OIDC-Token
-      in: header
-      required: false
-      description: Vercel OIDC Token
-      schema:
-        type: string
-    get:
-      summary: Show Tournament Player
-      tags:
-      - Players
-      description: Retrieves a Player
-      operationId: showTournamentPlayer
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PlayerDetails"
-    patch:
-      summary: Update Tournament Player
-      tags:
-      - Players
-      description: Updates a Player.
-      operationId: putTournamentPlayer
-      parameters: []
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PlayerDetails"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/PlayerRequest"
-    delete:
-      summary: Delete Tournament Player
-      tags:
-      - Players
-      description: Deletes a Player.
-      operationId: deleteTournamentPlayer
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-        '404':
-          description: not found
   "/tournaments":
     parameters:
     - name: X-Vercel-OIDC-Token
@@ -1866,6 +1873,12 @@ components:
         pokemon_team_id:
           type: integer
           format: int64
+        evs:
+          "$ref": "#/components/schemas/Stats"
+          nullable: true
+        ivs:
+          "$ref": "#/components/schemas/Stats"
+          nullable: true
       required:
       - species
       - ability
@@ -1891,7 +1904,7 @@ components:
           nullable: true
         profile:
           "$ref": "#/components/schemas/Profile"
-        public:
+        published:
           type: boolean
         archived_at:
           type: string
@@ -1909,7 +1922,7 @@ components:
       - id
       - name
       - profile
-      - public
+      - published
       - archived_at
       - format
       - game
@@ -1937,6 +1950,8 @@ components:
           "$ref": "#/components/schemas/Profile"
         in_game_name:
           type: string
+        show_country_flag:
+          type: boolean
       required:
       - id
       - profile
@@ -1952,6 +1967,8 @@ components:
           "$ref": "#/components/schemas/Profile"
         in_game_name:
           type: string
+        show_country_flag:
+          type: boolean
       required:
       - id
       - profile
