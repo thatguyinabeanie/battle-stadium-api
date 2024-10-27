@@ -618,18 +618,22 @@ RSpec.configure do |config|
         },
 
         schemas: {
-          Format: FORMAT_SCHEMA,
-          Game: GAME_SCHEMA,
-          GameDetail: GAME_DETAILS_SCHEMA,
           Account: ACCOUNT_SCHEMA,
           AccountDetails: ACCOUNT_DETAILS_SCHEMA,
           AccountMe: ACCOUNT_ME,
           AccountPostRequest: ACCOUNT_POST_REQUEST,
           AccountRequest: ACCOUNT_REQUEST,
-          RegistrationResponse: REGISTRATION_RESPONSE,
+
+          Format: FORMAT_SCHEMA,
+          Game: GAME_SCHEMA,
+          GameDetail: GAME_DETAILS_SCHEMA,
+          GameRequest: GAME_REQUEST,
+
+          Match: MATCH_SCHEMA,
+          MatchDetails: MATCH_DETAILS_SCHEMA,
+
           Organization: ORGANIZATION_SCHEMA,
-          Tournament: TOURNAMENT_SCHEMA,
-          TournamentDetails: TOURNAMENT_DETAILS_SCHEMA,
+
           Pokemon: POKEMON_SCHEMA,
           PokemonTeam: POKEMON_TEAM_SCHEMA,
           PlayerRequest: PLAYER_REQUEST,
@@ -638,16 +642,21 @@ RSpec.configure do |config|
           Round: ROUND_SCHEMA,
           Phase: PHASE_SCHEMA,
           PhaseDetails: PHASE_DETAILS_SCHEMA,
-          GameRequest: GAME_REQUEST,
-          TournamentRequest: TOURNAMENT_REQUEST,
-          TournamentPostRequest: TOURNAMENT_POST_REQUEST,
-          Error: ERROR,
-          Message: MESSAGE,
           Pagination: PAGINATION_RESPONSE,
           Profile: PROFILE_SCHEMA,
           PostProfile: POST_PROFILE_SCHEMA,
-          Match: MATCH_SCHEMA,
-          MatchDetails: MATCH_DETAILS_SCHEMA
+
+          RegistrationResponse: REGISTRATION_RESPONSE,
+
+          Stats: STATS_SCHEMA,
+
+          Tournament: TOURNAMENT_SCHEMA,
+          TournamentDetails: TOURNAMENT_DETAILS_SCHEMA,
+          TournamentRequest: TOURNAMENT_REQUEST,
+          TournamentPostRequest: TOURNAMENT_POST_REQUEST,
+
+          Error: ERROR,
+          Message: MESSAGE,
         }
       }
     }

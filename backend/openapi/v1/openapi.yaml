@@ -1416,44 +1416,6 @@ components:
         - username
       required: true
   schemas:
-    Format:
-      type: object
-      title: Format
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Game:
-      type: object
-      title: Game
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-      required:
-      - id
-      - name
-    GameDetail:
-      type: object
-      title: Game Details
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        formats:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Format"
-      required:
-      - id
-      - name
-      - formats
     Account:
       type: object
       title: account
@@ -1607,54 +1569,146 @@ components:
       - country
       - username
       - pronouns
-    RegistrationResponse:
+    Format:
       type: object
-      title: Registration Response
+      title: Format
       properties:
         id:
           type: integer
           format: int64
-        email:
-          type: string
-          format: email
-        username:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        pronouns:
-          type: string
-          nullable: true
-        jti:
-          type: string
-          format: jwt
         name:
           type: string
-          nullable: true
-        image:
+    Game:
+      type: object
+      title: Game
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - id
+      - name
+    GameDetail:
+      type: object
+      title: Game Details
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        formats:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Format"
+      required:
+      - id
+      - name
+      - formats
+    GameRequest:
+      type: object
+      title: GameRequest
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+      - name
+    Match:
+      type: object
+      title: Match
+      properties:
+        id:
+          type: integer
+          format: int64
+        round_id:
+          type: integer
+          format: int64
+        tournament_id:
+          type: integer
+          format: int64
+        table_number:
+          type: integer
+          format: int64
+        player_one:
+          type: string
+        player_two:
+          type: string
+        reset_by:
           type: string
           nullable: true
-        admin:
+      required:
+      - id
+      - round_id
+      - table_number
+      - player_one
+      - player_two
+      - reset_by
+    MatchDetails:
+      type: object
+      title: Match
+      properties:
+        id:
+          type: integer
+          format: int64
+        round_id:
+          type: integer
+          format: int64
+        tournament_id:
+          type: integer
+          format: int64
+        table_number:
+          type: integer
+          format: int64
+        player_one:
+          type: string
+        player_two:
+          type: string
+        reset_by:
+          type: string
+          nullable: true
+        winner:
+          type: string
+          nullable: true
+        loser:
+          type: string
+          nullable: true
+        player_one_check_in:
+          type: string
+          format: date-time
+          nullable: true
+        player_two_check_in:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        bye:
           type: boolean
       required:
       - id
-      - email
-      - username
-      - first_name
-      - last_name
-      - created_at
-      - updated_at
-      - pronouns
-      - jti
-      - name
-      - image
+      - round_id
+      - table_number
+      - player_one
+      - player_two
+      - reset_by
+      - winner
+      - loser
+      - player_one_check_in
+      - player_two_check_in
+      - ended_at
+      - started_at
+      - bye
     Organization:
       type: object
       title: Organization
@@ -1685,151 +1739,6 @@ components:
       - description
       - logo_url
       - slug
-    Tournament:
-      type: object
-      title: Tournament
-      properties:
-        start_at:
-          type: string
-          format: date-time
-          nullable: true
-        organization:
-          "$ref": "#/components/schemas/Organization"
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        player_cap:
-          type: integer
-          nullable: true
-        player_count:
-          type: integer
-        end_at:
-          type: string
-          format: date-time
-          nullable: true
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-        registration_start_at:
-          type: string
-          format: date-time
-          nullable: true
-        registration_end_at:
-          type: string
-          format: date-time
-          nullable: true
-        late_registration:
-          type: boolean
-        published:
-          type: boolean
-      required:
-      - id
-      - name
-      - player_cap
-      - organization
-      - format
-      - game
-      - start_at
-      - player_count
-      - published
-      - registration_start_at
-      - registration_end_at
-      - late_registration
-    TournamentDetails:
-      type: object
-      title: Tournament Details
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        autostart:
-          type: boolean
-        start_at:
-          type: string
-          format: date-time
-          nullable: true
-        end_at:
-          type: string
-          format: date-time
-          nullable: true
-        organization:
-          "$ref": "#/components/schemas/Organization"
-        format:
-          "$ref": "#/components/schemas/Format"
-        game:
-          "$ref": "#/components/schemas/Game"
-        check_in_start_at:
-          type: string
-          format: date-time
-          nullable: true
-        late_registration:
-          type: boolean
-        teamlists_required:
-          type: boolean
-        open_team_sheets:
-          type: boolean
-        phases:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Phase"
-        player_cap:
-          type: integer
-          nullable: true
-        player_count:
-          type: integer
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-        registration_start_at:
-          type: string
-          format: date-time
-          nullable: true
-        registration_end_at:
-          type: string
-          format: date-time
-          nullable: true
-        published:
-          type: boolean
-      required:
-      - id
-      - name
-      - player_cap
-      - organization
-      - format
-      - game
-      - start_at
-      - player_count
-      - published
-      - registration_start_at
-      - registration_end_at
-      - late_registration
-      - start_at
-      - player_cap
-      - autostart
-      - teamlists_required
-      - open_team_sheets
-      - check_in_start_at
-      - late_registration
-      - registration_start_at
-      - registration_end_at
     Pokemon:
       type: object
       title: Pokemon
@@ -2098,17 +2007,279 @@ components:
       - ended_at
       - players
       - rounds
-    GameRequest:
+    Pagination:
       type: object
-      title: GameRequest
+      properties:
+        current_page:
+          type: integer
+        next_page:
+          type: integer
+          nullable: true
+        prev_page:
+          type: integer
+          nullable: true
+        total_pages:
+          type: integer
+        total_count:
+          type: integer
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Profile:
+      type: object
+      title: Profile
+      properties:
+        id:
+          type: integer
+          format: int64
+        default:
+          type: boolean
+        username:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        pronouns:
+          type: string
+          nullable: true
+      required:
+      - username
+      - image_url
+      - id
+      - pronouns
+      - default
+    PostProfile:
+      type: object
+      title: Post Profile
+      properties:
+        username:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        pronouns:
+          type: string
+          nullable: true
+      required:
+      - username
+    RegistrationResponse:
+      type: object
+      title: Registration Response
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        pronouns:
+          type: string
+          nullable: true
+        jti:
+          type: string
+          format: jwt
+        name:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+        admin:
+          type: boolean
+      required:
+      - id
+      - email
+      - username
+      - first_name
+      - last_name
+      - created_at
+      - updated_at
+      - pronouns
+      - jti
+      - name
+      - image
+    Stats:
+      type: object
+      title: Stats
+      properties:
+        hp:
+          type: integer
+          nullable: true
+        atk:
+          type: integer
+          nullable: true
+        def:
+          type: integer
+          nullable: true
+        spa:
+          type: integer
+          nullable: true
+        spd:
+          type: integer
+          nullable: true
+        spe:
+          type: integer
+          nullable: true
+    Tournament:
+      type: object
+      title: Tournament
+      properties:
+        start_at:
+          type: string
+          format: date-time
+          nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        published:
+          type: boolean
+      required:
+      - id
+      - name
+      - player_cap
+      - organization
+      - format
+      - game
+      - start_at
+      - player_count
+      - published
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+    TournamentDetails:
+      type: object
+      title: Tournament Details
       properties:
         id:
           type: integer
           format: int64
         name:
           type: string
+        autostart:
+          type: boolean
+        start_at:
+          type: string
+          format: date-time
+          nullable: true
+        end_at:
+          type: string
+          format: date-time
+          nullable: true
+        organization:
+          "$ref": "#/components/schemas/Organization"
+        format:
+          "$ref": "#/components/schemas/Format"
+        game:
+          "$ref": "#/components/schemas/Game"
+        check_in_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        late_registration:
+          type: boolean
+        teamlists_required:
+          type: boolean
+        open_team_sheets:
+          type: boolean
+        phases:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Phase"
+        player_cap:
+          type: integer
+          nullable: true
+        player_count:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_start_at:
+          type: string
+          format: date-time
+          nullable: true
+        registration_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        published:
+          type: boolean
       required:
+      - id
       - name
+      - player_cap
+      - organization
+      - format
+      - game
+      - start_at
+      - player_count
+      - published
+      - registration_start_at
+      - registration_end_at
+      - late_registration
+      - start_at
+      - player_cap
+      - autostart
+      - teamlists_required
+      - open_team_sheets
+      - check_in_start_at
+      - late_registration
+      - registration_start_at
+      - registration_end_at
     TournamentRequest:
       type: object
       title: Tournament Request
@@ -2231,152 +2402,3 @@ components:
           type: string
       required:
       - message
-    Pagination:
-      type: object
-      properties:
-        current_page:
-          type: integer
-        next_page:
-          type: integer
-          nullable: true
-        prev_page:
-          type: integer
-          nullable: true
-        total_pages:
-          type: integer
-        total_count:
-          type: integer
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
-    Profile:
-      type: object
-      title: Profile
-      properties:
-        id:
-          type: integer
-          format: int64
-        default:
-          type: boolean
-        username:
-          type: string
-        image_url:
-          type: string
-          nullable: true
-        pronouns:
-          type: string
-          nullable: true
-      required:
-      - username
-      - image_url
-      - id
-      - pronouns
-      - default
-    PostProfile:
-      type: object
-      title: Post Profile
-      properties:
-        username:
-          type: string
-        image_url:
-          type: string
-          nullable: true
-        pronouns:
-          type: string
-          nullable: true
-      required:
-      - username
-    Match:
-      type: object
-      title: Match
-      properties:
-        id:
-          type: integer
-          format: int64
-        round_id:
-          type: integer
-          format: int64
-        tournament_id:
-          type: integer
-          format: int64
-        table_number:
-          type: integer
-          format: int64
-        player_one:
-          type: string
-        player_two:
-          type: string
-        reset_by:
-          type: string
-          nullable: true
-      required:
-      - id
-      - round_id
-      - table_number
-      - player_one
-      - player_two
-      - reset_by
-    MatchDetails:
-      type: object
-      title: Match
-      properties:
-        id:
-          type: integer
-          format: int64
-        round_id:
-          type: integer
-          format: int64
-        tournament_id:
-          type: integer
-          format: int64
-        table_number:
-          type: integer
-          format: int64
-        player_one:
-          type: string
-        player_two:
-          type: string
-        reset_by:
-          type: string
-          nullable: true
-        winner:
-          type: string
-          nullable: true
-        loser:
-          type: string
-          nullable: true
-        player_one_check_in:
-          type: string
-          format: date-time
-          nullable: true
-        player_two_check_in:
-          type: string
-          format: date-time
-          nullable: true
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-        bye:
-          type: boolean
-      required:
-      - id
-      - round_id
-      - table_number
-      - player_one
-      - player_two
-      - reset_by
-      - winner
-      - loser
-      - player_one_check_in
-      - player_two_check_in
-      - ended_at
-      - started_at
-      - bye

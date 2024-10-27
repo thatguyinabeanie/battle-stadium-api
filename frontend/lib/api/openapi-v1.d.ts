@@ -143,185 +143,6 @@ export interface paths {
     patch: operations["patchGame"];
     trace?: never;
   };
-  "/organizations": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    /** List Organizations */
-    get: operations["listOrganizations"];
-    put?: never;
-    /**
-     * Create Organization
-     * @description Creates a new organization.
-     */
-    post: operations["postOrganization"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/organizations/{slug}": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        slug: string;
-      };
-      cookie?: never;
-    };
-    /**
-     * Show Organization
-     * @description Retrieves a specific organization.
-     */
-    get: operations["getOrganization"];
-    put?: never;
-    post?: never;
-    /**
-     * Delete Organization
-     * @description Deletes an organization.
-     */
-    delete: operations["deleteOrganization"];
-    options?: never;
-    head?: never;
-    /**
-     * Update Organization
-     * @description Updates an existing organization.
-     */
-    patch: operations["patchOrganization"];
-    trace?: never;
-  };
-  "/organizations/{slug}/staff": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        slug: string;
-      };
-      cookie?: never;
-    };
-    /**
-     * List Organization Staff
-     * @description Retrieves a list of staff members for a specific organization.
-     */
-    get: operations["listOrganizationStaff"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/organizations/{slug}/tournaments": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        slug: string;
-      };
-      cookie?: never;
-    };
-    /**
-     * List Organization Tournaments
-     * @description Retrieves a list of tournaments for a specific organization.
-     */
-    get: operations["listOrganizationTournaments"];
-    put?: never;
-    /**
-     * Create Tournament
-     * @description Creates a new tournament for a given organization.
-     */
-    post: operations["postOrganizationTournament"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/pokemon_teams": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List Public and NotArchived Pokemon Teams
-     * @description Retrieves a list of all public and not archived pokemon teams
-     */
-    get: operations["listPokemonTeams"];
-    put?: never;
-    /**
-     * Create Pokemon Team
-     * @description Creates a new pokemon team.
-     */
-    post: operations["postPokemonTeam"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/profiles": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Retrieves all profiles */
-    get: operations["listProfiles"];
-    put?: never;
-    /**
-     * Creates a profile
-     * @description Creates a new profile
-     */
-    post: operations["createProfile"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/profiles/{slug}": {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description Username */
-        slug: string;
-      };
-      cookie?: never;
-    };
-    /** Retrieves a profile */
-    get: operations["getProfile"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   "/tournaments/{tournament_id}/matches": {
     parameters: {
       query?: never;
@@ -590,6 +411,117 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/organizations": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    /** List Organizations */
+    get: operations["listOrganizations"];
+    put?: never;
+    /**
+     * Create Organization
+     * @description Creates a new organization.
+     */
+    post: operations["postOrganization"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/organizations/{slug}": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        slug: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Show Organization
+     * @description Retrieves a specific organization.
+     */
+    get: operations["getOrganization"];
+    put?: never;
+    post?: never;
+    /**
+     * Delete Organization
+     * @description Deletes an organization.
+     */
+    delete: operations["deleteOrganization"];
+    options?: never;
+    head?: never;
+    /**
+     * Update Organization
+     * @description Updates an existing organization.
+     */
+    patch: operations["patchOrganization"];
+    trace?: never;
+  };
+  "/organizations/{slug}/staff": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        slug: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * List Organization Staff
+     * @description Retrieves a list of staff members for a specific organization.
+     */
+    get: operations["listOrganizationStaff"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/organizations/{slug}/tournaments": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        slug: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * List Organization Tournaments
+     * @description Retrieves a list of tournaments for a specific organization.
+     */
+    get: operations["listOrganizationTournaments"];
+    put?: never;
+    /**
+     * Create Tournament
+     * @description Creates a new tournament for a given organization.
+     */
+    post: operations["postOrganizationTournament"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/tournaments/{tournament_id}/phases": {
     parameters: {
       query?: never;
@@ -722,6 +654,74 @@ export interface paths {
     patch: operations["putTournamentPlayer"];
     trace?: never;
   };
+  "/pokemon_teams": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List published and NotArchived Pokemon Teams
+     * @description Retrieves a list of all public and not archived pokemon teams
+     */
+    get: operations["listPokemonTeams"];
+    put?: never;
+    /**
+     * Create Pokemon Team
+     * @description Creates a new pokemon team.
+     */
+    post: operations["postPokemonTeam"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/profiles": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Retrieves all profiles */
+    get: operations["listProfiles"];
+    put?: never;
+    /**
+     * Creates a profile
+     * @description Creates a new profile
+     */
+    post: operations["createProfile"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/profiles/{slug}": {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Username */
+        slug: string;
+      };
+      cookie?: never;
+    };
+    /** Retrieves a profile */
+    get: operations["getProfile"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/tournaments": {
     parameters: {
       query?: never;
@@ -801,25 +801,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    /** Format */
-    Format: {
-      /** Format: int64 */
-      id?: number;
-      name?: string;
-    };
-    /** Game */
-    Game: {
-      /** Format: int64 */
-      id: number;
-      name: string;
-    };
-    /** Game Details */
-    GameDetail: {
-      /** Format: int64 */
-      id: number;
-      name: string;
-      formats: components["schemas"]["Format"][];
-    };
     /** account */
     Account: {
       username: string;
@@ -879,25 +860,69 @@ export interface components {
       /** Format: int64 */
       id?: number;
     };
-    /** Registration Response */
-    RegistrationResponse: {
+    /** Format */
+    Format: {
+      /** Format: int64 */
+      id?: number;
+      name?: string;
+    };
+    /** Game */
+    Game: {
       /** Format: int64 */
       id: number;
-      /** Format: email */
-      email: string;
-      username: string;
-      first_name: string;
-      last_name: string;
+      name: string;
+    };
+    /** Game Details */
+    GameDetail: {
+      /** Format: int64 */
+      id: number;
+      name: string;
+      formats: components["schemas"]["Format"][];
+    };
+    /** GameRequest */
+    GameRequest: {
+      /** Format: int64 */
+      id?: number;
+      name: string;
+    };
+    /** Match */
+    Match: {
+      /** Format: int64 */
+      id: number;
+      /** Format: int64 */
+      round_id: number;
+      /** Format: int64 */
+      tournament_id?: number;
+      /** Format: int64 */
+      table_number: number;
+      player_one: string;
+      player_two: string;
+      reset_by: string | null;
+    };
+    /** Match */
+    MatchDetails: {
+      /** Format: int64 */
+      id: number;
+      /** Format: int64 */
+      round_id: number;
+      /** Format: int64 */
+      tournament_id?: number;
+      /** Format: int64 */
+      table_number: number;
+      player_one: string;
+      player_two: string;
+      reset_by: string | null;
+      winner: string | null;
+      loser: string | null;
       /** Format: date-time */
-      created_at: string;
+      player_one_check_in: string | null;
       /** Format: date-time */
-      updated_at: string;
-      pronouns: string | null;
-      /** Format: jwt */
-      jti: string;
-      name: string | null;
-      image: string | null;
-      admin?: boolean;
+      player_two_check_in: string | null;
+      /** Format: date-time */
+      ended_at: string | null;
+      /** Format: date-time */
+      started_at: string | null;
+      bye: boolean;
     };
     /** Organization */
     Organization: {
@@ -910,62 +935,6 @@ export interface components {
       /** Format: int64 */
       id: number;
       name: string;
-    };
-    /** Tournament */
-    Tournament: {
-      /** Format: date-time */
-      start_at: string | null;
-      organization: components["schemas"]["Organization"];
-      format: components["schemas"]["Format"];
-      game: components["schemas"]["Game"];
-      /** Format: int64 */
-      id: number;
-      name: string;
-      player_cap: number | null;
-      player_count: number;
-      /** Format: date-time */
-      end_at?: string | null;
-      /** Format: date-time */
-      started_at?: string | null;
-      /** Format: date-time */
-      ended_at?: string | null;
-      /** Format: date-time */
-      registration_start_at: string | null;
-      /** Format: date-time */
-      registration_end_at: string | null;
-      late_registration: boolean;
-      published: boolean;
-    };
-    /** Tournament Details */
-    TournamentDetails: {
-      /** Format: int64 */
-      id: number;
-      name: string;
-      autostart: boolean;
-      /** Format: date-time */
-      start_at: string | null;
-      /** Format: date-time */
-      end_at?: string | null;
-      organization: components["schemas"]["Organization"];
-      format: components["schemas"]["Format"];
-      game: components["schemas"]["Game"];
-      /** Format: date-time */
-      check_in_start_at: string | null;
-      late_registration: boolean;
-      teamlists_required: boolean;
-      open_team_sheets: boolean;
-      phases?: components["schemas"]["Phase"][];
-      player_cap: number | null;
-      player_count: number;
-      /** Format: date-time */
-      started_at?: string | null;
-      /** Format: date-time */
-      ended_at?: string | null;
-      /** Format: date-time */
-      registration_start_at: string | null;
-      /** Format: date-time */
-      registration_end_at: string | null;
-      published: boolean;
     };
     /** Pokemon */
     Pokemon: {
@@ -986,6 +955,8 @@ export interface components {
       move4: string | null;
       /** Format: int64 */
       pokemon_team_id?: number;
+      evs?: components["schemas"]["Stats"];
+      ivs?: components["schemas"]["Stats"];
     };
     /** Pokemon Team */
     PokemonTeam: {
@@ -994,7 +965,7 @@ export interface components {
       name: string;
       pokepaste_id?: string | null;
       profile: components["schemas"]["Profile"];
-      public: boolean;
+      published: boolean;
       /** Format: date-time */
       archived_at: string | null;
       format: components["schemas"]["Format"];
@@ -1013,6 +984,7 @@ export interface components {
       id: number;
       profile: components["schemas"]["Profile"];
       in_game_name: string;
+      show_country_flag?: boolean;
     };
     /** Player Details */
     PlayerDetails: {
@@ -1020,6 +992,7 @@ export interface components {
       id: number;
       profile: components["schemas"]["Profile"];
       in_game_name: string;
+      show_country_flag?: boolean;
     };
     /** Round */
     Round: {
@@ -1078,11 +1051,112 @@ export interface components {
       players: components["schemas"]["Player"][];
       rounds: components["schemas"]["Round"][];
     };
-    /** GameRequest */
-    GameRequest: {
+    Pagination: {
+      current_page: number;
+      next_page: number | null;
+      prev_page: number | null;
+      total_pages: number;
+      total_count: number;
+    };
+    /** Profile */
+    Profile: {
       /** Format: int64 */
-      id?: number;
+      id: number;
+      default: boolean;
+      username: string;
+      image_url: string | null;
+      pronouns: string | null;
+    };
+    /** Post Profile */
+    PostProfile: {
+      username: string;
+      image_url?: string | null;
+      pronouns?: string | null;
+    };
+    /** Registration Response */
+    RegistrationResponse: {
+      /** Format: int64 */
+      id: number;
+      /** Format: email */
+      email: string;
+      username: string;
+      first_name: string;
+      last_name: string;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      pronouns: string | null;
+      /** Format: jwt */
+      jti: string;
+      name: string | null;
+      image: string | null;
+      admin?: boolean;
+    };
+    /** Stats */
+    Stats: {
+      hp?: number | null;
+      atk?: number | null;
+      def?: number | null;
+      spa?: number | null;
+      spd?: number | null;
+      spe?: number | null;
+    };
+    /** Tournament */
+    Tournament: {
+      /** Format: date-time */
+      start_at: string | null;
+      organization: components["schemas"]["Organization"];
+      format: components["schemas"]["Format"];
+      game: components["schemas"]["Game"];
+      /** Format: int64 */
+      id: number;
       name: string;
+      player_cap: number | null;
+      player_count: number;
+      /** Format: date-time */
+      end_at?: string | null;
+      /** Format: date-time */
+      started_at?: string | null;
+      /** Format: date-time */
+      ended_at?: string | null;
+      /** Format: date-time */
+      registration_start_at: string | null;
+      /** Format: date-time */
+      registration_end_at: string | null;
+      late_registration: boolean;
+      published: boolean;
+    };
+    /** Tournament Details */
+    TournamentDetails: {
+      /** Format: int64 */
+      id: number;
+      name: string;
+      autostart: boolean;
+      /** Format: date-time */
+      start_at: string | null;
+      /** Format: date-time */
+      end_at?: string | null;
+      organization: components["schemas"]["Organization"];
+      format: components["schemas"]["Format"];
+      game: components["schemas"]["Game"];
+      /** Format: date-time */
+      check_in_start_at: string | null;
+      late_registration: boolean;
+      teamlists_required: boolean;
+      open_team_sheets: boolean;
+      phases?: components["schemas"]["Phase"][];
+      player_cap: number | null;
+      player_count: number;
+      /** Format: date-time */
+      started_at?: string | null;
+      /** Format: date-time */
+      ended_at?: string | null;
+      /** Format: date-time */
+      registration_start_at: string | null;
+      /** Format: date-time */
+      registration_end_at: string | null;
+      published: boolean;
     };
     /** Tournament Request */
     TournamentRequest: {
@@ -1135,67 +1209,6 @@ export interface components {
     };
     Message: {
       message: string;
-    };
-    Pagination: {
-      current_page: number;
-      next_page: number | null;
-      prev_page: number | null;
-      total_pages: number;
-      total_count: number;
-    };
-    /** Profile */
-    Profile: {
-      /** Format: int64 */
-      id: number;
-      default: boolean;
-      username: string;
-      image_url: string | null;
-      pronouns: string | null;
-    };
-    /** Post Profile */
-    PostProfile: {
-      username: string;
-      image_url?: string | null;
-      pronouns?: string | null;
-    };
-    /** Match */
-    Match: {
-      /** Format: int64 */
-      id: number;
-      /** Format: int64 */
-      round_id: number;
-      /** Format: int64 */
-      tournament_id?: number;
-      /** Format: int64 */
-      table_number: number;
-      player_one: string;
-      player_two: string;
-      reset_by: string | null;
-    };
-    /** Match */
-    MatchDetails: {
-      /** Format: int64 */
-      id: number;
-      /** Format: int64 */
-      round_id: number;
-      /** Format: int64 */
-      tournament_id?: number;
-      /** Format: int64 */
-      table_number: number;
-      player_one: string;
-      player_two: string;
-      reset_by: string | null;
-      winner: string | null;
-      loser: string | null;
-      /** Format: date-time */
-      player_one_check_in: string | null;
-      /** Format: date-time */
-      player_two_check_in: string | null;
-      /** Format: date-time */
-      ended_at: string | null;
-      /** Format: date-time */
-      started_at: string | null;
-      bye: boolean;
     };
   };
   responses: {
@@ -1913,175 +1926,6 @@ export interface operations {
       };
     };
   };
-  listPokemonTeams: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["PokemonTeam"][];
-        };
-      };
-    };
-  };
-  postPokemonTeam: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": {
-          pokepaste_id?: string | null;
-          /** Format: int64 */
-          profile_id?: number | null;
-          name: string;
-          /** Format: int64 */
-          game_id: number;
-          /** Format: int64 */
-          format_id: number;
-          pokemon: components["schemas"]["Pokemon"][];
-        };
-      };
-    };
-    responses: {
-      /** @description created */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["PokemonTeam"];
-        };
-      };
-      /** @description unprocessable entity */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  listProfiles: {
-    parameters: {
-      query?: {
-        /** @description Account ID */
-        account_id?: number;
-      };
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description lists profiles */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Profile"][];
-        };
-      };
-    };
-  };
-  createProfile: {
-    parameters: {
-      query: {
-        /** @description Username */
-        user_name: string;
-        /** @description Image URL */
-        image_url?: string;
-      };
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description profile created */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Profile"];
-        };
-      };
-      /** @description invalid request */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            error: string[];
-          };
-        };
-      };
-    };
-  };
-  getProfile: {
-    parameters: {
-      query?: never;
-      header?: {
-        /** @description Vercel OIDC Token */
-        "X-Vercel-OIDC-Token"?: string;
-      };
-      path: {
-        /** @description Username */
-        slug: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description profile found */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Profile"];
-        };
-      };
-      /** @description profile not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            error: string;
-          };
-        };
-      };
-    };
-  };
   listTournamentPhases: {
     parameters: {
       query?: never;
@@ -2297,7 +2141,8 @@ export interface operations {
       query: {
         in_game_name: string;
         profile_id: number;
-        pokemon_team_id?: number;
+        pokemon_team_id: number;
+        show_country_flag: boolean;
       };
       header?: {
         /** @description Vercel OIDC Token */
@@ -2427,6 +2272,175 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["PlayerDetails"];
+        };
+      };
+    };
+  };
+  listPokemonTeams: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description successful */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PokemonTeam"][];
+        };
+      };
+    };
+  };
+  postPokemonTeam: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          pokepaste_id?: string | null;
+          /** Format: int64 */
+          profile_id?: number | null;
+          name: string;
+          /** Format: int64 */
+          game_id: number;
+          /** Format: int64 */
+          format_id: number;
+          pokemon: components["schemas"]["Pokemon"][];
+        };
+      };
+    };
+    responses: {
+      /** @description created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PokemonTeam"];
+        };
+      };
+      /** @description unprocessable entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  listProfiles: {
+    parameters: {
+      query?: {
+        /** @description Account ID */
+        account_id?: number;
+      };
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description lists profiles */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Profile"][];
+        };
+      };
+    };
+  };
+  createProfile: {
+    parameters: {
+      query: {
+        /** @description Username */
+        user_name: string;
+        /** @description Image URL */
+        image_url?: string;
+      };
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description profile created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Profile"];
+        };
+      };
+      /** @description invalid request */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string[];
+          };
+        };
+      };
+    };
+  };
+  getProfile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Vercel OIDC Token */
+        "X-Vercel-OIDC-Token"?: string;
+      };
+      path: {
+        /** @description Username */
+        slug: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description profile found */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Profile"];
+        };
+      };
+      /** @description profile not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
         };
       };
     };
