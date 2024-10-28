@@ -17,7 +17,8 @@ export default async function NavigationBar() {
       isBlurred
       shouldHideOnScroll
       classNames={{
-        wrapper: "flex flex-row min-w-full bg-transparent border-b-2 border-neutral-500/40 justify-between items-center",
+        wrapper:
+          "flex flex-row min-w-full bg-transparent border-b-2 border-neutral-500/40 justify-between items-center",
         item: [
           "flex",
           "flex-row",
