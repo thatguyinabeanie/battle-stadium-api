@@ -72,9 +72,7 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
                   <NavigationBar />
 
                   <main className="flex flex-col min-h-screen items-center w-full">
-                    <div className="flex flex-col items-center z-0 gap-4 pt-4 w-full">
-                      <section className="flex flex-col gap-4 w-full items-center">{children}</section>
-                    </div>
+                    <section className="flex flex-col gap-4 w-full items-center z-0">{children}</section>
                   </main>
 
                   <Footer />

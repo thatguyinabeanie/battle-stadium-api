@@ -16,16 +16,16 @@ export const BattleStadiumIcon: FC<IconSvgProps> = ({ size = 32, width, height, 
 
 export default function BattleStadium() {
   return (
-    <div className="flex flex-row gap-4">
+    <>
       <div className="flex rounded-full bg-foreground ">
         <Link className="text-primary" href="/">
           <BattleStadiumIcon aria-label="Battle Stadium Logo" className="text-background" />
         </Link>
       </div>
 
-      <Link className="flex flex-col text-primary text-lg font-bold opacity-100 justify-center" href="/">
+      <Link className="flex flex-col items-center justify-center text-lg font-bold text-primary opacity-100" href="/">
         Battle Stadium
       </Link>
-    </div>
+    </>
   );
 }
