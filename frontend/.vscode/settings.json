@@ -25,5 +25,5 @@
   ],
   "coverage-gutters.coverageReportFileName": "",
   "coverage-gutters.showRulerCoverage": true,
-  "coverage-gutters.showLineCoverage": true,
+  "coverage-gutters.showLineCoverage": true
 }
