@@ -1,4 +1,3 @@
-
 class Account < ApplicationRecord
   MAX_CHARACTER_LENGTH=50
   def self.policy_class
@@ -7,18 +6,11 @@ class Account < ApplicationRecord
 
   attr_accessor :username
 
-  def initialize(attributes = {})
-    # Extract username if provided
-    @username = attributes&.delete(:username)
-    super
-  end
-
   validates :email, presence: true, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :first_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
   validates :last_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
 
-  has_one :owned_organization, class_name: "Organization", foreign_key: "owner_id", dependent: :destroy,
-                               inverse_of: :owner
+  has_one :owned_organization, class_name: "Organization", foreign_key: "owner_id", dependent: :destroy, inverse_of: :owner
 
   has_many :organization_staff_members, class_name: "OrganizationStaffMember", dependent: :destroy
   has_many :staff, through: :organization_staff_members, source: :account
@@ -37,16 +29,25 @@ class Account < ApplicationRecord
     organization.staff.exists?(id:) || organization.owner == self
   end
 
-  def self.find_by_profile_username(username)
-    Profile.find_by(username: username)&.account
-  end
+  class << self
+    def find_by_profile_username(username)
+      Profile.find_by(username: username)&.account
+    end
 
-  def self.find_or_create_by_profile_username(username:, email:, first_name:, last_name:, pronouns: "", admin: false, image_url: nil)
-    account = Account.find_by_profile_username(username)
-    return account if account
+    def find_or_create_by_profile_username(username:, email:, first_name:, last_name:, pronouns: "", admin: false, image_url: nil)
+      account = Account.find_by_profile_username(username)
+      return account if account
 
-    account = Account.create!(username: , email: , first_name: , last_name: , pronouns: , admin: , image_url:)
-    account
+      account = Account.create!(username: , email: , first_name: , last_name: , pronouns: , admin: , image_url:)
+      account
+    end
+
+    def create_with_username(username:, **attributes)
+      account = new(attributes)
+      account.username = username
+      account.save!
+      account
+    end
   end
 
   private

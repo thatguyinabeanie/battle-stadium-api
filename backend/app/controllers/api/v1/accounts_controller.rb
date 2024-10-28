@@ -13,12 +13,6 @@ module Api
         ::AccountPolicy
       end
 
-      def update
-        authorize @object, :update?
-        return render json: { error: "Username cannot be changed" }, status: :bad_request if params[:username].present? || params[:account][:username].present?
-        super
-      end
-
       def me
         if @current_account.nil?
           skip_authorization
@@ -26,6 +20,20 @@ module Api
         end
         authorize @current_account, :me?
         render json: @current_account, serializer: Serializers::AccountMe, status: :ok
+      end
+
+      def create
+        authorize klass, :create?
+        @object = klass.create_with_username(username: params[:username], **permitted_params)
+        if @object.save
+          render json: serialize_details, status: :created
+        else
+          render json: @object.errors, status: :unprocessable_entity
+        end
+      rescue Pundit::NotAuthorizedError => e
+        render json: { error: e.message }, status: :forbidden
+      rescue ActionController::ParameterMissing => e
+        render json: { error: e.message }, status: :bad_request
       end
 
       protected

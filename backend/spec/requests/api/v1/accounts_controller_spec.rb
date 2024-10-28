@@ -38,15 +38,16 @@ RSpec.describe Api::V1::AccountsController do
       operationId "postAccount"
 
       parameter name: :account, in: :body, schema: { "$ref" => "#/components/schemas/AccountPostRequest" }
+      parameter name: :username, in: :query, type: :string, description: "Username"
 
       security [Bearer: []]
 
       response(201, "created") do
         let(:request_account) { create(:admin) }
+        let(:username) { "new_user" }
         let(:account) do
           {
             account: {
-              username: Faker::Internet.unique.username,
               pronouns: "he/him",
               email: "new_user@example.com",
               first_name: "New ",
@@ -67,6 +68,7 @@ RSpec.describe Api::V1::AccountsController do
       response(403, "forbidden") do
         let(:request_account) { create(:account) }
 
+        let(:username) { "new_user" }
         let(:account) { {} }
 
 
@@ -80,11 +82,10 @@ RSpec.describe Api::V1::AccountsController do
 
       response(422, "unprocessable entity") do
         let(:request_account) { create(:admin) }
-
+        let(:username) { nil }
         let(:account) do
           {
             account: {
-              username: "",
               pronouns: "he/him",
               email: "new_user@example.com",
               first_name: "New ",

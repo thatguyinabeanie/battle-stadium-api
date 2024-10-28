@@ -23,13 +23,9 @@ module Auth
 
           # TODO: We are currently assuming that the username will be unique. However it is entirely possible for an Account to have a profile with the username already allocated
           # this is a security concern and should be addressed before releasing
-          account = Profile.find_by(username: session["username"]) &.account
-          Rails.logger.info("Account found by username: #{account}") if account
-
-
           profile = Profile.find_by(username: session["username"])
 
-          account = profile&.account || Account.create(email: session["email"], first_name: session["firstName"], last_name: session["lastName"], username: session["username"])
+          account = profile&.account || Account.create_with_username(email: session["email"], first_name: session["firstName"], last_name: session["lastName"], username: session["username"])
 
           ActiveRecord::Base.transaction do
             account.clerk_users << ClerkUser.find_or_create_by!(clerk_user_id: session["userId"], account:)

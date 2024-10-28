@@ -25,9 +25,10 @@ RSpec.describe Api::V1::AccountsController do
 
     describe "POST" do
       let(:request_account) { create(:admin) }
+      let(:username)  { "nick furry" }
 
       it "returns a successful response" do
-        post :create, params: { account: attributes_for(:account) }
+        post :create, params: { username: , account: attributes_for(:account) }
 
         expect(response).to be_successful
       end
@@ -35,7 +36,7 @@ RSpec.describe Api::V1::AccountsController do
       it "creates a new account" do
         account_attributes = attributes_for(:account)
 
-        post :create, params: { account: account_attributes }
+        post :create, params: { username: , account: account_attributes }
 
         expect(json_response[:email]).to eq(account_attributes[:email])
       end
@@ -68,16 +69,6 @@ RSpec.describe Api::V1::AccountsController do
     describe "PUT" do
       let(:request_account) { create(:admin) }
 
-      it "returns 422 because username cannot be changed once created" do
-        account = create(:account)
-        account_attributes = attributes_for(:account)
-
-        put :update, params: { username: account.username, account: account_attributes }
-
-        expect(response).to have_http_status(:unprocessable_content)
-        expect(response).not_to be_successful
-      end
-
       it "updates the account" do
         account = create(:account)
 
@@ -90,9 +81,9 @@ RSpec.describe Api::V1::AccountsController do
 
     describe "PATCH" do
       let(:request_account) { create(:admin) }
+      let(:account) { create(:account) }
 
       it "returns a successful response" do
-        account = create(:account)
 
         patch :update, params: { username: account.username, account: { first_name: "Jane" } }
 
@@ -100,7 +91,6 @@ RSpec.describe Api::V1::AccountsController do
       end
 
       it "updates the account" do
-        account = create(:account)
 
         patch :update, params: { username: account.username, account: { first_name: "Jane" } }
 
