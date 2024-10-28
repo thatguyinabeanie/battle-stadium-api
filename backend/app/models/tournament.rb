@@ -110,6 +110,12 @@ class Tournament < ApplicationRecord
     players.find_by(profile_id: profile.id).destroy
   end
 
+  def started?
+    started_at.present?
+  end
+
+  private
+
   def set_defaults
     self.name ||= "#{organization.name}'s Tournament ##{organization.tournaments.count + 1}" if organization.present?
 
@@ -129,4 +135,4 @@ class Tournament < ApplicationRecord
 
     errors.add(:limitless_id, "has already been taken") if self.class.where(limitless_id:).exists?
   end
-  end
+end

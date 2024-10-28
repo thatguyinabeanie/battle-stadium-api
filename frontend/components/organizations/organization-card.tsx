@@ -9,7 +9,7 @@ export interface OrgCardProps {
   disableHover?: boolean;
 }
 
-const HEIGHT_WIDTH = 200;
+const LOGO_SIZE = 200;
 
 export default function OrganizationCard({ organization, disableHover }: Readonly<OrgCardProps>) {
   return (
@@ -22,10 +22,9 @@ export default function OrganizationCard({ organization, disableHover }: Readonl
               "hover:scale-105": !disableHover,
               "hover:z-50": !disableHover,
             })}
-            height={HEIGHT_WIDTH}
+            logoSize={LOGO_SIZE}
             organization={organization}
             placeholder="blur"
-            width={HEIGHT_WIDTH}
           />
         </div>
       </Link>

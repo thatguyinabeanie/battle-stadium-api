@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :account, class: "::Account" do
-    username { Faker::Internet.unique.username }
-    email { "#{username}@email.gg" }
+    sequence(:username) { |n| "username#{n}" }
+    email { Faker::Internet.unique.email }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     pronouns { "they/them" }
@@ -9,10 +9,6 @@ FactoryBot.define do
     clerk_users { [] }
     default_profile { nil }
     archived_at { nil }
-
-    after(:build) do |account|
-      account.default_profile ||= build(:profile, account:)
-    end
 
     after(:create) do |account|
       account.clerk_users << create(:clerk_user, account:)

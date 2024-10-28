@@ -24,6 +24,7 @@ class Player < ApplicationRecord
   before_create :set_account_id_from_profile
 
   scope :checked_in, -> { where.not(checked_in_at: nil) }
+  scope :submitted_team_sheet, -> { where.not(pokemon_team_id: nil) }
   scope :checked_in_and_submitted_team_sheet, -> { where.not(pokemon_team_id: nil).where.not(checked_in_at: nil) }
   scope :not_checked_in_and_submitted_team_sheet, -> { where(pokemon_team_id: nil).where(checked_in_at: nil) }
   scope :checked_in_and_not_submitted_team_sheet, -> { where(pokemon_team_id: nil).where.not(checked_in_at: nil) }

@@ -22,8 +22,6 @@ RSpec.describe Api::V1::ClerkWebhookController do
 
       policy = instance_double(ClerkWebhookPolicy, valid_request?: true)
       allow(ClerkWebhookPolicy).to receive(:new).and_return(policy)
-
-
     end
 
     context "when the event type is user.created" do

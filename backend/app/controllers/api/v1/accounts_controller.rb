@@ -6,8 +6,9 @@ module Api
       self.klass = ::Account
       self.serializer_klass = Serializers::Account
       self.detail_serializer_klass = Serializers::AccountDetails
-      self.default_order_by = { username: :asc }
-      self.update_params_except = %i[username ]
+      self.default_order_by = { id: :asc }
+      self.update_params_except = %i[username]
+
       def self.policy_class
         ::AccountPolicy
       end
@@ -21,10 +22,24 @@ module Api
         render json: @current_account, serializer: Serializers::AccountMe, status: :ok
       end
 
+      def create
+        authorize klass, :create?
+        @object = klass.create_with_username(username: params[:username], **permitted_params)
+        if @object.save
+          render json: serialize_details, status: :created
+        else
+          render json: @object.errors, status: :unprocessable_entity
+        end
+      rescue Pundit::NotAuthorizedError => e
+        render json: { error: e.message }, status: :forbidden
+      rescue ActionController::ParameterMissing => e
+        render json: { error: e.message }, status: :bad_request
+      end
+
       protected
 
       def set_object
-        @object =  Account.find_by!(username: params[:username])
+        @object =  Profile.where(default: true).find_by!(username: params[:username]).account
 
         @object
       rescue ActiveRecord::RecordNotFound => e
@@ -33,13 +48,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def permitted_params
-        params.require(:account).permit(:username, :email, :pronouns, :first_name, :last_name, :country)
-      end
-
-      private
-
-      def find_account_by_email_or_username(email, username)
-        Account.find_for_database_authentication(email:) || Account.find_for_database_authentication(username:)
+        params.require(:account).permit(:email, :pronouns, :first_name, :last_name, :country)
       end
     end
   end

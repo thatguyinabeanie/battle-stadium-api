@@ -2,11 +2,11 @@
 
 import { Table, TableHeader, TableColumn, TableBody, TableCell, TableRow } from "@/components/nextui/client-components";
 import Link from "next/link";
-import Image from "next/image";
 
 import { Key } from "react";
 
 import { Tournament } from "@/lib/api";
+import OrganizationLogo from "./organizations/organization-logo";
 
 interface TableProps {
   columns: { key: string; label: string }[];
@@ -104,6 +104,8 @@ const renderStartDateString = (start_at: string | null) => {
   return date;
 };
 
+const LOGO_SIZE = 40;
+
 function renderCell(tournament: Tournament, key: Key) {
   const { id, name, organization, start_at, player_count, player_cap, game, format } = tournament;
 
@@ -111,13 +113,7 @@ function renderCell(tournament: Tournament, key: Key) {
     case "organization.name":
       return (
         <Link className="flex justify-center items-center" href={`/organizations/${organization.slug}`}>
-          <Image
-            alt="Organization Logo"
-            className="rounded-small"
-            height={40}
-            src={organization.logo_url ?? "/pokemon/vgc.png"}
-            width={40}
-          />
+          <OrganizationLogo logoSize={LOGO_SIZE} organization={organization} />
         </Link>
       );
     case "start_at":

@@ -48,9 +48,7 @@ module Api
       # GET /api/v1/:klass/:id
       # GET /api/v1/:klass/:id.json
       def show
-
         authorize @object, :show?
-
         render json: serialize_details, status: :ok
       end
 
