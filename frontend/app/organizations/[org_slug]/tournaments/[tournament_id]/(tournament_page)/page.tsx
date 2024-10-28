@@ -1,18 +1,12 @@
-import { getTournament, getTournaments } from "@/app/server-actions/tournaments/actions";
-import { Chip, Divider, Spacer } from "@/components/nextui/client-components";
-import OrganizationHeader from "@/components/organizations/org-header";
+import { getTournament, getTournaments } from "~/app/server-actions/tournaments/actions";
+import { Chip, Divider, Spacer } from "~/components/nextui/client-components";
+import OrganizationHeader from "~/components/organizations/org-header";
+import { OrganizationTournamentProps } from "~/types";
 
 import Link from "next/link";
 
 export const revalidate = 300;
 export const dynamicParams = true;
-
-interface OrganizationTournamentProps {
-  params: Promise<{
-    org_slug: string;
-    tournament_id: number;
-  }>;
-}
 
 export async function generateMetadata(props: Readonly<OrganizationTournamentProps>) {
   const params = await props.params;

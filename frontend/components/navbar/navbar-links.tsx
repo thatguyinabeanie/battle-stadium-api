@@ -1,9 +1,9 @@
 "use client";
 
-import NavbarLinkClientItem from "@/components/navbar/navbar-client-item";
+import NavbarLinkClientItem from "~/components/navbar/navbar-client-item";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib";
-import { NavbarContent } from "@/components/nextui/client-components";
+import { cn } from "~/lib";
+import { NavbarContent } from "~/components/nextui/client-components";
 
 interface NavbarLinksProps {
   isSignedIn: boolean | null;

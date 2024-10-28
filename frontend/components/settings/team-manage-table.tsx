@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChipProps, Selection } from "@/components/nextui/client-components";
+import type { ChipProps, Selection } from "~/components/nextui/client-components";
 
 import { useCallback, forwardRef, useState, useMemo, Key } from "react";
 import {
@@ -22,12 +22,12 @@ import {
   Tab,
   Card,
   CardBody,
-} from "@/components/nextui/client-components";
+} from "~/components/nextui/client-components";
 import { ChevronDownIcon, SearchIcon } from "@nextui-org/shared-icons";
 import { capitalize } from "@nextui-org/shared-utils";
 import { Icon } from "@iconify/react";
 
-import { columns, rolesOptions, statusOptions, users } from "@/components/settings/team-data";
+import { columns, rolesOptions, statusOptions, users } from "~/components/settings/team-data";
 
 interface TeamManageTableProps {
   className?: string;

@@ -10,11 +10,11 @@ import {
   Select,
   SelectItem,
   Spacer,
-} from "@/components/nextui/client-components";
+} from "~/components/nextui/client-components";
 import { Icon } from "@iconify/react";
 
-import TeamManageTable from "@/components/settings/team-manage-table";
-import { cn } from "@/lib/utils";
+import TeamManageTable from "~/components/settings/team-manage-table";
+import { cn } from "~/lib/utils";
 
 interface TeamSettingCardProps {
   className?: string;

@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@/components/nextui/client-components";
+import { Card, CardBody, CardHeader } from "~/components/nextui/client-components";
 
 export default function Standings() {
   return (

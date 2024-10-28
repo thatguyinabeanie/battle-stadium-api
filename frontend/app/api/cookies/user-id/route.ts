@@ -1,4 +1,4 @@
-import { generateSignature, getCookie, setResponseCookies } from "@/lib/auth/cookies";
+import { generateSignature, getCookie, setResponseCookies } from "~/lib/auth/cookies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 

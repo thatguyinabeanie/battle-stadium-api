@@ -1,7 +1,7 @@
 "use server";
 
-import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
-import { paths } from "@/lib/api/openapi-v1";
+import { BattleStadiumApiClient, defaultConfig } from "~/lib/api";
+import { paths } from "~/lib/api/openapi-v1";
 import { auth } from "@clerk/nextjs/server";
 import { FetchOptions } from "openapi-fetch";
 

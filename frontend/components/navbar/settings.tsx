@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { NavbarItem, Button } from "@/components/nextui/client-components";
+import { NavbarItem, Button } from "~/components/nextui/client-components";
 import Link from "next/link";
-import { AccountMe } from "@/lib/api";
-import { cn } from "@/lib";
+import { AccountMe } from "~/lib/api";
+import { cn } from "~/lib";
 
 interface SettingsProps {
   me?: AccountMe;

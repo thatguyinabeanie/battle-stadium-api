@@ -28,4 +28,4 @@ class MatchPolicy < ApplicationPolicy
   def is_match_player?
     [record.player_one, record.player_two].any? { |player| player.profile.account == account }
   end
-  end
+end

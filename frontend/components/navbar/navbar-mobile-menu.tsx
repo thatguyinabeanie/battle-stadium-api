@@ -1,8 +1,8 @@
 "use client";
 
-import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "@/components/nextui/client-components";
-import { cn } from "@/lib";
-import { AccountMe } from "@/lib/api";
+import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "~/components/nextui/client-components";
+import { cn } from "~/lib";
+import { AccountMe } from "~/lib/api";
 
 interface NavbarMobileMenuProps {
   me?: AccountMe;

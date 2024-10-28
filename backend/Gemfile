@@ -76,6 +76,7 @@ group :test do
   gem "simplecov",  "~> 0.22.0"
   gem "simplecov-cobertura", require: false
   gem "simplecov-console", require: false
+  gem "simplecov-lcov", require: false
   gem "timecop", "~> 0"
 end
 

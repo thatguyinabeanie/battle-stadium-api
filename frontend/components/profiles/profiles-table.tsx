@@ -1,6 +1,6 @@
 "use client";
 import { Key } from "react";
-import { Profile } from "@/lib/api";
+import { Profile } from "~/lib/api";
 import {
   Table,
   TableBody,
@@ -9,12 +9,12 @@ import {
   TableHeader,
   TableRow,
   Chip,
-} from "@/components/nextui/client-components";
+} from "~/components/nextui/client-components";
 
 import Link from "next/link";
 import Image from "next/image";
 
-import { cn } from "@/lib";
+import { cn } from "~/lib";
 
 const columns = [
   { key: "id", label: "ID" },

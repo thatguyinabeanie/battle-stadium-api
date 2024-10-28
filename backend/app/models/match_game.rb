@@ -46,4 +46,4 @@ class MatchGame < ApplicationRecord
 
     errors.add(:base, I18n.t("errors.match_game.reporter_must_be_match_player_or_staff"))
   end
-  end
+end

@@ -1,4 +1,4 @@
-import { ValidatedPokemon, PokePasteMetadata } from "@/lib/pokemon/common";
+import { ValidatedPokemon, PokePasteMetadata } from "~/lib/pokemon/common";
 import { PokemonCard } from "./pokemon-card";
 
 interface PokemonShowdownSetFormProps {

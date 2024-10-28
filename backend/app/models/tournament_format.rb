@@ -3,4 +3,4 @@
 class TournamentFormat < ApplicationRecord
   belongs_to :format, class_name: "Format"
   belongs_to :tournament, class_name: "Tournament"
-  end
+end

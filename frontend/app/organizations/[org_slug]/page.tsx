@@ -1,8 +1,8 @@
-import TournamentsTable from "@/components/tournaments-table";
-import { getOrganization, getOrganizations } from "@/app/server-actions/organizations/actions";
-import { getOrganizationTournaments } from "@/app/server-actions/organizations/tournaments/actions";
+import TournamentsTable from "~/components/tournaments-table";
+import { getOrganization, getOrganizations } from "~/app/server-actions/organizations/actions";
+import { getOrganizationTournaments } from "~/app/server-actions/organizations/tournaments/actions";
 
-import OrganizationHeader from "@/components/organizations/org-header";
+import OrganizationHeader from "~/components/organizations/org-header";
 import { Divider } from "@nextui-org/react";
 
 export const revalidate = 200;

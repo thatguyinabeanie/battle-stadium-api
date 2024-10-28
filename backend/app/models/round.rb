@@ -98,4 +98,4 @@ class Round < ApplicationRecord
     self.ended_at = Time.current.utc
     save!
   end
-  end
+end

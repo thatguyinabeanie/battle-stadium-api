@@ -41,7 +41,7 @@ vendor/bundle/*
 home/
 .gitconfig
 
-coverage
+coverage/
 
 /public/assets
 

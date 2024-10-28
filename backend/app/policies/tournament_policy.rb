@@ -19,4 +19,4 @@ class TournamentPolicy < ApplicationPolicy
   def destroy?
     account && (account.admin? || Pundit.policy(account, record.organization).delete_tournament?)
   end
-  end
+end

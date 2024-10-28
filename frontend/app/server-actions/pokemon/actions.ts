@@ -1,8 +1,8 @@
 "use server";
 
-import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
-import { paths } from "@/lib/api/openapi-v1";
-import { ValidatedPokemon, PokePasteMetadata } from "@/lib/pokemon/common";
+import { BattleStadiumApiClient, defaultConfig } from "~/lib/api";
+import { paths } from "~/lib/api/openapi-v1";
+import { ValidatedPokemon, PokePasteMetadata } from "~/lib/pokemon/common";
 import { FetchOptions } from "openapi-fetch";
 
 type PostPokemonTeamBody = {

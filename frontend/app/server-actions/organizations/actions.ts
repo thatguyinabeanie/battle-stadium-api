@@ -1,7 +1,7 @@
 "use server";
 
-import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
-import { paths } from "@/lib/api/openapi-v1";
+import { BattleStadiumApiClient, defaultConfig } from "~/lib/api";
+import { paths } from "~/lib/api/openapi-v1";
 import { FetchOptions } from "openapi-fetch";
 
 export async function getOrganizations(options?: FetchOptions<paths["/organizations"]["get"]>) {

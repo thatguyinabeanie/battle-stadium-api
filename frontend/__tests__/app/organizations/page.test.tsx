@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import OrganizationPage from "@/app/organizations/page";
+import OrganizationPage from "~/app/organizations/page";
 
 describe("Organizations Page", () => {
   test.skip("should render the organization page", async () => {

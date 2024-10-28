@@ -7,4 +7,4 @@ class PhasePolicy < ApplicationPolicy
   def destroy?
     account.admin? || Pundit.policy(account, record.tournament).update?
   end
-  end
+end

@@ -1,12 +1,12 @@
-import { Navbar, NavbarBrand } from "@/components/nextui/client-components";
+import { Navbar, NavbarBrand } from "~/components/nextui/client-components";
 
-import BattleStadium from "@/components/battle-stadium";
+import BattleStadium from "~/components/battle-stadium";
 
-import NavbarLinks from "@/components/navbar/navbar-links";
-import { getAccountMe } from "@/app/server-actions/accounts/actions";
+import NavbarLinks from "~/components/navbar/navbar-links";
+import { getAccountMe } from "~/app/server-actions/accounts/actions";
 import { auth } from "@clerk/nextjs/server";
-import NavbarRightMenu from "@/components/navbar/navbar-right-menu";
-import NavbarMobileMenu from "@/components/navbar/navbar-mobile-menu";
+import NavbarRightMenu from "~/components/navbar/navbar-right-menu";
+import NavbarMobileMenu from "~/components/navbar/navbar-mobile-menu";
 
 export default async function NavigationBar() {
   const clerkAuth = await auth();

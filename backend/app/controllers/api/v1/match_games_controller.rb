@@ -62,5 +62,5 @@ module Api
         render json: { error: "Match game not found" }, status: :not_found
       end
     end
-    end
   end
+end

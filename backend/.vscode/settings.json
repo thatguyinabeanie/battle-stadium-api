@@ -22,8 +22,8 @@
   },
   "coverage-gutters.coverageReportFileName": "",
   "livePreview.defaultPreviewPath": "/coverage/index.html",
-  "coverage-gutters.showLineCoverage": true,
-  "coverage-gutters.showRulerCoverage": true,
+  "coverage-gutters.showLineCoverage": false,
+  "coverage-gutters.showRulerCoverage": false,
 
 
   "rubyTestExplorer.rspecCommand": "bundle exec rspec",
@@ -38,5 +38,17 @@
   "rubyTestExplorer.logpanel": true,
 
   "rubyTestExplorer.filePattern": "**/*_spec.rb",
+  "coverage-gutters.coverageBaseDir": "coverage",
+  "coverage-gutters.coverageFileNames": [
+    "lcov.info",
+    "cov.xml",
+    "coverage.xml",
+    "index.html",
+    ".resultset.json",
+    "cobertura.xml",
+    "jacoco.xml",
+    "coverage.cobertura.xml"
+  ],
+  "coverage-gutters.showGutterCoverage": false,
 
 }

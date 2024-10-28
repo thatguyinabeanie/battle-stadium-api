@@ -1,4 +1,4 @@
-import { ConfigTheme } from "@/components/nextui/client-components";
+import { ConfigTheme } from "~/components/nextui/client-components";
 
 const CommonTheme: ConfigTheme = {
   layout: {

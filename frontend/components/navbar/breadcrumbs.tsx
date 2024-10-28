@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumbs, BreadcrumbItem, NavbarItem } from "@/components/nextui/client-components";
+import { Breadcrumbs, BreadcrumbItem, NavbarItem } from "~/components/nextui/client-components";
 
 export default function BreadcrumbsComponent() {
   const pathname = usePathname();

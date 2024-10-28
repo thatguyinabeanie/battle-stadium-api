@@ -1,12 +1,12 @@
 "use client";
 
 import { forwardRef } from "react";
-import { RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui/client-components";
+import { RadioGroup, Select, SelectItem, Spacer } from "~/components/nextui/client-components";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-import { ThemeCustomRadio } from "@/components/settings/theme-custom-radio";
-import { cn } from "@/lib/utils";
+import { ThemeCustomRadio } from "~/components/settings/theme-custom-radio";
+import { cn } from "~/lib/utils";
 
 interface AppearanceSettingCardProps {
   className?: string;

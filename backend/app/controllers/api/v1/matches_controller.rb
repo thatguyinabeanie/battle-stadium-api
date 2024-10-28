@@ -2,7 +2,6 @@ require_relative "../../../serializers/match_serializer"
 
 module Api
   module V1
-
     class MatchesController < ApplicationController
       before_action :set_tournament
       before_action :set_matches, only: %i[index]
@@ -76,5 +75,5 @@ module Api
         @matches
       end
     end
-    end
   end
+end

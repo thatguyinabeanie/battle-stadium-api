@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { title } from "@/components/miscellaneous/primitives";
-import { Spacer } from "@/components/nextui/client-components";
-import PartneredOrganizations from "@/components/organizations/partnered-organizations";
+import { title } from "~/components/miscellaneous/primitives";
+import { Spacer } from "~/components/nextui/client-components";
+import PartneredOrganizations from "~/components/organizations/partnered-organizations";
 
 export const metadata: Metadata = {
   title: "battlestadium.gg",

@@ -1,5 +1,5 @@
-import { getOrganizations } from "@/app/server-actions/organizations/actions";
-import { Organization } from "@/lib/api";
+import { getOrganizations } from "~/app/server-actions/organizations/actions";
+import { Organization } from "~/lib/api";
 
 export async function OrganizationsTable() {
   const { partners, nonpartners } = await getOrganizations();

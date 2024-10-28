@@ -1,4 +1,4 @@
-import { getAccount } from "@/app/server-actions/accounts/actions";
+import { getAccount } from "~/app/server-actions/accounts/actions";
 interface PlayerProfilePageProps {
   params: Promise<{
     username: string;

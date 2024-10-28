@@ -1,6 +1,6 @@
-import { commands, RandomPicType } from "@/lib/discord/commands";
-import { verifyInteractionRequest } from "@/lib/discord/verify-incoming-request";
-import { env } from "@/env.mjs";
+import { commands, RandomPicType } from "~/lib/discord/commands";
+import { verifyInteractionRequest } from "~/lib/discord/verify-incoming-request";
+import { env } from "~/env.mjs";
 import {
   APIEmbed,
   APIInteractionDataOptionBase,

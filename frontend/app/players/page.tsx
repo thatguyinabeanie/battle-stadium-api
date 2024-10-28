@@ -1,5 +1,5 @@
-import PlayersTable from "@/app/players/players-table";
-import { getProfiles } from "@/app/server-actions/profiles/actions";
+import PlayersTable from "~/app/players/players-table";
+import { getProfiles } from "~/app/server-actions/profiles/actions";
 
 const columns = [
   {

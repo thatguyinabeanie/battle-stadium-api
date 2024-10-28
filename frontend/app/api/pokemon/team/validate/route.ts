@@ -1,4 +1,4 @@
-import { ParsedPokemon } from "@/lib/pokemon/common";
+import { ParsedPokemon } from "~/lib/pokemon/common";
 import { NextRequest, NextResponse } from "next/server";
 import Pokedex from "pokedex-promise-v2";
 import { AxiosError } from "axios";

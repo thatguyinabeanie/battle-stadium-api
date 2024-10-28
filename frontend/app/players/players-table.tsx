@@ -1,11 +1,11 @@
 "use client";
 
 import { Key } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@/components/nextui/client-components";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "~/components/nextui/client-components";
 
 import Link from "next/link";
 
-import { Profile } from "@/lib/api";
+import { Profile } from "~/lib/api";
 
 export interface PlayersTableProps {
   players: Profile[];

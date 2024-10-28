@@ -24,7 +24,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "~/*": ["./*"]
     },
     "types": [
       "bun-types", // add Bun global
@@ -44,7 +44,7 @@
     ".next/types/**/*.ts",
     "scripts/generateRosieFactories.js",
     "scripts/generateRosieFactories.mts",
-    "@/types",
+    "~/types",
     "global.d.ts",
     "./test-setup.ts"
   ],

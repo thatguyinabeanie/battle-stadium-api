@@ -163,7 +163,7 @@ console.log("Found types:", Array.from(interfaces));
 // Add necessary imports
 const fakerImport = "import { faker } from '@faker-js/faker';";
 const factoryImport = "import { Factory, IFactory } from 'rosie';";
-const modelImport = interfaces.size > 0 ? `import { ${Array.from(interfaces).join(", ")} } from '@/lib/api';` : "";
+const modelImport = interfaces.size > 0 ? `import { ${Array.from(interfaces).join(", ")} } from '~/lib/api';` : "";
 
 // Construct the final code
 const finalCode = `

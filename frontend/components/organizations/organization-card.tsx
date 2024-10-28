@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { Organization } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { Organization } from "~/lib/api";
+import { cn } from "~/lib/utils";
 import OrganizationLogo from "./organization-logo";
 
 export interface OrgCardProps {
