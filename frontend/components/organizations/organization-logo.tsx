@@ -35,7 +35,6 @@ export default function OrganizationLogo({
       placeholder={placeholder ?? "blur"}
       priority={priority ?? false}
       src={src ?? organization?.logo_url ?? DEFAULT_BLUR_DATA_URL}
-      style={{ width: "auto", height: "auto" }} // Added
       width={logoSize}
     />
   );
