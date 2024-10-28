@@ -30,9 +30,8 @@ export default async function NavigationBar() {
           "data-[active=true]:after:bg-primary",
         ],
       }}
-      height="3.5rem"
     >
-      <NavbarBrand className="rounded-full flex flex-row gap-4">
+      <NavbarBrand className="rounded-full h-10 md:h-12 flex flex-row gap-2 md:gap-4">
         <BattleStadium />
       </NavbarBrand>
 

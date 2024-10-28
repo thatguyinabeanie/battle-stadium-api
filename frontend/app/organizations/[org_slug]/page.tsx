@@ -65,9 +65,9 @@ export default async function OrganizationDetailPage(props: Readonly<Organizatio
 
   return (
     <>
-      <Spacer y={2} />
+
       <OrganizationHeader organization={organization}>
-        <div className="flex flex-col justify-between h-full w-full items-center text-center mx-4 ">
+        <div className="flex flex-col justify-between h-full w-full items-center text-center mx-4 py-2">
           <h1 className="text-2xl font-semibold">{organization?.name}</h1>
           <p>{organization?.description}</p>
         </div>
