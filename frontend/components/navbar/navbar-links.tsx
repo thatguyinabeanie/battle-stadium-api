@@ -14,7 +14,7 @@ export default function NavbarLinks({ isSignedIn }: Readonly<NavbarLinksProps>) 
   const firstSegment = pathname?.split("/")[1];
 
   return (
-    <NavbarContent className="hidden xl:flex gap-2" justify="center">
+    <NavbarContent className="hidden lg:flex gap-2" justify="center">
       <NavbarLinkClientItem firstSegment={firstSegment} path="organizations">
         Organizations
       </NavbarLinkClientItem>

@@ -12,7 +12,7 @@ export default function Settings({ me }: Readonly<SettingsProps>) {
   return (
     <NavbarItem
       className={cn("hidden", {
-        "lg:flex": !!me,
+        "xl:flex": !!me,
       })}
     >
       <Link passHref href="/dashboard?tab=settings">

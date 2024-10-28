@@ -17,14 +17,9 @@ export default async function NavigationBar() {
       isBlurred
       shouldHideOnScroll
       classNames={{
-        wrapper:
-          "flex flex-row min-w-full bg-transparent border-b-2 border-neutral-500/40 justify-between items-center",
+        wrapper: "flex flex-row min-w-full bg-transparent border-b-2 border-neutral-500/40 items-center ",
         item: [
-          "flex",
-          "flex-row",
-          "relative",
-          "h-full",
-          "items-center",
+          "flex flex-row relative h-full items-center",
           "data-[active=true]:after:content-['']",
           "data-[active=true]:after:absolute",
           "data-[active=true]:after:bottom-0",
@@ -35,8 +30,9 @@ export default async function NavigationBar() {
           "data-[active=true]:after:bg-primary",
         ],
       }}
+      height="3.5rem"
     >
-      <NavbarBrand className="rounded-full h-12 flex flex-row gap-4">
+      <NavbarBrand className="rounded-full flex flex-row gap-4">
         <BattleStadium />
       </NavbarBrand>
 
