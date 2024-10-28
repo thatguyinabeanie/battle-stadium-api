@@ -5,10 +5,10 @@ import {
   Button,
   Badge,
   PopoverContent,
-} from "@/components/nextui/client-components";
+} from "~/components/nextui/client-components";
 import { auth } from "@clerk/nextjs/server";
 
-import { cn } from "@/lib";
+import { cn } from "~/lib";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default async function Notifications() {

@@ -1,8 +1,8 @@
 import createFetchClient, { Middleware } from "openapi-fetch";
-import { env } from "@/env.mjs";
+import { env } from "~/env.mjs";
 import { getVercelOidcToken } from "@vercel/functions/oidc";
 import { auth } from "@clerk/nextjs/server";
-import { paths } from "@/lib/api/openapi-v1";
+import { paths } from "~/lib/api/openapi-v1";
 
 export const DEFAULT_CACHE_TIMEOUT: number = 300;
 

@@ -1,11 +1,11 @@
 "use client";
 
 import { forwardRef } from "react";
-import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "@/components/nextui/client-components";
+import { Button, Input, RadioGroup, Select, SelectItem, Spacer } from "~/components/nextui/client-components";
 import { Icon } from "@iconify/react";
 
-import { PlanCustomRadio } from "@/components/settings/plan-custom-radio";
-import { cn } from "@/lib/utils";
+import { PlanCustomRadio } from "~/components/settings/plan-custom-radio";
+import { cn } from "~/lib/utils";
 
 interface BillingSettingCardProps {
   className?: string;

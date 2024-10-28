@@ -19,3 +19,10 @@ export interface DashboardLayoutProps extends ChildrenProps {
   settings: ReactNode;
   admin: ReactNode;
 }
+
+export interface OrganizationTournamentProps {
+  params: Promise<{
+    org_slug: string;
+    tournament_id: number;
+  }>;
+}

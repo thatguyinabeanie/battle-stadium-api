@@ -1,7 +1,7 @@
 "use server";
 
-import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
-import { paths } from "@/lib/api/openapi-v1";
+import { BattleStadiumApiClient, defaultConfig } from "~/lib/api";
+import { paths } from "~/lib/api/openapi-v1";
 import { revalidateTag } from "next/cache";
 import { FetchOptions } from "openapi-fetch";
 

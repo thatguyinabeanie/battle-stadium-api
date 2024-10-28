@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { NavbarItem, Button } from "@/components/nextui/client-components";
+import { NavbarItem, Button } from "~/components/nextui/client-components";
 
 export default function Search() {
   return (

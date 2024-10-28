@@ -1,4 +1,4 @@
-import { env } from "@/env.mjs";
+import { env } from "~/env.mjs";
 
 const DEFAULT_WS_PORT = "10000";
 const DEFAULT_WS_PATH = "/cable";

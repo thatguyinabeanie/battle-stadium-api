@@ -1,5 +1,5 @@
-import { parseShowdownFormat } from "@/lib/pokemon/parse-showdown-format";
-import { ParsedTeam } from "@/lib/pokemon/common";
+import { parseShowdownFormat } from "~/lib/pokemon/parse-showdown-format";
+import { ParsedTeam } from "~/lib/pokemon/common";
 
 describe("parseShowdownFormat", () => {
   it("should parse a valid Showdown format string into a ParsedTeam object", () => {

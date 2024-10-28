@@ -1,4 +1,4 @@
-import { Organization } from "@/lib/api";
+import { Organization } from "~/lib/api";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 

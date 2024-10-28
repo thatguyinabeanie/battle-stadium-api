@@ -43,7 +43,7 @@ module Api
 
         @object
       rescue ActiveRecord::RecordNotFound => e
-        render json: { error: "#{klass} not found" }, status: :not_found
+        render json: { error: "#{klass} not found - #{e.message}" }, status: :not_found
       end
 
       # Only allow a list of trusted parameters through.

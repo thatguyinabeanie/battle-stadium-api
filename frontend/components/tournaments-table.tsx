@@ -1,11 +1,11 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableCell, TableRow } from "@/components/nextui/client-components";
+import { Table, TableHeader, TableColumn, TableBody, TableCell, TableRow } from "~/components/nextui/client-components";
 import Link from "next/link";
 
 import { Key } from "react";
 
-import { Tournament } from "@/lib/api";
+import { Tournament } from "~/lib/api";
 import OrganizationLogo from "./organizations/organization-logo";
 
 interface TableProps {

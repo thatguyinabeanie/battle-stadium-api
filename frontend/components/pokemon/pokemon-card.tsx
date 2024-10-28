@@ -1,4 +1,4 @@
-import { InvalidPokemonAttributes, ParsedPokemon } from "@/lib/pokemon/common";
+import { InvalidPokemonAttributes, ParsedPokemon } from "~/lib/pokemon/common";
 import { Card, CardBody, CardFooter, CardHeader, Chip } from "@nextui-org/react";
 import { StatsTable } from "@pkmn/types";
 import Image from "next/image";

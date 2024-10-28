@@ -98,5 +98,5 @@ module Api
         params.require(:player).permit(:profile_id, :profile, :in_game_name, organization_id: params[:organization_id])
       end
     end
-    end
   end
+end

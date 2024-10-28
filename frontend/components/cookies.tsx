@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
-import { Button, Link } from "@/components/nextui/client-components";
+import { Button, Link } from "~/components/nextui/client-components";
 
 const cookieAttributes = (attrs: Partial<Cookies.CookieAttributes>): Cookies.CookieAttributes => ({
   expires: 7,

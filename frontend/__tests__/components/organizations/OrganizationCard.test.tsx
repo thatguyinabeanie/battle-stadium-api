@@ -1,4 +1,4 @@
-// import { OrganizationFactory } from "@/factories";
+// import { OrganizationFactory } from "~/factories";
 
 describe.skip("OrganizationCard", () => {
   // const organization = OrganizationFactory.build();

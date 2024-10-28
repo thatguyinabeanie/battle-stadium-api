@@ -1,10 +1,10 @@
 "use client";
 
 import { SignInButton, SignOutButton } from "@clerk/nextjs";
-import { DropdownItem, DropdownMenu, Link } from "@/components/nextui/client-components";
+import { DropdownItem, DropdownMenu, Link } from "~/components/nextui/client-components";
 
-import { cn } from "@/lib";
-import { components } from "@/lib/api/openapi-v1";
+import { cn } from "~/lib";
+import { components } from "~/lib/api/openapi-v1";
 
 interface UserMenuDropDownProps {
   me?: components["schemas"]["AccountMe"];

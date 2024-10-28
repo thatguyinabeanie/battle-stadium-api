@@ -1,5 +1,5 @@
-import { getOrganizations } from "@/app/server-actions/organizations/actions";
-import OrganizationCard from "@/components/organizations/organization-card";
+import { getOrganizations } from "~/app/server-actions/organizations/actions";
+import OrganizationCard from "~/components/organizations/organization-card";
 
 export default async function PartneredOrganizations() {
   const { partners } = await getOrganizations();

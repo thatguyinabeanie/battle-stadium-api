@@ -92,5 +92,5 @@ module Api
         params.require(:phase).permit(:name, :number_of_rounds, :best_of, :type)
       end
     end
-    end
   end
+end

@@ -1,6 +1,6 @@
 "use client";
 
-import { UploadButton } from "@/components/upload-thing/components";
+import { UploadButton } from "~/components/upload-thing/components";
 
 export default function Admin() {
   return (

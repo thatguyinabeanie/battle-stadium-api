@@ -1,6 +1,6 @@
-import { Profile } from "@/lib/api";
-import { Button, Checkbox, Input } from "@/components/nextui/client-components";
-import { postTournamentRegistration } from "@/app/server-actions/tournaments/actions";
+import { Profile } from "~/lib/api";
+import { Button, Checkbox, Input } from "~/components/nextui/client-components";
+import { postTournamentRegistration } from "~/app/server-actions/tournaments/actions";
 import Form from "next/form";
 import ProfilesAutocomplete from "./profiles-autocomplete";
 

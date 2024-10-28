@@ -1,10 +1,10 @@
 {
-  "name": "nextjs",
+  "name": "Battle Stadium Next.js Server",
   "version": "0.1.0",
   "private": true,
   "packageManager": "bun@^1",
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev --turbopack",
+    "dev": "next dev --turbopack",
     "build:nextjs": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -68,7 +68,7 @@
     "jose": "^5.9.6",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.453.0",
-    "nanoid": "^5.0.7",
+    "nanoid": "^5.0.8",
     "next": "^15.0.1",
     "next-themes": "^0.3.0",
     "node-loader": "^2.0.0",
@@ -117,9 +117,9 @@
     "@types/swagger-ui-react": "^4.18.3",
     "@types/web": "^0.0.174",
     "@types/ws": "^8.5.12",
-    "@typescript-eslint/eslint-plugin": "^8.11.0",
-    "@typescript-eslint/parser": "^8.11.0",
-    "@typescript-eslint/typescript-estree": "^8.11.0",
+    "@typescript-eslint/eslint-plugin": "^8.12.0",
+    "@typescript-eslint/parser": "^8.12.0",
+    "@typescript-eslint/typescript-estree": "^8.12.0",
     "autoprefixer": "10.4.20",
     "bun-types": "^1.1.33",
     "depcheck": "^1.4.7",
@@ -139,14 +139,13 @@
     "tailwind-variants": "^0.2.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.11.0",
+    "typescript-eslint": "^8.12.0",
     "vercel": "^37.12.1"
   },
   "trustedDependencies": [
     "@clerk/shared",
     "@tsparticles/engine",
-    "@vercel/speed-insights",
-    "core-js-pure"
+    "@vercel/speed-insights"
   ],
   "overrides": {
     "@types/react": "npm:types-react@19.0.0-rc.1",

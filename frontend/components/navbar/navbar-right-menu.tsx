@@ -1,7 +1,7 @@
-import { NavbarContent, NavbarMenuToggle } from "@/components/nextui/client-components";
-import Settings from "@/components/navbar/settings";
-import UserMenu from "@/components/navbar/user-menu/user-menu";
-import { AccountMe } from "@/lib/api";
+import { NavbarContent, NavbarMenuToggle } from "~/components/nextui/client-components";
+import Settings from "~/components/navbar/settings";
+import UserMenu from "~/components/navbar/user-menu/user-menu";
+import { AccountMe } from "~/lib/api";
 import Search from "./search";
 import Notifications from "./notifications";
 

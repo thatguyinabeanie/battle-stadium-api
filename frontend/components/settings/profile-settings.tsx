@@ -2,9 +2,9 @@
 
 import { forwardRef } from "react";
 import { Icon } from "@iconify/react";
-import { Button, Badge, Input, Spacer, Textarea, Card, CardBody, Avatar } from "@/components/nextui/client-components";
+import { Button, Badge, Input, Spacer, Textarea, Card, CardBody, Avatar } from "~/components/nextui/client-components";
 
-import { cn } from "@/lib/utils";
+import { cn } from "~/lib/utils";
 
 interface ProfileSettingCardProps {
   className?: string;

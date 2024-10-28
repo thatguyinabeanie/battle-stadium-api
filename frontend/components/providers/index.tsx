@@ -1,12 +1,12 @@
 "use client";
-import "@/styles/globals.css";
+import "~/styles/globals.css";
 
 import { useRouter } from "next/navigation";
 
-import { ChildrenProps } from "@/types";
+import { ChildrenProps } from "~/types";
 
-import NextUIProvider from "@/components/providers/next-ui-provider";
-import ThemesProvider from "@/components/providers/themes-provider";
+import NextUIProvider from "~/components/providers/next-ui-provider";
+import ThemesProvider from "~/components/providers/themes-provider";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default function Providers({ children }: Readonly<ChildrenProps>) {

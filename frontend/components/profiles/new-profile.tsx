@@ -1,9 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import { Button, Input } from "@/components/nextui/client-components";
-import { createProfile } from "@/app/server-actions/profiles/actions";
-import { AccountMe } from "@/lib/api";
+import { Button, Input } from "~/components/nextui/client-components";
+import { createProfile } from "~/app/server-actions/profiles/actions";
+import { AccountMe } from "~/lib/api";
 import Form from "next/form";
 
 interface NewProfileProps {

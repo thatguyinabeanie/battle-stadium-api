@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "~/styles/globals.css";
 
 import { StrictMode } from "react";
 import { Metadata, Viewport } from "next";
@@ -10,20 +10,20 @@ import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/nex
 import { auth } from "@clerk/nextjs/server";
 import { ClerkProvider } from "@clerk/nextjs";
 
-import { env } from "@/env.mjs";
-import { siteConfig } from "@/config/site";
-import { ChildrenProps } from "@/types";
+import { env } from "~/env.mjs";
+import { siteConfig } from "~/config/site";
+import { ChildrenProps } from "~/types";
 
-import Providers from "@/components/providers";
-import Footer from "@/components/footer";
-import NavigationBar from "@/components/navbar/navbar";
+import Providers from "~/components/providers";
+import Footer from "~/components/footer";
+import NavigationBar from "~/components/navbar/navbar";
 
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { UploadThingRouter } from "./api/uploadthing/core";
 
-const Cookies = dynamic(() => import("@/components/cookies"));
-const AwesomeParticles = dynamic(() => import("@/components/awesome-particles"));
+const Cookies = dynamic(() => import("~/components/cookies"));
+const AwesomeParticles = dynamic(() => import("~/components/awesome-particles"));
 
 export const metadata: Metadata = {
   title: {
@@ -57,15 +57,8 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
 
           <body className="bg-background font-sans antialiased overflow-y-scroll">
             <Providers>
-              <NextSSRPlugin
-                /**
-                 * The `extractRouterConfig` will extract **only** the route configs
-                 * from the router to prevent additional information from being
-                 * leaked to the client. The data passed to the client is the same
-                 * as if you were to fetch `/api/uploadthing` directly.
-                 */
-                routerConfig={extractRouterConfig(UploadThingRouter)}
-              />
+              <NextSSRPlugin routerConfig={extractRouterConfig(UploadThingRouter)} />
+
               <div className="flex flex-col items-center min-h-screen ">
                 <AwesomeParticles />
                 <div className="flex flex-col items-center min-h-screen backdrop-blur shadow-2xl shadow-white w-5/6 ">

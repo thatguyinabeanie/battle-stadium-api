@@ -1,9 +1,9 @@
 "use client";
 
 import { forwardRef, useState, Key } from "react";
-import { Autocomplete, AutocompleteItem, Button, Input, Spacer } from "@/components/nextui/client-components";
+import { Autocomplete, AutocompleteItem, Button, Input, Spacer } from "~/components/nextui/client-components";
 
-import { cn } from "@/lib/utils";
+import { cn } from "~/lib/utils";
 
 import { countries } from "countries-list";
 import { hasFlag } from "country-flag-icons";

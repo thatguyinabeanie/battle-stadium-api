@@ -58,4 +58,4 @@ class Player < ApplicationRecord
   def set_account_id_from_profile
     self.account_id ||= profile.account_id
   end
-  end
+end

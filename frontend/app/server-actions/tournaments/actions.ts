@@ -1,7 +1,7 @@
 "use server";
 
-import { BattleStadiumApiClient, defaultConfig } from "@/lib/api";
-import { paths } from "@/lib/api/openapi-v1";
+import { BattleStadiumApiClient, defaultConfig } from "~/lib/api";
+import { paths } from "~/lib/api/openapi-v1";
 import { FetchOptions } from "openapi-fetch";
 
 export async function getTournament(
@@ -60,4 +60,24 @@ export async function postTournamentRegistration(
   };
 
   await (await BattleStadiumApiClient()).POST("/tournaments/{tournament_id}/players", registrationOptions);
+}
+
+export async function getTournamentPlayers(
+  tournament_id: number,
+  options?: FetchOptions<paths["/tournaments/{tournament_id}/players"]["get"]>,
+) {
+  const tournamentPlayersOptions = {
+    ...defaultConfig(`getTournamentPlayers(${tournament_id})`),
+    ...options,
+    params: { path: { tournament_id } },
+  };
+
+  const resp = await (
+    await BattleStadiumApiClient()
+  ).GET("/tournaments/{tournament_id}/players", tournamentPlayersOptions);
+
+  return {
+    players: resp.data,
+    error: resp.error,
+  };
 }

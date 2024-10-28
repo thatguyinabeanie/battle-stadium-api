@@ -1,8 +1,8 @@
 "use client";
 
-import { Profile } from "@/lib/api";
-import { cn } from "@/lib/utils";
-import { Autocomplete, AutocompleteItem, Chip } from "@/components/nextui/client-components";
+import { Profile } from "~/lib/api";
+import { cn } from "~/lib/utils";
+import { Autocomplete, AutocompleteItem, Chip } from "~/components/nextui/client-components";
 
 interface ProfilesAutocompleteProps {
   profiles: Profile[];
