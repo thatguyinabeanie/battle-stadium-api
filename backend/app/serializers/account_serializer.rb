@@ -7,7 +7,7 @@ module Serializers
       attributes :username, :pronouns, :image_url, :country
 
       def username
-        object.default_profile.username
+        object.default_profile&.username
       end
     end
   end

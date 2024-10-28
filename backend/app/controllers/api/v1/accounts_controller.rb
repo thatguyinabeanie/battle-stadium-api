@@ -15,7 +15,7 @@ module Api
 
       def update
         authorize @object, :update?
-        return render json: { error: "Username cannot be changed" }, status: :bad_request if permitted_params[:username].present?
+        return render json: { error: "Username cannot be changed" }, status: :bad_request if params[:username].present? || params[:account][:username].present?
         super
       end
 
@@ -40,7 +40,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def permitted_params
-        params.require(:account).permit(:username, :email, :pronouns, :first_name, :last_name, :country)
+        params.require(:account).permit(:email, :pronouns, :first_name, :last_name, :country)
       end
     end
   end
