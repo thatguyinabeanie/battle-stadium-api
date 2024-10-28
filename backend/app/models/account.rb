@@ -37,12 +37,12 @@ class Account < ApplicationRecord
     organization.staff.exists?(id:) || organization.owner == self
   end
 
-  def self.find_by_profile_username(username:)
+  def self.find_by_profile_username(username)
     Profile.find_by(username: username)&.account
   end
 
   def self.find_or_create_by_profile_username(username:, email:, first_name:, last_name:, pronouns: "", admin: false, image_url: nil)
-    account = Account.find_by_profile_username(username: username)
+    account = Account.find_by_profile_username(username)
     return account if account
 
     account = Account.create!(username: , email: , first_name: , last_name: , pronouns: , admin: , image_url:)

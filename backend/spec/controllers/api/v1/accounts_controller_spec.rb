@@ -122,7 +122,7 @@ RSpec.describe Api::V1::AccountsController do
 
         delete :destroy, params: { username: account.username }
 
-        expect(Account.find_by_profile_username(username: account.username)).to be_nil
+        expect(Account.find_by_profile_username(account.username)).to be_nil
       end
     end
   end

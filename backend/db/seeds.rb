@@ -35,7 +35,7 @@ require "factory_bot_rails"
 def create_account(username: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil, admin: false)
   first_name ||= Faker::Name.first_name
   last_name ||= Faker::Name.last_name
-  email || "#{username}@beanie.com"
+  email ||= "#{username}@beanie.com"
   pronouns ||= "they/them"
   username ||= Faker::Internet.unique.username
 
@@ -43,8 +43,8 @@ def create_account(username: nil, first_name: nil, last_name: nil, email: nil, p
   account = Account.find_or_create_by!(username:) do |account|
     account.email = "#{account.username}@beanie.gg"
     account.pronouns = pronouns
-    account.first_name = last_name
-    account.last_name = first_name
+    account.first_name = first_name
+    account.last_name = last_name
     account.admin = admin
   end
 
@@ -93,10 +93,10 @@ fuecoco_supremacy_account.save!
 
 owner  = create_account
 
-organization =  Organization.find_or_create_by!(name: "The Rise of Fuecoco") do |org|
+organization =  Organization.find_or_create_by!(name: ENV.fetch("TEST_ORG_NAME", "The Rise of Fuecoco")) do |org|
   org.owner = owner
   org.description = Faker::Lorem.sentence
-  org.staff = (1..5).to_a.map { create_account }
+  org.staff = 5.times.to_a.map { create_account }
   org.staff << fuecoco_supremacy_account
   org.hidden = false
   org.partner = true
@@ -109,11 +109,11 @@ end
 start_at = (1.day.from_now.beginning_of_day + rand(8..20).hours) + 1.week
 end_at = start_at + 10.hours
 
-accounts = if Account.count < 40
-             (1..50).to_a.map { create_account }.uniq
-            else
-              Account.all
-            end
+accounts = Account.all
+if accounts.count < 50
+  needed_accounts = 50 - accounts.count
+  accounts = accounts + needed_accounts.times.map { |i| create_account(username: "seed_user_#{i}") }
+end
 
 end_at = Time.zone.today + 1.week
 game = format.game
