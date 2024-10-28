@@ -4,9 +4,14 @@ class Account < ApplicationRecord
   def self.policy_class
     AccountPolicy
   end
-  validates :username, presence: true, allow_blank: false
-  validate :username_uniqueness_across_users_and_profiles
-  validate :username_unchangeable, on: :update
+
+  attr_accessor :username
+
+  def initialize(attributes = {})
+    # Extract username if provided
+    @username = attributes&.delete(:username)
+    super
+  end
 
   validates :email, presence: true, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :first_name, length: { maximum: MAX_CHARACTER_LENGTH }, presence: true
@@ -24,26 +29,38 @@ class Account < ApplicationRecord
   has_one :default_profile, class_name: "Profile", dependent: :destroy, inverse_of: :account
   has_one :rk9_profile, class_name: "Rk9Profile", inverse_of: :account, foreign_key: "account_id", dependent: :nullify
 
-  has_many :profiles, ->(account) { where(account: account.id).order(id: :asc) }, class_name: "Profile", dependent: :nullify, inverse_of: :account
+  has_many :profiles,  class_name: "Profile", dependent: :nullify, inverse_of: :account
+
+  delegate :username, to: :default_profile, allow_nil: true
 
   def staff_member_of?(organization)
     organization.staff.exists?(id:) || organization.owner == self
   end
 
+  def self.find_by_profile_username(username:)
+    Profile.find_by(username: username)&.account
+  end
+
+  def self.find_or_create_by_profile_username(username:, email:, first_name:, last_name:, pronouns: "", admin: false, image_url: nil)
+    account = Account.find_by_profile_username(username: username)
+    return account if account
+
+    account = Account.create!(username: , email: , first_name: , last_name: , pronouns: , admin: , image_url:)
+    account
+  end
+
   private
 
   def create_default_profile
-    self.default_profile = profiles.create(username: self.username, account: self, default: true)
-    self.save!
-  end
+    profile = Profile.create(account: self, default: true, username: @username)
 
-  def username_uniqueness_across_users_and_profiles
-    errors.add(:username, "has already been taken") if Account.where.not(id: self.id).exists?(username:) && Profile.where.not(account_id: self.id).exists?(username:)
-  end
-
-  def username_unchangeable
-    if username_changed? && self.persisted?
-      errors.add(:username, "cannot be changed once it is created")
+    if profile.valid?
+      self.default_profile = profile
+      self.save!
+    else
+      msg = "Failed to create default profile: #{profile.errors.full_messages.join(", ")}"
+      Rails.logger.error msg
+      raise ActiveRecord::RecordNotSaved, msg
     end
   end
 end

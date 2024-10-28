@@ -38,10 +38,10 @@ RSpec.describe Account do
       expect(account).not_to be_valid
     end
 
-    it "is not valid without a username" do
-      account = described_class.new(email:, pronouns:, first_name:, last_name:)
-      expect(account).not_to be_valid
-    end
+    # it "is not valid without a username" do
+    #   account = described_class.new(email:, pronouns:, first_name:, last_name:)
+    #   expect(account).not_to be_valid
+    # end
   end
 
   describe "callbacks" do

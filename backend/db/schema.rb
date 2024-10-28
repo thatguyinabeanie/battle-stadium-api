@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_27_185127) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_27_224331) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
     t.string "email", default: "", null: false
-    t.string "username", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "first_name"
@@ -30,7 +29,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_27_185127) do
     t.string "country"
     t.string "timezone"
     t.index ["email"], name: "index_accounts_on_email", unique: true
-    t.index ["username"], name: "index_accounts_on_username", unique: true
   end
 
   create_table "chat_messages", force: :cascade do |t|

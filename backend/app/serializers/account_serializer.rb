@@ -5,6 +5,10 @@ module Serializers
     included do
       include SerializerMixin::Id
       attributes :username, :pronouns, :image_url, :country
+
+      def username
+        object.default_profile.username
+      end
     end
   end
 
@@ -41,7 +45,7 @@ module Serializers
           description: org.description,
           owner: {
             id: org.owner.id,
-            username: org.owner.username,
+            username: org.owner.default_profile.username,
             pronouns: org.owner.pronouns
           }
         }

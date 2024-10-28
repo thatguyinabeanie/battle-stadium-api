@@ -23,10 +23,10 @@ end
   # puts("Seeding is disabled by the SEED_DATA environment variable.")
   # exit
 # else
-  puts("Seeding data...")
-  PokemonTeam.reset_column_information
-  Organization.reset_column_information
-  Account.reset_column_information
+puts("Seeding data...")
+PokemonTeam.reset_column_information
+Organization.reset_column_information
+Account.reset_column_information
 # end
 
 require "factory_bot"

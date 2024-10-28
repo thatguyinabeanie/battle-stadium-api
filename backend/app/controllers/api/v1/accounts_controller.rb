@@ -6,10 +6,17 @@ module Api
       self.klass = ::Account
       self.serializer_klass = Serializers::Account
       self.detail_serializer_klass = Serializers::AccountDetails
-      self.default_order_by = { username: :asc }
-      self.update_params_except = %i[username ]
+      self.default_order_by = { id: :asc }
+      self.update_params_except = %i[username]
+
       def self.policy_class
         ::AccountPolicy
+      end
+
+      def update
+        authorize @object, :update?
+        return render json: { error: "Username cannot be changed" }, status: :bad_request if permitted_params[:username].present?
+        super
       end
 
       def me
@@ -24,7 +31,7 @@ module Api
       protected
 
       def set_object
-        @object =  Account.find_by!(username: params[:username])
+        @object =  Profile.where(default: true).find_by!(username: params[:username]).account
 
         @object
       rescue ActiveRecord::RecordNotFound => e
@@ -34,12 +41,6 @@ module Api
       # Only allow a list of trusted parameters through.
       def permitted_params
         params.require(:account).permit(:username, :email, :pronouns, :first_name, :last_name, :country)
-      end
-
-      private
-
-      def find_account_by_email_or_username(email, username)
-        Account.find_for_database_authentication(email:) || Account.find_for_database_authentication(username:)
       end
     end
   end
