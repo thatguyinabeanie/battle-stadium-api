@@ -22,7 +22,7 @@ export default function OrganizationCard({ organization, disableHover }: Readonl
               "hover:scale-105": !disableHover,
               "hover:z-50": !disableHover,
             })}
-            logoSize={ LOGO_SIZE }
+            logoSize={LOGO_SIZE}
             organization={organization}
             placeholder="blur"
           />

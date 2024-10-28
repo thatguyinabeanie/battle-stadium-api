@@ -31,12 +31,12 @@ export default function OrganizationLogo({
       aria-label={organization?.name}
       blurDataURL={blurDataURL ?? DEFAULT_BLUR_DATA_URL}
       className={className}
+      height={logoSize}
       placeholder={placeholder ?? "blur"}
       priority={priority ?? false}
       src={src ?? organization?.logo_url ?? DEFAULT_BLUR_DATA_URL}
-      height={ logoSize }
-      width={ logoSize }
-      style={ { width: "auto", height: "auto" } } // Added
+      style={{ width: "auto", height: "auto" }} // Added
+      width={logoSize}
     />
   );
 }

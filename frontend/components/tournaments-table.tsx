@@ -105,6 +105,7 @@ const renderStartDateString = (start_at: string | null) => {
 };
 
 const LOGO_SIZE = 40;
+
 function renderCell(tournament: Tournament, key: Key) {
   const { id, name, organization, start_at, player_count, player_cap, game, format } = tournament;
 
@@ -112,7 +113,7 @@ function renderCell(tournament: Tournament, key: Key) {
     case "organization.name":
       return (
         <Link className="flex justify-center items-center" href={`/organizations/${organization.slug}`}>
-          <OrganizationLogo organization={ organization } logoSize={ LOGO_SIZE }/>
+          <OrganizationLogo logoSize={LOGO_SIZE} organization={organization} />
         </Link>
       );
     case "start_at":
