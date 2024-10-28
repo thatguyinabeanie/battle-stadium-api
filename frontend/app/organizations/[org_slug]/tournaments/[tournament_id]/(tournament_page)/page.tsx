@@ -1,6 +1,7 @@
 import { getTournament, getTournaments } from "@/app/server-actions/tournaments/actions";
 import { Chip, Divider, Spacer } from "@/components/nextui/client-components";
 import OrganizationHeader from "@/components/organizations/org-header";
+import { SP } from "next/dist/shared/lib/utils";
 
 import Link from "next/link";
 
@@ -40,7 +41,6 @@ export default async function OrganizationTournament(props: Readonly<Organizatio
 
   return (
     <>
-      <Divider />
       <Spacer y={2} />
       <OrganizationHeader organization={organization}>
         <div className="flex flex-col justify-between items-center text-center mx-4">
