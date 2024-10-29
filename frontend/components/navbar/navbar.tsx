@@ -10,6 +10,7 @@ import Search from "./search";
 import Notifications from "./notifications";
 import Settings from "./settings";
 import UserMenu from "./user-menu/user-menu";
+import { navbarClassNames } from "~/styles/navbar-styles";
 
 export default async function NavigationBar() {
   const clerkAuth = await auth();
@@ -19,22 +20,7 @@ export default async function NavigationBar() {
     <Navbar
       isBlurred
       shouldHideOnScroll
-      classNames={{
-        brand: "justify-between",
-        wrapper: "grid grid-cols-2 lg:grid-cols-3 min-w-full bg-transparent ",
-        base: "shadow-md dark:shadow-white/20 backdrop-blur-3xl bg-transparent w-5/6",
-        item: [
-          "flex flex-row relative h-full items-center",
-          "data-[active=true]:after:content-['']",
-          "data-[active=true]:after:absolute",
-          "data-[active=true]:after:bottom-0",
-          "data-[active=true]:after:left-0",
-          "data-[active=true]:after:right-0",
-          "data-[active=true]:after:h-[3px]",
-          "data-[active=true]:after:rounded-full",
-          "data-[active=true]:after:bg-primary",
-        ],
-      }}
+      classNames={navbarClassNames}
     >
       <NavbarBrand className="rounded-full h-8 md:h-10">
         <BattleStadium />
