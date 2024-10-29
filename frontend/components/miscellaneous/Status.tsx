@@ -1,7 +1,7 @@
 import { forwardRef, memo, HTMLAttributes } from "react";
 import { cn } from "@nextui-org/react";
 
-import { statusColorMap, type StatusOptions } from "../nextui/data";
+import { statusColorMap, type StatusOptions } from "~/components/nextui/data";
 
 export interface StatusProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;

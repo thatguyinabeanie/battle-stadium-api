@@ -22,7 +22,7 @@ export default function Dashboard(props: Readonly<DashboardProps>) {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
-      <Tabs classNames={{ base: "pb-4" }} renderTabContent={renderTabContent} tabContents={props} tabs={tabsToRender} />
+      <Tabs classNames={{ base: "py-4" }} renderTabContent={renderTabContent} tabContents={props} tabs={tabsToRender} />
     </div>
   );
 }

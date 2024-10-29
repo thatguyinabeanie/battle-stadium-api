@@ -17,6 +17,7 @@ export interface DashboardLayoutProps extends ChildrenProps {
   pokemon: ReactNode;
   tournament_history: ReactNode;
   settings: ReactNode;
+  organizations: ReactNode;
   admin: ReactNode;
 }
 

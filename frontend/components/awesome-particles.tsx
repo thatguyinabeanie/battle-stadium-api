@@ -46,7 +46,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         color: isLight ? "#555" : "#fff",
         distance: 150,
         enable: true,
-        opacity: 0.2,
+        opacity: 0.3,
         width: 0.5,
       },
       move: {
@@ -64,7 +64,7 @@ const useAwesomeParticlesOptions = (): ISourceOptions => {
         limit: { value: 600 },
       },
       opacity: {
-        value: 1,
+        value: 0.5,
       },
       shape: {
         type: "circle",
