@@ -1,8 +1,8 @@
-"use client";
+import { Link, NavbarMenu, NavbarMenuItem } from "~/components/nextui/client-components";
 
-import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "~/components/nextui/client-components";
-import { cn } from "~/lib";
 import { AccountMe } from "~/lib/api";
+import NavbarMobileDashboardMenu from "./navbar-mobile-dashboard-menu";
+import { ReactNode } from "react";
 
 interface NavbarMobileMenuProps {
   me?: AccountMe;
@@ -12,73 +12,27 @@ interface NavbarMobileMenuProps {
 export default function NavbarMobileMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
   return (
     <NavbarMenu className="bg-transparent backdrop-blur-2xl">
-      <NavbarMenuItem className={cn("", { hidden: !(me || isSignedIn) })}>
-        <Accordion>
-          <AccordionItem
-            key="dashboard"
-            aria-label="dashboard"
-            classNames={{
-              base: "p-0",
-              trigger: "p-0",
-              content: "pb-0",
-            }}
-            title="Dashboard"
-          >
-            <div className="flex flex-col">
-              <Link color="foreground" href="/dashboard?tab=profiles">
-                Profiles
-              </Link>
+      <NavbarMobileDashboardMenu isSignedIn={ isSignedIn } me={me}/>
 
-              <Link color="foreground" href="/dashboard?tab=pokemon">
-                Pokemon
-              </Link>
-
-              <Link color="foreground" href="/dashboard?tab=tournaments">
-                My Tours
-              </Link>
-
-              <Link color="foreground" href="/dashboard?tab=settings">
-                Settings
-              </Link>
-              {me?.admin && isSignedIn && (
-                <Link color="foreground" href="/dashboard?tab=admin">
-                  Admin
-                </Link>
-              )}
-            </div>
-          </AccordionItem>
-        </Accordion>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/organizations">
-          Organizations
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/tournaments">
-          Tournaments
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/players">
-          Players
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/analytics">
-          Analytics
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/settings">
-          Settings
-        </Link>
-      </NavbarMenuItem>
+      <NavbarMobileMenuItemLink label="Organizations" />
+      <NavbarMobileMenuItemLink label="Tournaments" />
+      <NavbarMobileMenuItemLink label="Players" />
+      <NavbarMobileMenuItemLink label="Analytics" />
+      <NavbarMobileMenuItemLink label="Settings" />
     </NavbarMenu>
   );
+}
+
+interface NavbarMobileMenuItemLinkProps {
+  label: string;
+  href?: string;
+}
+function NavbarMobileMenuItemLink ({label, href}: Readonly<NavbarMobileMenuItemLinkProps>) {
+  return (
+    <NavbarMenuItem>
+      <Link className="text-lg px-2" color="foreground" href={href ?? `/${label.toLowerCase()}`}>
+        {label}
+      </Link>
+    </NavbarMenuItem>
+  )
 }

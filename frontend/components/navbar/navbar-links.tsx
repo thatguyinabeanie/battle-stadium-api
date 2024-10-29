@@ -1,9 +1,10 @@
 "use client";
 
-import NavbarLinkClientItem from "~/components/navbar/navbar-client-item";
 import { usePathname } from "next/navigation";
 import { cn } from "~/lib";
-import { NavbarContent } from "~/components/nextui/client-components";
+import { NavbarItem, NavbarItemProps } from "../nextui/client-components";
+import Link from "next/link";
+import { ChildrenProps } from "~/types";
 
 interface NavbarLinksProps {
   isSignedIn: boolean | null;
@@ -14,24 +15,24 @@ export default function NavbarLinks({ isSignedIn }: Readonly<NavbarLinksProps>) 
   const firstSegment = pathname?.split("/")[1];
 
   return (
-    <NavbarContent className="hidden lg:flex gap-2" justify="center">
-      <NavbarLinkClientItem firstSegment={firstSegment} path="organizations">
+    <>
+      <NavbarClientLink firstSegment={firstSegment} path="organizations">
         Organizations
-      </NavbarLinkClientItem>
+      </NavbarClientLink>
 
-      <NavbarLinkClientItem firstSegment={firstSegment} path="tournaments">
+      <NavbarClientLink firstSegment={firstSegment} path="tournaments">
         Tournaments
-      </NavbarLinkClientItem>
+      </NavbarClientLink>
 
-      <NavbarLinkClientItem firstSegment={firstSegment} path="players">
+      <NavbarClientLink firstSegment={firstSegment} path="players">
         Players
-      </NavbarLinkClientItem>
+      </NavbarClientLink>
 
-      <NavbarLinkClientItem firstSegment={firstSegment} path="analytics">
+      <NavbarClientLink firstSegment={firstSegment} path="analytics">
         Analytics
-      </NavbarLinkClientItem>
+      </NavbarClientLink>
 
-      <NavbarLinkClientItem
+      <NavbarClientLink
         className={cn("hidden", {
           "sm:flex": isSignedIn,
         })}
@@ -39,7 +40,30 @@ export default function NavbarLinks({ isSignedIn }: Readonly<NavbarLinksProps>) 
         path="dashboard"
       >
         Dashboard
-      </NavbarLinkClientItem>
-    </NavbarContent>
+      </NavbarClientLink>
+    </>
+  );
+}
+interface NavbarItemClientProps extends ChildrenProps {
+  path: string;
+  className?: string;
+  firstSegment?: string;
+}
+const LINK_CLASSNAME = "flex text-lg transition-transform duration-200 ease-in-out transform hover:scale-105 text-primary";
+function NavbarClientLink ({
+  path,
+  children,
+  className,
+  firstSegment,
+  ...rest
+}: Readonly<NavbarItemClientProps & NavbarItemProps>) {
+  const isActive = firstSegment?.includes(path);
+
+  return (
+    <NavbarItem className={ `${className}` } isActive={ isActive } { ...rest }>
+      <Link className={ LINK_CLASSNAME } href={ `/${path}` }>
+        { children }
+      </Link>
+    </NavbarItem>
   );
 }

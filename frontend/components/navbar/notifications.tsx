@@ -16,8 +16,8 @@ export default async function Notifications() {
 
   return (
     <NavbarItem
-      className={cn("hidden", {
-        "lg:flex": sessionId,
+      className={cn("lg:flex", {
+        "hidden": !!sessionId,
       })}
     >
       <Popover offset={12} placement="bottom-end">

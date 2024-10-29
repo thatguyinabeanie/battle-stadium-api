@@ -61,8 +61,10 @@ export default async function RootLayout({ children }: ChildrenProps & AppProps)
 
               <div className="flex flex-col items-center min-h-screen ">
                 <AwesomeParticles />
+
+                <NavigationBar />
+
                 <div className="flex flex-col items-center min-h-screen backdrop-blur shadow-2xl dark:shadow-white w-5/6 ">
-                  <NavigationBar />
 
                   <main className="flex flex-col min-h-screen items-center w-full">
                     <section className="flex flex-col gap-4 w-full items-center z-0">{children}</section>
