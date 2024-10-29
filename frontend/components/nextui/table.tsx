@@ -508,9 +508,10 @@ export default function NextUiTable() {
   });
 
   return (
-    <div className="h-fit w-full p-6">
+    <div className="h-fit w-full px-6">
       {topBar}
       <Table
+        shadow="none"
         isCompact
         isHeaderSticky
         isVirtualized

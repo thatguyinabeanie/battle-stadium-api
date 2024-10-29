@@ -11,7 +11,7 @@ const HEIGHT_WIDTH = 175;
 
 export default function OrganizationHeader({ children, organization }: Readonly<OrganizationHeaderProps>) {
   return (
-    <div className="flex flex-row justify-center items-center w-full">
+    <div className="flex flex-row justify-around items-center w-full py-8">
       <OrganizationLogo logoSize={HEIGHT_WIDTH} organization={organization} />
 
       <div className="flex flex-col justify-between items-center text-center mx-4 ">{children}</div>
