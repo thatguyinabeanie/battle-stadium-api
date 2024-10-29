@@ -390,4 +390,4 @@ const generateMockUserData = (count: number): Users[] => {
   return mockData;
 };
 
-export const users: Users[] = generateMockUserData(100);
+export const users: Users[] = generateMockUserData(50);

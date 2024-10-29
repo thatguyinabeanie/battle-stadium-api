@@ -40,14 +40,6 @@ const AppearanceSetting = forwardRef<HTMLDivElement, AppearanceSettingCardProps>
             Light
           </ThemeCustomRadio>
 
-          <ThemeCustomRadio value="light-purple" variant="light">
-            Light Purple
-          </ThemeCustomRadio>
-
-          <ThemeCustomRadio value="purple-dark" variant="purple-dark">
-            Dark Purple
-          </ThemeCustomRadio>
-
           <ThemeCustomRadio value="dark" variant="dark">
             Dark
           </ThemeCustomRadio>
