@@ -511,7 +511,6 @@ export default function NextUiTable() {
     <div className="h-fit w-full px-6">
       {topBar}
       <Table
-        shadow="none"
         isCompact
         isHeaderSticky
         isVirtualized
@@ -524,6 +523,7 @@ export default function NextUiTable() {
         }}
         selectedKeys={filterSelectedKeys}
         selectionMode="single"
+        shadow="none"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
         topContentPlacement="outside"
