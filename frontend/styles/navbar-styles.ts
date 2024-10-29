@@ -1,6 +1,16 @@
 import type { SlotsToClasses } from "@nextui-org/react";
 
-type NavbarSlots = "menu" | "base" | "content" | "wrapper" | "toggle" | "srOnly" | "toggleIcon" | "brand" | "item" | "menuItem"
+type NavbarSlots =
+  | "menu"
+  | "base"
+  | "content"
+  | "wrapper"
+  | "toggle"
+  | "srOnly"
+  | "toggleIcon"
+  | "brand"
+  | "item"
+  | "menuItem";
 export const navbarClassNames: SlotsToClasses<NavbarSlots> = {
   brand: "justify-between",
   wrapper: "flex flex-row min-w-full backdrop-blur",
