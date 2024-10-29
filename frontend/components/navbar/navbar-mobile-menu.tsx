@@ -11,13 +11,13 @@ interface NavbarMobileMenuProps {
 export default function NavbarMobileMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
   return (
     <NavbarMenu className="bg-transparent backdrop-blur-2xl">
-      <NavbarMobileDashboardMenu isSignedIn={isSignedIn} me={me} />
-
       <NavbarMobileMenuItemLink label="Organizations" />
       <NavbarMobileMenuItemLink label="Tournaments" />
       <NavbarMobileMenuItemLink label="Players" />
       <NavbarMobileMenuItemLink label="Analytics" />
       <NavbarMobileMenuItemLink label="Settings" />
+
+      <NavbarMobileDashboardMenu isSignedIn={isSignedIn} me={me} />
     </NavbarMenu>
   );
 }

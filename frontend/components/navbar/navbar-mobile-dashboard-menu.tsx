@@ -9,8 +9,9 @@ interface NavbarMobileMenuProps {
   isSignedIn: boolean;
 }
 const NAVIGATION_ITEMS = [
-  { label: "Organizations" },
+  { label: "Profiles" },
   { label: "My Tours", href: "/dashboard?tab=tournaments" },
+  { label: "Organizations" },
   { label: "Players" },
   { label: "Analytics" },
   { label: "Settings" },
@@ -22,6 +23,7 @@ export default function NavbarMobileDashboardMenu({ me, isSignedIn }: Readonly<N
       <Accordion>
         <AccordionItem
           key="dashboard"
+          aria-description="Access your profiles, Pokemon, tours, and admin features"
           aria-label="dashboard"
           classNames={{
             base: "p-0",
@@ -43,12 +45,12 @@ export default function NavbarMobileDashboardMenu({ me, isSignedIn }: Readonly<N
   );
 }
 
-interface NavbarMobileMenuItemLinkProps {
+interface NavbarMobileDashboardMenuLinkProps {
   label: string;
   href?: string;
 }
 
-function NavbarMobileDashboardMenuLink({ label, href }: Readonly<NavbarMobileMenuItemLinkProps>) {
+function NavbarMobileDashboardMenuLink({ label, href }: Readonly<NavbarMobileDashboardMenuLinkProps>) {
   return (
     <Link color="foreground" href={href ?? `/dashboard?tab=${label.toLowerCase()}`}>
       {label}
