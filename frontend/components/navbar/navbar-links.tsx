@@ -49,8 +49,10 @@ interface NavbarItemClientProps extends ChildrenProps {
   className?: string;
   firstSegment?: string;
 }
-const LINK_CLASSNAME = "flex text-lg transition-transform duration-200 ease-in-out transform hover:scale-105 text-primary";
-function NavbarClientLink ({
+const LINK_CLASSNAME =
+  "flex text-lg transition-transform duration-200 ease-in-out transform hover:scale-105 text-primary";
+
+function NavbarClientLink({
   path,
   children,
   className,
@@ -60,9 +62,9 @@ function NavbarClientLink ({
   const isActive = firstSegment?.includes(path);
 
   return (
-    <NavbarItem className={ `${className}` } isActive={ isActive } { ...rest }>
-      <Link className={ LINK_CLASSNAME } href={ `/${path}` }>
-        { children }
+    <NavbarItem className={`${className}`} isActive={isActive} {...rest}>
+      <Link className={LINK_CLASSNAME} href={`/${path}`}>
+        {children}
       </Link>
     </NavbarItem>
   );

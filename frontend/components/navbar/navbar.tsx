@@ -21,8 +21,7 @@ export default async function NavigationBar() {
       shouldHideOnScroll
       classNames={{
         brand: "justify-between",
-        wrapper:
-          "grid grid-cols-2 lg:grid-cols-3 min-w-full bg-transparent ",
+        wrapper: "grid grid-cols-2 lg:grid-cols-3 min-w-full bg-transparent ",
         base: "shadow-md dark:shadow-white/20 backdrop-blur-3xl bg-transparent w-5/6",
         item: [
           "flex flex-row relative h-full items-center",
@@ -48,9 +47,9 @@ export default async function NavigationBar() {
       <NavbarContent className="gap-0" justify="end">
         <div className="flex flex-row justify-center items-center">
           <Search />
-          <Settings me={ me } />
+          <Settings me={me} />
           <Notifications />
-          <UserMenu isSignedIn={ !!clerkAuth?.sessionId } me={ me } />
+          <UserMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
           <NavbarMenuToggle className="xl:hidden" />
         </div>
       </NavbarContent>

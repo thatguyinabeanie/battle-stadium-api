@@ -2,7 +2,6 @@ import { Link, NavbarMenu, NavbarMenuItem } from "~/components/nextui/client-com
 
 import { AccountMe } from "~/lib/api";
 import NavbarMobileDashboardMenu from "./navbar-mobile-dashboard-menu";
-import { ReactNode } from "react";
 
 interface NavbarMobileMenuProps {
   me?: AccountMe;
@@ -12,7 +11,7 @@ interface NavbarMobileMenuProps {
 export default function NavbarMobileMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
   return (
     <NavbarMenu className="bg-transparent backdrop-blur-2xl">
-      <NavbarMobileDashboardMenu isSignedIn={ isSignedIn } me={me}/>
+      <NavbarMobileDashboardMenu isSignedIn={isSignedIn} me={me} />
 
       <NavbarMobileMenuItemLink label="Organizations" />
       <NavbarMobileMenuItemLink label="Tournaments" />
@@ -27,12 +26,12 @@ interface NavbarMobileMenuItemLinkProps {
   label: string;
   href?: string;
 }
-function NavbarMobileMenuItemLink ({label, href}: Readonly<NavbarMobileMenuItemLinkProps>) {
+function NavbarMobileMenuItemLink({ label, href }: Readonly<NavbarMobileMenuItemLinkProps>) {
   return (
     <NavbarMenuItem>
       <Link className="text-lg px-2" color="foreground" href={href ?? `/${label.toLowerCase()}`}>
         {label}
       </Link>
     </NavbarMenuItem>
-  )
+  );
 }

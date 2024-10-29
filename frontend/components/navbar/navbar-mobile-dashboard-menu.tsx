@@ -9,18 +9,18 @@ interface NavbarMobileMenuProps {
   isSignedIn: boolean;
 }
 
-export default function NavbarMobileDashboardMenu ({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
+export default function NavbarMobileDashboardMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
   return (
-    <NavbarMenuItem className={ cn("", { hidden: !(me || isSignedIn) }) }>
+    <NavbarMenuItem className={cn("", { hidden: !(me || isSignedIn) })}>
       <Accordion>
         <AccordionItem
           key="dashboard"
           aria-label="dashboard"
-          classNames={ {
+          classNames={{
             base: "p-0",
             trigger: "p-0",
             content: "pb-0",
-          } }
+          }}
           title="Dashboard"
         >
           <div className="flex flex-col">
@@ -28,12 +28,12 @@ export default function NavbarMobileDashboardMenu ({ me, isSignedIn }: Readonly<
             <NavbarMobileDashboardMenuLink label="Pokemon" />
             <NavbarMobileDashboardMenuLink label="My Tours" />
             <NavbarMobileDashboardMenuLink label="Profiles" />
-            { me?.admin && isSignedIn && ( <NavbarMobileDashboardMenuLink label="Admin" /> )}
+            {me?.admin && isSignedIn && <NavbarMobileDashboardMenuLink label="Admin" />}
           </div>
         </AccordionItem>
       </Accordion>
     </NavbarMenuItem>
-  )
+  );
 }
 
 interface NavbarMobileMenuItemLinkProps {
@@ -41,10 +41,10 @@ interface NavbarMobileMenuItemLinkProps {
   href?: string;
 }
 
-function NavbarMobileDashboardMenuLink ({ label, href }: Readonly<NavbarMobileMenuItemLinkProps>) {
+function NavbarMobileDashboardMenuLink({ label, href }: Readonly<NavbarMobileMenuItemLinkProps>) {
   return (
-      <Link color="foreground" href={ href ?? `/dashboard?tab=${label.toLowerCase()}`}>
-        {label}
-      </Link>
-  )
+    <Link color="foreground" href={href ?? `/dashboard?tab=${label.toLowerCase()}`}>
+      {label}
+    </Link>
+  );
 }

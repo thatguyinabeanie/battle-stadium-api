@@ -31,7 +31,6 @@ export default async function UserMenu({ ...rest }: Readonly<UserMenuProps>) {
         </DropdownTrigger>
 
         <UserMenuDropDown {...rest} />
-
       </Dropdown>
     </NavbarItem>
   );
