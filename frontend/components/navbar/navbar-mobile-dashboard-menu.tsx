@@ -8,6 +8,13 @@ interface NavbarMobileMenuProps {
   me?: AccountMe;
   isSignedIn: boolean;
 }
+const NAVIGATION_ITEMS = [
+  { label: "Organizations" },
+  { label: "My Tours", href: "/dashboard?tab=tournaments" },
+  { label: "Players" },
+  { label: "Analytics" },
+  { label: "Settings" },
+];
 
 export default function NavbarMobileDashboardMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
   return (
@@ -24,10 +31,10 @@ export default function NavbarMobileDashboardMenu({ me, isSignedIn }: Readonly<N
           title="Dashboard"
         >
           <div className="flex flex-col">
-            <NavbarMobileDashboardMenuLink label="Profiles" />
-            <NavbarMobileDashboardMenuLink label="Pokemon" />
-            <NavbarMobileDashboardMenuLink label="My Tours" />
-            <NavbarMobileDashboardMenuLink label="Profiles" />
+            {NAVIGATION_ITEMS.map((item) => (
+              <NavbarMobileDashboardMenuLink key={item.label} {...item} />
+            ))}
+
             {me?.admin && isSignedIn && <NavbarMobileDashboardMenuLink label="Admin" />}
           </div>
         </AccordionItem>
