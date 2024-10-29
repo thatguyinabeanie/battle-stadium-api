@@ -98,7 +98,7 @@
     "rubyLsp.rubyExecutablePath": "",
     "rubyLsp.useLauncher": false,
     "todo-tree.filtering.includeHiddenFiles": true,
-    "diffEditor.hideUnchangedRegions.enabled": true,
+    "diffEditor.hideUnchangedRegions.enabled": false,
     "git.alwaysShowStagedChangesResourceGroup": true,
     "git.untrackedChanges": "mixed",
     "workbench.editor.highlightModifiedTabs": true,

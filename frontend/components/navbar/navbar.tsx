@@ -22,18 +22,18 @@ export default async function NavigationBar() {
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarContent className="hidden lg:flex gap-2" justify="center">
+      <NavbarContent className="hidden lg:flex gap-1" justify="center">
         <NavbarLinks isSignedIn={!!clerkAuth?.sessionId} />
       </NavbarContent>
 
       <NavbarContent className="gap-0" justify="end">
-        <div className="flex flex-row justify-center items-center">
+        {/* <div className="flex flex-row justify-center items-center h-full"> */}
           <Search />
           <Settings me={me} />
           <Notifications />
           <UserMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
-          <NavbarMenuToggle className="xl:hidden" />
-        </div>
+          <NavbarMenuToggle className="lg:hidden h-full" />
+        {/* </div> */}
       </NavbarContent>
 
       <NavbarMobileMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />

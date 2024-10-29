@@ -5,7 +5,7 @@ import { ReactNode, Key } from "react";
 import { Tabs as NextUiTabs, SlotsToClasses, Tab } from "~/components/nextui/client-components";
 import { useSearchParamsTabState } from "~/lib/hooks/use-search-params-tab-state";
 
-const tabs = ["dashboard", "profiles", "pokemon", "tournament_history", "settings", "admin"];
+const tabs = ["dashboard", "profiles", "pokemon", "tournaments", "settings", "admin"];
 
 interface TabsProps<T> {
   tabs: {
