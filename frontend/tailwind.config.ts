@@ -38,8 +38,6 @@ const config: Config = {
           ...common,
           extend: "light",
           colors: {
-            // background: "#0D001A",
-            // foreground: "#ffffff",
             primary: {
               50: "#3B096C",
               100: "#520F83",

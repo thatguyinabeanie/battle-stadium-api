@@ -26,7 +26,6 @@ export default async function UserMenu({ ...rest }: Readonly<UserMenuProps>) {
             <SmartAvatar />
           </button>
         </DropdownTrigger>
-
         <UserMenuDropDown {...rest} />
       </Dropdown>
     </NavbarItem>
