@@ -16,7 +16,7 @@ export default async function Notifications() {
 
   return (
     <NavbarItem
-      className={ cn("hidden", {
+      className={cn("hidden", {
         "lg:flex": !!sessionId,
       })}
     >

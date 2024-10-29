@@ -28,11 +28,11 @@ export default async function NavigationBar() {
 
       <NavbarContent className="gap-0" justify="end">
         {/* <div className="flex flex-row justify-center items-center h-full"> */}
-          <Search />
-          <Settings me={me} />
-          <Notifications />
-          <UserMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
-          <NavbarMenuToggle className="lg:hidden h-full" />
+        <Search />
+        <Settings me={me} />
+        <Notifications />
+        <UserMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
+        <NavbarMenuToggle className="lg:hidden h-full" />
         {/* </div> */}
       </NavbarContent>
 
