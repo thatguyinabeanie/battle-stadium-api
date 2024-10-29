@@ -69,9 +69,4 @@ export const env = createEnv({
   onInvalidAccess: (error) => {
     throw new Error(`❌ Attempted to access a server-side environment variable on the client: ${error}`);
   },
-  onValidationError: (error) => {
-    throw new Error(
-      `❌ Invalid environment variables:\n\n${error.errors.map((e, i) => `❌[${i}]: ${e.message}`).join("\n")}\n`,
-    );
-  },
 });

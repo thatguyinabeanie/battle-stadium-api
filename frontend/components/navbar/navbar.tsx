@@ -17,7 +17,7 @@ export default async function NavigationBar() {
   const me = (await getAccountMe())?.data;
 
   return (
-    <Navbar isBlurred shouldHideOnScroll classNames={navbarClassNames}>
+    <Navbar shouldHideOnScroll classNames={navbarClassNames}>
       <NavbarBrand className="rounded-full h-8 md:h-10">
         <BattleStadium />
       </NavbarBrand>
