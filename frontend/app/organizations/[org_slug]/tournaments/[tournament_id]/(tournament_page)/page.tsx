@@ -36,7 +36,7 @@ export default async function OrganizationTournament(props: Readonly<Organizatio
     <>
       <Spacer y={2} />
       <OrganizationHeader organization={organization}>
-        <div className="flex flex-col justify-between items-center text-center mx-4">
+        <div className="flex flex-col justify-between items-center text-center mx-4 h-full">
           <h1 className="text-2xl font-semibold">{tournament.name}</h1>
           <h2 className="flex flex-row gap-1">
             <p className="font-bold">Presented By: </p>
