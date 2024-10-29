@@ -75,7 +75,7 @@
     "node-loader": "^2.0.0",
     "obscenity": "^0.4.0",
     "openapi-fetch": "^0.12.5",
-    "openapi-typescript-helpers": "^0.0.13",
+    "openapi-typescript-helpers": "^0.0.15",
     "pokedex-promise-v2": "^4.2.0",
     "react": "^19.0.0-rc-fb9a90fa48-20240614",
     "react-dom": "^19.0.0-rc-fb9a90fa48-20240614",
