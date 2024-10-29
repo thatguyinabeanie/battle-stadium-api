@@ -1,84 +1,46 @@
-"use client";
+import { Link, NavbarMenu, NavbarMenuItem } from "~/components/nextui/client-components";
 
-import { Accordion, AccordionItem, Link, NavbarMenu, NavbarMenuItem } from "~/components/nextui/client-components";
+import NavbarMobileDashboardAccordionMenu from "./navbar-mobile-dashboard-accordion-menu";
+import { NavbarMobileMenuProps } from "~/types";
+import { SignOutButton } from "@clerk/nextjs";
 import { cn } from "~/lib";
-import { AccountMe } from "~/lib/api";
 
-interface NavbarMobileMenuProps {
-  me?: AccountMe;
-  isSignedIn: boolean;
+export default function NavbarMobileMenu(props: Readonly<NavbarMobileMenuProps>) {
+  return (
+    <NavbarMenu className="bg-transparent flex flex-col items-center backdrop-filter-none p-0">
+      <div className="flex flex-col p-4 backdrop-blur-3xl h-full w-5/6">
+        <NavbarMobileDashboardAccordionMenu {...props} />
+        <NavbarMobileMenuItemLink label="Organizations" />
+        <NavbarMobileMenuItemLink label="Tournaments" />
+        <NavbarMobileMenuItemLink label="Players" />
+        <NavbarMobileMenuItemLink label="Analytics" />
+        <NavbarMobileMenuItemLink label="Settings" />
+
+        <NavbarMenuItem
+          className={cn("hidden", {
+            "sm:flex": props.me && props.isSignedIn,
+          })}
+        >
+          <SignOutButton>
+            <button className="px-2 text-danger">Sign out </button>
+          </SignOutButton>
+        </NavbarMenuItem>
+      </div>
+    </NavbarMenu>
+  );
 }
 
-export default function NavbarMobileMenu({ me, isSignedIn }: Readonly<NavbarMobileMenuProps>) {
+interface NavbarMobileMenuItemLinkProps {
+  label: string;
+  href?: string;
+}
+
+function NavbarMobileMenuItemLink({ label, href }: Readonly<NavbarMobileMenuItemLinkProps>) {
   return (
-    <NavbarMenu className="bg-transparent backdrop-blur-2xl">
-      <NavbarMenuItem className={cn("", { hidden: !(me || isSignedIn) })}>
-        <Accordion>
-          <AccordionItem
-            key="dashboard"
-            aria-label="dashboard"
-            classNames={{
-              base: "p-0",
-              trigger: "p-0",
-              content: "pb-0",
-            }}
-            title="Dashboard"
-          >
-            <div className="flex flex-col">
-              <Link color="foreground" href="/dashboard?tab=profiles">
-                Profiles
-              </Link>
-
-              <Link color="foreground" href="/dashboard?tab=pokemon">
-                Pokemon
-              </Link>
-
-              <Link color="foreground" href="/dashboard?tab=tournaments">
-                My Tours
-              </Link>
-
-              <Link color="foreground" href="/dashboard?tab=settings">
-                Settings
-              </Link>
-              {me?.admin && isSignedIn && (
-                <Link color="foreground" href="/dashboard?tab=admin">
-                  Admin
-                </Link>
-              )}
-            </div>
-          </AccordionItem>
-        </Accordion>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/organizations">
-          Organizations
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/tournaments">
-          Tournaments
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/players">
-          Players
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/analytics">
-          Analytics
-        </Link>
-      </NavbarMenuItem>
-
-      <NavbarMenuItem>
-        <Link className="text-lg px-2" color="foreground" href="/settings">
-          Settings
-        </Link>
-      </NavbarMenuItem>
-    </NavbarMenu>
+    <NavbarMenuItem>
+      <Link className="text-lg px-2" color="foreground" href={href ?? `/${label.toLowerCase()}`}>
+        {label}
+      </Link>
+    </NavbarMenuItem>
   );
 }

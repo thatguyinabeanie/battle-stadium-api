@@ -1,4 +1,5 @@
 import { SVGProps, ReactNode } from "react";
+import { AccountMe } from "~/lib/api";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -26,4 +27,9 @@ export interface OrganizationTournamentProps {
     org_slug: string;
     tournament_id: number;
   }>;
+}
+
+export interface NavbarMobileMenuProps {
+  me?: AccountMe;
+  isSignedIn: boolean;
 }

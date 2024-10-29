@@ -1,48 +1,41 @@
-import { Navbar, NavbarBrand } from "~/components/nextui/client-components";
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle } from "~/components/nextui/client-components";
 
 import BattleStadium from "~/components/battle-stadium";
 
 import NavbarLinks from "~/components/navbar/navbar-links";
 import { getAccountMe } from "~/app/server-actions/accounts/actions";
 import { auth } from "@clerk/nextjs/server";
-import NavbarRightMenu from "~/components/navbar/navbar-right-menu";
 import NavbarMobileMenu from "~/components/navbar/navbar-mobile-menu";
+import Search from "./search";
+import Notifications from "./notifications";
+import Settings from "./settings";
+import UserMenu from "./user-menu/user-menu";
+import { navbarClassNames } from "~/styles/navbar-styles";
 
 export default async function NavigationBar() {
   const clerkAuth = await auth();
   const me = (await getAccountMe())?.data;
 
   return (
-    <Navbar
-      isBlurred
-      shouldHideOnScroll
-      classNames={{
-        wrapper:
-          "flex flex-row min-w-full bg-transparent shadow-lg dark:shadow-white/20 items-center backdrop-blur-3xl",
-        base: "backdrop-blur-3xl",
-        item: [
-          "flex flex-row relative h-full items-center",
-          "data-[active=true]:after:content-['']",
-          "data-[active=true]:after:absolute",
-          "data-[active=true]:after:bottom-0",
-          "data-[active=true]:after:left-0",
-          "data-[active=true]:after:right-0",
-          "data-[active=true]:after:h-[3px]",
-          "data-[active=true]:after:rounded-full",
-          "data-[active=true]:after:bg-primary",
-        ],
-      }}
-    >
-      <NavbarBrand className="rounded-full h-10 md:h-12 flex flex-row gap-2 md:gap-4">
+    <Navbar isBlurred shouldHideOnScroll classNames={navbarClassNames}>
+      <NavbarBrand className="rounded-full h-8 md:h-10">
         <BattleStadium />
       </NavbarBrand>
 
-      <NavbarLinks isSignedIn={!!clerkAuth?.sessionId} />
+      <NavbarContent className="hidden lg:flex gap-1" justify="center">
+        <NavbarLinks isSignedIn={!!clerkAuth?.sessionId} />
+      </NavbarContent>
 
-      {/* Right Menu */}
-      <NavbarRightMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
+      <NavbarContent className="gap-0" justify="end">
+        {/* <div className="flex flex-row justify-center items-center h-full"> */}
+        <Search />
+        <Settings me={me} />
+        <Notifications />
+        <UserMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
+        <NavbarMenuToggle className="lg:hidden h-full" />
+        {/* </div> */}
+      </NavbarContent>
 
-      {/* Mobile Menu */}
       <NavbarMobileMenu isSignedIn={!!clerkAuth?.sessionId} me={me} />
     </Navbar>
   );

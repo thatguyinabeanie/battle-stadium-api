@@ -7,8 +7,8 @@ import { AccountMe } from "~/lib/api";
 const adminTab = { key: "admin", title: "Admin" };
 const tabs = [
   { key: "profiles", title: "Profiles" },
-  { key: "pokemon", title: "Pokemon" },
-  { key: "tournaments", title: "My Tours" },
+  { key: "pokemon", title: "Teams" },
+  { key: "tournaments", title: "Tournaments" },
   { key: "dashboard", title: "Dashboard" },
   { key: "settings", title: "Settings" },
 ];
