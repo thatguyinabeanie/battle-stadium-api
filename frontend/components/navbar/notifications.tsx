@@ -35,3 +35,31 @@ export default async function Notifications() {
     </NavbarItem>
   );
 }
+
+// // Add these imports
+// import { Spinner } from "~/components/nextui/client-components";
+// import { Suspense } from "react";
+
+// // Create a new component for notification content
+// async function NotificationContent () {
+//   const notifications = await fetchNotifications(); // Your API call here
+
+//   return notifications.length ? (
+//     <div className="max-h-[300px] overflow-y-auto">
+//       { notifications.map((notification) => (
+//         <div key={ notification.id } className="p-4 border-b hover:bg-default-100">
+//           { notification.message }
+//         </div>
+//       )) }
+//     </div>
+//   ) : (
+//     <p className="text-center text-default-500 py-4">No new notifications</p>
+//   );
+// }
+
+// // Update the PopoverContent
+// <PopoverContent className="max-w-[90vw] p-0 sm:max-w-[380px]">
+//   <Suspense fallback={ <Spinner className="p-4" /> }>
+//     <NotificationContent />
+//   </Suspense>
+// </PopoverContent>
