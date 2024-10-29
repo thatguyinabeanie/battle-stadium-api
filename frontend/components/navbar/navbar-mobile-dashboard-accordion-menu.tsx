@@ -21,7 +21,6 @@ export default function NavbarMobileDashboardMenu({ me, isSignedIn }: Readonly<N
       <Accordion defaultExpandedKeys={["dashboard"]}>
         <AccordionItem
           key="dashboard"
-          aria-description="Access your profiles, Pokemon, tours, and admin features"
           aria-label="dashboard"
           classNames={{
             title: "text-primary",
