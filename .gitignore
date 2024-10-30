@@ -46,7 +46,6 @@ coverage/
 /public/assets
 
 # Ignore master key for decrypting credentials and more.
-/config/master.key
 
 spec/examples.txt
 
@@ -61,7 +60,6 @@ tests/
 **_test.rb
 log/*
 
-spec/examples.txt
 rails_api
 rails_api/tmp/*
 *.pdf
@@ -86,7 +84,6 @@ output.sarif.json
 /.env*
 
 # Ignore all logfiles and tempfiles.
-/log/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
@@ -107,7 +104,6 @@ node_modules
 # Ignore master key for decrypting credentials and more.
 **/master.key
 
-**.DS_Store**
 .DS_Store
 
 vendor/bundle/*

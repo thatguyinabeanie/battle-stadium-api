@@ -35,4 +35,4 @@ RUN bundle check || bundle install
 EXPOSE 10000
 ENV RAILS_ENV=development
 ENTRYPOINT ["/battle-stadium/bin/docker-entrypoint"]
-CMD ["/battle-stadium/bin/docker-entrypoint"]
+
