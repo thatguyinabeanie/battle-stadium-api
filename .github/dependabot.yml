@@ -8,19 +8,22 @@ version: 2
 updates:
   # Ruby on Rails dependencies (Bundler)
   - package-ecosystem: "bundler"
-    versioning-strategy: "auto"  # Added versioning strategy
+    directory: "/"  # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "weekly"  # How often to check for updates
+    versioning-strategy: "auto"  # How to update manifest version requirements
 
-    # If you're using Docker for development or production, you can also add:
+  # Docker dependencies
   - package-ecosystem: "docker"
-    versioning-strategy: "auto"  # Added versioning strategy
+    directory: "/"  # Location of Dockerfile
     schedule:
-      interval: "weekly"
+      interval: "weekly"  # How often to check for updates
+    versioning-strategy: "auto"  # How to update manifest version requirements
 
-  # Existing configuration for devcontainers, if still needed
+  # Devcontainers dependencies
   - package-ecosystem: "devcontainers"
-    versioning-strategy: "auto"  # Added versioning strategy
-    schedule:
-      interval: "weekly"
 
+    directory: "/"  # Location of devcontainer.json
+    schedule:
+      interval: "weekly"  # How often to check for updates
+    versioning-strategy: "auto"  # How to update manifest version requirements
