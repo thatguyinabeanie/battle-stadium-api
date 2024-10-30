@@ -1,5 +1,7 @@
 services:
   postgres:
+    networks:
+      - battle-stadium-nextjs_network
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -12,12 +14,16 @@ services:
       - 5432:5432
 
   redis:
+    networks:
+      - battle-stadium-nextjs_network
     image: redis:7
     restart: unless-stopped
     ports:
       - 6379:6379
 
   sidekiq:
+    networks:
+      - battle-stadium-nextjs_network
     image: thatguyinabeanie/battle-stadium:dev-latest
     command: zsh -c "(bundle check || bundle install) && bundle exec sidekiq"
     environment:
@@ -26,17 +32,10 @@ services:
       REDIS_URL: redis://redis:6379/1
     ports:
       - 10001:3000
-    build:
-
-      dockerfile: Dockerfile.dev
-      target: development
-      tags:
-        - thatguyinabeanie/battle-stadium:dev-latest
-      cache_from:
-        - thatguyinabeanie/battle-stadium:dev-latest
     depends_on:
       - postgres
       - redis
+      - backend
     volumes:
       - .:/battle-stadium
       - .zshrc:/root/.zshenv
@@ -44,6 +43,8 @@ services:
 
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
+    networks:
+      - battle-stadium-nextjs_network
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
@@ -79,6 +80,8 @@ services:
 
   # RAILS API - PRODUCTION CONTAINER
   backend-prod:
+    networks:
+      - battle-stadium-nextjs_network
     profiles:
       - production
     hostname: rails-api-container
@@ -110,9 +113,11 @@ services:
       start_period: 120s
 
 
+
 volumes:
   postgres-data:
 
 networks:
-  battle-stadium:
-    external: true
+  battle-stadium-nextjs_network:
+    driver: bridge
+
