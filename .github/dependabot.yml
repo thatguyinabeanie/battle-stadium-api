@@ -8,16 +8,19 @@ version: 2
 updates:
   # Ruby on Rails dependencies (Bundler)
   - package-ecosystem: "bundler"
+    versioning-strategy: "auto"  # Added versioning strategy
     schedule:
       interval: "weekly"
 
     # If you're using Docker for development or production, you can also add:
   - package-ecosystem: "docker"
+    versioning-strategy: "auto"  # Added versioning strategy
     schedule:
       interval: "weekly"
 
   # Existing configuration for devcontainers, if still needed
   - package-ecosystem: "devcontainers"
+    versioning-strategy: "auto"  # Added versioning strategy
     schedule:
       interval: "weekly"
 
