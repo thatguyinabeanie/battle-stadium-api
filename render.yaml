@@ -1,0 +1,41 @@
+# Exported from Render on 2024-10-30T14:59:19Z
+services:
+- type: web
+  name: battle-stadium
+  runtime: docker
+  repo: https://github.com/thatguyinabeanie/battle-stadium
+  plan: standard
+  envVars:
+  - fromGroup: PRODUCTION_ENV_VARS
+  region: ohio
+  healthCheckPath: /up
+  dockerContext: .
+  dockerfilePath: Dockerfile.prod
+  registryCredential:
+    fromRegistryCreds:
+      name: dockerhub
+  domains:
+  - api.battlestadium.gg
+  rootDir: backend
+- type: worker
+  name: battle-stadium-sidekiq
+  runtime: docker
+  repo: https://github.com/thatguyinabeanie/battle-stadium
+  plan: starter
+  envVars:
+  - fromGroup: PRODUCTION_ENV_VARS
+  region: ohio
+  dockerCommand: bundle exec sidekiq
+  dockerContext: .
+  dockerfilePath: Dockerfile.prod
+  registryCredential:
+    fromRegistryCreds:
+      name: dockerhub
+  rootDir: backend
+- type: redis
+  name: battle-stadium-sidekiq-redis
+  plan: free
+  region: ohio
+  maxmemoryPolicy: noeviction
+  ipAllowList: []
+version: "1"
