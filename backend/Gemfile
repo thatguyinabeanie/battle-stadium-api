@@ -48,6 +48,8 @@ gem "uri", "~> 0.13.1"
 
 # Redis
 gem "redis", "~> 5"
+gem "redis-namespace"
+gem "redis-rails"
 
 # Development Tools
 gem "rb-readline"
