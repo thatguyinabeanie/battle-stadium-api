@@ -32,9 +32,9 @@ module BattleStadium
       hostname = Socket.gethostname
 
       ENV["POSTGRES_HOST"] = hostname == "rails-api-container" ? "postgres" : "localhost"
+      redis_host = hostname == "rails-api-container" ? "redis" : "localhost"
+      ENV["REDIS_URL"] ||= "redis://#{redis_host}:6379/1"
       ENV["DATABASE_URL"] = nil
-
-      ENV["REDIS_URL"] ||= "redis://redis:6379/1"
 
       errors = []
 

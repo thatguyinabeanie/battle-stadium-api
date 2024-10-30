@@ -17,6 +17,31 @@ services:
     ports:
       - 6379:6379
 
+  sidekiq:
+    image: thatguyinabeanie/battle-stadium:dev-latest
+    command: zsh -c "(bundle check || bundle install) && bundle exec sidekiq"
+    environment:
+      RAILS_ENV: development
+      ADMIN_BYPASS: "true"
+      REDIS_URL: redis://redis:6379/1
+    ports:
+      - 10001:3000
+    build:
+      context: backend
+      dockerfile: Dockerfile.dev
+      target: development
+      tags:
+        - thatguyinabeanie/battle-stadium:dev-latest
+      cache_from:
+        - thatguyinabeanie/battle-stadium:dev-latest
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/battle-stadium
+      - ./backend/.zshrc:/root/.zshenv
+      - ./backend/.zshrc:/root/.zshrc
+
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
     hostname: rails-api-container
@@ -43,7 +68,7 @@ services:
       - postgres
       - redis
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://backend/up"]
+      test: ["CMD", "curl", "-f", "http://backend:10000/up"]
       interval: 60s
       timeout: 10s
       retries: 3
