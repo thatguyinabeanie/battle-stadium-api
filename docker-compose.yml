@@ -39,8 +39,8 @@ services:
       - redis
     volumes:
       - .:/battle-stadium
-      - ./.zshrc:/root/.zshenv
-      - /.zshrc:/root/.zshrc
+      - .zshrc:/root/.zshenv
+      - .zshrc:/root/.zshrc
 
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
