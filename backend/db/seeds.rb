@@ -122,7 +122,7 @@ pokemon_data = [
 
 tournament = create_tournament(name: tournament_name(organization:), organization:, format:, game: format.game, start_at:, end_at:).tap do |tour|
   # Preload profiles to avoid N1 queries
-  accounts_with_profiles = accounts.includes(:default_profile)
+  accounts_with_profiles = Account.includes(:default_profile)
 
   # Validate pokemon_data before proceeding
   raise "Invalid pokemon data" unless pokemon_data.all? { |p| p[:species].present? && p[:position].present? }
