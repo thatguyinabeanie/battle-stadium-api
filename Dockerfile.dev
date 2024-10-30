@@ -21,8 +21,9 @@ RUN apt-get update -qq && \
     wget \
     zlib1g-dev && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    gem update bundler
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN gem update bundler
 
 
 ## DEVELOPMENT IMAGE
