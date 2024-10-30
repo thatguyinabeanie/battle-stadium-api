@@ -118,4 +118,3 @@ volumes:
 networks:
   battle-stadium-nextjs_network:
     driver: bridge
-
