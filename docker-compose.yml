@@ -1,7 +1,7 @@
 services:
   postgres:
     networks:
-      - battle-stadium-nextjs_network
+      - battle-stadium-network
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -15,7 +15,7 @@ services:
 
   redis:
     networks:
-      - battle-stadium-nextjs_network
+      - battle-stadium-network
     image: redis:7
     restart: unless-stopped
     ports:
@@ -23,7 +23,7 @@ services:
 
   sidekiq:
     networks:
-      - battle-stadium-nextjs_network
+      - battle-stadium-network
     image: thatguyinabeanie/battle-stadium:dev-latest
     command: zsh -c "(bundle check || bundle install) && bundle exec sidekiq"
     environment:
@@ -44,7 +44,7 @@ services:
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
     networks:
-      - battle-stadium-nextjs_network
+      - battle-stadium-network
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
@@ -81,7 +81,7 @@ services:
   # RAILS API - PRODUCTION CONTAINER
   backend-prod:
     networks:
-      - battle-stadium-nextjs_network
+      - battle-stadium-network
     profiles:
       - production
     hostname: rails-api-container
@@ -116,5 +116,6 @@ volumes:
   postgres-data:
 
 networks:
-  battle-stadium-nextjs_network:
-    driver: bridge
+  battle-stadium-network:
+    name: battle-stadium-network
+    external: true
