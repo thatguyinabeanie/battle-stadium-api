@@ -8,7 +8,7 @@
       "script": "${file}",
       "args": [],
       "askParameters": true,
-      "cwd": "${workspaceRoot}/backend"
+      "cwd": "${workspaceRoot}"
     },
     {
       "type": "rdbg",
@@ -17,7 +17,7 @@
       "debugPort": "12345",
       "waitLaunch": true,
       "showProtocolMessages": true,
-      "cwd": "${workspaceRoot}/backend"
+      "cwd": "${workspaceRoot}"
     },
     {
       "type": "rdbg",
@@ -32,7 +32,7 @@
         "DISABLE_SPRING": "true",
         "PARALLEL_WORKERS": "1"
       },
-      "cwd": "${workspaceRoot}/backend",
+      "cwd": "${workspaceRoot}",
       "console": "integratedTerminal"
     }
   ]

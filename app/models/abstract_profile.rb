@@ -1,4 +1,4 @@
-# backend/app/models/profile.rb
+# app/models/profile.rb
 class AbstractProfile < ApplicationRecord
   extend FriendlyId
 

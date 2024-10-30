@@ -30,10 +30,10 @@ RUN gem update bundler
 ##
 FROM base-image AS development
 # FROM base-image AS development
-WORKDIR /battle-stadium/backend
+WORKDIR /battle-stadium
 COPY . .
 RUN bundle check || bundle install
 EXPOSE 10000
 ENV RAILS_ENV=development
-ENTRYPOINT ["/battle-stadium/backend/bin/docker-entrypoint"]
-CMD ["/battle-stadium/backend/bin/docker-entrypoint"]
+ENTRYPOINT ["/battle-stadium/bin/docker-entrypoint"]
+CMD ["/battle-stadium/bin/docker-entrypoint"]

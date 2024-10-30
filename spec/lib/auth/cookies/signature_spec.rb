@@ -1,4 +1,4 @@
-# backend/lib/auth/cookies/signature_test.rb
+# lib/auth/cookies/signature_test.rb
 require "rails_helper"
 require "openssl"
 require "cgi"

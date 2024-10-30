@@ -145,9 +145,8 @@ frontend/junit.xml
 .pnpm-store
 
 .env.postgres
-backend/.env
-frontend/.env
-frontend/.env.local
+.env
+.env.local
 
 config/keys/*.pem
 .vercel

@@ -38,7 +38,6 @@ jobs:
         if: github.ref == 'refs/heads/main' || github.event_name == 'release'
         uses: docker/build-push-action@v6
         with:
-          context: "{{defaultContext}}:backend"
           file: Dockerfile.prod
           target: pre-production
           platforms: linux/amd64

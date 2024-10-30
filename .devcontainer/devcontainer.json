@@ -13,7 +13,7 @@
 
   // The optional 'workspaceFolder' property is the path VS Code should open by default when
   // connected. This is typically a file mount in .devcontainer/docker-compose.yml
-  "workspaceFolder": "/battle-stadium/backend",
+  "workspaceFolder": "/battle-stadium",
 
   "containerEnv": {
     "RAILS_ENV": "development",
