@@ -10,6 +10,7 @@ updates:
   - package-ecosystem: "bundler"
     schedule:
       interval: "weekly"
+
     # If you're using Docker for development or production, you can also add:
   - package-ecosystem: "docker"
     schedule:
@@ -19,5 +20,4 @@ updates:
   - package-ecosystem: "devcontainers"
     schedule:
       interval: "weekly"
-
 
