@@ -201,7 +201,7 @@ GEM
       timeout
     net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.3)
+    nio4r (2.7.4)
     nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.7-arm-linux)
@@ -342,7 +342,7 @@ GEM
       rubocop-ast (>= 1.32.2, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.32.3)
+    rubocop-ast (1.33.0)
       parser (>= 3.3.1.0)
     rubocop-checkstyle_formatter (0.6.0)
       rubocop (>= 1.14.0)
@@ -442,7 +442,7 @@ GEM
     simplecov-lcov (0.8.0)
     simplecov_json_formatter (0.1.4)
     smart_properties (1.17.0)
-    sorbet-runtime (0.5.11618)
+    sorbet-runtime (0.5.11620)
     spring (4.2.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
