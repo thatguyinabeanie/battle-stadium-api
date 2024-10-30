@@ -22,8 +22,8 @@ updates:
 
   # Devcontainers dependencies
   - package-ecosystem: "devcontainers"
+
     directory: "/"  # Location of devcontainer.json
     schedule:
       interval: "weekly"  # How often to check for updates
     versioning-strategy: "auto"  # How to update manifest version requirements
-# ... existing code ...
