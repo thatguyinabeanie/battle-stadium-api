@@ -20,7 +20,7 @@ export const env = createEnv({
     NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().optional().default("/sign-in"),
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().optional().default("/sign-up"),
     EDGE_CONFIG: z.string().url().optional().default("https://edge.clerk.dev"),
-    UPLOADTHING_TOKEN: z.string(),
+    UPLOADTHING_TOKEN: z.string().optional(),
     AUTH_SECRET: z.string({
       required_error:
         "AUTH_SECRET  is required. This is a secret key used to sign and verify JWT tokens. It should be a long, seemingly random string.",
