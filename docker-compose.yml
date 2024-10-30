@@ -68,7 +68,7 @@ services:
       - postgres
       - redis
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://backend/up"]
+      test: ["CMD", "curl", "-f", "http://backend:10000/up"]
       interval: 60s
       timeout: 10s
       retries: 3
