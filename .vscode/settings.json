@@ -1,11 +1,54 @@
 {
+  "editor.formatOnSave": false,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.defaultColorDecorators": true,
+  "editor.inlayHints.padding": true,
+
   "sonarlint.connectedMode.project": {
     "connectionId": "thatguyinabeanie",
     "projectKey": "thatguyinabeanie_battle-stadium"
   },
-  "tailwindCSS.lint.invalidConfigPath": "warning",
-  "editor.quickSuggestions": {
-    "comments": "on",
-    "strings": "inline"
+
+  "npm.packageManager": "bun",
+
+  // All of these settings are scoped only to the Ruby language
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp", // Use the Ruby LSP as the default formatter
+    "editor.formatOnSave": true, // Format files automatically when saving
+    "editor.tabSize": 2, // Use 2 spaces for indentation
+    "editor.insertSpaces": true, // Use spaces and not tabs for indentation
+    "editor.semanticHighlighting.enabled": true, // Enable semantic highlighting
+    "editor.formatOnType": true // Enable formatting while typing
   },
+  "coverage-gutters.coverageReportFileName": "",
+  "livePreview.defaultPreviewPath": "/coverage/index.html",
+  "coverage-gutters.showLineCoverage": false,
+  "coverage-gutters.showRulerCoverage": false,
+
+
+  "rubyTestExplorer.rspecCommand": "bundle exec rspec",
+  "rubyTestExplorer.rspecDirectory": "./spec",
+  "rubyTestExplorer.testFramework": "rspec",
+  "rubyTestExplorer.logpanel": true,
+  "rubyTestExplorer.filePattern": "**/*_spec.rb",
+
+  "rubyTestExplorer.rspecCommand": "bundle exec rspec",
+  "rubyTestExplorer.rspecDirectory": "./spec",
+  "rubyTestExplorer.testFramework": "rspec",
+  "rubyTestExplorer.logpanel": true,
+
+  "rubyTestExplorer.filePattern": "**/*_spec.rb",
+  "coverage-gutters.coverageBaseDir": "coverage",
+  "coverage-gutters.coverageFileNames": [
+    "lcov.info",
+    "cov.xml",
+    "coverage.xml",
+    "index.html",
+    ".resultset.json",
+    "cobertura.xml",
+    "jacoco.xml",
+    "coverage.cobertura.xml"
+  ],
+  "coverage-gutters.showGutterCoverage": false,
+
 }

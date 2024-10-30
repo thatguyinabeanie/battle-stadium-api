@@ -46,13 +46,13 @@ else
 fi
 
 # BACKEND ENV FILE SETUP
-if [ -f backend/.env ]; then
-  echo "backend/.env exists. skipping...\n"
+if [ -f .env ]; then
+  echo ".env exists. skipping...\n"
 else
-  echo "Creating backend/.env ..."
-  touch backend/.env
-  echo "AUTH_SECRET='$SECRET'" >> backend/.env
-  echo "done creating backend/.env"
+  echo "Creating .env ..."
+  touch .env
+  echo "AUTH_SECRET='$SECRET'" >> .env
+  echo "done creating .env"
 fi
 
 

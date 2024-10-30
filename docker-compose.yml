@@ -1,5 +1,7 @@
 services:
   postgres:
+    networks:
+      - battle-stadium-network
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -12,12 +14,16 @@ services:
       - 5432:5432
 
   redis:
+    networks:
+      - battle-stadium-network
     image: redis:7
     restart: unless-stopped
     ports:
       - 6379:6379
 
   sidekiq:
+    networks:
+      - battle-stadium-network
     image: thatguyinabeanie/battle-stadium:dev-latest
     command: zsh -c "(bundle check || bundle install) && bundle exec sidekiq"
     environment:
@@ -26,24 +32,19 @@ services:
       REDIS_URL: redis://redis:6379/1
     ports:
       - 10001:3000
-    build:
-      context: backend
-      dockerfile: Dockerfile.dev
-      target: development
-      tags:
-        - thatguyinabeanie/battle-stadium:dev-latest
-      cache_from:
-        - thatguyinabeanie/battle-stadium:dev-latest
     depends_on:
       - postgres
       - redis
+      - backend
     volumes:
       - .:/battle-stadium
-      - ./backend/.zshrc:/root/.zshenv
-      - ./backend/.zshrc:/root/.zshrc
+      - .zshrc:/root/.zshenv
+      - .zshrc:/root/.zshrc
 
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
+    networks:
+      - battle-stadium-network
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
@@ -53,7 +54,6 @@ services:
       ADMIN_BYPASS: "true"
       REDIS_URL: redis://redis:6379/1
     build:
-      context: backend
       dockerfile: Dockerfile.dev
       target: development
       tags:
@@ -75,11 +75,13 @@ services:
       start_period: 120s
     volumes:
       - .:/battle-stadium
-      - ./backend/.zshrc:/root/.zshenv
-      - ./backend/.zshrc:/root/.zshrc
+      - ./.zshrc:/root/.zshenv
+      - ./.zshrc:/root/.zshrc
 
   # RAILS API - PRODUCTION CONTAINER
   backend-prod:
+    networks:
+      - battle-stadium-network
     profiles:
       - production
     hostname: rails-api-container
@@ -88,7 +90,6 @@ services:
       RAILS_ENV: production
       PORT: 10000
     build:
-      context: backend
       dockerfile: Dockerfile.prod
       target: production
       tags:
@@ -100,7 +101,7 @@ services:
     ports:
       - 10000:10000
     env_file:
-      - backend/.env
+      - .env
     depends_on:
       - postgres
       - redis
@@ -111,31 +112,10 @@ services:
       retries: 3
       start_period: 120s
 
-  frontend:
-    hostname: nextjs-container
-    image: thatguyinabeanie/battle-stadium:frontend-dev-latest
-    build:
-      context: frontend
-      dockerfile: Dockerfile
-      target: development
-      tags:
-        - thatguyinabeanie/battle-stadium:frontend-dev-latest
-    environment:
-      - LOCAL_DEV_BACKEND_HOST=backend
-    command: >
-      zsh -c "rm -rf .next && bun install && bun dev && tail -f /dev/null"
-    tty: true
-    depends_on:
-      - postgres
-      - backend
-    ports:
-      - 3000:3000
-      - 8080:3000
-      - 9229:9229
-    volumes:
-      - .:/battle-stadium
-      - ./frontend/.zshrc:/root/.zshenv
-      - ./frontend/.zshrc:/root/.zshrc
-
 volumes:
   postgres-data:
+
+networks:
+  battle-stadium-network:
+    name: battle-stadium-network
+    external: true

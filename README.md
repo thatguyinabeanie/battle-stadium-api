@@ -117,8 +117,7 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 7. Open devcontainer instances in Visual Studio Code
 
     ```bash
-    devcontainer open backend
-    devcontainer open frontend
+    devcontainer open .
     ```
 
 ### Testing
@@ -128,7 +127,6 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 - Rails API RSpec Tests
 
     ```bash
-    cd backend
     rspec
     ```
 
@@ -179,7 +177,6 @@ Battle Stadium is designed to facilitate the hosting and management of Pokemon V
 
     ```bash
     docker compose up -d db
-    cd backend
     bundle exec rails server -b 0.0.0.0 -p 10000
     ```
 

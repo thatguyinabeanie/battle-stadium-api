@@ -16,7 +16,6 @@ services:
       name: dockerhub
   domains:
   - api.battlestadium.gg
-  rootDir: backend
 - type: worker
   name: battle-stadium-sidekiq
   runtime: docker
@@ -31,7 +30,6 @@ services:
   registryCredential:
     fromRegistryCreds:
       name: dockerhub
-  rootDir: backend
 - type: redis
   name: battle-stadium-sidekiq-redis
   plan: free
