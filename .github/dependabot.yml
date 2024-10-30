@@ -18,7 +18,6 @@ updates:
     directory: "/"  # Location of Dockerfile
     schedule:
       interval: "weekly"  # How often to check for updates
-    versioning-strategy: "auto"  # How to update manifest version requirements
 
   # Devcontainers dependencies
   - package-ecosystem: "devcontainers"
@@ -26,4 +25,3 @@ updates:
     directory: "/"  # Location of devcontainer.json
     schedule:
       interval: "weekly"  # How often to check for updates
-    versioning-strategy: "auto"  # How to update manifest version requirements
