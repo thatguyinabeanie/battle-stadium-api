@@ -39,6 +39,7 @@ gem "rack-cors", "~> 2"
 
 # Utilities
 gem "awesome_print"
+gem "dotenv-rails"
 gem "ostruct", "~> 0"
 gem "parallel", "~> 1.26"
 gem "retries"
@@ -82,7 +83,6 @@ end
 
 group :development, :test do
   gem "debug", "~> 1"
-  gem "dotenv-rails"
   gem "faker", "~> 3"
   gem "listen", "~> 3.3"
   gem "parallel_tests", "~> 4"
