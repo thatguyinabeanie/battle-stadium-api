@@ -41,12 +41,10 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-          working-directory: ./backend
 
       # Execute Brakeman CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Scan
         continue-on-error: true
-        working-directory: ./backend
         run: bundle exec brakeman -f sarif -o brakeman-output.json -c brakeman.yml .
 
       # Upload the SARIF file generated in the previous step

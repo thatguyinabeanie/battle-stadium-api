@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "fix": "cd frontend && bun fix"
-  }
-}
