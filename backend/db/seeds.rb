@@ -19,15 +19,10 @@ if Rails.env.production?
   exit
 end
 
-# if ENV.fetch("SEED_DATA", "false") == "false"
-  # puts("Seeding is disabled by the SEED_DATA environment variable.")
-  # exit
-# else
 puts("Seeding data...")
 PokemonTeam.reset_column_information
 Organization.reset_column_information
 Account.reset_column_information
-# end
 
 require "factory_bot"
 require "factory_bot_rails"
@@ -35,18 +30,20 @@ require "factory_bot_rails"
 def create_account(username: nil, first_name: nil, last_name: nil, email: nil, pronouns: nil, admin: false)
   first_name ||= Faker::Name.first_name
   last_name ||= Faker::Name.last_name
+  username ||= Faker::Internet.unique.username
   email ||= "#{username}@beanie.com"
   pronouns ||= "they/them"
-  username ||= Faker::Internet.unique.username
+
+  attrs = {
+    email:,
+    first_name:,
+    last_name:,
+    admin:,
+    pronouns:
+  }
 
   # Check if Account already exists
-  account = Account.find_or_create_by!(username:) do |account|
-    account.email = "#{account.username}@beanie.gg"
-    account.pronouns = pronouns
-    account.first_name = first_name
-    account.last_name = last_name
-    account.admin = admin
-  end
+  account = Account.find_or_create_by_profile_username(username:, **attrs)
 
   # Check if profile with the given username already exists
   profile = Profile.find_or_create_by!(username:) do |p|
@@ -87,17 +84,12 @@ game = Game.find_or_create_by!(name: "Pokemon VGC")
 
 format = Format.find_or_create_by!(name: "Regulation H", game: game)
 
-fuecoco_supremacy_account = create_account(username: "thatguyinabeanie", first_name: "Pablo", last_name: "Escobar", pronouns: "he/him")
-fuecoco_supremacy_account.admin = true
-fuecoco_supremacy_account.save!
-
-owner  = create_account
+owner = create_account(username: ENV.fetch("ADMIN_USERNAME", "thatguyinabeanie"), first_name: "Pablo", last_name: "Escobar", pronouns: "he/him", admin: true)
 
 organization =  Organization.find_or_create_by!(name: ENV.fetch("TEST_ORG_NAME", "The Rise of Fuecoco")) do |org|
   org.owner = owner
   org.description = Faker::Lorem.sentence
-  org.staff = 5.times.to_a.map { create_account }
-  org.staff << fuecoco_supremacy_account
+  org.staff <<  4.times.to_a.map { create_account } + [owner]
   org.hidden = false
   org.partner = true
 end
