@@ -152,3 +152,5 @@ config/keys/*.pem
 .vercel
 .env.development.local
 .rdbgrc.breakpoints
+
+.env.ngrok
