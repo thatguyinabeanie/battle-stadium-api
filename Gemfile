@@ -44,6 +44,7 @@ gem "ostruct", "~> 0"
 gem "parallel", "~> 1.26"
 gem "retries"
 gem "svix"
+gem "typhoeus", "~> 1.4"
 gem "uri", "~> 0.13.1"
 
 # Redis
