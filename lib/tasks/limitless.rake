@@ -34,16 +34,6 @@ namespace :limitless do
     @games = {}
     @formats = {}
 
-    def get_game_id(game_name)
-      @games[game_name] ||= Game.find_or_create_by(name: game_name).id
-      @games[game_name]
-    end
-
-    def get_format_id(format_name, game_id)
-      @formats[format_name] ||= Format.find_or_create_by(name: format_name, game_id: game_id).id
-      @formats[format_name]
-    end
-
     puts "Fetching #{tournaments.count} tournaments..."
     Parallel.map(tournaments, in_threads: 10) do |tournament|
       tour_details = fetch_data("#{base_url}/tournaments/#{tournament['id']}/details", access_key)
@@ -92,6 +82,7 @@ namespace :limitless do
         name = tournament_data['name']
         organization_id = org.id
         limitless_id = tournament_data['id']
+
         begin
           ::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
             tour.name = name
@@ -124,7 +115,6 @@ namespace :limitless do
     puts "Import completed. Total tournaments processed: #{tournaments.count}"
   end
 
-
   desc "Import a single tournament from the Limitless TCG API"
   task :import_single, [:tournament_id] => :environment do |t, args|
     env_file = '.env'
@@ -153,16 +143,6 @@ namespace :limitless do
     organizers = {}
     @games = {}
     @formats = {}
-
-    def get_game_id(game_name)
-      @games[game_name] ||= Game.find_or_create_by(name: game_name).id
-      @games[game_name]
-    end
-
-    def get_format_id(format_name, game_id)
-      @formats[format_name] ||= Format.find_or_create_by(name: format_name, game_id: game_id).id
-      @formats[format_name]
-    end
 
     game_id = get_game_id(tour_details['game'])
 
@@ -256,5 +236,15 @@ namespace :limitless do
   rescue StandardError => e
     puts "Error: An unexpected error occurred. URL: #{url}, Error: #{e.message}"
     []
+  end
+
+  def get_format_id(format_name, game_id)
+    @formats[format_name] ||= Format.find_or_create_by(name: format_name, game_id: game_id).id
+    @formats[format_name]
+  end
+
+  def get_game_id(game_name)
+    @games[game_name] ||= Game.find_or_create_by(name: game_name).id
+    @games[game_name]
   end
 end
