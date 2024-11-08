@@ -40,7 +40,7 @@ namespace :limitless do
     end
 
     def get_format_id(format_name, game_id)
-      @formats[format_name] ||=Format.find_or_create_by(name: format_name, game_id: game_id).id
+      @formats[format_name] ||= Format.find_or_create_by(name: format_name, game_id: game_id).id
       @formats[format_name]
     end
 
@@ -160,7 +160,7 @@ namespace :limitless do
     end
 
     def get_format_id(format_name, game_id)
-      @formats[format_name] ||=Format.find_or_create_by(name: format_name, game_id: game_id).id
+      @formats[format_name] ||= Format.find_or_create_by(name: format_name, game_id: game_id).id
       @formats[format_name]
     end
 
