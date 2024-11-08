@@ -96,6 +96,13 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           RECORD_RUNTIME: "true"
 
+      - name: "Runtime cache: store chunk"
+        if: always() && steps.cache-restore.outputs.cache-hit != 'true'  # Only save if cache was not hit
+        uses: actions/cache/save@v4
+        with:
+          key: runtime-cache-${{ matrix.group }}
+          path: tmp/parallel_runtime_rspec
+
       - name: "Runtime cache: clear chunk"
         if: always()
         shell: bash
@@ -108,13 +115,6 @@ jobs:
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
           fi
-
-      - name: "Runtime cache: store chunk"
-        if: always() && steps.cache-restore.outputs.cache-hit != 'true'  # Only save if cache was not hit
-        uses: actions/cache/save@v4
-        with:
-          key: runtime-cache-${{ matrix.group }}
-          path: tmp/parallel_runtime_rspec
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v4
@@ -183,6 +183,7 @@ jobs:
           fi
           cat tmp/parallel_runtime_rspec/* > tmp/parallel_runtime_rspec.log
           cat tmp/parallel_runtime_rspec.log
+
       - name: "Runtime cache: clear"
         env:
           GH_TOKEN: ${{ github.token }}
