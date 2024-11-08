@@ -40,7 +40,7 @@ namespace :limitless do
     end
 
     def get_format_id(format_name, game_id)
-      @formats[format_name] ||= Tournaments::Format.find_or_create_by(name: format_name, game_id: game_id).id
+      @formats[format_name] ||=Format.find_or_create_by(name: format_name, game_id: game_id).id
       @formats[format_name]
     end
 
@@ -93,7 +93,7 @@ namespace :limitless do
         organization_id = org.id
         limitless_id = tournament_data['id']
         begin
-          ::Tournaments::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
+          ::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
             tour.name = name
             tour.start_at = start_at
             tour.organization_id = organization_id
@@ -160,7 +160,7 @@ namespace :limitless do
     end
 
     def get_format_id(format_name, game_id)
-      @formats[format_name] ||= Tournaments::Format.find_or_create_by(name: format_name, game_id: game_id).id
+      @formats[format_name] ||=Format.find_or_create_by(name: format_name, game_id: game_id).id
       @formats[format_name]
     end
 
@@ -198,7 +198,7 @@ namespace :limitless do
       organization_id = org.id
       limitless_id = tournament_data['id']
       begin
-        ::Tournaments::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
+        ::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
           tour.name = name
           tour.start_at = start_at
           tour.organization_id = organization_id
