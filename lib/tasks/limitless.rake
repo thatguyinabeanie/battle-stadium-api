@@ -4,6 +4,7 @@ require 'json'
 require 'dotenv/load'
 require 'retries'
 require 'date'
+require 'concurrent'
 
 organization_id_allow_list = [
   653,  # Thomas Hayden
@@ -30,19 +31,6 @@ namespace :limitless do
     puts "Fetching tournaments..."
     tournaments = fetch_data("#{base_url}/tournaments?limit=#{limit}&game=VGC", access_key)
     organizers = {}
-
-    @games = {}
-    @formats = {}
-
-    def get_game_id(game_name)
-      @games[game_name] ||= Game.find_or_create_by(name: game_name).id
-      @games[game_name]
-    end
-
-    def get_format_id(format_name, game_id)
-      @formats[format_name] ||= Tournaments::Format.find_or_create_by(name: format_name, game_id: game_id).id
-      @formats[format_name]
-    end
 
     puts "Fetching #{tournaments.count} tournaments..."
     Parallel.map(tournaments, in_threads: 10) do |tournament|
@@ -92,16 +80,9 @@ namespace :limitless do
         name = tournament_data['name']
         organization_id = org.id
         limitless_id = tournament_data['id']
+
         begin
-          ::Tournaments::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
-            tour.name = name
-            tour.start_at = start_at
-            tour.organization_id = organization_id
-            tour.game_id = tournament_data['bs_game_id']
-            tour.format_id = tournament_data['bs_format_id']
-            tour.check_in_start_at = tour.start_at - 1.hour
-            tour.published = true
-          end
+          create_tournament(tournament_data, organization_id)
         rescue StandardError => e
           errors << {
             type: 'shrug',
@@ -123,7 +104,6 @@ namespace :limitless do
 
     puts "Import completed. Total tournaments processed: #{tournaments.count}"
   end
-
 
   desc "Import a single tournament from the Limitless TCG API"
   task :import_single, [:tournament_id] => :environment do |t, args|
@@ -153,16 +133,6 @@ namespace :limitless do
     organizers = {}
     @games = {}
     @formats = {}
-
-    def get_game_id(game_name)
-      @games[game_name] ||= Game.find_or_create_by(name: game_name).id
-      @games[game_name]
-    end
-
-    def get_format_id(format_name, game_id)
-      @formats[format_name] ||= Tournaments::Format.find_or_create_by(name: format_name, game_id: game_id).id
-      @formats[format_name]
-    end
 
     game_id = get_game_id(tour_details['game'])
 
@@ -198,15 +168,7 @@ namespace :limitless do
       organization_id = org.id
       limitless_id = tournament_data['id']
       begin
-        ::Tournaments::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
-          tour.name = name
-          tour.start_at = start_at
-          tour.organization_id = organization_id
-          tour.game_id = tournament_data['bs_game_id']
-          tour.format_id = tournament_data['bs_format_id']
-          tour.check_in_start_at = tour.start_at - 1.hour
-          tour.published = true
-        end
+        create_tournament(tournament_data, organization_id)
       rescue StandardError => e
         errors << {
           type: 'shrug',
@@ -256,5 +218,31 @@ namespace :limitless do
   rescue StandardError => e
     puts "Error: An unexpected error occurred. URL: #{url}, Error: #{e.message}"
     []
+  end
+
+  @formats = Concurrent::Map.new
+  def get_format_id(format_name, game_id)
+    @formats[format_name] ||= Format.find_or_create_by(name: format_name, game_id: game_id).id
+    @formats[format_name]
+  end
+
+  @games = Concurrent::Map.new
+  def get_game_id(game_name)
+    @games[game_name] ||= Game.find_or_create_by(name: game_name).id
+    @games[game_name]
+  end
+
+
+  def create_tournament(tournament_data, organization_id)
+    start_at = DateTime.parse(tournament_data['date'])
+    ::Tournament.find_or_create_by!(limitless_id: tournament_data['id']) do |tour|
+      tour.name = tournament_data['name']
+      tour.start_at = start_at
+      tour.organization_id = organization_id
+      tour.game_id = tournament_data['bs_game_id']
+      tour.format_id = tournament_data['bs_format_id']
+      tour.check_in_start_at = tour.start_at - 1.hour
+      tour.published = true
+    end
   end
 end
