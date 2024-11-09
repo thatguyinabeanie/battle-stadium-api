@@ -4,6 +4,7 @@ require 'json'
 require 'dotenv/load'
 require 'retries'
 require 'date'
+require 'concurrent'
 
 organization_id_allow_list = [
   653,  # Thomas Hayden
@@ -30,9 +31,6 @@ namespace :limitless do
     puts "Fetching tournaments..."
     tournaments = fetch_data("#{base_url}/tournaments?limit=#{limit}&game=VGC", access_key)
     organizers = {}
-
-    @games = {}
-    @formats = {}
 
     puts "Fetching #{tournaments.count} tournaments..."
     Parallel.map(tournaments, in_threads: 10) do |tournament|
@@ -238,11 +236,13 @@ namespace :limitless do
     []
   end
 
+  @formats = Concurrent::Map.new
   def get_format_id(format_name, game_id)
     @formats[format_name] ||= Format.find_or_create_by(name: format_name, game_id: game_id).id
     @formats[format_name]
   end
 
+  @games = Concurrent::Map.new
   def get_game_id(game_name)
     @games[game_name] ||= Game.find_or_create_by(name: game_name).id
     @games[game_name]
