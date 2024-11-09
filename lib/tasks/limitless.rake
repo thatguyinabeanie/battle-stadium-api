@@ -82,15 +82,7 @@ namespace :limitless do
         limitless_id = tournament_data['id']
 
         begin
-          ::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
-            tour.name = name
-            tour.start_at = start_at
-            tour.organization_id = organization_id
-            tour.game_id = tournament_data['bs_game_id']
-            tour.format_id = tournament_data['bs_format_id']
-            tour.check_in_start_at = tour.start_at - 1.hour
-            tour.published = true
-          end
+          create_tournament(tournament_data, organization_id)
         rescue StandardError => e
           errors << {
             type: 'shrug',
@@ -176,15 +168,7 @@ namespace :limitless do
       organization_id = org.id
       limitless_id = tournament_data['id']
       begin
-        ::Tournament.find_or_create_by!(limitless_id: limitless_id) do |tour|
-          tour.name = name
-          tour.start_at = start_at
-          tour.organization_id = organization_id
-          tour.game_id = tournament_data['bs_game_id']
-          tour.format_id = tournament_data['bs_format_id']
-          tour.check_in_start_at = tour.start_at - 1.hour
-          tour.published = true
-        end
+        create_tournament(tournament_data, organization_id)
       rescue StandardError => e
         errors << {
           type: 'shrug',
@@ -246,5 +230,19 @@ namespace :limitless do
   def get_game_id(game_name)
     @games[game_name] ||= Game.find_or_create_by(name: game_name).id
     @games[game_name]
+  end
+
+
+  def create_tournament(tournament_data, organization_id)
+    start_at = DateTime.parse(tournament_data['date'])
+    ::Tournament.find_or_create_by!(limitless_id: tournament_data['id']) do |tour|
+      tour.name = tournament_data['name']
+      tour.start_at = start_at
+      tour.organization_id = organization_id
+      tour.game_id = tournament_data['bs_game_id']
+      tour.format_id = tournament_data['bs_format_id']
+      tour.check_in_start_at = tour.start_at - 1.hour
+      tour.published = true
+    end
   end
 end
