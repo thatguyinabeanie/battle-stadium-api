@@ -45,7 +45,7 @@ gem "parallel", "~> 1.26"
 gem "retries"
 gem "svix"
 gem "typhoeus", "~> 1.4"
-gem "uri", "~> 0.13.1"
+gem "uri", "~> 1.0.1"
 
 # Redis
 gem "redis", "~> 5"
