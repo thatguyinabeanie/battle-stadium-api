@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_27_224331) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_13_224536) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -185,7 +185,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_27_224331) do
     t.integer "game_wins", default: 0, null: false
     t.integer "game_losses", default: 0, null: false
     t.decimal "resistance", precision: 5, scale: 2
-    t.bigint "account_id"
+    t.bigint "account_id", null: false
     t.bigint "profile_id", null: false
     t.boolean "show_country_flag", default: true, null: false
     t.index ["account_id"], name: "index_players_on_account_id"
