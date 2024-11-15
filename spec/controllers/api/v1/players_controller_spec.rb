@@ -40,6 +40,7 @@ RSpec.describe Api::V1::PlayersController do
   describe "POST #create" do
     let(:params) do
       {
+        show_country_flag: true,
         tournament_id: tournament.id,
         in_game_name: "eminem",
         profile_id: request_account.default_profile.id

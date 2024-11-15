@@ -43,7 +43,7 @@ module Phases
       raise "The phase has not accepted players" if players.empty?
       raise "The phase has not set the number of rounds" if number_of_rounds.nil?
       raise "The phase has not set the current round" if current_round.blank?
-      raise "The phase has not ended the current round" unless current_round&.matches&.in_progress&.empty?
+      raise "The phase has not ended the current round" if current_round&.matches&.in_progress&.any?
       raise "The phase has already completed all rounds" if current_round&.round_number == number_of_rounds
 
       self.current_round = Round.create_round(self)

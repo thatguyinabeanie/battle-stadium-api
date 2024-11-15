@@ -33,7 +33,7 @@ RSpec.describe Auth::Cookies::Signature do
   it "returns value when signature matches" do
     value = "test.value"
     signature = OpenSSL::HMAC.hexdigest("SHA256", ENV["AUTH_SECRET"], value)
-    encoded_value = CGI.escape(value).gsub(".", "%2E")
+    encoded_value = CGI.escape(value)&.gsub(".", "%2E")
     cookie = "#{encoded_value}.#{signature}"
 
     expect(described_class.verify(cookie:)).to eq(value)
@@ -42,7 +42,7 @@ RSpec.describe Auth::Cookies::Signature do
   it "raises InvalidSignatureError when signature does not match" do
     value = "test.value"
     signature = "invalid_signature"
-    encoded_value = CGI.escape(value).gsub(".", "%2E")
+    encoded_value = CGI.escape(value)&.gsub(".", "%2E")
     cookie = "#{encoded_value}.#{signature}"
 
     expect {

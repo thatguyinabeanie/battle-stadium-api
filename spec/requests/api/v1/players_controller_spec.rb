@@ -67,7 +67,7 @@ RSpec.describe Api::V1::PlayersController do
         run_test!
       end
 
-      response(422, "Already registered") do
+      response(409, "Already registered") do
         let(:profile) do
           prof = request_account.default_profile
           tournament.register!(profile: prof, in_game_name:)

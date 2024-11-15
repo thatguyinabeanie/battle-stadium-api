@@ -28,7 +28,7 @@ class Tournament < ApplicationRecord
 
   has_many :players, class_name: "Player", dependent: :destroy_async
   validates :player_cap, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
-  validate :unique_limitless_id
+  validates :limitless_id, uniqueness: true, allow_nil: true
 
   before_validation :set_defaults, on: :create
   before_save :ready_to_start?, if: -> { saved_change_to_started_at?(from: nil) }
@@ -88,15 +88,14 @@ class Tournament < ApplicationRecord
     players.count < player_cap && check_registration_window
   end
 
-  def register!(profile:, in_game_name:, pokemon_team_id: nil)
-
+  def register!(profile:, in_game_name:, pokemon_team_id: nil, show_country_flag: true)
     raise MissingProfile, "Profile must be provided." if profile.nil?
     raise ProfileAlreadyRegistered, "Profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
     raise RegistrationClosed, "Tournament registration is closed." unless registration_open?
     raise AccountAlreadyRegistered, "This profile's account already has another profile registered for the same tournament" if players.exists?(account_id: profile.account.id)
 
     transaction do
-      player = players.create!(profile:, pokemon_team_id:, in_game_name:, account: profile.account)
+      player = players.create!(profile:, pokemon_team_id:, in_game_name:, account: profile.account, show_country_flag:)
       self.players << player
       self.save!
       player
@@ -128,11 +127,5 @@ class Tournament < ApplicationRecord
     self.registration_start_at ||= start_at - 1.week
     self.registration_end_at ||= (start_at if late_registration)
     self.check_in_start_at ||= start_at - 1.hour
-  end
-
-  def unique_limitless_id
-    return if limitless_id.nil?
-
-    errors.add(:limitless_id, "has already been taken") if self.class.where(limitless_id:).exists?
   end
 end
