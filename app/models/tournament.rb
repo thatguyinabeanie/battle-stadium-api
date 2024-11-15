@@ -89,7 +89,6 @@ class Tournament < ApplicationRecord
   end
 
   def register!(profile:, in_game_name:, pokemon_team_id: nil)
-
     raise MissingProfile, "Profile must be provided." if profile.nil?
     raise ProfileAlreadyRegistered, "Profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
     raise RegistrationClosed, "Tournament registration is closed." unless registration_open?
