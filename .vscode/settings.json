@@ -50,5 +50,16 @@
     "coverage.cobertura.xml"
   ],
   "coverage-gutters.showGutterCoverage": false,
-
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "postgres",
+      "group": "postgres",
+      "database": "fuecoco-db-dev",
+      "username": "postgres"
+    }
+  ],
 }
