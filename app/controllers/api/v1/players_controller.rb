@@ -26,7 +26,7 @@ module Api
         authorize @profile, :register_for_tournament?
 
         if @tournament.players.exists?(profile_id: @profile.id)
-          return render json: { error: "Profile is already registered for the tournament" }, status: :unprocessable_entity
+          return render json: { error: "Profile is already registered for the tournament" }, status: :conflict
         end
 
         @player = @tournament.register!(profile: @profile, in_game_name: params[:in_game_name], pokemon_team_id: params[:pokemon_team_id])
@@ -36,6 +36,7 @@ module Api
         if @player.save
           render json: serialize_player_details, status: :created
         else
+          binding.break
           render json: {error: @player.errors.full_messages.to_sentence}, status: :unprocessable_entity
         end
       rescue ActiveRecord::RecordNotFound

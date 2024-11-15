@@ -132,6 +132,6 @@ class Tournament < ApplicationRecord
   def unique_limitless_id
     return if limitless_id.nil?
 
-    errors.add(:limitless_id, "has already been taken") if self.class.where(limitless_id:).exists?
+    errors.add(:limitless_id, "has already been taken") if self.class.where(limitless_id:).where.not(id: id).exists?
   end
 end
