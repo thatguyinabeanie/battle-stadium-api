@@ -15,9 +15,9 @@ class Player < ApplicationRecord
   validates :in_game_name, presence: true
   validates :profile_id, presence: true
   validates :tournament_id, presence: true
-  validates :profile_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
-  validates :account_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.already_registered") }
-  validates :show_country_flag, inclusion: { in: [true, false] }, presence: true
+  validates :profile_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.profile_already_registered") }
+  validates :account_id, uniqueness: { scope: :tournament_id, message: I18n.t("tournament.registration.account_already_registered") }
+  validates :show_country_flag, inclusion: { in: [true, false] }
 
   delegate :username, to: :profile
 

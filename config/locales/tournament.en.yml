@@ -8,4 +8,5 @@ en:
       failure: "You have already registered for the tournament."
       registration_closed: "Registration for the tournament is closed."
       too_many_pokemon: "You are trying to register too many Pokemon."
-      already_registered: "You are already registered for the tournament."
+      profile_already_registered: "Profile is already registered for the tournament."
+      account_already_registered: "The associated Account is already registered for the tournament."
