@@ -1,6 +1,6 @@
 services:
   postgres:
-    command: -c 'max_connections=100'
+    command: -c 'max_connections=1000'
     networks:
       - battle-stadium-network
     image: postgres:16

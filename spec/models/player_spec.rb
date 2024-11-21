@@ -22,7 +22,7 @@ RSpec.describe Player do
         existing_player = create(:player, profile:)
         new_player = build(:player, profile_id: profile.id, tournament: existing_player.tournament)
         new_player.valid?
-        expect(new_player.errors[:profile_id]).to include(I18n.t("tournament.registration.already_registered"))
+        expect(new_player.errors[:profile_id]).to include(I18n.t("tournament.registration.profile_already_registered"))
       end
     end
   end

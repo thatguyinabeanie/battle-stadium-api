@@ -91,8 +91,8 @@ class Tournament < ApplicationRecord
   def register!(profile:, in_game_name:, pokemon_team_id: nil, show_country_flag: true)
     raise MissingProfile, "Profile must be provided." if profile.nil?
     raise ProfileAlreadyRegistered, "Profile is already registered for the tournament" if players.exists?(profile_id: profile.id)
-    raise RegistrationClosed, "Tournament registration is closed." unless registration_open?
     raise AccountAlreadyRegistered, "This profile's account already has another profile registered for the same tournament" if players.exists?(account_id: profile.account.id)
+    raise RegistrationClosed, "Tournament registration is closed." unless registration_open?
 
     transaction do
       player = players.create!(profile:, pokemon_team_id:, in_game_name:, account: profile.account, show_country_flag:)

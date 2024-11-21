@@ -7,7 +7,7 @@ RSpec.describe Api::V1::ProfilesController do
   include Auth::TokenVerifier::Mock
   include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 
-  path "/profiles" do
+  path("/profiles") do
     get("Retrieves all profiles") do
       tags "Profiles"
       produces "application/json"

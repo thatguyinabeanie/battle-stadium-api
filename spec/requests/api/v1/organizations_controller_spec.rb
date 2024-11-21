@@ -239,7 +239,6 @@ RSpec.describe Api::V1::OrganizationsController do
     parameter name: :slug, in: :path, type: :string, required: true
     parameter VERCEL_TOKEN_HEADER_PARAMETER
 
-
     get("List Organization Tournaments") do
       tags "Organizations"
       produces OpenApi::Response::JSON_CONTENT_TYPE

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_13_224536) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -190,6 +190,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_13_224536) do
     t.boolean "show_country_flag", default: true, null: false
     t.index ["account_id"], name: "index_players_on_account_id"
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
+    t.index ["tournament_id", "account_id"], name: "index_players_on_tournament_and_account", unique: true
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
   end
 
