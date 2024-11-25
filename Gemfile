@@ -61,7 +61,7 @@ gem "traceroute", "~> 0"
 gem "tzinfo-data", platforms: %i[windows jruby]
 
 # Web Server
-gem "puma", "~> 6.4"
+gem "puma", "~> 6.5"
 
 group :development do
   gem "rails-erd"
