@@ -10,7 +10,6 @@ class AddIndexes < ActiveRecord::Migration[7.2]
 
     # Organizations table
     add_index :organizations, :partner  # For filtering partner orgs
-    add_index :organizations, :owner_id, unique: true, where: "owner_id IS NOT NULL"
 
     # Tournaments table
     remove_index :tournaments, :current_phase_id
