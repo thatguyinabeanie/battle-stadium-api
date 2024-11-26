@@ -5,6 +5,10 @@ dictionaryDefinitions: []
 dictionaries: []
 words:
   - bytesize
+  - libpq
+  - libvips
+  - Rakefile
+  - realpath
   - timestr
   - unsubscription
 ignoreWords: []
