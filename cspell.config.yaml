@@ -1,6 +1,8 @@
 version: "0.2"
 ignorePaths:
   - db/schema.rb
+  - Gemfile
+  - Gemfile.lock
 dictionaryDefinitions: []
 dictionaries:
   - en_US
