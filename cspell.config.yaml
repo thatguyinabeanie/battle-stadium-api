@@ -2,14 +2,16 @@ version: "0.2"
 ignorePaths:
   - db/schema.rb
 dictionaryDefinitions: []
-dictionaries: []
+dictionaries:
+  - en_US
+  - companies
+  - softwareTerms
+  - misc
+  - ruby
+  - rails
+  - bash
+  - typescript
+  - node
 words:
-  - bytesize
-  - libpq
-  - libvips
-  - Rakefile
-  - realpath
-  - timestr
-  - unsubscription
 ignoreWords: []
 import: []
