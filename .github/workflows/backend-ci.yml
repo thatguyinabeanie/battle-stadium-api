@@ -84,8 +84,7 @@ jobs:
 
       - name: Run Rspec Tests
         run: |
-          mkdir -p tmp/parallel_runtime_rspec
-          rm -f tmp/parallel_runtime_rspec.log
+          mkdir -p tmp/
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
             bundle exec parallel_rspec -n 4 --group-by runtime --only-group ${{ matrix.group }} --verbose
           else
@@ -114,6 +113,9 @@ jobs:
           mkdir -p tmp/parallel_runtime_rspec
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
+          else
+            echo "Error: Missing runtime log for group ${{ matrix.group }}"
+            exit 1
           fi
 
       - name: Publish Test Report
