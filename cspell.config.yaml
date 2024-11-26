@@ -17,5 +17,10 @@ dictionaries:
   - markdown
   - lorem-ipsum
 words:
+  - filesize
+  - isready
+  - mikepenz
+  - resultset
+  - reviewdog
 ignoreWords: []
 import: []
