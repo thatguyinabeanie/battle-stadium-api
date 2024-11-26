@@ -57,19 +57,14 @@ class AddIndexes < ActiveRecord::Migration[7.2]
 
 
     # Rounds table
-    add_index :rounds, :phase_id
+    remove_index :rounds, [:phase_id, :round_number]
+    remove_index :rounds, :phase_id
 
     # Matches table
     add_index :matches, [:tournament_id, :created_at]  # For tournament match history
     add_index :matches, [:tournament_id, :phase_id, :round_id, :table_number]
-    add_index :matches, :round_id
-    add_index :matches, :winner_id
-    add_index :matches, :loser_id
     remove_index :matches, :tournament_id
     remove_index :matches, [:round_id, :player_one_id, :player_two_id]
-
-    # Match Games table
-
 
     # Chat Messages table
     add_index :chat_messages, [:match_id, :account_id, :sent_at]  # For message history

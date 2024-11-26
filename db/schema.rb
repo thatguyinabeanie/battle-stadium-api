@@ -41,6 +41,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_212912) do
     t.datetime "sent_at"
     t.bigint "account_id"
     t.bigint "profile_id", null: false
+    t.index ["account_id"], name: "index_chat_messages_on_account_id"
     t.index ["match_id", "account_id", "sent_at"], name: "index_chat_messages_on_match_id_and_account_id_and_sent_at"
     t.index ["match_id", "profile_id", "sent_at"], name: "index_chat_messages_on_match_id_and_profile_id_and_sent_at"
     t.index ["match_id"], name: "index_chat_messages_on_match_id"
@@ -115,7 +116,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_212912) do
     t.boolean "bye", default: false, null: false
     t.bigint "reset_by_id"
     t.index ["loser_id"], name: "index_matches_on_loser_id"
-    t.index ["round_id"], name: "index_matches_on_round_id"
+    t.index ["phase_id"], name: "index_matches_on_phase_id"
+    t.index ["player_one_id"], name: "index_matches_on_player_one_id"
+    t.index ["player_two_id"], name: "index_matches_on_player_two_id"
     t.index ["tournament_id", "created_at"], name: "index_matches_on_tournament_id_and_created_at"
     t.index ["tournament_id", "phase_id", "round_id", "table_number"], name: "idx_on_tournament_id_phase_id_round_id_table_number_8acf8fd66a"
     t.index ["winner_id"], name: "index_matches_on_winner_id"
@@ -142,7 +145,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_212912) do
     t.bigint "limitless_org_id"
     t.bigint "owner_id"
     t.index ["name"], name: "index_organizations_on_name", unique: true
-    t.index ["owner_id"], name: "index_organizations_on_owner_id", unique: true, where: "(owner_id IS NOT NULL)"
+    t.index ["owner_id"], name: "index_organizations_on_owner_id"
     t.index ["partner"], name: "index_organizations_on_partner"
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
@@ -199,7 +202,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_212912) do
     t.index ["tournament_id", "checked_in_at"], name: "index_players_on_tournament_id_and_checked_in_at"
     t.index ["tournament_id", "disqualified"], name: "index_players_on_tournament_id_and_disqualified"
     t.index ["tournament_id", "dropped"], name: "index_players_on_tournament_id_and_dropped"
-    t.index ["tournament_id", "profile_id"], name: "index_players_on_tournament_and_profile", unique: true
     t.index ["tournament_id", "round_wins"], name: "index_players_on_tournament_id_and_round_wins"
     t.index ["tournament_id", "team_sheet_submitted"], name: "index_players_on_tournament_id_and_team_sheet_submitted"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
@@ -291,7 +293,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_212912) do
     t.integer "round_number", default: 1, null: false
     t.datetime "started_at"
     t.datetime "ended_at"
-    t.index ["phase_id"], name: "index_rounds_on_phase_id"
   end
 
   create_table "tournament_formats", force: :cascade do |t|
