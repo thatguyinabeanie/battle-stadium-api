@@ -1,0 +1,11 @@
+version: "0.2"
+ignorePaths:
+  - db/schema.rb
+dictionaryDefinitions: []
+dictionaries: []
+words:
+  - bytesize
+  - timestr
+  - unsubscription
+ignoreWords: []
+import: []
