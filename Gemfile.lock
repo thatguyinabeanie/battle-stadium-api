@@ -489,7 +489,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.6.0)
-    uri (0.13.1)
+    uri (1.0.2)
     useragent (0.16.10)
     versionist (2.0.1)
       activesupport (>= 3)
@@ -531,7 +531,7 @@ DEPENDENCIES
   active_model_serializers (~> 0)
   awesome_print
   bcrypt (~> 3)
-  bootsnap (>= 1.4.4)
+  bootsnap (>= 1)
   brakeman (~> 6)
   bundler-audit (~> 0)
   debug (~> 1)
@@ -539,18 +539,18 @@ DEPENDENCIES
   factory_bot_rails (~> 6)
   faker (~> 3)
   friendly_id
-  json (~> 2.7)
+  json (~> 2)
   jsonapi-serializer (~> 2)
   jwt (~> 2.8)
   kaminari
   kredis (~> 1)
   listen (~> 3.3)
-  openssl (~> 3.2)
+  openssl (~> 3)
   ostruct (~> 0)
-  parallel (~> 1.26)
+  parallel (~> 1)
   parallel_tests (~> 4)
-  pg (~> 1.5.7)
-  puma (~> 6.4)
+  pg (~> 1)
+  puma (~> 6)
   pundit
   rack-attack (~> 6)
   rack-cors (~> 2)
@@ -589,7 +589,7 @@ DEPENDENCIES
   rubocop-shopify
   rubocop-thread_safety
   ruby-lsp
-  ruby-lsp-rails (~> 0.3.15)
+  ruby-lsp-rails (~> 0.3)
   ruby-lsp-rspec
   ruby_audit (~> 2)
   selenium-webdriver (~> 4)
@@ -606,9 +606,9 @@ DEPENDENCIES
   timecop (~> 0)
   traceroute (~> 0)
   turbo-rails (~> 2)
-  typhoeus (~> 1.4)
+  typhoeus (~> 1)
   tzinfo-data
-  uri (~> 0.13.1)
+  uri (~> 1)
   versionist (~> 2)
   web-console (~> 4)
   webmock (~> 3)
