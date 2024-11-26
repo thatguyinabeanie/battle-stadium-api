@@ -1,10 +1,26 @@
 name: 'Check spelling'
 on: # rebuild any PRs and main branch changes
   pull_request:
-
+  push:
+    branches:
+      - main
 jobs:
   spellcheck: # run the action
+    name: Spell Check
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write  # Allows the action to comment on PRs
     steps:
       - uses: actions/checkout@v4
       - uses: streetsidesoftware/cspell-action@v6
+        with:
+          # Inline PR comments instead of annotations
+          inline: true
+          # Fail on warnings
+          strict: true
+          # Show progress
+          verbose: true
+          # Incremental file listing
+          incremental_files_only: true
