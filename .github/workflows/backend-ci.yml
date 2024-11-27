@@ -84,37 +84,34 @@ jobs:
 
       - name: Run Rspec Tests
         run: |
-          mkdir -p tmp/parallel_runtime_rspec
-          rm -f tmp/parallel_runtime_rspec.log
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
             bundle exec parallel_rspec -n 4 --group-by runtime --only-group ${{ matrix.group }} --verbose
           else
             bundle exec parallel_rspec -n 4 --group-by filesize --only-group ${{ matrix.group }} --verbose
           fi
+
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET}}
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           RECORD_RUNTIME: "true"
 
-      - name: "Runtime cache: store chunk"
-        if: always() && steps.cache-restore.outputs.cache-hit != 'true'  # Only save if cache was not hit
-        uses: actions/cache/save@v4
-        with:
-          key: runtime-cache-${{ matrix.group }}
-          path: tmp/parallel_runtime_rspec
-
-      - name: "Runtime cache: clear chunk"
+      - name: "Runtime cache: rename chunk"
         if: always()
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh extension install actions/gh-actions-cache
-          gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm || true
-          mkdir -p tmp/parallel_runtime_rspec
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
+            echo "Renaming runtime log"
+            mkdir -p tmp/parallel_runtime_rspec
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
           fi
+      - name: "Runtime cache: store chunk"
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          key: runtime-cache-${{ matrix.group }}
+          path: tmp/parallel_runtime_rspec/${{ matrix.group }}.log
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v4
@@ -154,33 +151,35 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-1
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/1.log
 
       - name: "Runtime cache: load chunk 2"
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-2
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/2.log
 
       - name: "Runtime cache: load chunk 3"
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-3
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/3.log
 
       - name: "Runtime cache: load chunk 4"
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-4
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/4.log
 
       - name: "Runtime cache: combine chunks"
         run: |
           mkdir -p tmp
-          if [ ! -f "tmp/parallel_runtime_rspec/1.log" ] || [ ! -f "tmp/parallel_runtime_rspec/2.log" ] || [ ! -f "tmp/parallel_runtime_rspec/3.log" ] || [ ! -f "tmp/parallel_runtime_rspec/4.log" ]; then
-            echo "Error: Missing runtime logs"
-            exit 1
-          fi
+          for i in 1 2 3 4; do
+            if [ ! -f "tmp/parallel_runtime_rspec/${i}.log" ]; then
+              echo "Error: Missing runtime log for chunk ${i}"
+              exit 1
+            fi
+          done
           cat tmp/parallel_runtime_rspec/* > tmp/parallel_runtime_rspec.log
           cat tmp/parallel_runtime_rspec.log
 
@@ -188,7 +187,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh extension install actions/gh-actions-cache
+          mkdir -p tmp/parallel_runtime_rspec
           gh actions-cache delete runtime-cache-all --confirm
         continue-on-error: true
       - name: "Runtime cache: store"

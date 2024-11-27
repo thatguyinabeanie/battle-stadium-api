@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_26_212912) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -28,6 +28,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.bigint "default_profile_id"
     t.string "country"
     t.string "timezone"
+    t.index ["archived_at"], name: "index_accounts_on_archived_at"
+    t.index ["created_at"], name: "index_accounts_on_created_at"
+    t.index ["default_profile_id"], name: "index_accounts_on_default_profile_id", unique: true
     t.index ["email"], name: "index_accounts_on_email", unique: true
   end
 
@@ -39,6 +42,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.bigint "account_id"
     t.bigint "profile_id", null: false
     t.index ["account_id"], name: "index_chat_messages_on_account_id"
+    t.index ["match_id", "account_id", "sent_at"], name: "index_chat_messages_on_match_id_and_account_id_and_sent_at"
+    t.index ["match_id", "profile_id", "sent_at"], name: "index_chat_messages_on_match_id_and_profile_id_and_sent_at"
     t.index ["match_id"], name: "index_chat_messages_on_match_id"
   end
 
@@ -47,6 +52,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "account_id"
+    t.index ["account_id", "clerk_user_id"], name: "index_clerk_users_on_account_id_and_clerk_user_id", unique: true
     t.index ["account_id"], name: "index_clerk_users_on_account_id"
     t.index ["clerk_user_id"], name: "index_clerk_users_on_clerk_user_id", unique: true
   end
@@ -113,8 +119,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.index ["phase_id"], name: "index_matches_on_phase_id"
     t.index ["player_one_id"], name: "index_matches_on_player_one_id"
     t.index ["player_two_id"], name: "index_matches_on_player_two_id"
-    t.index ["round_id", "player_one_id", "player_two_id"], name: "index_matches_on_round_and_players_unique", unique: true
-    t.index ["tournament_id"], name: "index_matches_on_tournament_id"
+    t.index ["tournament_id", "created_at"], name: "index_matches_on_tournament_id_and_created_at"
+    t.index ["tournament_id", "phase_id", "round_id", "table_number"], name: "idx_on_tournament_id_phase_id_round_id_table_number_8acf8fd66a"
     t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
@@ -140,6 +146,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.bigint "owner_id"
     t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["owner_id"], name: "index_organizations_on_owner_id"
+    t.index ["partner"], name: "index_organizations_on_partner"
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
 
@@ -149,8 +156,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.bigint "phase_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["phase_type", "phase_id"], name: "index_tournament_phase_players_on_phase"
-    t.index ["player_id"], name: "index_phase_players_on_player_id"
+    t.index ["phase_id", "player_id"], name: "index_phase_players_on_phase_id_and_player_id"
   end
 
   create_table "phases", force: :cascade do |t|
@@ -165,8 +171,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.datetime "ended_at"
     t.integer "order", default: 0, null: false
     t.bigint "current_round_id"
-    t.index ["current_round_id"], name: "index_phases_on_current_round_id"
-    t.index ["tournament_id"], name: "index_phases_on_tournament_id"
+    t.index ["tournament_id", "order"], name: "index_phases_on_tournament_id_and_order"
     t.index ["type"], name: "index_phases_on_type"
   end
 
@@ -188,9 +193,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.bigint "account_id", null: false
     t.bigint "profile_id", null: false
     t.boolean "show_country_flag", default: true, null: false
+    t.index ["account_id", "created_at"], name: "index_players_on_account_id_and_created_at"
     t.index ["account_id"], name: "index_players_on_account_id"
+    t.index ["checked_in_at"], name: "index_players_on_checked_in_at"
     t.index ["pokemon_team_id"], name: "index_players_on_pokemon_team_id"
+    t.index ["profile_id", "created_at"], name: "index_players_on_profile_id_and_created_at"
     t.index ["tournament_id", "account_id"], name: "index_players_on_tournament_and_account", unique: true
+    t.index ["tournament_id", "checked_in_at"], name: "index_players_on_tournament_id_and_checked_in_at"
+    t.index ["tournament_id", "disqualified"], name: "index_players_on_tournament_id_and_disqualified"
+    t.index ["tournament_id", "dropped"], name: "index_players_on_tournament_id_and_dropped"
+    t.index ["tournament_id", "round_wins"], name: "index_players_on_tournament_id_and_round_wins"
+    t.index ["tournament_id", "team_sheet_submitted"], name: "index_players_on_tournament_id_and_team_sheet_submitted"
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
   end
 
@@ -225,7 +238,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.integer "iv_spd"
     t.integer "iv_spe"
     t.index ["pokemon_team_id", "position"], name: "index_pokemon_on_pokemon_team_id_and_position", unique: true
-    t.index ["pokemon_team_id"], name: "index_pokemon_on_pokemon_team_id"
+    t.index ["pokemon_team_id", "species"], name: "index_pokemon_on_pokemon_team_id_and_species"
+    t.index ["species"], name: "index_pokemon_on_species"
   end
 
   create_table "pokemon_teams", force: :cascade do |t|
@@ -238,8 +252,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.datetime "archived_at"
     t.string "pokepaste_id"
     t.bigint "profile_id"
-    t.index ["format_id"], name: "index_pokemon_teams_on_format_id"
-    t.index ["game_id"], name: "index_pokemon_teams_on_game_id"
+    t.index ["format_id", "created_at"], name: "index_pokemon_teams_on_format_id_and_created_at"
+    t.index ["game_id", "format_id", "created_at"], name: "index_pokemon_teams_on_game_id_and_format_id_and_created_at"
+    t.index ["profile_id", "archived_at"], name: "index_pokemon_teams_on_profile_id_and_archived_at"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -278,8 +293,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.integer "round_number", default: 1, null: false
     t.datetime "started_at"
     t.datetime "ended_at"
-    t.index ["phase_id", "round_number"], name: "index_rounds_on_phase_id_and_round_number", unique: true
-    t.index ["phase_id"], name: "index_rounds_on_phase_id"
   end
 
   create_table "tournament_formats", force: :cascade do |t|
@@ -313,11 +326,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_232506) do
     t.bigint "limitless_id"
     t.boolean "published", default: false, null: false
     t.bigint "current_phase_id"
-    t.index ["current_phase_id"], name: "index_tournaments_on_current_phase_id"
-    t.index ["format_id"], name: "index_tournaments_on_format_id"
-    t.index ["game_id"], name: "index_tournaments_on_game_id"
+    t.index ["format_id", "start_at"], name: "index_tournaments_on_format_id_and_start_at"
+    t.index ["game_id", "start_at"], name: "index_tournaments_on_game_id_and_start_at"
     t.index ["limitless_id"], name: "index_tournaments_on_limitless_id", unique: true, where: "(limitless_id IS NOT NULL)"
-    t.index ["organization_id"], name: "index_tournaments_on_organization_id"
+    t.index ["organization_id", "start_at"], name: "index_tournaments_on_organization_id_and_start_at"
+    t.index ["published"], name: "index_tournaments_on_published"
+    t.index ["start_at"], name: "index_tournaments_on_start_at"
   end
 
   add_foreign_key "accounts", "profiles", column: "default_profile_id"

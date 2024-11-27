@@ -5,7 +5,7 @@ ruby "3.3.5"
 
 # Rails framework
 gem "active_model_serializers", "~> 0"
-gem "bootsnap", ">= 1.4.4", require: false
+gem "bootsnap", ">= 1", require: false
 gem "rails", "~> 7.2"
 gem "sprockets-rails"
 gem "stimulus-rails", "~> 1"
@@ -20,10 +20,10 @@ gem "pundit"
 gem "friendly_id"
 gem "kaminari"
 gem "kredis", "~> 1"
-gem "pg", "~> 1.5.7"
+gem "pg", "~> 1"
 
 # API and Serialization
-gem "json", "~> 2.7"
+gem "json", "~> 2"
 gem "jsonapi-serializer", "~> 2"
 gem "rswag-api"
 gem "rswag-ui"
@@ -33,7 +33,7 @@ gem "versionist", "~> 2"
 gem "sidekiq", "~> 7"
 
 # Security
-gem "openssl", "~> 3.2"
+gem "openssl", "~> 3"
 gem "rack-attack", "~> 6"
 gem "rack-cors", "~> 2"
 
@@ -41,11 +41,11 @@ gem "rack-cors", "~> 2"
 gem "awesome_print"
 gem "dotenv-rails"
 gem "ostruct", "~> 0"
-gem "parallel", "~> 1.26"
+gem "parallel", "~> 1"
 gem "retries"
 gem "svix"
-gem "typhoeus", "~> 1.4"
-gem "uri", "~> 0.13.1"
+gem "typhoeus", "~> 1"
+gem "uri", "~> 1"
 
 # Redis
 gem "redis", "~> 5"
@@ -61,7 +61,7 @@ gem "traceroute", "~> 0"
 gem "tzinfo-data", platforms: %i[windows jruby]
 
 # Web Server
-gem "puma", "~> 6.4"
+gem "puma", "~> 6"
 
 group :development do
   gem "rails-erd"
@@ -91,7 +91,7 @@ group :development, :test do
   gem "parallel_tests", "~> 4"
   gem "rspec-json_expectations"
   gem "rspec-rails"
-  gem "ruby-lsp-rails", "~> 0.3.15"
+  gem "ruby-lsp-rails", "~> 0.3"
   gem "ruby-lsp-rspec"
   gem "spring", "~> 4"
   gem "webmock", "~> 3"

@@ -1,0 +1,39 @@
+version: "0.2"
+ignorePaths:
+  - db/schema.rb
+  - Gemfile
+  - Gemfile.lock
+  - db/migrate
+  - db/schema.rb
+dictionaryDefinitions: []
+dictionaries:
+  - en_US
+  - companies
+  - softwareTerms
+  - misc
+  - ruby
+  - rails
+  - bash
+  - typescript
+  - node
+  - markdown
+  - lorem-ipsum
+words:
+  - Rswag
+  - bytesize
+  - filesize
+  - invalidcookie
+  - isready
+  - mikepenz
+  - resultset
+  - reviewdog
+  - timestr
+  - unsubscription
+  - VERCEL
+  - swag
+  - rewax
+  - rowan
+  - rag
+  - rsa
+ignoreWords: []
+import: []
