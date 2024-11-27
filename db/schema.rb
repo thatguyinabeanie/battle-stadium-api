@@ -144,7 +144,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_27_220937) do
     t.string "slug"
     t.bigint "limitless_org_id"
     t.bigint "owner_id"
-    t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index ["name"], name: "index_organizations_on_name", unique: true, where: "(name IS NOT NULL)"
     t.index ["owner_id"], name: "index_organizations_on_owner_id"
     t.index ["partner"], name: "index_organizations_on_partner"
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
