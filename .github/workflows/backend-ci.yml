@@ -102,6 +102,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
+            mkdir -p tmp/parallel_runtime_rspec
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
           fi
       - name: "Runtime cache: store chunk"
