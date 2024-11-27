@@ -17,10 +17,9 @@ jobs:
       - uses: streetsidesoftware/cspell-action@v6
         with:
           # Inline PR comments instead of annotations
-          inline: true
+          inline: error
           # Fail on warnings
           strict: true
           # Show progress
           verbose: true
-          # Incremental file listing
-          incremental_files_only: true
+          suggestions: true
