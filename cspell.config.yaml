@@ -19,21 +19,22 @@ dictionaries:
   - markdown
   - lorem-ipsum
 words:
-  - Rswag
+  - autobuild
   - bytesize
   - filesize
   - invalidcookie
   - isready
   - mikepenz
+  - rag
   - resultset
   - reviewdog
+  - rewax
+  - rowan
+  - rsa
+  - Rswag
+  - swag
   - timestr
   - unsubscription
   - VERCEL
-  - swag
-  - rewax
-  - rowan
-  - rag
-  - rsa
 ignoreWords: []
 import: []
