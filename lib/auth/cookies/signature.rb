@@ -23,7 +23,7 @@ module Auth
 
           unescaped_value = CGI.unescape(value)
           raise Auth::Cookies::Signature::InvalidCookieError, "Invalid cookie value" if unescaped_value.nil?
-          value = unescaped_value.gsub("%2E", ".")
+          value = unescaped_value&.gsub("%2E", ".")
           expected_signature = OpenSSL::HMAC.hexdigest("SHA256", AUTH_SECRET, value)
 
           if signature == expected_signature
@@ -36,7 +36,7 @@ module Auth
         def sign(cookie:)
           escaped_cookie = CGI.escape(cookie)
           raise Auth::Cookies::Signature::InvalidCookieError, "Invalid cookie value" if escaped_cookie.nil?
-          cookie = escaped_cookie.gsub(".", "%2E")
+          cookie = escaped_cookie&.gsub(".", "%2E")
           signature = OpenSSL::HMAC.hexdigest("SHA256", AUTH_SECRET, cookie)
           "#{cookie}.#{signature}"
         end

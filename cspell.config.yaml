@@ -22,5 +22,6 @@ words:
   - mikepenz
   - resultset
   - reviewdog
+  - VERCEL
 ignoreWords: []
 import: []
