@@ -107,7 +107,7 @@ jobs:
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
           fi
       - name: "Runtime cache: store chunk"
-        if: always() && steps.cache-restore.outputs.cache-hit != 'true'  # Only save if cache was not hit
+        if: always()
         uses: actions/cache/save@v4
         with:
           key: runtime-cache-${{ matrix.group }}
