@@ -108,13 +108,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh extension install actions/gh-actions-cache
-          gh actions-cache delete runtime-cache-${{ matrix.group }} --confirm || true
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
-          else
-            echo "Error: Runtime log file not found for group ${{ matrix.group }}. This might indicate a problem with test execution or cache restoration."
-            exit 1
           fi
 
       - name: Publish Test Report
@@ -189,7 +184,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh extension install actions/gh-actions-cache
+          mkdir -p tmp/parallel_runtime_rspec
           gh actions-cache delete runtime-cache-all --confirm
         continue-on-error: true
       - name: "Runtime cache: store"
