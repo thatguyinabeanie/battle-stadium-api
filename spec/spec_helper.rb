@@ -17,6 +17,7 @@ require "factory_bot_rails"
 # require_relative 'support/openapi_helper'
 ENV["RAILS_ENV"] = "test"
 ENV["AUTH_SECRET"] = "test_secret"
+ENV["RAILS_API_DEFAULT_HOST"] ||= "http://localhost:3000/api/v1"
 
 require "simplecov"
 require "simplecov-console"

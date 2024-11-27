@@ -21,6 +21,8 @@ dictionaries:
 words:
   - autobuild
   - bytesize
+  - fcontext
+  - fdescribe
   - filesize
   - invalidcookie
   - isready
@@ -32,6 +34,7 @@ words:
   - rowan
   - rsa
   - Rswag
+  - srand
   - swag
   - timestr
   - unsubscription
