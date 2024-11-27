@@ -174,10 +174,12 @@ jobs:
       - name: "Runtime cache: combine chunks"
         run: |
           mkdir -p tmp
-          if [ ! -f "tmp/parallel_runtime_rspec/1.log" ] || [ ! -f "tmp/parallel_runtime_rspec/2.log" ] || [ ! -f "tmp/parallel_runtime_rspec/3.log" ] || [ ! -f "tmp/parallel_runtime_rspec/4.log" ]; then
-            echo "Error: Missing runtime logs"
-            exit 1
-          fi
+          for i in 1 2 3 4; do
+            if [ ! -f "tmp/parallel_runtime_rspec/${i}.log" ]; then
+              echo "Error: Missing runtime log for chunk ${i}"
+              exit 1
+            fi
+          done
           cat tmp/parallel_runtime_rspec/* > tmp/parallel_runtime_rspec.log
           cat tmp/parallel_runtime_rspec.log
 
