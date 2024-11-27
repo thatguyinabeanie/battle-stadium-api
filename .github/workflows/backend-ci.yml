@@ -102,6 +102,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ -f "tmp/parallel_runtime_rspec.log" ]; then
+            echo "Renaming runtime log"
             mkdir -p tmp/parallel_runtime_rspec
             mv tmp/parallel_runtime_rspec.log tmp/parallel_runtime_rspec/${{ matrix.group }}.log
           fi
@@ -150,25 +151,25 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-1
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/1.log
 
       - name: "Runtime cache: load chunk 2"
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-2
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/2.log
 
       - name: "Runtime cache: load chunk 3"
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-3
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/3.log
 
       - name: "Runtime cache: load chunk 4"
         uses: actions/cache/restore@v4
         with:
           key: runtime-cache-4
-          path: tmp/parallel_runtime_rspec
+          path: tmp/parallel_runtime_rspec/4.log
 
       - name: "Runtime cache: combine chunks"
         run: |
