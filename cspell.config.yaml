@@ -3,6 +3,8 @@ ignorePaths:
   - db/schema.rb
   - Gemfile
   - Gemfile.lock
+  - db/migrate
+  - db/schema.rb
 dictionaryDefinitions: []
 dictionaries:
   - en_US
@@ -17,11 +19,15 @@ dictionaries:
   - markdown
   - lorem-ipsum
 words:
+  - bytesize
   - filesize
+  - invalidcookie
   - isready
   - mikepenz
   - resultset
   - reviewdog
+  - timestr
+  - unsubscription
   - VERCEL
 ignoreWords: []
 import: []
