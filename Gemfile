@@ -91,6 +91,7 @@ group :development, :test do
   gem "parallel_tests", "~> 4"
   gem "rspec-json_expectations"
   gem "rspec-rails"
+  gem "rswag-specs"
   gem "ruby-lsp-rails", "~> 0.3"
   gem "ruby-lsp-rspec"
   gem "spring", "~> 4"
@@ -98,7 +99,6 @@ group :development, :test do
 end
 
 group :development, :test, :rubocop do
-  gem "rswag-specs"
   gem "rubocop"
   gem "rubocop-checkstyle_formatter"
   gem "rubocop-erb"
