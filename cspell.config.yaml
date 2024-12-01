@@ -41,5 +41,8 @@ words:
   - unsubscription
   - VERCEL
   - teamlists
+  - tera
+  - pokepaste
+  - swaggerize
 ignoreWords: []
 import: []
