@@ -24,6 +24,7 @@ words:
   - fcontext
   - fdescribe
   - filesize
+  - ILIKE
   - invalidcookie
   - isready
   - mikepenz
