@@ -21,8 +21,8 @@ module Api
         authorize ::Organization, :index?
 
         @objects = if params[:query].present?
-                query = "%#{params[:query]}%"
-                ::Organization.where("name ILIKE ? OR slug ILIKE ?", query, query)
+                     query = "%#{params[:query]}%"
+                     ::Organization.where("name ILIKE ? OR slug ILIKE ?", query, query)
               else
                 ::Organization.all
               end
