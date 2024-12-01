@@ -20,12 +20,12 @@ module Api
       def index
         authorize ::Organization, :index?
 
-        @objects = if params[:query].present?
-          query = "%#{params[:query]}%"
-          @objects.where("name ILIKE ? OR slug ILIKE ?", query, query)
-        else
-          ::Organization.all
-        end
+        @objects  = if params[:query].present?
+                      query = "%#{params[:query]}%"
+                      ::Organization.where("name ILIKE ? OR slug ILIKE ?", query, query)
+                    else
+                      ::Organization.all
+                    end
 
         @objects = @objects.order(name: :asc)
         @objects = @objects.page(1).per(10000)
