@@ -20,7 +20,8 @@ RSpec.describe Api::V1::OrganizationsController do
 
       parameter PAGE_PARAMETER
       parameter PER_PAGE_PARAMETER
-      parameter name: :partner, in: :query, type: :boolean
+      parameter name: :partner, in: :query, type: :boolean, required: false, description: "Filter by partner organizations"
+      parameter name: :query, in: :query, type: :string, description: "Search query", required: false
 
       security [Bearer: []]
 
@@ -41,6 +42,27 @@ RSpec.describe Api::V1::OrganizationsController do
 
         run_test! do
           expect(request.query_parameters).to include("page" => "2", "per_page" => "2")
+          expect(response.body).to include("data")
+          expect(response.body).to include("meta")
+        end
+      end
+
+      response(200, "Search Organizations") do
+        let(:organizations) { create_list(:organization, 5) }
+        let(:page) { 1 }
+        let(:per_page) { 1000 }
+        let(:query) { organizations.first.name }
+
+        include_context "with Request Specs - Vercel OIDC Token Verification"
+        schema type: :object, properties: {
+          data: { type: :array, items: { "$ref" => ORGANIZATION_DETAIL_SCHEMA } },
+          meta: { "$ref" => "#/components/schemas/Pagination" }
+        }
+
+        OpenApi::Response.set_example_response_metadata
+
+        run_test! do
+          expect(request.query_parameters).to include("query" => query)
           expect(response.body).to include("data")
           expect(response.body).to include("meta")
         end

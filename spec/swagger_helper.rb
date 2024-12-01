@@ -499,7 +499,7 @@ PAGE_PARAMETER = {
   in: :query,
   type: :integer,
   description: "Page number for pagination",
-  required: true,
+  required: false,
 }
 
 PER_PAGE_PARAMETER = {
@@ -507,7 +507,7 @@ PER_PAGE_PARAMETER = {
   in: :query,
   type: :integer,
   description: "Number of items per page for pagination",
-  required: true,
+  required: false,
 }
 
 PAGINATION_RESPONSE = {

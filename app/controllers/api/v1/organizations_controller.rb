@@ -20,13 +20,13 @@ module Api
       def index
         authorize ::Organization, :index?
 
-        @objects = if params[:query].present?
-                     query = params[:query].to_s.strip
+        query = params[:query].to_s.strip
+        @objects = if query.present?
                      query = "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
                      ::Organization.where("name ILIKE ? OR slug ILIKE ?", query, query)
-              else
-                ::Organization.all
-              end
+                   else
+                     ::Organization.all
+                   end
 
         @objects = @objects.order(name: :asc)
         @objects = @objects.page(1).per(1000)
