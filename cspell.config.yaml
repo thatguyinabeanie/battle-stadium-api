@@ -40,5 +40,6 @@ words:
   - timestr
   - unsubscription
   - VERCEL
+  - teamlists
 ignoreWords: []
 import: []
