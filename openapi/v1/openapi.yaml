@@ -35,7 +35,12 @@ paths:
       - Accounts
       description: Creates a new Account.
       operationId: postAccount
-      parameters: []
+      parameters:
+      - name: username
+        in: query
+        description: Username
+        schema:
+          type: string
       security:
       - Bearer: []
       responses:
@@ -516,24 +521,32 @@ paths:
       - name: page
         in: query
         description: Page number for pagination
-        required: true
+        required: false
         schema:
           type: integer
       - name: per_page
         in: query
         description: Number of items per page for pagination
-        required: true
+        required: false
         schema:
           type: integer
       - name: partner
         in: query
+        required: false
+        description: Filter by partner organizations
         schema:
           type: boolean
+      - name: query
+        in: query
+        description: Search query
+        required: false
+        schema:
+          type: string
       security:
       - Bearer: []
       responses:
         '200':
-          description: successful
+          description: Search Organizations
           content:
             application/json:
               schema:
@@ -948,7 +961,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/PlayerDetails"
-        '422':
+        '409':
           description: Already registered
           content:
             application/json:
@@ -1235,13 +1248,13 @@ paths:
       - name: page
         in: query
         description: Page number for pagination
-        required: true
+        required: false
         schema:
           type: integer
       - name: per_page
         in: query
         description: Number of items per page for pagination
-        required: true
+        required: false
         schema:
           type: integer
       security:
@@ -1329,7 +1342,7 @@ paths:
         '404':
           description: not found
 servers:
-- url: https://api.battlestadium.gg/api/v1
+- url: http://localhost:3000/api/v1
 components:
   responses:
     NotFound:
@@ -1345,14 +1358,14 @@ components:
       name: page
       in: query
       description: Page number for pagination
-      required: true
+      required: false
       schema:
         type: integer
     PerPage:
       name: per_page
       in: query
       description: Number of items per page for pagination
-      required: true
+      required: false
       schema:
         type: integer
     VercelTokenHeader:
