@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_02_150406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "accounts", force: :cascade do |t|
+  create_table "accounts", id: :serial, force: :cascade do |t|
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,7 +35,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["email"], name: "index_accounts_on_email", unique: true
   end
 
-  create_table "chat_messages", force: :cascade do |t|
+  create_table "chat_messages", id: :serial, force: :cascade do |t|
     t.integer "match_id", null: false
     t.text "content"
     t.string "message_type"
@@ -48,7 +48,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["match_id"], name: "index_chat_messages_on_match_id"
   end
 
-  create_table "clerk_users", force: :cascade do |t|
+  create_table "clerk_users", id: :serial, force: :cascade do |t|
     t.string "clerk_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -58,7 +58,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["clerk_user_id"], name: "index_clerk_users_on_clerk_user_id", unique: true
   end
 
-  create_table "formats", force: :cascade do |t|
+  create_table "formats", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "game_id"
     t.datetime "created_at", null: false
@@ -85,7 +85,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index "lower((name)::text)", name: "index_games_on_lower_name", unique: true
   end
 
-  create_table "match_games", force: :cascade do |t|
+  create_table "match_games", id: :serial, force: :cascade do |t|
     t.integer "match_id", null: false
     t.integer "winner_id"
     t.integer "loser_id"
@@ -100,7 +100,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["winner_id"], name: "index_match_games_on_winner_id"
   end
 
-  create_table "matches", force: :cascade do |t|
+  create_table "matches", id: :serial, force: :cascade do |t|
     t.integer "round_id", null: false
     t.integer "table_number"
     t.integer "player_one_id"
@@ -125,7 +125,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
-  create_table "organization_staff_members", force: :cascade do |t|
+  create_table "organization_staff_members", id: :serial, force: :cascade do |t|
     t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -134,7 +134,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["organization_id"], name: "index_organization_staff_members_on_organization_id"
   end
 
-  create_table "organizations", force: :cascade do |t|
+  create_table "organizations", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
@@ -153,7 +153,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["slug"], name: "index_organizations_on_slug_trgm", opclass: :gin_trgm_ops, using: :gin
   end
 
-  create_table "phase_players", force: :cascade do |t|
+  create_table "phase_players", id: :serial, force: :cascade do |t|
     t.integer "player_id", null: false
     t.string "phase_type", null: false
     t.integer "phase_id", null: false
@@ -162,7 +162,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["phase_id", "player_id"], name: "index_phase_players_on_phase_id_and_player_id"
   end
 
-  create_table "phases", force: :cascade do |t|
+  create_table "phases", id: :serial, force: :cascade do |t|
     t.integer "tournament_id", null: false
     t.integer "number_of_rounds"
     t.datetime "created_at", null: false
@@ -178,7 +178,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["type"], name: "index_phases_on_type"
   end
 
-  create_table "players", force: :cascade do |t|
+  create_table "players", id: :serial, force: :cascade do |t|
     t.integer "tournament_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -210,7 +210,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
   end
 
-  create_table "pokemon", force: :cascade do |t|
+  create_table "pokemon", id: :serial, force: :cascade do |t|
     t.string "species"
     t.string "ability"
     t.string "tera_type"
@@ -245,7 +245,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["species"], name: "index_pokemon_on_species"
   end
 
-  create_table "pokemon_teams", force: :cascade do |t|
+  create_table "pokemon_teams", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "published", default: true, null: false
@@ -260,7 +260,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["profile_id", "archived_at"], name: "index_pokemon_teams_on_profile_id_and_archived_at"
   end
 
-  create_table "profiles", force: :cascade do |t|
+  create_table "profiles", id: :serial, force: :cascade do |t|
     t.string "username", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -289,7 +289,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["start_date"], name: "index_rk9_tournaments_on_start_date"
   end
 
-  create_table "rounds", force: :cascade do |t|
+  create_table "rounds", id: :serial, force: :cascade do |t|
     t.integer "phase_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -298,7 +298,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.datetime "ended_at"
   end
 
-  create_table "tournament_formats", force: :cascade do |t|
+  create_table "tournament_formats", id: :serial, force: :cascade do |t|
     t.integer "tournament_id", null: false
     t.integer "format_id", null: false
     t.datetime "created_at", null: false
@@ -307,7 +307,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
     t.index ["tournament_id"], name: "index_tournament_formats_on_tournament_id"
   end
 
-  create_table "tournaments", force: :cascade do |t|
+  create_table "tournaments", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "start_at"
     t.datetime "created_at", null: false
