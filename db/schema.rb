@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_02_143939) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string "email", default: "", null: false
+    t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
-    t.string "pronouns", default: "", null: false
+    t.string "pronouns", null: false
     t.text "image_url"
     t.boolean "admin", default: false, null: false
     t.datetime "archived_at"
