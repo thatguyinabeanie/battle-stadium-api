@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_01_223731) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_02_032032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -145,11 +145,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_01_223731) do
     t.string "slug"
     t.bigint "limitless_org_id"
     t.bigint "owner_id"
-    t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index "lower((name)::text)", name: "index_organizations_on_lower_name", unique: true
+    t.index "lower((slug)::text)", name: "index_organizations_on_lower_slug", unique: true
     t.index ["name"], name: "index_organizations_on_name_trgm", opclass: :gin_trgm_ops, using: :gin
     t.index ["owner_id"], name: "index_organizations_on_owner_id"
     t.index ["partner"], name: "index_organizations_on_partner"
-    t.index ["slug"], name: "index_organizations_on_slug", unique: true
     t.index ["slug"], name: "index_organizations_on_slug_trgm", opclass: :gin_trgm_ops, using: :gin
   end
 
