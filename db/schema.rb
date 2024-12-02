@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_02_144607) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -22,11 +22,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
-    t.string "pronouns", null: false
+    t.string "pronouns"
     t.text "image_url"
     t.boolean "admin", default: false, null: false
     t.datetime "archived_at"
-    t.bigint "default_profile_id"
+    t.integer "default_profile_id"
     t.string "country"
     t.string "timezone"
     t.index ["archived_at"], name: "index_accounts_on_archived_at"
@@ -36,12 +36,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
   end
 
   create_table "chat_messages", force: :cascade do |t|
-    t.bigint "match_id", null: false
+    t.integer "match_id", null: false
     t.text "content"
     t.string "message_type"
     t.datetime "sent_at"
-    t.bigint "account_id"
-    t.bigint "profile_id", null: false
+    t.integer "account_id"
+    t.integer "profile_id", null: false
     t.index ["account_id"], name: "index_chat_messages_on_account_id"
     t.index ["match_id", "account_id", "sent_at"], name: "index_chat_messages_on_match_id_and_account_id_and_sent_at"
     t.index ["match_id", "profile_id", "sent_at"], name: "index_chat_messages_on_match_id_and_profile_id_and_sent_at"
@@ -52,7 +52,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.string "clerk_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "account_id"
+    t.integer "account_id"
     t.index ["account_id", "clerk_user_id"], name: "index_clerk_users_on_account_id_and_clerk_user_id", unique: true
     t.index ["account_id"], name: "index_clerk_users_on_account_id"
     t.index ["clerk_user_id"], name: "index_clerk_users_on_clerk_user_id", unique: true
@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
 
   create_table "formats", force: :cascade do |t|
     t.string "name"
-    t.bigint "game_id"
+    t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_formats_on_game_id"
@@ -86,36 +86,36 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
   end
 
   create_table "match_games", force: :cascade do |t|
-    t.bigint "match_id", null: false
-    t.bigint "winner_id"
-    t.bigint "loser_id"
+    t.integer "match_id", null: false
+    t.integer "winner_id"
+    t.integer "loser_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_number", default: 1, null: false
     t.datetime "ended_at"
     t.datetime "started_at"
-    t.bigint "reporter_profile_id"
+    t.integer "reporter_profile_id"
     t.index ["loser_id"], name: "index_match_games_on_loser_id"
     t.index ["match_id"], name: "index_match_games_on_match_id"
     t.index ["winner_id"], name: "index_match_games_on_winner_id"
   end
 
   create_table "matches", force: :cascade do |t|
-    t.bigint "round_id", null: false
+    t.integer "round_id", null: false
     t.integer "table_number"
-    t.bigint "player_one_id"
-    t.bigint "player_two_id"
-    t.bigint "winner_id"
+    t.integer "player_one_id"
+    t.integer "player_two_id"
+    t.integer "winner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "player_one_check_in"
     t.datetime "player_two_check_in"
-    t.bigint "loser_id"
+    t.integer "loser_id"
     t.datetime "ended_at"
-    t.bigint "tournament_id"
-    t.bigint "phase_id"
+    t.integer "tournament_id"
+    t.integer "phase_id"
     t.boolean "bye", default: false, null: false
-    t.bigint "reset_by_id"
+    t.integer "reset_by_id"
     t.index ["loser_id"], name: "index_matches_on_loser_id"
     t.index ["phase_id"], name: "index_matches_on_phase_id"
     t.index ["player_one_id"], name: "index_matches_on_player_one_id"
@@ -126,10 +126,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
   end
 
   create_table "organization_staff_members", force: :cascade do |t|
-    t.bigint "organization_id", null: false
+    t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "account_id"
+    t.integer "account_id"
     t.index ["account_id"], name: "index_organization_staff_members_on_account_id"
     t.index ["organization_id"], name: "index_organization_staff_members_on_organization_id"
   end
@@ -143,8 +143,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.boolean "partner", default: false, null: false
     t.boolean "hidden", default: false, null: false
     t.string "slug"
-    t.bigint "limitless_org_id"
-    t.bigint "owner_id"
+    t.integer "limitless_org_id"
+    t.integer "owner_id"
     t.index "lower((name)::text)", name: "index_organizations_on_lower_name", unique: true
     t.index "lower((slug)::text)", name: "index_organizations_on_lower_slug", unique: true
     t.index ["name"], name: "index_organizations_on_name_trgm", opclass: :gin_trgm_ops, using: :gin
@@ -154,16 +154,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
   end
 
   create_table "phase_players", force: :cascade do |t|
-    t.bigint "player_id", null: false
+    t.integer "player_id", null: false
     t.string "phase_type", null: false
-    t.bigint "phase_id", null: false
+    t.integer "phase_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["phase_id", "player_id"], name: "index_phase_players_on_phase_id_and_player_id"
   end
 
   create_table "phases", force: :cascade do |t|
-    t.bigint "tournament_id", null: false
+    t.integer "tournament_id", null: false
     t.integer "number_of_rounds"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -173,19 +173,19 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.datetime "started_at"
     t.datetime "ended_at"
     t.integer "order", default: 0, null: false
-    t.bigint "current_round_id"
+    t.integer "current_round_id"
     t.index ["tournament_id", "order"], name: "index_phases_on_tournament_id_and_order"
     t.index ["type"], name: "index_phases_on_type"
   end
 
   create_table "players", force: :cascade do |t|
-    t.bigint "tournament_id", null: false
+    t.integer "tournament_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "team_sheet_submitted", default: false, null: false
     t.datetime "checked_in_at", precision: nil
     t.string "in_game_name", null: false
-    t.bigint "pokemon_team_id"
+    t.integer "pokemon_team_id"
     t.boolean "dropped", default: false, null: false
     t.boolean "disqualified", default: false, null: false
     t.integer "round_wins", default: 0, null: false
@@ -193,8 +193,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.integer "game_wins", default: 0, null: false
     t.integer "game_losses", default: 0, null: false
     t.decimal "resistance", precision: 5, scale: 2
-    t.bigint "account_id", null: false
-    t.bigint "profile_id", null: false
+    t.integer "account_id", null: false
+    t.integer "profile_id", null: false
     t.boolean "show_country_flag", default: true, null: false
     t.index ["account_id", "created_at"], name: "index_players_on_account_id_and_created_at"
     t.index ["account_id"], name: "index_players_on_account_id"
@@ -223,7 +223,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "nickname"
-    t.bigint "pokemon_team_id", default: 0, null: false
+    t.integer "pokemon_team_id", default: 0, null: false
     t.string "form"
     t.integer "position", default: 0, null: false
     t.integer "gender", default: 2, null: false
@@ -250,11 +250,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.datetime "updated_at", null: false
     t.boolean "published", default: true, null: false
     t.string "name"
-    t.bigint "format_id", null: false
-    t.bigint "game_id", null: false
+    t.integer "format_id", null: false
+    t.integer "game_id", null: false
     t.datetime "archived_at"
     t.string "pokepaste_id"
-    t.bigint "profile_id"
+    t.integer "profile_id"
     t.index ["format_id", "created_at"], name: "index_pokemon_teams_on_format_id_and_created_at"
     t.index ["game_id", "format_id", "created_at"], name: "index_pokemon_teams_on_game_id_and_format_id_and_created_at"
     t.index ["profile_id", "archived_at"], name: "index_pokemon_teams_on_profile_id_and_archived_at"
@@ -267,7 +267,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.string "image_url"
     t.string "slug"
     t.datetime "archived_at"
-    t.bigint "account_id"
+    t.integer "account_id"
     t.boolean "default", default: false, null: false
     t.string "type", default: "Profile", null: false
     t.index ["account_id"], name: "index_profiles_on_account_id"
@@ -275,7 +275,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.index ["username"], name: "index_profiles_on_username", unique: true
   end
 
-  create_table "rk9_tournaments", force: :cascade do |t|
+  create_table "rk9_tournaments", id: :serial, force: :cascade do |t|
     t.string "rk9_id", null: false
     t.string "name", null: false
     t.date "start_date", null: false
@@ -290,7 +290,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.bigint "phase_id", null: false
+    t.integer "phase_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "round_number", default: 1, null: false
@@ -299,8 +299,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
   end
 
   create_table "tournament_formats", force: :cascade do |t|
-    t.bigint "tournament_id", null: false
-    t.bigint "format_id", null: false
+    t.integer "tournament_id", null: false
+    t.integer "format_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["format_id"], name: "index_tournament_formats_on_format_id"
@@ -312,10 +312,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.datetime "start_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organization_id"
+    t.integer "organization_id"
     t.datetime "check_in_start_at"
-    t.bigint "game_id"
-    t.bigint "format_id"
+    t.integer "game_id"
+    t.integer "format_id"
     t.datetime "ended_at"
     t.datetime "registration_start_at"
     t.datetime "registration_end_at"
@@ -328,7 +328,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_144128) do
     t.datetime "end_at"
     t.bigint "limitless_id"
     t.boolean "published", default: false, null: false
-    t.bigint "current_phase_id"
+    t.integer "current_phase_id"
     t.index ["format_id", "start_at"], name: "index_tournaments_on_format_id_and_start_at"
     t.index ["game_id", "start_at"], name: "index_tournaments_on_game_id_and_start_at"
     t.index ["limitless_id"], name: "index_tournaments_on_limitless_id", unique: true, where: "(limitless_id IS NOT NULL)"

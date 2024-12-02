@@ -1,5 +1,5 @@
 class ChangeBigintsToIntegers < ActiveRecord::Migration[7.2]
-   def change
+  def up
     # Change columns in accounts table
     change_column :accounts, :default_profile_id, :integer
 
@@ -77,7 +77,91 @@ class ChangeBigintsToIntegers < ActiveRecord::Migration[7.2]
     change_column :tournaments, :organization_id, :integer
     change_column :tournaments, :game_id, :integer
     change_column :tournaments, :format_id, :integer
-    change_column :tournaments, :limitless_id, :integer
+    # Keep limitless_id as bigint
+    # change_column :tournaments, :limitless_id, :integer
     change_column :tournaments, :current_phase_id, :integer
+  end
+
+  def down
+    # Revert columns in accounts table
+    change_column :accounts, :default_profile_id, :bigint
+
+    # Revert columns in chat_messages table
+    change_column :chat_messages, :match_id, :bigint
+    change_column :chat_messages, :account_id, :bigint
+    change_column :chat_messages, :profile_id, :bigint
+
+    # Revert columns in clerk_users table
+    change_column :clerk_users, :account_id, :bigint
+
+    # Revert columns in formats table
+    change_column :formats, :game_id, :bigint
+
+    # Revert columns in match_games table
+    change_column :match_games, :match_id, :bigint
+    change_column :match_games, :winner_id, :bigint
+    change_column :match_games, :loser_id, :bigint
+    change_column :match_games, :reporter_profile_id, :bigint
+
+    # Revert columns in matches table
+    change_column :matches, :round_id, :bigint
+    change_column :matches, :player_one_id, :bigint
+    change_column :matches, :player_two_id, :bigint
+    change_column :matches, :winner_id, :bigint
+    change_column :matches, :loser_id, :bigint
+    change_column :matches, :tournament_id, :bigint
+    change_column :matches, :phase_id, :bigint
+    change_column :matches, :reset_by_id, :bigint
+
+    # Revert columns in organization_staff_members table
+    change_column :organization_staff_members, :organization_id, :bigint
+    change_column :organization_staff_members, :account_id, :bigint
+
+    # Revert columns in organizations table
+    change_column :organizations, :limitless_org_id, :bigint
+    change_column :organizations, :owner_id, :bigint
+
+    # Revert columns in phase_players table
+    change_column :phase_players, :player_id, :bigint
+    change_column :phase_players, :phase_id, :bigint
+
+    # Revert columns in phases table
+    change_column :phases, :tournament_id, :bigint
+    change_column :phases, :current_round_id, :bigint
+
+    # Revert columns in players table
+    change_column :players, :tournament_id, :bigint
+    change_column :players, :pokemon_team_id, :bigint
+    change_column :players, :account_id, :bigint
+    change_column :players, :profile_id, :bigint
+
+    # Revert columns in pokemon table
+    change_column :pokemon, :pokemon_team_id, :bigint
+
+    # Revert columns in pokemon_teams table
+    change_column :pokemon_teams, :format_id, :bigint
+    change_column :pokemon_teams, :game_id, :bigint
+    change_column :pokemon_teams, :profile_id, :bigint
+
+    # Revert columns in profiles table
+    change_column :profiles, :account_id, :bigint
+
+    # Revert columns in rk9_tournaments table
+    change_column :rk9_tournaments, :id, :bigint
+
+    # Revert columns in rounds table
+    change_column :rounds, :phase_id, :bigint
+
+    # Revert columns in tournament_formats table
+    change_column :tournament_formats, :tournament_id, :bigint
+    change_column :tournament_formats, :format_id, :bigint
+
+    # Revert columns in tournaments table
+    change_column :tournaments, :organization_id, :bigint
+    change_column :tournaments, :game_id, :bigint
+    change_column :tournaments, :format_id, :bigint
+    # Keep limitless_id as bigint
+    # change_column :tournaments, :limitless_id, :integer
+    change_column :tournaments, :current_phase_id, :bigint
   end
 end
