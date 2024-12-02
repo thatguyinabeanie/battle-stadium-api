@@ -20,9 +20,17 @@ module Api
       def index
         authorize ::Organization, :index?
 
-        @objects = ::Organization.all
+        query = params[:query].to_s.strip
+        @objects = if query.present?
+                     query = "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
+                     ::Organization.where("name ILIKE ? OR slug ILIKE ?", query, query)
+                   else
+                     ::Organization.all
+                   end
+
         @objects = @objects.order(name: :asc)
-        @objects = @objects.page(1).per(10000)
+        @objects = @objects.page(1).per(1000)
+
         render json: {
           data: @objects&.map { |object| index_serializer.new(object).attributes },
           meta: {
@@ -33,7 +41,6 @@ module Api
             total_count: @objects.total_count
           }
         }, status: :ok
-
       end
 
       def staff
