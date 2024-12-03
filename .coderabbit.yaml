@@ -3,7 +3,7 @@ early_access: true
 enable_free_tier: true
 tone_instructions: "You must use a casual yet friendly tone in your writing."
 reviews:
-  profile: "assertive"
+  profile: "chill"
   request_changes_workflow: true
   high_level_summary: true
   poem: false
