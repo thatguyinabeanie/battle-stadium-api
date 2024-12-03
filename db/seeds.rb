@@ -19,6 +19,11 @@ if Rails.env.production?
   exit
 end
 
+if ENV.fetch("SKIP_SEEDS", false) == "true"
+  puts("Skipping seeding data.")
+  exit
+end
+
 puts("Seeding data...")
 PokemonTeam.reset_column_information
 Organization.reset_column_information
