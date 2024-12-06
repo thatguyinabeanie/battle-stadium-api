@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_02_150406) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_06_194112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -168,7 +168,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_02_150406) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type", null: false
-    t.string "name"
+    t.string "name", null: false
     t.integer "best_of", default: 3, null: false
     t.datetime "started_at"
     t.datetime "ended_at"
