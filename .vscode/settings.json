@@ -1,7 +1,7 @@
 {
   "editor.formatOnSave": false,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-  "editor.defaultColorDecorators": true,
+  "editor.defaultColorDecorators": "auto",
   "editor.inlayHints.padding": true,
 
   "sonarlint.connectedMode.project": {
