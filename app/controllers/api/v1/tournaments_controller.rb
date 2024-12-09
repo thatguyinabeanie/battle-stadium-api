@@ -38,10 +38,13 @@ module Api
 
       def create
         authorize @organization, :create_tournament?
+
         @tournament = ::Tournament.new permitted_params
         if @tournament.save
+
           render json: serialize_details, status: :created
         else
+
           render json: @tournament.errors, status: :unprocessable_entity
         end
       rescue ActionController::ParameterMissing => e
@@ -96,10 +99,12 @@ module Api
 
       def set_organization
         @organization = if permitted_params[:organization_id].present?
+
                           ::Organization.find(permitted_params[:organization_id])
                         else
                           ::Tournament.find(params[:id]).organization
                         end
+
         @organization
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Organization not found" }, status: :not_found

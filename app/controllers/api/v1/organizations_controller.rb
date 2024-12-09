@@ -82,9 +82,8 @@ module Api
       end
 
       def tournaments_permitted_params
-        params.require(:tournament).permit(
+        params.permit(
           :tournament_id,
-          :format,
           :name,
           :start_at, :end_at,
           :game_id, :format_id,

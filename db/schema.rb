@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_06_194112) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_09_035641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -82,7 +82,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_06_194112) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug", null: false
     t.index "lower((name)::text)", name: "index_games_on_lower_name", unique: true
+    t.index ["slug"], name: "index_games_on_slug", unique: true
   end
 
   create_table "match_games", id: :serial, force: :cascade do |t|
