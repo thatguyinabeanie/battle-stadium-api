@@ -86,7 +86,7 @@ RSpec.describe Api::V1::GamesController do
     parameter name: :id, in: :path, type: :integer, description: "ID of the game", required: true
     parameter VERCEL_TOKEN_HEADER_PARAMETER
 
-    let(:test_game) { create(:game, name: "Test Game") }
+    let(:test_game) { create(:game, name: "Test Game", slug: "tg") }
     let(:id) { test_game.id }
 
     get("Show Game") do
