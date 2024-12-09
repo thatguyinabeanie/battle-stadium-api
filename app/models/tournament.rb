@@ -27,7 +27,7 @@ class Tournament < ApplicationRecord
   validate :check_in_start_at_before_start_at, if: -> { check_in_start_at.present? && start_at.present? }
 
   has_many :players, class_name: "Player", dependent: :destroy_async
-  validates :player_cap, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
+  validates :player_cap, numericality: { only_integer: true, greater_than: 3 }, allow_nil: true
   validates :limitless_id, uniqueness: true, allow_nil: true
 
   before_validation :set_defaults, on: :create
@@ -116,11 +116,10 @@ class Tournament < ApplicationRecord
   private
 
   def set_defaults
+
     self.name ||= "#{organization.name}'s Tournament ##{organization.tournaments.count + 1}" if organization.present?
 
-    self.format ||= game.formats.last if game.present?
-
-    return if start_at.blank?
+    return if self.start_at.blank?
 
     self.late_registration ||= true
 

@@ -61,8 +61,7 @@ module Api
       def post_tournament
         authorize @organization, :create_tournament?
 
-        @tournament = @organization.tournaments.new tournaments_permitted_params
-
+        @tournament = @organization.tournaments.new tournaments_permitted_params.except(:id, :format, :organization)
         if @tournament.save
           render json: @tournament, status: :created, serializer: Serializers::TournamentDetails
         else
@@ -78,7 +77,7 @@ module Api
       end
 
       def permitted_params
-        params.require(:organization).permit(:name, :description, :owner_id, :format, :logo_url, :partner, :hidden)
+        params.require(:organization).permit(:name, :description, :owner_id, :logo_url, :partner, :hidden)
       end
 
       def tournaments_permitted_params
