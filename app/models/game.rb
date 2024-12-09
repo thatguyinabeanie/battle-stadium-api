@@ -12,6 +12,6 @@ class Game < ApplicationRecord
   before_validation :set_defaults, on: :create
 
   def set_defaults
-    self.slug = name.parameterize if slug.blank?
+    self.slug = name&.parameterize if slug.blank? && name.present?
   end
 end
