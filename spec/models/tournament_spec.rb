@@ -19,7 +19,7 @@ RSpec.describe Tournament do
     it { is_expected.to validate_presence_of(:organization) }
     it { is_expected.to validate_presence_of(:game) }
 
-    it { is_expected.to validate_numericality_of(:player_cap).only_integer.is_greater_than(0).allow_nil }
+    it { is_expected.to validate_numericality_of(:player_cap).only_integer.is_greater_than(3).allow_nil }
 
     context "when game is present" do
       before { tournament.game = game }

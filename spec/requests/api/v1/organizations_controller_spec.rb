@@ -292,7 +292,7 @@ RSpec.describe Api::V1::OrganizationsController do
       description "Creates a new tournament for a given organization."
       operationId "postOrganizationTournament"
 
-      parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentDetails" }
+      parameter name: :tournament, in: :body, schema: { "$ref" => "#/components/schemas/TournamentPostRequest" }
 
       security [Bearer: []]
 
@@ -302,7 +302,7 @@ RSpec.describe Api::V1::OrganizationsController do
         let(:format) { create(:format, game:) }
         let(:tournament) do
           {
-            tournament: {
+
               name: "New Tournament",
               start_at: Time.current.iso8601,
               end_at: 1.day.from_now,
@@ -315,7 +315,7 @@ RSpec.describe Api::V1::OrganizationsController do
               late_registration: false,
               open_team_sheets: false,
               teamlists_required: false
-            }
+
           }
         end
 
@@ -325,9 +325,14 @@ RSpec.describe Api::V1::OrganizationsController do
         run_test!
       end
 
-      response(400, "bad request") do
+      response(422, "unprocessable_entity") do
         let(:request_account) { owner }
-        let(:tournament) { {} }
+        let(:game) { create(:game) }
+        let(:format) { create(:format, game:) }
+        let(:tournament) { {
+
+        }
+        }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"
 

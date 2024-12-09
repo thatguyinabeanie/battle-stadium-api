@@ -55,6 +55,7 @@ words:
   - deepcode
   - logpanel
   - jacoco
+  - unregisters
   - sqltools
   - sonarlint
 ignoreWords: []

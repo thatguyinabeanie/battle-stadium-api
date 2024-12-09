@@ -1,6 +1,6 @@
 class OrganizationPolicy < ApplicationPolicy
   def owner?
-    record.owner == account
+    record&.owner&.id == account.id
   end
 
   def admin?

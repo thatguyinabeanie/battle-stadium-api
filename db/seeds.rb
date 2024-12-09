@@ -85,7 +85,7 @@ def create_format(name:, game:)
   Format.find_or_create_by!(name:, game:)
 end
 
-game = Game.find_or_create_by!(name: "Pokemon VGC")
+game = Game.find_or_create_by!(name: "Scarlet & Violet", slug: "sv")
 
 format = Format.find_or_create_by!(name: "Regulation H", game: game)
 

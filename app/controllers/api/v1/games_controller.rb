@@ -4,7 +4,7 @@ module Api
   module V1
     class GamesController < AbstractApplicationController
       self.klass = ::Game
-      self.serializer_klass = Serializers::Game
+      self.serializer_klass = Serializers::GameDetails
       self.detail_serializer_klass = Serializers::GameDetails
       self.enable_pagination = true
       protected
