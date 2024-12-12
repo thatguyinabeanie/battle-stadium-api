@@ -14,13 +14,8 @@
 
 require "faker"
 
-if Rails.env.production?
-  puts("Seeding is disabled in production.")
-  exit
-end
-
-if ENV.fetch("SKIP_SEEDS", false) == "true"
-  puts("Skipping seeding data.")
+if ENV.fetch("SKIP_SEEDS", "false") == "true"
+  puts("Skip seeding. Exiting...")
   exit
 end
 
