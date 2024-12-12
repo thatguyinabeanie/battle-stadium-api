@@ -15,7 +15,7 @@
 require "faker"
 
 if ENV.fetch("SKIP_SEEDS", "false") == "true"
-  puts("Skipping seeding data.")
+  puts("Skip seeding. Exiting...")
   exit
 end
 
