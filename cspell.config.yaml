@@ -39,6 +39,7 @@ words:
   - libreadline
   - libvips
   - healthcheck
+  - devcontainers
   - Rswag
   - srand
   - swag
