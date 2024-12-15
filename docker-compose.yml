@@ -1,8 +1,6 @@
 services:
   postgres:
     command: -c 'max_connections=1000'
-    networks:
-      - battle-stadium-network
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -15,16 +13,12 @@ services:
       - 5432:5432
 
   redis:
-    networks:
-      - battle-stadium-network
     image: redis:7
     restart: unless-stopped
     ports:
       - 6379:6379
 
   sidekiq:
-    networks:
-      - battle-stadium-network
     image: thatguyinabeanie/battle-stadium:dev-latest
     command: zsh -c "(bundle check || bundle install) && bundle exec sidekiq"
     environment:
@@ -36,7 +30,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - backend
     volumes:
       - .:/battle-stadium
       - .zshrc:/root/.zshenv
@@ -44,8 +37,6 @@ services:
 
   # RAILS API - DEVELOPMENT CONTAINER
   backend:
-    networks:
-      - battle-stadium-network
     hostname: rails-api-container
     image: thatguyinabeanie/battle-stadium:dev-latest
     environment:
@@ -81,8 +72,6 @@ services:
 
   # RAILS API - PRODUCTION CONTAINER
   backend-prod:
-    networks:
-      - battle-stadium-network
     profiles:
       - production
     hostname: rails-api-container
@@ -115,7 +104,3 @@ services:
 
 volumes:
   postgres-data:
-
-networks:
-  battle-stadium-network:
-    name: battle-stadium-network
