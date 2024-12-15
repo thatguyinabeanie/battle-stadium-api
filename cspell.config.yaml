@@ -34,6 +34,11 @@ words:
   - rewax
   - rowan
   - rsa
+  - libc
+  - libpq
+  - libreadline
+  - libvips
+  - healthcheck
   - Rswag
   - srand
   - swag
