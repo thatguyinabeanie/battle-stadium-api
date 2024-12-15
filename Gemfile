@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Specify your Ruby version
-ruby "3.3.5"
+ruby "~> 3"
 
 # Rails framework
 gem "active_model_serializers", "~> 0"
