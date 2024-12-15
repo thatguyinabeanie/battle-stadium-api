@@ -58,5 +58,8 @@ words:
   - unregisters
   - sqltools
   - sonarlint
+  - libvips
+  - libpq
+  - healthcheck
 ignoreWords: []
 import: []
