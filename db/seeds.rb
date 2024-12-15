@@ -120,7 +120,7 @@ pokemon_data = [
   { species: "Staryu", ability: "ability_6", position: 6, tera_type: "water", nature: "relaxed" }
 ]
 
-tournament = create_tournament(name: tournament_name(organization:), organization:, format:, game: format.game, start_at:, end_at:).tap do |tour|
+create_tournament(name: tournament_name(organization:), organization:, format:, game: format.game, start_at:, end_at:).tap do |tour|
   # Preload profiles to avoid N1 queries
   accounts_with_profiles = Account.includes(:default_profile)
 
