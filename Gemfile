@@ -74,7 +74,7 @@ group :test do
   gem "factory_bot_rails", "~> 6"
   gem "rails-controller-testing", "~> 1"
   gem "rspec_junit_formatter", "~> 0"
-  gem "ruby_audit", "~> 2", require: false
+  # gem "ruby_audit", "~> 2", require: false
   gem "selenium-webdriver", "~> 4", require: false
   gem "shoulda-matchers", "~> 6"
   gem "simplecov",  "~> 0.22.0"
