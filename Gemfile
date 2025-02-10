@@ -91,7 +91,7 @@ group :development, :test do
   gem "parallel_tests", "~> 4"
   gem "rspec-json_expectations"
   gem "rspec-rails"
-  gem "ruby-lsp-rails", "~> 0.3"
+  gem "ruby-lsp-rails", "~> 0.4"
   gem "ruby-lsp-rspec"
   gem "spring", "~> 4"
   gem "webmock", "~> 3"
