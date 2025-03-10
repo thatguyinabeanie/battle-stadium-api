@@ -88,7 +88,7 @@ group :development, :test do
   gem "debug", "~> 1"
   gem "faker", "~> 3"
   gem "listen", "~> 3.3"
-  gem "parallel_tests", "~> 4"
+  gem "parallel_tests", "~> 5"
   gem "rspec-json_expectations"
   gem "rspec-rails"
   gem "ruby-lsp-rails", "~> 0.3"
