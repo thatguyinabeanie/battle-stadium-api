@@ -8,7 +8,6 @@ module Api
       before_action :set_match_game, only: %i[show report_winner report_loser]
       def index
         authorize self.class, :index?
-
         render json: @match.match_games, each_serializer: Serializers::MatchGame, status: :ok
       end
 
