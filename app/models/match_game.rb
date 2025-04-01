@@ -21,8 +21,8 @@ class MatchGame < ApplicationRecord
   def report!(winner:, loser:, reporter:)
     self.winner = winner
     self.loser = loser
-    self.reporter =  if reporter == player_one || reporter == player_two
-                       reporter.profile
+    self.reporter = if reporter == player_one || reporter == player_two
+                      reporter.profile
                   else
                     reporter.default_profile
                   end

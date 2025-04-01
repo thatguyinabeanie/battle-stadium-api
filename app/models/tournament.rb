@@ -34,7 +34,7 @@ class Tournament < ApplicationRecord
   before_save :ready_to_start?, if: -> { saved_change_to_started_at?(from: nil) }
 
   class NoPhases < StandardError; end
-  class NotEnoughPlayers< StandardError; end
+  class NotEnoughPlayers < StandardError; end
   class MissingProfile < StandardError; end
   class ProfileAlreadyRegistered < StandardError; end
   class AccountAlreadyRegistered < StandardError; end
