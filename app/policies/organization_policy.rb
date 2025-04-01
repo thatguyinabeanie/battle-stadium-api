@@ -24,7 +24,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def remove_staff?
-    admin?|| owner?
+    admin? || owner?
   end
 
   def create_tournament?

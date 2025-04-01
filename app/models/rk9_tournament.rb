@@ -12,7 +12,7 @@ class Rk9Tournament < ApplicationRecord
   scope :past, -> { where(end_date: ...Date.today) }
 
   def active?
-    start_date <= Date.today && end_date >= Date.today
+    Date.today.between?(start_date, end_date)
   end
 
   def upcoming?

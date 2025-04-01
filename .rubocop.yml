@@ -5,7 +5,7 @@ inherit_gem:
     - config/default.yml # generic Ruby rules and cops
     - config/rails.yml # Rails-specific rules and cops
 
-require:
+plugins:
   - rubocop-factory_bot
   - rubocop-rails
   - rubocop-rspec

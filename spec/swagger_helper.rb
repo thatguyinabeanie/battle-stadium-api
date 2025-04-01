@@ -180,11 +180,11 @@ ORGANIZATION_SCHEMA = {
   type: :object,
   title: "Organization",
   properties: {
-    owner: { "$ref" => "#/components/schemas/Account" , :nullable => true},
+    owner: { "$ref" => "#/components/schemas/Account" , :nullable => true },
     description: { type: :string, nullable: true },
     logo_url: { type: :string, nullable: true, format: "uri" },
     partner: { type: :boolean },
-    slug: { type: :string}
+    slug: { type: :string }
   }.merge(ID_NAME_PROPERTIES),
   required: ID_NAME_REQUIRED + %w[owner description logo_url slug]
 }.freeze
@@ -399,8 +399,8 @@ PHASE_SCHEMA = {
     order: { type: :integer, format: :int64 },
     type: { type: :string },
     tournament_id: { type: :integer, format: :int64 },
-    number_of_rounds: { type: :integer},
-    best_of: { type: :integer},
+    number_of_rounds: { type: :integer },
+    best_of: { type: :integer },
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     created_at: { type: :string, format: DATE_TIME_TYPE },
@@ -427,9 +427,9 @@ MATCH_SCHEMA  = {
     round_id: { type: :integer, format: :int64 },
     tournament_id: { type: :integer, format: :int64 },
     table_number: { type: :integer, format: :int64 },
-    player_one: {type: :string},
-    player_two: {type: :string},
-    reset_by: {type: :string, nullable: true}
+    player_one: { type: :string },
+    player_two: { type: :string },
+    reset_by: { type: :string, nullable: true }
   },
   required: %w[id round_id table_number player_one player_two reset_by]
 }.freeze
@@ -442,11 +442,11 @@ MATCH_DETAILS_SCHEMA  = {
     round_id: { type: :integer, format: :int64 },
     tournament_id: { type: :integer, format: :int64 },
     table_number: { type: :integer, format: :int64 },
-    player_one: {type: :string},
-    player_two: {type: :string},
-    reset_by: {type: :string, nullable: true},
-    winner: {type: :string, nullable: true},
-    loser: {type: :string, nullable: true},
+    player_one: { type: :string },
+    player_two: { type: :string },
+    reset_by: { type: :string, nullable: true },
+    winner: { type: :string, nullable: true },
+    loser: { type: :string, nullable: true },
     player_one_check_in: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     player_two_check_in: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
@@ -463,11 +463,11 @@ MATCH_GAME_SCHEMA = {
     id: { type: :integer, format: :int64 },
     match_id: { type: :integer, format: :int64 },
     game_number: { type: :integer, format: :int64 },
-    player_one: {type: :string},
-    player_two: {type: :string},
-    loser: {type: :string, nullable: true},
-    winner: {type: :string, nullable: true},
-    reporter: {type: :string},
+    player_one: { type: :string },
+    player_two: { type: :string },
+    loser: { type: :string, nullable: true },
+    winner: { type: :string, nullable: true },
+    reporter: { type: :string },
     ended_at: { type: :string, format: DATE_TIME_TYPE, nullable: true },
     started_at: { type: :string, format: DATE_TIME_TYPE, nullable: true }
   },
@@ -511,7 +511,7 @@ PAGINATION_RESPONSE = {
   type: :object,
   properties: {
     current_page: { type: :integer },
-    next_page: { type: :integer , nullable: true},
+    next_page: { type: :integer , nullable: true },
     prev_page: { type: :integer, nullable: true },
     total_pages: { type: :integer },
     total_count: { type: :integer }
@@ -536,7 +536,7 @@ POKEMON_TEAM_PARAMETER = {
     title: "pokemon_team",
     properties: {
       pokepaste_id: { type: :string, nullable: true },
-      profile_id: { type: :integer, format: :int64 , nullable: true},
+      profile_id: { type: :integer, format: :int64 , nullable: true },
       name: { type: :string },
       game_id: { type: :integer, format: :int64 },
       format_id: { type: :integer, format: :int64 },

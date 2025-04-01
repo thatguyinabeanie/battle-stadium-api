@@ -329,9 +329,7 @@ RSpec.describe Api::V1::OrganizationsController do
         let(:request_account) { owner }
         let(:game) { create(:game) }
         let(:format) { create(:format, game:) }
-        let(:tournament) { {
-
-        }
+        let(:tournament) { {}
         }
 
         include_context "with Request Specs - Clerk JWT + Vercel OIDC Token Verification"

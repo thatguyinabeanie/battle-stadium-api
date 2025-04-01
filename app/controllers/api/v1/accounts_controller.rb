@@ -39,7 +39,7 @@ module Api
       protected
 
       def set_object
-        @object =  Profile.where(default: true).find_by!(username: params[:username]).account
+        @object = Profile.where(default: true).find_by!(username: params[:username]).account
 
         @object
       rescue ActiveRecord::RecordNotFound => e

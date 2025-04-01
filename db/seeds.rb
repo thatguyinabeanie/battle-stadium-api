@@ -86,10 +86,10 @@ format = Format.find_or_create_by!(name: "Regulation H", game: game)
 
 owner = create_account(username: ENV.fetch("ADMIN_USERNAME", "thatguyinabeanie"), first_name: "Pablo", last_name: "Escobar", pronouns: "he/him", admin: true)
 
-organization =  Organization.find_or_create_by!(name: ENV.fetch("TEST_ORG_NAME", "The Rise of Fuecoco")) do |org|
+organization = Organization.find_or_create_by!(name: ENV.fetch("TEST_ORG_NAME", "The Rise of Fuecoco")) do |org|
   org.owner = owner
   org.description = Faker::Lorem.sentence
-  org.staff <<  4.times.to_a.map { create_account } + [owner]
+  org.staff << 4.times.to_a.map { create_account } + [owner]
   org.hidden = false
   org.partner = true
 end

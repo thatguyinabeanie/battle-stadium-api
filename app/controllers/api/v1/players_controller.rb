@@ -30,7 +30,7 @@ module Api
         if @player.errors.empty?
           render json: serialize_player_details, status: :created
         else
-          render json: {error: @player.errors.full_messages.to_sentence}, status: :unprocessable_entity
+          render json: { error: @player.errors.full_messages.to_sentence }, status: :unprocessable_entity
         end
       rescue Tournament::ProfileAlreadyRegistered, Tournament::AccountAlreadyRegistered => e
         skip_authorization

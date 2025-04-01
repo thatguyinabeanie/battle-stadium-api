@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   rescue StandardError => e
     error = "Invalid OIDC token: #{e.message}"
     Rails.logger.error(error)
-    render json: { error: "Invalid OIDC token: #{e.message}"}, status: :unauthorized
+    render json: { error: "Invalid OIDC token: #{e.message}" }, status: :unauthorized
   end
 
   def authenticate_clerk_user_session!

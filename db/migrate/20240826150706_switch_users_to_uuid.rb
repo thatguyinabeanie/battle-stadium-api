@@ -68,7 +68,7 @@ class SwitchUsersToUuid < ActiveRecord::Migration[7.1]
 
   def down
     # Add the old primary key column back
-    add_column :users, :id, :bigint, null: false, auto_increment: true # rubocop:disable Rails/DangerousColumnNames
+    add_column :users, :id, :bigint, null: false, auto_increment: true
 
     # Drop dependent foreign key constraints
     remove_foreign_key :authenticators, column: :userId

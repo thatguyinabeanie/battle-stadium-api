@@ -87,7 +87,7 @@ RSpec.describe Api::V1::PlayersController do
     context "with valid parameters" do
 
       it "updates the player" do
-        patch :update, params: { tournament_id: tournament.id, id: player.profile_id, player: {in_game_name: "NewInGameName" }}
+        patch :update, params: { tournament_id: tournament.id, id: player.profile_id, player: { in_game_name: "NewInGameName" } }
         player.reload
         expect(player.in_game_name).to eq("NewInGameName")
       end

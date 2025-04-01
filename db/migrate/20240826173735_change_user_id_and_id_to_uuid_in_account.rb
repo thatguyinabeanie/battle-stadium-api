@@ -23,13 +23,13 @@ class ChangeUserIdAndIdToUuidInAccount < ActiveRecord::Migration[7.1]
 
     # Rename the temporary columns to the original column names
     rename_column :account, :user_id_uuid, :userId
-    rename_column :account, :id_uuid, :id # rubocop:disable Rails/DangerousColumnNames
+    rename_column :account, :id_uuid, :id
   end
 
   def down
     # Add the old integer columns back
     add_column :account, :userId, :integer
-    add_column :account, :id, :integer # rubocop:disable Rails/DangerousColumnNames
+    add_column :account, :id, :integer
 
     # Copy data from the uuid columns to the integer columns
     execute <<-SQL.squish

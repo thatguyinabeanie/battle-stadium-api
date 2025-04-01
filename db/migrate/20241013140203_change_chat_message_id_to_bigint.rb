@@ -4,7 +4,7 @@ class ChangeChatMessageIdToBigint < ActiveRecord::Migration[7.2]
     remove_column :chat_messages, :id, :uuid
 
     # Add a new bigint primary key
-    add_column :chat_messages, :id, :bigint, null: false, primary_key: true # rubocop:disable Rails/DangerousColumnNames
+    add_column :chat_messages, :id, :bigint, null: false, primary_key: true
 
     # Update the indexes to use the new bigint id
     if index_exists?(:chat_messages, :match_id, name: "index_chat_messages_on_match_id")
@@ -38,7 +38,7 @@ class ChangeChatMessageIdToBigint < ActiveRecord::Migration[7.2]
     remove_column :chat_messages, :id, :bigint
 
     # Add the original UUID primary key
-    add_column :chat_messages, :id, :uuid, default: -> { "gen_random_uuid()" }, null: false, primary_key: true # rubocop:disable Rails/DangerousColumnNames
+    add_column :chat_messages, :id, :uuid, default: -> { "gen_random_uuid()" }, null: false, primary_key: true
 
     # Re-add the indexes with the original UUID id
     add_index :chat_messages, :match_id, name: "index_chat_messages_on_match_id"
