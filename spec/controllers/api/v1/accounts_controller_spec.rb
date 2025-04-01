@@ -52,7 +52,7 @@ RSpec.describe Api::V1::AccountsController do
 
       it "returns a successful response" do
         account = create(:account)
-        get :show, params: { username: account.username}
+        get :show, params: { username: account.username }
 
         expect(response).to be_successful
       end

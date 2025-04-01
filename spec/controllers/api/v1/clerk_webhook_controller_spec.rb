@@ -47,7 +47,7 @@ RSpec.describe Api::V1::ClerkWebhookController do
 
         expect(response).to have_http_status(:bad_request)
 
-        expect(JSON.parse(response.body)["message"]).to eq("event type 'user.updated' is not yet implemented") # rubocop:disable Rails/ResponseParsedBody
+        expect(JSON.parse(response.body)["message"]).to eq("event type 'user.updated' is not yet implemented")
       end
     end
 

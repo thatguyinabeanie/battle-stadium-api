@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  MAX_CHARACTER_LENGTH=50
+  MAX_CHARACTER_LENGTH = 50
   def self.policy_class
     AccountPolicy
   end
@@ -29,25 +29,23 @@ class Account < ApplicationRecord
     organization.staff.exists?(id:) || organization.owner == self
   end
 
-  class << self
-    def find_by_profile_username(username)
-      Profile.find_by(username: username)&.account
-    end
+  def self.find_by_profile_username(username)
+    Profile.find_by(username: username)&.account
+  end
 
-    def find_or_create_by_profile_username(username:, email:, first_name:, last_name:, pronouns: "", admin: false, image_url: nil)
-      account = Account.find_by_profile_username(username)
-      return account if account
+  def self.find_or_create_by_profile_username(username:, email:, first_name:, last_name:, pronouns: "", admin: false, image_url: nil)
+    account = Account.find_by_profile_username(username)
+    return account if account
 
-      account = Account.create!(username: , email: , first_name: , last_name: , pronouns: , admin: , image_url:)
-      account
-    end
+    account = Account.create!(username: , email: , first_name: , last_name: , pronouns: , admin: , image_url:)
+    account
+  end
 
-    def create_with_username(username:, **attributes)
-      account = new(attributes)
-      account.username = username
-      account.save!
-      account
-    end
+  def self.create_with_username(username:, **attributes)
+    account = new(attributes)
+    account.username = username
+    account.save!
+    account
   end
 
   private

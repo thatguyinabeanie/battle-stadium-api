@@ -28,7 +28,7 @@ module Phases
       raise "Number of players must be greater than zero" unless ready_players&.count&.positive?
 
       self.players = ready_players
-      self.number_of_rounds =  Math.log2(ready_players.count).ceil
+      self.number_of_rounds = Math.log2(ready_players.count).ceil
       self.save!
     end
 

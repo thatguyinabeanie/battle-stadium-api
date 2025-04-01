@@ -37,14 +37,14 @@ RSpec.describe Api::V1::MatchGamesController do
       let(:player_id) { match.player_one.id }
 
       it "sets player one as the winner" do
-        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
+        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_one.id } }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["winner"]).to eq(match.player_one.username)
         expect(response.parsed_body["loser"]).to eq(match.player_two.username)
       end
 
       it "sets player two as the winner" do
-        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_two.id }}
+        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_two.id } }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["winner"]).to eq(match.player_two.username)
         expect(response.parsed_body["loser"]).to eq(match.player_one.username)
@@ -55,14 +55,14 @@ RSpec.describe Api::V1::MatchGamesController do
       let(:request_account) { match.player_two.account }
 
       it "sets player one as the winner" do
-        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
+        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_one.id } }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["winner"]).to eq(match.player_one.username)
         expect(response.parsed_body["loser"]).to eq(match.player_two.username)
       end
 
       it "sets player two as the winner" do
-        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_two.id }}
+        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_two.id } }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["winner"]).to eq(match.player_two.username)
         expect(response.parsed_body["loser"]).to eq(match.player_one.username)
@@ -73,7 +73,7 @@ RSpec.describe Api::V1::MatchGamesController do
       let(:request_account) { tournament.organization.staff.first }
 
       it "sets player one as the winner" do
-        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
+        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_one.id } }
 
         expect(response.parsed_body["winner"]).to eq(match.player_one.username)
         expect(response.parsed_body["loser"]).to eq(match.player_two.username)
@@ -81,7 +81,7 @@ RSpec.describe Api::V1::MatchGamesController do
       end
 
       it "sets player two as the winner" do
-        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_two.id }}
+        post :report_winner, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_two.id } }
 
         expect(response.parsed_body["winner"]).to eq(match.player_two.username)
         expect(response.parsed_body["loser"]).to eq(match.player_one.username)
@@ -95,14 +95,14 @@ RSpec.describe Api::V1::MatchGamesController do
       let(:request_account) { match.player_one.account }
 
       it "sets player one as the loser" do
-        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
+        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_one.id } }
         expect(response.parsed_body["winner"]).to eq(match.player_two.username)
         expect(response.parsed_body["loser"]).to eq(match.player_one.username)
         expect(response).to have_http_status(:ok)
       end
 
       it "sets player two as the loser" do
-        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_two.id }}
+        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_two.id } }
         expect(response.parsed_body["winner"]).to eq(match.player_one.username)
         expect(response.parsed_body["loser"]).to eq(match.player_two.username)
         expect(response).to have_http_status(:ok)
@@ -113,14 +113,14 @@ RSpec.describe Api::V1::MatchGamesController do
       let(:request_account) { match.player_two.account }
 
       it "sets player one as the loser" do
-        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
+        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_one.id } }
         expect(response.parsed_body["winner"]).to eq(match.player_two.username)
         expect(response.parsed_body["loser"]).to eq(match.player_one.username)
         expect(response).to have_http_status(:ok)
       end
 
       it "sets player two as the loser" do
-        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_two.id }}
+        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_two.id } }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["winner"]).to eq(match.player_one.username)
         expect(response.parsed_body["loser"]).to eq(match.player_two.username)
@@ -131,14 +131,14 @@ RSpec.describe Api::V1::MatchGamesController do
       let(:request_account) { tournament.organization.staff.first }
 
       it "sets player one as the loser" do
-        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_one.id }}
+        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_one.id } }
         expect(response.parsed_body["winner"]).to eq(match.player_two.username)
         expect(response.parsed_body["loser"]).to eq(match.player_one.username)
         expect(response).to have_http_status(:ok)
       end
 
       it "sets player two as the loser" do
-        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: {player_id: match.player_two.id }}
+        post :report_loser, params: { match_id: match.id, id: match_game.id, tournament_id: tournament.id, match_game: { player_id: match.player_two.id } }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["winner"]).to eq(match.player_one.username)
         expect(response.parsed_body["loser"]).to eq(match.player_two.username)

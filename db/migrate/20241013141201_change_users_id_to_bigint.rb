@@ -35,7 +35,7 @@ class ChangeUsersIdToBigint < ActiveRecord::Migration[7.2]
     remove_column :users, :id, :uuid
 
     # Add a new bigint primary key
-    add_column :users, :id, :bigint, null: false, primary_key: true # rubocop:disable Rails/DangerousColumnNames
+    add_column :users, :id, :bigint, null: false, primary_key: true
 
     # Re-add foreign keys with the new bigint primary key
     add_foreign_key :chat_messages, :users
@@ -83,7 +83,7 @@ class ChangeUsersIdToBigint < ActiveRecord::Migration[7.2]
     remove_column :users, :id, :bigint
 
     # Add the original UUID primary key
-    add_column :users, :id, :uuid, default: -> { "gen_random_uuid()" }, null: false, primary_key: true # rubocop:disable Rails/DangerousColumnNames
+    add_column :users, :id, :uuid, default: -> { "gen_random_uuid()" }, null: false, primary_key: true
 
     # Re-add foreign keys with the original UUID primary key
     add_foreign_key :chat_messages, :users

@@ -37,7 +37,7 @@ RSpec.describe Api::V1::MatchesController do
 
     context "with valid params" do
 
-      let(:params) { {tournament_id: tournament.id, match: valid_attributes, phase_id: , round_id: } }
+      let(:params) { { tournament_id: tournament.id, match: valid_attributes, phase_id: , round_id: } }
 
       it "creates a new Match" do
         before_count = Match.count
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::MatchesController do
 
     context "with invalid params" do
       it "renders a JSON response with errors for the match" do
-        patch :update, params: { tournament_id: tournament.id, id: match.id, match: { round_id: -1} }
+        patch :update, params: { tournament_id: tournament.id, id: match.id, match: { round_id: -1 } }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq("application/json; charset=utf-8")
       end

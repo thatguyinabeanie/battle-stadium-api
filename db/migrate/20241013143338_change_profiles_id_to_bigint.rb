@@ -24,7 +24,7 @@ class ChangeProfilesIdToBigint < ActiveRecord::Migration[7.2]
 
     # Remove the existing UUID primary key
     remove_column :profiles, :id, :uuid
-    add_column :profiles, :id, :bigint, null: false, primary_key: true # rubocop:disable Rails/DangerousColumnNames
+    add_column :profiles, :id, :bigint, null: false, primary_key: true
 
     # Re-add foreign keys with the new bigint primary key
     add_foreign_key :chat_messages, :profiles, column: :user_profile_id
@@ -60,7 +60,7 @@ class ChangeProfilesIdToBigint < ActiveRecord::Migration[7.2]
 
     # Change the type of id column in profiles table back to uuid
     remove_column :profiles, :id, :bigint
-    add_column :profiles, :id, :uuid, null: false, primary_key: true # rubocop:disable Rails/DangerousColumnNames
+    add_column :profiles, :id, :uuid, null: false, primary_key: true
 
     # Re-add foreign keys with the new uuid primary key
     add_foreign_key :chat_messages, :profiles, column: :user_profile_id

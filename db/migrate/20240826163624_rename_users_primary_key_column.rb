@@ -12,7 +12,7 @@ class RenameUsersPrimaryKeyColumn < ActiveRecord::Migration[7.1]
     execute "ALTER TABLE users DROP CONSTRAINT users_pkey;"
 
     # Rename the primary key column from uuid to id
-    rename_column :users, :uuid, :id # rubocop:disable Rails/DangerousColumnNames
+    rename_column :users, :uuid, :id
 
     # Add the primary key constraint back to the id column
     execute "ALTER TABLE users ADD PRIMARY KEY (id);"
