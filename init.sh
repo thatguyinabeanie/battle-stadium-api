@@ -24,7 +24,7 @@ echo "POSTGRES_PORT=$postgres_port"
 
 # POSTGRES ENV FILE SETUP
 if [ -f .env.postgres ]; then
-  printf ".env.postgres exists. skipping...\n"
+  echo ".env.postgres exists. skipping..."
 else
   echo ".Creating .env.postgres ..."
   touch .env.postgres
