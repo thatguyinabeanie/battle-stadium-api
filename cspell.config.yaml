@@ -63,5 +63,9 @@ words:
   - libvips
   - libpq
   - healthcheck
+  - dotenv
+  - Himmy
+  - Hatterene
+
 ignoreWords: []
 import: []
