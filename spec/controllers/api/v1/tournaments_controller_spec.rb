@@ -54,7 +54,7 @@ RSpec.describe Api::V1::TournamentsController do
 
     context("when the account is not authorized") do
 
-      it "returns the publushed tournament" do
+      it "returns the published tournament" do
         get :show, params: { id: tournament.id }
         expect(response).to have_http_status(:ok)
       end
