@@ -69,7 +69,7 @@ group :development do
 end
 
 group :test do
-  gem "brakeman", "~> 6", require: false
+  gem "brakeman", "~> 7", require: false
   gem "bundler-audit", "~> 0"
   gem "factory_bot_rails", "~> 6"
   gem "rails-controller-testing", "~> 1"
