@@ -186,7 +186,7 @@ RSpec.describe Api::V1::AccountsController do
           {
             pronouns: "they/them",
             email: "updateduser@example.com",
-            first_name: "Updated", last_name: "Userrrrr",
+            first_name: "Updated", last_name: "User",
           }
         end
 
@@ -205,7 +205,7 @@ RSpec.describe Api::V1::AccountsController do
         let(:username) { "invalid" }
         let(:account) do
           {
-            first_name: "Updated", last_name: "Userrrrr"
+            first_name: "Updated", last_name: "User"
           }
         end
 

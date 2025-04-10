@@ -137,8 +137,6 @@ GEM
     ffi (1.17.1-arm-linux-gnu)
     ffi (1.17.1-arm-linux-musl)
     ffi (1.17.1-arm64-darwin)
-    ffi (1.17.1-x86-linux-gnu)
-    ffi (1.17.1-x86-linux-musl)
     ffi (1.17.1-x86_64-darwin)
     ffi (1.17.1-x86_64-linux-gnu)
     ffi (1.17.1-x86_64-linux-musl)
@@ -195,7 +193,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.8)
     minitest (5.25.5)
     msgpack (1.8.0)
     net-imap (0.5.6)
@@ -208,9 +205,6 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.18.7)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.18.7-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.7-aarch64-linux-musl)
@@ -230,7 +224,7 @@ GEM
     openssl (3.3.0)
     ostruct (0.6.1)
     parallel (1.26.3)
-    parallel_tests (4.10.1)
+    parallel_tests (5.1.0)
       parallel
     parser (3.3.7.4)
       ast (~> 2.4.1)
@@ -545,18 +539,12 @@ GEM
     zeitwerk (2.7.2)
 
 PLATFORMS
-  aarch64-linux
   aarch64-linux-gnu
   aarch64-linux-musl
-  arm-linux
   arm-linux-gnu
   arm-linux-musl
   arm64-darwin
-  x86-linux
-  x86-linux-gnu
-  x86-linux-musl
   x86_64-darwin
-  x86_64-linux
   x86_64-linux-gnu
   x86_64-linux-musl
 
@@ -581,7 +569,7 @@ DEPENDENCIES
   openssl (~> 3)
   ostruct (~> 0)
   parallel (~> 1)
-  parallel_tests (~> 4)
+  parallel_tests (~> 5)
   pg (~> 1)
   puma (~> 6)
   pundit

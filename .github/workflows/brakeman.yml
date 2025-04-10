@@ -20,7 +20,7 @@ on:
 permissions:
   contents: read
 env:
-  RUBY_VERSION: 3.3.5
+  RUBY_VERSION: 3.4
 jobs:
   brakeman-scan:
     permissions:
