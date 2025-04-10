@@ -43,7 +43,7 @@ jobs:
     name: RSpec parallel group ${{ matrix.group }}/4
     services:
       postgres:
-        image: postgres:16.3
+        image: postgres:17
         env:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
