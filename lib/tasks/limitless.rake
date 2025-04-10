@@ -76,10 +76,7 @@ namespace :limitless do
 
       puts "Processing Tournaments for organizer: #{organizer_data['name']} (ID: #{id})"
       organizer_data['tournaments'].each do |tournament_data|
-        start_at = DateTime.parse(tournament_data['date'])
-        name = tournament_data['name']
         organization_id = org.id
-        limitless_id = tournament_data['id']
 
         begin
           create_tournament(tournament_data, organization_id)
@@ -163,10 +160,7 @@ namespace :limitless do
 
     puts "Processing Tournaments for organizer: #{organizer['name']} (ID: #{organizer['id']})"
     organizers[organizer['id']]['tournaments'].each do |tournament_data|
-      start_at = DateTime.parse(tournament_data['date'])
-      name = tournament_data['name']
       organization_id = org.id
-      limitless_id = tournament_data['id']
       begin
         create_tournament(tournament_data, organization_id)
       rescue StandardError => e
