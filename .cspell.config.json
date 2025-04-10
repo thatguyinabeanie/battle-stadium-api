@@ -5,7 +5,10 @@
     "Gemfile",
     "Gemfile.lock",
     "db/migrate",
-    "db/schema.rb"
+    "db/schema.rb",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "CODE_OF_CONDUCT"
   ],
   "dictionaryDefinitions": [],
   "dictionaries": [
@@ -69,7 +72,11 @@
     "dotenv",
     "Himmy",
     "Hatterene",
-    "Nino"
+    "Nino",
+    "devcontainers",
+    "libc",
+    "libreadline"
+    
   ],
   "ignoreWords": [],
   "import": []
