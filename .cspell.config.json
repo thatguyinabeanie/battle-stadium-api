@@ -13,7 +13,8 @@
     "tmp/",
     "coverage/",
     "test-results/",
-    "logs/"
+    "logs/",
+    "vendor/"
   ],
   "dictionaryDefinitions": [],
   "dictionaries": [
