@@ -5,7 +5,7 @@ SECRET=$(openssl rand -base64 48)
 
 # Exit with nonzero status if no arguments are passed in
 if [ $# -eq 0 ]; then
-  printf "No arguments provided. Using default values...\n"
+  echo "No arguments provided. Using default values..."
   postgres_user="postgres"
   postgres_password="postgres"
   postgres_db="fuecoco-db-dev"
