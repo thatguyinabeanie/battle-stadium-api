@@ -58,6 +58,7 @@
     "whsec",
     "testsecret",
     "svix",
+    "libyaml",
     "reviewdog",
     "rdbg",
     "rewax",

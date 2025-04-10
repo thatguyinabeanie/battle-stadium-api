@@ -16,6 +16,7 @@ RUN apt-get update -qq && \
     build-essential \
     git \
     libpq-dev \
+    libyaml-dev \
     libssl-dev \
     libvips \
     openssl \
