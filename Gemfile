@@ -30,7 +30,7 @@ gem "rswag-ui"
 gem "versionist", "~> 2"
 
 # Background Jobs
-gem "sidekiq", "~> 7"
+gem "sidekiq", "~> 8"
 
 # Security
 gem "openssl", "~> 3"
