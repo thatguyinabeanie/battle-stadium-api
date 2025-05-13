@@ -1,0 +1,569 @@
+.
+├── .cspell.config.json
+├── .devcontainer
+│   └── devcontainer.json
+├── .dockerignore
+├── .gitattributes
+├── .github
+│   ├── CODEOWNERS
+│   ├── dependabot.yml
+│   ├── ISSUE_TEMPLATE
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   └── workflows
+│       ├── backend-ci.yml
+│       ├── brakeman.yml
+│       ├── codeql.yml
+│       ├── docker-backend-dev-latest.yml
+│       ├── docker-backend-prod-latest.yml
+│       └── spellcheck.yaml
+├── .gitignore
+├── .irbrc
+├── .rspec
+├── .rubocop_todo.yml
+├── .rubocop.yml
+├── .ruby-lsp
+│   └── .gitignore
+├── .ruby-version
+├── .vscode
+│   ├── extensions.json
+│   ├── launch.json
+│   └── settings.json
+├── .zshrc
+├── app
+│   ├── assets
+│   │   ├── config
+│   │   │   └── manifest.js
+│   │   ├── images
+│   │   │   └── .keep
+│   │   └── stylesheets
+│   │       └── application.css
+│   ├── channels
+│   │   ├── application_cable
+│   │   │   ├── channel.rb
+│   │   │   └── connection.rb
+│   │   └── chat_channel.rb
+│   ├── controllers
+│   │   ├── api
+│   │   │   └── v1
+│   │   │       ├── abstract_application_controller.rb
+│   │   │       ├── accounts_controller.rb
+│   │   │       ├── api_controller.rb
+│   │   │       ├── clerk_webhook_controller.rb
+│   │   │       ├── games_controller.rb
+│   │   │       ├── match_games_controller.rb
+│   │   │       ├── matches_controller.rb
+│   │   │       ├── organizations_controller.rb
+│   │   │       ├── phases_controller.rb
+│   │   │       ├── players_controller.rb
+│   │   │       ├── pokemon_teams_controller.rb
+│   │   │       ├── profiles_controller.rb
+│   │   │       └── tournaments_controller.rb
+│   │   ├── application_controller.rb
+│   │   └── concerns
+│   │       └── .keep
+│   ├── jobs
+│   │   ├── application_job.rb
+│   │   ├── save_chat_message_job.rb
+│   │   └── start_tournament_job.rb
+│   ├── mailers
+│   │   └── application_mailer.rb
+│   ├── models
+│   │   ├── abstract_profile.rb
+│   │   ├── account.rb
+│   │   ├── application_record.rb
+│   │   ├── chat_message.rb
+│   │   ├── clerk_user.rb
+│   │   ├── concerns
+│   │   │   ├── .keep
+│   │   │   └── match_players_concern.rb
+│   │   ├── format.rb
+│   │   ├── game.rb
+│   │   ├── match_game.rb
+│   │   ├── match.rb
+│   │   ├── organization_staff_member.rb
+│   │   ├── organization.rb
+│   │   ├── phase_player.rb
+│   │   ├── phases
+│   │   │   ├── base_phase.rb
+│   │   │   ├── single_elimination_bracket.rb
+│   │   │   └── swiss.rb
+│   │   ├── player.rb
+│   │   ├── pokemon_team.rb
+│   │   ├── pokemon.rb
+│   │   ├── profile.rb
+│   │   ├── rk9_profile.rb
+│   │   ├── rk9_tournament.rb
+│   │   ├── round.rb
+│   │   ├── tournament_format.rb
+│   │   └── tournament.rb
+│   ├── policies
+│   │   ├── account_policy.rb
+│   │   ├── application_policy.rb
+│   │   ├── clerk_webhook_policy.rb
+│   │   ├── game_policy.rb
+│   │   ├── match_policy.rb
+│   │   ├── organization_policy.rb
+│   │   ├── phase_policy.rb
+│   │   ├── player_policy.rb
+│   │   ├── profile_policy.rb
+│   │   └── tournament_policy.rb
+│   ├── serializers
+│   │   ├── account_serializer.rb
+│   │   ├── format_serializer.rb
+│   │   ├── game_serializer.rb
+│   │   ├── match_game_serializer.rb
+│   │   ├── match_serializer.rb
+│   │   ├── organization_serializer.rb
+│   │   ├── phase_serializer.rb
+│   │   ├── player_serializer.rb
+│   │   ├── pokemon_serializer.rb
+│   │   ├── pokemon_team_serializer.rb
+│   │   ├── profile_serializer.rb
+│   │   ├── round_serializer.rb
+│   │   ├── serializer_mixin.rb
+│   │   └── tournament_serializer.rb
+│   ├── services
+│   │   └── swiss_pairing_service.rb
+│   └── validators
+│       └── equality_validator.rb
+├── bin
+│   ├── brakeman
+│   ├── bundle
+│   ├── docker-entrypoint
+│   ├── importmap
+│   ├── parallel_spec
+│   ├── rails
+│   ├── rake
+│   ├── rubocop
+│   ├── setup
+│   └── tapioca
+├── brakeman.yml
+├── CODE_OF_CONDUCT.md
+├── config
+│   ├── application.rb
+│   ├── boot.rb
+│   ├── cable.yml
+│   ├── database.yml
+│   ├── environment.rb
+│   ├── environments
+│   │   ├── development.rb
+│   │   ├── production.rb
+│   │   └── test.rb
+│   ├── initializers
+│   │   ├── assets.rb
+│   │   ├── content_security_policy.rb
+│   │   ├── cors.rb
+│   │   ├── filter_parameter_logging.rb
+│   │   ├── friendly_id.rb
+│   │   ├── inflections.rb
+│   │   ├── kaminari_config.rb
+│   │   ├── load_phase_subclasses.rb
+│   │   ├── new_framework_defaults_7_2.rb
+│   │   ├── permissions_policy.rb
+│   │   ├── rack_attack.rb
+│   │   ├── rswag_api.rb
+│   │   ├── rswag_ui.rb
+│   │   └── sidekiq.rb
+│   ├── locales
+│   │   ├── en.yml
+│   │   ├── match_game.en.yml
+│   │   ├── phase.en.yml
+│   │   ├── session.en.yaml
+│   │   ├── tournament.en.yml
+│   │   └── users.en.yml
+│   ├── puma.rb
+│   ├── routes.rb
+│   ├── sidekiq.yml
+│   └── storage.yml
+├── config.ru
+├── CONTRIBUTING.md
+├── db
+│   ├── migrate
+│   │   ├── 20240715035507_create_users.rb
+│   │   ├── 20240715035512_create_tournaments.rb
+│   │   ├── 20240715035516_create_registrations.rb
+│   │   ├── 20240715035524_create_matches.rb
+│   │   ├── 20240715141733_create_organizers.rb
+│   │   ├── 20240715141840_create_organizer_staffs.rb
+│   │   ├── 20240715162342_create_pokemon_sets.rb
+│   │   ├── 20240715162818_create_games.rb
+│   │   ├── 20240715162826_create_tournament_formats.rb
+│   │   ├── 20240715163419_add_tournament_format_reference_to_pokemon_sets.rb
+│   │   ├── 20240715164110_create_match_scores.rb
+│   │   ├── 20240715180012_add_devise_to_users.rb
+│   │   ├── 20240715193657_create_phases.rb
+│   │   ├── 20240715194910_add_type_to_phases.rb
+│   │   ├── 20240715204744_rename_organizers_to_organizations.rb
+│   │   ├── 20240715205809_add_organization_ref_to_tournaments.rb
+│   │   ├── 20240715205928_add_check_in_start_time_to_tournaments.rb
+│   │   ├── 20240715210444_add_game_and_format_to_tournaments.rb
+│   │   ├── 20240715212900_add_user_id_to_organizations.rb
+│   │   ├── 20240715213956_rename_organizer_staffs_to_organization_staff.rb
+│   │   ├── 20240715220815_create_organization_tournaments.rb
+│   │   ├── 20240715221259_create_tournament_phases.rb
+│   │   ├── 20240715222328_add_index_to_users_username.rb
+│   │   ├── 20240715222714_create_join_table_tournament_format_tournament_format.rb
+│   │   ├── 20240715222939_rename_tournament_formats_to_formats.rb
+│   │   ├── 20240716031729_drop_tournament_formats_tournaments.rb
+│   │   ├── 20240716031838_create_tournament_formats_join_table.rb
+│   │   ├── 20240716032710_change_tournament_format_to_format_in_tournaments.rb
+│   │   ├── 20240717053121_add_name_to_users.rb
+│   │   ├── 20240718011352_add_pronouns_to_users.rb
+│   │   ├── 20240718013150_add_ended_at_to_tournaments.rb
+│   │   ├── 20240718023715_rename_firstname_and_lastname_in_users.rb
+│   │   ├── 20240718024906_create_tournament_rounds.rb
+│   │   ├── 20240718025716_rename_tournament_formats_to_tournament_tournament_formats.rb
+│   │   ├── 20240718025802_rename_formats_to_tournament_formats.rb
+│   │   ├── 20240718030349_rename_tournaments_to_tournament_tournaments.rb
+│   │   ├── 20240718033512_rename_registrations_to_tournament_registrations.rb
+│   │   ├── 20240718034041_add_unique_index_to_tournament_registrations.rb
+│   │   ├── 20240718040505_add_registration_id_to_pokemon_sets.rb
+│   │   ├── 20240718043853_rename_pokemon_sets_to_tournament_pokemon_sets.rb
+│   │   ├── 20240718050120_remove_tournament_format_id_from_tournament_pokemon_sets.rb
+│   │   ├── 20240718050846_remove_tournament_id_and_player_id_from_tournament_pokemon_sets.rb
+│   │   ├── 20240718054531_add_slug_to_organization.rb
+│   │   ├── 20240718055155_add_slug_to_users.rb
+│   │   ├── 20240718062422_add_name_to_phases.rb
+│   │   ├── 20240719064752_add_jti_to_users.rb
+│   │   ├── 20240719211750_rename_tounament_tables.rb
+│   │   ├── 20240719230621_rename_user_to_owner_in_organizations.rb
+│   │   ├── 20240719231947_create_organization_memberships.rb
+│   │   ├── 20240719233723_drop_organization_staff_table.rb
+│   │   ├── 20240720004236_add_unique_index_to_owner_in_organizations.rb
+│   │   ├── 20240720171554_add_unique_index_to_tournaments.rb
+│   │   ├── 20240720210501_make_game_id_nullable_in_formats.rb
+│   │   ├── 20240720212221_remove_tournament_id_from_matches.rb
+│   │   ├── 20240720213005_rename_match_scores_to_match_details.rb
+│   │   ├── 20240720213539_add_details_to_match_details.rb
+│   │   ├── 20240720213845_rename_match_details_to_match_games.rb
+│   │   ├── 20240720214830_add_round_number_to_rounds.rb
+│   │   ├── 20240720215025_add_unique_index_to_rounds_on_phase_id_and_round_number.rb
+│   │   ├── 20240720215625_rename_score_reporter_to_reporter_on_match_games.rb
+│   │   ├── 20240720222143_rename_user_id_to_player_id_in_registrations.rb
+│   │   ├── 20240720223655_rename_organization_memberships_to_organization_staff_members.rb
+│   │   ├── 20240720230331_remove_player_check_ins_from_match_games.rb
+│   │   ├── 20240720230407_add_player_checkins_to_matches.rb
+│   │   ├── 20240720230645_add_loser_reference_to_matches.rb
+│   │   ├── 20240720231416_change_game_number_on_match_games.rb
+│   │   ├── 20240720231640_change_defaults_for_match_games.rb
+│   │   ├── 20240721003705_drop_tournament_phases.rb
+│   │   ├── 20240721013025_rename_round_to_round_id_in_matches.rb
+│   │   ├── 20240721014728_make_winner_and_loser_nullable_in_match_games.rb
+│   │   ├── 20240721015321_add_reported_at_to_match_games.rb
+│   │   ├── 20240721053116_add_best_of_to_phases.rb
+│   │   ├── 20240722113650_rename_player1_to_player_one_in_matches.rb
+│   │   ├── 20240722113729_rename_player2_to_player_two_in_matches.rb
+│   │   ├── 20240722114037_rename_player_check_in_fields.rb
+│   │   ├── 20240722121014_add_reported_at_to_matches.rb
+│   │   ├── 20240722163355_add_unique_index_to_matches.rb
+│   │   ├── 20240722180703_add_timestamps_to_rounds.rb
+│   │   ├── 20240722191328_add_started_at_to_phases.rb
+│   │   ├── 20240722191359_add_ended_at_to_phases.rb
+│   │   ├── 20240722200350_add_registration_times_to_tournaments.rb
+│   │   ├── 20240722205646_add_player_cap_to_tournaments.rb
+│   │   ├── 20240722214423_add_autostart_to_tournaments.rb
+│   │   ├── 20240722214615_add_actual_start_time_to_tournaments.rb
+│   │   ├── 20240722215340_add_order_to_phase.rb
+│   │   ├── 20240722223109_add_boolean_columns_to_tournaments.rb
+│   │   ├── 20240722223705_rename_registrations_to_players.rb
+│   │   ├── 20240722224406_rename_tournament_players_to_players.rb
+│   │   ├── 20240722224740_rename_registration_id_to_player_id.rb
+│   │   ├── 20240722230815_change_winner_and_loser_references_in_match_games.rb
+│   │   ├── 20240722231102_rename_player_to_user_in_players.rb
+│   │   ├── 20240722231617_refactor_player_one_and_two_in_matches.rb
+│   │   ├── 20240722231805_refactor_winner_and_loser_in_matches.rb
+│   │   ├── 20240722231949_refactor_winner_and_loser_in_match_games.rb
+│   │   ├── 20240722235951_add_check_in_and_team_sheet_submitted_to_players.rb
+│   │   ├── 20240723000628_create_tournament_phase_players.rb
+│   │   ├── 20240723002136_add_unique_index_to_name_on_formats.rb
+│   │   ├── 20240723010140_rename_tournament_phase_players_to_phase_players.rb
+│   │   ├── 20240723041103_remove_password_digest_from_user.rb
+│   │   ├── 20240723042307_drop_organization_tournaments.rb
+│   │   ├── 20240723042517_add_organization_id_to_tournaments.rb
+│   │   ├── 20240723142720_rename_late_checkin_to_late_check_in_on_tournaments.rb
+│   │   ├── 20240723143544_add_uniqueness_index_on_name_and_organization_id_to_tournaments.rb
+│   │   ├── 20240723144338_rename_dates_in_tournaments.rb
+│   │   ├── 20240723150028_add_end_at_to_tournaments.rb
+│   │   ├── 20240724000729_add_slug_to_games.rb
+│   │   ├── 20240724001625_add_unique_index_to_games_name.rb
+│   │   ├── 20240729043615_update_username_on_users.rb
+│   │   ├── 20240731032637_rename_checked_in_to_checked_in_at_in_players.rb
+│   │   ├── 20240731045427_add_in_game_name_to_players.rb
+│   │   ├── 20240731050134_add_nickname_to_pokemon_sets.rb
+│   │   ├── 20240731062521_change_type_column_on_phases_to_not_null.rb
+│   │   ├── 20240731062805_change_number_of_rounds_on_phases_to_not_null_with_default.rb
+│   │   ├── 20240802003103_create_pokemon_teams.rb
+│   │   ├── 20240802004008_add_pokemon_team_to_pokemon_sets.rb
+│   │   ├── 20240802013630_add_pokemon_team_to_tournament_players.rb
+│   │   ├── 20240805234210_remove_check_in_required_from_tournaments.rb
+│   │   ├── 20240806043252_rename_pokemon_sets_to_pokemon.rb
+│   │   ├── 20240808225906_remove_slug_from_tables.rb
+│   │   ├── 20240809212518_remove_late_check_in_from_tournaments.rb
+│   │   ├── 20240812023035_remove_criteria_from_phases.rb
+│   │   ├── 20240822225738_create_verification_tokens.rb
+│   │   ├── 20240822225758_create_accounts.rb
+│   │   ├── 20240822225806_create_sessions.rb
+│   │   ├── 20240822225812_create_auth_users.rb
+│   │   ├── 20240822230338_modify_users_table_for_auth_js.rb
+│   │   ├── 20240822230459_drop_auth_users_table.rb
+│   │   ├── 20240823030542_update_verification_tokens_to_use_composite_primary_key.rb
+│   │   ├── 20240826135532_rename_accounts_to_account.rb
+│   │   ├── 20240826135633_rename_sessions_to_session.rb
+│   │   ├── 20240826135712_rename_verification_tokens_to_verification_token.rb
+│   │   ├── 20240826150013_create_authenticators.rb
+│   │   ├── 20240826150706_switch_users_to_uuid.rb
+│   │   ├── 20240826163212_update_sessions_table.rb
+│   │   ├── 20240826163624_rename_users_primary_key_column.rb
+│   │   ├── 20240826173344_change_user_id_to_uuid_in_account.rb
+│   │   ├── 20240826173735_change_user_id_and_id_to_uuid_in_account.rb
+│   │   ├── 20240826173925_add_composite_primary_key_to_account.rb
+│   │   ├── 20240826175059_change_expires_at_to_datetime_in_account.rb
+│   │   ├── 20240826180752_change_user_id_to_uuid_in_session.rb
+│   │   ├── 20240826182610_add_unique_index_to_owner_id_in_organizations.rb
+│   │   ├── 20240826183047_add_unique_index_to_players_user_id_and_tournament_id.rb
+│   │   ├── 20240827163904_enable_pgcrypto_extension.rb
+│   │   ├── 20240829173907_update_pronouns_on_users.rb
+│   │   ├── 20240830021242_update_session_table.rb
+│   │   ├── 20240830222455_rename_email_verified_in_users.rb
+│   │   ├── 20240830224528_rename_account_table_and_user_id_column.rb
+│   │   ├── 20240830224907_drop_and_create_verification_tokens.rb
+│   │   ├── 20240830225201_drop_and_create_authenticators.rb
+│   │   ├── 20240831021159_rename_email_verified_to_email_verified_at.rb
+│   │   ├── 20240901212140_add_jti_to_sessions.rb
+│   │   ├── 20240903133719_add_indexes_to_sessions.rb
+│   │   ├── 20240904235230_add_logo_url_to_organizations.rb
+│   │   ├── 20240905010804_add_partner_to_organizations.rb
+│   │   ├── 20240905033725_modify_users.rb
+│   │   ├── 20240908024524_remove_password_columns_from_users.rb
+│   │   ├── 20240908030640_remove_columns_from_users.rb
+│   │   ├── 20240908043218_add_clerk_user_id_to_users.rb
+│   │   ├── 20240908161721_create_clerk_users.rb
+│   │   ├── 20240908163049_drop_clerk_user_id_from_users_table.rb
+│   │   ├── 20240908163937_add_unique_index_to_clerk_user_id_in_clerk_users.rb
+│   │   ├── 20240911023730_add_hidden_column_to_organizations_table.rb
+│   │   ├── 20240911031503_allow_null_owner_id_in_organizations.rb
+│   │   ├── 20240911135000_add_unique_index_to_organizations_owner_id.rb
+│   │   ├── 20240911144340_add_limitless_id_to_tournaments.rb
+│   │   ├── 20240911145656_change_limitless_id_to_bigint_in_tournaments.rb
+│   │   ├── 20240918224308_add_slug_to_organizations.rb
+│   │   ├── 20240918224400_create_friendly_id_slugs.rb
+│   │   ├── 20240925224127_create_chat_messages.rb
+│   │   ├── 20240926204055_create_profiles.rb
+│   │   ├── 20240926204518_add_profile_to_players.rb
+│   │   ├── 20240926205651_add_default_profile_id_to_users.rb
+│   │   ├── 20240926211303_drop_auth_js_tables.rb
+│   │   ├── 20240926212506_add_profile_to_pokemon_teams_without_not_null.rb
+│   │   ├── 20240926212629_backfill_profile_id_for_pokemon_teams.rb
+│   │   ├── 20240926212659_add_not_null_constraint_to_profile_id_on_pokemon_teams.rb
+│   │   ├── 20240926214831_remove_user_id_from_pokemon_teams.rb
+│   │   ├── 20240926223125_change_user_id_to_profile_id_in_chat_messages.rb
+│   │   ├── 20240927011339_add_image_url_to_profiles.rb
+│   │   ├── 20240927035127_change_reporter_id_on_match_games.rb
+│   │   ├── 20240927153731_update_chat_messages_columns.rb
+│   │   ├── 20240928022258_add_user_id_to_players.rb
+│   │   ├── 20240928185747_remove_unique_index_from_tournaments.rb
+│   │   ├── 20240928195251_add_limitless_org_id_to_organizations.rb
+│   │   ├── 20240929002658_add_published_to_tournaments.rb
+│   │   ├── 20241004212658_add_current_round_to_phases.rb
+│   │   ├── 20241004221539_add_current_phase_to_tournaments.rb
+│   │   ├── 20241004223736_change_number_of_rounds_to_be_nullable_in_phases.rb
+│   │   ├── 20241004225414_add_dropped_and_disqualified_to_players.rb
+│   │   ├── 20241004230537_rename_reported_at_to_ended_at_in_matches.rb
+│   │   ├── 20241004231653_add_wins_losses_and_resistance_to_players.rb
+│   │   ├── 20241005001804_add_started_at_to_match_games.rb
+│   │   ├── 20241005010752_add_bye_to_matches.rb
+│   │   ├── 20241005011030_change_player_ids_to_be_nullable_in_matches.rb
+│   │   ├── 20241005150245_add_tournament_id_and_phase_id_to_matches.rb
+│   │   ├── 20241005150550_change_bye_to_boolean_in_matches.rb
+│   │   ├── 20241008020810_add_reset_by_to_matches.rb
+│   │   ├── 20241009034927_add_slug_to_profiles.rb
+│   │   ├── 20241009041611_rename_profile_id_to_user_profile_id.rb
+│   │   ├── 20241010220123_add_public_and_archived_to_pokemon_teams.rb
+│   │   ├── 20241010220450_add_name_to_pokemon_teams.rb
+│   │   ├── 20241010221125_add_format_and_game_to_pokemon_teams.rb
+│   │   ├── 20241010221558_add_form_to_pokemon.rb
+│   │   ├── 20241010234506_update_pokemon_teams.rb
+│   │   ├── 20241011142517_rename_name_to_species_in_pokemon.rb
+│   │   ├── 20241011142825_rename_held_item_to_item_in_pokemon.rb
+│   │   ├── 20241011144436_add_position_to_pokemon.rb
+│   │   ├── 20241011145041_add_gender_to_pokemon.rb
+│   │   ├── 20241011153448_change_default_for_public_in_pokemon_teams.rb
+│   │   ├── 20241012020949_add_pokepaste_id_to_pokemon_teams.rb
+│   │   ├── 20241012210612_add_archived_at_to_users_and_profiles.rb
+│   │   ├── 20241013140203_change_chat_message_id_to_bigint.rb
+│   │   ├── 20241013141201_change_users_id_to_bigint.rb
+│   │   ├── 20241013143338_change_profiles_id_to_bigint.rb
+│   │   ├── 20241013155659_change_user_id_on_profiles_to_null_true.rb
+│   │   ├── 20241013161124_rename_users_to_accounts.rb
+│   │   ├── 20241013161323_update_foreign_keys_and_indexes_for_accounts.rb
+│   │   ├── 20241013161704_add_index_to_chat_messages_account_id.rb
+│   │   ├── 20241013161855_add_indexes_to_account_id_and_owner_id.rb
+│   │   ├── 20241013180418_rename_user_profile_id_to_profile_id.rb
+│   │   ├── 20241013211411_add_default_to_profiles.rb
+│   │   ├── 20241014001536_add_country_to_accounts.rb
+│   │   ├── 20241014010852_add_timezone_to_accounts.rb
+│   │   ├── 20241016001852_add_service_name_to_active_storage_blobs.active_storage.rb
+│   │   ├── 20241016001853_create_active_storage_variant_records.active_storage.rb
+│   │   ├── 20241016001854_remove_not_null_on_active_storage_blobs_checksum.active_storage.rb
+│   │   ├── 20241018024234_add_stats_to_pokemon.rb
+│   │   ├── 20241020000825_disable_uuid_ossp_extension.rb
+│   │   ├── 20241020150304_add_show_country_flag_to_players.rb
+│   │   ├── 20241026233312_add_type_to_profiles.rb
+│   │   ├── 20241027005305_create_rk9_tournaments.rb
+│   │   ├── 20241027185127_rename_public_to_published_on_pokemon_teams.rb
+│   │   ├── 20241027224331_remove_username_from_accounts.rb
+│   │   ├── 20241113224536_change_account_id_on_players_to_not_null.rb
+│   │   ├── 20241120232506_add_unique_index_to_players_on_tournament_id_and_account_id.rb
+│   │   ├── 20241126212912_add_indexes.rb
+│   │   ├── 20241127220937_organizations_name_not_null.rb
+│   │   ├── 20241127221646_update_org_name_indexes.rb
+│   │   ├── 20241201223731_add_pg_trgm_extension_and_indexes.rb
+│   │   ├── 20241202032032_redo_indexes_on_organizations.rb
+│   │   ├── 20241202143939_update_in_game_name_column_on_players.rb
+│   │   ├── 20241202144128_update_columns_on_accounts.rb
+│   │   ├── 20241202144607_change_bigints_to_integers.rb
+│   │   ├── 20241202150406_change_id_columns_to_integer.rb
+│   │   ├── 20241206194112_change_name_null_constraint_in_phases.rb
+│   │   └── 20241209035641_insert_values_into_games_and_format.rb
+│   ├── schema.rb
+│   └── seeds.rb
+├── docker-compose.yml
+├── Dockerfile.dev
+├── Dockerfile.prod
+├── full_tree.txt
+├── Gemfile
+├── Gemfile.lock
+├── init.sh
+├── lib
+│   ├── auth
+│   │   ├── clerk
+│   │   │   ├── session.rb
+│   │   │   ├── token_verifier.rb
+│   │   │   └── webhook.rb
+│   │   ├── cookies
+│   │   │   └── signature.rb
+│   │   └── vercel
+│   │       └── token_verifier.rb
+│   ├── math
+│   │   └── swiss_resistance.rb
+│   └── tasks
+│       ├── coverage.rake
+│       └── limitless.rake
+├── LICENSE
+├── openapi
+│   └── v1
+│       └── openapi.yaml
+├── public
+│   └── .keep
+├── Rakefile
+├── README.md
+├── render.yaml
+├── SECURITY.md
+├── spec
+│   ├── channels
+│   │   ├── application_cable
+│   │   │   ├── channel_spec.rb
+│   │   │   └── connection_spec.rb
+│   │   └── chat_channel_spec.rb
+│   ├── controllers
+│   │   ├── api
+│   │   │   └── v1
+│   │   │       ├── accounts_controller_spec.rb
+│   │   │       ├── clerk_webhook_controller_spec.rb
+│   │   │       ├── match_games_controller_spec.rb
+│   │   │       ├── matches_controller_spec.rb
+│   │   │       ├── players_controller_spec.rb
+│   │   │       ├── pokemon_teams_controller_spec.rb
+│   │   │       ├── profiles_controller_spec.rb
+│   │   │       └── tournaments_controller_spec.rb
+│   │   └── application_controller_spec.rb
+│   ├── factories
+│   │   ├── account.rb
+│   │   ├── clerk_user.rb
+│   │   ├── game.rb
+│   │   ├── organization_staff_member.rb
+│   │   ├── organization.rb
+│   │   ├── phase
+│   │   │   └── phases.rb
+│   │   ├── pokemon_team.rb
+│   │   ├── pokemon.rb
+│   │   ├── profile.rb
+│   │   ├── tournament
+│   │   │   ├── format.rb
+│   │   │   ├── match_game.rb
+│   │   │   ├── match.rb
+│   │   │   ├── player.rb
+│   │   │   ├── round.rb
+│   │   │   └── tournaments.rb
+│   │   └── tournament_format.rb
+│   ├── integrations
+│   │   └── tournament_integrations_spec.rb
+│   ├── jobs
+│   │   └── save_chat_message_job_spec.rb
+│   ├── lib
+│   │   ├── auth
+│   │   │   ├── clerk
+│   │   │   │   ├── session_spec.rb
+│   │   │   │   ├── token_verifier_spec.rb
+│   │   │   │   └── webhook_spec.rb
+│   │   │   ├── cookies
+│   │   │   │   └── signature_spec.rb
+│   │   │   └── vercel
+│   │   │       └── token_verifier_spec.rb
+│   │   └── math
+│   │       └── swiss_resistance_spec.rb
+│   ├── models
+│   │   ├── account_spec.rb
+│   │   ├── chat_message_spec.rb
+│   │   ├── clerk_user_spec.rb
+│   │   ├── concerns
+│   │   │   └── match_players_concern_spec.rb
+│   │   ├── format_spec.rb
+│   │   ├── game_spec.rb
+│   │   ├── match_game_spec.rb
+│   │   ├── match_spec.rb
+│   │   ├── organization_spec.rb
+│   │   ├── organization_staff_member_spec.rb
+│   │   ├── phases
+│   │   │   ├── base_phase_spec.rb
+│   │   │   ├── single_elimination_bracket_spec.rb
+│   │   │   └── swiss_spec.rb
+│   │   ├── player_spec.rb
+│   │   ├── pokemon_spec.rb
+│   │   ├── pokemon_team_spec.rb
+│   │   ├── profile_spec.rb
+│   │   ├── rk9_tournament_spec.rb
+│   │   ├── round_spec.rb
+│   │   ├── tournament_format_spec.rb
+│   │   └── tournament_spec.rb
+│   ├── parameters.yaml
+│   ├── rails_helper.rb
+│   ├── requests
+│   │   └── api
+│   │       └── v1
+│   │           ├── accounts_controller_spec.rb
+│   │           ├── games_controller_spec.rb
+│   │           ├── matches_controller_spec.rb
+│   │           ├── organizations_controller_spec.rb
+│   │           ├── phases_controller_spec.rb
+│   │           ├── players_controller_spec.rb
+│   │           ├── pokemon_teams_controller_spec.rb
+│   │           ├── profiles_controller_spec.rb
+│   │           └── tournaments_controller_spec.rb
+│   ├── spec_helper.rb
+│   ├── support
+│   │   ├── auth
+│   │   │   └── token_verifier_mock.rb
+│   │   ├── constants.rb
+│   │   ├── openapi
+│   │   │   ├── response_helper.rb
+│   │   │   └── schema_helper.rb
+│   │   └── routes.rb
+│   ├── swagger_helper.rb
+│   └── validators
+│       └── equality_validator_spec.rb
+└── storage
+    └── .keep
+
+72 directories, 495 files

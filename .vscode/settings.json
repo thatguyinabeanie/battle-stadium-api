@@ -62,4 +62,12 @@
       "username": "postgres"
     }
   ],
+  "go.goroot": "/Users/gmendoza/.local/share/mise/installs/go/1.24.2",
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/Users/gmendoza/.local/share/mise/shims/node"
+  },
+  "go.alternateTools": {
+    "go": "/Users/gmendoza/.local/share/mise/shims/go"
+  },
+  "python.defaultInterpreterPath": "/Users/gmendoza/.local/share/mise/installs/python/3.12.10/bin/python",
 }
