@@ -2,215 +2,114 @@
 
 [![Build](https://github.com/thatguyinabeanie/battle-stadium/actions/workflows/ruby_on_rails.yml/badge.svg?branch=main)](https://github.com/thatguyinabeanie/battle-stadium/actions/workflows/ruby_on_rails.yml)
 
-Battle Stadium is the definitive Pokemon VGC Tournament Hosting website. This project is a Ruby on Rails API with a modern React frontend, utilizing the Devise gem for authentication.
+Battle Stadium is the definitive platform for hosting and managing Pokémon VGC tournaments. Built with a robust Ruby on Rails API and a modern React/Next.js frontend, it empowers organizers and players with a seamless, scalable, and feature-rich experience.
 
-## Table of Contents
+---
 
-- [Overview](#overview)
+## 🚀 Quick Start
 
-- [Development](#development)
-  - [Developing with Visual Studio Devcontainers](#visual-studio-devcontainers-development)
-  - [Testing](#testing)
-  - [Running Services](#running-services)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Overview
-
-Battle Stadium is designed to facilitate the hosting and management of Pokemon VGC tournaments. It features a robust backend built with Ruby on Rails and a dynamic frontend using NextJS. Authentication is handled via the Devise gem.
-
-## Development
-
-### Local Development
-
-#### Local Requirements
-
+### Prerequisites
 - [Docker](https://docs.docker.com/get-docker/)
 - [bun](https://bun.sh/)
 - [openssl@3](https://formulae.brew.sh/formula/openssl@3)
-- A ruby version manager - frum, nvm, rbenv, asdf
+- A Ruby version manager (frum, rbenv, asdf, etc.)
 
-#### Local Setup Steps
+### Local Setup
+```bash
+# Clone the repository
+ git clone https://github.com/thatguyinabeanie/battle-stadium.git
+ cd battle-stadium
 
-1. Install docker
+# Initialize environment
+ ./init.sh
 
-2. Install bun
+# Build and start services
+ docker compose build
+ docker compose up -d
 
-    ```bash
-    curl -fsSL https://bun.sh/install | bash
-    ```
+# Run Rails server (API)
+ bundle exec rails server -b 0.0.0.0 -p 10000
 
-3. Install openssl. Windows users you're on your own
+# Run frontend (in ./frontend)
+ bun dev
+```
 
-    ```bash
-    brew install openssl@3
-    ```
+### Running Tests
+```bash
+# Rails API tests
+rspec
 
-4. Set up the correct ruby version with OpenSSL. Installing and setting up a ruby version manager is entirely up to you.
+# Frontend tests
+cd frontend && bun test
+```
 
-    Use your favorite ruby version manager to set up the correct ruby version. Below are examples of some of
-    the most popular ruby version managers
+For devcontainer setup and advanced options, see the [Development](#development) section below.
 
-    ```bash
-    frum install  --with-openssl-dir=$(brew --prefix openssl)
-    RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl)" rbenv install
-    RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)" asdf install ruby
-    rvm install 3.3.5 --with-openssl-dir=$(brew --prefix openssl@3) && rvm use
-    ```
+---
 
-5. Initialize .env files
+## 🏗️ Architecture Overview
 
-    ```bash
-    # from the root of the repo.
-    ./init.sh     # Uses default values for postgres username, password, db name, and port
+Battle Stadium is designed as an API-first application, with a clear separation between backend and frontend. The backend is a Ruby on Rails API that manages tournaments, users, matches, and more. The frontend (not included here) is a modern React/Next.js app.
 
-    # optional custom values
-    ./init.sh p_username p_password p_db p_port
-    ```
+**Key Concepts:**
+- **Profiles:** Flexible user identities, supporting multiple personas per account.
+- **Phases:** Modular tournament stages (Swiss, Single Elimination, etc.).
+- **Service Objects:** Encapsulate business logic for maintainability.
+- **Authentication:** Clerk integration, secure cookies, and extensible auth utilities.
+- **Testing:** Comprehensive RSpec suite, mirroring the app structure.
 
-### Visual Studio Devcontainers Development
+---
 
-#### Devcontainer Requirements
+## 📚 Technical Details
 
-- [Docker](https://docs.docker.com/get-docker/)
-- [devcontainer cli](https://github.com/devcontainers/cli)
+Battle Stadium is organized into several key components, each with its own documentation. For in-depth technical details, see the following:
 
-#### Devcontainer Setup Steps
+### Application Structure
+- [app/README.md](app/README.md) — Main Rails application directory and subcomponents
+- [app/controllers/README.md](app/controllers/README.md) — Controller layer, routing, and HTTP logic
+- [app/controllers/api/v1/README.md](app/controllers/api/v1/README.md) — API v1 controller architecture and patterns
+- [app/models/README.md](app/models/README.md) — Domain models and relationships
+- [app/models/phases/README.md](app/models/phases/README.md) — Tournament phase system
+- [app/models/profiles.md](app/models/profiles.md) — Profiles feature and identity management
+- [app/services/README.md](app/services/README.md) — Service objects and business logic
 
-1. Install docker
-
-2. Install devcontainers cli using your favorite package manager
-
-    ```bash
-    bun add -g @devcontainers/cli
-    ```
-
-3. Clone the repository:
-
-    ```bash
-    git clone https://github.com/thatguyinabeanie/battle-stadium.git
-    cd battle-stadium
-    ```
-
-4. Initialize .env files
-
-    ```bash
-    # from the root of the repo.
-    ./init.sh     # Uses default values for postgres username, password, db name, and port
-
-    # optional custom values
-    ./init.sh p_username p_password p_db p_port
-    ```
-
-5. Build the docker container images
-
-    ```bash
-    docker compose build
-    ```
-
-6. Initialize containers
-
-    ```bash
-    docker compose up -d
-    ```
-
-7. Open devcontainer instances in Visual Studio Code
-
-    ```bash
-    devcontainer open .
-    ```
+### Libraries and Utilities
+- [lib/README.md](lib/README.md) — Custom libraries and utilities
+- [lib/auth/README.md](lib/auth/README.md) — Authentication utilities and Clerk integration
+- [lib/math/README.md](lib/math/README.md) — Mathematical utilities and tiebreaker logic
 
 ### Testing
+- [spec/README.md](spec/README.md) — Test suite structure and best practices
 
-#### Running Tests Locally
+For a full list of documentation files, see [README_PATHS.txt](README_PATHS.txt).
 
-- Rails API RSpec Tests
+---
 
-    ```bash
-    rspec
-    ```
+## 🛠️ Development
 
-- Front End Tests
+See the [Quick Start](#quick-start) above for the fastest way to get running.
 
-    ```bash
-    cd frontend
-    bun test
-    ```
-
-#### Running Tests in devcontainers
-
-#### From a VS Code devcontainer shell session
-
-- Rails API RSpec Tests
-
-    ```bash
-    rspec
-    ```
-
-- Front End Tests
-
-    ```bash
-    bun test
-    ```
-
-#### From a local shell session
-
-- Rails API RSpec Tests
-
-    ```bash
-    # from the root of the repo
-    docker compose run -rm backend bash -c "rspec"
-    ```
-
-- Front End Tests
-
-    ```bash
-    # from the root of the repo
-    docker compose run -rm frontend bash -c "bun test"
-    ```
+### Devcontainer Setup
+- Requires [devcontainer CLI](https://github.com/devcontainers/cli)
+- See [app/README.md](app/README.md) for details
 
 ### Running Services
+- Rails API: `bundle exec rails server -b 0.0.0.0 -p 10000`
+- Frontend: `cd frontend && bun dev`
+- Database and dependencies: `docker compose up -d`
 
-#### Running Services Locally
+### Running Tests
+- Rails: `rspec`
+- Frontend: `cd frontend && bun test`
 
-1. Rails API Server
+---
 
-    ```bash
-    docker compose up -d db
-    bundle exec rails server -b 0.0.0.0 -p 10000
-    ```
+## 🤝 Contributing
 
-2. NextJS Server
+We welcome contributions! Please see our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Open an issue or pull request with your ideas, bug reports, or improvements.
 
-    ```bash
-    cd frontend
-    bun dev
-    ```
+---
 
-#### Running Services Through Docker
+## 📄 License
 
-1. Start the database container
-
-    ```bash
-    docker compose up -d
-    ```
-
-2. Start the Rails API Server
-
-    ```bash
-    docker compose exec backend bash -c "bundle exec rails server -b 0.0.0.0 -p 10000"
-    ```
-
-3. Start the NextJS Server
-
-    ```bash
-    docker compose exec frontend bash -c "bun dev"
-    ```
-
-## Contributing
-
-We welcome contributions! Please see our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## License
-
-This project is licensed under the `Attribution-NonCommercial-ShareAlike 4.0 International Public License`. Please see [LICENSE](./LICENSE) file for details.
+This project is licensed under the `Attribution-NonCommercial-ShareAlike 4.0 International Public License`. See [LICENSE](./LICENSE) for details.
